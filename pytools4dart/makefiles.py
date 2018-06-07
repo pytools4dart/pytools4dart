@@ -10,6 +10,7 @@ set of functions to be used in order to launch a simulation :
     -feed them to DART
 
 """
+print "lalala"
 try:
     import xml.etree.cElementTree as etree
     print ("imported cetree")
@@ -19,7 +20,7 @@ except ImportError:
 
 
 def write_XMLfiles(simulation):
-    """write all xml files in order
+    """write all xml files
     
     """
     
@@ -29,7 +30,7 @@ def write_XMLfiles(simulation):
     return
 
 
-def write_phase():
+def write_phase(simutype,changetracker,outpath):
     """write phase xml fil
     
     proceed in the following manner : 
@@ -39,14 +40,22 @@ def write_phase():
         -write xml
         
     """
-    
-    
-    
+    if simutype=="lidar":
+        phase = lidarPhasexml(changetracker)
+    elif simutype=="flux":
+        phase = fluxPhasexml(changetracker)
+    else :
+        print "what the ?"
+    phase.basenodes()
+    phase.adaptchanges()
+    tree=etree.ElementTree(phase.root)
+    tree.write(outpath+"phase.xml")
+    return
+
+
 class dartPhasexml(object):
-    """tentative
+    """object intended to edit and output to xml the phase related parameters
     
-    tentative de réunir tous les nodes de Phase dans un objet etree, 
-    dont 
     """
     
     def __init__(self,changetracker):
@@ -59,6 +68,9 @@ class dartPhasexml(object):
         return
     
     def basenodes(self):
+        """creates all nodes and properties common to default simulations
+        
+        """
         art=etree.SubElement(self.root,"AtmosphereRadiativeTransfer")
         art.set("TOAtoBOA","0")
         
@@ -113,12 +125,8 @@ class dartPhasexml(object):
                              'areaMaketProducts': '0',
                              'laiProducts': '0'}
         
-        
-        
-
-        
-        
-        
+        return
+               
     
 
 
@@ -128,16 +136,23 @@ class lidarPhasexml(dartPhasexml):
     def __init__(self):
         self.root.set("calculatorMethod","2")
         return
-
+    
+    def lidarnodes(self):
+        
+        
+        
+        return
 
 class fluxPhasexml(dartPhasexml):
     """
     """
     def __init__(self):
         self.root.set("calculatorMethod","0")
-
+        
         return
-
+    def fluxnodes(self):
+        return
+        
 def write_directions():
     """
     """

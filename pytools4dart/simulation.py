@@ -27,7 +27,7 @@ class simulation(object):
         """initialisation
         
         """
-        
+        self.changetracker=[]
         
     def addparameterX(param,self):
         """interactively add a parameter
@@ -46,5 +46,6 @@ class simulation(object):
         """launch the simulation with set parameters
         
         """
+    
         return
 ###################################zone de tests
