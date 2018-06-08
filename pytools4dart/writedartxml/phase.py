@@ -20,16 +20,17 @@ def write_phase(simutype,changetracker,outpath):
     """write phase xml fil
     
     proceed in the following manner : 
-        -checks and gets relevant variables in Simu
-        -passes them down to node objects
-        -constructs all nodes
-        -write xml
+        -check simutype
+        -instantiate appropriate dartphase object
+        -set default nodes
+        -mutate depending on changetracker
+        -output file to xml
         
     """
     if simutype=="lidar":
-        phase = lidarPhasexml(changetracker)
+        phase = lidarphasexml(changetracker)
     elif simutype=="flux":
-        phase = fluxPhasexml(changetracker)
+        phase = fluxphasexml(changetracker)
     else :
         print "what the ?"
     phase.basenodes()
@@ -40,7 +41,15 @@ def write_phase(simutype,changetracker,outpath):
 
 
 class dartphasexml(object):
-    """object for the editing and expoting to xml of phase related parameters
+    """object for the editing and exporting to xml of phase related parameters
+    
+    It should not be used as such, but rather through its subclasses 
+    (flux and lidar).
+    After instantiation, a default tree of nodes is created.
+    Changes based on the passed "changetracker" variable have then to take place
+    in order to upgrade the tree.
+    All the tag names of tree nodes are supposed to be IDENTICAL to the ones
+    produces by DART. The variable names are sometimes shortened.
     
     """
     
@@ -90,8 +99,7 @@ class dartphasexml(object):
                        'subFaceBarycenterSubdivision': '1',
                        'surfaceBarycenterEnabled': '1'}
         
-        specprops_attrib={'bandNumber': '0','meanLambda': '0.56',
-                      'spectralDartMode': '0','deltaLambda': '0.02'}
+
     
         maketmodule_attrib={'MNEProducts': '0',
                              'coverRateProducts': '0',
@@ -102,20 +110,22 @@ class dartphasexml(object):
         
         #base nodes
         ##simple
-        etree.SubElement(self.root,"ExpertModeZone",attrib=expertmode_default)        
-        etree.SubElement(self.root,"AtmosphereRadiativeTransfer",attrib={"TOAtoBOA":"0"})
+        etree.SubElement(self.root,"ExpertModeZone",expertmode_default)        
+        etree.SubElement(self.root,"AtmosphereRadiativeTransfer",{"TOAtoBOA":"0"})
         ##parentnodes
-        dartinputparameters=etree.SubElement(self.root,"DartinputParameters")        
+        dartinputparameters=etree.SubElement(self.root,"DartInputParameters")        
         dartproduct=etree.SubElement(self.root,"DartProduct")
         
         ###dartInputParameters branch
-        etree.SubElement(dartinputparameters,"SpectralIntervalProperties",
-                                 attrib={"atmosphereApparentTemperature": "260.0"})        
-        spectralintervals=etree.SubElement(dartinputparameters,"SpectralIntervals")
-        etree.SubElement(spectralintervals,"SpectralIntervalProperties",attrib=specprops_attrib)
+        specprops_attrib={'bandNumber': '0','meanLambda': '0.56',
+                          'spectralDartMode': '0','deltaLambda': '0.02'}
+                
+        specintervals=etree.SubElement(dartinputparameters,"SpectralIntervals")        
+        etree.SubElement(specintervals,"SpectralIntervalProperties",
+                         specprops_attrib)
         
         ##dartproduct branch
-        etree.SubElement(dartproduct,attrib=maketmodule_attrib)
+        etree.SubElement(dartproduct,"maketModuleProducts",maketmodule_attrib)
 
             
         return
@@ -123,7 +133,7 @@ class dartphasexml(object):
     
 
 
-class lidarPhasexml(dartphasexml):
+class lidarphasexml(dartphasexml):
     """
     """
     def __init__(self):
@@ -156,17 +166,17 @@ class lidarPhasexml(dartphasexml):
                                  'freq_recepteur_signal_LIDAR': '1'}        
         
         #create lidar and children nodes with set attributes
-        lidar=etree.Element("Lidar", attrib=lidar_attrib)
+        lidar=etree.Element("Lidar", lidar_attrib)
         
-        pulseduration=etree.SubElement(lidar,"PulseDuration", attrib=pulseduration_attrib)
-        lidargeo=etree.SubElement(lidar,"LidarGeometry", attrib= lidargeometry_attrib)
-        etree.SubElement(lidar,"LidarIlluminationIntensity", attrib=lidarilluintens_attrib)
-        etree.SubElement(lidar,"LidarAcquisitionParameters", attrib=lidaracquisition_attrib)
+        pulseduration=etree.SubElement(lidar,"PulseDuration", pulseduration_attrib)
+        lidargeo=etree.SubElement(lidar,"LidarGeometry",  lidargeometry_attrib)
+        etree.SubElement(lidar,"LidarIlluminationIntensity", lidarilluintens_attrib)
+        etree.SubElement(lidar,"LidarAcquisitionParameters", lidaracquisition_attrib)
         
         #set attributes and create node for pulseDuration
         sigma_attrib={'relative_power_of_pulse': '0.5',
                       'half_pulse_duration': '2'}
-        etree.SubElement(pulseduration,"SigmaDefinition",attrib=sigma_attrib)
+        etree.SubElement(pulseduration,"SigmaDefinition",sigma_attrib)
         
         
         #set attributes and create children nodes for lidarGeometry
@@ -176,9 +186,9 @@ class lidarPhasexml(dartphasexml):
         footprintfovrad_attrib={'rayonLidar_reception': '15', 'rayonLidar_emission': '12'}
         als_attrib={'sensorHeight': '10'}
          
-        etree.SubElement(lidargeo,"StWaveHeightRange",attrib=stwave_attrib)
-        etree.SubElement(lidargeo,"SensorAngles", attrib=sensorangles_attrib)
-        etree.SubElement(lidargeo,"CenterOnGround", attrib=centeronground_attrib)
+        etree.SubElement(lidargeo,"StWaveHeightRange",stwave_attrib)
+        etree.SubElement(lidargeo,"SensorAngles", sensorangles_attrib)
+        etree.SubElement(lidargeo,"CenterOnGround", centeronground_attrib)
         etree.SubElement(lidargeo,"FootPrintAndFOVRadiuses",footprintfovrad_attrib)
         etree.SubElement(lidargeo,"ALS",als_attrib)
 
@@ -186,7 +196,7 @@ class lidarPhasexml(dartphasexml):
         #append whole branch to default existing node         
         self.root.find("./DartInputParameters").append(lidar)
         
-        #set attributes and create node for pulseDuration
+        #set attributes and create nodes for dartModuleProducts
         DmoduleProducts_attrib={'lidarProducts': '1',
                                    'radiativeBudgetProducts': '0',
                                    'lidarImageProducts': '0',
@@ -201,13 +211,13 @@ class lidarPhasexml(dartphasexml):
                                     'lidarImagePanelInformation': '0',
                                     'groundSensorImage': '0'}
         
-        dartmoduleproducts=etree.Element("dartModuleProducts",attrib=DmoduleProducts_attrib)
-        etree.SubElement(dartmoduleproducts,"lidarProductsProperties",attrib=lidarproductsprops_attrib)
+        dartmoduleproducts=etree.Element("dartModuleProducts",DmoduleProducts_attrib)
+        etree.SubElement(dartmoduleproducts,"lidarProductsProperties",lidarproductsprops_attrib)
         self.root.find("./DartProduct").append(dartmoduleproducts)
         
         return
 
-class fluxPhasexml(dartphasexml):
+class fluxphasexml(dartphasexml):
     """
     """
     def __init__(self):
@@ -216,8 +226,13 @@ class fluxPhasexml(dartphasexml):
         
         return
     def fluxnodes(self):
+        """Create default fluxnodes.
         
-        dartinparams=self.root.find("./DartInputparameters")
+        """
+        etree.SubElement(self.root,"SensorImageSimulation",{'importMultipleSensors': '0'})
+        
+        #Adding nodes under DartInputParameters
+        dartinparams=self.root.find("./DartInputParameters")
         
         #direct nodes dartinput from dart input parameters        
         imagesideillu_attrib={'disableSolarIllumination': '0',
@@ -230,15 +245,15 @@ class fluxPhasexml(dartphasexml):
         etree.SubElement(dartinparams,"nodefluxtracking", nodeflux_attrib)
         etree.SubElement(dartinparams,"ImageSideIllumination",imagesideillu_attrib)
         #branches
-        spectraldomain=etree.Element("SpectralDomainTir",attrib={"temperatureMode":"0"})
-        nodeillumode=etree.Element("nodeIlluminationMode",attrib=nodeillu_attrib)
+        spectraldomain=etree.Element("SpectralDomainTir",{"temperatureMode":"0"})
+        nodeillumode=etree.Element("nodeIlluminationMode",nodeillu_attrib)
        
         #spectral domain branch
         skyl_attrib={'distanceBetweenIlluminationSubCenters': '0.1',
                      'histogramThreshold': '5.0',
                      'SKYLForTemperatureAssignation': '0.0'}
         
-        etree.SubElement(spectraldomain,"skylTemperature",attrib=skyl_attrib)
+        etree.SubElement(spectraldomain,"skylTemperature",skyl_attrib)
         
         #nodeIllumination branch  
         ##irrandiancedatabase sub-branch
@@ -248,7 +263,7 @@ class fluxPhasexml(dartphasexml):
                               'databaseName': 'Solar_constant.db',
                               'weightReflectanceParameters': '1'}
         irraddatanode=etree.SubElement(nodeillumode,"irradianceDatabaseNode",
-                                       attrib=irraddatanode_attrib)
+                                       irraddatanode_attrib)
         
         weightingparam_attrib={'sceneAverageTemperatureForPonderation': '300'}
         etree.SubElement(irraddatanode,"WeightingParameters",weightingparam_attrib)
@@ -259,28 +274,44 @@ class fluxPhasexml(dartphasexml):
                              'commonSkylCheckBox': '1'}
         spectralirrad_attrib={'bandNumber': '0', 'irradiance': '0',
                               'Skyl': '0'}
-        etree.SubElement(spectralirrad,"CommonParameters",attrib=commonparams_attrib)
+        etree.SubElement(spectralirrad,"CommonParameters",commonparams_attrib)
         etree.SubElement(spectralirrad,"SpectralIrrandianceValue",
-                         attrib=spectralirrad_attrib)
-
-        return
+                         spectralirrad_attrib)
         
-def write_directions():
-    """
-    """
-    return
-def write_coeff_diff():
-    """
-    """
-    return
-
-
-
-class opticalproperty(object):
-    """
-    object that helps getting user defined parameter in DART-xml file.
-    """
-    def __init__(self):
+        #Adding nodes under DartProduct
+        dartprod=self.root.find("./DartProduct")
+        
+        dartmoduleprod_attrib={'lidarProducts': '0',
+                               'radiativeBudgetProducts': '0',
+                               'lidarImageProducts': '0',
+                               'polarizationProducts': '0',
+                               'order1Products': '0',
+                               'temperaturePerTrianglePerCell': '0',
+                               'allIterationsProducts': '0',
+                               'brfProducts': '1'}
+        dartmodprod=etree.SubElement(dartprod,"dartModuleProducts",
+                                     dartmoduleprod_attrib)
+        
+        brfprod_attrib={'maximalThetaImages': '25.0','projection': '0', 
+                        'sensorOversampling': '1','nb_scene': '1',
+                        'image': '1', 'extrapolation': '1',
+                        'sensorPlaneprojection': '1',
+                        'centralizedBrfProduct': '1',
+                        'luminanceProducts': '0',
+                        'transmittanceImages': '0', 'brfProduct': '1',
+                        'horizontalOversampling': '1'}
+        brfprod=etree.SubElement(dartmodprod,"BrfProductsProperties",
+                                 brfprod_attrib)
+        
+        emzetalement=etree.SubElement(brfprod,"ExpertModeZone_Etalement",
+                                      {"etalement": "2"})
+        etree.SubElement(emzetalement,"ExpertModeZone_Projection",
+                         {'keepNonProjectedImage':0})
+        etree.SubElement(emzetalement,"ExpertModeZone_PerTypeProduct",
+                         {"generatePerTypeProduct":0})
+        
+        
         return
-    
-#to be expended.....
+
+
+#to be expanded.....
