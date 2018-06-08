@@ -10,7 +10,6 @@ set of functions to be used in order to launch a simulation :
     -feed them to DART
 
 """
-print "lalala"
 try:
     import xml.etree.cElementTree as etree
     print ("imported cetree")
@@ -47,14 +46,14 @@ def write_phase(simutype,changetracker,outpath):
     else :
         print "what the ?"
     phase.basenodes()
-    phase.adaptchanges()
+    phase.adoptchanges()
     tree=etree.ElementTree(phase.root)
     tree.write(outpath+"phase.xml")
     return
 
 
 class dartPhasexml(object):
-    """object intended to edit and output to xml the phase related parameters
+    """object for the editing and expoting to xml of phase related parameters
     
     """
     
@@ -62,10 +61,20 @@ class dartPhasexml(object):
         root = etree.Element("Phase")
         self.root=root
         return   
-    def trackchanges(changetracker,self):
+    def adoptchanges(changetracker,self):
         if "phase" in changetracker[0]:
             self.changes= changetracker[1]["phase"]
-        return
+            """
+            here goes the magic where we change some nodes with some parameters!
+            it would maybe be something like this :
+               - for some values, just append them somewhere
+               - for the others, find them in the tree and modify them (tricky bit)
+            """
+            
+            return
+        else:
+            return
+        
     
     def basenodes(self):
         """creates all nodes and properties common to default simulations
@@ -110,11 +119,11 @@ class dartPhasexml(object):
                            'deltaLambda': '0.02'}
         spectralintprops=etree.SubElement(spectralintervals,"SpectralIntervalProperties")
         for key in specprops_default.keys():
-            expertmode.set(key,expertmode_default[key])
+            spectralintprops.set(key,expertmode_default[key])
         
         
-        temperatureatmosphere=etree.SubElement(dartinputparameters,"SpectralIntervalProperties")
-        temperatureatmosphere.set("atmosphereApparentTemperature", "260.0")
+        temp_atmosphere=etree.SubElement(dartinputparameters,"SpectralIntervalProperties")
+        temp_atmosphere.set("atmosphereApparentTemperature", "260.0")
         
         
         dartproduct=etree.SubElement(self.root,"DartProduct")
@@ -124,7 +133,11 @@ class dartPhasexml(object):
                              'objectGeneration': '0',
                              'areaMaketProducts': '0',
                              'laiProducts': '0'}
-        
+        maketmodule=etree.SubElement(dartproduct)
+        for key in maketmodule_default:
+            maketmodule.set(key,maketmodule_default[key])
+            
+            
         return
                
     
