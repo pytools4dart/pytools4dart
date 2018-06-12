@@ -28,19 +28,21 @@ def write_phase(simutype,changetracker,outpath):
         
     """
     if simutype=="lidar":
-        phase = lidarphasexml(changetracker)
+        phase = LidarPhaseXML(changetracker)
     elif simutype=="flux":
-        phase = fluxphasexml(changetracker)
+        phase = FluxPhaseXML(changetracker)
     else :
         print "what the ?"
     phase.basenodes()
-    phase.adoptchanges()
-    tree=etree.ElementTree(phase.root)
-    tree.write(outpath+"phase.xml")
+    
+    phase.specnodes()
+    #phase.adoptchanges()
+    
+    phase.writexml(outpath+"phase.xml")
     return
 
 
-class dartphasexml(object):
+class DartPhaseXML(object):
     """object for the editing and exporting to xml of phase related parameters
     
     It should not be used as such, but rather through its subclasses 
@@ -53,19 +55,23 @@ class dartphasexml(object):
     
     """
     
-    def __init__(self):
+    def __init__(self,changetracker):
         self.root=etree.Element("Phase")
         self.tree=etree.ElementTree(self.root)
+        self.changes=changetracker
         return   
     def adoptchanges(changetracker,self):
+        """method to update xml tree based on user-defined parameters
+        
+        here goes the magic where we change some nodes based on parameters
+        it would maybe be something like this :
+           - for some values, just append them somewhere
+           - for the others, find them in the tree and modify them (tricky bit)
+        """
+
         if "phase" in changetracker[0]:
             self.changes= changetracker[1]["phase"]
-            """
-            here goes the magic where we change some nodes with some parameters!
-            it would maybe be something like this :
-               - for some values, just append them somewhere
-               - for the others, find them in the tree and modify them (tricky bit)
-            """
+
             
             return
         else:
@@ -130,18 +136,27 @@ class dartphasexml(object):
             
         return
                
+    def writexml(self,outpath):
+
+        realroot=etree.Element('DartFile',{'version': '5.7.0', 'build': 'v1033'})
+        realroot.append(self.root)
+        tree=etree.ElementTree(realroot)
+        tree.write(outpath, encoding="UTF-8", xml_declaration=True) 
+        return
     
 
 
-class lidarphasexml(dartphasexml):
+class LidarPhaseXML(DartPhaseXML):
+    """subclass of DartPhaseXML to manage lidar specific structure
+    
+    
     """
-    """
-    def __init__(self):
-        dartphasexml.__init__(self)
+    def __init__(self,changetracker):
+        DartPhaseXML.__init__(self,changetracker)
         self.root.set("calculatorMethod","2")
         return
     
-    def lidarnodes(self):
+    def specnodes(self):
         """create default lidar nodes
         
         
@@ -217,15 +232,15 @@ class lidarphasexml(dartphasexml):
         
         return
 
-class fluxphasexml(dartphasexml):
+class FluxPhaseXML(DartPhaseXML):
     """
     """
-    def __init__(self):
-        dartphasexml.__init__(self)
+    def __init__(self,changetracker):
+        DartPhaseXML.__init__(self,changetracker)
         self.root.set("calculatorMethod","0")
         
         return
-    def fluxnodes(self):
+    def specnodes(self):
         """Create default fluxnodes.
         
         """
@@ -312,6 +327,9 @@ class fluxphasexml(dartphasexml):
         
         
         return
+    
+#to be expanded.....    
+############################ZONE DE TESTS
+outpath="/media/mtd/stock/boulot_sur_dart/temp/"
 
-
-#to be expanded.....
+write_phase("lidar",[],outpath)
