@@ -5,8 +5,8 @@ Created on Fri Jun  1 14:15:03 2018
 
 @author: mtd
 
-Objects and functions necessary to write the phase xml file. 
-
+Objects and functions necessary to write the plots xml file. 
+It is important to note the resulting xml file is written over a single line.
 """
 try:
     import xml.etree.cElementTree as etree
@@ -18,14 +18,16 @@ except ImportError:
 from voxReader import voxel
 
 def write_plots(changetracker,outpath, vox = None):
-    """write phase xml fil
+    """write phase xml file
     
     proceed in the following manner : 
-        -check simutype
-        -instantiate appropriate dartphase object
+        -instantiate  dartplots object
         -set default nodes
-        -mutate depending on changetracker
+        -add more nodes depending on changetracker
         -output file to xml
+    
+    Will tend to be modified for adding support of different ways to add nodes
+    (i.e. panda dataframes).
         
     """
     plots = DartPlotsXML(changetracker)
@@ -44,8 +46,6 @@ def write_plots(changetracker,outpath, vox = None):
 class DartPlotsXML(object):
     """object for the editing and exporting to xml of phase related parameters
     
-    It should not be used as such, but rather through its subclasses 
-    (flux and lidar).
     After instantiation, a default tree of nodes is created.
     Changes based on the passed "changetracker" variable have then to take place
     in order to upgrade the tree.
@@ -72,8 +72,15 @@ class DartPlotsXML(object):
         ##simple
         etree.SubElement(self.root,"ImportationFichierRaster")
         return
+    
     def addplot(self,corners,baseheight,density,optprop):
+        """Adds a plot based on a few basic parameters
         
+        This method could evolve to receive a variable number of parameters.
+        For now it is used mainly as the way to integrate voxels from a .vox
+        file. Parameters are cast to strings in order to ensure compatibility
+        with Element Tree.
+        """
         #appends new plot to plots
         plot=etree.SubElement(self.root,"Plot",self.PLOT_DEFAULT_ATR)
        
@@ -81,20 +88,26 @@ class DartPlotsXML(object):
         polygon_plot1=etree.SubElement(plot, "Polygon_S2", {"mode" : "0"})
         
         ##with its four defining points
-        etree.SubElement(polygon_plot1,"Point2D",{"x":str(corners[0][0]), "y":str((corners[0][1]))})
-        etree.SubElement(polygon_plot1,"Point2D",{"x":str(corners[1][0]), "y":str((corners[1][1]))})
-        etree.SubElement(polygon_plot1,"Point2D",{"x":str((corners[2][0])), "y":str((corners[2][1]))})
-        etree.SubElement(polygon_plot1,"Point2D",{"x":str(corners[3][0]), "y":str(corners[3][1])})       
+        etree.SubElement(polygon_plot1,"Point2D",
+                         {"x":str(corners[0][0]), "y":str((corners[0][1]))})
+        etree.SubElement(polygon_plot1,"Point2D",
+                         {"x":str(corners[1][0]), "y":str((corners[1][1]))})
+        etree.SubElement(polygon_plot1,"Point2D",
+                         {"x":str((corners[2][0])), "y":str(corners[2][1])})
+        etree.SubElement(polygon_plot1,"Point2D",
+                         {"x":str(corners[3][0]), "y":str(corners[3][1])})       
         
                 #plot vegetation properties branch
         vegprops_atr = {"densityDefinition" : "0",
                         "trianglePlotRepresentation" : "0",
                         "verticalFillMode" : "0"}
-        vegprops = etree.SubElement(plot, "PlotVegetationProperties",vegprops_atr)
+        vegprops = etree.SubElement(plot, "PlotVegetationProperties",
+                                    vegprops_atr)
         
         
         
-        veggeom = {"baseheight" : (baseheight), "height" : "1.0", "stDev" : "0" }
+        veggeom = {"baseheight" : (baseheight), "height" : "1.0",
+                   "stDev" : "0" }
         #here optical property passed as argument to method
         vegoptlink = {"ident" : optprop, "indexFctPhase" : "0"}
         grdthermalprop = {"idTemperature" : "ThermalFunction290_310",
@@ -108,22 +121,21 @@ class DartPlotsXML(object):
         return
 
     def plotsfromvox(self,path):
-        """for Dav : add Plots based on AMAP vox file. Based on code from
-        Dav, Claudia and Florian
+        """Adds Plots based on AMAP vox file. 
         
-        needs voxreader. Most complicated function being : 
-        intersect, that is needed by dav to get the optical properties.
-        from stack : 
-            p.agent_info = u' '.join((agent_contact, agent_telno)).encode('utf-8').strip()
+        Based on code from Claudia, Florian and Dav.
+        Needs "voxreader". Most complicated function being : intersect,
+        that is needed in Dav's project to get the optical properties of the
+        voxels
         """
 
         vox=voxel.from_vox(path)
         
-        res = vox.header["res"][0]  # résolution du voxel
+        res = vox.header["res"][0] 
         i=0
-        for index, row in vox.data.iterrows(): # intégrer tous les voxels dans le fichier plot.xml
+        for index, row in vox.data.iterrows(): 
             i+=1
-            i= row.i  # x du voxel
+            i= row.i  
             j= row.j  # y du voxel
             k= row.k  # z du voxel
             optPropName = "test_" +str(i)     
@@ -141,7 +153,7 @@ class DartPlotsXML(object):
         return
     
 
-    def adaptchanges(self,changetracker):
+    def adoptchanges(self,changetracker):
         """method to update xml tree based on user-defined parameters
         
         here goes the magic where we change some nodes based on parameters
@@ -152,7 +164,6 @@ class DartPlotsXML(object):
         Complete path to node to be modified will have to be explicitly written
         in this way : './Phase/DartInputParameters/SpectralDomainTir'
         for the query to work.
-          
         """
 
         if "phase" in changetracker[0]:
@@ -166,7 +177,11 @@ class DartPlotsXML(object):
             return
                        
     def writexml(self,outpath):
-
+        """ Writes the built tree to the specified path
+        
+        Also includes the version and build of DART as the root element.
+        This part could(should?) be modified.
+        """
         root=etree.Element('DartFile',{'version': '5.7.0', 'build': 'v1033'})
         root.append(self.root)
         tree=etree.ElementTree(root)
