@@ -67,11 +67,18 @@ class DartPhaseXML(object):
         it would maybe be something like this :
            - for some values, just append them somewhere
            - for the others, find them in the tree and modify them (tricky bit)
+        
+        Complete path to node to be modified will have to be explicitly written
+        in this way : './Phase/DartInputParameters/SpectralDomainTir'
+        for the query to work.
+          
         """
 
         if "phase" in changetracker[0]:
             self.changes= changetracker[1]["phase"]
-
+            for node in self.changes:
+                print "Modifying : ", node
+                self.root.find(node)
             
             return
         else:
@@ -138,9 +145,9 @@ class DartPhaseXML(object):
                
     def writexml(self,outpath):
 
-        realroot=etree.Element('DartFile',{'version': '5.7.0', 'build': 'v1033'})
-        realroot.append(self.root)
-        tree=etree.ElementTree(realroot)
+        root=etree.Element('DartFile',{'version': '5.7.0', 'build': 'v1033'})
+        root.append(self.root)
+        tree=etree.ElementTree(root)
         tree.write(outpath, encoding="UTF-8", xml_declaration=True) 
         return
     
@@ -163,56 +170,56 @@ class LidarPhaseXML(DartPhaseXML):
         """
         
         #set dictionnaries of attributes for lidar and childres nodes        
-        lidar_attrib={'simulateImage': '0', 'simulateSolarNoise': '0'}
+        li_attrib={'simulateImage': '0', 'simulateSolarNoise': '0'}
         
-        pulseduration_attrib={'pulse_energy': '1', 'gaussian_pulse_cut': '3'}
-        lidargeometry_attrib={'lsMode': '0', 'fp_fovDef': '0',
+        pulsedur_atr={'pulse_energy': '1', 'gaussian_pulse_cut': '3'}
+        ligeom_atr={'lsMode': '0', 'fp_fovDef': '0',
                               'sensorArea': '0.1', 'ifSetZeroDist': '0',
                               'display': '1', 'beam_width': '0.0'}
-        lidarilluintens_attrib={'isImportedPulse': '0',
+        liilluintens_atr={'isImportedPulse': '0',
                                 'gaussian_sigma_illu': '0.368',
                                 'minNoPhotonPerSubCenter': '5',
                                 'numberofPhotons': '100000',
                                 'shortAxisSubdivitionIllum': '100'}        
-        lidaracquisition_attrib={'maximumScatteringOrder': '10',
+        liacqui_atr={'maximumScatteringOrder': '10',
                                  'LIDAR_filter': '0',
                                  'calculatorMaximumRAM': '1000',
                                  'DART_simulation_identical': '0',
                                  'freq_recepteur_signal_LIDAR': '1'}        
         
         #create lidar and children nodes with set attributes
-        lidar=etree.Element("Lidar", lidar_attrib)
+        lidar=etree.Element("Lidar", li_attrib)
         
-        pulseduration=etree.SubElement(lidar,"PulseDuration", pulseduration_attrib)
-        lidargeo=etree.SubElement(lidar,"LidarGeometry",  lidargeometry_attrib)
-        etree.SubElement(lidar,"LidarIlluminationIntensity", lidarilluintens_attrib)
-        etree.SubElement(lidar,"LidarAcquisitionParameters", lidaracquisition_attrib)
+        pulseduration=etree.SubElement(lidar,"PulseDuration", pulsedur_atr)
+        lidargeo=etree.SubElement(lidar,"LidarGeometry",  ligeom_atr)
+        etree.SubElement(lidar,"LidarIlluminationIntensity", liilluintens_atr)
+        etree.SubElement(lidar,"LidarAcquisitionParameters", liacqui_atr)
         
         #set attributes and create node for pulseDuration
-        sigma_attrib={'relative_power_of_pulse': '0.5',
+        sigma_atr={'relative_power_of_pulse': '0.5',
                       'half_pulse_duration': '2'}
-        etree.SubElement(pulseduration,"SigmaDefinition",sigma_attrib)
+        etree.SubElement(pulseduration,"SigmaDefinition",sigma_atr)
         
         
         #set attributes and create children nodes for lidarGeometry
-        stwave_attrib={'photon_min_LIDAR': '50', 'photon_max_LIDAR': '50'}
-        sensorangles_attrib={'sensorTheta': '30', 'sensorPhi': '45'}
-        centeronground_attrib={'decalageLidar_x': '20', 'decalageLidar_y': '20'}
-        footprintfovrad_attrib={'rayonLidar_reception': '15', 'rayonLidar_emission': '12'}
-        als_attrib={'sensorHeight': '10'}
+        stwave_atr={'photon_min_LIDAR': '50', 'photon_max_LIDAR': '50'}
+        sensorangles_atr={'sensorTheta': '30', 'sensorPhi': '45'}
+        centeronground_atr={'decalageLidar_x': '20', 'decalageLidar_y': '20'}
+        footprintfovrad_atr={'rayonLidar_reception': '15', 'rayonLidar_emission': '12'}
+        als_atr={'sensorHeight': '10'}
          
-        etree.SubElement(lidargeo,"StWaveHeightRange",stwave_attrib)
-        etree.SubElement(lidargeo,"SensorAngles", sensorangles_attrib)
-        etree.SubElement(lidargeo,"CenterOnGround", centeronground_attrib)
-        etree.SubElement(lidargeo,"FootPrintAndFOVRadiuses",footprintfovrad_attrib)
-        etree.SubElement(lidargeo,"ALS",als_attrib)
+        etree.SubElement(lidargeo,"StWaveHeightRange",stwave_atr)
+        etree.SubElement(lidargeo,"SensorAngles", sensorangles_atr)
+        etree.SubElement(lidargeo,"CenterOnGround", centeronground_atr)
+        etree.SubElement(lidargeo,"FootPrintAndFOVRadiuses",footprintfovrad_atr)
+        etree.SubElement(lidargeo,"ALS",als_atr)
 
 
         #append whole branch to default existing node         
         self.root.find("./DartInputParameters").append(lidar)
         
         #set attributes and create nodes for dartModuleProducts
-        DmoduleProducts_attrib={'lidarProducts': '1',
+        Dmoduleprods_atr={'lidarProducts': '1',
                                    'radiativeBudgetProducts': '0',
                                    'lidarImageProducts': '0',
                                    'polarizationProducts': '0',
@@ -221,13 +228,13 @@ class LidarPhaseXML(DartPhaseXML):
                                    'allIterationsProducts': '0',
                                    'brfProducts': '0'}
         
-        lidarproductsprops_attrib={'convolvedWaveform': '1',
+        liprods_atr={'convolvedWaveform': '1',
                                     'photonInformations': '0',
                                     'lidarImagePanelInformation': '0',
                                     'groundSensorImage': '0'}
         
-        dartmoduleproducts=etree.Element("dartModuleProducts",DmoduleProducts_attrib)
-        etree.SubElement(dartmoduleproducts,"lidarProductsProperties",lidarproductsprops_attrib)
+        dartmoduleproducts=etree.Element("dartModuleProducts",Dmoduleprods_atr)
+        etree.SubElement(dartmoduleproducts,"lidarProductsProperties",liprods_atr)
         self.root.find("./DartProduct").append(dartmoduleproducts)
         
         return
@@ -244,7 +251,8 @@ class FluxPhaseXML(DartPhaseXML):
         """Create default fluxnodes.
         
         """
-        etree.SubElement(self.root,"SensorImageSimulation",{'importMultipleSensors': '0'})
+        etree.SubElement(self.root,"SensorImageSimulation",
+                         {'importMultipleSensors': '0'})
         
         #Adding nodes under DartInputParameters
         dartinparams=self.root.find("./DartInputParameters")
@@ -272,16 +280,16 @@ class FluxPhaseXML(DartPhaseXML):
         
         #nodeIllumination branch  
         ##irrandiancedatabase sub-branch
-        irraddatanode_attrib={'irradianceTable': 'TOASolar_THKUR',
+        irraddatanode_atr={'irradianceTable': 'TOASolar_THKUR',
                               'irradianceColumn': 'irradiance',
                               'weightAtmosphereParameters': '1',
                               'databaseName': 'Solar_constant.db',
                               'weightReflectanceParameters': '1'}
         irraddatanode=etree.SubElement(nodeillumode,"irradianceDatabaseNode",
-                                       irraddatanode_attrib)
+                                       irraddatanode_atr)
         
-        weightingparam_attrib={'sceneAverageTemperatureForPonderation': '300'}
-        etree.SubElement(irraddatanode,"WeightingParameters",weightingparam_attrib)
+        weightingparam_atr={'sceneAverageTemperatureForPonderation': '300'}
+        etree.SubElement(irraddatanode,"WeightingParameters",weightingparam_atr)
         
         ##spectralirradiance subbranch
         spectralirrad=etree.SubElement(nodeillumode,"SpectralIrradiance")
