@@ -6,6 +6,7 @@ Created on Fri Jun  1 14:15:03 2018
 @author: mtd
 
 Objects and functions necessary to write the phase xml file. 
+It is important to note the resulting xml file is written over a single line.
 
 """
 try:
@@ -91,7 +92,7 @@ class DartPhaseXML(object):
         """
         
         
-        expertmode_default={'isInterceptedPowerPerDirectionForSpecularCheck': '0',
+        expertmode_dflt={'isInterceptedPowerPerDirectionForSpecularCheck': '0',
                        'subFaceBarycenterEnabled': '1',
                        'lightPropagationThreshold': '1E-7',
                        'nbRandomPointsPerInteceptionAtmosphere': '1',
@@ -123,7 +124,7 @@ class DartPhaseXML(object):
         
         #base nodes
         ##simple
-        etree.SubElement(self.root,"ExpertModeZone",expertmode_default)        
+        etree.SubElement(self.root,"ExpertModeZone",expertmode_dflt)        
         etree.SubElement(self.root,"AtmosphereRadiativeTransfer",{"TOAtoBOA":"0"})
         ##parentnodes
         dartinputparameters=etree.SubElement(self.root,"DartInputParameters")        
@@ -144,7 +145,11 @@ class DartPhaseXML(object):
         return
                
     def writexml(self,outpath):
-
+        """ Writes the built tree to the specified path
+        
+        Also includes the version and build of DART as the root element.
+        This part could(should?) be modified.
+        """
         root=etree.Element('DartFile',{'version': '5.7.0', 'build': 'v1033'})
         root.append(self.root)
         tree=etree.ElementTree(root)
@@ -329,9 +334,9 @@ class FluxPhaseXML(DartPhaseXML):
         emzetalement=etree.SubElement(brfprod,"ExpertModeZone_Etalement",
                                       {"etalement": "2"})
         etree.SubElement(emzetalement,"ExpertModeZone_Projection",
-                         {'keepNonProjectedImage':0})
+                         {'keepNonProjectedImage':'0'})
         etree.SubElement(emzetalement,"ExpertModeZone_PerTypeProduct",
-                         {"generatePerTypeProduct":0})
+                         {"generatePerTypeProduct":'0'})
         
         
         return
@@ -340,4 +345,4 @@ class FluxPhaseXML(DartPhaseXML):
 ############################ZONE DE TESTS
 outpath="/media/mtd/stock/boulot_sur_dart/temp/"
 
-write_phase("lidar",[],outpath)
+write_phase("flux",[],outpath)
