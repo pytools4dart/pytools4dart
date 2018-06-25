@@ -103,7 +103,7 @@ class DartCoefXML(object):
         etree.SubElement(self.root, 'UnderstoryMultiFunctions', understory_atr)
 
         # parent nodes
-        # # lambertian branch
+        # # lambertian branch  : default lambertian created Dart simulations
         lambmulti_atr = {'ident': 'Lambertian_Phase_Function_1',
                          'useSpecular': '0',
                          'roStDev': '0.000',
@@ -132,6 +132,45 @@ class DartCoefXML(object):
                        'deltaT': '20.0', 'singleTemperatureSurface': '1',
                        'override3DMatrix': '0', 'useOpticalFactorMatrix': '0'}
         etree.SubElement(temp, 'ThermalFunction', thermal_atr)
+
+        return
+
+    def addvegetation(self):
+        """ Adds a vegetation Node
+
+        This module will require some work as it probably will be our most used
+        one. How to parameter Prospect? Access Database? etc...
+        """
+        rootveg = self.root.find("./understoryMultiFunctions")
+        veg_atr = {'ident': 'custom', 'dimFoliar': '0.01', 'lad': '1',
+                   'useSpecular': '0', 'ModelName': 'leaf_deciduous',
+                   'databaseName': 'Vegetation.db',
+                   'useMultiplicativeFactorForLUT': '1',
+                   'useOpticalFactorMatrix': '0'}
+
+        veg = etree.SubElement(rootveg, 'UnderstoryMulti', veg_atr)
+
+        clump_atr = {'omegaMax': '0.0', 'clumpinga': '0.0',
+                     'clumpingb': '0.0', 'omegaMin': '1.0'}
+        etree.SubElement(veg, 'DirectionalClumpingIndexProperties', clump_atr)
+
+        prospect_atr = {'useProspectExternalModule': '0', 'isFluorescent': '0'}
+        etree.SubElement(veg, 'ProspectExternalModule', prospect_atr)
+        multilutnode_atr = {'useSameFactorForAllBands': '1',
+                            'adaxialReflectanceFactor': '1.0',
+                            'useSameOpticalFactorMatrixForAllBands': '0',
+                            'abaxialReflectanceFactor': '1.0',
+                            'LeafTransmittanceFactor': '1.0'}
+        multilut = etree.SubElement(veg,
+                                    'understoryNodeMultiplicativeFactorForLUT',
+                                    multilutnode_atr)
+
+        multilut_atr = {'useOpticalFactorMatrix': '0',
+                        'adaxialReflectanceFactor': '1.0',
+                        'abaxialReflectanceFactor': '1.0',
+                        'LeafTransmittanceFactor': '1.0'}
+        etree.SubElement(multilut, 'understoryMultiplicativeFactorForLUT',
+                         multilut_atr)
 
         return
 
