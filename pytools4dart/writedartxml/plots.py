@@ -86,7 +86,7 @@ class DartPlotsXML(object):
         plot = etree.SubElement(self.root, "Plot", self.PLOT_DEFAULT_ATR)
 
         # Polygon 2D Branch
-        polygon_plot1 = etree.SubElement(plot, "Polygon_S2", {"mode": "0"})
+        polygon_plot1 = etree.SubElement(plot, "Polygon2D", {"mode": "0"})
 
         # # with its four defining points
         etree.SubElement(polygon_plot1, "Point2D",
@@ -191,17 +191,17 @@ class DartPlotsXML(object):
 # to be expanded.....
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # ZONE DE TESTS
 
-# import time
-# start = time.time()
-# print("very very short - 10 voxels")
-#
-# outpath="/media/mtd/stock/boulot_sur_dart/temp/"
-# vox = "/home/mtd/Desktop/testplots/Extended_modR_fus3_veryveryshort.vox"
-# write_plots([],outpath,vox)
-# end = time.time()
-# print(end - start)
-# print("")
-# print("")
+import time
+start = time.time()
+print("very very short - 10 voxels")
+
+outpath="/media/mtd/stock/boulot_sur_dart/temp/"
+vox = "/home/mtd/Desktop/testplots/Extended_modR_fus3_veryveryshort.vox"
+write_plots([],outpath,vox)
+end = time.time()
+print(end - start)
+print("")
+print("")
 
 # start = time.time()
 # print("very short - 1000 voxels")
