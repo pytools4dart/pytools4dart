@@ -70,7 +70,7 @@ class DartMaketXML(object):
 
         """
 
-        if "atmosphere" in changetracker[0]:
+        if "maket" in changetracker[0]:
             self.changes = changetracker[1]["atmosphere"]
             for node in self.changes:
                 print "Modifying : ", node

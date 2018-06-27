@@ -32,7 +32,7 @@ def write_sequence(simutype, changetracker, outpath, seqname):
 
     phase.basenodes()
 
-    phase.specnodes()
+    phase.addsequence()
     #  phase.adoptchanges()
 
     phase.writexml(outpath + seqname + ".xml")
@@ -40,13 +40,13 @@ def write_sequence(simutype, changetracker, outpath, seqname):
 
 
 class DartSequenceXML(object):
-    """object for the editing and exporting to xml of atmosphere related parameters
+    """object for the editing and exporting to xml sequence parameters
 
     After instantiation, a default tree of nodes is created.
     Changes based on the passed "changetracker" variable have then
     to take place in order to upgrade the tree.
     All the tag names of tree nodes are supposed to be IDENTICAL to the ones
-    produces by DART. The variable names are sometimes shortened
+    produces by DART. The variable names are shortened.
 
     """
 
@@ -63,12 +63,11 @@ class DartSequenceXML(object):
         self.changes = changetracker
         return
 
-
     def basenodes(self):
-        """creates all nodes and properties common to default simulations
+        """ here go the general parameters for a sequence.
 
-        ComputedTransferFunctions : write transferFunctions would be the place
-        where the saving of the computed atmosphere is done.
+        Determines which outputs are generated and deleted during the sequence
+        run.
         """
 
         # base nodes
@@ -134,7 +133,7 @@ class DartSequenceXML(object):
 
         """
 
-        if "atmosphere" in changetracker[0]:
+        if "sequence" in changetracker[0]:
             self.changes = changetracker[1]["sequence"]
             for props in self.changes:
 
@@ -175,4 +174,4 @@ class DartSequenceXML(object):
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # ZONE DE TESTS
 outpath = "/media/mtd/stock/boulot_sur_dart/temp/"
 
-write_directions("flux", [], outpath)
+write_sequence("flux", [], outpath)
