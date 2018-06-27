@@ -5,8 +5,9 @@ Created on Fri Jun  1 14:15:03 2018
 
 @author: mtd
 
-Objects and functions necessary to write the directions xml file.
+Objects and functions necessary to write the sequence xml file.
 It is important to note the resulting xml file is written over a single line.
+NB : The DartFile node (root node) differs from the one from all the other xml.
 
 """
 try:
@@ -17,7 +18,7 @@ except ImportError:
     import xml.etree.ElementTree as etree
 
 
-def write_directions(simutype, changetracker, outpath):
+def write_sequence(simutype, changetracker, outpath, seqname):
     """write coeff_diff xml fil
 
     proceed in the following manner :
@@ -27,38 +28,99 @@ def write_directions(simutype, changetracker, outpath):
         -output file to xml
 
     """
-    phase = DartDirectionsXML(changetracker)
+    phase = DartSequenceXML(changetracker)
 
     phase.basenodes()
 
     phase.specnodes()
     #  phase.adoptchanges()
 
-    phase.writexml(outpath+"atmosphere.xml")
+    phase.writexml(outpath + seqname + ".xml")
     return
 
 
-class DartDirectionsXML(object):
+class DartSequenceXML(object):
     """object for the editing and exporting to xml of atmosphere related parameters
 
     After instantiation, a default tree of nodes is created.
     Changes based on the passed "changetracker" variable have then
     to take place in order to upgrade the tree.
     All the tag names of tree nodes are supposed to be IDENTICAL to the ones
-    produces by DART. The variable names are sometimes shortened.
+    produces by DART. The variable names are sometimes shortened
 
     """
 
     def __init__(self, changetracker):
-        dir_atr = {'ifCosWeighted': '0',
-                   'numberOfPropagationDirections': '100',
-                   'exactDate': '2'}
-        self.root = etree.Element("Directions", dir_atr)
+        """
+        the name of the sequence goes here!
+
+        The group name may or may not correspond to the sequence name
+        """
+        seqname = changetracker[100000]
+        dir_atr = {'sequenceName': 'sequence;;' + seqname}
+        self.root = etree.Element("DartSequencerDescriptor", dir_atr)
         self.tree = etree.ElementTree(self.root)
         self.changes = changetracker
         return
 
-    def adoptchanges(changetracker, self):
+
+    def basenodes(self):
+        """creates all nodes and properties common to default simulations
+
+        ComputedTransferFunctions : write transferFunctions would be the place
+        where the saving of the computed atmosphere is done.
+        """
+
+        # base nodes
+        pref_atr = {'triangleFileProcessorLaunched': 'true',
+                    'deleteMaket': 'false',
+                    'directionLaunched': 'true',
+                    'deleteDartSequenceur': 'false',
+                    'deleteLibPhase': 'false',
+                    'maketLaunched': 'true',
+                    'atmosphereMaketLaunched': 'true',
+                    'dartLaunched': 'true',
+                    'deleteDartTxt': 'false',
+                    'individualDisplayEnabled': 'false',
+                    'deleteTriangles': 'false',
+                    'phaseLaunched': 'true',
+                    'zippedResults': 'false',
+                    'deleteInputs': 'false',
+                    'genMode': 'XML',
+                    'deleteTreePosition': 'false',
+                    'deleteDirection': 'false',
+                    'hapkeLaunched': 'true',
+                    'useBroadBand': 'true',
+                    'numberParallelThreads': '4',
+                    'prospectLaunched': 'false',
+                    'vegetationLaunched': 'true',
+                    'deleteAtmosphere': 'false',
+                    'displayEnabled': 'true',
+                    'deleteAtmosphereMaket': 'false',
+                    'demGeneratorLaunched': 'true',
+                    'deleteDartLut': 'false',
+                    'useSceneSpectra': 'true',
+                    'deleteAll': 'false',
+                    'deleteMaketTreeResults': 'false'}
+
+        lutpref_atr = {'luminance': 'true',         'phiMin': '',
+                       'addedDirection': 'false',   'coupl': 'true',
+                       'fluorescence': 'true',      'productsPerType': 'false',
+                       'phiMax': '',                'storeIndirect': 'false',
+                       'ordre': 'true',             'atmosToa': 'true',
+                       'thetaMax': '',              'reflectance': 'true',
+                       'atmosToaOrdre': 'true',     'iterx': 'true',
+                       'otherIter': 'true',         'generateLUT': 'true',
+                       'sensor': 'true',            'toa': 'true',
+                       'thetaMin': '',              'maketCoverage': 'false'}
+
+        etree.SubElement(self.root, 'DartSequencerPreferences', pref_atr)
+        etree.SubElement(self.root, 'DartLutPreferences', lutpref_atr)
+
+        # DartSequenceDescriptorGroup branch
+        return
+
+    def addsequence(changetracker, self):
         """method to update xml tree based on user-defined parameters
 
         here goes the magic where we change some nodes based on parameters
@@ -73,51 +135,36 @@ class DartDirectionsXML(object):
         """
 
         if "atmosphere" in changetracker[0]:
-            self.changes = changetracker[1]["atmosphere"]
-            for node in self.changes:
-                print "Modifying : ", node
-                self.root.find(node)
+            self.changes = changetracker[1]["sequence"]
+            for props in self.changes:
 
+                print "Adding : ", props[0]
+                groupname = props[0]
+                entries = self.root.find('./DartSequencerDescriptorEntries')
+                grp = etree.SubElement(entries,
+                                       'DartSequencerDescriptorGroup',
+                                       {'groupName': groupname})
+
+                seqarg = {'propertyName': 'Phase.DartInputParameters.'      \
+                          'SpectralIntervals.SpectralIntervalsProperties.'  \
+                          'meanLambda',
+                          'args': '400;50;3',
+                          'type': 'linear'}
+                seqarg = props[1]
+                etree.SubElement(grp, 'DartSequencerDescriptorEntry', seqarg)
             return
         else:
             return
-
-    def basenodes(self):
-        """creates all nodes and properties common to default simulations
-
-        ComputedTransferFunctions : write transferFunctions would be the place
-        where the saving of the computed atmosphere is done.
-        """
-
-        # base nodes
-
-        sunangles_atr = {'sunViewingAzimuthAngle': '225.0',
-                         'sunViewingZenithAngle': '30.0',
-                         'dayOfTheYear': '-1'}
-        hotspot_atr = {'oversampleDownwardRegion': '0',
-                       'hotSpotPerpendicularPlane': '0',
-                       'hotSpotParallelPlane': '0',
-                       'oversampleUpwardRegion': '0'}
-        azimoff_atr = {'directionalAzimuthalOffset': '0',
-                       'sunAzimuthalOffset': '0'}
-        expmode_atr = {'numberOfAngularSector': '10', 'numberOfLayers': '0'}
-
-        etree.SubElement(self.root, 'SunViewingAngles', sunangles_atr)
-        etree.SubElement(self.root, 'HotSpotProperties', hotspot_atr)
-        etree.SubElement(self.root, 'AzimuthalOffset', azimoff_atr)
-        etree.SubElement(self.root, 'ExpertModeZone', expmode_atr)
-
-        etree.SubElement(self.root, 'Penumbra', {'mode': '0'})
-        return
 
     def writexml(self, outpath):
         """ Writes the built tree to the specified path
 
         Also includes the version and build of DART as the root element.
         This part could(should?) be modified.
+        The version number here differs from the one on all other xml files.
         """
         root = etree.Element('DartFile',
-                             {'version': '5.7.0', 'build': 'v1033'})
+                             {'version': '1.0'})
         root.append(self.root)
         tree = etree.ElementTree(root)
         tree.write(outpath, encoding="UTF-8", xml_declaration=True)
