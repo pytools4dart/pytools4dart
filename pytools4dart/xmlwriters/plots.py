@@ -125,7 +125,7 @@ class DartPlotsXML(object):
         Based on code from Claudia, Florian and Dav.
         Needs "voxreader". Most complicated function being: intersect,
         that is needed in Dav's project to get the optical properties of the
-        voxels
+        voxels depending on another file.
         """
 
         vox = voxel.from_vox(path)
@@ -134,11 +134,11 @@ class DartPlotsXML(object):
         i = 0
         for index, row in vox.data.iterrows():
             i += 1
-            i = row.i
-            j = row.j  # y du voxel
-            k = row.k  # z du voxel
+            i = row.i  # voxel x
+            j = row.j  # voxel y
+            k = row.k  # voxel z
             optPropName = "test_" + str(i)
-            LAI = str(row.PadBVTotal)  # LAI du voxel (PadBTotal en negatif)
+            LAI = str(row.PadBVTotal)  # voxel LAI(PadBTotal en negatif)
 
             corners = (((i * res), (j * res)),
                        ((i + 1 * res), (j * res)),
@@ -146,7 +146,7 @@ class DartPlotsXML(object):
                        ((i * res), ((j + 1) * res)))
 
             height = res
-            baseheight = str(k * height)  # hauteur du voxel
+            baseheight = str(k * height)  # voxel height
 
             self.addplot(corners, baseheight, LAI, optPropName)
         return
@@ -190,7 +190,7 @@ class DartPlotsXML(object):
 
 # to be expanded.....
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # ZONE DE TESTS
-
+"""
 import time
 start = time.time()
 print("very very short - 10 voxels")
@@ -202,7 +202,7 @@ end = time.time()
 print(end - start)
 print("")
 print("")
-
+"""
 # start = time.time()
 # print("very short - 1000 voxels")
 #

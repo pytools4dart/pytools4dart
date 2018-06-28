@@ -182,10 +182,8 @@ class DartCoefXML(object):
         return
 
 
-
-
 # to be expanded.....
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # ZONE DE TESTS
-outpath = "/media/mtd/stock/boulot_sur_dart/temp/"
+"""outpath = "/media/mtd/stock/boulot_sur_dart/temp/"
 
-write_coeff_diff([], outpath)
+write_coeff_diff([], outpath)"""

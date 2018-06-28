@@ -101,7 +101,6 @@ class DartObject3dXML(object):
         etree.SubElement(dflt_types, 'DefaultType', dftype1_atr)
         etree.SubElement(dflt_types, 'DefaultType', dftype2_atr)
 
-
         return
 
     def writexml(self, outpath):
@@ -120,6 +119,7 @@ class DartObject3dXML(object):
 
 # to be expanded.....
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # ZONE DE TESTS
-outpath = "/media/mtd/stock/boulot_sur_dart/temp/"
+"""outpath = "/media/mtd/stock/boulot_sur_dart/temp/"
 
-write_object_3d([], outpath)
+write_directions([], outpath)
+"""

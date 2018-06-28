@@ -126,6 +126,7 @@ class DartInversionXML(object):
 
 # to be expanded.....
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # ZONE DE TESTS
-outpath = "/media/mtd/stock/boulot_sur_dart/temp/"
+"""outpath = "/media/mtd/stock/boulot_sur_dart/temp/"
 
-write_inversion("flux", [], outpath)
+write_directions([], outpath)
+"""

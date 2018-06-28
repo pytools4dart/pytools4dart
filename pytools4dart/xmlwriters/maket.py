@@ -132,6 +132,6 @@ class DartMaketXML(object):
 
 # to be expanded.....
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # ZONE DE TESTS
-outpath = "/media/mtd/stock/boulot_sur_dart/temp/"
+"""outpath = "/media/mtd/stock/boulot_sur_dart/temp/"
 
-write_maket("flux", [], outpath)
+write_maket("flux", [], outpath)"""

@@ -351,6 +351,6 @@ class FluxPhaseXML(DartPhaseXML):
 
 # to be expanded.....
 # ZONE DE TESTS
-outpath = "/media/mtd/stock/boulot_sur_dart/temp/"
+"""outpath = "/media/mtd/stock/boulot_sur_dart/temp/"
 
-write_phase("flux", [], outpath)
+write_phase("flux", [], outpath)"""
