@@ -10,9 +10,7 @@ It is important to note the resulting xml file is written over a single line.
 """
 try:
     import xml.etree.cElementTree as etree
-    print ("imported cetree")
 except ImportError:
-    print ("oups!, importing pytetree")
     import xml.etree.ElementTree as etree
 
 from voxReader import voxel

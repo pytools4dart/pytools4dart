@@ -12,9 +12,7 @@ NB : The DartFile node (root node) differs from the one from all the other xml.
 """
 try:
     import xml.etree.cElementTree as etree
-    print ("imported cetree")
 except ImportError:
-    print ("oups!, importing pytetree")
     import xml.etree.ElementTree as etree
 
 
