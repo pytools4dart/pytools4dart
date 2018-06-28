@@ -5,7 +5,7 @@ Created on Fri Jun  1 14:15:03 2018
 
 @author: mtd
 
-Objects and functions necessary to write the directions xml file.
+Objects and functions necessary to write the object_3d xml file.
 It is important to note the resulting xml file is written over a single line.
 
 """
@@ -17,7 +17,7 @@ except ImportError:
     import xml.etree.ElementTree as etree
 
 
-def write_directions(changetracker):
+def write_object_3d(changetracker):
     """write coeff_diff xml fil
 
     proceed in the following manner :
@@ -27,18 +27,18 @@ def write_directions(changetracker):
         -output file to xml
 
     """
-    directions = DartDirectionsXML(changetracker)
+    object_3d = DartObject3dXML(changetracker)
 
-    directions.basenodes()
+    object_3d.basenodes()
 
-    directions.adoptchanges()
+    object_3d.adoptchanges()
 
     outpath = changetracker[2]
-    directions.writexml(outpath+"directions.xml")
+    object_3d.writexml(outpath+"object_3d.xml")
     return
 
 
-class DartDirectionsXML(object):
+class DartObject3dXML(object):
     """object for the editing and exporting to xml of atmosphere related parameters
 
     After instantiation, a default tree of nodes is created.
@@ -50,8 +50,7 @@ class DartDirectionsXML(object):
     """
 
     def __init__(self, changetracker):
-
-        self.root = etree.Element("DartInversion", {'runInversion': '0'})
+        self.root = etree.Element("object_3d", {})
         self.tree = etree.ElementTree(self.root)
         self.changes = changetracker
         return
@@ -70,8 +69,8 @@ class DartDirectionsXML(object):
 
         """
 
-        if "inversion" in changetracker[0]:
-            self.changes = changetracker[1]["inversion"]
+        if "object_3d" in changetracker[0]:
+            self.changes = changetracker[1]["object_3d"]
             for node in self.changes:
                 print "Modifying : ", node
                 self.root.find(node)
@@ -88,6 +87,21 @@ class DartDirectionsXML(object):
         """
 
         # base nodes
+        etree.SubElement(self.root, 'ObjectList', {})
+        etree.SubElement(self.root, 'ObjectFields', {})
+        types = etree.SubElement(self.root, 'Types', {})
+
+        # # types branch
+        dftype1_atr = {'indexOT': '101', 'typeColor': '125 0 125',
+                       'name': 'Default_Object'}
+        dftype2_atr = {'indexOT': '102', 'typeColor': '0 175 0',
+                       'name': 'Leaf'}
+
+        dflt_types = etree.SubElement(types, 'DefaultTypes', {})
+        etree.SubElement(dflt_types, 'DefaultType', dftype1_atr)
+        etree.SubElement(dflt_types, 'DefaultType', dftype2_atr)
+
+
         return
 
     def writexml(self, outpath):
@@ -108,4 +122,4 @@ class DartDirectionsXML(object):
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # ZONE DE TESTS
 outpath = "/media/mtd/stock/boulot_sur_dart/temp/"
 
-write_directions("flux", [], outpath)
+write_object_3d([], outpath)

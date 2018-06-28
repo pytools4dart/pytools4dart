@@ -17,7 +17,7 @@ except ImportError:
     import xml.etree.ElementTree as etree
 
 
-def write_maket(simutype, changetracker, outpath):
+def write_maket(changetracker, outpath):
     """write coeff_diff xml fil
 
     proceed in the following manner :
@@ -27,14 +27,12 @@ def write_maket(simutype, changetracker, outpath):
         -output file to xml
 
     """
-    phase = DartMaketXML(changetracker)
+    maket = DartMaketXML(changetracker)
+    maket.basenodes()
+    maket.adoptchanges()
 
-    phase.basenodes()
-
-    phase.specnodes()
-    #  phase.adoptchanges()
-
-    phase.writexml(outpath+"maket.xml")
+    outpath = changetracker[2]
+    maket.writexml(outpath+"maket.xml")
     return
 
 

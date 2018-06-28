@@ -17,7 +17,7 @@ except ImportError:
     import xml.etree.ElementTree as etree
 
 
-def write_coeff_diff(simutype, changetracker, outpath):
+def write_coeff_diff(changetracker):
     """write coeff_diff xml fil
 
     proceed in the following manner :
@@ -27,18 +27,12 @@ def write_coeff_diff(simutype, changetracker, outpath):
         -output file to xml
 
     """
-    if simutype == "lidar":
-        phase = DartCoefXML(changetracker)
-    elif simutype == "flux":
-        phase = DartCoefXML(changetracker)
-    else:
-        print "what the ?"
-    phase.basenodes()
+    coeff = DartCoefXML(changetracker)
+    coeff.basenodes()
+    coeff.adoptchanges()
 
-    phase.specnodes()
-    #  phase.adoptchanges()
-
-    phase.writexml(outpath+"phase.xml")
+    outpath = changetracker[2]
+    coeff.writexml(outpath+"coeff_diff.xml")
     return
 
 
@@ -194,4 +188,4 @@ class DartCoefXML(object):
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # ZONE DE TESTS
 outpath = "/media/mtd/stock/boulot_sur_dart/temp/"
 
-write_coeff_diff("flux", [], outpath)
+write_coeff_diff([], outpath)

@@ -17,7 +17,7 @@ except ImportError:
     import xml.etree.ElementTree as etree
 
 
-def write_atmosphere(simutype, changetracker, outpath):
+def write_atmosphere(changetracker):
     """write coeff_diff xml fil
 
     proceed in the following manner :
@@ -27,14 +27,12 @@ def write_atmosphere(simutype, changetracker, outpath):
         -output file to xml
 
     """
-    phase = DartAtmosphereXML(changetracker)
+    atmo = DartAtmosphereXML(changetracker)
+    atmo.basenodes()
+    atmo.adoptchanges()
 
-    phase.basenodes()
-
-    phase.specnodes()
-    #  phase.adoptchanges()
-
-    phase.writexml(outpath+"atmosphere.xml")
+    outpath = changetracker[2]
+    atmo.writexml(outpath+"atmosphere.xml")
     return
 
 
@@ -77,8 +75,8 @@ class DartAtmosphereXML(object):
             for node in self.changes:
                 print "Modifying : ", node
                 self.root.find(node)
-
             return
+
         else:
             return
 
@@ -92,12 +90,16 @@ class DartAtmosphereXML(object):
         # base nodes
         isatm = etree.SubElement(self.root, 'IsAtmosphere',
                                  {'typeOfAtmosphere': '1'})
-        #simple
+        # simple
         atmopt_atr = {
-                'hgParametersModelName': 'RURALV23', 'gasGroup': '1',
-                'co2MixRate': '365.0', 'correctionBandModel': '1',
-                'temperatureModelName': 'USSTD76', 'scaleOtherGases': '0',
-                'gasCumulativeModelName': 'USSTD76', 'redefTemperature': '0',
+                'hgParametersModelName': 'RURALV23',
+                'gasGroup': '1',
+                'co2MixRate': '365.0',
+                'correctionBandModel': '1',
+                'temperatureModelName': 'USSTD76',
+                'scaleOtherGases': '0',
+                'gasCumulativeModelName': 'USSTD76',
+                'redefTemperature': '0',
                 'gasModelName': 'USSTD76',
                 'aerosolsModelName': 'USSTD76_RURALV23',
                 'aerosolCumulativeModelName': 'RURALV23',
@@ -125,7 +127,7 @@ class DartAtmosphereXML(object):
                          {'seuilFTAtmos': '0.0001',
                           'seuilEclairementAtmos': '0.00001',
                           'extrapol_atmos': '1'})
-        ## transfer functions branch
+        # # transfer functions branch
         transfunc = etree.SubElement(atmiter, 'AtmosphereTransfertFunctions',
                                      {'inputOutputTransfertFunctions': '0'})
         etree.SubElement(transfunc, 'ComputedTransferFunctions',
@@ -137,7 +139,6 @@ class DartAtmosphereXML(object):
                           'gamma_atmos': '0.95', 'yAI': '400.0'})
 
         return
-
 
     def writexml(self, outpath):
         """ Writes the built tree to the specified path

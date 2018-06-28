@@ -5,7 +5,7 @@ Created on Fri Jun  1 14:15:03 2018
 
 @author: mtd
 
-Objects and functions necessary to write the directions xml file.
+Objects and functions necessary to write the urban xml file.
 It is important to note the resulting xml file is written over a single line.
 
 """
@@ -17,8 +17,8 @@ except ImportError:
     import xml.etree.ElementTree as etree
 
 
-def write_directions(changetracker):
-    """write coeff_diff xml fil
+def write_urban(changetracker):
+    """write urban xml fil
 
     proceed in the following manner :
         -instantiate appropriate dartdir object
@@ -27,18 +27,18 @@ def write_directions(changetracker):
         -output file to xml
 
     """
-    directions = DartDirectionsXML(changetracker)
+    urban = DartUrbanXML(changetracker)
 
-    directions.basenodes()
+    urban.basenodes()
 
-    directions.adoptchanges()
+    urban.adoptchanges()
 
     outpath = changetracker[2]
-    directions.writexml(outpath+"directions.xml")
+    urban.writexml(outpath+"urban.xml")
     return
 
 
-class DartDirectionsXML(object):
+class DartUrbanXML(object):
     """object for the editing and exporting to xml of atmosphere related parameters
 
     After instantiation, a default tree of nodes is created.
@@ -51,7 +51,7 @@ class DartDirectionsXML(object):
 
     def __init__(self, changetracker):
 
-        self.root = etree.Element("DartInversion", {'runInversion': '0'})
+        self.root = etree.Element("Urban", {})
         self.tree = etree.ElementTree(self.root)
         self.changes = changetracker
         return
@@ -70,8 +70,8 @@ class DartDirectionsXML(object):
 
         """
 
-        if "inversion" in changetracker[0]:
-            self.changes = changetracker[1]["inversion"]
+        if "urban" in changetracker[0]:
+            self.changes = changetracker[1]["urban"]
             for node in self.changes:
                 print "Modifying : ", node
                 self.root.find(node)
@@ -88,6 +88,11 @@ class DartDirectionsXML(object):
         """
 
         # base nodes
+
+        etree.SubElement(self.root, 'Buildings', {})
+        etree.SubElement(self.root, 'Roads', {})
+        etree.SubElement(self.root, 'SmallWalls', {})
+
         return
 
     def writexml(self, outpath):
@@ -108,4 +113,4 @@ class DartDirectionsXML(object):
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # ZONE DE TESTS
 outpath = "/media/mtd/stock/boulot_sur_dart/temp/"
 
-write_directions("flux", [], outpath)
+write_urban("flux", [], outpath)

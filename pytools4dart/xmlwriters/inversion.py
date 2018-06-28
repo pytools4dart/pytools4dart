@@ -5,7 +5,7 @@ Created on Fri Jun  1 14:15:03 2018
 
 @author: mtd
 
-Objects and functions necessary to write the directions xml file.
+Objects and functions necessary to write the inversion xml file.
 It is important to note the resulting xml file is written over a single line.
 
 """
@@ -17,8 +17,8 @@ except ImportError:
     import xml.etree.ElementTree as etree
 
 
-def write_directions(changetracker):
-    """write coeff_diff xml fil
+def write_inversion(changetracker):
+    """write inversion xml file
 
     proceed in the following manner :
         -instantiate appropriate dartdir object
@@ -27,18 +27,18 @@ def write_directions(changetracker):
         -output file to xml
 
     """
-    directions = DartDirectionsXML(changetracker)
+    inversion = DartInversionXML(changetracker)
 
-    directions.basenodes()
+    inversion.basenodes()
 
-    directions.adoptchanges()
+    inversion.adoptchanges()
 
     outpath = changetracker[2]
-    directions.writexml(outpath+"directions.xml")
+    inversion.writexml(outpath+"inversion.xml")
     return
 
 
-class DartDirectionsXML(object):
+class DartInversionXML(object):
     """object for the editing and exporting to xml of atmosphere related parameters
 
     After instantiation, a default tree of nodes is created.
@@ -50,8 +50,10 @@ class DartDirectionsXML(object):
     """
 
     def __init__(self, changetracker):
-
-        self.root = etree.Element("DartInversion", {'runInversion': '0'})
+        dir_atr = {'ifCosWeighted': '0',
+                   'numberOfPropagationDirections': '100',
+                   'exactDate': '2'}
+        self.root = etree.Element("Directions", dir_atr)
         self.tree = etree.ElementTree(self.root)
         self.changes = changetracker
         return
@@ -70,8 +72,8 @@ class DartDirectionsXML(object):
 
         """
 
-        if "inversion" in changetracker[0]:
-            self.changes = changetracker[1]["inversion"]
+        if "atmosphere" in changetracker[0]:
+            self.changes = changetracker[1]["atmosphere"]
             for node in self.changes:
                 print "Modifying : ", node
                 self.root.find(node)
@@ -88,6 +90,24 @@ class DartDirectionsXML(object):
         """
 
         # base nodes
+
+        sunangles_atr = {'sunViewingAzimuthAngle': '225.0',
+                         'sunViewingZenithAngle': '30.0',
+                         'dayOfTheYear': '-1'}
+        hotspot_atr = {'oversampleDownwardRegion': '0',
+                       'hotSpotPerpendicularPlane': '0',
+                       'hotSpotParallelPlane': '0',
+                       'oversampleUpwardRegion': '0'}
+        azimoff_atr = {'directionalAzimuthalOffset': '0',
+                       'sunAzimuthalOffset': '0'}
+        expmode_atr = {'numberOfAngularSector': '10', 'numberOfLayers': '0'}
+
+        etree.SubElement(self.root, 'SunViewingAngles', sunangles_atr)
+        etree.SubElement(self.root, 'HotSpotProperties', hotspot_atr)
+        etree.SubElement(self.root, 'AzimuthalOffset', azimoff_atr)
+        etree.SubElement(self.root, 'ExpertModeZone', expmode_atr)
+
+        etree.SubElement(self.root, 'Penumbra', {'mode': '0'})
         return
 
     def writexml(self, outpath):
@@ -108,4 +128,4 @@ class DartDirectionsXML(object):
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # ZONE DE TESTS
 outpath = "/media/mtd/stock/boulot_sur_dart/temp/"
 
-write_directions("flux", [], outpath)
+write_inversion("flux", [], outpath)

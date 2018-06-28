@@ -18,7 +18,7 @@ except ImportError:
     import xml.etree.ElementTree as etree
 
 
-def write_sequence(simutype, changetracker, outpath, seqname):
+def write_sequence(changetracker, seqname=""):
     """write coeff_diff xml fil
 
     proceed in the following manner :
@@ -29,12 +29,10 @@ def write_sequence(simutype, changetracker, outpath, seqname):
 
     """
     phase = DartSequenceXML(changetracker)
-
     phase.basenodes()
-
     phase.addsequence()
-    #  phase.adoptchanges()
 
+    outpath = changetracker[2]
     phase.writexml(outpath + seqname + ".xml")
     return
 
@@ -162,8 +160,7 @@ class DartSequenceXML(object):
         This part could(should?) be modified.
         The version number here differs from the one on all other xml files.
         """
-        root = etree.Element('DartFile',
-                             {'version': '1.0'})
+        root = etree.Element('DartFile', {'version': '1.0'})
         root.append(self.root)
         tree = etree.ElementTree(root)
         tree.write(outpath, encoding="UTF-8", xml_declaration=True)
