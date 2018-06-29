@@ -41,8 +41,14 @@ class simulation(object):
         return
 
     def addplot(self, corners=None, baseheight=None, density=None,
-                opt="Lambertian_Phase_Function_1", ident=None):
+                opt="custom", ident=None):
+        """adds a plot to the scene with certain parameters
 
+        For now, if no corners are specified, a default plot is created
+        covering 10 by 10 meters (perspective to change it to cover the whole
+        scene). If no optical property is specified, a "custom" one is assigned
+        vegetation - leaf deciduous.
+        """
         if not ident:
             ident = self.plotsnumber
         if not corners:
