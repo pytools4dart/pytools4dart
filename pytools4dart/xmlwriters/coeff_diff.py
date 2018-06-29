@@ -27,6 +27,7 @@ def write_coeff_diff(changetracker):
     """
     coeff = DartCoefXML(changetracker)
     coeff.basenodes()
+    coeff.addvegetation()
     coeff.adoptchanges(changetracker)
 
     outpath = changetracker[2]
@@ -133,7 +134,7 @@ class DartCoefXML(object):
         This module will require some work as it probably will be our most used
         one. How to parameter Prospect? Access Database? etc...
         """
-        rootveg = self.root.find("./understoryMultiFunctions")
+        rootveg = self.root.find("./UnderstoryMultiFunctions")
         veg_atr = {'ident': 'custom', 'dimFoliar': '0.01', 'lad': '1',
                    'useSpecular': '0', 'ModelName': 'leaf_deciduous',
                    'databaseName': 'Vegetation.db',

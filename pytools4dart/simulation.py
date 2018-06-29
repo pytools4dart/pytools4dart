@@ -30,12 +30,36 @@ class simulation(object):
 
         """
         self.changetracker = [[], {}, outpath, "flux"]
+        self.plotsnumber = 0
+        self.optsprops = {'prop1': 'Lambertian_Phase_Function_1'}
 
     def addparameterX(self, param):
         """interactively add a parameter
 
         """
         self.param = param
+        return
+
+    def addplot(self, corners=None, baseheight=None, density=None,
+                opt="Lambertian_Phase_Function_1", ident=None):
+
+        if not ident:
+            ident = self.plotsnumber
+        if not corners:
+            plottype = "default"
+
+        if "plots" not in self.changetracker[0]:
+            self.changetracker[0].append("plots")
+            self.changetracker[1]['plots'] = {}
+
+        self.changetracker[1]['plots']['plot_' + str(ident)] = {
+            'plottype': plottype, 'opt': opt, 'corners': corners,
+            'baseheight': baseheight, 'density': density}
+        self.plotsnumber += 1
+
+        return
+
+    def setscene():
         return
 
     def listmodifications(self):
@@ -45,7 +69,10 @@ class simulation(object):
         return
 
     def write_xmls(self):
-        """writes the xmls
+        """writes the xmls with all defined input parameters
+
+        The functions are written so that default parameters are first written,
+        then updated with the given changes contained in "changetracker".
         """
 
         dxml.write_atmosphere(self.changetracker)
@@ -72,4 +99,5 @@ class simulation(object):
 
 # ##################################zone de tests
 pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/check/')
+pof.addplot()
 pof.write_xmls()

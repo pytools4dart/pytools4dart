@@ -74,6 +74,10 @@ class DartMaketXML(object):
 
             return
         else:
+
+            # scenedim = self.root.find('./Scene/SceneDimensions')
+            # scenedim.set('x','10.00')
+            # scenedim.set('y','10.00')
             return
 
     def basenodes(self):
@@ -97,8 +101,8 @@ class DartMaketXML(object):
         # scene branch
         celldim_atr = {'x': '1',
                        'z': '1'}
-        scenedim_atr = {'y': '40.00',
-                        'x': '40.00'}
+        scenedim_atr = {'y': '10.00',
+                        'x': '10.00'}
         etree.SubElement(scene, 'CellDimensions', celldim_atr)
         etree.SubElement(scene, 'SceneDimensions', scenedim_atr)
 

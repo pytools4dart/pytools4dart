@@ -30,14 +30,11 @@ def write_plots(changetracker, vox=None):
 
     """
     plots = DartPlotsXML(changetracker)
-    print "Initialized"
     plots.basenodes()
-    print "basenoded"
     plots.adoptchanges(changetracker)
 
     outpath = changetracker[2]
-    plots.writexml(outpath+"test_plots.xml")
-    print " written"
+    plots.writexml(outpath+"plots.xml")
     return
 
 
@@ -161,15 +158,36 @@ class DartPlotsXML(object):
         for the query to work.
 
         Work In Progress : Relies on changetracker architecture
+        for now : architecture relies on dictionnaries containing dictionnaries
+        plot is a dictionnary, containing certain keywords.
+        Those dictionnaries are initialized in the addplot method of simulation
+
+
         """
 
-        if "phase" in changetracker[0]:
-            self.changes = changetracker[1]["phase"]
-            if "voxels" in changetracker[1]["phase"]:
-                self.plotsfromvox(self, changetracker[99999])
-            for node in self.changes:
-                print "Modifying: ", node
-                self.root.find(node)
+        if 'plots' in changetracker[0]:
+            self.changes = changetracker[1]['plots']
+            if 'voxels' in self.changes:
+                self.plotsfromvox(self, self.changes['voxels'])
+                print 'Added voxels from: ', self.changes['voxels']
+                self.changes.pop('voxels')
+
+            # iteration over items in dictionnary returns tuple: (name, dict)
+            for plot in self.changes.items():
+                plotname = plot[0]
+                plotprops = plot[1]
+                if plotprops['plottype'] == 'default':
+                    print "Default Plot"
+                    corners = (('0', '0'), ('0', '10'),
+                               ('10', '10'), ('10', '0'))
+                    baseheight = '1'
+                    density = '1'
+                    optprop = 'custom'
+                    self.addplot(corners, baseheight, density, optprop)
+                else:
+                    self.addplot(plotprops['corners'], plotprops['baseheight'],
+                                 plotprops['density'], plotprops['optprop'])
+                print 'added plot:', plotname
 
             return
         else:
