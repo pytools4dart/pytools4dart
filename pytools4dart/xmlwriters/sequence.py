@@ -28,7 +28,7 @@ def write_sequence(changetracker, seqname=""):
     """
     phase = DartSequenceXML(changetracker)
     phase.basenodes()
-    phase.addsequence()
+    phase.addsequence(changetracker)
 
     outpath = changetracker[2]
     phase.writexml(outpath + seqname + ".xml")

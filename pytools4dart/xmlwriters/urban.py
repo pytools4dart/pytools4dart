@@ -29,7 +29,7 @@ def write_urban(changetracker):
 
     urban.basenodes()
 
-    urban.adoptchanges()
+    urban.adoptchanges(changetracker)
 
     outpath = changetracker[2]
     urban.writexml(outpath+"urban.xml")
@@ -54,7 +54,7 @@ class DartUrbanXML(object):
         self.changes = changetracker
         return
 
-    def adoptchanges(changetracker, self):
+    def adoptchanges(self, changetracker):
         """method to update xml tree based on user-defined parameters
 
         here goes the magic where we change some nodes based on parameters

@@ -29,7 +29,7 @@ def write_trees(changetracker):
 
     trees.basenodes()
 
-    trees.adoptchanges()
+    trees.adoptchanges(changetracker)
 
     outpath = changetracker[2]
     trees.writexml(outpath+"trees.xml")
@@ -54,7 +54,7 @@ class DartTreesXML(object):
         self.changes = changetracker
         return
 
-    def adoptchanges(changetracker, self):
+    def adoptchanges(self, changetracker):
         """method to update xml tree based on user-defined parameters
 
         here goes the magic where we change some nodes based on parameters

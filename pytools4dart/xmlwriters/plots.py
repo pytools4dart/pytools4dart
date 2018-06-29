@@ -16,7 +16,7 @@ except ImportError:
 from voxReader import voxel
 
 
-def write_plots(changetracker, outpath, vox=None):
+def write_plots(changetracker, vox=None):
     """write phase xml file
 
     proceed in the following manner:
@@ -33,10 +33,9 @@ def write_plots(changetracker, outpath, vox=None):
     print "Initialized"
     plots.basenodes()
     print "basenoded"
-    plots.plotsfromvox(vox)
-    print "added voxels!!!"
-    #  phase.adoptchanges()
+    plots.adoptchanges(changetracker)
 
+    outpath = changetracker[2]
     plots.writexml(outpath+"test_plots.xml")
     print " written"
     return
@@ -160,10 +159,14 @@ class DartPlotsXML(object):
         Complete path to node to be modified will have to be explicitly written
         in this way: './Phase/DartInputParameters/SpectralDomainTir'
         for the query to work.
+
+        Work In Progress : Relies on changetracker architecture
         """
 
         if "phase" in changetracker[0]:
             self.changes = changetracker[1]["phase"]
+            if "voxels" in changetracker[1]["phase"]:
+                self.plotsfromvox(self, changetracker[99999])
             for node in self.changes:
                 print "Modifying: ", node
                 self.root.find(node)

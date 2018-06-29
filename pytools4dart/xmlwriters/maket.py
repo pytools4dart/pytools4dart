@@ -15,7 +15,7 @@ except ImportError:
     import xml.etree.ElementTree as etree
 
 
-def write_maket(changetracker, outpath):
+def write_maket(changetracker):
     """write coeff_diff xml fil
 
     proceed in the following manner :
@@ -27,7 +27,7 @@ def write_maket(changetracker, outpath):
     """
     maket = DartMaketXML(changetracker)
     maket.basenodes()
-    maket.adoptchanges()
+    maket.adoptchanges(changetracker)
 
     outpath = changetracker[2]
     maket.writexml(outpath+"maket.xml")
@@ -52,7 +52,7 @@ class DartMaketXML(object):
         self.changes = changetracker
         return
 
-    def adoptchanges(changetracker, self):
+    def adoptchanges(self, changetracker):
         """method to update xml tree based on user-defined parameters
 
         here goes the magic where we change some nodes based on parameters

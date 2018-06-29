@@ -27,7 +27,7 @@ def write_coeff_diff(changetracker):
     """
     coeff = DartCoefXML(changetracker)
     coeff.basenodes()
-    coeff.adoptchanges()
+    coeff.adoptchanges(changetracker)
 
     outpath = changetracker[2]
     coeff.writexml(outpath+"coeff_diff.xml")
@@ -54,7 +54,7 @@ class DartCoefXML(object):
         self.changes = changetracker
         return
 
-    def adoptchanges(changetracker, self):
+    def adoptchanges(self, changetracker):
         """method to update xml tree based on user-defined parameters
 
         here goes the magic where we change some nodes based on parameters

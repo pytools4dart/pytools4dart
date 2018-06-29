@@ -29,7 +29,7 @@ def write_object_3d(changetracker):
 
     object_3d.basenodes()
 
-    object_3d.adoptchanges()
+    object_3d.adoptchanges(changetracker)
 
     outpath = changetracker[2]
     object_3d.writexml(outpath+"object_3d.xml")
@@ -53,7 +53,7 @@ class DartObject3dXML(object):
         self.changes = changetracker
         return
 
-    def adoptchanges(changetracker, self):
+    def adoptchanges(self, changetracker):
         """method to update xml tree based on user-defined parameters
 
         here goes the magic where we change some nodes based on parameters

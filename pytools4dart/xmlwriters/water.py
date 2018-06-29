@@ -29,7 +29,7 @@ def write_water(changetracker):
 
     water.basenodes()
 
-    water.adoptchanges()
+    water.adoptchanges(changetracker)
 
     outpath = changetracker[2]
     water.writexml(outpath+"water.xml")
@@ -54,7 +54,7 @@ class DartWaterXML(object):
         self.changes = changetracker
         return
 
-    def adoptchanges(changetracker, self):
+    def adoptchanges(self, changetracker):
         """method to update xml tree based on user-defined parameters
 
         here goes the magic where we change some nodes based on parameters

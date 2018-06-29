@@ -15,7 +15,7 @@ except ImportError:
     import xml.etree.ElementTree as etree
 
 
-def write_phase(simutype, changetracker, outpath):
+def write_phase(changetracker):
     """write phase xml fil
 
     proceed in the following manner :
@@ -26,6 +26,7 @@ def write_phase(simutype, changetracker, outpath):
         -output file to xml
 
     """
+    simutype = changetracker[3]
     if simutype == "lidar":
         phase = LidarPhaseXML(changetracker)
     elif simutype == "flux":
@@ -35,8 +36,9 @@ def write_phase(simutype, changetracker, outpath):
     phase.basenodes()
 
     phase.specnodes()
-    # phase.adoptchanges()
+    phase.adoptchanges(changetracker)
 
+    outpath = changetracker[2]
     phase.writexml(outpath+"phase.xml")
     return
 
@@ -60,7 +62,7 @@ class DartPhaseXML(object):
         self.changes = changetracker
         return
 
-    def adoptchanges(changetracker, self):
+    def adoptchanges(self, changetracker):
         """method to update xml tree based on user-defined parameters
 
         here goes the magic where we change some nodes based on parameters

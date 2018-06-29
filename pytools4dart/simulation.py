@@ -7,45 +7,69 @@ Created on Fri Jun  1 14:15:03 2018
 
 This module contains the class "simulation".
 This class allows for the storing of all of data relevant to the simulation.
-It can be either created by one of the functions of the UFPD (UserFriendlyPytoolsforDart),
+It can be either created by one of the functions of the UFPD
+(UserFriendlyPytoolsforDart),
 or interactively in code lines.
 
 The purpose of this module is not to produce the Dart xml input files.
-It acts as a buffer between the "raw" parameter related information, and the 
+It acts as a buffer between the "raw" parameter related information, and the
 xml editing functions.
 """
+import xmlwriters as dxml
+
 
 class simulation(object):
     """Simulation object allowing for the storing and editing of all the parameters
-    
-    
-    
+
+
+
     """
-    
-    
-    def __init__(self):
+
+    def __init__(self, outpath):
         """initialisation
-        
+
         """
-        self.changetracker=[]
-        
-    def addparameterX(param,self):
+        self.changetracker = [[], {}, outpath, "flux"]
+
+    def addparameterX(self, param):
         """interactively add a parameter
-        
+
         """
-        self.param=param
+        self.param = param
         return
-    
-    def listmodifications():
+
+    def listmodifications(self):
         """returns record of modifications to simulation
-        
+
         """
         return
-    
+
+    def write_xmls(self):
+        """writes the xmls
+        """
+
+        dxml.write_atmosphere(self.changetracker)
+        dxml.write_coeff_diff(self.changetracker)
+        dxml.write_directions(self.changetracker)
+        dxml.write_inversion(self.changetracker)
+        dxml.write_maket(self.changetracker)
+        dxml.write_object_3d(self.changetracker)
+        dxml.write_phase(self.changetracker)
+        dxml.write_plots(self.changetracker)
+        # dxml.write_sequence(self.changetracker)
+        dxml.write_trees(self.changetracker)
+        dxml.write_urban(self.changetracker)
+        dxml.write_water(self.changetracker)
+        return
+
     def launch(self):
         """launch the simulation with set parameters
-        
+
         """
-    
+
         return
-###################################zone de tests
+
+
+# ##################################zone de tests
+pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/check/')
+pof.write_xmls()
