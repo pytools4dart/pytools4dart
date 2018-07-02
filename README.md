@@ -18,7 +18,7 @@ It is structured in the following way l. 32 of simulation.py:
 >self.changetracker = [[], {}, outpath]
 
 Changetracker contains first a list of all modules that will have to be
-updated, then a dictionnary of dictionnaries accessed in the following way : 
+updated, then a dictionnary of dictionnaries accessed in the following way: 
 
 >self.changetracker[1]['plots'][parameter] = paramvalue
 

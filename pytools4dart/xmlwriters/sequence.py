@@ -16,7 +16,7 @@ except ImportError:
     import xml.etree.ElementTree as etree
 
 
-def write_sequence(changetracker, seqname=""):
+def write_sequence(changetracker):
     """write coeff_diff xml fil
 
     proceed in the following manner :
@@ -26,13 +26,16 @@ def write_sequence(changetracker, seqname=""):
         -output file to xml
 
     """
-    phase = DartSequenceXML(changetracker)
-    phase.basenodes()
-    phase.addsequence(changetracker)
-
-    outpath = changetracker[2]
-    phase.writexml(outpath + seqname + ".xml")
-    return
+    if "sequence" in changetracker[0]:
+        seqname = changetracker[1]['sequencename']
+        seq = DartSequenceXML(changetracker[1]['sequence'], seqname)
+        seq.basenodes()
+        seq.addsequence()
+        outpath = changetracker[2]
+        seq.writexml(outpath + seqname + ".xml")
+        return
+    else:
+        return
 
 
 class DartSequenceXML(object):
@@ -46,13 +49,13 @@ class DartSequenceXML(object):
 
     """
 
-    def __init__(self, changetracker):
+    def __init__(self, changetracker, seqname):
         """
         the name of the sequence goes here!
 
         The group name may or may not correspond to the sequence name
         """
-        seqname = changetracker[100000]
+        self.seqname = seqname
         dir_atr = {'sequenceName': 'sequence;;' + seqname}
         self.root = etree.Element("DartSequencerDescriptor", dir_atr)
         self.tree = etree.ElementTree(self.root)
@@ -111,45 +114,69 @@ class DartSequenceXML(object):
 
         etree.SubElement(self.root, 'DartSequencerPreferences', pref_atr)
         etree.SubElement(self.root, 'DartLutPreferences', lutpref_atr)
+        etree.SubElement(self.root, 'DartSequencerDescriptorEntries')
 
         # DartSequenceDescriptorGroup branch
         return
 
-    def addsequence(changetracker, self):
-        """method to update xml tree based on user-defined parameters
+    def addsequence(self):
+        """
 
-        here goes the magic where we change some nodes based on parameters
-        it would maybe be something like this :
-           - for some values, just append them somewhere
-           - for the others, find them in the tree and modify them (tricky bit)
+        the sequence options are organised in this way :
+            changetracker[1]['sequence'] is a list
+
 
         Complete path to node to be modified will have to be explicitly written
         in this way : './Phase/DartInputParameters/SpectralDomainTir'
         for the query to work.
 
+        example of args :
+        args  = "base value; step size; number of steps"
+        <DartSequencerDescriptorGroup groupName="group1">
+
+            <DartSequencerDescriptorEntry args="400;50;3"
+                propertyName="Phase.DartInputParameters.SpectralIntervals.
+                        SpectralIntervalsProperties.meanLambda" type="linear"/>
+
+            <DartSequencerDescriptorEntry args="10;5;3"
+                propertyName="Phase.DartInputParameters.SpectralIntervals.
+                    SpectralIntervalsProperties.deltaLambda" type="linear"/>
+
+            <DartSequencerDescriptorGroup groupName="group2">
+                <DartSequencerDescriptorEntry args="0;60;2"
+                    propertyName="Directions.SunViewingAngles.dayOfTheYear"
+                    type="linear"/>
+
+        WARNING : Sequence increments together parameters in the same group,
+        and combines those in different groups:
+            the above parameters give the following values for :
+                SpectralIntervals ; deltaLambda ; dayOfTheYear
+                400;10;0
+                400;10;60
+                450;15;0
+                450;15;60
+                500;20;0
+                500;20;60
+
         """
 
-        if "sequence" in changetracker[0]:
-            self.changes = changetracker[1]["sequence"]
-            for props in self.changes:
+        for groupname in self.changes:
+            print "Adding:", groupname, "to sequence"
+            entries = self.root.find('./DartSequencerDescriptorEntries')
+            grp = etree.SubElement(entries,
+                                   'DartSequencerDescriptorGroup',
+                                   {'groupName': groupname})
 
-                print "Adding : ", props[0]
-                groupname = props[0]
-                entries = self.root.find('./DartSequencerDescriptorEntries')
-                grp = etree.SubElement(entries,
-                                       'DartSequencerDescriptorGroup',
-                                       {'groupName': groupname})
+            for param, values in self.changes[groupname].iteritems():
+                    seqarg = {'propertyName': param,
+                              'args': str(values[0])
+                              + ';' + str(values[1])
+                              + ';' + str(values[2]),
+                              'type': 'linear'}
+                    etree.SubElement(grp, 'DartSequencerDescriptorEntry',
+                                     seqarg)
+        return
 
-                seqarg = {'propertyName': 'Phase.DartInputParameters.'      \
-                          'SpectralIntervals.SpectralIntervalsProperties.'  \
-                          'meanLambda',
-                          'args': '400;50;3',
-                          'type': 'linear'}
-                seqarg = props[1]
-                etree.SubElement(grp, 'DartSequencerDescriptorEntry', seqarg)
-            return
-        else:
-            return
 
     def writexml(self, outpath):
         """ Writes the built tree to the specified path

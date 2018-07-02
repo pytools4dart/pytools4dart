@@ -19,7 +19,7 @@ import xmlwriters as dxml
 
 
 class simulation(object):
-    """Simulation object allowing for the storing and editing of all the parameters
+    """Simulation object allowing for storing and editing of all the parameters
 
 
 
@@ -48,6 +48,8 @@ class simulation(object):
         covering 10 by 10 meters (perspective to change it to cover the whole
         scene). If no optical property is specified, a "custom" one is assigned
         vegetation - leaf deciduous.
+        This optical property if initialized by default in
+        coeff_diff.addvegetation()
         """
         if not ident:
             ident = self.plotsnumber
@@ -63,6 +65,31 @@ class simulation(object):
             'baseheight': baseheight, 'density': density}
         self.plotsnumber += 1
 
+        return
+
+    def addsequence(self, parargs, group='default', name='sequence'):
+        """add a sequence xml file with given parameters
+
+        parargs must be a dictionnary structured in this way :
+            parargs = { 'parameter1' : basevalue, stepvalue, numberofsteps}
+        """
+        try:
+            parargs.keys()
+        except TypeError:
+            print 'sequence input must be a dictionnary = {parameters:args}'
+
+        if 'sequence' not in self.changetracker[0]:
+            self.changetracker[0].append('sequence')
+            self.changetracker[1]['sequence'] = {}
+
+        for param, args in parargs.iteritems():
+            print 'key=', param
+            print 'values=', args
+            if group not in self.changetracker[1]['sequence']:
+                self.changetracker[1]['sequence'][group] = {}
+
+            self.changetracker[1]['sequence'][group][param] = args
+        self.changetracker[1]['sequencename'] = name
         return
 
     def setscene():
@@ -89,7 +116,7 @@ class simulation(object):
         dxml.write_object_3d(self.changetracker)
         dxml.write_phase(self.changetracker)
         dxml.write_plots(self.changetracker)
-        # dxml.write_sequence(self.changetracker)
+        dxml.write_sequence(self.changetracker)
         dxml.write_trees(self.changetracker)
         dxml.write_urban(self.changetracker)
         dxml.write_water(self.changetracker)
@@ -104,6 +131,9 @@ class simulation(object):
 
 
 # ##################################zone de tests
-pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/check/')
-pof.addplot()
-pof.write_xmls()
+if __name__ == '__main__':
+    pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
+                     'essai_sequence/input')
+    pof.addplot()
+    pof.addsequence({'hello': (1, 2, 3)})
+    pof.write_xmls()
