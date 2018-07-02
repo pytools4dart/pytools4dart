@@ -173,21 +173,25 @@ class DartPlotsXML(object):
                 self.changes.pop('voxels')
 
             # iteration over items in dictionnary returns tuple: (name, dict)
-            for plot in self.changes.items():
-                plotname = plot[0]
-                plotprops = plot[1]
-                if plotprops['plottype'] == 'default':
-                    print "Default Plot"
-                    corners = (('0', '0'), ('0', '10'),
-                               ('10', '10'), ('10', '0'))
-                    baseheight = '1'
-                    density = '1'
-                    optprop = 'custom'
-                    self.addplot(corners, baseheight, density, optprop)
-                else:
-                    self.addplot(plotprops['corners'], plotprops['baseheight'],
-                                 plotprops['density'], plotprops['optprop'])
-                print 'added plot:', plotname
+            if len(self.changes) > 0:
+
+                for plot in self.changes.items():
+                    plotname = plot[0]
+                    plotprops = plot[1]
+                    if plotprops['plottype'] == 'default':
+                        print "Default Plot"
+                        corners = (('0', '0'), ('0', '10'),
+                                   ('10', '10'), ('10', '0'))
+                        baseheight = '1'
+                        density = '1'
+                        optprop = 'custom'
+                        self.addplot(corners, baseheight, density, optprop)
+                    else:
+                        self.addplot(plotprops['corners'],
+                                     plotprops['baseheight'],
+                                     plotprops['density'],
+                                     plotprops['optprop'])
+                    print 'added plot:', plotname
 
             return
         else:
@@ -209,19 +213,21 @@ class DartPlotsXML(object):
 
 # to be expanded.....
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # ZONE DE TESTS
-"""
-import time
-start = time.time()
-print("very very short - 10 voxels")
+# THOSE TESTS ARE BROKEN. I4M SERIOUS.
+# In order for them to work need of rewriting the arguments with
+# "changetracker" syntax.
+# import time
+# start = time.time()
+# print("very very short - 10 voxels")
+#
+# outpath = "/media/mtd/stock/boulot_sur_dart/temp/"
+# vox = "/home/mtd/Desktop/testplots/Extended_modR_fus3_veryveryshort.vox"
+# write_plots([], outpath, vox)
+# end = time.time()
+# print(end - start)
+# print("")
+# print("")
 
-outpath = "/media/mtd/stock/boulot_sur_dart/temp/"
-vox = "/home/mtd/Desktop/testplots/Extended_modR_fus3_veryveryshort.vox"
-write_plots([], outpath, vox)
-end = time.time()
-print(end - start)
-print("")
-print("")
-"""
 # start = time.time()
 # print("very short - 1000 voxels")
 #

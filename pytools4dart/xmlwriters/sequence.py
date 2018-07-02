@@ -9,6 +9,8 @@ Objects and functions necessary to write the sequence xml file.
 It is important to note the resulting xml file is written over a single line.
 NB : The DartFile node (root node) differs from the one from all the other xml.
 
+TODO : add a loop for sequence name in order to produce all relevant file.
+(but first think if it is really useful...)
 """
 try:
     import xml.etree.cElementTree as etree

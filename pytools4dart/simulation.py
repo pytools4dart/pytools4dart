@@ -92,6 +92,15 @@ class simulation(object):
         self.changetracker[1]['sequencename'] = name
         return
 
+    def maketfromvox(path, self):
+        ''' registers path to a .vox file to use as a maket
+        '''
+        if 'plots' not in self.changetracker[0]:
+            self.changetracker[0].append('plots')
+            self.changetracker[1]['plots'] = {}
+        self.changetracker[1]['plots']['voxels'] = path
+        return
+
     def setscene():
         return
 
