@@ -31,7 +31,8 @@ class simulation(object):
         """
         self.changetracker = [[], {}, outpath, "flux"]
         self.plotsnumber = 0
-        self.optsprops = {'prop1': 'Lambertian_Phase_Function_1'}
+        self.optsprops = {'prop1': 'Lambertian_Phase_Function_1',
+                          'prop2' : 'custom'}
 
     def addparameterX(self, param):
         """interactively add a parameter
@@ -107,6 +108,7 @@ class simulation(object):
     def listmodifications(self):
         """returns record of modifications to simulation
 
+        TODO
         """
         return
 

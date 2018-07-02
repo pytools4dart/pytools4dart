@@ -7,6 +7,9 @@ Created on Fri Jun  1 14:15:03 2018
 
 Objects and functions necessary to write the coeff_diff xml file.
 It is important to note the resulting xml file is written over a single line.
+TODO :
+    Add a vegetation optical property
+    Add optical property from db
 
 """
 try:
@@ -59,14 +62,11 @@ class DartCoefXML(object):
         """method to update xml tree based on user-defined parameters
 
         here goes the magic where we change some nodes based on parameters
-        it would maybe be something like this :
-           - for some values, just append them somewhere
-           - for the others, find them in the tree and modify them (tricky bit)
 
         Complete path to node to be modified will have to be explicitly written
         in this way : './Phase/DartInputParameters/SpectralDomainTir'
         for the query to work.
-
+        TODO.
         """
 
         if "phase" in changetracker[0]:
@@ -148,12 +148,13 @@ class DartCoefXML(object):
         etree.SubElement(veg, 'DirectionalClumpingIndexProperties', clump_atr)
 
         prospect_atr = {'useProspectExternalModule': '0', 'isFluorescent': '0'}
-        etree.SubElement(veg, 'ProspectExternalModule', prospect_atr)
         multilutnode_atr = {'useSameFactorForAllBands': '1',
                             'adaxialReflectanceFactor': '1.0',
                             'useSameOpticalFactorMatrixForAllBands': '0',
                             'abaxialReflectanceFactor': '1.0',
                             'LeafTransmittanceFactor': '1.0'}
+
+        etree.SubElement(veg, 'ProspectExternalModule', prospect_atr)
         multilut = etree.SubElement(veg,
                                     'understoryNodeMultiplicativeFactorForLUT',
                                     multilutnode_atr)

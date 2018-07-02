@@ -7,7 +7,7 @@ Created on Fri Jun  1 14:15:03 2018
 
 Objects and functions necessary to write the maket xml file.
 It is important to note the resulting xml file is written over a single line.
-
+TODO : easier maket possibilities
 """
 try:
     import xml.etree.cElementTree as etree
