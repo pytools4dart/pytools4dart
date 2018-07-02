@@ -14,10 +14,10 @@ changetracker is a variable of the "simulation" object. It allows to save the
 user defined parameters in order for them to be written by the wmlwriters
 functions. 
 It is structured in the following way l. 32 of simulation.py: 
-'self.changetracker = [[], {}, outpath]'
+>self.changetracker = [[], {}, outpath]'
 Changetracker contains first a list of all modules that will have to be
 updated, then a dictionnary of dictionnaries accessed in the following way : 
-'self.changetracker[1]['plots'][parameter] = paramvalue'
+>self.changetracker[1]['plots'][parameter] = paramvalue
 Thereby all parameters relevant to a particular xml file can be accessed 
 through the dictionnary with the same name.
 
