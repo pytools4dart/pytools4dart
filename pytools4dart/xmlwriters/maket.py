@@ -67,7 +67,7 @@ class DartMaketXML(object):
         """
 
         if "maket" in changetracker[0]:
-            self.changes = changetracker[1]["atmosphere"]
+            self.changes = changetracker[1]["maket"]
             for node in self.changes:
                 print "Modifying : ", node
                 self.root.find(node)

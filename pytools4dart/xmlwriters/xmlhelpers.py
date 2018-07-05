@@ -13,13 +13,22 @@ etree objects and xml files.
 
 import os
 import sys
-
+import xmlschema
 try:
     import xml.etree.cElementTree as etree
     print ("imported cetree")
 except ImportError:
     print ("oups!, importing pytetree")
     import xml.etree.ElementTree as etree
+
+
+def valxmlxsd(filename_xml, filename_xsd):
+    """ validates xml base on xsd file
+    """
+    my_schema = xmlschema.XMLSchema(filename_xsd)
+    my_schema.validate(filename_xml)
+
+    return
 
 
 def validatexml(filename_xml, filename_xsd):
@@ -158,12 +167,15 @@ def get_all_structures(pathin, pathout=None):
 
 
 # XML validation
-# inpath = "/media/mtd/stock/boulot_sur_dart/temp/"
-# xsd = "/media/mtd/stock/boulot_sur_dart/XSDs/schemaXml/"
-#
-# fichier = "phase"
-# validatexml(inpath+fichier+".xml", xsd+fichier+".xsd")
+inpath = '/media/mtd/stock/boulot_sur_dart/temp/essai_sequence/'
+xsd = "/media/mtd/stock/boulot_sur_dart/XSDs/schemaXml/"
 
+fichier = "inputphase"
+valxmlxsd('/media/mtd/stock/DART/user_data/simulations/empty/input/'
+          + 'phase'+".xml", xsd+'phase'+".xsd")
+print "ah?"
+valxmlxsd(inpath+fichier+".xml", xsd+'phase'+".xsd")
+"""
 # Get structure of a single xml file
 pathin = "/media/mtd/stock/DART/user_data/simulations/empty/input/"
 otherpath = "/media/mtd/stock/boulot_sur_dart/temp/"
@@ -174,7 +186,7 @@ tree = etree.parse(a)
 root = tree.getroot()
 
 get_children(root, True)
-
+"""
 # print 'And now, for something completely different'
 
 

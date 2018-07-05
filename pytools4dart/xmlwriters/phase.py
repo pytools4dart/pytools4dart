@@ -120,10 +120,11 @@ class DartPhaseXML(object):
 
         # base nodes
         # # simple
-        etree.SubElement(self.root, "ExpertModeZone", expmode_dflt)
         etree.SubElement(self.root, "AtmosphereRadiativeTransfer",
                          {"TOAtoBOA": "0"})
         # # parentnodes
+        etree.SubElement(self.root, "ExpertModeZone", expmode_dflt)
+
         dartinputparameters = etree.SubElement(self.root,
                                                "DartInputParameters")
         dartproduct = etree.SubElement(self.root, "DartProduct")

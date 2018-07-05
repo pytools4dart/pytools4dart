@@ -13,8 +13,6 @@ try:
 except ImportError:
     import xml.etree.ElementTree as etree
 
-from voxReader import voxel
-
 
 def write_plots(changetracker, vox=None):
     """write phase xml file
@@ -113,36 +111,15 @@ class DartPlotsXML(object):
         etree.SubElement(vegprops, "GroundThermalPropertyLink", grdthermalprop)
         return
 
-    def plotsfromvox(self, path):
-        """Adds Plots based on AMAP vox file.
-
-        Based on code from Claudia, Florian and Dav.
-        Needs "voxreader". Most complicated function being: intersect,
-        that is needed in Dav's project to get the optical properties of the
-        voxels depending on another file.
+    def plotsfrompanda(self, pandaplots):
+        """adds plots in elementree from a pandaDataFrame
         """
-
-        vox = voxel.from_vox(path)
-
-        res = vox.header["res"][0]
-        i = 0
-        for index, row in vox.data.iterrows():
-            i += 1
-            i = row.i  # voxel x
-            j = row.j  # voxel y
-            k = row.k  # voxel z
-            optPropName = "test_" + str(i)
-            LAI = str(row.PadBVTotal)  # voxel LAI(PadBTotal en negatif)
-
-            corners = (((i * res), (j * res)),
-                       ((i + 1 * res), (j * res)),
-                       (((i + 1) * res), ((j + 1) * res)),
-                       ((i * res), ((j + 1) * res)))
-
-            height = res
-            baseheight = str(k * height)  # voxel height
-
-            self.addplot(corners, baseheight, LAI, optPropName)
+        for index, row in pandaplots.iterrows():
+            corners = row[0]
+            baseheight = row[1]
+            density = row[2]
+            optprop = row[3]
+            self.addplot(corners, baseheight, density, optprop)
         return
 
     def adoptchanges(self, changetracker):
@@ -168,33 +145,8 @@ class DartPlotsXML(object):
         if 'plots' in changetracker[0]:
             self.changes = changetracker[1]['plots']
             if 'voxels' in self.changes:
-                self.plotsfromvox(self, self.changes['voxels'])
-                print 'Added voxels from: ', self.changes['voxels']
+                self.plotsfrompanda(self, self.changes['voxels'])
                 self.changes.pop('voxels')
-
-            # iteration over items in dictionnary returns tuple: (name, dict)
-            if len(self.changes) > 0:
-
-                for plot in self.changes.items():
-                    plotname = plot[0]
-                    plotprops = plot[1]
-                    if plotprops['plottype'] == 'default':
-                        print "Default Plot"
-                        corners = (('0', '0'), ('0', '10'),
-                                   ('10', '10'), ('10', '0'))
-                        baseheight = '1'
-                        density = '1'
-                        optprop = 'custom'
-                        self.addplot(corners, baseheight, density, optprop)
-                    else:
-                        self.addplot(plotprops['corners'],
-                                     plotprops['baseheight'],
-                                     plotprops['density'],
-                                     plotprops['optprop'])
-                    print 'added plot:', plotname
-
-            return
-        else:
             return
 
     def writexml(self, outpath):
