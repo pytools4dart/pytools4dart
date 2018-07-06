@@ -13,7 +13,7 @@ try:
     import xml.etree.cElementTree as etree
 except ImportError:
     import xml.etree.ElementTree as etree
-
+from shutil import copyfile
 
 def write_maket(changetracker):
     """write coeff_diff xml fil
@@ -23,14 +23,20 @@ def write_maket(changetracker):
         -set default nodes
         -mutate depending on changetracker
         -output file to xml
-
+    TODO : Function to be put in common between all wmlwriters?
     """
-    maket = DartMaketXML(changetracker)
-    maket.basenodes()
-    maket.adoptchanges(changetracker)
-
     outpath = changetracker[2]
-    maket.writexml(outpath+"maket.xml")
+
+    if 'usefile' in changetracker[1]:
+        if 'maket' in changetracker['usefile']:
+            copyfile(changetracker['usefile']['maket'], outpath)
+
+    else:
+        maket = DartMaketXML(changetracker)
+        maket.basenodes()
+        maket.adoptchanges(changetracker)
+
+        maket.writexml(outpath+"maket.xml")
     return
 
 
