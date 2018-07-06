@@ -1,10 +1,31 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 """
-Created on Fri Jun  1 14:15:03 2018
-
-@author: mtd
-
+===============================================================================
+# PROGRAMMERS:
+#
+# Eric Chraibi <eric.chraibi@irstea.fr>  -
+https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
+#
+# Copyright 2018 Eric Chraibi
+#
+# This file is part of the pytools4dart package.
+#
+# pytools4dart is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+#
+#
+===============================================================================
 This module contains the class "simulation".
 This class allows for the storing of all of data relevant to the simulation.
 It can be either created by one of the functions of the UFPD
@@ -107,6 +128,18 @@ class simulation(object):
         self.scene = scene
         return
 
+    def setoptplots(self, opt):
+        """sets the optical property of the plots
+
+        TODO : modify and add options : superior plots...
+        """
+        if not self.plots:
+            print "There are no plots in this simulation"
+            return
+        else:
+            self.plots['optprop'] = opt
+        return
+
     def plotsfromvox(self, path):
         """Adds Plots based on AMAP vox file.
 
@@ -187,7 +220,17 @@ class simulation(object):
 
         return
 
+    def pickupfile(self, path):
+        """uses a previously defined .xml dart file
+        """
+        dartfile = os.path.splitext(os.path.basename(path))
+        self.changetracker[1]['usefile'][dartfile] = path
+        return
 
+    def getsfileparams(self, path):
+        """gets the parameters of
+        """
+        return
 # ##################################zone de tests
 if __name__ == '__main__':
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
