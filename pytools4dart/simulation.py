@@ -36,9 +36,12 @@ The purpose of this module is not to produce the Dart xml input files.
 It acts as a buffer between the "raw" parameter related information, and the
 xml editing functions.
 """
+
+import os
+import pandas as pd
+# local imports
 import xmlwriters as dxml
 from voxReader import voxel
-import pandas as pd
 
 
 class simulation(object):
@@ -53,6 +56,8 @@ class simulation(object):
 
         self.plots is supposed to be a pandaDataFrame that can be modified by
         the user.
+        WARNING : For now, 'flux' ( changetracker[3]) is hardcoded in the
+        simulation object. It will have to be flexible depending on input.
 
         """
         self.changetracker = [[], {}, outpath, "flux"]
@@ -63,9 +68,30 @@ class simulation(object):
         self.scene = [10, 10]
 
     def _registerchange(self, param):
+        """updates changetracker 0 and creates dictionnaries on the fly
+        """
         if param not in self.changetracker[0]:
             self.changetracker[0].append(param)
             self.changetracker[1][param] = {}
+        return
+
+    def addband(self, invar):
+        """add spectral band to simulation sensor
+
+        Possibility to add a band either from a HDR file, txt file, list
+        or dictionnary: central band, width
+        """
+        self._registerchange('phase')
+        if os.path.isfile(invar):
+            if invar.endswith('.hdr'):
+                print 'hey'
+            else:
+                print 'ho'
+        else:
+            try:
+                print 'stuff'
+            except TypeError:
+                print "Hey man, you sure your variable's correct?"
         return
 
     def addsingleplot(self, corners=None, baseheight=1, density=1,
@@ -128,7 +154,7 @@ class simulation(object):
         self.scene = scene
         return
 
-    def setoptplots(self, opt):
+    def setoptplots(self, opt, mode=None):
         """sets the optical property of the plots
 
         TODO : modify and add options : superior plots...
@@ -148,6 +174,7 @@ class simulation(object):
         that is needed in Dav's project to get the optical properties of the
         voxels depending on another file.
         For now redundant : panda from panda..
+        TODO : simplification, for now a pd is read into another pd
         """
         self._registerchange('plots')
         self.changetracker[1]['plots']['voxels'] = True
@@ -163,10 +190,10 @@ class simulation(object):
             optPropName = None
             LAI = str(row.PadBVTotal)  # voxel LAI(PadBTotal en negatif)
 
-            corners = (((i * res), (j * res)),
-                       ((i + 1 * res), (j * res)),
-                       (((i + 1) * res), ((j + 1) * res)),
-                       ((i * res), ((j + 1) * res)))
+            corners = (((i * res),          (j * res)),
+                       ((i + 1 * res),      (j * res)),
+                       (((i + 1) * res),    ((j + 1) * res)),
+                       ((i * res),          ((j + 1) * res)))
 
             height = res
             baseheight = str(k * height)  # voxel height
@@ -184,7 +211,7 @@ class simulation(object):
     def listmodifications(self):
         """returns record of modifications to simulation
 
-        TODO
+        TODO : stuff
         """
         print 'Impacted xml files:'
         print self.changetracker[0]
@@ -231,7 +258,9 @@ class simulation(object):
         """gets the parameters of
         """
         return
-# ##################################zone de tests
+
+
+# ##################################test zone
 if __name__ == '__main__':
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
                      'essai_sequence/input')

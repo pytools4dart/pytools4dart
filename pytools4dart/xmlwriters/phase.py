@@ -53,7 +53,7 @@ def write_phase(changetracker):
     elif simutype == "flux":
         phase = FluxPhaseXML(changetracker)
     else:
-        print "what the ?"
+        print "what the ...?"
     phase.basenodes()
 
     phase.specnodes()
@@ -80,10 +80,11 @@ class DartPhaseXML(object):
     def __init__(self, changetracker):
         self.root = etree.Element("Phase")
         self.tree = etree.ElementTree(self.root)
-        self.changes = changetracker
+        self.changes = changetracker[1]['phase']
+        self.specintervals = 0
         return
 
-    def adoptchanges(self, changetracker):
+    def adoptchanges(self):
         """method to update xml tree based on user-defined parameters
 
         here goes the magic where we change some nodes based on parameters
@@ -97,15 +98,27 @@ class DartPhaseXML(object):
 
         """
 
-        if "phase" in changetracker[0]:
-            self.changes = changetracker[1]["phase"]
-            for node in self.changes:
-                print "Modifying : ", node
-                self.root.find(node)
-
-            return
+        if 'bands' in self.changes:
+            for band in self.changes['bands']:
+                self.addspecband(band)
         else:
             return
+
+    def addspecband(self, vals):
+
+        wvlcenter = vals[0]
+        wvlwidth = vals[1]
+        bandnumber = self.specintervals
+
+        band_attrib = {'bandNumber': str(bandnumber),
+                       'meanLambda': str(wvlcenter),
+                       'spectralDartMode': '0',
+                       'deltaLambda': str(wvlwidth)}
+
+        specbands = self.root.find("./DartInputParameters/SpectralIntervals")
+        etree.SubElement(specbands, "SpectralIntervalProperties", band_attrib)
+        self.specintervals += 1
+        return
 
     def basenodes(self):
         """creates all nodes and properties common to default simulations
@@ -156,13 +169,17 @@ class DartPhaseXML(object):
 
         specintervals = etree.SubElement(dartinputparameters,
                                          "SpectralIntervals")
-        etree.SubElement(specintervals, "SpectralIntervalProperties",
-                         specprops_attrib)
 
         # # dartproduct branch
         etree.SubElement(dartproduct, "maketModuleProducts",
                          maketmodule_attrib)
 
+        if not self.changes['bands']:
+            specprops_attrib = {'bandNumber': '0', 'meanLambda': '0.56',
+                                'spectralDartMode': '0', 'deltaLambda': '0.02'}
+            etree.SubElement(specintervals, "SpectralIntervalProperties",
+                             specprops_attrib)
+            self.specintervals += 1
         return
 
     def writexml(self, outpath):
@@ -187,6 +204,7 @@ class LidarPhaseXML(DartPhaseXML):
     def __init__(self, changetracker):
         DartPhaseXML.__init__(self, changetracker)
         self.root.set("calculatorMethod", "2")
+        self.simutype = 'lidar'
         return
 
     def specnodes(self):
@@ -274,6 +292,7 @@ class FluxPhaseXML(DartPhaseXML):
     def __init__(self, changetracker):
         DartPhaseXML.__init__(self, changetracker)
         self.root.set("calculatorMethod", "0")
+        self.simutype = 'flux'
 
         return
 
