@@ -26,7 +26,7 @@ functions.
 It is structured in the following way l. 32 of simulation.py: 
 
 ```python
-self.changetracker = [[], {}, outpath]
+self.changetracker = [[], {}, outpath, simulationtype]
 ```
 
 Changetracker contains first a list of all modules that will have to be
@@ -41,6 +41,8 @@ through the dictionnary with the same name.
 
 The outpath should be to an "input" named folder, placed in a folder where
 the DART "output" folder will be created upon running.
+
+The simulationtype can be either "flux" or "lidar".
 
 ###### Plots management
 
