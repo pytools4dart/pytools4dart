@@ -65,6 +65,7 @@ class simulation(object):
         self.optsprops = {'prop1': 'Lambertian_Phase_Function_1',
                           'prop2': 'custom'}
         self.nbands = 0
+        self.bands = {}
         self.plots = None
         self.scene = [10, 10]
 
@@ -81,18 +82,35 @@ class simulation(object):
 
         Possibility to add a band either from a HDR file, txt file, list
         or dictionnary: central band, width
+        if txt : first wvl center, then fwhm.
+        Possibility to give or not number to bands. They will be kept in a
+        dictionnary with it.
         """
         self._registerchange('phase')
         if os.path.isfile(invar):
             if invar.endswith('.hdr'):
-                print 'hey'
+                # TODO : Get hdr reading func and get bands.
+                print 'reading header'
+
             else:
-                print 'ho'
+                print 'reading text'
+                bands = open(invar, 'r')
+                for line in bands:
+                    band = line.split()
+                    if len(band) == 2:
+                        self.bands[self.nbands] = [band[0], band[1]]
+                        self.nbands += 1
+
+                    elif len(band) == 3:
+                        self.bands[band[0]] = [band[1], band[2]]
+                        self.nbands += 1
+                    else:
+                        print "whot?"
+
+        elif isinstance(invar, (tuple, list, set)):
+            self.bands[self.nbands+1] = invar
         else:
-            try:
-                self.changetracker[1]['phase']
-            except TypeError:
-                print "Hey man, you sure your variable's correct?"
+            print "Hey man, you sure your variable's correct?"
         return
 
     def addsingleplot(self, corners=None, baseheight=1, density=1,
