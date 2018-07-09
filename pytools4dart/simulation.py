@@ -98,7 +98,7 @@ class simulation(object):
                 for line in bands:
                     band = line.split()
                     if len(band) == 2:
-                        self.bands[self.nbands] = [band[0], band[1]]
+                        self.bands[self.nbands+1] = [band[0], band[1]]
                         self.nbands += 1
 
                     elif len(band) == 3:
