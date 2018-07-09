@@ -64,6 +64,7 @@ class simulation(object):
         self.plotsnumber = 0
         self.optsprops = {'prop1': 'Lambertian_Phase_Function_1',
                           'prop2': 'custom'}
+        self.nbands = 0
         self.plots = None
         self.scene = [10, 10]
 
@@ -89,7 +90,7 @@ class simulation(object):
                 print 'ho'
         else:
             try:
-                print 'stuff'
+                self.changetracker[1]['phase']
             except TypeError:
                 print "Hey man, you sure your variable's correct?"
         return
