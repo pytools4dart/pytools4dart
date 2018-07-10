@@ -99,16 +99,21 @@ class DartPhaseXML(object):
         """
 
         if 'bands' in self.changes:
-            for band in self.changes['bands']:
+            for band in self.changes['bands'].iterrows():
                 self.addspecband(band)
         else:
             return
+        return
 
     def addspecband(self, vals):
+        """adds a single spectral band from a panda Serie with explicit index
 
-        wvlcenter = vals[0]
-        wvlwidth = vals[1]
-        bandnumber = self.specintervals
+        it only takes as input a Panda Serie with the index names :
+            bandnumber, centralwvl and fwhm
+        """
+        wvlcenter = vals['centralwvl']
+        wvlwidth = vals['fwhm']
+        bandnumber = vals['bandnumber']
 
         band_attrib = {'bandNumber': str(bandnumber),
                        'meanLambda': str(wvlcenter),

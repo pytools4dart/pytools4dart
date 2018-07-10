@@ -56,8 +56,8 @@ class simulation(object):
 
         self.plots is supposed to be a pandaDataFrame that can be modified by
         the user.
-        WARNING : For now, 'flux' ( changetracker[3]) is hardcoded in the
-        simulation object. It will have to be flexible depending on input.
+        TODO : WARNING : For now, 'flux' ( changetracker[3]) is hardcoded in
+        the simulation object. It will have to be flexible depending on input.
 
         """
         self.changetracker = [[], {}, outpath, "flux"]
@@ -65,8 +65,8 @@ class simulation(object):
         self.optsprops = {'prop1': 'Lambertian_Phase_Function_1',
                           'prop2': 'custom'}
         self.nbands = 0
-        self.bands = {}
-        self.plots = None
+        self.bands = None  # to become a panda DataFrame
+        self.plots = None  # to become a panda DataFrame
         self.scene = [10, 10]
 
     def _registerchange(self, param):
@@ -82,9 +82,8 @@ class simulation(object):
 
         Possibility to add a band either from a HDR file, txt file, list
         or dictionnary: central band, width
-        if txt : first wvl center, then fwhm.
-        Possibility to give or not number to bands. They will be kept in a
-        dictionnary with it.
+        if txt data separate by spaces.
+        bandnumer(optional) wavelengthcenter wavelengthwidth
         """
         self._registerchange('phase')
         if os.path.isfile(invar):
@@ -93,24 +92,39 @@ class simulation(object):
                 print 'reading header'
 
             else:
-                print 'reading text'
-                bands = open(invar, 'r')
-                for line in bands:
-                    band = line.split()
+                try:
+                    # Try to read bands from txt
+                    print 'reading text'
+                    with open(invar) as f:
+                        line = f.readline()
+                        band = line.split()
+
                     if len(band) == 2:
-                        self.bands[self.nbands+1] = [band[0], band[1]]
-                        self.nbands += 1
+                        data = pd.read_csv(invar, sep=" ", header=None)
+                        data.columns = ["centralwvl", "fwhm"]
+                        # in order to add band numbers
+                        lencol = len(data["fwhm"])
+                        data['bandnumber'] = range(0, lencol)
 
                     elif len(band) == 3:
-                        self.bands[band[0]] = [band[1], band[2]]
-                        self.nbands += 1
-                    else:
-                        print "wot?"
+                        data = pd.read_csv(invar, sep=" ", header=None)
+                        data.columns = ["bandnumber", "centralwvl", "fwhm"]
+                except Exception:
+                    print " Trouble reading txt file"
 
-        elif isinstance(invar, (tuple, list, set)):
-            self.bands[self.nbands+1] = invar
         else:
-            print "Hey man, you sure your variable's correct?"
+            try:
+                # Try to read band from a list
+                if len(invar) == 2:
+                    self.bands[self.nbands+1] = [invar[0], invar[1]]
+                    self.nbands += 1
+
+                elif len(invar) == 3:
+                    self.bands[invar[0]] = [invar[1], invar[2]]
+                    self.nbands += 1
+            except Exception:
+                print " u wot m8?"
+                print "Hey man, you sure your variable's correct?"
         return
 
     def addsingleplot(self, corners=None, baseheight=1, density=1,
@@ -244,6 +258,7 @@ class simulation(object):
         then updated with the given changes contained in "changetracker".
         """
         self.changetracker['plots']['voxels'] = self.plots
+        self.changetracker['phase']['bands'] = self.bands
 
         dxml.write_atmosphere(self.changetracker)
         dxml.write_coeff_diff(self.changetracker)
