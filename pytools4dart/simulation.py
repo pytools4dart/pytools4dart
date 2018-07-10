@@ -105,7 +105,7 @@ class simulation(object):
                         self.bands[band[0]] = [band[1], band[2]]
                         self.nbands += 1
                     else:
-                        print "whot?"
+                        print "wot?"
 
         elif isinstance(invar, (tuple, list, set)):
             self.bands[self.nbands+1] = invar
