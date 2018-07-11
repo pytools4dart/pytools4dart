@@ -90,6 +90,8 @@ class simulation(object):
             if invar.endswith('.hdr'):
                 # TODO : Get hdr reading func and get bands.
                 print 'reading header'
+                hdrdic = hdrtodict(invar)
+                for key, values in invar.iteritems():
 
             else:
                 try:
