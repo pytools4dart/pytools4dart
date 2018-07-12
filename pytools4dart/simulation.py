@@ -41,7 +41,8 @@ import os
 import pandas as pd
 # local imports
 import xmlwriters as dxml
-from voxReader import voxel
+from voxreader import voxel
+from hdrtodict import hdrtodict
 
 
 class simulation(object):
@@ -65,8 +66,9 @@ class simulation(object):
         self.optsprops = {'prop1': 'Lambertian_Phase_Function_1',
                           'prop2': 'custom'}
         self.nbands = 0
-        self.bands = None  # to become a panda DataFrame
-        self.plots = None  # to become a panda DataFrame
+        self.bands = pd.DataFrame(columns=['bandnames', 'centralwvl', 'fwhm'])
+        self.plots = pd.DataFrame(columns=['corners', 'baseheight',
+                                           'density', 'optprop'])
         self.scene = [10, 10]
 
     def _registerchange(self, param):
@@ -90,8 +92,12 @@ class simulation(object):
             if invar.endswith('.hdr'):
                 # TODO : Get hdr reading func and get bands.
                 print 'reading header'
-                hdrdic = hdrtodict(invar)
-                for key, values in invar.iteritems():
+                hdr = hdrtodict(invar)
+                bands = dict(zip(hdr['band names'], hdr['wavelength'],
+                                 hdr['fwhm']))
+                data = pd.DataFrame(bands.items)
+                data.columns = ['bandnames', 'centralwvl', 'fwhm']
+                self.bands.append(data)
 
             else:
                 try:
@@ -107,10 +113,12 @@ class simulation(object):
                         # in order to add band numbers
                         lencol = len(data["fwhm"])
                         data['bandnumber'] = range(0, lencol)
+                        self.bands.append(data)
 
                     elif len(band) == 3:
                         data = pd.read_csv(invar, sep=" ", header=None)
                         data.columns = ["bandnumber", "centralwvl", "fwhm"]
+                        self.bands.append(data)
                 except Exception:
                     print " Trouble reading txt file"
 

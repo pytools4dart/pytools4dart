@@ -47,6 +47,9 @@ def hdrtodict(path):
     result = regex.findall(subhdr)
     for item in result:
         composed[item[0]] = item[1]
+    # info for bands :
+    # pof = dict(zip(res['wavelength'],res['fwhm']))
+
     return composed
 
 
@@ -81,7 +84,7 @@ if __name__ == '__main__':
      0.625000}
     '''
     """
-    path = "/media/mtd/stock/boulot_sur_dart/temp/hdr/david.hdr"
+    path = "/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr"
 
     res = hdrtodict(path)
     print type(res)
