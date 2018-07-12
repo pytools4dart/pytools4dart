@@ -49,7 +49,6 @@ class simulation(object):
     """Simulation object allowing for storing and editing of all the parameters
 
 
-
     """
 
     def __init__(self, outpath):
@@ -61,14 +60,17 @@ class simulation(object):
         the simulation object. It will have to be flexible depending on input.
 
         """
+        # Variables to be used in subsequent methods
+        self.PLOTCOLNAMES = ['corners', 'baseheight', 'density', 'optprop']
+        self.BANDSCOLNAMES = ['bandnames', 'centralwvl', 'fwhm']
+
         self.changetracker = [[], {}, outpath, "flux"]
         self.plotsnumber = 0
         self.optsprops = {'prop1': 'Lambertian_Phase_Function_1',
                           'prop2': 'custom'}
         self.nbands = 0
-        self.bands = pd.DataFrame(columns=['bandnames', 'centralwvl', 'fwhm'])
-        self.plots = pd.DataFrame(columns=['corners', 'baseheight',
-                                           'density', 'optprop'])
+        self.bands = pd.DataFrame(columns=self.BANDSCOLNAMES)
+        self.plots = pd.DataFrame(columns=self.PLOTCOLNAMES)
         self.scene = [10, 10]
 
     def _registerchange(self, param):
@@ -90,13 +92,12 @@ class simulation(object):
         self._registerchange('phase')
         if os.path.isfile(invar):
             if invar.endswith('.hdr'):
-                # TODO : Get hdr reading func and get bands.
                 print 'reading header'
                 hdr = hdrtodict(invar)
                 bands = dict(zip(hdr['band names'], hdr['wavelength'],
                                  hdr['fwhm']))
                 data = pd.DataFrame(bands.items)
-                data.columns = ['bandnames', 'centralwvl', 'fwhm']
+                data.columns = self.BANDCOLNAMES
                 self.bands.append(data)
 
             else:
@@ -117,7 +118,7 @@ class simulation(object):
 
                     elif len(band) == 3:
                         data = pd.read_csv(invar, sep=" ", header=None)
-                        data.columns = ["bandnumber", "centralwvl", "fwhm"]
+                        data.columns = self.BANDCOLNAMES
                         self.bands.append(data)
                 except Exception:
                     print " Trouble reading txt file"
@@ -161,7 +162,7 @@ class simulation(object):
                        (0,              self.scene[1]))
 
         data = [corners, baseheight, density, opt]
-        cols = ['corners', 'baseheight', 'density', 'optprop']
+        cols = self.PLOTCOLNAMES
         miniframe = pd.DataFrame(dict(zip(cols, data)))
         self.plots.append(miniframe)
         self.plotsnumber += 1
@@ -177,12 +178,12 @@ class simulation(object):
             parargs.keys()
         except TypeError:
             print 'sequence input must be a dictionnary = {parameters:args}'
-
+            return
         self._registerchange('plots')
 
         for param, args in parargs.iteritems():
-            print 'key=', param
-            print 'values=', args
+            print 'key =', param
+            print 'values =', args
             if group not in self.changetracker[1]['sequence']:
                 self.changetracker[1]['sequence'][group] = {}
 
@@ -192,6 +193,8 @@ class simulation(object):
 
     def setscene(self, scene):
         """change scene dimensions
+
+        TODO : modify affected maket.py functions
         """
         self._registerchange('maket')
         self.scene = scene
@@ -201,6 +204,7 @@ class simulation(object):
         """sets the optical property of the plots
 
         TODO : modify and add options : superior plots...
+        For now sets ALL plots to the same 'opt' optical property
         """
         if not self.plots:
             print "There are no plots in this simulation"
@@ -223,7 +227,6 @@ class simulation(object):
         self.changetracker[1]['plots']['voxels'] = True
         vox = voxel.from_vox(path)
         voxlist = []
-        colnames = ['corners', 'baseheight', 'density', 'optprop']
         res = vox.header["res"][0]
 
         for index, row in vox.data.iterrows():
@@ -241,12 +244,11 @@ class simulation(object):
             height = res
             baseheight = str(k * height)  # voxel height
 
-            voxlist.append(dict(zip(colnames,
+            voxlist.append(dict(zip(self.PLOTCOLNAMES,
                                     [corners, baseheight, LAI, optPropName])))
             self.plotsnumber += 1
 
-        self.plots = \
-            pd.DataFrame(voxlist, columns=colnames)
+        self.plots.append(pd.DataFrame(voxlist, columns=self.PLOTCOLNAMES))
         print ("Plots added from .vox file.")
         print ("Optical properties have to be added in the column 'optprop' ")
         return

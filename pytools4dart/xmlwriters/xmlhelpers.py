@@ -45,6 +45,7 @@ except ImportError:
 
 def valxmlxsd(filename_xml, filename_xsd):
     """ validates xml base on xsd file
+    works if stuff is in good order
     """
     my_schema = xmlschema.XMLSchema(filename_xsd)
     my_schema.validate(filename_xml)
@@ -188,25 +189,27 @@ def get_all_structures(pathin, pathout=None):
 
 
 # XML validation
-inpath = '/media/mtd/stock/boulot_sur_dart/temp/essai_sequence/'
-xsd = "/media/mtd/stock/boulot_sur_dart/XSDs/schemaXml/"
+#inpath = '/media/mtd/stock/boulot_sur_dart/temp/essai_sequence/'
+#xsd = "/media/mtd/stock/boulot_sur_dart/XSDs/schemaXml/"
+#
+#fichier = "inputphase"
+#valxmlxsd('/media/mtd/stock/DART/user_data/simulations/empty/input/'
+#          + 'phase'+".xml", xsd+'phase'+".xsd")
+#print "ah?"
+#valxmlxsd(inpath+fichier+".xml", xsd+'phase'+".xsd")
+#"""
 
-fichier = "inputphase"
-valxmlxsd('/media/mtd/stock/DART/user_data/simulations/empty/input/'
-          + 'phase'+".xml", xsd+'phase'+".xsd")
-print "ah?"
-valxmlxsd(inpath+fichier+".xml", xsd+'phase'+".xsd")
-"""
 # Get structure of a single xml file
-pathin = "/media/mtd/stock/DART/user_data/simulations/empty/input/"
+pathin = "/media/mtd/stock/DART/user_data/simulations/trees/input/"
 otherpath = "/media/mtd/stock/boulot_sur_dart/temp/"
 # pathout="/media/mtd/stock/boulot_sur_dart/temp/empty_strucs(djasimulee)/"
-fichier = "coeff_diff.xml"
+fichier = "trees.xml"
 a = pathin+fichier
 tree = etree.parse(a)
 root = tree.getroot()
 
 get_children(root, True)
+
 """
 # print 'And now, for something completely different'
 
@@ -216,7 +219,7 @@ get_children(root, True)
 # pathout="/media/mtd/stock/boulot_sur_dart/temp/"
 # get_all_structures(pathin)
 
-
+"""
 """
 #https://stackoverflow.com/questions/3605680/creating-a-simple-xml-file-using-python
 

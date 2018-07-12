@@ -3,7 +3,7 @@
 """
 Created on Thu Jul 12 13:28:15 2018
 
-@author: mtd
+@author: Dav Ebengo, Florian de Boissieu
 """
 
 # File.vox is text file containing detail on voxelized scene
