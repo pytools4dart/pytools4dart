@@ -97,7 +97,8 @@ class simulation(object):
         bandnumer(optional) wavelengthcenter wavelengthwidth
         """
         self._registerchange('phase')
-        if os.path.isfile(invar):
+        try:
+            os.path.isfile(invar)
             if invar.endswith('.hdr'):
                 print 'reading header'
                 hdr = hdrtodict(invar)
@@ -129,21 +130,30 @@ class simulation(object):
                         self.bands = self.bands.append(data, ignore_index=True)
                 except Exception:
                     print " Trouble reading txt file"
-
-        else:
+        except TypeError:
             try:
                 # Try to read band from a list
-                if len(invar) == 2:
-                    self.bands[self.nbands+1] = [invar[0], invar[1]]
+                addband = pd.Series(invar)
+                if len(addband) == 2:
+                    addband.name = self.nbands+1
+                    addband.index = self.BANDSCOLNAMES[1:]
+                    self.bands = self.bands.append([addband[0], invar[1]],
+                                                   ignore_index=True)
                     self.nbands += 1
 
-                elif len(invar) == 3:
-                    self.bands[invar[0]] = [invar[1], invar[2]]
+                elif len(addband) == 3:
+                    addband.name = addband[0]
+                    addband.index = self.BANDSCOLNAMES
+                    self.bands = self.bands.append(addband, ignore_index=True)
                     self.nbands += 1
-            except Exception:
-                print " u wot m8?"
-                print "Hey man, you sure your variable's correct?"
-        return
+#                except Exception:
+#                    print " u wot m8?"
+#                    print "Hey man, you sure your variable's correct?"
+                else:
+                    return
+            except TypeError:
+                print "TAMEEEEEEEEEEEEEERE"
+                return
 
     def addsingleplot(self, corners=None, baseheight=1, density=1,
                       opt="custom", ident=None):
