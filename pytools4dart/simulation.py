@@ -137,7 +137,7 @@ class simulation(object):
                 if len(addband) == 2:
                     addband.name = self.nbands+1
                     addband.index = self.BANDSCOLNAMES[1:]
-                    self.bands = self.bands.append([addband[0], invar[1]],
+                    self.bands = self.bands.append(addband,
                                                    ignore_index=True)
                     self.nbands += 1
 
