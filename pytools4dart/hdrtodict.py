@@ -4,7 +4,7 @@
 Created on Wed Jul 11 13:07:08 2018
 
 
-credits to :
+based on:
 https://gis.stackexchange.com/questions/48618/how-to-read-write-envi-metadata-using-gdal
 
 
@@ -14,8 +14,9 @@ https://gis.stackexchange.com/questions/48618/how-to-read-write-envi-metadata-us
 import re
 
 
-def hdrtodict(hdr):
-
+def hdrtodict(path):
+    with open(path, 'r') as myfile:
+            hdr = myfile.read().replace("\r", "")
     try:
         starts_with_ENVI = hdr.startswith('ENVI')
     except UnicodeDecodeError:
@@ -27,18 +28,26 @@ def hdrtodict(hdr):
             return
     hdr = hdr[4:]
     # Get all "key = {val}" type matches
-    # regex = re.compile(r'^(.+?)\s*=\s*\{[\s*.*?\n*.*?]*\]}', re.M | re.I)
-    # regex = re.compile(r'^(.+?)\s*=\s*\{(\s*.*?\n*.*?])*?\}', re.M | re.I)
-    regex = re.compile(r'^(.+?)\s*=(\n)*\s*[{](\n)*\s*(.+?)[(\n)*}(\n)*]', re.M | re.I)
-    matches=regex.findall(hdr)
-    # TODO manque un truc pour réarranger mes tuples
+    regex = re.compile(r'^([\w\s*?]+?)\s*=\s*\n*\s*\{([^\}]*?)\s*\n*\s*}',
+                       re.M | re.I | re.DOTALL)
+
     # Remove them from the header
+    matches = regex.findall(hdr)
+    composed = {}
+    for item in matches:
+        title = item[0].replace('\n', '')
+        params = item[1].replace('\n', '')
+        params = params.split(',')
+        composed[title] = params
+
     subhdr = regex.sub('', hdr)
 
     # Get all "key = val" type matches
     regex = re.compile(r'^(.+?)\s*=\s*(.*?)$', re.M | re.I)
-    matches.extend(regex.findall(subhdr))
-    return dict(matches)
+    result = regex.findall(subhdr)
+    for item in result:
+        composed[item[0]] = item[1]
+    return composed
 
 
 if __name__ == '__main__':
@@ -72,10 +81,8 @@ if __name__ == '__main__':
      0.625000}
     '''
     """
-    path = "/media/mtd/stock/boulot_sur_dart/temp/crop2.hdr"
-    with open(path, 'r') as myfile:
-        hdr = myfile.read().replace("\r","")
-    print hdr
-    res = hdrtodict(hdr)
+    path = "/media/mtd/stock/boulot_sur_dart/temp/hdr/david.hdr"
+
+    res = hdrtodict(path)
     print type(res)
-    print res.keys()
+    print res
