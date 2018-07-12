@@ -73,6 +73,13 @@ class simulation(object):
         self.plots = pd.DataFrame(columns=self.PLOTCOLNAMES)
         self.scene = [10, 10]
 
+    def __repr__(self):
+        return "pytools4dart simulation object"
+
+    def __str__(self):
+        # TODO : Description
+        return "pytools4dart simulation object"
+
     def _registerchange(self, param):
         """updates changetracker 0 and creates dictionnaries on the fly
         """
@@ -98,7 +105,7 @@ class simulation(object):
                                  hdr['fwhm']))
                 data = pd.DataFrame(bands.items)
                 data.columns = self.BANDCOLNAMES
-                self.bands.append(data)
+                self.bands = self.bands.append(data, ignore_index=True)
 
             else:
                 try:
@@ -114,12 +121,12 @@ class simulation(object):
                         # in order to add band numbers
                         lencol = len(data["fwhm"])
                         data['bandnumber'] = range(0, lencol)
-                        self.bands.append(data)
+                        self.bands = self.bands.append(data, ignore_index=True)
 
                     elif len(band) == 3:
                         data = pd.read_csv(invar, sep=" ", header=None)
                         data.columns = self.BANDCOLNAMES
-                        self.bands.append(data)
+                        self.bands = self.bands.append(data, ignore_index=True)
                 except Exception:
                     print " Trouble reading txt file"
 
@@ -149,9 +156,6 @@ class simulation(object):
         coeff_diff.addvegetation()
         """
         self._registerchange('plots')
-        if not self.plots:
-            self.plots = pd.DataFrame(columns=['corners', 'baseheight',
-                                               'density', 'optprop'])
 
         if not ident:
             ident = self.plotsnumber
@@ -162,9 +166,8 @@ class simulation(object):
                        (0,              self.scene[1]))
 
         data = [corners, baseheight, density, opt]
-        cols = self.PLOTCOLNAMES
-        miniframe = pd.DataFrame(dict(zip(cols, data)))
-        self.plots.append(miniframe)
+        miniframe = pd.DataFrame([data], columns=self.PLOTCOLNAMES)
+        self.plots = self.plots.append(miniframe, ignore_index=True)
         self.plotsnumber += 1
         return
 
@@ -247,8 +250,8 @@ class simulation(object):
             voxlist.append(dict(zip(self.PLOTCOLNAMES,
                                     [corners, baseheight, LAI, optPropName])))
             self.plotsnumber += 1
-
-        self.plots.append(pd.DataFrame(voxlist, columns=self.PLOTCOLNAMES))
+        data = pd.DataFrame(voxlist, columns=self.PLOTCOLNAMES)
+        self.plots.append(data, ignore_index=True)
         print ("Plots added from .vox file.")
         print ("Optical properties have to be added in the column 'optprop' ")
         return
@@ -310,6 +313,6 @@ class simulation(object):
 if __name__ == '__main__':
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
                      'essai_sequence/input')
-    pof.addplot()
-    pof.addsequence({'hello': (1, 2, 3)})
-    pof.write_xmls()
+    pof.addsingleplot()
+ #   pof.addsequence({'hello': (1, 2, 3)})
+ #   pof.write_xmls()
