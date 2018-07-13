@@ -18,6 +18,21 @@ This object contains a certain number of methods and variables to ease
 the synthesis and understanding of the general properties of a given 
 simulation.
 
+A number of variables are panda DataFrame objects, and can be directly 
+interacted with by the user.
+
+```python
+self.PLOTCOLNAMES = ['corners', 'baseheight', 'density', 'optprop']
+self.BANDSCOLNAMES = ['bandnames', 'centralwvl', 'fwhm']
+
+self.bands = pd.DataFrame(columns=self.BANDSCOLNAMES)
+self.plots = pd.DataFrame(columns=self.PLOTCOLNAMES)
+```
+
+The names of the columns are hardcoded and not to be changed. 
+Those variables will be passed to the xmlwriters except if a previously written
+xml file is specified.
+
 ###### Description of "changetracker"
 
 changetracker is a variable of the "simulation" object. It allows to save the
