@@ -102,11 +102,12 @@ class simulation(object):
             if invar.endswith('.hdr'):
                 print 'reading header'
                 hdr = hdrtodict(invar)
-                bands = dict(zip(hdr['band names'], hdr['wavelength'],
-                                 hdr['fwhm']))
-                data = pd.DataFrame(bands.items)
-                data.columns = self.BANDCOLNAMES
+                data = zip(hdr['band names'], hdr['wavelength'], hdr['fwhm'])
+                data = pd.DataFrame(data)
+                data.columns = self.BANDSCOLNAMES
                 self.bands = self.bands.append(data, ignore_index=True)
+                print ("header successfully read.")
+                print ("{} bands added".format(len(hdr['wavelength'])))
 
             else:
                 try:
