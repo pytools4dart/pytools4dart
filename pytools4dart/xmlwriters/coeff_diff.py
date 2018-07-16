@@ -90,15 +90,15 @@ class DartCoefXML(object):
         for the query to work.
         TODO.
         """
-
-        if "phase" in changetracker[0]:
+        print (changetracker[0])
+        try:
             self.changes = changetracker[1]["coeff_diff"]
             for node in self.changes:
                 print "Modifying : ", node
                 self.root.find(node)
 
             return
-        else:
+        except KeyError:
             return
 
     def basenodes(self):

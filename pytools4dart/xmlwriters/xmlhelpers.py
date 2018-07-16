@@ -201,10 +201,11 @@ def get_all_structures(pathin, pathout=None):
 
 # Get structure of a single xml file
 pathin = "/media/mtd/stock/DART/user_data/simulations/trees/input/"
+pathessai = '/media/mtd/stock/boulot_sur_dart/temp/essai_sequence/input/'
 otherpath = "/media/mtd/stock/boulot_sur_dart/temp/"
 # pathout="/media/mtd/stock/boulot_sur_dart/temp/empty_strucs(djasimulee)/"
-fichier = "trees.xml"
-a = pathin+fichier
+fichier = "phase.xml"
+a = pathessai+fichier
 tree = etree.parse(a)
 root = tree.getroot()
 

@@ -50,7 +50,7 @@ def write_plots(changetracker, vox=None):
     """
     plots = DartPlotsXML(changetracker)
     plots.basenodes()
-    plots.adoptchanges(changetracker)
+    plots.adoptchanges()
 
     outpath = changetracker[2]
     plots.writexml(outpath+"plots.xml")
@@ -74,7 +74,9 @@ class DartPlotsXML(object):
         self.root = etree.Element("Plots", {'addExtraPlotsTextFile': '0',
                                   'isVegetation': '0'})
         self.tree = etree.ElementTree(self.root)
-        self.changes = changetracker
+        self.changes = None
+        if 'plots' in changetracker[0]:
+            self.changes = changetracker[1]['plots']
         return
 
     def basenodes(self):
@@ -118,16 +120,16 @@ class DartPlotsXML(object):
         vegprops = etree.SubElement(plot, "PlotVegetationProperties",
                                     vegprops_atr)
 
-        veggeom = {"baseheight": (baseheight), "height": "1.0",
+        veggeom = {"baseheight": (str(baseheight)), "height": "1.0",
                    "stDev": "0"}
         # here optical property passed as argument to method
-        vegoptlink = {"ident": optprop, "indexFctPhase": "0"}
+        vegoptlink = {"ident": str(optprop), "indexFctPhase": "0"}
         grdthermalprop = {"idTemperature": "ThermalFunction290_310",
                           "indexTemperature": "0"}
 
         # here density parameter added in LAI
         etree.SubElement(vegprops, "VegetationGeometry", veggeom)
-        etree.SubElement(vegprops, "LAIVegetation", {"LAI": density})
+        etree.SubElement(vegprops, "LAIVegetation", {"LAI": str(density)})
         etree.SubElement(vegprops, "VegetationOpticalPropertyLink", vegoptlink)
         etree.SubElement(vegprops, "GroundThermalPropertyLink", grdthermalprop)
         return
@@ -143,7 +145,7 @@ class DartPlotsXML(object):
             self.addplot(corners, baseheight, density, optprop)
         return
 
-    def adoptchanges(self, changetracker):
+    def adoptchanges(self):
         """method to update xml tree based on user-defined parameters
 
         here goes the magic where we change some nodes based on parameters
@@ -163,11 +165,12 @@ class DartPlotsXML(object):
 
         """
 
-        if 'plots' in changetracker[0]:
-            self.changes = changetracker[1]['plots']
+        if self.changes:
             if 'voxels' in self.changes:
-                self.plotsfrompanda(self, self.changes['voxels'])
-                self.changes.pop('voxels')
+                self.plotsfrompanda(self.changes['voxels'])
+            return
+
+        else:
             return
 
     def writexml(self, outpath):

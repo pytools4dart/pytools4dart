@@ -57,7 +57,7 @@ def write_phase(changetracker):
     phase.basenodes()
 
     phase.specnodes()
-    phase.adoptchanges(changetracker)
+    phase.adoptchanges()
 
     outpath = changetracker[2]
     phase.writexml(outpath+"phase.xml")
@@ -80,7 +80,8 @@ class DartPhaseXML(object):
     def __init__(self, changetracker):
         self.root = etree.Element("Phase")
         self.tree = etree.ElementTree(self.root)
-        self.changes = changetracker[1]['phase']
+        if 'phase' in changetracker[0]:
+            self.changes = changetracker[1]['phase']
         self.specintervals = 0
         return
 
@@ -99,8 +100,8 @@ class DartPhaseXML(object):
         """
 
         if 'bands' in self.changes:
-            for band in self.changes['bands'].iterrows():
-                self.addspecband(band)
+            for index, bands in self.changes['bands'].iterrows():
+                self.addspecband(bands)
         else:
             return
         return
@@ -113,7 +114,7 @@ class DartPhaseXML(object):
         """
         wvlcenter = vals['centralwvl']
         wvlwidth = vals['fwhm']
-        bandnumber = vals['bandnumber']
+        bandnumber = vals['bandnames']
 
         band_attrib = {'bandNumber': str(bandnumber),
                        'meanLambda': str(wvlcenter),
@@ -121,7 +122,7 @@ class DartPhaseXML(object):
                        'deltaLambda': str(wvlwidth)}
 
         specbands = self.root.find("./DartInputParameters/SpectralIntervals")
-        etree.SubElement(specbands, "SpectralIntervalProperties", band_attrib)
+        etree.SubElement(specbands, "SpectralIntervalsProperties", band_attrib)
         self.specintervals += 1
         return
 
@@ -178,8 +179,9 @@ class DartPhaseXML(object):
         # # dartproduct branch
         etree.SubElement(dartproduct, "maketModuleProducts",
                          maketmodule_attrib)
-
-        if not self.changes['bands']:
+        try:  # check if dataframe for bands is empty
+            self.changes['bands'].head()
+        except AttributeError:
             specprops_attrib = {'bandNumber': '0', 'meanLambda': '0.56',
                                 'spectralDartMode': '0', 'deltaLambda': '0.02'}
             etree.SubElement(specintervals, "SpectralIntervalProperties",
