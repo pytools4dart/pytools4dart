@@ -71,7 +71,9 @@ class DartDirectionsXML(object):
 
     def __init__(self, changetracker):
 
-        self.root = etree.Element("DartInversion", {'runInversion': '0'})
+        dir_attrib = {'ifCosWeighted': '0',
+                      'numberOfPropagationDirections': '100', 'exactDate': '2'}
+        self.root = etree.Element("Directions", dir_attrib)
         self.tree = etree.ElementTree(self.root)
         self.changes = changetracker
         return
@@ -106,7 +108,21 @@ class DartDirectionsXML(object):
         ComputedTransferFunctions : write transferFunctions would be the place
         where the saving of the computed atmosphere is done.
         """
+        sunangles_atr = {'sunViewingAzimuthAngle': '225.0',
+                         'sunViewingZenithAngle': '30.0', 'dayOfTheYear': '-1'}
+        hotspot_atr = {'oversampleDownwardRegion': '0',
+                       'hotSpotPerpendicularPlane': '0',
+                       'hotSpotParallelPlane': '0',
+                       'oversampleUpwardRegion': '0'}
+        azim_atr = {'directionalAzimuthalOffset': '0',
+                    'sunAzimuthalOffset': '0'}
+        expert_atr = {'numberOfAngularSector': '10', 'numberOfLayers': '0'}
 
+        etree.SubElement(self.root, 'SunViewingAngles',sunangles_atr)
+        etree.SubElement(self.root, 'HotSpotProperties', hotspot_atr)
+        etree.SubElement(self.root, 'Penumbra', {'mode': '0'})
+        etree.SubElement(self.root, 'AzimuthalOffset', azim_atr)
+        etree.SubElement(self.root, 'ExpertModeZone' , expert_atr)
         # base nodes
         return
 
