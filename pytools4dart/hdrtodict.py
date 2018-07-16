@@ -34,7 +34,7 @@ It allows to read .hdr file and returns a dictionnary.
 import re
 
 
-def hdrtodict(path):
+def hdrtodict(path,):
     with open(path, 'r') as myfile:
             hdr = myfile.read().replace("\r", "")
     try:

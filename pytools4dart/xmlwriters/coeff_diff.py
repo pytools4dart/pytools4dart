@@ -90,7 +90,6 @@ class DartCoefXML(object):
         for the query to work.
         TODO.
         """
-        print (changetracker[0])
         try:
             self.changes = changetracker[1]["coeff_diff"]
             for node in self.changes:

@@ -116,7 +116,7 @@ class DartPhaseXML(object):
         wvlwidth = vals['fwhm']
         bandnumber = vals['bandnames']
 
-        band_attrib = {'bandNumber': str(bandnumber),
+        band_attrib = {'bandNumber': str(self.specintervals),
                        'meanLambda': str(wvlcenter),
                        'spectralDartMode': '0',
                        'deltaLambda': str(wvlwidth)}

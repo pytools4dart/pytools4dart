@@ -88,13 +88,14 @@ class simulation(object):
             self.changetracker[1][param] = {}
         return
 
-    def addband(self, invar):
+    def addband(self, invar, nmtomicron=True):
         """add spectral band to simulation sensor
 
         Possibility to add a band either from a HDR file, txt file, list
         or dictionnary: central band, width
         if txt data separate by spaces.
         bandnumer(optional) wavelengthcenter wavelengthwidth
+        hdrnm is used to convert nm to µm when reading from header.
         """
         self._registerchange('phase')
         try:
@@ -105,9 +106,13 @@ class simulation(object):
                 data = zip(hdr['band names'], hdr['wavelength'], hdr['fwhm'])
                 data = pd.DataFrame(data)
                 data.columns = self.BANDSCOLNAMES
+                if nmtomicron:
+                    data['centralwvl'] = data['centralwvl'].apply(pd.to_numeric)
+                    data.loc[:,'centralwvl'] *= 0.001
+                print "Hello?"
                 self.bands = self.bands.append(data, ignore_index=True)
                 print ("header successfully read.")
-                print ("{} bands added".format(len(hdr['wavelength'])))
+                print ("{} bands added".format(len(hdr['fwhm'])))
 
             else:
                 try:
@@ -326,12 +331,10 @@ if __name__ == '__main__':
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
                      'essai_sequence/input/')
     pof.addsingleplot()
-    pof.addband([1, 2, 3])
-    pof.addband([2, 2, 3])
-    pof.addband([4, 2, 3])
-
+ #   pof.addband([1, 2, 3])
+ #   pof.addband([2, 2, 3])
+ #   pof.addband([4, 2, 3])
+    pof.addband("/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr")
     pof.listmodifications()
  #   pof.addsequence({'hello': (1, 2, 3)})
-    print(type(pof.changetracker[1]['plots']))
-    print(pof.changetracker[1].keys())
     pof.write_xmls()
