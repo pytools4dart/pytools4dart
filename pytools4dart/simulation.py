@@ -108,8 +108,9 @@ class simulation(object):
                 data.columns = self.BANDSCOLNAMES
                 if nmtomicron:
                     data['centralwvl'] = data['centralwvl'].apply(pd.to_numeric)
-                    data.loc[:,'centralwvl'] *= 0.001
-                print "Hello?"
+                    data['fwhm'] = data['fwhm'].apply(pd.to_numeric)
+                    data.loc[:, 'centralwvl'] *= 0.001
+                    data.loc[:, 'fwhm'] *= 0.001
                 self.bands = self.bands.append(data, ignore_index=True)
                 print ("header successfully read.")
                 print ("{} bands added".format(len(hdr['fwhm'])))
@@ -152,13 +153,11 @@ class simulation(object):
                     addband.index = self.BANDSCOLNAMES
                     self.bands = self.bands.append(addband, ignore_index=True)
                     self.nbands += 1
-#                except Exception:
-#                    print " u wot m8?"
-#                    print "Hey man, you sure your variable's correct?"
+
                 else:
                     return
             except TypeError:
-                print "TAMEEEEEEEEEEEEEERE"
+                print "Big Problem"
                 return
 
     def addsingleplot(self, corners=None, baseheight=1, density=1,
@@ -301,7 +300,7 @@ class simulation(object):
         dxml.write_phase(self.changetracker)
         dxml.write_plots(self.changetracker)
         dxml.write_sequence(self.changetracker)
-        dxml.write_trees(self.changetracker)
+        # dxml.write_trees(self.changetracker)
         dxml.write_urban(self.changetracker)
         dxml.write_water(self.changetracker)
         return
@@ -333,8 +332,9 @@ if __name__ == '__main__':
     pof.addsingleplot()
  #   pof.addband([1, 2, 3])
  #   pof.addband([2, 2, 3])
- #   pof.addband([4, 2, 3])
+    pof.addband([12, 2, 3])
     pof.addband("/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr")
     pof.listmodifications()
  #   pof.addsequence({'hello': (1, 2, 3)})
     pof.write_xmls()
+    print(pof.bands)
