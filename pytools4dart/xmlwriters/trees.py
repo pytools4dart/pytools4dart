@@ -59,7 +59,7 @@ def write_trees(changetracker):
 
 
 class DartTreesXML(object):
-    """object for the editing and exporting to xml of atmosphere related parameters
+    """object for the exporting to xml of atmosphere related parameters
 
     After instantiation, a default tree of nodes is created.
     Changes based on the passed "changetracker" variable have then
@@ -70,13 +70,10 @@ class DartTreesXML(object):
     """
 
     def __init__(self, changetracker):
-        dir_atr = {'sceneModelCharacteristic': '1', 'isTrees': '0'}
-        self.root = etree.Element("Trees", dir_atr)
-        self.tree = etree.ElementTree(self.root)
         self.changes = changetracker
         return
 
-    def adoptchanges(self, changetracker):
+    def adoptchanges(self):
         """method to update xml tree based on user-defined parameters
 
         here goes the magic where we change some nodes based on parameters
@@ -90,12 +87,12 @@ class DartTreesXML(object):
 
         """
 
-        if "trees" in changetracker[0]:
-            self.changes = changetracker[1]["trees"]
-            for node in self.changes:
-                print "Modifying : ", node
-                self.root.find(node)
-
+        if "trees" in self.changes[0]:
+            self.changes = self.changes[1]["trees"]
+            if 1 in self.changes['mode']:
+                print "doing stuff"
+            if 2 in self.changes['mode']:
+                print "doing even more!"
             return
         else:
             return
@@ -106,6 +103,47 @@ class DartTreesXML(object):
         ComputedTransferFunctions : write transferFunctions would be the place
         where the saving of the computed atmosphere is done.
         """
+        trees_atr = {'sceneModelCharacteristic': '1', 'isTrees': '1'}
+        self.root = etree.Element('Trees', trees_atr)
+        etree.SubElement(self.root, 'TreeGeneralOptions',
+                         {'triangleTreeRepresentation': '0'})
+        trees_one = None
+        if trees_one:
+            treeone_atr = {'laiZone': '0',
+                           'sceneParametersFileName': 'trees.txt'}
+            subroot = etree.SubElement(self.root, "Trees_1", treeone_atr)
+            specie_atr = {'numberOfTreesInWholeScene': '12',
+                          'branchesAndTwigsSimulation': '0', 'lai': '4.00'}
+            specie = etree.SubElement(subroot, 'Specie', specie_atr)
+
+            opt_atr = {'indexFctPhase': '0', 'ident': 'f0', 'type': '0'}
+            therm_atr = {'idTemperature': 'ThermalFunction290_310',
+                         'indexTemperature': '0'}
+            crown_atr = {'verticalWeightForUf': '1.00', 'distribution': '0',
+                         'relativeHeightVsCrownHeight': '1.00',
+                         'laiConservation': '1',
+                         'relativeTrunkDiameterWithinCrown': '0.50'}
+
+            etree.SubElement(specie, 'OpticalPropertyLink', opt_atr)
+            etree.SubElement(specie, 'ThermalPropertyLink', therm_atr)
+            crown = etree.SubElement(specie, 'CrownLevel', crown_atr)
+
+            cropt_atr = {'indexFctPhase': '0',
+                         'ident': 'Lambertian_Phase_Function_1', 'type': '0'}
+            crotherm_atr = {'idTemperature': 'ThermalFunction290_310',
+                            'indexTemperature': '0'}
+            etree.SubElement(crown, 'OpticalPropertyLink', cropt_atr)
+            etree.SubElement(crown, 'ThermalPropertyLink', crotherm_atr)
+
+            veg = etree.SubElement(crown, 'VegetationProperty')
+
+            vegopt_atr = {'indexFctPhase': '0',
+                          'ident': 'Turbid_Leaf_Deciduous_Phase_Function'}
+            vegtherm_atr = {'idTemperature': 'ThermalFunction290_310',
+                            'indexTemperature': '0'}
+            etree.SubElement(veg, 'VegetationOpticalPropertyLink',vegopt_atr)
+            etree.SubElement(veg, 'ThermalPropertyLink',vegtherm_atr)
+
 
         # base nodes
         # etree.SubElement(self.root, 'SunViewingAngles', sunangles_atr)

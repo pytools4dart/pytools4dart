@@ -204,8 +204,8 @@ pathin = "/media/mtd/stock/DART/user_data/simulations/trees/input/"
 pathessai = '/media/mtd/stock/boulot_sur_dart/temp/essai_sequence/input/'
 otherpath = "/media/mtd/stock/boulot_sur_dart/temp/"
 # pathout="/media/mtd/stock/boulot_sur_dart/temp/empty_strucs(djasimulee)/"
-fichier = "phase.xml"
-a = pathessai+fichier
+fichier = "trees.xml"
+a = pathin+fichier
 tree = etree.parse(a)
 root = tree.getroot()
 
