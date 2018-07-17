@@ -44,8 +44,9 @@ except ImportError:
 
 
 def valxmlxsd(filename_xml, filename_xsd):
-    """ validates xml base on xsd file
-    works if stuff is in good order
+    """ validates xml based on xsd file
+
+    works if stuff is in same order
     """
     my_schema = xmlschema.XMLSchema(filename_xsd)
     my_schema.validate(filename_xml)

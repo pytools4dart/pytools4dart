@@ -117,7 +117,7 @@ class DartCoefXML(object):
         etree.SubElement(self.root, 'UnderstoryMultiFunctions', understory_atr)
 
         # parent nodes
-        # # lambertian branch  : default lambertian created Dart simulations
+        # # lambertian branch  : default lambertian created in Dart simulations
         lambmulti_atr = {'ident': 'Lambertian_Phase_Function_1',
                          'useSpecular': '0',
                          'roStDev': '0.000',

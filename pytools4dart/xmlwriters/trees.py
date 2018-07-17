@@ -67,10 +67,13 @@ class DartTreesXML(object):
     All the tag names of tree nodes are supposed to be IDENTICAL to the ones
     produces by DART. The variable names are sometimes shortened.
 
+    Particularity of trees : the "base xml tree" is almost empty.
+
     """
 
     def __init__(self, changetracker):
         self.changes = changetracker
+        self.root = None
         return
 
     def adoptchanges(self):
@@ -90,7 +93,8 @@ class DartTreesXML(object):
         if "trees" in self.changes[0]:
             self.changes = self.changes[1]["trees"]
             if 1 in self.changes['mode']:
-                print "doing stuff"
+
+                self.treeone(self.changes[1])
             if 2 in self.changes['mode']:
                 print "doing even more!"
             return
@@ -98,6 +102,11 @@ class DartTreesXML(object):
             return
 
     def basenodes(self):
+        """
+        """
+        return
+
+    def treeone(self, pathtree, ntrees, lai, optprop, indexoptprop):
         """creates all nodes and properties common to default simulations
 
         ComputedTransferFunctions : write transferFunctions would be the place
@@ -107,43 +116,47 @@ class DartTreesXML(object):
         self.root = etree.Element('Trees', trees_atr)
         etree.SubElement(self.root, 'TreeGeneralOptions',
                          {'triangleTreeRepresentation': '0'})
-        trees_one = None
-        if trees_one:
-            treeone_atr = {'laiZone': '0',
-                           'sceneParametersFileName': 'trees.txt'}
-            subroot = etree.SubElement(self.root, "Trees_1", treeone_atr)
-            specie_atr = {'numberOfTreesInWholeScene': '12',
-                          'branchesAndTwigsSimulation': '0', 'lai': '4.00'}
-            specie = etree.SubElement(subroot, 'Specie', specie_atr)
 
-            opt_atr = {'indexFctPhase': '0', 'ident': 'f0', 'type': '0'}
-            therm_atr = {'idTemperature': 'ThermalFunction290_310',
-                         'indexTemperature': '0'}
-            crown_atr = {'verticalWeightForUf': '1.00', 'distribution': '0',
-                         'relativeHeightVsCrownHeight': '1.00',
-                         'laiConservation': '1',
-                         'relativeTrunkDiameterWithinCrown': '0.50'}
+        treeone_atr = {'laiZone': '0',
+                       'sceneParametersFileName': pathtree}
+        subroot = etree.SubElement(self.root, "Trees_1", treeone_atr)
+        specie_atr = {'numberOfTreesInWholeScene': str(ntrees),
+                      'branchesAndTwigsSimulation': '0', 'lai': str(lai)}
+        specie = etree.SubElement(subroot, 'Specie', specie_atr)
 
-            etree.SubElement(specie, 'OpticalPropertyLink', opt_atr)
-            etree.SubElement(specie, 'ThermalPropertyLink', therm_atr)
-            crown = etree.SubElement(specie, 'CrownLevel', crown_atr)
+        trunkopt = None
+        # specie branch
+        opt_atr = {'indexFctPhase': '0', 'ident': trunkopt, 'type': '0'}
+        therm_atr = {'idTemperature': 'ThermalFunction290_310',
+                     'indexTemperature': '0'}
+        # TODO : Here are properties that could be changed
+        crown_atr = {'verticalWeightForUf': '1.00', 'distribution': '0',
+                     'relativeHeightVsCrownHeight': '1.00',
+                     'laiConservation': '1',
+                     'relativeTrunkDiameterWithinCrown': '0.50'}
 
-            cropt_atr = {'indexFctPhase': '0',
-                         'ident': 'Lambertian_Phase_Function_1', 'type': '0'}
-            crotherm_atr = {'idTemperature': 'ThermalFunction290_310',
-                            'indexTemperature': '0'}
-            etree.SubElement(crown, 'OpticalPropertyLink', cropt_atr)
-            etree.SubElement(crown, 'ThermalPropertyLink', crotherm_atr)
+        etree.SubElement(specie, 'OpticalPropertyLink', opt_atr)
+        etree.SubElement(specie, 'ThermalPropertyLink', therm_atr)
+        crown = etree.SubElement(specie, 'CrownLevel', crown_atr)
 
-            veg = etree.SubElement(crown, 'VegetationProperty')
+        # Crown sub branch
+        cropt_atr = {'indexFctPhase': '0',
+                     'ident': 'Lambertian_Phase_Function_1', 'type': '0'}
+        crotherm_atr = {'idTemperature': 'ThermalFunction290_310',
+                        'indexTemperature': '0'}
+        etree.SubElement(crown, 'OpticalPropertyLink', cropt_atr)
+        etree.SubElement(crown, 'ThermalPropertyLink', crotherm_atr)
 
-            vegopt_atr = {'indexFctPhase': '0',
-                          'ident': 'Turbid_Leaf_Deciduous_Phase_Function'}
-            vegtherm_atr = {'idTemperature': 'ThermalFunction290_310',
-                            'indexTemperature': '0'}
-            etree.SubElement(veg, 'VegetationOpticalPropertyLink',vegopt_atr)
-            etree.SubElement(veg, 'ThermalPropertyLink',vegtherm_atr)
+        veg = etree.SubElement(crown, 'VegetationProperty')
 
+        # Vegetation Sub Sub branch
+        # TODO : check how indectFctPhase works!!
+        vegopt_atr = {'indexFctPhase': indexoptprop,
+                      'ident': optprop}
+        vegtherm_atr = {'idTemperature': 'ThermalFunction290_310',
+                        'indexTemperature': '0'}
+        etree.SubElement(veg, 'VegetationOpticalPropertyLink', vegopt_atr)
+        etree.SubElement(veg, 'ThermalPropertyLink', vegtherm_atr)
 
         # base nodes
         # etree.SubElement(self.root, 'SunViewingAngles', sunangles_atr)
@@ -158,7 +171,8 @@ class DartTreesXML(object):
         """
         root = etree.Element('DartFile',
                              {'version': '5.7.0', 'build': 'v1033'})
-        root.append(self.root)
+        if self.root is not None:
+            root.append(self.root)
         tree = etree.ElementTree(root)
         tree.write(outpath, encoding="UTF-8", xml_declaration=True)
         return
@@ -166,8 +180,8 @@ class DartTreesXML(object):
 
 # to be expanded.....
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # ZONE DE TESTS
-"""outpath = "/media/mtd/stock/boulot_sur_dart/temp/"
+if __name__ == '__main__':
 
-write_directions([], outpath)
-"""
+    outpath = "/media/mtd/stock/boulot_sur_dart/temp/"
 
+    write_trees([], outpath)

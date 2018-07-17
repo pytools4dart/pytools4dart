@@ -287,8 +287,11 @@ class simulation(object):
         The functions are written so that default parameters are first written,
         then updated with the given changes contained in "changetracker".
         """
+        pof.bands.index +=1
         # WARNING : Terminology Problem?
         self.changetracker[1]['plots']['voxels'] = self.plots
+        pof.bands.index +=1  # To match Dart's IndexFctPhase
+
         self.changetracker[1]['phase']['bands'] = self.bands
 
         dxml.write_atmosphere(self.changetracker)
@@ -327,6 +330,8 @@ class simulation(object):
 
 # ##################################test zone
 if __name__ == '__main__':
+    import time
+    start = time.time()
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
                      'essai_sequence/input/')
     pof.addsingleplot()
@@ -338,3 +343,5 @@ if __name__ == '__main__':
  #   pof.addsequence({'hello': (1, 2, 3)})
     pof.write_xmls()
     print(pof.bands)
+    end = time.time()
+    print(end - start)
