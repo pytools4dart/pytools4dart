@@ -30,13 +30,13 @@ self.plots = pd.DataFrame(columns=self.PLOTCOLNAMES)
 ```
 
 The names of the columns are hardcoded and not to be changed. 
-Those variables will be passed to the xmlwriters except if a previously written
+Those variables will be passed to the xmlwriters except if an existing
 xml file is specified.
 
 ###### Description of "changetracker"
 
 changetracker is a variable of the "simulation" object. It allows to save the
-user defined parameters in order for them to be written by the xmlwriters
+user defined parameters in order for them to be passed to the xmlwriters
 functions. 
 It is structured in the following way l. 32 of simulation.py: 
 
@@ -70,7 +70,7 @@ It is recommended not to use the simulation.addsingleplot() method for a great
 number of plots, the plotsfromvox() or pickupfile() could be used for this 
 purpose.
 
-I has to be noted that for now, no method for adding plots to a simulation
+It has to be noted that for now, no method for adding plots to a simulation
 except pickupfile() completes the "optprop" column.
 In the absence of value, a default vegetation optical property will be 
 assigned.
@@ -86,6 +86,9 @@ it requires as entry a dictionnary :
 dictionnary = { 'parameter' : basevalue, stepvalue, numberofsteps}
 ```
 
+For now, the 'parameter' string has to correspond exactly to a Dart parameter:
+
+
 Several properties can vary in this way at the same time.
 In order to produce all the combination of the variations of two properties,
 the method has to be called several times with different group names : 
@@ -98,6 +101,38 @@ simu.addsequence({'param2' : (4,5,6)}, group = 'group2')
 
 A name is required in order to save the xml file, for now a single name
 has to be used, for a single xml sequence file will be produced.
+
+Example : 
+
+```xml
+<DartSequencerDescriptorGroup groupName="group1">
+
+    <DartSequencerDescriptorEntry args="400;50;3"
+        propertyName="Phase.DartInputParameters.SpectralIntervals.
+                SpectralIntervalsProperties.meanLambda" type="linear"/>
+
+    <DartSequencerDescriptorEntry args="10;5;3"
+        propertyName="Phase.DartInputParameters.SpectralIntervals.
+            SpectralIntervalsProperties.deltaLambda" type="linear"/>
+<DartSequencerDescriptorGroup/>
+
+<DartSequencerDescriptorGroup groupName="group2">
+    <DartSequencerDescriptorEntry args="0;60;2" 
+	propertyName="Directions.SunViewingAngles.dayOfTheYear" 
+		type="linear"/>
+	        
+<DartSequencerDescriptorGroup/>
+```
+
+The above parameters give the following values for :
+SpectralIntervals ; deltaLambda ; dayOfTheYear
+400 ; 10 ; 0
+400 ; 10 ; 60
+450 ; 15 ; 0
+450 ; 15 ; 60
+500 ; 20 ; 0
+500 ; 20 ; 60
+
 
 
 ###### Authors
