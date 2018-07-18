@@ -135,7 +135,7 @@ class simulation(object):
                         data = pd.read_csv(invar, sep=" ", header=None)
                         data.columns = self.BANDCOLNAMES
                         self.bands = self.bands.append(data, ignore_index=True)
-                except Exception:
+                except TypeError:
                     print " Trouble reading txt file"
         except TypeError:
             try:
@@ -159,6 +159,13 @@ class simulation(object):
             except TypeError:
                 print "Big Problem"
                 return
+
+    def addopt(self):
+        """adds and optical property to the simulation
+
+        has to be structured i.e.: [name, path]
+        """
+        return
 
     def addsingleplot(self, corners=None, baseheight=1, density=1,
                       opt="custom", ident=None):
@@ -287,10 +294,10 @@ class simulation(object):
         The functions are written so that default parameters are first written,
         then updated with the given changes contained in "changetracker".
         """
-        pof.bands.index +=1
+        pof.bands.index += 1
         # WARNING : Terminology Problem?
         self.changetracker[1]['plots']['voxels'] = self.plots
-        pof.bands.index +=1  # To match Dart's IndexFctPhase
+        pof.bands.index += 1  # To match Dart's IndexFctPhase
 
         self.changetracker[1]['phase']['bands'] = self.bands
 
