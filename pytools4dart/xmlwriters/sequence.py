@@ -166,10 +166,10 @@ class DartSequenceXML(object):
                 propertyName="Phase.DartInputParameters.SpectralIntervals.
                     SpectralIntervalsProperties.deltaLambda" type="linear"/>
 
-            <DartSequencerDescriptorGroup groupName="group2">
-                <DartSequencerDescriptorEntry args="0;60;2"
-                    propertyName="Directions.SunViewingAngles.dayOfTheYear"
-                    type="linear"/>
+        <DartSequencerDescriptorGroup groupName="group2">
+            <DartSequencerDescriptorEntry args="0;60;2"
+                propertyName="Directions.SunViewingAngles.dayOfTheYear"
+                type="linear"/>
 
         WARNING : Sequence increments together parameters in the same group,
         and combines those in different groups:
@@ -200,7 +200,6 @@ class DartSequenceXML(object):
                     etree.SubElement(grp, 'DartSequencerDescriptorEntry',
                                      seqarg)
         return
-
 
     def writexml(self, outpath):
         """ Writes the built tree to the specified path
