@@ -33,12 +33,24 @@ The names of the columns are hardcoded and not to be changed.
 Those variables will be passed to the xmlwriters except if an existing
 xml file is specified.
 
+The optical properties or "Phase Functions", are managed interactively 
+through the variable defined l.69.
+
+```python
+self.optsprops = {'lambertians': [], 'vegetations': []}
+```
+
+It is a dictionnary, containing for each named type of optical property
+the ordered list of the corresponding optical properties. This
+allowed easier indexing for the referencing of optical properties by
+index in the xmlwriter for "plots.xml".
+
 ###### Description of "changetracker"
 
 changetracker is a variable of the "simulation" object. It allows to save the
 user defined parameters in order for them to be passed to the xmlwriters
 functions. 
-It is structured in the following way l. 32 of simulation.py: 
+It is structured in the following way l. 67 of simulation.py: 
 
 ```python
 self.changetracker = [[], {}, outpath, simulationtype]

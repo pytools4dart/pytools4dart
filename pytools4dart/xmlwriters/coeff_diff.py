@@ -52,7 +52,6 @@ def write_coeff_diff(changetracker):
     """
     coeff = DartCoefXML(changetracker)
     coeff.basenodes()
-    coeff.addvegetation()
     coeff.adoptchanges(changetracker)
 
     outpath = changetracker[2]
@@ -88,21 +87,26 @@ class DartCoefXML(object):
         Complete path to node to be modified will have to be explicitly written
         in this way : './Phase/DartInputParameters/SpectralDomainTir'
         for the query to work.
-        TODO.
         """
         try:
             self.changes = changetracker[1]["coeff_diff"]
             for node in self.changes:
-                print "Modifying : ", node
-                self.root.find(node)
+                if node[0] == 'lambertian':
+                    self.addlamb(node[1:])
+                elif node[0] == 'vegetation':
+                    self.addvegetation(node[1:])
+                else:
+                    print 'Wrong optical property type!'
 
             return
         except KeyError:
             return
 
-    def basenodes(self):
+    def basenodes(self, default_lamb=True):
         """creates all nodes and properties common to default simulations
 
+        a default lambertian optical property is created unless otherwise
+        specified
         """
 
         # base nodes
@@ -118,26 +122,32 @@ class DartCoefXML(object):
 
         # parent nodes
         # # lambertian branch  : default lambertian created in Dart simulations
-        lambmulti_atr = {'ident': 'Lambertian_Phase_Function_1',
+
+        lambmultif = etree.SubElement(self.root, "LambertianMultiFunctions")
+
+
+        if default_lamb:
+            # # # lambertian default object
+            lambmulti_atr = {'ident': 'Lambertian_Phase_Function_1',
                          'useSpecular': '0',
                          'roStDev': '0.000',
                          'ModelName': 'reflect_equal_1_trans_equal_0_0',
                          'databaseName': 'Lambertian_vegetation.db',
                          'useMultiplicativeFactorForLUT': '1'}
-        lambmultif = etree.SubElement(self.root, "LambertianMultiFunctions")
-        lambmulti = etree.SubElement(lambmultif, "LambertianMulti",
-                                     lambmulti_atr)
-        prosp_atr = {'useProspectExternalModule': '0', 'isFluorescent': '0'}
-        lambnode_atr = {'diffuseTransmittanceFactor': '1',
-                        'directTransmittanceFactor': '1',
-                        'useSameOpticalFactorMatrixForAllBands': '0',
-                        'reflectanceFactor': '1',
-                        'useSameFactorForAllBands': '1',
-                        'specularIntensityFactor': '1'}
+            lambmulti = etree.SubElement(lambmultif, "LambertianMulti",
+                                         lambmulti_atr)
+            prosp_atr = {'useProspectExternalModule': '0',
+                         'isFluorescent': '0'}
+            lambnode_atr = {'diffuseTransmittanceFactor': '1',
+                            'directTransmittanceFactor': '1',
+                            'useSameOpticalFactorMatrixForAllBands': '0',
+                            'reflectanceFactor': '1',
+                            'useSameFactorForAllBands': '1',
+                            'specularIntensityFactor': '1'}
 
-        etree.SubElement(lambmulti, 'ProspectExternalModule', prosp_atr)
-        etree.SubElement(lambmulti, 'lambertianNodeMultiplicativeFactorForLUT',
-                         lambnode_atr)
+            etree.SubElement(lambmulti, 'ProspectExternalModule', prosp_atr)
+            etree.SubElement(lambmulti, 'lambertianNodeMultiplicativeFactorForLUT',
+                             lambnode_atr)
 
         # # temperatures branch
         temp = etree.SubElement(self.root, 'Temperatures')
@@ -146,19 +156,59 @@ class DartCoefXML(object):
                        'deltaT': '20.0', 'singleTemperatureSurface': '1',
                        'override3DMatrix': '0', 'useOpticalFactorMatrix': '0'}
         etree.SubElement(temp, 'ThermalFunction', thermal_atr)
+        return
+
+    def addlamb(self, ident=None, database='Lambertian_vegetation.db',
+                modelname='reflect_equal_1_trans_equal_0_0', specular='0'):
+        """add a lambertian optical property
+        """
+        if not ident:
+            ident = 'custom_lamb'
+
+        rootlamb = self.root.find("./LambertianMultiFunctions")
+        lamb_atr = {'ident': ident,
+                    'useSpecular': specular,
+                    'roStDev': '0.000',
+                    'ModelName': modelname,
+                    'databaseName': database,
+                    'useMultiplicativeFactorForLUT': '1'}
+        lambmulti = etree.SubElement(rootlamb, "LambertianMulti", lamb_atr)
+
+        # Other parameters. Supposed to be necessary for Dart Functionning
+        prosp_atr = {'useProspectExternalModule': '0',
+                     'isFluorescent': '0'}
+        lambnode_atr = {'diffuseTransmittanceFactor': '1',
+                        'directTransmittanceFactor': '1',
+                        'useSameOpticalFactorMatrixForAllBands': '0',
+                        'reflectanceFactor': '1',
+                        'useSameFactorForAllBands': '1',
+                        'specularIntensityFactor': '1'}
+        etree.SubElement(lambmulti, 'ProspectExternalModule', prosp_atr)
+        etree.SubElement(lambmulti, 'lambertianNodeMultiplicativeFactorForLUT',
+                         lambnode_atr)
 
         return
 
-    def addvegetation(self):
+    def addvegetation(self, ident=None, database='Vegetation.db',
+                      modelname='leaf_deciduous', lad=1):
         """ Adds a vegetation Node
 
         This module will require some work as it probably will be our most used
         one. How to parameter Prospect? Access Database? etc...
+        lad = Leaf Angle distribution
+        Uniform : 0
+        Spherical : 1
+        Planophil : 3
+
         """
+
+        if not ident:
+            ident = 'custom'
+
         rootveg = self.root.find("./UnderstoryMultiFunctions")
-        veg_atr = {'ident': 'custom', 'dimFoliar': '0.01', 'lad': '1',
-                   'useSpecular': '0', 'ModelName': 'leaf_deciduous',
-                   'databaseName': 'Vegetation.db',
+        veg_atr = {'ident': ident, 'dimFoliar': '0.01', 'lad': lad,
+                   'useSpecular': '0', 'ModelName': modelname,
+                   'databaseName': database,
                    'useMultiplicativeFactorForLUT': '1',
                    'useOpticalFactorMatrix': '0'}
 

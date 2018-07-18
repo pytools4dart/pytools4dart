@@ -66,6 +66,9 @@ class DartPlotsXML(object):
     All the tag names of tree nodes are supposed to be IDENTICAL to the ones
     produces by DART. The variable names are sometimes shortened.
 
+    TODO : In order to properly link a plot to an optical property, both the ident
+    and an index number have to be passed.
+
     """
     PLOT_DEFAULT_ATR = {"form": "0", "hidden": "0", "isDisplayed": "1",
                         "repeatedOnBorder": "1", "type": "1"}
@@ -123,6 +126,7 @@ class DartPlotsXML(object):
         veggeom = {"baseheight": (str(baseheight)), "height": "1.0",
                    "stDev": "0"}
         # here optical property passed as argument to method
+        # TODO : IndexFctPhase!!!
         vegoptlink = {"ident": str(optprop), "indexFctPhase": "0"}
         grdthermalprop = {"idTemperature": "ThermalFunction290_310",
                           "indexTemperature": "0"}

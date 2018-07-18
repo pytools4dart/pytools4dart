@@ -66,8 +66,7 @@ class simulation(object):
 
         self.changetracker = [[], {}, outpath, "flux"]
         self.plotsnumber = 0
-        self.optsprops = {'prop1': 'Lambertian_Phase_Function_1',
-                          'prop2': 'custom'}
+        self.optsprops = {'lambertians': [], 'vegetations': []}
         self.nbands = 0
         self.bands = pd.DataFrame(columns=self.BANDSCOLNAMES)
         self.plots = pd.DataFrame(columns=self.PLOTCOLNAMES)
@@ -160,11 +159,19 @@ class simulation(object):
                 print "Big Problem"
                 return
 
-    def addopt(self):
+    def addopt(self, optprop):
         """adds and optical property to the simulation
 
-        has to be structured i.e.: [name, path]
+        has to be structured i.e.: [type, name, path]
         """
+        if optprop[0] == 'lambertians':
+            self.optsprops['lambertians'].append(optprop[1:])
+        elif optprop[1] == 'vegetations':
+            self.optsprops['vegetations'].append(optprop[1:])
+        else:
+            print 'Non recognized optical property type. Returning'
+            return
+
         return
 
     def addsingleplot(self, corners=None, baseheight=1, density=1,
@@ -300,6 +307,7 @@ class simulation(object):
         pof.bands.index += 1  # To match Dart's IndexFctPhase
 
         self.changetracker[1]['phase']['bands'] = self.bands
+        self.changetracker[1]['coeff_diff'] = self.optsprops
 
         dxml.write_atmosphere(self.changetracker)
         dxml.write_coeff_diff(self.changetracker)
@@ -318,6 +326,7 @@ class simulation(object):
     def launch(self):
         """launch the simulation with set parameters
 
+        TODO :
         """
 
         return
