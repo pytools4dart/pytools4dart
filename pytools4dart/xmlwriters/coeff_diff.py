@@ -31,7 +31,6 @@ Objects and functions necessary to write the coeff_diff xml file.
 It is important to note the resulting xml file is written over a single line.
 TODO :
     Add a vegetation optical property
-    Add optical property from db
 
 """
 try:
@@ -87,16 +86,20 @@ class DartCoefXML(object):
         Complete path to node to be modified will have to be explicitly written
         in this way : './Phase/DartInputParameters/SpectralDomainTir'
         for the query to work.
+        TODO : Unsure if error checking works this way....
         """
         try:
             self.changes = changetracker[1]["coeff_diff"]
-            for node in self.changes:
-                if node[0] == 'lambertian':
-                    self.addlamb(node[1:])
-                elif node[0] == 'vegetation':
-                    self.addvegetation(node[1:])
-                else:
-                    print 'Wrong optical property type!'
+            try:
+                for lamb in self.changes['lambertians']:
+                    self.addlamb(lamb)
+            except KeyError:
+                pass
+            try:
+                for veg in self.changes['vegetations']:
+                    self.addvegetation(veg)
+            except KeyError:
+                pass
 
             return
         except KeyError:
@@ -125,15 +128,14 @@ class DartCoefXML(object):
 
         lambmultif = etree.SubElement(self.root, "LambertianMultiFunctions")
 
-
         if default_lamb:
             # # # lambertian default object
             lambmulti_atr = {'ident': 'Lambertian_Phase_Function_1',
-                         'useSpecular': '0',
-                         'roStDev': '0.000',
-                         'ModelName': 'reflect_equal_1_trans_equal_0_0',
-                         'databaseName': 'Lambertian_vegetation.db',
-                         'useMultiplicativeFactorForLUT': '1'}
+                             'useSpecular': '0',
+                             'roStDev': '0.000',
+                             'ModelName': 'reflect_equal_1_trans_equal_0_0',
+                             'databaseName': 'Lambertian_vegetation.db',
+                             'useMultiplicativeFactorForLUT': '1'}
             lambmulti = etree.SubElement(lambmultif, "LambertianMulti",
                                          lambmulti_atr)
             prosp_atr = {'useProspectExternalModule': '0',

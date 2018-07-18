@@ -95,6 +95,15 @@ class simulation(object):
         if txt data separate by spaces.
         bandnumer(optional) wavelengthcenter wavelengthwidth
         hdrnm is used to convert nm to µm when reading from header.
+
+        Parameters
+        ----------
+        invar: list or str
+            invar can be either the path to a hdr, a txt file, or a
+            list containing :
+                -BandName (optionnal)
+                -central wavelength(in µm)
+                -fwhm (in µm)
         """
         self._registerchange('phase')
         try:
@@ -162,9 +171,23 @@ class simulation(object):
     def addopt(self, optprop):
         """adds and optical property to the simulation
 
-        has to be structured i.e.: [type, name, path]
+        Parameters
+        ----------
+        optprop : list
+            optprop is supposed to be structured this way :
+                -type : 'lambertian' or 'vegetation'
+                -ident: string for name
+                -database: string-path to database
+                -modelname: name of opt in database
+                if lambertian :
+                    -specular : 0 or 1, 1 if UseSpecular
+                if vegetation :
+                    -lad : leaf angle distribution :
+                        - 0: Uniform
+                        - 1: Spherical
+                        - 3: Planophil
         """
-        if optprop[0] == 'lambertians':
+        if optprop[0] == 'lambertian':
             self.optsprops['lambertians'].append(optprop[1:])
         elif optprop[1] == 'vegetations':
             self.optsprops['vegetations'].append(optprop[1:])
@@ -265,7 +288,7 @@ class simulation(object):
             i = row.i  # voxel x
             j = row.j  # voxel y
             k = row.k  # voxel z
-            optPropName = None
+            optpropname = None
             LAI = str(row.PadBVTotal)  # voxel LAI(PadBTotal en negatif)
 
             corners = (((i * res),          (j * res)),
@@ -277,7 +300,7 @@ class simulation(object):
             baseheight = str(k * height)  # voxel height
 
             voxlist.append(dict(zip(self.PLOTCOLNAMES,
-                                    [corners, baseheight, LAI, optPropName])))
+                                    [corners, baseheight, LAI, optpropname])))
             self.plotsnumber += 1
         data = pd.DataFrame(voxlist, columns=self.PLOTCOLNAMES)
         self.plots.append(data, ignore_index=True)
@@ -301,10 +324,9 @@ class simulation(object):
         The functions are written so that default parameters are first written,
         then updated with the given changes contained in "changetracker".
         """
-        pof.bands.index += 1
         # WARNING : Terminology Problem?
         self.changetracker[1]['plots']['voxels'] = self.plots
-        pof.bands.index += 1  # To match Dart's IndexFctPhase
+        self.bands.index += 1
 
         self.changetracker[1]['phase']['bands'] = self.bands
         self.changetracker[1]['coeff_diff'] = self.optsprops
