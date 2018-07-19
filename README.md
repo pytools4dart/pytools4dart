@@ -98,10 +98,8 @@ ordered information:
 - ident: string for name 
 - database: string-path to database 
 - modelname: name of opt in database 
-   if lambertian : 
-   - specular : 0 or 1, 1 if UseSpecular
-   if vegetation :
-   - lad : leaf angle distribution - can take the following values :
+- (if lambertian) specular : 0 or 1, 1 if UseSpecular
+- (if vegetation )lad : leaf angle distribution - can take the following values :
         - 0: Uniform
         - 1: Spherical
         - 3: Planophil
