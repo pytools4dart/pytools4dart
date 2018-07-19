@@ -66,20 +66,40 @@ class DartPlotsXML(object):
     All the tag names of tree nodes are supposed to be IDENTICAL to the ones
     produces by DART. The variable names are sometimes shortened.
 
-    TODO : In order to properly link a plot to an optical property, both the ident
-    and an index number have to be passed.
+    TODO : In order to properly link a plot to an optical property, both the
+    ident and an index number have to be passed.
 
     """
     PLOT_DEFAULT_ATR = {"form": "0", "hidden": "0", "isDisplayed": "1",
                         "repeatedOnBorder": "1", "type": "1"}
 
     def __init__(self, changetracker):
+        """
+
+        Here is initialized the index for the optical properties.
+        The dictionnary referencing allows for easier calling inside the
+        'add plot' method.
+        """
         self.root = etree.Element("Plots", {'addExtraPlotsTextFile': '0',
                                   'isVegetation': '0'})
         self.tree = etree.ElementTree(self.root)
         self.changes = None
         if 'plots' in changetracker[0]:
             self.changes = changetracker[1]['plots']
+            try:
+                self.opts = changetracker[1]['coeff_diff']
+                index = 0
+                self.index_lamb = {}
+                for lamb in self.opts['lambertians']:
+                    self.index_lamb[lamb[1]] = index
+                    index += 1
+                index = 0
+                self.index_veg = {}
+                for veg in self.opts['vegetations']:
+                    self.index_veg[veg[1]] = index
+                    index += 1
+            except KeyError:
+                return
         return
 
     def basenodes(self):
@@ -99,6 +119,7 @@ class DartPlotsXML(object):
         For now it is used mainly as the way to integrate voxels from a .vox
         file. Parameters are cast to strings in order to ensure compatibility
         with Element Tree.
+        TODO : IndexFctPhase!
         """
         # appends new plot to plots
         plot = etree.SubElement(self.root, "Plot", self.PLOT_DEFAULT_ATR)
@@ -127,7 +148,18 @@ class DartPlotsXML(object):
                    "stDev": "0"}
         # here optical property passed as argument to method
         # TODO : IndexFctPhase!!!
-        vegoptlink = {"ident": str(optprop), "indexFctPhase": "0"}
+        try:
+            indexphase = self.index_veg[optprop]
+        except KeyError:
+            print 'Vegetations optprop Problem'
+        try:
+            indexphase = self.index_lamb[optprop]
+        except KeyError:
+            print 'Lambertian optprop Problem'
+        return
+
+
+        vegoptlink = {"ident": str(optprop), "indexFctPhase": str(indexphase)}
         grdthermalprop = {"idTemperature": "ThermalFunction290_310",
                           "indexTemperature": "0"}
 
