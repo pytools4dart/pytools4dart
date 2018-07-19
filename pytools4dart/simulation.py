@@ -66,7 +66,7 @@ class simulation(object):
 
         self.changetracker = [[], {}, outpath, "flux"]
         self.plotsnumber = 0
-        self.optsprops = {'lambertians': [], 'vegetations': []}
+        self.optprops = {'lambertians': [], 'vegetations': []}
         self.nbands = 0
         self.bands = pd.DataFrame(columns=self.BANDSCOLNAMES)
         self.plots = pd.DataFrame(columns=self.PLOTCOLNAMES)
@@ -186,11 +186,14 @@ class simulation(object):
                         - 0: Uniform
                         - 1: Spherical
                         - 3: Planophil
+        TODO : think about : do we want optprops as an object?
+        simplified management of all variables...
+        Vegetation.db is Dart default.
         """
         if optprop[0] == 'lambertian':
-            self.optsprops['lambertians'].append(optprop[1:])
-        elif optprop[1] == 'vegetations':
-            self.optsprops['vegetations'].append(optprop[1:])
+            self.optprops['lambertians'].append(optprop[1:])
+        elif optprop[0] == 'vegetation':
+            self.optprops['vegetations'].append(optprop[1:])
         else:
             print 'Non recognized optical property type. Returning'
             return
@@ -324,12 +327,14 @@ class simulation(object):
         The functions are written so that default parameters are first written,
         then updated with the given changes contained in "changetracker".
         """
+
+        print 'Writing XML files'
         # WARNING : Terminology Problem?
         self.changetracker[1]['plots']['voxels'] = self.plots
         self.bands.index += 1
 
         self.changetracker[1]['phase']['bands'] = self.bands
-        self.changetracker[1]['coeff_diff'] = self.optsprops
+        self.changetracker[1]['coeff_diff'] = self.optprops
 
         dxml.write_atmosphere(self.changetracker)
         dxml.write_coeff_diff(self.changetracker)
@@ -372,11 +377,20 @@ if __name__ == '__main__':
     start = time.time()
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
                      'essai_sequence/input/')
-    pof.addsingleplot()
+    corners = ((3,  4),
+               (3,  0),
+               (0,  0),
+               (0,  4))
+    pof.addsingleplot(corners = corners, opt='proprieteopt2')
  #   pof.addband([1, 2, 3])
  #   pof.addband([2, 2, 3])
     pof.addband([12, 2, 3])
     pof.addband("/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr")
+    optprop = ['lambertian', 'proprieteopt', 'vegetation.db', 'truc', '0' ]
+    pof.addopt(optprop)
+    optpropveg = ['vegetation', 'proprieteopt2', 'vegetation.db', 'proprieteopt2', '0' ]
+    pof.addopt(optpropveg)
+
     pof.listmodifications()
  #   pof.addsequence({'hello': (1, 2, 3)})
     pof.write_xmls()

@@ -160,13 +160,15 @@ class DartCoefXML(object):
         etree.SubElement(temp, 'ThermalFunction', thermal_atr)
         return
 
-    def addlamb(self, ident=None, database='Lambertian_vegetation.db',
-                modelname='reflect_equal_1_trans_equal_0_0', specular='0'):
+    def addlamb(self, optprop):
         """add a lambertian optical property
         """
-        if not ident:
-            ident = 'custom_lamb'
 
+        ident = optprop[0]
+        database = optprop[1]
+        modelname = optprop[2]
+        specular = optprop[3]
+        # 'reflect_equal_1_trans_equal_0_0', specular='0'
         rootlamb = self.root.find("./LambertianMultiFunctions")
         lamb_atr = {'ident': ident,
                     'useSpecular': specular,
@@ -191,8 +193,7 @@ class DartCoefXML(object):
 
         return
 
-    def addvegetation(self, ident=None, database='Vegetation.db',
-                      modelname='leaf_deciduous', lad=1):
+    def addvegetation(self, optprop):
         """ Adds a vegetation Node
 
         This module will require some work as it probably will be our most used
@@ -202,10 +203,15 @@ class DartCoefXML(object):
         Spherical : 1
         Planophil : 3
 
+        ident=None, database='Vegetation.db',
+        modelname='leaf_deciduous', lad=1
         """
 
-        if not ident:
-            ident = 'custom'
+
+        ident = optprop[0]
+        database = optprop[1]
+        modelname = optprop[2]
+        lad = optprop[3]
 
         rootveg = self.root.find("./UnderstoryMultiFunctions")
         veg_atr = {'ident': ident, 'dimFoliar': '0.01', 'lad': lad,
