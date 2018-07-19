@@ -156,6 +156,7 @@ Example :
 ```
 
 The above parameters give the following values for :
+
 | SpectralIntervals | deltaLambda | dayOfTheYear |
 | --- | --- | --- |
 | 400 | 10 | 0 |
