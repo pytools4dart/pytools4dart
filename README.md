@@ -87,6 +87,25 @@ except pickupfile() completes the "optprop" column.
 In the absence of value, a default vegetation optical property will be 
 assigned.
 
+###### Optical property management
+
+Optical properties are added through the addopt method of the simulation
+object.
+This function takes as input a list of stringscontaining the following 
+ordered information: 
+
+-type : 'lambertian' or 'vegetation'
+-ident: string for name
+-database: string-path to database
+-modelname: name of opt in database
+if lambertian :
+    -specular : 0 or 1, 1 if UseSpecular
+if vegetation :
+    -lad : leaf angle distribution - can take the following values :
+        - 0: Uniform
+        - 1: Spherical
+        - 3: Planophil
+
 ###### Sequencer use
 
 In order to use the DART SequenceLauncher tool, the "addsequence" method
@@ -111,8 +130,8 @@ simu.addsequence({'param1' : (1,2,3)}, group = 'group1')
 simu.addsequence({'param2' : (4,5,6)}, group = 'group2')
 ```
 
-A name is required in order to save the xml file, for now a single name
-has to be used, for a single xml sequence file will be produced.
+A name is required in order to save the xml file. At this time now a single 
+name has to be used, for a single xml sequence file will be produced.
 
 Example : 
 
@@ -137,13 +156,14 @@ Example :
 ```
 
 The above parameters give the following values for :
-SpectralIntervals ; deltaLambda ; dayOfTheYear
-400 ; 10 ; 0
-400 ; 10 ; 60
-450 ; 15 ; 0
-450 ; 15 ; 60
-500 ; 20 ; 0
-500 ; 20 ; 60
+| SpectralIntervals | deltaLambda | dayOfTheYear |
+| --- | --- | --- |
+| 400 | 10 | 0 |
+| 400 | 10 | 60 |
+| 450 | 15 | 0 |
+| 450 | 15 | 60 |
+| 500 | 20 | 0 |
+| 500 | 20 | 60 |
 
 
 
