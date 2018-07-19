@@ -207,7 +207,6 @@ class DartCoefXML(object):
         modelname='leaf_deciduous', lad=1
         """
 
-
         ident = optprop[0]
         database = optprop[1]
         modelname = optprop[2]

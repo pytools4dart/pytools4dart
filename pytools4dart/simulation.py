@@ -283,6 +283,7 @@ class simulation(object):
         """
         self._registerchange('plots')
         self.changetracker[1]['plots']['voxels'] = True
+
         vox = voxel.from_vox(path)
         voxlist = []
         res = vox.header["res"][0]
@@ -330,7 +331,7 @@ class simulation(object):
 
         print 'Writing XML files'
         # WARNING : Terminology Problem?
-        self.changetracker[1]['plots']['voxels'] = self.plots
+        self.changetracker[1]['plots'] = self.plots
         self.bands.index += 1
 
         self.changetracker[1]['phase']['bands'] = self.bands
@@ -386,9 +387,9 @@ if __name__ == '__main__':
  #   pof.addband([2, 2, 3])
     pof.addband([12, 2, 3])
     pof.addband("/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr")
-    optprop = ['lambertian', 'proprieteopt', 'vegetation.db', 'truc', '0' ]
+    optprop = ['lambertian', 'proprieteopt', 'Vegetation.db', 'truc', '0' ]
     pof.addopt(optprop)
-    optpropveg = ['vegetation', 'proprieteopt2', 'vegetation.db', 'proprieteopt2', '0' ]
+    optpropveg = ['vegetation', 'proprieteopt2', '/media/mtd/stock/DART/database/Vegetation.db', 'beech_middle', '0' ]
     pof.addopt(optpropveg)
 
     pof.listmodifications()

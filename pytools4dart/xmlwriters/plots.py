@@ -91,15 +91,17 @@ class DartPlotsXML(object):
                 index = 0
                 self.index_lamb = {}
                 for lamb in self.opts['lambertians']:
-                    self.index_lamb[lamb[1]] = index
+                    self.index_lamb[lamb[0]] = index
                     index += 1
                 index = 0
                 self.index_veg = {}
                 for veg in self.opts['vegetations']:
-                    self.index_veg[veg[1]] = index
+                    self.index_veg[veg[0]] = index
                     index += 1
             except KeyError:
                 return
+        else:
+            print "No plot in simulation."
         return
 
     def basenodes(self):
@@ -148,16 +150,14 @@ class DartPlotsXML(object):
                    "stDev": "0"}
         # here optical property passed as argument to method
         # TODO : IndexFctPhase!!!
-        try:
-            indexphase = self.index_veg[optprop]
-        except KeyError:
-            print 'Vegetations optprop Problem'
-        try:
-            indexphase = self.index_lamb[optprop]
-        except KeyError:
-            print 'Lambertian optprop Problem'
-        return
 
+        if optprop in self.index_lamb:
+            indexphase = self.index_lamb[optprop]
+        elif optprop in self.index_veg:
+            indexphase = self.index_veg[optprop]
+        else:
+            print "Unrecognized optical property"
+            return
 
         vegoptlink = {"ident": str(optprop), "indexFctPhase": str(indexphase)}
         grdthermalprop = {"idTemperature": "ThermalFunction290_310",
@@ -201,13 +201,8 @@ class DartPlotsXML(object):
 
         """
 
-        if self.changes:
-            if 'voxels' in self.changes:
-                self.plotsfrompanda(self.changes['voxels'])
-            return
-
-        else:
-            return
+        self.plotsfrompanda(self.changes)
+        return
 
     def writexml(self, outpath):
         """ Writes the built tree to the specified path
@@ -219,7 +214,8 @@ class DartPlotsXML(object):
                              {'version': '5.7.0', 'build': 'v1033'})
         root.append(self.root)
         tree = etree.ElementTree(root)
-        tree.write(outpath)
+        tree.write(outpath, encoding="UTF-8", xml_declaration=True)
+
         return
 
 
