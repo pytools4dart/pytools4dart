@@ -249,6 +249,17 @@ class simulation(object):
         self.changetracker[1]['sequencename'] = name
         return
 
+    def addtrees(self):
+        """Add trees to the simulation
+
+        TODO : The biggest problem is the simultaneous management of the
+        trees.txt and of Dart's trees.xml.
+        How do they work in conjonction?
+
+        """
+        self.trees = None
+        return
+
     def setscene(self, scene):
         """change scene dimensions
 
@@ -315,7 +326,7 @@ class simulation(object):
     def listmodifications(self):
         """returns record of modifications to simulation
 
-        TODO : stuff
+        TODO : stuff to make all that seem nicer.
         """
         print 'Impacted xml files:'
         print self.changetracker[0]
@@ -383,13 +394,24 @@ if __name__ == '__main__':
                (0,  0),
                (0,  4))
     pof.addsingleplot(corners = corners, opt='proprieteopt2')
+    pof.addsingleplot(corners = corners, opt='proprieteopt3')
+    pof.addsingleplot(corners = corners, opt='proprieteopt1')
+
  #   pof.addband([1, 2, 3])
  #   pof.addband([2, 2, 3])
     pof.addband([12, 2, 3])
     pof.addband("/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr")
     optprop = ['lambertian', 'proprieteopt', 'Vegetation.db', 'truc', '0' ]
     pof.addopt(optprop)
-    optpropveg = ['vegetation', 'proprieteopt2', '/media/mtd/stock/DART/database/Vegetation.db', 'beech_middle', '0' ]
+
+    optpropveg = ['vegetation', 'proprieteopt2', '/media/mtd/stock/DART/database/Vegetation.db', 'ash_top', '0' ]
+    pof.addopt(optpropveg)
+
+    optpropveg = ['vegetation', 'proprieteopt1', '/media/mtd/stock/DART/database/Vegetation.db', 'elm_top', '0' ]
+    pof.addopt(optpropveg)
+
+    optpropveg = ['vegetation', 'proprieteopt3', '/media/mtd/stock/DART/database/Vegetation.db', 'beech_middle', '0' ]
+
     pof.addopt(optpropveg)
 
     pof.listmodifications()

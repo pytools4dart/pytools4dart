@@ -93,10 +93,10 @@ class DartTreesXML(object):
         if "trees" in self.changes[0]:
             self.changes = self.changes[1]["trees"]
             if 1 in self.changes['mode']:
-
                 self.treeone(self.changes[1])
             if 2 in self.changes['mode']:
-                print "doing even more!"
+                self.treetwo(self.changes[1])
+            # etc....
             return
         else:
             return
