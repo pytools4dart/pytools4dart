@@ -249,15 +249,31 @@ class simulation(object):
         self.changetracker[1]['sequencename'] = name
         return
 
-    def addtrees(self):
+    def addtrees(self, tree):
         """Add trees to the simulation
 
         TODO : The biggest problem is the simultaneous management of the
         trees.txt and of Dart's trees.xml.
-        How do they work in conjonction?
+        Here, trees are defined as line in a panda dataframe. row will have
+        to be split into trees xml writer AND trees.txt
 
+        The XML OPT PROP goes with a "FctPhaseIndex".
+        TODO : Empy leaf cells/ leaves+ holes management!
+                        -- > 'distribution' parameter
         """
-        self.trees = None
+        if not self.treespecies:
+            print "You must first define a tree specie."
+            return
+        if not self.istrees:
+            self.istrees = True
+            cols = ['SPECIES_ID', 'C_TYPE', 'POS_X', 'POS_Y', 'T_HEI_BELOW',
+                    'T_HEI_WITHIN', 'DIA_BELOW', 'C_TYPE', 'C_HEI', 'C_GEO_1',
+                    'C_GEO_2', 'XMLtrunkoptprop', 'XMLtrunkopttype',
+                    'XMLtrunkthermalprop', 'XMLvegoptprop', 'XMLvegthermprop',
+                    'XMLleafholes', ]
+            self.trees = pd.DataFrame(columns=cols)
+
+        print "tree added"
         return
 
     def setscene(self, scene):
@@ -326,7 +342,7 @@ class simulation(object):
     def listmodifications(self):
         """returns record of modifications to simulation
 
-        TODO : stuff to make all that seem nicer.
+        TODO : stuff to make all that look nicer.
         """
         print 'Impacted xml files:'
         print self.changetracker[0]
@@ -339,6 +355,7 @@ class simulation(object):
         The functions are written so that default parameters are first written,
         then updated with the given changes contained in "changetracker".
         """
+        # self.checksimu()
 
         print 'Writing XML files'
         # WARNING : Terminology Problem?
@@ -393,29 +410,35 @@ if __name__ == '__main__':
                (3,  0),
                (0,  0),
                (0,  4))
-    pof.addsingleplot(corners = corners, opt='proprieteopt2')
-    pof.addsingleplot(corners = corners, opt='proprieteopt3')
-    pof.addsingleplot(corners = corners, opt='proprieteopt1')
+    pof.addsingleplot(corners=corners, opt='proprieteopt2')
+    pof.addsingleplot(corners=corners, opt='proprieteopt3')
+    pof.addsingleplot(corners=corners, opt='proprieteopt1')
 
- #   pof.addband([1, 2, 3])
- #   pof.addband([2, 2, 3])
+    #   pof.addband([1, 2, 3])
+    #   pof.addband([2, 2, 3])
     pof.addband([12, 2, 3])
     pof.addband("/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr")
-    optprop = ['lambertian', 'proprieteopt', 'Vegetation.db', 'truc', '0' ]
+    optprop = ['lambertian', 'proprieteopt', 'Vegetation.db', 'truc', '0']
     pof.addopt(optprop)
 
-    optpropveg = ['vegetation', 'proprieteopt2', '/media/mtd/stock/DART/database/Vegetation.db', 'ash_top', '0' ]
+    optpropveg = ['vegetation', 'proprieteopt2',
+                  '/media/mtd/stock/DART/database/Vegetation.db',
+                  'ash_top', '0']
     pof.addopt(optpropveg)
 
-    optpropveg = ['vegetation', 'proprieteopt1', '/media/mtd/stock/DART/database/Vegetation.db', 'elm_top', '0' ]
+    optpropveg = ['vegetation', 'proprieteopt1',
+                  '/media/mtd/stock/DART/database/Vegetation.db',
+                  'elm_top', '0']
     pof.addopt(optpropveg)
 
-    optpropveg = ['vegetation', 'proprieteopt3', '/media/mtd/stock/DART/database/Vegetation.db', 'beech_middle', '0' ]
+    optpropveg = ['vegetation', 'proprieteopt3',
+                  '/media/mtd/stock/DART/database/Vegetation.db',
+                  'beech_middle', '0']
 
     pof.addopt(optpropveg)
 
     pof.listmodifications()
- #   pof.addsequence({'hello': (1, 2, 3)})
+    #   pof.addsequence({'hello': (1, 2, 3)})
     pof.write_xmls()
     print(pof.bands)
     end = time.time()

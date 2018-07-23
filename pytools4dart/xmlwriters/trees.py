@@ -112,8 +112,9 @@ class DartTreesXML(object):
         ComputedTransferFunctions : write transferFunctions would be the place
         where the saving of the computed atmosphere is done.
         """
-        trees_atr = {'sceneModelCharacteristic': '1', 'isTrees': '1'}
-        self.root = etree.Element('Trees', trees_atr)
+        if not etree.iselement(self.root):
+            trees_atr = {'sceneModelCharacteristic': '1', 'isTrees': '1'}
+            self.root = etree.Element('Trees', trees_atr)
         etree.SubElement(self.root, 'TreeGeneralOptions',
                          {'triangleTreeRepresentation': '0'})
 
