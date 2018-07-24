@@ -85,7 +85,9 @@ class DartPlotsXML(object):
         self.tree = etree.ElementTree(self.root)
         self.changes = None
         if 'plots' in changetracker[0]:
+            self.opts = changetracker[1]['coeff_diff']
             self.changes = changetracker[1]['plots']
+            """
             try:
                 self.opts = changetracker[1]['coeff_diff']
                 index = 0
@@ -99,7 +101,9 @@ class DartPlotsXML(object):
                     self.index_veg[veg[0]] = index
                     index += 1
             except KeyError:
-                return
+            """
+            print "Existing plots to be added to simulation."
+            return
         else:
             print "No plot in simulation."
         return
@@ -149,12 +153,12 @@ class DartPlotsXML(object):
         veggeom = {"baseheight": (str(baseheight)), "height": "1.0",
                    "stDev": "0"}
         # here optical property passed as argument to method
-        # TODO : IndexFctPhase!!!
+        # TODO : better way of referencing indices....!!!
 
-        if optprop in self.index_lamb:
-            indexphase = self.index_lamb[optprop]
-        elif optprop in self.index_veg:
-            indexphase = self.index_veg[optprop]
+        if optprop in self.opts['lambertians']:
+            indexphase = self.opts['lambertians'][optprop]
+        elif optprop in self.opts['vegetations']:
+            indexphase = self.opts['vegetations'][optprop]
         else:
             print "Unrecognized optical property"
             return

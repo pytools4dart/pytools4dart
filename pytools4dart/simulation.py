@@ -59,6 +59,18 @@ class simulation(object):
         TODO : WARNING : For now, 'flux' ( changetracker[3]) is hardcoded in
         the simulation object. It will have to be flexible depending on input.
 
+        optprops is a dictionnary containing two lists :
+            for each type : 'lambertian' or 'vegetation'
+            -ident: string for name
+            -database: string-path to database
+            -modelname: name of opt in database
+            if lambertian :
+                -specular : 0 or 1, 1 if UseSpecular
+            if vegetation :
+                -lad : leaf angle distribution :
+                    - 0: Uniform
+                    - 1: Spherical
+                    - 3: Planophil
         """
         # Variables to be used in subsequent methods
         self.PLOTCOLNAMES = ['corners', 'baseheight', 'density', 'optprop']
@@ -71,7 +83,7 @@ class simulation(object):
         self.bands = pd.DataFrame(columns=self.BANDSCOLNAMES)
         self.plots = pd.DataFrame(columns=self.PLOTCOLNAMES)
         self.scene = [10, 10]
-
+        self.nspecies = 0
     def __repr__(self):
         return "pytools4dart simulation object"
 
@@ -95,6 +107,7 @@ class simulation(object):
         if txt data separate by spaces.
         bandnumer(optional) wavelengthcenter wavelengthwidth
         hdrnm is used to convert nm to µm when reading from header.
+        TODO : check if .txt info works.
 
         Parameters
         ----------
@@ -249,17 +262,32 @@ class simulation(object):
         self.changetracker[1]['sequencename'] = name
         return
 
-    def addtrees(self, tree):
+    def addtree(self, tree):
         """Add trees to the simulation
 
         TODO : The biggest problem is the simultaneous management of the
         trees.txt and of Dart's trees.xml.
-        Here, trees are defined as line in a panda dataframe. row will have
+        Here, trees are defined as lines in a panda dataframe. rows will have
         to be split into trees xml writer AND trees.txt
 
         The XML OPT PROP goes with a "FctPhaseIndex".
         TODO : Empy leaf cells/ leaves+ holes management!
                         -- > 'distribution' parameter
+        Big question : from what will a tree be created?
+        tree must contain :
+            -specie ID
+            -C_TYPE (type of crown geometry)
+                -0 = ellipsoid, 1=ellipsoid composed, 2=cone,
+                 3=trapezoid, 5=cone composed
+            -X
+            -Y
+            -Height below crown
+            -Heiht within crown
+            -diameter below crown
+            -Trunk Rotation
+            -Trunk nutation rotation
+
+
         """
         if not self.treespecies:
             print "You must first define a tree specie."
@@ -267,13 +295,33 @@ class simulation(object):
         if not self.istrees:
             self.istrees = True
             cols = ['SPECIES_ID', 'C_TYPE', 'POS_X', 'POS_Y', 'T_HEI_BELOW',
-                    'T_HEI_WITHIN', 'DIA_BELOW', 'C_TYPE', 'C_HEI', 'C_GEO_1',
-                    'C_GEO_2', 'XMLtrunkoptprop', 'XMLtrunkopttype',
+                    'T_HEI_WITHIN', 'DIA_BELOW','T_ROT_NUT',' T_ROT_PRE',
+                    'C_HEI', 'C_GEO_1', 'C_GEO_2', 'XMLtrunkoptprop',
+                    'XMLtrunkopttype',
                     'XMLtrunkthermalprop', 'XMLvegoptprop', 'XMLvegthermprop',
                     'XMLleafholes', ]
             self.trees = pd.DataFrame(columns=cols)
 
+
         print "tree added"
+        return
+
+    def addtreespecies(self, ntrees, lai ):
+        """
+        properties of a specie :
+            - number of trees
+            - LAI > 0 or Ul <0
+            - branch and twig simulation
+            - trunk opt prop
+            - trunk opt prop type
+            - thermal property
+        """
+        if not self.species:
+            self.species = []
+
+        specie = {'id' : self.nspecies,'ntrees':ntrees,'lai':lai,'crowns':[]}
+        self.species.append(specie)
+        self.nspecies += 1
         return
 
     def setscene(self, scene):
@@ -349,6 +397,21 @@ class simulation(object):
 
         return
 
+    def indexoptprops(self):
+        index = 0
+        self.index_lamb = {}
+        for lamb in self.opts['lambertians']:
+            self.index_lamb[lamb[0]] = index
+            index += 1
+        index = 0
+        self.index_veg = {}
+        for veg in self.opts['vegetations']:
+            self.index_veg[veg[0]] = index
+            index += 1
+        self.indexopts = {'lambertians': self.index_lamb,
+                          'vegetations': self.index_veg}
+        return
+
     def write_xmls(self):
         """writes the xmls with all defined input parameters
 
@@ -359,14 +422,26 @@ class simulation(object):
 
         print 'Writing XML files'
         # WARNING : Terminology Problem?
-        self.changetracker[1]['plots'] = self.plots
         self.bands.index += 1
+        """
+        TODO : stuff to do here to properly write "trees.txt"
+        if self.istrees:
+            self.trees.to_string()
 
-        self.changetracker[1]['phase']['bands'] = self.bands
+        WARNING : important to write coeff diff before indexing opt props :
+            coeff diff needs all optprops info, whereas the other writers
+            only need ident + index.
+        """
         self.changetracker[1]['coeff_diff'] = self.optprops
+        dxml.write_coeff_diff(self.changetracker)
+
+        self.indexoptprops()
+        self.changetracker[1]['coeff_diff'] = self.indexopts
+
+        self.changetracker[1]['plots'] = self.plots
+        self.changetracker[1]['phase']['bands'] = self.bands
 
         dxml.write_atmosphere(self.changetracker)
-        dxml.write_coeff_diff(self.changetracker)
         dxml.write_directions(self.changetracker)
         dxml.write_inversion(self.changetracker)
         dxml.write_maket(self.changetracker)

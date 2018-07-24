@@ -73,6 +73,7 @@ class DartTreesXML(object):
 
     def __init__(self, changetracker):
         self.changes = changetracker
+        self.opts = changetracker[1]['coeff_diff']
         self.root = None
         return
 
@@ -106,58 +107,97 @@ class DartTreesXML(object):
         """
         return
 
-    def treeone(self, pathtree, ntrees, lai, optprop, indexoptprop):
+    def treeone(self, species, pathtree):
         """creates all nodes and properties common to default simulations
 
         ComputedTransferFunctions : write transferFunctions would be the place
         where the saving of the computed atmosphere is done.
+        specie :
+            - number of trees
+            - LAI > 0 or Ul <0
+            - branch and twig simulation
+            - trunk opt prop
+            - trunk opt prop type
+            - thermal property
+        for each crown :
+            - distribution : Holes/leaves..
+            - trunk opt ptop, trunk opt type
+            - thermal property
+            - veg optptop (with index!)
+            - veg therm prop
         """
-        if not etree.iselement(self.root):
-            trees_atr = {'sceneModelCharacteristic': '1', 'isTrees': '1'}
-            self.root = etree.Element('Trees', trees_atr)
-        etree.SubElement(self.root, 'TreeGeneralOptions',
-                         {'triangleTreeRepresentation': '0'})
+        for specie in species:
+            if not etree.iselement(self.root):
+                trees_atr = {'sceneModelCharacteristic': '1', 'isTrees': '1'}
+                self.root = etree.Element('Trees', trees_atr)
+                etree.SubElement(self.root, 'TreeGeneralOptions',
+                                 {'triangleTreeRepresentation': '0'})
 
-        treeone_atr = {'laiZone': '0',
-                       'sceneParametersFileName': pathtree}
-        subroot = etree.SubElement(self.root, "Trees_1", treeone_atr)
-        specie_atr = {'numberOfTreesInWholeScene': str(ntrees),
-                      'branchesAndTwigsSimulation': '0', 'lai': str(lai)}
-        specie = etree.SubElement(subroot, 'Specie', specie_atr)
+                treeone_atr = {'laiZone': '0',
+                               'sceneParametersFileName': pathtree}
+                subroot = etree.SubElement(self.root, "Trees_1", treeone_atr)
 
-        trunkopt = None
-        # specie branch
-        opt_atr = {'indexFctPhase': '0', 'ident': trunkopt, 'type': '0'}
-        therm_atr = {'idTemperature': 'ThermalFunction290_310',
-                     'indexTemperature': '0'}
-        # TODO : Here are properties that could be changed
-        crown_atr = {'verticalWeightForUf': '1.00', 'distribution': '0',
-                     'relativeHeightVsCrownHeight': '1.00',
-                     'laiConservation': '1',
-                     'relativeTrunkDiameterWithinCrown': '0.50'}
+            ntrees = specie['ntrees']
+            lai = specie['lai']
+            # specie branch
+            specie_atr = {'numberOfTreesInWholeScene': str(ntrees),
+                          'branchesAndTwigsSimulation': '0', 'lai': str(lai)}
+            specie = etree.SubElement(subroot, 'Specie', specie_atr)
 
-        etree.SubElement(specie, 'OpticalPropertyLink', opt_atr)
-        etree.SubElement(specie, 'ThermalPropertyLink', therm_atr)
-        crown = etree.SubElement(specie, 'CrownLevel', crown_atr)
+            for crown in specie['crowns']:
+                # TODO : Here are properties that could be changed
+                # Crown sub branch
+                # here go the attribution of specified parameters.
+                distribution = '0'
+                trunkopt = None
+                thermal = None
+                vegopt = None
+                vegtherm = None
 
-        # Crown sub branch
-        cropt_atr = {'indexFctPhase': '0',
-                     'ident': 'Lambertian_Phase_Function_1', 'type': '0'}
-        crotherm_atr = {'idTemperature': 'ThermalFunction290_310',
-                        'indexTemperature': '0'}
-        etree.SubElement(crown, 'OpticalPropertyLink', cropt_atr)
-        etree.SubElement(crown, 'ThermalPropertyLink', crotherm_atr)
+                print vegtherm
+                print thermal
 
-        veg = etree.SubElement(crown, 'VegetationProperty')
+                crown_atr = {'verticalWeightForUf': '1.00',
+                             'distribution': distribution,
+                             'relativeHeightVsCrownHeight': '1.00',
+                             'laiConservation': '1',
+                             'relativeTrunkDiameterWithinCrown': '0.50'}
+                opt_atr = {'indexFctPhase': self.opts, 'ident': trunkopt,
+                           'type': '0'}
+                therm_atr = {'idTemperature': 'ThermalFunction290_310',
+                             'indexTemperature': '0'}
+                etree.SubElement(specie, 'OpticalPropertyLink', opt_atr)
+                etree.SubElement(specie, 'ThermalPropertyLink', therm_atr)
+                crown = etree.SubElement(specie, 'CrownLevel', crown_atr)
 
-        # Vegetation Sub Sub branch
-        # TODO : check how indectFctPhase works!!
-        vegopt_atr = {'indexFctPhase': indexoptprop,
-                      'ident': optprop}
-        vegtherm_atr = {'idTemperature': 'ThermalFunction290_310',
-                        'indexTemperature': '0'}
-        etree.SubElement(veg, 'VegetationOpticalPropertyLink', vegopt_atr)
-        etree.SubElement(veg, 'ThermalPropertyLink', vegtherm_atr)
+                cropt_atr = {'indexFctPhase': '0',
+                             'ident': 'Lambertian_Phase_Function_1',
+                             'type': '0'}
+                crotherm_atr = {'idTemperature': 'ThermalFunction290_310',
+                                'indexTemperature': '0'}
+                etree.SubElement(crown, 'OpticalPropertyLink', cropt_atr)
+                etree.SubElement(crown, 'ThermalPropertyLink', crotherm_atr)
+
+                veg = etree.SubElement(crown, 'VegetationProperty')
+
+                # Vegetation Sub Sub branch
+                # TODO : check how indectFctPhase works!!
+                if vegopt in self.opts['lambertians']:
+                    indexphase = self.opts['lambertians'][vegopt]
+                elif vegopt in self.opts['vegetations']:
+                    indexphase = self.opts['vegetations'][vegopt]
+                else:
+                    print ("Optical property {} unfound.",
+                           "Returning".format(vegopt))
+
+                vegopt_atr = {'indexFctPhase': indexphase,
+                              'ident': vegopt}
+                vegtherm_atr = {'idTemperature': 'ThermalFunction290_310',
+                                'indexTemperature': '0'}
+
+                etree.SubElement(veg, 'VegetationOpticalPropertyLink',
+                                 vegopt_atr)
+                etree.SubElement(veg, 'ThermalPropertyLink', vegtherm_atr)
 
         # base nodes
         # etree.SubElement(self.root, 'SunViewingAngles', sunangles_atr)
