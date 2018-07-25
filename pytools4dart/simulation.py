@@ -290,13 +290,13 @@ class simulation(object):
 
 
         """
-        if not self.treespecies:
-            print "Warning : No tree specie has been defined."
-            print "The trees you have added have no optical link."
 
-        if not self.istrees:
+        if self.nspecies == 0:
+            print "Warning : No tree specie has been defined."
+            print "The trees you have added have therefore no optical link."
+
+        if 'trees' not in self.changetracker[0]:
             self.trees = pd.read_csv(path, comment='*', sep='\t')
-            self.istrees = True
         else:
             print "appending trees to the existing trees dataframe : "
             newtrees = pd.read_csv(path, comment='*', sep='\t')
@@ -309,17 +309,17 @@ class simulation(object):
 #                    'XMLtrunkopttype',
 #                    'XMLtrunkthermalprop', 'XMLvegoptprop', 'XMLvegthermprop',
 #                    'XMLleafholes', ]
-
+        self._registerchange('trees')
         print "trees added."
-        print ("Species can be modified through the \"SpeciesID\" column of",
+        print ("Species can be modified through the \"SpeciesID\" column of "
                "the dataframe : simulation.trees")
         return
 
-    def addtreespecies(self, ntrees='1', lai='4.0', holes='0',
-                       trunkopt='Lambertian_Phase_Function_1',
-                       trunktherm='ThermalFunction290_310',
-                       vegopt='custom',
-                       vegtherm='ThermalFunction290_310'):
+    def addtreespecie(self, ntrees='1', lai='4.0', holes='0',
+                      trunkopt='Lambertian_Phase_Function_1',
+                      trunktherm='ThermalFunction290_310',
+                      vegopt='custom',
+                      vegtherm='ThermalFunction290_310'):
         """
         properties of a specie :
             - number of trees
@@ -336,6 +336,9 @@ class simulation(object):
                   'crowns': [holes, trunkopt, trunktherm, vegopt, vegtherm]}
         self.species.append(specie)
         self.nspecies += 1
+        self._registerchange('trees')
+        print ("A tree specie has been added. Make sure the specified optical "
+               "properties match those defined in self.optsprops")
         return
 
     def setscene(self, scene):
@@ -434,7 +437,6 @@ class simulation(object):
 
         return
 
-
     def write_xmls(self):
         """writes the xmls with all defined input parameters
 
@@ -456,6 +458,7 @@ class simulation(object):
         WARNING : important to write coeff diff before indexing opt props :
             coeff diff needs all optprops info, whereas the other writers
             only need ident + index.
+        WARNING : here the structure for changetracker[1]['trees'] is defined.
         """
         self.indexprops()
         self.changetracker[1]['coeff_diff'] = self.optprops
@@ -474,8 +477,13 @@ class simulation(object):
         dxml.write_phase(self.changetracker)
         dxml.write_plots(self.changetracker)
         dxml.write_sequence(self.changetracker)
+        # Special stuff for trees : writing trees.txt and pass the path
         if self.istrees:
+            pathtrees = self.changetracker[2]+'pytrees.txt'
+            self.trees.to_csv(pathtrees, sep="\t", header=True, index=False)
+            self.changetracker[1]['trees'] = [pathtrees, self.species]
             dxml.write_trees(self.changetracker)
+
         dxml.write_urban(self.changetracker)
         dxml.write_water(self.changetracker)
         return
@@ -505,6 +513,7 @@ class simulation(object):
 if __name__ == '__main__':
     import time
     start = time.time()
+    """
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
                      'essai_sequence/input/')
     corners = ((3,  4),
@@ -542,5 +551,6 @@ if __name__ == '__main__':
     #   pof.addsequence({'hello': (1, 2, 3)})
     pof.write_xmls()
     print(pof.bands)
+    """
     end = time.time()
     print(end - start)

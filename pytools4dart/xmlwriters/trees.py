@@ -49,9 +49,7 @@ def write_trees(changetracker):
     """
     trees = DartTreesXML(changetracker)
 
-    trees.basenodes()
-
-    trees.adoptchanges(changetracker)
+    trees.adoptchanges()
 
     outpath = changetracker[2]
     trees.writexml(outpath+"trees.xml")
@@ -73,7 +71,7 @@ class DartTreesXML(object):
 
     def __init__(self, changetracker):
         self.changes = changetracker
-        self.opts = changetracker[1]['coeff_diff']
+        self.opts = changetracker[1]['indexopts']
         self.root = None
         return
 
@@ -92,23 +90,17 @@ class DartTreesXML(object):
         """
 
         if "trees" in self.changes[0]:
-            self.changes = self.changes[1]["trees"]
-            if 1 in self.changes['mode']:
-                self.treeone(self.changes[1])
-            if 2 in self.changes['mode']:
-                self.treetwo(self.changes[1])
+            self.treepath = self.changes[1]["trees"][0]
+            self.species = self.changes[1]["trees"][1]
+            self.writetrees()
+
             # etc....
             return
         else:
             return
 
-    def basenodes(self):
-        """
-        """
-        return
-
-    def treeone(self, species, pathtree):
-        """creates all nodes and properties common to default simulations
+    def writetrees(self):
+        """Converts to elementree the species passed.
 
         ComputedTransferFunctions : write transferFunctions would be the place
         where the saving of the computed atmosphere is done.
@@ -126,6 +118,8 @@ class DartTreesXML(object):
             - veg optptop (with index!)
             - veg therm prop
         """
+        species = self.species
+        pathtree = self.pathtree
         for specie in species:
             if not etree.iselement(self.root):
                 trees_atr = {'sceneModelCharacteristic': '1', 'isTrees': '1'}
@@ -158,7 +152,9 @@ class DartTreesXML(object):
                     indexphase = self.opts['lambertians'][vegopt]
                 elif vegopt in self.opts['vegetations']:
                     indexphase = self.opts['vegetations'][vegopt]
-
+                else:
+                    print ("Optical property {} unfound.",
+                           "Returning".format(vegopt))
 
                 crown_atr = {'verticalWeightForUf': '1.00',
                              'distribution': distribution,
@@ -186,9 +182,7 @@ class DartTreesXML(object):
                 # Vegetation Sub Sub branch
                 # TODO : check how indectFctPhase works!!
 
-                else:
-                    print ("Optical property {} unfound.",
-                           "Returning".format(vegopt))
+
 
                 vegopt_atr = {'indexFctPhase': indexphase,
                               'ident': vegopt}
