@@ -84,6 +84,7 @@ class simulation(object):
         self.plots = pd.DataFrame(columns=self.PLOTCOLNAMES)
         self.scene = [10, 10]
         self.nspecies = 0
+
     def __repr__(self):
         return "pytools4dart simulation object"
 
@@ -262,7 +263,7 @@ class simulation(object):
         self.changetracker[1]['sequencename'] = name
         return
 
-    def addtree(self, tree):
+    def addtrees(self, path):
         """Add trees to the simulation
 
         TODO : The biggest problem is the simultaneous management of the
@@ -290,23 +291,35 @@ class simulation(object):
 
         """
         if not self.treespecies:
-            print "You must first define a tree specie."
-            return
+            print "Warning : No tree specie has been defined."
+            print "The trees you have added have no optical link."
+
         if not self.istrees:
+            self.trees = pd.read_csv(path, comment='*', sep='\t')
             self.istrees = True
-            cols = ['SPECIES_ID', 'C_TYPE', 'POS_X', 'POS_Y', 'T_HEI_BELOW',
-                    'T_HEI_WITHIN', 'DIA_BELOW','T_ROT_NUT',' T_ROT_PRE',
-                    'C_HEI', 'C_GEO_1', 'C_GEO_2', 'XMLtrunkoptprop',
-                    'XMLtrunkopttype',
-                    'XMLtrunkthermalprop', 'XMLvegoptprop', 'XMLvegthermprop',
-                    'XMLleafholes', ]
-            self.trees = pd.DataFrame(columns=cols)
+        else:
+            print "appending trees to the existing trees dataframe : "
+            newtrees = pd.read_csv(path, comment='*', sep='\t')
+            self.trees.append(newtrees, ignore_index=True)
 
+            # columns
+#            # cols = ['SPECIES_ID', 'C_TYPE', 'POS_X', 'POS_Y', 'T_HEI_BELOW',
+#                    'T_HEI_WITHIN', 'DIA_BELOW','T_ROT_NUT',' T_ROT_PRE',
+#                    'C_HEI', 'C_GEO_1', 'C_GEO_2', 'XMLtrunkoptprop',
+#                    'XMLtrunkopttype',
+#                    'XMLtrunkthermalprop', 'XMLvegoptprop', 'XMLvegthermprop',
+#                    'XMLleafholes', ]
 
-        print "tree added"
+        print "trees added."
+        print ("Species can be modified through the \"SpeciesID\" column of",
+               "the dataframe : simulation.trees")
         return
 
-    def addtreespecies(self, ntrees, lai ):
+    def addtreespecies(self, ntrees='1', lai='4.0', holes='0',
+                       trunkopt='Lambertian_Phase_Function_1',
+                       trunktherm='ThermalFunction290_310',
+                       vegopt='custom',
+                       vegtherm='ThermalFunction290_310'):
         """
         properties of a specie :
             - number of trees
@@ -319,7 +332,8 @@ class simulation(object):
         if not self.species:
             self.species = []
 
-        specie = {'id' : self.nspecies,'ntrees':ntrees,'lai':lai,'crowns':[]}
+        specie = {'id': self.nspecies, 'ntrees': ntrees, 'lai': lai,
+                  'crowns': [holes, trunkopt, trunktherm, vegopt, vegtherm]}
         self.species.append(specie)
         self.nspecies += 1
         return
@@ -387,17 +401,14 @@ class simulation(object):
         print ("Optical properties have to be added in the column 'optprop' ")
         return
 
-    def listmodifications(self):
-        """returns record of modifications to simulation
+    def indexprops(self):
+        """Creates the index for optical properties
 
-        TODO : stuff to make all that look nicer.
+        This function is necessary in order to have easy tracking of
+        optical properties indices "IndexFctPhase" which is referenced a lot
+        in Dart XMLs.
+        TODO : Index Thermal properties!
         """
-        print 'Impacted xml files:'
-        print self.changetracker[0]
-
-        return
-
-    def indexoptprops(self):
         index = 0
         self.index_lamb = {}
         for lamb in self.opts['lambertians']:
@@ -410,13 +421,27 @@ class simulation(object):
             index += 1
         self.indexopts = {'lambertians': self.index_lamb,
                           'vegetations': self.index_veg}
+
         return
+
+    def listmodifications(self):
+        """returns record of modifications to simulation
+
+        TODO : stuff to make all that look nicer.
+        """
+        print 'Impacted xml files:'
+        print self.changetracker[0]
+
+        return
+
 
     def write_xmls(self):
         """writes the xmls with all defined input parameters
 
         The functions are written so that default parameters are first written,
         then updated with the given changes contained in "changetracker".
+        WARNING : For now this function is the only proper way to write
+        the DART xmls.
         """
         # self.checksimu()
 
@@ -432,11 +457,11 @@ class simulation(object):
             coeff diff needs all optprops info, whereas the other writers
             only need ident + index.
         """
+        self.indexprops()
         self.changetracker[1]['coeff_diff'] = self.optprops
         dxml.write_coeff_diff(self.changetracker)
 
-        self.indexoptprops()
-        self.changetracker[1]['coeff_diff'] = self.indexopts
+        self.changetracker[1]['indexopts'] = self.indexopts
 
         self.changetracker[1]['plots'] = self.plots
         self.changetracker[1]['phase']['bands'] = self.bands
@@ -449,7 +474,8 @@ class simulation(object):
         dxml.write_phase(self.changetracker)
         dxml.write_plots(self.changetracker)
         dxml.write_sequence(self.changetracker)
-        # dxml.write_trees(self.changetracker)
+        if self.istrees:
+            dxml.write_trees(self.changetracker)
         dxml.write_urban(self.changetracker)
         dxml.write_water(self.changetracker)
         return
@@ -457,7 +483,7 @@ class simulation(object):
     def launch(self):
         """launch the simulation with set parameters
 
-        TODO :
+        TODO : subprocess.popen stuff...
         """
 
         return

@@ -85,7 +85,7 @@ class DartPlotsXML(object):
         self.tree = etree.ElementTree(self.root)
         self.changes = None
         if 'plots' in changetracker[0]:
-            self.opts = changetracker[1]['coeff_diff']
+            self.indexopts = changetracker[1]['indexopts']
             self.changes = changetracker[1]['plots']
             """
             try:

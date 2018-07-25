@@ -148,14 +148,17 @@ class DartTreesXML(object):
                 # TODO : Here are properties that could be changed
                 # Crown sub branch
                 # here go the attribution of specified parameters.
-                distribution = '0'
-                trunkopt = None
-                thermal = None
-                vegopt = None
-                vegtherm = None
+                distribution = crown[0]
+                trunkopt = crown[1]
+                trunktherm = crown[2]
+                vegopt = crown[3]
+                vegtherm = crown[4]
 
-                print vegtherm
-                print thermal
+                if vegopt in self.opts['lambertians']:
+                    indexphase = self.opts['lambertians'][vegopt]
+                elif vegopt in self.opts['vegetations']:
+                    indexphase = self.opts['vegetations'][vegopt]
+
 
                 crown_atr = {'verticalWeightForUf': '1.00',
                              'distribution': distribution,
@@ -164,7 +167,7 @@ class DartTreesXML(object):
                              'relativeTrunkDiameterWithinCrown': '0.50'}
                 opt_atr = {'indexFctPhase': self.opts, 'ident': trunkopt,
                            'type': '0'}
-                therm_atr = {'idTemperature': 'ThermalFunction290_310',
+                therm_atr = {'idTemperature': trunktherm,
                              'indexTemperature': '0'}
                 etree.SubElement(specie, 'OpticalPropertyLink', opt_atr)
                 etree.SubElement(specie, 'ThermalPropertyLink', therm_atr)
@@ -182,17 +185,14 @@ class DartTreesXML(object):
 
                 # Vegetation Sub Sub branch
                 # TODO : check how indectFctPhase works!!
-                if vegopt in self.opts['lambertians']:
-                    indexphase = self.opts['lambertians'][vegopt]
-                elif vegopt in self.opts['vegetations']:
-                    indexphase = self.opts['vegetations'][vegopt]
+
                 else:
                     print ("Optical property {} unfound.",
                            "Returning".format(vegopt))
 
                 vegopt_atr = {'indexFctPhase': indexphase,
                               'ident': vegopt}
-                vegtherm_atr = {'idTemperature': 'ThermalFunction290_310',
+                vegtherm_atr = {'idTemperature': vegtherm,
                                 'indexTemperature': '0'}
 
                 etree.SubElement(veg, 'VegetationOpticalPropertyLink',
