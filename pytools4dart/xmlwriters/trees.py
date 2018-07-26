@@ -90,8 +90,8 @@ class DartTreesXML(object):
         """
 
         if "trees" in self.changes[0]:
-            self.treepath = self.changes[1]["trees"][0]
-            self.species = self.changes[1]["trees"][1]
+            self.treepath = self.changes[1]["trees"]
+            self.species = self.changes[1]["treespecies"]
             self.writetrees()
 
             # etc....
@@ -118,9 +118,7 @@ class DartTreesXML(object):
             - veg optptop (with index!)
             - veg therm prop
         """
-        species = self.species
-        pathtree = self.pathtree
-        for specie in species:
+        for specie in self.species:
             if not etree.iselement(self.root):
                 trees_atr = {'sceneModelCharacteristic': '1', 'isTrees': '1'}
                 self.root = etree.Element('Trees', trees_atr)
@@ -128,7 +126,7 @@ class DartTreesXML(object):
                                  {'triangleTreeRepresentation': '0'})
 
                 treeone_atr = {'laiZone': '0',
-                               'sceneParametersFileName': pathtree}
+                               'sceneParametersFileName': self.treepath}
                 subroot = etree.SubElement(self.root, "Trees_1", treeone_atr)
 
             ntrees = specie['ntrees']
@@ -136,12 +134,12 @@ class DartTreesXML(object):
             # specie branch
             specie_atr = {'numberOfTreesInWholeScene': str(ntrees),
                           'branchesAndTwigsSimulation': '0', 'lai': str(lai)}
-            specie = etree.SubElement(subroot, 'Specie', specie_atr)
-
+            specietree = etree.SubElement(subroot, 'Specie', specie_atr)
             for crown in specie['crowns']:
                 # TODO : Here are properties that could be changed
                 # Crown sub branch
                 # here go the attribution of specified parameters.
+                print (crown)
                 distribution = crown[0]
                 trunkopt = crown[1]
                 trunktherm = crown[2]
@@ -153,8 +151,9 @@ class DartTreesXML(object):
                 elif vegopt in self.opts['vegetations']:
                     indexphase = self.opts['vegetations'][vegopt]
                 else:
-                    print ("Optical property {} unfound.",
-                           "Returning".format(vegopt))
+                    print ("Optical property {} unfound.".format(vegopt),
+                           "Returning")
+                    return
 
                 crown_atr = {'verticalWeightForUf': '1.00',
                              'distribution': distribution,
@@ -165,9 +164,9 @@ class DartTreesXML(object):
                            'type': '0'}
                 therm_atr = {'idTemperature': trunktherm,
                              'indexTemperature': '0'}
-                etree.SubElement(specie, 'OpticalPropertyLink', opt_atr)
-                etree.SubElement(specie, 'ThermalPropertyLink', therm_atr)
-                crown = etree.SubElement(specie, 'CrownLevel', crown_atr)
+                etree.SubElement(specietree, 'OpticalPropertyLink', opt_atr)
+                etree.SubElement(specietree, 'ThermalPropertyLink', therm_atr)
+                crown = etree.SubElement(specietree, 'CrownLevel', crown_atr)
 
                 cropt_atr = {'indexFctPhase': '0',
                              'ident': 'Lambertian_Phase_Function_1',
@@ -181,8 +180,6 @@ class DartTreesXML(object):
 
                 # Vegetation Sub Sub branch
                 # TODO : check how indectFctPhase works!!
-
-
 
                 vegopt_atr = {'indexFctPhase': indexphase,
                               'ident': vegopt}

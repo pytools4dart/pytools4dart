@@ -155,10 +155,10 @@ class DartPlotsXML(object):
         # here optical property passed as argument to method
         # TODO : better way of referencing indices....!!!
 
-        if optprop in self.opts['lambertians']:
-            indexphase = self.opts['lambertians'][optprop]
-        elif optprop in self.opts['vegetations']:
-            indexphase = self.opts['vegetations'][optprop]
+        if optprop in self.indexopts['lambertians']:
+            indexphase = self.indexopts['lambertians'][optprop]
+        elif optprop in self.indexopts['vegetations']:
+            indexphase = self.indexopts['vegetations'][optprop]
         else:
             print "Unrecognized optical property"
             return

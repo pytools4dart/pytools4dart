@@ -78,7 +78,8 @@ class simulation(object):
 
         self.changetracker = [[], {}, outpath, "flux"]
         self.plotsnumber = 0
-        self.optprops = {'lambertians': [], 'vegetations': []}
+        self.optprops = {'lambertians': ['Lambertian_Phase_Function_1'],
+                         'vegetations': []}
         self.nbands = 0
         self.bands = pd.DataFrame(columns=self.BANDSCOLNAMES)
         self.plots = pd.DataFrame(columns=self.PLOTCOLNAMES)
@@ -133,9 +134,11 @@ class simulation(object):
                     data['fwhm'] = data['fwhm'].apply(pd.to_numeric)
                     data.loc[:, 'centralwvl'] *= 0.001
                     data.loc[:, 'fwhm'] *= 0.001
+
                 self.bands = self.bands.append(data, ignore_index=True)
                 print ("header successfully read.")
                 print ("{} bands added".format(len(hdr['fwhm'])))
+                print('--------------\n')
 
             else:
                 try:
@@ -185,6 +188,10 @@ class simulation(object):
     def addopt(self, optprop):
         """adds and optical property to the simulation
 
+        TODO : think about : do we want optprops as an object?
+        simplified management of all variables...
+        Vegetation.db is Dart default.
+
         Parameters
         ----------
         optprop : list
@@ -200,9 +207,7 @@ class simulation(object):
                         - 0: Uniform
                         - 1: Spherical
                         - 3: Planophil
-        TODO : think about : do we want optprops as an object?
-        simplified management of all variables...
-        Vegetation.db is Dart default.
+
         """
         if optprop[0] == 'lambertian':
             self.optprops['lambertians'].append(optprop[1:])
@@ -264,7 +269,7 @@ class simulation(object):
         return
 
     def addtrees(self, path):
-        """Add trees to the simulation
+        """Add trees.txt file to the simulation
 
         TODO : The biggest problem is the simultaneous management of the
         trees.txt and of Dart's trees.xml.
@@ -288,12 +293,15 @@ class simulation(object):
             -Trunk Rotation
             -Trunk nutation rotation
 
-
+        Parameters
+        ----------
+        path : string
+            Path to the trees.txt file to be read into simulation
         """
 
         if self.nspecies == 0:
             print "Warning : No tree specie has been defined."
-            print "The trees you have added have therefore no optical link."
+            print "The trees you will add have no optical link."
 
         if 'trees' not in self.changetracker[0]:
             self.trees = pd.read_csv(path, comment='*', sep='\t')
@@ -329,16 +337,16 @@ class simulation(object):
             - trunk opt prop type
             - thermal property
         """
-        if not self.species:
+        if self.nspecies == 0:
             self.species = []
 
         specie = {'id': self.nspecies, 'ntrees': ntrees, 'lai': lai,
-                  'crowns': [holes, trunkopt, trunktherm, vegopt, vegtherm]}
+                  'crowns': [[holes, trunkopt, trunktherm, vegopt, vegtherm]]}
         self.species.append(specie)
         self.nspecies += 1
         self._registerchange('trees')
         print ("A tree specie has been added. Make sure the specified optical "
-               "properties match those defined in self.optsprops")
+               "properties match those defined in self.optsprops\n")
         return
 
     def setscene(self, scene):
@@ -401,7 +409,7 @@ class simulation(object):
         data = pd.DataFrame(voxlist, columns=self.PLOTCOLNAMES)
         self.plots.append(data, ignore_index=True)
         print ("Plots added from .vox file.")
-        print ("Optical properties have to be added in the column 'optprop' ")
+        print ("Optical properties have to be added in the column 'optprop' \n")
         return
 
     def indexprops(self):
@@ -414,12 +422,12 @@ class simulation(object):
         """
         index = 0
         self.index_lamb = {}
-        for lamb in self.opts['lambertians']:
+        for lamb in self.optprops['lambertians']:
             self.index_lamb[lamb[0]] = index
             index += 1
         index = 0
         self.index_veg = {}
-        for veg in self.opts['vegetations']:
+        for veg in self.optprops['vegetations']:
             self.index_veg[veg[0]] = index
             index += 1
         self.indexopts = {'lambertians': self.index_lamb,
@@ -459,6 +467,7 @@ class simulation(object):
             coeff diff needs all optprops info, whereas the other writers
             only need ident + index.
         WARNING : here the structure for changetracker[1]['trees'] is defined.
+        TODO : Better Check and Error catch for trees.(and in general)
         """
         self.indexprops()
         self.changetracker[1]['coeff_diff'] = self.optprops
@@ -478,10 +487,11 @@ class simulation(object):
         dxml.write_plots(self.changetracker)
         dxml.write_sequence(self.changetracker)
         # Special stuff for trees : writing trees.txt and pass the path
-        if self.istrees:
+        if self.nspecies > 0:
             pathtrees = self.changetracker[2]+'pytrees.txt'
             self.trees.to_csv(pathtrees, sep="\t", header=True, index=False)
-            self.changetracker[1]['trees'] = [pathtrees, self.species]
+            self.changetracker[1]['trees'] = pathtrees
+            self.changetracker[1]['treespecies'] = self.species
             dxml.write_trees(self.changetracker)
 
         dxml.write_urban(self.changetracker)
@@ -552,5 +562,22 @@ if __name__ == '__main__':
     pof.write_xmls()
     print(pof.bands)
     """
+    pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
+                     'testrees/input/')
+    pof.addband("/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr")
+    optprop = ['lambertian', 'proprieteopt', 'Vegetation.db', 'truc', '0']
+    pof.addopt(optprop)
+
+    optpropveg = ['vegetation', 'proprieteopt2',
+                  '/media/mtd/stock/DART/database/Vegetation.db',
+                  'ash_top', '0']
+    pof.addopt(optpropveg)
+    path = '/media/mtd/stock/boulot_sur_dart/temp/testrees/model_trees.txt'
+    pof.addtrees(path)
+    pof.addsingleplot()
+    pof.addtreespecie()
+    pof.addtreespecie()
+    pof.trees['SPECIES_ID'] = 0
+    pof.write_xmls()
     end = time.time()
     print(end - start)
