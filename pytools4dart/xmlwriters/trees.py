@@ -75,6 +75,19 @@ class DartTreesXML(object):
         self.root = None
         return
 
+    def _indexopt(self, optprop):
+        """
+        """
+        if optprop in self.opts['lambertians']:
+            indexphase = self.opts['lambertians'][optprop]
+        elif optprop in self.opts['vegetations']:
+            indexphase = self.opts['vegetations'][optprop]
+        else:
+            print ("Optical property {} unfound.".format(optprop),
+                   "Returning")
+            indexphase = 'ERROR'
+        return indexphase
+
     def adoptchanges(self):
         """method to update xml tree based on user-defined parameters
 
@@ -146,33 +159,30 @@ class DartTreesXML(object):
                 vegopt = crown[3]
                 vegtherm = crown[4]
 
-                if vegopt in self.opts['lambertians']:
-                    indexphase = self.opts['lambertians'][vegopt]
-                elif vegopt in self.opts['vegetations']:
-                    indexphase = self.opts['vegetations'][vegopt]
-                else:
-                    print ("Optical property {} unfound.".format(vegopt),
-                           "Returning")
-                    return
+
+                vegindex = self._indexopt(vegopt)
+                trunkindex = self._indexopt(trunkopt)
 
                 crown_atr = {'verticalWeightForUf': '1.00',
-                             'distribution': distribution,
+                             'distribution': str(distribution),
                              'relativeHeightVsCrownHeight': '1.00',
                              'laiConservation': '1',
                              'relativeTrunkDiameterWithinCrown': '0.50'}
-                opt_atr = {'indexFctPhase': self.opts, 'ident': trunkopt,
+                opt_atr = {'indexFctPhase': str(trunkindex),
+                           'ident': str(trunkopt),
                            'type': '0'}
-                therm_atr = {'idTemperature': trunktherm,
+                therm_atr = {'idTemperature': str(trunktherm),
                              'indexTemperature': '0'}
                 etree.SubElement(specietree, 'OpticalPropertyLink', opt_atr)
                 etree.SubElement(specietree, 'ThermalPropertyLink', therm_atr)
                 crown = etree.SubElement(specietree, 'CrownLevel', crown_atr)
 
-                cropt_atr = {'indexFctPhase': '0',
-                             'ident': 'Lambertian_Phase_Function_1',
+                cropt_atr = {'indexFctPhase': str(trunkindex),
+                             'ident': str(trunkopt),
                              'type': '0'}
                 crotherm_atr = {'idTemperature': 'ThermalFunction290_310',
                                 'indexTemperature': '0'}
+
                 etree.SubElement(crown, 'OpticalPropertyLink', cropt_atr)
                 etree.SubElement(crown, 'ThermalPropertyLink', crotherm_atr)
 
@@ -181,9 +191,9 @@ class DartTreesXML(object):
                 # Vegetation Sub Sub branch
                 # TODO : check how indectFctPhase works!!
 
-                vegopt_atr = {'indexFctPhase': indexphase,
-                              'ident': vegopt}
-                vegtherm_atr = {'idTemperature': vegtherm,
+                vegopt_atr = {'indexFctPhase': str(vegindex),
+                              'ident': str(vegopt)}
+                vegtherm_atr = {'idTemperature': 'ThermalFunction290_310',
                                 'indexTemperature': '0'}
 
                 etree.SubElement(veg, 'VegetationOpticalPropertyLink',

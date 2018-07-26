@@ -85,6 +85,7 @@ class simulation(object):
         self.plots = pd.DataFrame(columns=self.PLOTCOLNAMES)
         self.scene = [10, 10]
         self.nspecies = 0
+        self.trees = 0
 
     def __repr__(self):
         return "pytools4dart simulation object"
@@ -303,7 +304,7 @@ class simulation(object):
             print "Warning : No tree specie has been defined."
             print "The trees you will add have no optical link."
 
-        if 'trees' not in self.changetracker[0]:
+        if self.trees == 0:
             self.trees = pd.read_csv(path, comment='*', sep='\t')
         else:
             print "appending trees to the existing trees dataframe : "
@@ -321,6 +322,7 @@ class simulation(object):
         print "trees added."
         print ("Species can be modified through the \"SpeciesID\" column of "
                "the dataframe : simulation.trees")
+        print('--------------\n')
         return
 
     def addtreespecie(self, ntrees='1', lai='4.0', holes='0',
@@ -564,6 +566,8 @@ if __name__ == '__main__':
     """
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
                      'testrees/input/')
+    pof.addtreespecie(vegopt = 'proprieteopt2', trunkopt = 'proprieteopt')
+
     pof.addband("/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr")
     optprop = ['lambertian', 'proprieteopt', 'Vegetation.db', 'truc', '0']
     pof.addopt(optprop)
@@ -574,9 +578,7 @@ if __name__ == '__main__':
     pof.addopt(optpropveg)
     path = '/media/mtd/stock/boulot_sur_dart/temp/testrees/model_trees.txt'
     pof.addtrees(path)
-    pof.addsingleplot()
-    pof.addtreespecie()
-    pof.addtreespecie()
+    pof.addsingleplot(opt = 'proprieteopt')
     pof.trees['SPECIES_ID'] = 0
     pof.write_xmls()
     end = time.time()

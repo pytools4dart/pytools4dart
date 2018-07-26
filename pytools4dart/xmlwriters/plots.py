@@ -160,7 +160,7 @@ class DartPlotsXML(object):
         elif optprop in self.indexopts['vegetations']:
             indexphase = self.indexopts['vegetations'][optprop]
         else:
-            print "Unrecognized optical property"
+            print "Unrecognized optical property for plot"
             return
 
         vegoptlink = {"ident": str(optprop), "indexFctPhase": str(indexphase)}
