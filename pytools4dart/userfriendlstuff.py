@@ -32,12 +32,15 @@ simulation object.
 """
 import simulation
 
+
 def simulationfromfile():
     """
-    reads full set of parameters from a file and feeds its info to a simulation object
+    reads full set of parameters from a file and feeds its info to
+    a simulation object
     """
-    pof =simulation.simulation()
+    pof = simulation.simulation()
     return pof
+
 
 def easysim():
     """
@@ -45,11 +48,13 @@ def easysim():
     """
     return
 
+
 def hardersim():
     """
     a bit more complexity
     """
     return
+
 
 def simtrees(outpath, header = None, trees = None):
     """Creates a simulation based on a set of files
