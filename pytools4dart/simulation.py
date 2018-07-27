@@ -199,6 +199,7 @@ class simulation(object):
         TODO : think about : do we want optprops as an object?
         simplified management of all variables...
         Vegetation.db is Dart default.
+        TODO : Managing Thermal properties?
 
         Parameters
         ----------
