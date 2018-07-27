@@ -50,3 +50,26 @@ def hardersim():
     a bit more complexity
     """
     return
+
+def simtrees(outpath, header = None, trees = None):
+    """Creates a simulation based on a set of files
+
+    Takes information from a header for measured wvls,
+    from a trees.txt for trees.
+    A default optical property is specified for trees species.
+    TODO : Refine optical property adding (interactive)
+    """
+    pof = simulation.simulation(outpath)
+
+    optpropveg = ['vegetation', 'proprieteopt2',
+                  '/media/mtd/stock/DART/database/Vegetation.db',
+                  'ash_top', '0']
+    pof.addopt(optpropveg)
+    if header:
+        pof.addband(header)
+    if trees:
+        pof.addtrees(trees)
+        pof.trees['SPECIES_ID'] = 0
+        pof.addtreespecie()
+
+    return
