@@ -80,9 +80,11 @@ class DartSequenceXML(object):
         The group name may or may not correspond to the sequence name
         """
         self.seqname = seqname
+        TRUC = 1
         if TRUC== 'centralwvl':
             truename = ('Phase.DartInputParameters.SpectralIntervals.'
                         'SpectralIntervalsProperties.meanLambda')
+            TRUC = truename
 
         dir_atr = {'sequenceName': 'sequence;;' + seqname}
         self.root = etree.Element("DartSequencerDescriptor", dir_atr)
@@ -197,9 +199,10 @@ class DartSequenceXML(object):
                 500;20;0
                 500;20;60
 
+        TODO : should not be working....to check in debth
         """
 
-        for groupname in self.changes:
+        for groupname in self.sequences:
             print "Adding:", groupname, "to sequence"
             entries = self.root.find('./DartSequencerDescriptorEntries')
             grp = etree.SubElement(entries,
