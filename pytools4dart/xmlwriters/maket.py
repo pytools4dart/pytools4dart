@@ -114,6 +114,8 @@ class DartMaketXML(object):
 
         xscene = self.scene[0]
         yscene = self.scene[1]
+        xcell = self.cell[0]
+        zcell = self.cell[1]
         # base nodes
 
         latlon_atr = {'latitude': '0.0',
@@ -126,8 +128,8 @@ class DartMaketXML(object):
         soil = etree.SubElement(self.root, 'Soil')
 
         # scene branch
-        celldim_atr = {'x': '1',
-                       'z': '1'}
+        celldim_atr = {'x': str(xcell),
+                       'z': str(zcell)}
         scenedim_atr = {'y': str(yscene),
                         'x': str(xscene)}
         etree.SubElement(scene, 'CellDimensions', celldim_atr)

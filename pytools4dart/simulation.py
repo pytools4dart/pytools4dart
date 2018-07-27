@@ -371,7 +371,7 @@ class simulation(object):
         self.scene = scene
         return
 
-    def setcell(self,cell):
+    def setcell(self, cell):
         """change cell dimensions
         TODO : maybe a bit more verbose?
         """
