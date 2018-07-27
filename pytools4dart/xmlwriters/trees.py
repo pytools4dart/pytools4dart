@@ -83,8 +83,8 @@ class DartTreesXML(object):
         elif optprop in self.opts['vegetations']:
             indexphase = self.opts['vegetations'][optprop]
         else:
-            print ("Optical property {} unfound.".format(optprop),
-                   "Returning")
+            print "Optical property {} unfound.".format(optprop)
+            print "Returning"
             indexphase = 'ERROR'
         return indexphase
 
@@ -139,7 +139,8 @@ class DartTreesXML(object):
                                  {'triangleTreeRepresentation': '0'})
 
                 treeone_atr = {'laiZone': '0',
-                               'sceneParametersFileName': self.treepath}
+                               # 'sceneParametersFileName': self.treepath}
+                               'sceneParametersFileName': 'trees.txt'}
                 subroot = etree.SubElement(self.root, "Trees_1", treeone_atr)
 
             ntrees = specie['ntrees']
@@ -152,13 +153,12 @@ class DartTreesXML(object):
                 # TODO : Here are properties that could be changed
                 # Crown sub branch
                 # here go the attribution of specified parameters.
-                print (crown)
                 distribution = crown[0]
                 trunkopt = crown[1]
                 trunktherm = crown[2]
                 vegopt = crown[3]
+                # To be changed when management of thermal properties
                 vegtherm = crown[4]
-
 
                 vegindex = self._indexopt(vegopt)
                 trunkindex = self._indexopt(trunkopt)

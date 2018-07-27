@@ -102,7 +102,7 @@ class DartPlotsXML(object):
                     index += 1
             except KeyError:
             """
-            print "Existing plots to be added to simulation."
+            print "Adding plot(s) to simulation."
             return
         else:
             print "No plot in simulation."

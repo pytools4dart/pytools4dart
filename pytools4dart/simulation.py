@@ -78,7 +78,12 @@ class simulation(object):
 
         self.changetracker = [[], {}, outpath, "flux"]
         self.plotsnumber = 0
-        self.optprops = {'lambertians': ['Lambertian_Phase_Function_1'],
+        defaultlamb = ['Lambertian_Phase_Function_1',
+                       'Lambertian_vegetation.db',
+                       'reflect_equal_1_trans_equal_0_0',
+                       '0']
+
+        self.optprops = {'lambertians': [defaultlamb],
                          'vegetations': []}
         self.nbands = 0
         self.bands = pd.DataFrame(columns=self.BANDSCOLNAMES)
@@ -86,6 +91,8 @@ class simulation(object):
         self.scene = [10, 10]
         self.nspecies = 0
         self.trees = 0
+        print ('New Simulation initiated')
+        print('--------------\n')
 
     def __repr__(self):
         return "pytools4dart simulation object"
@@ -349,6 +356,8 @@ class simulation(object):
         self._registerchange('trees')
         print ("A tree specie has been added. Make sure the specified optical "
                "properties match those defined in self.optsprops\n")
+        print('--------------\n')
+
         return
 
     def setscene(self, scene):
@@ -490,7 +499,7 @@ class simulation(object):
         dxml.write_sequence(self.changetracker)
         # Special stuff for trees : writing trees.txt and pass the path
         if self.nspecies > 0:
-            pathtrees = self.changetracker[2]+'pytrees.txt'
+            pathtrees = self.changetracker[2]+'trees.txt'
             self.trees.to_csv(pathtrees, sep="\t", header=True, index=False)
             self.changetracker[1]['trees'] = pathtrees
             self.changetracker[1]['treespecies'] = self.species
@@ -566,10 +575,12 @@ if __name__ == '__main__':
     """
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
                      'testrees/input/')
-    pof.addtreespecie(vegopt = 'proprieteopt2', trunkopt = 'proprieteopt')
+    pof.addtreespecie(vegopt = 'proprieteopt2',
+                      trunkopt = 'Lambertian_Phase_Function_1')
 
     pof.addband("/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr")
-    optprop = ['lambertian', 'proprieteopt', 'Vegetation.db', 'truc', '0']
+    optprop = ['lambertian', 'proprieteopt', 'Vegetation.db',
+               'citrus_sinensis', '0']
     pof.addopt(optprop)
 
     optpropveg = ['vegetation', 'proprieteopt2',
@@ -578,7 +589,7 @@ if __name__ == '__main__':
     pof.addopt(optpropveg)
     path = '/media/mtd/stock/boulot_sur_dart/temp/testrees/model_trees.txt'
     pof.addtrees(path)
-    pof.addsingleplot(opt = 'proprieteopt')
+    pof.addsingleplot(opt = 'proprieteopt2')
     pof.trees['SPECIES_ID'] = 0
     pof.write_xmls()
     end = time.time()
