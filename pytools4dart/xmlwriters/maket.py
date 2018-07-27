@@ -37,6 +37,7 @@ except ImportError:
     import xml.etree.ElementTree as etree
 from shutil import copyfile
 
+
 def write_maket(changetracker):
     """write coeff_diff xml fil
 
@@ -77,7 +78,12 @@ class DartMaketXML(object):
         mak_atr = {'dartZone': '0', 'exactlyPeriodicScene': '1'}
         self.root = etree.Element("Maket", mak_atr)
         self.tree = etree.ElementTree(self.root)
-        self.changes = changetracker
+        self.changes = changetracker['maket']
+
+        if 'scene' in self.changes:
+            self.scene = self.changes['scene']
+        else:
+            self.scene = [10, 10]
         return
 
     def adoptchanges(self, changetracker):
@@ -95,18 +101,9 @@ class DartMaketXML(object):
         """
 
         if "maket" in changetracker[0]:
-            self.changes = changetracker[1]["maket"]
-            for node in self.changes:
-                print "Modifying : ", node
-                self.root.find(node)
-
+            # possibly stuff to do here, but not sure
             return
-        else:
-
-            # scenedim = self.root.find('./Scene/SceneDimensions')
-            # scenedim.set('x','10.00')
-            # scenedim.set('y','10.00')
-            return
+        return
 
     def basenodes(self):
         """creates all nodes and properties common to default simulations
@@ -115,6 +112,8 @@ class DartMaketXML(object):
         where the saving of the computed atmosphere is done.
         """
 
+        xscene = self.scene[0]
+        yscene = self.scene[1]
         # base nodes
 
         latlon_atr = {'latitude': '0.0',
@@ -129,8 +128,8 @@ class DartMaketXML(object):
         # scene branch
         celldim_atr = {'x': '1',
                        'z': '1'}
-        scenedim_atr = {'y': '10.00',
-                        'x': '10.00'}
+        scenedim_atr = {'y': str(yscene),
+                        'x': str(xscene)}
         etree.SubElement(scene, 'CellDimensions', celldim_atr)
         etree.SubElement(scene, 'SceneDimensions', scenedim_atr)
 
@@ -162,6 +161,7 @@ class DartMaketXML(object):
 
 # to be expanded.....
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # ZONE DE TESTS
-"""outpath = "/media/mtd/stock/boulot_sur_dart/temp/"
+if __name__ == '__main__':
+    """outpath = "/media/mtd/stock/boulot_sur_dart/temp/"
 
-write_maket("flux", [], outpath)"""
+    write_maket("flux", [], outpath)"""

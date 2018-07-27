@@ -89,6 +89,7 @@ class simulation(object):
         self.bands = pd.DataFrame(columns=self.BANDSCOLNAMES)
         self.plots = pd.DataFrame(columns=self.PLOTCOLNAMES)
         self.scene = [10, 10]
+        self.cell = [1, 1]
         self.nspecies = 0
         self.trees = 0
         print ('New Simulation initiated')
@@ -365,10 +366,17 @@ class simulation(object):
     def setscene(self, scene):
         """change scene dimensions
 
-        TODO : modify affected maket.py functions
         """
         self._registerchange('maket')
         self.scene = scene
+        return
+
+    def setcell(self,cell):
+        """change cell dimensions
+        TODO : maybe a bit more verbose?
+        """
+        self._registerchange('maket')
+        self.cell = cell
         return
 
     def setoptplots(self, opt, mode=None):
@@ -482,6 +490,7 @@ class simulation(object):
         WARNING : here the structure for changetracker[1]['trees'] is defined.
         TODO : Better Check and Error catch for trees.(and in general)
         """
+        # Setting changetracker
         self.indexprops()
         self.changetracker[1]['coeff_diff'] = self.optprops
         dxml.write_coeff_diff(self.changetracker)
@@ -491,6 +500,9 @@ class simulation(object):
         self.changetracker[1]['plots'] = self.plots
         self.changetracker[1]['phase']['bands'] = self.bands
 
+        self.changetracker[1]['maket']
+
+        # Effectively write xmls
         dxml.write_atmosphere(self.changetracker)
         dxml.write_directions(self.changetracker)
         dxml.write_inversion(self.changetracker)
@@ -500,6 +512,7 @@ class simulation(object):
         dxml.write_plots(self.changetracker)
         dxml.write_sequence(self.changetracker)
         # Special stuff for trees : writing trees.txt and pass the path
+        # But bad condition...for now
         if self.nspecies > 0:
             pathtrees = self.changetracker[2]+'pytrees.txt'
             self.trees.to_csv(pathtrees, sep="\t", header=True, index=False)
@@ -591,7 +604,7 @@ if __name__ == '__main__':
     pof.addopt(optpropveg)
     path = '/media/mtd/stock/boulot_sur_dart/temp/testrees/model_trees.txt'
     pof.addtrees(path)
-    pof.addsingleplot(opt = 'proprieteopt2')
+    pof.addsingleplot(opt='proprieteopt2')
     pof.trees['SPECIES_ID'] = 0
     pof.write_xmls()
     end = time.time()
