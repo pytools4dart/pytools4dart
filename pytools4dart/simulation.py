@@ -500,7 +500,7 @@ class simulation(object):
         dxml.write_sequence(self.changetracker)
         # Special stuff for trees : writing trees.txt and pass the path
         if self.nspecies > 0:
-            pathtrees = self.changetracker[2]+'trees.txt'
+            pathtrees = self.changetracker[2]+'pytrees.txt'
             self.trees.to_csv(pathtrees, sep="\t", header=True, index=False)
             self.changetracker[1]['trees'] = pathtrees
             self.changetracker[1]['treespecies'] = self.species

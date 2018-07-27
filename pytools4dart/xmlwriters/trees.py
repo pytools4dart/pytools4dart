@@ -140,7 +140,7 @@ class DartTreesXML(object):
 
                 treeone_atr = {'laiZone': '0',
                                # 'sceneParametersFileName': self.treepath}
-                               'sceneParametersFileName': 'trees.txt'}
+                               'sceneParametersFileName': 'pytrees.txt'}
                 subroot = etree.SubElement(self.root, "Trees_1", treeone_atr)
 
             ntrees = specie['ntrees']
