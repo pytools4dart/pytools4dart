@@ -77,6 +77,7 @@ class simulation(object):
         self.BANDSCOLNAMES = ['bandnames', 'centralwvl', 'fwhm']
 
         self.changetracker = [[], {}, outpath, "flux"]
+
         self.plotsnumber = 0
         defaultlamb = ['Lambertian_Phase_Function_1',
                        'Lambertian_vegetation.db',
@@ -266,7 +267,7 @@ class simulation(object):
         except TypeError:
             print 'sequence input must be a dictionnary = {parameters:args}'
             return
-        self._registerchange('plots')
+        self._registerchange('sequence')
 
         for param, args in parargs.iteritems():
             print 'key =', param
@@ -549,6 +550,10 @@ class simulation(object):
 if __name__ == '__main__':
     import time
     start = time.time()
+
+    pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
+                     'essai_sequence/input/')
+    pof.addsequence({'wvl': (1, 2, 3)})
     """
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
                      'essai_sequence/input/')
@@ -588,6 +593,7 @@ if __name__ == '__main__':
     pof.write_xmls()
     print(pof.bands)
     """
+    """
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
                      'testrees/input/')
     pof.addtreespecie(vegopt = 'proprieteopt2',
@@ -609,3 +615,4 @@ if __name__ == '__main__':
     pof.write_xmls()
     end = time.time()
     print(end - start)
+    """

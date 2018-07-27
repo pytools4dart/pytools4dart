@@ -80,6 +80,10 @@ class DartSequenceXML(object):
         The group name may or may not correspond to the sequence name
         """
         self.seqname = seqname
+        if TRUC== 'centralwvl':
+            truename = ('Phase.DartInputParameters.SpectralIntervals.'
+                        'SpectralIntervalsProperties.meanLambda')
+
         dir_atr = {'sequenceName': 'sequence;;' + seqname}
         self.root = etree.Element("DartSequencerDescriptor", dir_atr)
         self.tree = etree.ElementTree(self.root)
