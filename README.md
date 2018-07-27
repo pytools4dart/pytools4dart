@@ -104,6 +104,42 @@ ordered information:
         - 1: Spherical
         - 3: Planophil
 
+###### Using DART - trees
+
+It is possible to add trees to a simulation based on a trees.txt file.
+The 'addtrees' method reads a trees.txt file into a panda Dataframe
+which can then be interacted with directly through the self.trees variable.
+
+Upon launching of the simulation (or writing of all xmls), this variable is 
+written into a pytrees.txt file, placed in the input folder, alongside all 
+the other input information.
+
+Trees described in trees.txt have to be linked to the thermic and optical
+properties of species. This can be done through the first column of 
+the trees Dataframe. Species are added using the addtreespecie method : 
+
+```python 
+addtreespecie(self, ntrees='1', lai='4.0', holes='0',
+              trunkopt='Lambertian_Phase_Function_1',
+              trunktherm='ThermalFunction290_310',
+              vegopt='custom',
+              vegtherm='ThermalFunction290_310'):
+```
+
+This methods takes as input the properties of a specie: 
+properties of a specie :
+    - number of trees
+    - LAI greater than 0 or Ul lower than 0
+    - Holes in crown
+    - trunk optical property 
+    - trunk thermal property
+    - vegetation optical property
+    - vegetation thermal property
+
+For now it does not manage branch and twig simulation.
+
+
+
 ###### Sequencer use
 
 In order to use the DART SequenceLauncher tool, the "addsequence" method

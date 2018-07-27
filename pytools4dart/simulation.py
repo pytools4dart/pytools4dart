@@ -342,10 +342,11 @@ class simulation(object):
         properties of a specie :
             - number of trees
             - LAI > 0 or Ul <0
-            - branch and twig simulation
+            - hole simulation
             - trunk opt prop
-            - trunk opt prop type
-            - thermal property
+            - trunk therm prop
+            - veg opt prop
+            - veg therm prop
         """
         if self.nspecies == 0:
             self.species = []
@@ -421,7 +422,7 @@ class simulation(object):
         data = pd.DataFrame(voxlist, columns=self.PLOTCOLNAMES)
         self.plots.append(data, ignore_index=True)
         print ("Plots added from .vox file.")
-        print ("Optical properties have to be added in the column 'optprop' \n")
+        print ("Optical properties have to be added in the column 'optprop'\n")
         return
 
     def indexprops(self):
