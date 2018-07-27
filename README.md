@@ -128,13 +128,13 @@ addtreespecie(self, ntrees='1', lai='4.0', holes='0',
 
 This methods takes as input the properties of a specie: 
 properties of a specie :
-    - number of trees
-    - LAI greater than 0 or Ul lower than 0
-    - Holes in crown
-    - trunk optical property 
-    - trunk thermal property
-    - vegetation optical property
-    - vegetation thermal property
+- number of trees
+- LAI greater than 0 or Ul lower than 0
+- Holes in crown
+- trunk optical property 
+- trunk thermal property
+- vegetation optical property
+- vegetation thermal property
 
 For now it does not manage branch and twig simulation.
 
