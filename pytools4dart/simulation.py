@@ -43,6 +43,7 @@ import pandas as pd
 import xmlwriters as dxml
 from helpers.voxreader import voxel
 from helpers.hdrtodict import hdrtodict
+from helpers.foldermngt import checkinput
 
 
 class simulation(object):
@@ -72,6 +73,8 @@ class simulation(object):
                     - 1: Spherical
                     - 3: Planophil
         """
+        outpath = checkinput(outpath)
+
         # Variables to be used in subsequent methods
         self.PLOTCOLNAMES = ['corners', 'baseheight', 'density', 'optprop']
         self.BANDSCOLNAMES = ['bandnames', 'centralwvl', 'fwhm']
@@ -110,6 +113,13 @@ class simulation(object):
             self.changetracker[0].append(param)
             self.changetracker[1][param] = {}
         return
+
+    def updatepath(self, path):
+        path = checkinput(path)
+        self.changetracker[2] = path
+        print "Successfully updated simulation path to: "
+        print path
+        print('--------------\n')
 
     def addband(self, invar, nmtomicron=True):
         """add spectral band to simulation sensor
@@ -499,9 +509,10 @@ class simulation(object):
         self.changetracker[1]['indexopts'] = self.indexopts
 
         self.changetracker[1]['plots'] = self.plots
-        self.changetracker[1]['phase']['bands'] = self.bands
+        if 'phase' in self.changetracker[0]:
+            self.changetracker[1]['phase']['bands'] = self.bands
 
-        self.changetracker[1]['maket']
+        # WIP : self.changetracker[1]['maket']
 
         # Effectively write xmls
         dxml.write_atmosphere(self.changetracker)
@@ -523,6 +534,7 @@ class simulation(object):
 
         dxml.write_urban(self.changetracker)
         dxml.write_water(self.changetracker)
+        print "XML files written!"
         return
 
     def launch(self):
@@ -549,6 +561,7 @@ class simulation(object):
 # ##################################test zone
 if __name__ == '__main__':
     import time
+    """
     start = time.time()
 
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
@@ -592,7 +605,7 @@ if __name__ == '__main__':
     #   pof.addsequence({'hello': (1, 2, 3)})
     pof.write_xmls()
     print(pof.bands)
-    """
+
     """
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
                      'testrees/input/')

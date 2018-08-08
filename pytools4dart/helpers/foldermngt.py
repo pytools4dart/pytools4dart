@@ -50,8 +50,9 @@ def checkinput(path):
     """
     path = os.path.abspath(path)
     if os.path.isdir(path):
-        if path.endswith('input'):
-            print "Simulation folder is", path
+        if path.endswith('/input'):
+            print "Input folder is"
+            print path
 
         elif not os.path.isdir(os.path.join(path, 'input')):
             pathin = os.path.join(path, 'input')
@@ -59,6 +60,7 @@ def checkinput(path):
             print 'Created input folder in the assigned simulation folder'
     else:
         print "Incorrect Input. please enter the correct path to a folder"
+        print "Please retry with a correct path"
 
     return path
 

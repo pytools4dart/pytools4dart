@@ -82,6 +82,8 @@ class DartPhaseXML(object):
         self.tree = etree.ElementTree(self.root)
         if 'phase' in changetracker[0]:
             self.changes = changetracker[1]['phase']
+        else:
+            self.changes = []
         self.specintervals = 0
         return
 

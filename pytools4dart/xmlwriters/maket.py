@@ -78,12 +78,14 @@ class DartMaketXML(object):
         mak_atr = {'dartZone': '0', 'exactlyPeriodicScene': '1'}
         self.root = etree.Element("Maket", mak_atr)
         self.tree = etree.ElementTree(self.root)
-        self.changes = changetracker['maket']
+        if 'maket' in changetracker[0]:
+            self.changes = changetracker[1]['maket']
 
-        if 'scene' in self.changes:
+        if 'scene' in changetracker[1]:
             self.scene = self.changes['scene']
         else:
             self.scene = [10, 10]
+            self.cell  = [1, 1]
         return
 
     def adoptchanges(self, changetracker):
