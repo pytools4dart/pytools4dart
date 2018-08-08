@@ -41,8 +41,8 @@ import os
 import pandas as pd
 # local imports
 import xmlwriters as dxml
-from voxreader import voxel
-from hdrtodict import hdrtodict
+from helpers.voxreader import voxel
+from helpers.hdrtodict import hdrtodict
 
 
 class simulation(object):
