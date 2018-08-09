@@ -39,6 +39,7 @@ xml editing functions.
 
 import os
 import pandas as pd
+import subprocess
 # local imports
 import xmlwriters as dxml
 from helpers.voxreader import voxel
@@ -542,7 +543,15 @@ class simulation(object):
 
         TODO : subprocess.popen stuff...
         """
-
+        scriptpath = "???"
+        scripts = ['dart-directions.sh ', 'dart-phase.sh ',
+                   'dart-maket.sh ', 'dart-only.sh ']
+        command = (scriptpath + scripts[0]
+                   + self.getSimusDirAfterDefaultSimuDir() + self.name)
+        print command
+        ok = subprocess.check_call(command, shell=True)
+        if ok != 0:
+            raise Exception("Erreur DART directions " + str(ok))
         return
 
     def pickupfile(self, path):
