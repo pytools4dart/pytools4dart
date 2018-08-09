@@ -74,6 +74,7 @@ class simulation(object):
                     - 1: Spherical
                     - 3: Planophil
         """
+        checksettings()
         outpath = checkinput(outpath)
 
         # Variables to be used in subsequent methods
@@ -293,10 +294,6 @@ class simulation(object):
     def addtrees(self, path):
         """Add trees.txt file to the simulation
 
-        TODO : The biggest problem is the simultaneous management of the
-        trees.txt and of Dart's trees.xml.
-        Here, trees are defined as lines in a panda dataframe. rows will have
-        to be split into trees xml writer AND trees.txt
 
         The XML OPT PROP goes with a "FctPhaseIndex".
         TODO : Empy leaf cells/ leaves+ holes management!
@@ -538,16 +535,20 @@ class simulation(object):
         print "XML files written!"
         return
 
-    def launch(self):
+    def launchdartscript(self, script):
         """launch the simulation with set parameters
 
-        TODO : subprocess.popen stuff...
+        Code from Claudia Lavalley
         """
         scriptpath = "???"
-        scripts = ['dart-directions.sh ', 'dart-phase.sh ',
-                   'dart-maket.sh ', 'dart-only.sh ']
-        command = (scriptpath + scripts[0]
-                   + self.getSimusDirAfterDefaultSimuDir() + self.name)
+        scripts = {'directions': 'dart-directions.sh ',
+                   'phase': 'dart-phase.sh ',
+                   'maket': 'dart-maket.sh ', 'justdart': 'dart-only.sh ',
+                   'fulldart': 'dart-full.sh ',
+                   'sequence': 'dart-sequence.sh ',
+                   'vegetation': 'dart-vegetation.sh'}
+
+        command = (scriptpath + scripts[script] + self.changetracker[2])
         print command
         ok = subprocess.check_call(command, shell=True)
         if ok != 0:
