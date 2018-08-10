@@ -80,12 +80,14 @@ class DartMaketXML(object):
         self.tree = etree.ElementTree(self.root)
         if 'maket' in changetracker[0]:
             self.changes = changetracker[1]['maket']
-
-        if 'scene' in changetracker[1]:
-            self.scene = self.changes['scene']
-        else:
-            self.scene = [10, 10]
-            self.cell  = [1, 1]
+            if 'scene' in self.changes:
+                self.scene = self.changes['scene']
+            else:
+                self.scene = [10, 10]
+            if 'cell' in self.changes:
+                self.cell = self.changes['cell']
+            else:
+                self.cell = [1, 1]
         return
 
     def adoptchanges(self, changetracker):
@@ -113,7 +115,6 @@ class DartMaketXML(object):
         ComputedTransferFunctions : write transferFunctions would be the place
         where the saving of the computed atmosphere is done.
         """
-
         xscene = self.scene[0]
         yscene = self.scene[1]
         xcell = self.cell[0]
