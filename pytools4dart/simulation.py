@@ -118,13 +118,6 @@ class simulation(object):
             self.changetracker[1][param] = {}
         return
 
-    def updatepath(self, path):
-        path = checkinput(path)
-        self.changetracker[2] = path
-        print "Successfully updated simulation path to: "
-        print path
-        print('--------------\n')
-
     def addband(self, invar, nmtomicron=True):
         """add spectral band to simulation sensor
 
@@ -245,6 +238,38 @@ class simulation(object):
 
         return
 
+    def addsequence(self, parargs, group='default', name='sequence'):
+        """add a sequence xml file with given parameters
+
+        parargs must be a dictionnary structured in this way :
+            parargs = { 'parameter1' : basevalue, stepvalue, numberofsteps}
+        """
+        try:
+            parargs.keys()
+        except AttributeError:
+            print 'sequence input must be a dictionnary = {parameters:args}'
+            return
+        self._registerchange('sequence')
+
+        for param, args in parargs.iteritems():
+            # TODO : all that follows
+            """
+            here or in xml writer something should go like this :
+                check if prospect, or special sign in name
+                if there is, retrieve the index of the given opt prop
+                based on that and on a parameter name, construct the
+                Appropriate Dart xml String!
+            """
+
+            print 'key =', param
+            print 'values =', args
+            if group not in self.changetracker[1]['sequence']:
+                self.changetracker[1]['sequence'][group] = {}
+
+            self.changetracker[1]['sequence'][group][param] = args
+        self.changetracker[1]['sequencename'] = name
+        return
+
     def addsingleplot(self, corners=None, baseheight=1, density=1,
                       opt="custom", ident=None, densitydef='ul'):
         """adds a plot to the scene with certain parameters
@@ -269,29 +294,6 @@ class simulation(object):
         miniframe = pd.DataFrame([data], columns=self.PLOTCOLNAMES)
         self.plots = self.plots.append(miniframe, ignore_index=True)
         self.plotsnumber += 1
-        return
-
-    def addsequence(self, parargs, group='default', name='sequence'):
-        """add a sequence xml file with given parameters
-
-        parargs must be a dictionnary structured in this way :
-            parargs = { 'parameter1' : basevalue, stepvalue, numberofsteps}
-        """
-        try:
-            parargs.keys()
-        except TypeError:
-            print 'sequence input must be a dictionnary = {parameters:args}'
-            return
-        self._registerchange('sequence')
-
-        for param, args in parargs.iteritems():
-            print 'key =', param
-            print 'values =', args
-            if group not in self.changetracker[1]['sequence']:
-                self.changetracker[1]['sequence'][group] = {}
-
-            self.changetracker[1]['sequence'][group][param] = args
-        self.changetracker[1]['sequencename'] = name
         return
 
     def addtrees(self, path):
@@ -375,44 +377,30 @@ class simulation(object):
 
         return
 
-    def setscene(self, scene):
-        """change scene dimensions
+    def indexprops(self):
+        """Creates the index for optical properties
 
-        Parameters:
-        ----------
-
-            -list of two numbers : [x,y] of the scene
-        TODO: error catching
+        This function is necessary in order to have easy tracking of
+        optical properties indices "IndexFctPhase" which is referenced a lot
+        in Dart XMLs.
+        TODO : Index Thermal properties!
         """
-        self._registerchange('maket')
-        self.scene = scene
-        print 'Scene length set to:', scene[0]
-        print 'Scene width set to:', scene[1]
-        self.changetracker[1]['maket']['scene'] = self.scene
+        index = 0
+        self.index_lamb = {}
+        for lamb in self.optprops['lambertians']:
+            self.index_lamb[lamb[0]] = index
+            index += 1
+        index = 0
+        self.index_veg = {}
+        for veg in self.optprops['vegetations']:
+            self.index_veg[veg[0]] = index
+            index += 1
+        self.indexopts = {'lambertians': self.index_lamb,
+                          'vegetations': self.index_veg}
+
         return
 
-    def setcell(self, cell):
-        """change cell dimensions
-        TODO : maybe a bit more verbose?
-        """
-        self._registerchange('maket')
-        self.cell = cell
-        return
-
-    def setoptplots(self, opt, mode=None):
-        """sets the optical property of the plots
-
-        TODO : modify and add options : superior plots...
-        For now sets ALL plots to the same 'opt' optical property
-        """
-        if not self.plots:
-            print "There are no plots in this simulation"
-            return
-        else:
-            self.plots['optprop'] = opt
-        return
-
-    def plotsfromvox(self, path, densitydef = None):
+    def plotsfromvox(self, path, densitydef=None):
         """Adds Plots based on AMAP vox file.
 
         Based on code from Claudia, Florian and Dav.
@@ -455,27 +443,41 @@ class simulation(object):
         print ("Optical properties have to be added in the column 'optprop'\n")
         return
 
-    def indexprops(self):
-        """Creates the index for optical properties
-
-        This function is necessary in order to have easy tracking of
-        optical properties indices "IndexFctPhase" which is referenced a lot
-        in Dart XMLs.
-        TODO : Index Thermal properties!
+    def setcell(self, cell):
+        """change cell dimensions
+        TODO : maybe a bit more verbose?
         """
-        index = 0
-        self.index_lamb = {}
-        for lamb in self.optprops['lambertians']:
-            self.index_lamb[lamb[0]] = index
-            index += 1
-        index = 0
-        self.index_veg = {}
-        for veg in self.optprops['vegetations']:
-            self.index_veg[veg[0]] = index
-            index += 1
-        self.indexopts = {'lambertians': self.index_lamb,
-                          'vegetations': self.index_veg}
+        self._registerchange('maket')
+        self.cell = cell
+        return
 
+    def setoptplots(self, opt, mode=None):
+        """sets the optical property of the plots
+
+        TODO : modify and add options : superior plots...
+        For now sets ALL plots to the same 'opt' optical property
+        """
+        if not self.plots:
+            print "There are no plots in this simulation"
+            return
+        else:
+            self.plots['optprop'] = opt
+        return
+
+    def setscene(self, scene):
+        """change scene dimensions
+
+        Parameters:
+        ----------
+
+            -list of two numbers : [x,y] of the scene
+        TODO: error catching
+        """
+        self._registerchange('maket')
+        self.scene = scene
+        print 'Scene length set to:', scene[0]
+        print 'Scene width set to:', scene[1]
+        self.changetracker[1]['maket']['scene'] = self.scene
         return
 
     def listmodifications(self):
@@ -487,6 +489,45 @@ class simulation(object):
         print self.changetracker[0]
 
         return
+
+    def launchdartscript(self, script):
+        """launch the simulation with set parameters
+
+        Code from Claudia Lavalley
+        """
+        scriptpath = "???"
+        scripts = {'directions': 'dart-directions.sh ',
+                   'phase': 'dart-phase.sh ',
+                   'maket': 'dart-maket.sh ', 'justdart': 'dart-only.sh ',
+                   'fulldart': 'dart-full.sh ',
+                   'sequence': 'dart-sequence.sh ',
+                   'vegetation': 'dart-vegetation.sh'}
+
+        command = (scriptpath + scripts[script] + self.changetracker[2])
+        print command
+        ok = subprocess.check_call(command, shell=True)
+        if ok != 0:
+            raise Exception("Erreur DART directions " + str(ok))
+        return
+
+    def pickupfile(self, path):
+        """uses a previously defined .xml dart file
+        """
+        dartfile = os.path.splitext(os.path.basename(path))
+        self.changetracker[1]['usefile'][dartfile] = path
+        return
+
+    def getsfileparams(self, path):
+        """gets the parameters of
+        """
+        return
+
+    def updatepath(self, path):
+        path = checkinput(path)
+        self.changetracker[2] = path
+        print "Successfully updated simulation path to: "
+        print path
+        print('--------------\n')
 
     def write_xmls(self):
         """writes the xmls with all defined input parameters
@@ -548,38 +589,6 @@ class simulation(object):
         print "XML files written!"
         return
 
-    def launchdartscript(self, script):
-        """launch the simulation with set parameters
-
-        Code from Claudia Lavalley
-        """
-        scriptpath = "???"
-        scripts = {'directions': 'dart-directions.sh ',
-                   'phase': 'dart-phase.sh ',
-                   'maket': 'dart-maket.sh ', 'justdart': 'dart-only.sh ',
-                   'fulldart': 'dart-full.sh ',
-                   'sequence': 'dart-sequence.sh ',
-                   'vegetation': 'dart-vegetation.sh'}
-
-        command = (scriptpath + scripts[script] + self.changetracker[2])
-        print command
-        ok = subprocess.check_call(command, shell=True)
-        if ok != 0:
-            raise Exception("Erreur DART directions " + str(ok))
-        return
-
-    def pickupfile(self, path):
-        """uses a previously defined .xml dart file
-        """
-        dartfile = os.path.splitext(os.path.basename(path))
-        self.changetracker[1]['usefile'][dartfile] = path
-        return
-
-    def getsfileparams(self, path):
-        """gets the parameters of
-        """
-        return
-
 
 # ##################################test zone
 if __name__ == '__main__':
@@ -599,7 +608,7 @@ if __name__ == '__main__':
                (0,  0),
                (0,  4))
     pof.addsingleplot(corners=corners, opt='proprieteopt2', densitydef='UL')
-    pof.setscene([5,5])
+    pof.setscene([5, 5])
     optpropveg = ['vegetation', 'proprieteopt2',
                   '/media/mtd/stock/DART/database/Vegetation.db',
                   'ash_top', '0']
@@ -666,3 +675,20 @@ if __name__ == '__main__':
     end = time.time()
     print(end - start)
     """
+"""
+Prospect xml strings :
+    propertyName="Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.CBrown" type="enumerate"/>
+                <DartSequencerDescriptorEntry args="0;0"
+                    propertyName="Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.Cab" type="enumerate"/>
+                <DartSequencerDescriptorEntry args="0;0"
+                    propertyName="Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.Car" type="enumerate"/>
+                <DartSequencerDescriptorEntry args="0;0"
+                    propertyName="Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.Cm" type="enumerate"/>
+                <DartSequencerDescriptorEntry args="0;0"
+                    propertyName="Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.Cw" type="enumerate"/>
+                <DartSequencerDescriptorEntry args="0;0"
+                    propertyName="Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.N" type="enumerate"/>
+                <DartSequencerDescriptorEntry args="0;0"
+                    propertyName="Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.anthocyanin" type="enumerate"/>
+            </DartSequencerDescriptorGroup>
+"""
