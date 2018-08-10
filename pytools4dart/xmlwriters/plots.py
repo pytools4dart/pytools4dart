@@ -118,7 +118,7 @@ class DartPlotsXML(object):
         etree.SubElement(self.root, "ImportationFichierRaster")
         return
 
-    def addplot(self, corners, baseheight, density, optprop):
+    def addplot(self, corners, baseheight, density, optprop, laiul):
         """Adds a plot based on a few basic parameters
 
         This method could evolve to receive a variable number of parameters.
@@ -167,22 +167,32 @@ class DartPlotsXML(object):
         grdthermalprop = {"idTemperature": "ThermalFunction290_310",
                           "indexTemperature": "0"}
 
-        # here density parameter added in LAI
+        # here density parameter added in LAI or ul
+        if laiul == 'lai' or 'LAI':
+            etree.SubElement(vegprops, "LAIVegetation", {"LAI": str(density)})
+        elif laiul == 'ul' or 'UL':
+            etree.SubElement(vegprops, "UFVegetation", {"UF": str(density)})
+        else:
+            # TODO : put a warning when not recognised
+            etree.SubElement(vegprops, "UFVegetation", {"UF": str(density)})
+
         etree.SubElement(vegprops, "VegetationGeometry", veggeom)
-        etree.SubElement(vegprops, "LAIVegetation", {"LAI": str(density)})
         etree.SubElement(vegprops, "VegetationOpticalPropertyLink", vegoptlink)
         etree.SubElement(vegprops, "GroundThermalPropertyLink", grdthermalprop)
         return
 
     def plotsfrompanda(self, pandaplots):
         """adds plots in elementree from a pandaDataFrame
+
+        TODO: feed whole row directly to addplot without sloppy referencing?
         """
         for index, row in pandaplots.iterrows():
             corners = row[0]
             baseheight = row[1]
             density = row[2]
             optprop = row[3]
-            self.addplot(corners, baseheight, density, optprop)
+            laiul = row[4]
+            self.addplot(corners, baseheight, density, optprop, laiul)
         return
 
     def adoptchanges(self):
