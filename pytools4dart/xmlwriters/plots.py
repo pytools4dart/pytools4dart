@@ -118,7 +118,7 @@ class DartPlotsXML(object):
         etree.SubElement(self.root, "ImportationFichierRaster")
         return
 
-    def addplot(self, corners, baseheight, density, optprop, laiul):
+    def addplot(self, corners, baseheight, density, optprop, densitydef):
         """Adds a plot based on a few basic parameters
 
         This method could evolve to receive a variable number of parameters.
@@ -127,6 +127,10 @@ class DartPlotsXML(object):
         with Element Tree.
         TODO : IndexFctPhase!
         """
+        if densitydef == 'lai' or 'LAI':
+            densdef = ('0')
+        if densitydef == 'ul' or 'UL':
+            densdef = ('1')
         # appends new plot to plots
         plot = etree.SubElement(self.root, "Plot", self.PLOT_DEFAULT_ATR)
 
@@ -144,7 +148,7 @@ class DartPlotsXML(object):
                          {"x": str(corners[3][0]), "y": str(corners[3][1])})
 
         # plot vegetation properties branch
-        vegprops_atr = {"densityDefinition": "0",
+        vegprops_atr = {"densityDefinition": densdef,
                         "trianglePlotRepresentation": "0",
                         "verticalFillMode": "0"}
         vegprops = etree.SubElement(plot, "PlotVegetationProperties",
@@ -168,9 +172,9 @@ class DartPlotsXML(object):
                           "indexTemperature": "0"}
 
         # here density parameter added in LAI or ul
-        if laiul == 'lai' or 'LAI':
+        if densitydef == 'lai' or 'LAI':
             etree.SubElement(vegprops, "LAIVegetation", {"LAI": str(density)})
-        elif laiul == 'ul' or 'UL':
+        elif densitydef == 'ul' or 'UL':
             etree.SubElement(vegprops, "UFVegetation", {"UF": str(density)})
         else:
             # TODO : put a warning when not recognised
@@ -191,8 +195,9 @@ class DartPlotsXML(object):
             baseheight = row[1]
             density = row[2]
             optprop = row[3]
-            laiul = row[4]
-            self.addplot(corners, baseheight, density, optprop, laiul)
+            densitydef = row[4]
+            print densitydef
+            self.addplot(corners, baseheight, density, optprop, densitydef)
         return
 
     def adoptchanges(self):

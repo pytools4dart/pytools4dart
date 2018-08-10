@@ -45,6 +45,7 @@ import xmlwriters as dxml
 from helpers.voxreader import voxel
 from helpers.hdrtodict import hdrtodict
 from helpers.foldermngt import checkinput
+from helpers.foldermngt import checksettings
 
 
 class simulation(object):
@@ -74,11 +75,12 @@ class simulation(object):
                     - 1: Spherical
                     - 3: Planophil
         """
-        checksettings()
+         # checksettings()
         outpath = checkinput(outpath)
 
         # Variables to be used in subsequent methods
-        self.PLOTCOLNAMES = ['corners', 'baseheight', 'density', 'optprop']
+        self.PLOTCOLNAMES = ['corners', 'baseheight', 'density', 'optprop',
+                             'densitydef']
         self.BANDSCOLNAMES = ['bandnames', 'centralwvl', 'fwhm']
 
         self.changetracker = [[], {}, outpath, "flux"]
@@ -214,6 +216,7 @@ class simulation(object):
         simplified management of all variables...
         Vegetation.db is Dart default.
         TODO : Managing Thermal properties?
+        TODO : Add Error catching!
 
         Parameters
         ----------
@@ -243,7 +246,7 @@ class simulation(object):
         return
 
     def addsingleplot(self, corners=None, baseheight=1, density=1,
-                      opt="custom", ident=None):
+                      opt="custom", ident=None, densitydef='ul'):
         """adds a plot to the scene with certain parameters
 
         For now, if no corners are specified, a default plot is created
@@ -261,8 +264,8 @@ class simulation(object):
                        (self.scene[0],  0),
                        (0,              0),
                        (0,              self.scene[1]))
-
-        data = [corners, baseheight, density, opt]
+        densitydef = densitydef
+        data = [corners, baseheight, density, opt, densitydef]
         miniframe = pd.DataFrame([data], columns=self.PLOTCOLNAMES)
         self.plots = self.plots.append(miniframe, ignore_index=True)
         self.plotsnumber += 1
@@ -375,9 +378,17 @@ class simulation(object):
     def setscene(self, scene):
         """change scene dimensions
 
+        Parameters:
+        ----------
+
+            -list of two numbers : [x,y] of the scene
+        TODO: error catching
         """
         self._registerchange('maket')
         self.scene = scene
+        print 'Scene length set to:', scene[0]
+        print 'Scene width set to:', scene[1]
+        self.changetracker[1]['maket']['scene'] = self.scene
         return
 
     def setcell(self, cell):
@@ -401,7 +412,7 @@ class simulation(object):
             self.plots['optprop'] = opt
         return
 
-    def plotsfromvox(self, path):
+    def plotsfromvox(self, path, densitydef = None):
         """Adds Plots based on AMAP vox file.
 
         Based on code from Claudia, Florian and Dav.
@@ -409,6 +420,7 @@ class simulation(object):
         that is needed in Dav's project to get the optical properties of the
         voxels depending on another file.
         For now redundant : panda from panda..
+        Density is LAI when >0 and UL when <0
         TODO : simplification, for now a pd is read into another pd
         """
         self._registerchange('plots')
@@ -423,7 +435,7 @@ class simulation(object):
             j = row.j  # voxel y
             k = row.k  # voxel z
             optpropname = None
-            LAI = str(row.PadBVTotal)  # voxel LAI(PadBTotal en negatif)
+            density = str(row.PadBVTotal)  # voxel density
 
             corners = (((i * res),          (j * res)),
                        ((i + 1 * res),      (j * res)),
@@ -434,7 +446,8 @@ class simulation(object):
             baseheight = str(k * height)  # voxel height
 
             voxlist.append(dict(zip(self.PLOTCOLNAMES,
-                                    [corners, baseheight, LAI, optpropname])))
+                                    [corners, baseheight, density, optpropname,
+                                     densitydef])))
             self.plotsnumber += 1
         data = pd.DataFrame(voxlist, columns=self.PLOTCOLNAMES)
         self.plots.append(data, ignore_index=True)
@@ -579,7 +592,20 @@ if __name__ == '__main__':
     pof.addsequence({'wvl': (1, 2, 3)})
     """
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
-                     'essai_sequence/input/')
+                     'essaiDossier/')
+
+    corners = ((3,  4),
+               (3,  0),
+               (0,  0),
+               (0,  4))
+    pof.addsingleplot(corners=corners, opt='proprieteopt2', densitydef='UL')
+    pof.setscene([5,5])
+    optpropveg = ['vegetation', 'proprieteopt2',
+                  '/media/mtd/stock/DART/database/Vegetation.db',
+                  'ash_top', '0']
+    pof.addopt(optpropveg)
+    pof.write_xmls()
+    """
     corners = ((3,  4),
                (3,  0),
                (0,  0),
@@ -615,6 +641,7 @@ if __name__ == '__main__':
     #   pof.addsequence({'hello': (1, 2, 3)})
     pof.write_xmls()
     print(pof.bands)
+    """
 
     """
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'

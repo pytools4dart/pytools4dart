@@ -183,7 +183,7 @@ class DartPhaseXML(object):
                          maketmodule_attrib)
         try:  # check if dataframe for bands is empty
             self.changes['bands'].head()
-        except AttributeError:
+        except TypeError:
             specprops_attrib = {'bandNumber': '0', 'meanLambda': '0.56',
                                 'spectralDartMode': '0', 'deltaLambda': '0.02'}
             etree.SubElement(specintervals, "SpectralIntervalProperties",

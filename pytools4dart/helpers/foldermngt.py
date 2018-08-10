@@ -53,19 +53,38 @@ def checkinput(path):
         if path.endswith('/input'):
             print "Input folder is"
             print path
+            return path
 
         elif not os.path.isdir(os.path.join(path, 'input')):
-            pathin = os.path.join(path, 'input')
+            pathin = os.path.join(path, 'input/')
             os.mkdir(pathin)
             print 'Created input folder in the assigned simulation folder'
+            return pathin
+
+        else:
+            return os.path.join(path, 'input/')
+
+    elif os.path.isdir(os.path.dirname(path)):
+        os.mkdir(path)
+        pathin = os.path.join(path, 'input/')
+        os.mkdir(pathin)
+        print 'Created assigned simulation folder'
+        print 'Created input folder in the assigned simulation folder'
+        return pathin
+
     else:
         print "Incorrect Input. please enter the correct path to a folder"
-        print "Please retry with a correct path"
+        raise Exception("Please retry with a correct path")
 
-    return path
+    return
 
+def checksettings(args = None):
+    """
+    """
+    return
 
 # Test Zone
 if __name__ == "__main__":
-    out = checkinput('/home/mtdtest/')
+    out = checkinput('/media/mtd/stock/boulot_sur_dart/temp/'
+                     'essaiDossier/')
     print out
