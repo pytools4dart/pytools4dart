@@ -442,6 +442,15 @@ class simulation(object):
         print ("Plots added from .vox file.")
         print ("Optical properties have to be added in the column 'optprop'\n")
         return
+    
+    def plotsfromdataframe(self,dataframe, dic=None):
+        """TODO : Appends a dataframe to plots, matches columns
+        based on a dictionnary 
+        """
+        self._registerchange('plots')
+        
+        
+        return
 
     def setcell(self, cell):
         """change cell dimensions
