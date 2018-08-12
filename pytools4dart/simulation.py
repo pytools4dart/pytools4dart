@@ -443,11 +443,17 @@ class simulation(object):
         print ("Optical properties have to be added in the column 'optprop'\n")
         return
     
-    def plotsfromdataframe(self,dataframe, dic=None):
+    def plotsfromdataframe(self,dataframe, dic):
         """TODO : Appends a dataframe to plots, matches columns
-        based on a dictionnary 
+        based on a dictionnary  columns = {Olndame:Newname, .....}
+        
         """
         self._registerchange('plots')
+        dataframe.rename(columns = dic, inplace=True)
+        plots = self.plots.append(dataframe, ignore_index=True)
+        self.plots = plots
+        
+        print ("Dataframe successfully appended to plots")
         
         
         return
