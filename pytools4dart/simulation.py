@@ -639,7 +639,9 @@ class simulation(object):
         dxml.write_water(self.changetracker)
         print "XML files written!"
         return
-
+    def write_sequence(self):
+        dxml.write_sequence(self.changetracker)
+        return
 
 # ##################################test zone
 if __name__ == '__main__':
@@ -669,7 +671,7 @@ if __name__ == '__main__':
     prosoptveg = ['vegetation','proprieteoptpros', 'prospect', 'blank',0]
     pof.addopt(prosoptveg)
     pof.addprospectsequence(dic, 'proprieteoptpros')
-    pof.write_xmls()
+    pof.write_sequence()
     """
     corners = ((3,  4),
                (3,  0),
