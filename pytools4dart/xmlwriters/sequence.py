@@ -52,9 +52,10 @@ def write_sequence(changetracker):
     """
     if "sequence" in changetracker[0]:
         seqname = changetracker[1]['sequencename']
+        # seqname = 'sequence'
         seq = DartSequenceXML(changetracker[1]['sequence'], seqname)
         seq.basenodes()
-        seq.addsequence()
+        seq.addsequences()
         outpath = changetracker[2]
         seq.writexml(outpath + seqname + ".xml")
         return
@@ -78,6 +79,7 @@ class DartSequenceXML(object):
         the name of the sequence goes here!
 
         The group name may or may not correspond to the sequence name
+        TODO : cleaning up!
         """
         self.seqname = seqname
         TRUC = 1
@@ -89,7 +91,8 @@ class DartSequenceXML(object):
         dir_atr = {'sequenceName': 'sequence;;' + seqname}
         self.root = etree.Element("DartSequencerDescriptor", dir_atr)
         self.tree = etree.ElementTree(self.root)
-        self.changes = changetracker
+        self.sequences = changetracker[1]['sequence']
+        self.changes
         return
 
     def basenodes(self):
@@ -160,7 +163,7 @@ class DartSequenceXML(object):
         # DartSequenceDescriptorGroup branch
         return
 
-    def addsequence(self):
+    def addsequences(self):
         """
 
         the sequence options are organised in this way :
@@ -204,19 +207,34 @@ class DartSequenceXML(object):
 
         for groupname in self.sequences:
             print "Adding:", groupname, "to sequence"
-            entries = self.root.find('./DartSequencerDescriptorEntries')
-            grp = etree.SubElement(entries,
-                                   'DartSequencerDescriptorGroup',
-                                   {'groupName': groupname})
 
-            for param, values in self.changes[groupname].iteritems():
-                    seqarg = {'propertyName': param,
-                              'args': str(values[0])
-                              + ';' + str(values[1])
-                              + ';' + str(values[2]),
-                              'type': 'linear'}
-                    etree.SubElement(grp, 'DartSequencerDescriptorEntry',
-                                     seqarg)
+            if groupname.startswith('prosequence'):
+                entries = self.root.find('./DartSequencerDescriptorEntries')
+                grp = etree.SubElement(entries,
+                                       'DartSequencerDescriptorGroup',
+                                       {'groupName': groupname})
+                for param, values in self.sequences[groupname].iteritems():
+                        seqarg = {'propertyName': param,
+                                  'args': str(values[0])
+                                  + ';' + str(values[1])
+                                  + ';' + str(values[2]),
+                                  'type': 'linear'}
+                        etree.SubElement(grp, 'DartSequencerDescriptorEntry',
+                                         seqarg)
+            else:
+                entries = self.root.find('./DartSequencerDescriptorEntries')
+                grp = etree.SubElement(entries,
+                                       'DartSequencerDescriptorGroup',
+                                       {'groupName': groupname})
+
+                for param, values in self.sequences[groupname].iteritems():
+                        seqarg = {'propertyName': param,
+                                  'args': str(values[0])
+                                  + ';' + str(values[1])
+                                  + ';' + str(values[2]),
+                                  'type': 'linear'}
+                        etree.SubElement(grp, 'DartSequencerDescriptorEntry',
+                                         seqarg)
         return
 
     def writexml(self, outpath):

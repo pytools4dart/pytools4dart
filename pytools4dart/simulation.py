@@ -100,6 +100,10 @@ class simulation(object):
         self.cell = [1, 1]
         self.nspecies = 0
         self.trees = 0
+
+        self.prosparams = ['CBrown', 'Cab', 'Car', 'Cm',
+                           'Cw', 'N', 'anthocyanin']
+        self.prossequence = 0
         print ('New Simulation initiated')
         print('--------------\n')
 
@@ -228,10 +232,13 @@ class simulation(object):
                         - 3: Planophil
 
         """
+        self._registerchange('coeff_diff')
         if optprop[0] == 'lambertian':
             self.optprops['lambertians'].append(optprop[1:])
+            self.indexprops()
         elif optprop[0] == 'vegetation':
             self.optprops['vegetations'].append(optprop[1:])
+            self.indexprops()
         else:
             print 'Non recognized optical property type. Returning'
             return
@@ -252,42 +259,52 @@ class simulation(object):
         self._registerchange('sequence')
 
         for param, args in parargs.iteritems():
-            # TODO : all that follows
-            """
-            here or in xml writer something should go like this :
-                check if prospect, or special sign in name
-                if there is, retrieve the index of the given opt prop
-                based on that and on a parameter name, construct the
-                Appropriate Dart xml String!
-            """
-
             print 'key =', param
             print 'values =', args
             if group not in self.changetracker[1]['sequence']:
                 self.changetracker[1]['sequence'][group] = {}
 
-
             self.changetracker[1]['sequence'][group][param] = args
         self.changetracker[1]['sequencename'] = name
         return
 
-    def addprospectsequence(self, dic, optident,group = None):
+    def addprospectsequence(self, dic, optident, group=None):
         """adds a sequence of prospect generated optical properties
+        TODO : Absolutey NOT Optimized nor clean!
         """
         # Here go the conditions for prospect, probably to write in another
         # function
-        index = self.optprops['vegetation'].index(optident)
-        baseprospectstring = ("Coeff_diff.UnderstoryMultiFunctions.",
-                              "UnderstoryMulti[{}].",
-                              "ProspectExternalModule.",
-                              "ProspectExternParameters.").format(index)
-        prosparams = ['CBrown', 'Cab', 'Car', 'Car',
-                      'Cm', 'Cw', 'N', 'anthocyanin']
+        self._registerchange('sequence')
+        index = self.indexopts['vegetations'][optident]
+        baseprospectstring = ('Coeff_diff.UnderstoryMultiFunctions'
+                              'UnderstoryMulti[{}].'
+                              'ProspectExternalModule.'
+                              'ProspectExternParameters.')
+        baseprospectstring.format(index)
+
         if not group:
-            group = 'prosequence{}'.format(prospectsequence)
-       for params in dic.iteritems:
-           prosdic = {baseprospectstring+params[0],}
-            addsequence(prosdic, group = group)
+            group = 'prosequence{}'.format(self.prossequence)
+        elif not group.startswith('prosequence'):
+            group = 'prosequence'+group
+        maxlen = 0
+        prosdic = {}
+        for params in dic.iteritems():
+            if params[0] not in self.prosparams:
+                raise ValueError('please enter one of the following'
+                                 'values :{}'.format(self.prosparams))
+
+            prosdic[baseprospectstring+params[0]] = params[1]
+            # records max lengths of parameter to duplicate single values.
+            if isinstance(params[1], list) and len(params[1]) > maxlen:
+                maxlen = len(params[1])
+        # TODO : better type checking : in order to go from single element
+        # to maxlen length list of identical values
+        for key, value in prosdic.iteritems():
+            if not isinstance(value, list):
+                prosdic[key] = [value] * maxlen
+
+        self.addsequence(prosdic, group=group, name = 'prospect_sequence')
+        self.prossequence += 1
         return
 
     def addsingleplot(self, corners=None, baseheight=1, density=1,
@@ -463,18 +480,17 @@ class simulation(object):
         print ("Optical properties have to be added in the column 'optprop'\n")
         return
 
-    def plotsfromdataframe(self,dataframe, dic):
+    def plotsfromdataframe(self, dataframe, dic):
         """TODO : Appends a dataframe to plots, matches columns
         based on a dictionnary  columns = {Olndame:Newname, .....}
 
         """
         self._registerchange('plots')
-        dataframe.rename(columns = dic, inplace=True)
+        dataframe.rename(columns=dic, inplace=True)
         plots = self.plots.append(dataframe, ignore_index=True)
         self.plots = plots
 
         print ("Dataframe successfully appended to plots")
-
 
         return
 
@@ -648,6 +664,11 @@ if __name__ == '__main__':
                   '/media/mtd/stock/DART/database/Vegetation.db',
                   'ash_top', '0']
     pof.addopt(optpropveg)
+    dic = {'CBrown':[3,4,5], 'Cab': 5, 'Car':1,
+           'Cm':1, 'Cw':4, 'N':2, 'anthocyanin':1}
+    prosoptveg = ['vegetation','proprieteoptpros', 'prospect', 'blank',0]
+    pof.addopt(prosoptveg)
+    pof.addprospectsequence(dic, 'proprieteoptpros')
     pof.write_xmls()
     """
     corners = ((3,  4),
