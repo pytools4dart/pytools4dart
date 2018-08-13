@@ -199,7 +199,7 @@ class DartSequenceXML(object):
                 500;20;0
                 500;20;60
 
-        TODO : should not be working....to check in debth
+        TODO : should not be working....to check in depth
         """
 
         for groupname in self.sequences:

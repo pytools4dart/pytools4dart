@@ -266,8 +266,28 @@ class simulation(object):
             if group not in self.changetracker[1]['sequence']:
                 self.changetracker[1]['sequence'][group] = {}
 
+
             self.changetracker[1]['sequence'][group][param] = args
         self.changetracker[1]['sequencename'] = name
+        return
+
+    def addprospectsequence(self, dic, optident,group = None):
+        """adds a sequence of prospect generated optical properties
+        """
+        # Here go the conditions for prospect, probably to write in another
+        # function
+        index = self.optprops['vegetation'].index(optident)
+        baseprospectstring = ("Coeff_diff.UnderstoryMultiFunctions.",
+                              "UnderstoryMulti[{}].",
+                              "ProspectExternalModule.",
+                              "ProspectExternParameters.").format(index)
+        prosparams = ['CBrown', 'Cab', 'Car', 'Car',
+                      'Cm', 'Cw', 'N', 'anthocyanin']
+        if not group:
+            group = 'prosequence{}'.format(prospectsequence)
+       for params in dic.iteritems:
+           prosdic = {baseprospectstring+params[0],}
+            addsequence(prosdic, group = group)
         return
 
     def addsingleplot(self, corners=None, baseheight=1, density=1,
@@ -442,20 +462,20 @@ class simulation(object):
         print ("Plots added from .vox file.")
         print ("Optical properties have to be added in the column 'optprop'\n")
         return
-    
+
     def plotsfromdataframe(self,dataframe, dic):
         """TODO : Appends a dataframe to plots, matches columns
         based on a dictionnary  columns = {Olndame:Newname, .....}
-        
+
         """
         self._registerchange('plots')
         dataframe.rename(columns = dic, inplace=True)
         plots = self.plots.append(dataframe, ignore_index=True)
         self.plots = plots
-        
+
         print ("Dataframe successfully appended to plots")
-        
-        
+
+
         return
 
     def setcell(self, cell):
@@ -691,19 +711,28 @@ if __name__ == '__main__':
     print(end - start)
     """
 """
+
+
+
 Prospect xml strings :
     propertyName="Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.CBrown" type="enumerate"/>
                 <DartSequencerDescriptorEntry args="0;0"
-                    propertyName="Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.Cab" type="enumerate"/>
+                    propertyName="Coeff_diff.UnderstoryMultiFunctions.
+                    UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.Cab" type="enumerate"/>
                 <DartSequencerDescriptorEntry args="0;0"
-                    propertyName="Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.Car" type="enumerate"/>
+                    propertyName="Coeff_diff.UnderstoryMultiFunctions.
+                    UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.Car" type="enumerate"/>
                 <DartSequencerDescriptorEntry args="0;0"
-                    propertyName="Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.Cm" type="enumerate"/>
+                    propertyName="Coeff_diff.UnderstoryMultiFunctions.
+                    UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.Cm" type="enumerate"/>
                 <DartSequencerDescriptorEntry args="0;0"
-                    propertyName="Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.Cw" type="enumerate"/>
+                    propertyName="Coeff_diff.UnderstoryMultiFunctions.
+                    UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.Cw" type="enumerate"/>
                 <DartSequencerDescriptorEntry args="0;0"
-                    propertyName="Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.N" type="enumerate"/>
+                    propertyName="Coeff_diff.UnderstoryMultiFunctions.
+                    UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.N" type="enumerate"/>
                 <DartSequencerDescriptorEntry args="0;0"
-                    propertyName="Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.anthocyanin" type="enumerate"/>
+                    propertyName="Coeff_diff.UnderstoryMultiFunctions.
+                    UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.anthocyanin" type="enumerate"/>
             </DartSequencerDescriptorGroup>
 """
