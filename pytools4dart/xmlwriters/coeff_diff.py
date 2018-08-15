@@ -206,7 +206,6 @@ class DartCoefXML(object):
         """
         if 'prospect' in optprop:
             if 'blank' in optprop:
-                print optprop
                 ident = optprop[0]
                 lad = optprop[3]
 

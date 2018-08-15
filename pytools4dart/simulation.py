@@ -245,7 +245,8 @@ class simulation(object):
 
         return
 
-    def addsequence(self, parargs, group='default', name='sequence'):
+    def addsequence(self, parargs, group='default', name='sequence', 
+                    verbose = False):
         """add a sequence xml file with given parameters
 
         parargs must be a dictionnary structured in this way :
@@ -259,8 +260,9 @@ class simulation(object):
         self._registerchange('sequence')
 
         for param, args in parargs.iteritems():
-            print 'key =', param
-            print 'values =', args
+            if verbose:
+                print 'key =', param
+                print 'values =', args
             if group not in self.changetracker[1]['sequence']:
                 self.changetracker[1]['sequence'][group] = {}
 
@@ -639,7 +641,10 @@ class simulation(object):
         dxml.write_water(self.changetracker)
         print "XML files written!"
         return
+    
     def write_sequence(self):
+        """Only writes the ongoing sequence xml.
+        """
         dxml.write_sequence(self.changetracker)
         return
 
@@ -660,7 +665,7 @@ if __name__ == '__main__':
     pof.addopt(prosoptveg)
     pof.addprospectsequence(dic, 'proprieteoptpros')
     dxml.write_coeff_diff(pof.changetracker)
-    pof.write_sequence()
+    pof.write_xmls()
     end = time.time()
     
     print "Time = {}".format(end - start)
@@ -745,7 +750,7 @@ if __name__ == '__main__':
                   '/media/mtd/stock/DART/database/Vegetation.db',
                   'ash_top', '0']
     pof.addopt(optpropveg)
-    path = '/media/mtd/stock/boulot_sur_dart/temp/testrees/model_trees.txt'
+    path = '/media/mtd/stock/boulsequencesot_sur_dart/temp/testrees/model_trees.txt'
     pof.addtrees(path)
     pof.addsingleplot(opt='proprieteopt2')
     pof.trees['SPECIES_ID'] = 0

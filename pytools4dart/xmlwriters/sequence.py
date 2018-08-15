@@ -56,8 +56,8 @@ def write_sequence(changetracker):
         seqname = changetracker[1]['sequencename']
         # seqname = 'sequence'
         seq = DartSequenceXML(changetracker, seqname)
-        seq.basenodes()
         seq.addsequences()
+        seq.basenodes()
         pathsimu = changetracker[2]
         outpath = os.path.dirname(pathsimu)
         seq.writexml(outpath + seqname + ".xml")

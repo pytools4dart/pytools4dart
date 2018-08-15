@@ -196,7 +196,6 @@ class DartPlotsXML(object):
             density = row[2]
             optprop = row[3]
             densitydef = row[4]
-            print densitydef
             self.addplot(corners, baseheight, density, optprop, densitydef)
         return
 
