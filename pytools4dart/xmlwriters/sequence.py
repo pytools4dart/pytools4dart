@@ -53,7 +53,7 @@ def write_sequence(changetracker):
     if "sequence" in changetracker[0]:
         seqname = changetracker[1]['sequencename']
         # seqname = 'sequence'
-        seq = DartSequenceXML(changetracker[1]['sequence'], seqname)
+        seq = DartSequenceXML(changetracker, seqname)
         seq.basenodes()
         seq.addsequences()
         outpath = changetracker[2]
@@ -92,7 +92,7 @@ class DartSequenceXML(object):
         self.root = etree.Element("DartSequencerDescriptor", dir_atr)
         self.tree = etree.ElementTree(self.root)
         self.sequences = changetracker[1]['sequence']
-        self.changes
+        self.changes = changetracker[1]
         return
 
     def basenodes(self):

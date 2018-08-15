@@ -646,12 +646,31 @@ class simulation(object):
 # ##################################test zone
 if __name__ == '__main__':
     import time
+    start = time.time()
+    pof = simulation('/home/eric/DATA/testfiles/pytdart/seqspect/')
+    pof.setscene([5,5])
+    corners = ((3,  4),
+               (3,  0),
+               (0,  0),
+               (0,  4))
+    pof.addsingleplot(corners=corners, opt='proprieteopt2')
+    dic = {'CBrown':[3,4,5], 'Cab': 5, 'Car':1,
+           'Cm':1, 'Cw':4, 'N':2, 'anthocyanin':1}
+    prosoptveg = ['vegetation','proprieteoptpros', 'prospect', 'blank',0]
+    pof.addopt(prosoptveg)
+    pof.addprospectsequence(dic, 'proprieteoptpros')
+    dxml.write_coeff_diff(pof.changetracker)
+    pof.write_sequence()
+    end = time.time()
+    
+    print "Time = {}".format(end - start)
     """
     start = time.time()
 
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
                      'essai_sequence/input/')
     pof.addsequence({'wvl': (1, 2, 3)})
+    """
     """
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
                      'essaiDossier/')
@@ -672,6 +691,7 @@ if __name__ == '__main__':
     pof.addopt(prosoptveg)
     pof.addprospectsequence(dic, 'proprieteoptpros')
     pof.write_sequence()
+    """
     """
     corners = ((3,  4),
                (3,  0),
