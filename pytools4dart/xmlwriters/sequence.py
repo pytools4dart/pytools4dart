@@ -34,6 +34,8 @@ NB : The DartFile node (root node) differs from the one from all the other xml.
 TODO : add a loop for sequence name in order to produce all relevant file.
 (but first think if it is really useful...)
 """
+import os
+
 try:
     import xml.etree.cElementTree as etree
 except ImportError:
@@ -56,7 +58,8 @@ def write_sequence(changetracker):
         seq = DartSequenceXML(changetracker, seqname)
         seq.basenodes()
         seq.addsequences()
-        outpath = changetracker[2]
+        pathsimu = changetracker[2]
+        outpath = os.path.dirname(pathsimu)
         seq.writexml(outpath + seqname + ".xml")
         return
     else:
