@@ -658,7 +658,7 @@ if __name__ == '__main__':
                (3,  0),
                (0,  0),
                (0,  4))
-    pof.addsingleplot(corners=corners, opt='proprieteopt2')
+    pof.addsingleplot(corners=corners, opt='proprieteoptpros')
     dic = {'CBrown':[3,4,5], 'Cab': 5, 'Car':1,
            'Cm':1, 'Cw':4, 'N':2, 'anthocyanin':1}
     prosoptveg = ['vegetation','proprieteoptpros', 'prospect', 'blank',0]

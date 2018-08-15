@@ -59,8 +59,10 @@ def write_sequence(changetracker):
         seq.addsequences()
         seq.basenodes()
         pathsimu = changetracker[2]
-        outpath = os.path.dirname(pathsimu)
-        seq.writexml(outpath + seqname + ".xml")
+        outpath = os.path.dirname(os.path.dirname(pathsimu))
+        print outpath
+        seq.writexml(os.path.join(outpath,seqname) + ".xml")
+        print (os.path.join(outpath,seqname) + ".xml")
         return
     else:
         return
@@ -94,6 +96,7 @@ class DartSequenceXML(object):
         dir_atr = {'sequenceName': 'sequence;;' + seqname}
         self.root = etree.Element("DartSequencerDescriptor", dir_atr)
         self.tree = etree.ElementTree(self.root)
+        etree.SubElement(self.root, 'DartSequencerDescriptorEntries')
         self.sequences = changetracker[1]['sequence']
         self.changes = changetracker[1]
         return
@@ -161,7 +164,6 @@ class DartSequenceXML(object):
 
         etree.SubElement(self.root, 'DartSequencerPreferences', pref_atr)
         etree.SubElement(self.root, 'DartLutPreferences', lutpref_atr)
-        etree.SubElement(self.root, 'DartSequencerDescriptorEntries')
 
         # DartSequenceDescriptorGroup branch
         return
