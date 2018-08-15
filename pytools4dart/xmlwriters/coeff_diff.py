@@ -51,10 +51,10 @@ def write_coeff_diff(changetracker):
     """
     coeff = DartCoefXML(changetracker)
     coeff.basenodes()
-    coeff.adoptchanges(changetracker)
+    coeff.adoptchanges()
 
     outpath = changetracker[2]
-    coeff.writexml(outpath+"coeff_diff.xml")
+    coeff.writexml(outpath+'coeff_diff.xml')
     return
 
 
@@ -75,10 +75,10 @@ class DartCoefXML(object):
         self.root = etree.Element("Coeff_diff", {'fluorescenceFile': '0',
                                   'fluorescenceProducts': '0'})
         self.tree = etree.ElementTree(self.root)
-        self.changes = changetracker
+        self.changes = changetracker[1]['coeff_diff']
         return
 
-    def adoptchanges(self, changetracker):
+    def adoptchanges(self):
         """method to update xml tree based on user-defined parameters
 
         here goes the magic where we change some nodes based on parameters
@@ -89,21 +89,17 @@ class DartCoefXML(object):
         TODO : Unsure if error checking works this way....
         """
         try:
-            self.changes = changetracker[1]["coeff_diff"]
-            try:
-                for lamb in self.changes['lambertians']:
-                    self.addlamb(lamb)
-            except KeyError:
-                pass
-            try:
-                for veg in self.changes['vegetations']:
-                    self.addvegetation(veg)
-            except KeyError:
-                pass
-
-            return
+            for lamb in self.changes['lambertians']:
+                self.addlamb(lamb)
         except KeyError:
-            return
+            pass
+        try:
+            for veg in self.changes['vegetations']:
+                self.addvegetation(veg)
+        except KeyError:
+            pass
+
+        return
 
     def basenodes(self, default_lamb=True):
         """creates all nodes and properties common to default simulations
