@@ -70,10 +70,8 @@ class DartInversionXML(object):
     """
 
     def __init__(self, changetracker):
-        dir_atr = {'ifCosWeighted': '0',
-                   'numberOfPropagationDirections': '100',
-                   'exactDate': '2'}
-        self.root = etree.Element("Directions", dir_atr)
+        dir_atr = {'RunInversion': '0'}
+        self.root = etree.Element("DartInversion", dir_atr)
         self.tree = etree.ElementTree(self.root)
         self.changes = changetracker
         return
@@ -104,30 +102,7 @@ class DartInversionXML(object):
 
     def basenodes(self):
         """creates all nodes and properties common to default simulations
-
-        ComputedTransferFunctions : write transferFunctions would be the place
-        where the saving of the computed atmosphere is done.
         """
-
-        # base nodes
-
-        sunangles_atr = {'sunViewingAzimuthAngle': '225.0',
-                         'sunViewingZenithAngle': '30.0',
-                         'dayOfTheYear': '-1'}
-        hotspot_atr = {'oversampleDownwardRegion': '0',
-                       'hotSpotPerpendicularPlane': '0',
-                       'hotSpotParallelPlane': '0',
-                       'oversampleUpwardRegion': '0'}
-        azimoff_atr = {'directionalAzimuthalOffset': '0',
-                       'sunAzimuthalOffset': '0'}
-        expmode_atr = {'numberOfAngularSector': '10', 'numberOfLayers': '0'}
-
-        etree.SubElement(self.root, 'SunViewingAngles', sunangles_atr)
-        etree.SubElement(self.root, 'HotSpotProperties', hotspot_atr)
-        etree.SubElement(self.root, 'AzimuthalOffset', azimoff_atr)
-        etree.SubElement(self.root, 'ExpertModeZone', expmode_atr)
-
-        etree.SubElement(self.root, 'Penumbra', {'mode': '0'})
         return
 
     def writexml(self, outpath):
