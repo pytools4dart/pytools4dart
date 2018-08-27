@@ -233,13 +233,17 @@ class DartSequenceXML(object):
                                        {'groupName': groupname})
 
                 for param, values in self.sequences[groupname].iteritems():
-                        seqarg = {'propertyName': param,
-                                  'args': str(values[0])
-                                  + ';' + str(values[1])
-                                  + ';' + str(values[2]),
-                                  'type': 'linear'}
-                        etree.SubElement(grp, 'DartSequencerDescriptorEntry',
-                                         seqarg)
+                    """ TODO : Temporary fix to replace with hdr to dict"""
+                    if param == 'wvl':
+                        param = ("Phase.DartInputParameters.SpectralIntervals."
+                                 "SpectralIntervalsProperties.meanLambda")
+                    seqarg = {'propertyName': param,
+                              'args': str(values[0])
+                              + ';' + str(values[1])
+                              + ';' + str(values[2]),
+                              'type': 'linear'}
+                    etree.SubElement(grp, 'DartSequencerDescriptorEntry',
+                                     seqarg)
         return
 
     def writexml(self, outpath):

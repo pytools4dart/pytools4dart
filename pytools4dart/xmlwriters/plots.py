@@ -125,7 +125,6 @@ class DartPlotsXML(object):
         For now it is used mainly as the way to integrate voxels from a .vox
         file. Parameters are cast to strings in order to ensure compatibility
         with Element Tree.
-        TODO : IndexFctPhase!
         """
         if densitydef == 'lai' or 'LAI':
             densdef = ('0')

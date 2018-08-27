@@ -635,7 +635,8 @@ class simulation(object):
             self.trees.to_csv(pathtrees, sep="\t", header=True, index=False)
             self.changetracker[1]['trees'] = pathtrees
             self.changetracker[1]['treespecies'] = self.species
-            dxml.write_trees(self.changetracker)
+        dxml.write_trees(self.changetracker)
+
 
         dxml.write_urban(self.changetracker)
         dxml.write_water(self.changetracker)
@@ -653,19 +654,29 @@ class simulation(object):
 if __name__ == '__main__':
     import time
     start = time.time()
-    pof = simulation('/home/eric/DATA/testfiles/pytdart/seqspect/')
+    pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/essai_sequence')
     pof.setscene([5, 5])
     corners = [[3,  4],
                [3,  0],
                [0,  0],
                [0,  4]]
-    pof.addsingleplot(corners=corners, opt='proprieteoptpros')
-    dic = {'CBrown': [3, 4, 5], 'Cab': 5, 'Car': 1,
+    pof.addsingleplot(corners=corners, opt='proprieteopt2')
+    """dic = {'CBrown': [3, 4, 5], 'Cab': 5, 'Car': 1,
            'Cm': 1, 'Cw': 4, 'N': 2, 'anthocyanin': 1}
-    prosoptveg = ['vegetation','proprieteoptpros', 'prospect', 'blank', 0]
+    # dummy optprop
+    pof.addsingleplot(corners=corners, opt='proprieteopt2', densitydef='UL')
+    """
+    optpropveg = ['vegetation', 'proprieteopt2',
+                  '/media/mtd/stock/DART/database/Vegetation.db',
+                  'ash_top', '0']
+    pof.addopt(optpropveg)
+    """
+    prosoptveg = ['vegetation', 'proprieteoptpros', 'prospect', 'blank', 0]
     pof.addopt(prosoptveg)
-    pof.addprospectsequence(dic, 'proprieteoptpros')
-    dxml.write_coeff_diff(pof.changetracker)
+    """
+    pof.addsequence({'wvl': (400,50,3)})
+    # pof.addprospectsequence(dic, 'proprieteoptpros')
+    # dxml.write_coeff_diff(pof.changetracker)
     pof.write_xmls()
     end = time.time()
 
