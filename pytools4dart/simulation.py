@@ -328,7 +328,6 @@ class simulation(object):
                        [self.scene[0],  0],
                        [0,              0],
                        [0,              self.scene[1]]]
-        densitydef = densitydef
         data = [corners, baseheight, density, opt, densitydef]
         miniframe = pd.DataFrame([data], columns=self.PLOTCOLNAMES)
         self.plots = self.plots.append(miniframe, ignore_index=True)
@@ -640,7 +639,7 @@ class simulation(object):
 
         dxml.write_urban(self.changetracker)
         dxml.write_water(self.changetracker)
-        print "XML files written!"
+        print "XML files written to {}".format(self.changetracker[2])
         return
 
     def write_sequence(self):
@@ -654,30 +653,62 @@ class simulation(object):
 if __name__ == '__main__':
     import time
     start = time.time()
-    pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/essai_sequence')
+
+    pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/test_debug')
+    optpropveg = ['vegetation', 'proprieteopt',
+                  '/media/mtd/stock/DART/database/Vegetation.db',
+                  'leaf_deciduous', '0']
+    pof.addopt(optpropveg)
+    optpropveg = ['vegetation', 'proprieteopt2',
+                  '/media/mtd/stock/DART/database/Vegetation.db',
+                  'elm_top', '0']
+    pof.addopt(optpropveg)
+    pof.addsingleplot(opt='proprieteopt', densitydef='UL')
+
+    pof.write_xmls()
+
+
+    """
     pof.setscene([5, 5])
     corners = [[3,  4],
                [3,  0],
                [0,  0],
                [0,  4]]
     pof.addsingleplot(corners=corners, opt='proprieteopt2')
-    """dic = {'CBrown': [3, 4, 5], 'Cab': 5, 'Car': 1,
+
+    dic = {'CBrown': [3, 4, 5], 'Cab': 5, 'Car': 1,
            'Cm': 1, 'Cw': 4, 'N': 2, 'anthocyanin': 1}
     # dummy optprop
     pof.addsingleplot(corners=corners, opt='proprieteopt2', densitydef='UL')
-    """
+
     optpropveg = ['vegetation', 'proprieteopt2',
                   '/media/mtd/stock/DART/database/Vegetation.db',
                   'ash_top', '0']
     pof.addopt(optpropveg)
-    """
-    prosoptveg = ['vegetation', 'proprieteoptpros', 'prospect', 'blank', 0]
-    pof.addopt(prosoptveg)
-    """
+    optpropveg = ['vegetation', 'proprieteopt2',
+              '/media/mtd/stock/DART/database/Vegetation.db',
+              'beech_middle', '0']
+    pof.addopt(optpropveg)
+    optpropveg = ['vegetation', 'proprieteopt2',
+                  '/media/mtd/stock/DART/database/Vegetation.db',
+                  'beech_bottom', '0']
+    pof.addopt(optpropveg)
+    optpropveg = ['vegetation', 'proprieteopt2',
+                  '/media/mtd/stock/DART/database/Vegetation.db',
+                  'beech_top', '0']
+    pof.addopt(optpropveg)
+
     pof.addsequence({'wvl': (400,50,3)})
     # pof.addprospectsequence(dic, 'proprieteoptpros')
     # dxml.write_coeff_diff(pof.changetracker)
     pof.write_xmls()
+    """
+    """
+    """
+    # prosoptveg = ['vegetation', 'proprieteoptpros', 'prospect', 'blank', 0]
+    # pof.addopt(prosoptveg)
+    """
+    """
     end = time.time()
 
     print "Time = {}".format(end - start)
@@ -770,29 +801,3 @@ if __name__ == '__main__':
     end = time.time()
     print(end - start)
     """
-"""
-
-
-
-Prospect xml strings :
-    propertyName="Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.CBrown" type="enumerate"/>
-                <DartSequencerDescriptorEntry args="0;0"
-                    propertyName="Coeff_diff.UnderstoryMultiFunctions.
-                    UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.Cab" type="enumerate"/>
-                <DartSequencerDescriptorEntry args="0;0"
-                    propertyName="Coeff_diff.UnderstoryMultiFunctions.
-                    UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.Car" type="enumerate"/>
-                <DartSequencerDescriptorEntry args="0;0"
-                    propertyName="Coeff_diff.UnderstoryMultiFunctions.
-                    UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.Cm" type="enumerate"/>
-                <DartSequencerDescriptorEntry args="0;0"
-                    propertyName="Coeff_diff.UnderstoryMultiFunctions.
-                    UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.Cw" type="enumerate"/>
-                <DartSequencerDescriptorEntry args="0;0"
-                    propertyName="Coeff_diff.UnderstoryMultiFunctions.
-                    UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.N" type="enumerate"/>
-                <DartSequencerDescriptorEntry args="0;0"
-                    propertyName="Coeff_diff.UnderstoryMultiFunctions.
-                    UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.anthocyanin" type="enumerate"/>
-            </DartSequencerDescriptorGroup>
-"""

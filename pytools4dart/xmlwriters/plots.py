@@ -108,6 +108,29 @@ class DartPlotsXML(object):
             print "No plot in simulation."
         return
 
+    def adoptchanges(self):
+        """method to update xml tree based on user-defined parameters
+
+        here goes the magic where we change some nodes based on parameters
+        it would maybe be something like this:
+           - for some values, just append them somewhere
+           - for the others, find them in the tree and modify them (tricky bit)
+
+        Complete path to node to be modified will have to be explicitly written
+        in this way: './Phase/DartInputParameters/SpectralDomainTir'
+        for the query to work.
+
+        Work In Progress : Relies on changetracker architecture
+        for now : architecture relies on dictionnaries containing dictionnaries
+        plot is a dictionnary, containing certain keywords.
+        Those dictionnaries are initialized in the addplot method of simulation
+
+
+        """
+
+        self.plotsfrompanda(self.changes)
+        return
+
     def basenodes(self):
         """creates all nodes and properties common to default simulations
 
@@ -116,6 +139,20 @@ class DartPlotsXML(object):
         # base nodes
         # # simple
         etree.SubElement(self.root, "ImportationFichierRaster")
+        return
+
+    def plotsfrompanda(self, pandaplots):
+        """adds plots in elementree from a pandaDataFrame
+
+        TODO: feed whole row directly to addplot without sloppy referencing?
+        """
+        for index, row in pandaplots.iterrows():
+            corners = row[0]
+            baseheight = row[1]
+            density = row[2]
+            optprop = row[3]
+            densitydef = row[4]
+            self.addplot(corners, baseheight, density, optprop, densitydef)
         return
 
     def addplot(self, corners, baseheight, density, optprop, densitydef):
@@ -127,9 +164,9 @@ class DartPlotsXML(object):
         with Element Tree.
         """
         if densitydef == 'lai' or 'LAI':
-            densdef = ('0')
+            densdef = '0'
         if densitydef == 'ul' or 'UL':
-            densdef = ('1')
+            densdef = '1'
         # appends new plot to plots
         plot = etree.SubElement(self.root, "Plot", self.PLOT_DEFAULT_ATR)
 
@@ -154,7 +191,7 @@ class DartPlotsXML(object):
                                     vegprops_atr)
 
         veggeom = {"baseheight": (str(baseheight)), "height": "1.0",
-                   "stDev": "0"}
+                   "stDev": "0.0"}
         # here optical property passed as argument to method
         # TODO : better way of referencing indices....!!!
 
@@ -170,56 +207,23 @@ class DartPlotsXML(object):
         grdthermalprop = {"idTemperature": "ThermalFunction290_310",
                           "indexTemperature": "0"}
 
-        # here density parameter added in LAI or ul
-        if densitydef == 'lai' or 'LAI':
-            etree.SubElement(vegprops, "LAIVegetation", {"LAI": str(density)})
-        elif densitydef == 'ul' or 'UL':
-            etree.SubElement(vegprops, "UFVegetation", {"UF": str(density)})
-        else:
-            # TODO : put a warning when not recognised
-            etree.SubElement(vegprops, "UFVegetation", {"UF": str(density)})
-
         etree.SubElement(vegprops, "VegetationGeometry", veggeom)
         etree.SubElement(vegprops, "VegetationOpticalPropertyLink", vegoptlink)
         etree.SubElement(vegprops, "GroundThermalPropertyLink", grdthermalprop)
+
+        # here density parameter added in LAI or ul
+        if densitydef in ('lai', 'LAI'):
+            etree.SubElement(vegprops, "LAIVegetation", {"LAI": str(density)})
+        elif densitydef in ('ul', 'UL'):
+            etree.SubElement(vegprops, "UFVegetation", {"UF": str(density)})
+        else:
+            # TODO : put a warning when not recognised
+            print "Not recognised density definition : {}".format(densitydef)
+            etree.SubElement(vegprops, "UFVegetation", {"UF": str(density)})
         return
 
-    def plotsfrompanda(self, pandaplots):
-        """adds plots in elementree from a pandaDataFrame
-
-        TODO: feed whole row directly to addplot without sloppy referencing?
-        """
-        for index, row in pandaplots.iterrows():
-            corners = row[0]
-            baseheight = row[1]
-            density = row[2]
-            optprop = row[3]
-            densitydef = row[4]
-            self.addplot(corners, baseheight, density, optprop, densitydef)
-        return
-
-    def adoptchanges(self):
-        """method to update xml tree based on user-defined parameters
-
-        here goes the magic where we change some nodes based on parameters
-        it would maybe be something like this:
-           - for some values, just append them somewhere
-           - for the others, find them in the tree and modify them (tricky bit)
-
-        Complete path to node to be modified will have to be explicitly written
-        in this way: './Phase/DartInputParameters/SpectralDomainTir'
-        for the query to work.
-
-        Work In Progress : Relies on changetracker architecture
-        for now : architecture relies on dictionnaries containing dictionnaries
-        plot is a dictionnary, containing certain keywords.
-        Those dictionnaries are initialized in the addplot method of simulation
 
 
-        """
-
-        self.plotsfrompanda(self.changes)
-        return
 
     def writexml(self, outpath):
         """ Writes the built tree to the specified path

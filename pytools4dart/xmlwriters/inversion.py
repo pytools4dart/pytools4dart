@@ -70,7 +70,7 @@ class DartInversionXML(object):
     """
 
     def __init__(self, changetracker):
-        dir_atr = {'RunInversion': '0'}
+        dir_atr = {'runInversion': '0'}
         self.root = etree.Element("DartInversion", dir_atr)
         self.tree = etree.ElementTree(self.root)
         self.changes = changetracker
@@ -90,8 +90,8 @@ class DartInversionXML(object):
 
         """
 
-        if "atmosphere" in changetracker[0]:
-            self.changes = changetracker[1]["atmosphere"]
+        if "directions" in changetracker[0]:
+            self.changes = changetracker[1]["directions"]
             for node in self.changes:
                 print "Modifying : ", node
                 self.root.find(node)

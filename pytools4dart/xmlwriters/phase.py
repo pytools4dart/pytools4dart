@@ -187,7 +187,7 @@ class DartPhaseXML(object):
         except TypeError:
             specprops_attrib = {'bandNumber': '0', 'meanLambda': '0.56',
                                 'spectralDartMode': '0', 'deltaLambda': '0.02'}
-            etree.SubElement(specintervals, "SpectralIntervalProperties",
+            etree.SubElement(specintervals, "SpectralIntervalsProperties",
                              specprops_attrib)
             self.specintervals += 1
         return
@@ -363,7 +363,7 @@ class FluxPhaseXML(DartPhaseXML):
                                 'Skyl': '0'}
         etree.SubElement(spectralirrad, "CommonParameters",
                          commonparams_attrib)
-        etree.SubElement(spectralirrad, "SpectralIrrandianceValue",
+        etree.SubElement(spectralirrad, "SpectralIrradianceValue",
                          spectralirrad_attrib)
 
         # Adding nodes under DartProduct

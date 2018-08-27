@@ -189,6 +189,12 @@ def get_all_structures(pathin, pathout=None):
     return
 
 
+pathin = "/media/mtd/stock/DART/user_data/simulations/testadopt/input/"
+pathessai = '/media/mtd/stock/boulot_sur_dart/temp/test_debug/input/'
+pathout = '/media/mtd/stock/boulot_sur_dart/temp/lastbug/'
+get_all_structures(pathin, pathout+'dart/')
+get_all_structures(pathessai, pathout+'essai/')
+
 # XML validation
 #inpath = '/media/mtd/stock/boulot_sur_dart/temp/essai_sequence/'
 #xsd = "/media/mtd/stock/boulot_sur_dart/XSDs/schemaXml/"
@@ -201,17 +207,18 @@ def get_all_structures(pathin, pathout=None):
 #"""
 
 # Get structure of a single xml file
-pathin = "/media/mtd/stock/DART/user_data/simulations/trees/input/"
+"""
+pathin = "/media/mtd/stock/DART/user_data/simulations/essai_sequence/input/"
 pathessai = '/media/mtd/stock/boulot_sur_dart/temp/essai_sequence/input/'
 otherpath = "/media/mtd/stock/boulot_sur_dart/temp/"
 # pathout="/media/mtd/stock/boulot_sur_dart/temp/empty_strucs(djasimulee)/"
-fichier = "trees.xml"
+fichier = "coeff_diff.xml"
 a = pathin+fichier
 tree = etree.parse(a)
 root = tree.getroot()
 
 get_children(root, True)
-
+"""
 """
 # print 'And now, for something completely different'
 
