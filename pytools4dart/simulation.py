@@ -75,7 +75,7 @@ class simulation(object):
                     - 1: Spherical
                     - 3: Planophil
         """
-         # checksettings()
+        # checksettings()
         outpath = checkinput(outpath)
 
         # Variables to be used in subsequent methods
@@ -245,8 +245,8 @@ class simulation(object):
 
         return
 
-    def addsequence(self, parargs, group='default', name='sequence', 
-                    verbose = False):
+    def addsequence(self, parargs, group='default', name='sequence',
+                    verbose=False):
         """add a sequence xml file with given parameters
 
         parargs must be a dictionnary structured in this way :
@@ -305,7 +305,7 @@ class simulation(object):
             if not isinstance(value, list):
                 prosdic[key] = [value] * maxlen
 
-        self.addsequence(prosdic, group=group, name = 'prospect_sequence')
+        self.addsequence(prosdic, group=group, name='prospect_sequence')
         self.prossequence += 1
         return
 
@@ -324,10 +324,10 @@ class simulation(object):
         if not ident:
             ident = self.plotsnumber
         if not corners:
-            corners = ((self.scene[0],  self.scene[1]),
-                       (self.scene[0],  0),
-                       (0,              0),
-                       (0,              self.scene[1]))
+            corners = [[self.scene[0],  self.scene[1]],
+                       [self.scene[0],  0],
+                       [0,              0],
+                       [0,              self.scene[1]]]
         densitydef = densitydef
         data = [corners, baseheight, density, opt, densitydef]
         miniframe = pd.DataFrame([data], columns=self.PLOTCOLNAMES)
@@ -641,33 +641,34 @@ class simulation(object):
         dxml.write_water(self.changetracker)
         print "XML files written!"
         return
-    
+
     def write_sequence(self):
         """Only writes the ongoing sequence xml.
         """
         dxml.write_sequence(self.changetracker)
         return
 
+
 # ##################################test zone
 if __name__ == '__main__':
     import time
     start = time.time()
     pof = simulation('/home/eric/DATA/testfiles/pytdart/seqspect/')
-    pof.setscene([5,5])
-    corners = ((3,  4),
-               (3,  0),
-               (0,  0),
-               (0,  4))
+    pof.setscene([5, 5])
+    corners = [[3,  4],
+               [3,  0],
+               [0,  0],
+               [0,  4]]
     pof.addsingleplot(corners=corners, opt='proprieteoptpros')
-    dic = {'CBrown':[3,4,5], 'Cab': 5, 'Car':1,
-           'Cm':1, 'Cw':4, 'N':2, 'anthocyanin':1}
-    prosoptveg = ['vegetation','proprieteoptpros', 'prospect', 'blank',0]
+    dic = {'CBrown': [3, 4, 5], 'Cab': 5, 'Car': 1,
+           'Cm': 1, 'Cw': 4, 'N': 2, 'anthocyanin': 1}
+    prosoptveg = ['vegetation','proprieteoptpros', 'prospect', 'blank', 0]
     pof.addopt(prosoptveg)
     pof.addprospectsequence(dic, 'proprieteoptpros')
     dxml.write_coeff_diff(pof.changetracker)
     pof.write_xmls()
     end = time.time()
-    
+
     print "Time = {}".format(end - start)
     """
     start = time.time()
