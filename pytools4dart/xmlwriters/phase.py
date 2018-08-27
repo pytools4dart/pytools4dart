@@ -177,7 +177,8 @@ class DartPhaseXML(object):
 
         specintervals = etree.SubElement(dartinputparameters,
                                          "SpectralIntervals")
-
+        etree.SubElement(dartinputparameters, "temperatureAtmosphere",
+                         {'atmosphericApparentTemperature':'260.0'})
         # # dartproduct branch
         etree.SubElement(dartproduct, "maketModuleProducts",
                          maketmodule_attrib)
@@ -327,9 +328,10 @@ class FluxPhaseXML(DartPhaseXML):
         etree.SubElement(dartinparams, "ImageSideIllumination",
                          imagesideillu_attrib)
         # branches
-        spectraldomain = etree.Element("SpectralDomainTir",
-                                       {"temperatureMode": "0"})
-        nodeillumode = etree.Element("nodeIlluminationMode", nodeillu_attrib)
+        spectraldomain = etree.SubElement(dartinparams, "SpectralDomainTir",
+                                          {"temperatureMode": "0"})
+        nodeillumode = etree.SubElement(dartinparams, "nodeIlluminationMode",
+                                        nodeillu_attrib)
 
         # spectral domain branch
         skyl_attrib = {'distanceBetweenIlluminationSubCenters': '0.1',
