@@ -88,6 +88,9 @@ class DartMaketXML(object):
                 self.cell = self.changes['cell']
             else:
                 self.cell = [1, 1]
+        else:
+            self.scene = [10, 10]
+            self.cell = [1, 1]
         return
 
     def adoptchanges(self, changetracker):
