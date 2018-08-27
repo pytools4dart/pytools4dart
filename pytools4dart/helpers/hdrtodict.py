@@ -45,7 +45,6 @@ def hdrtodict(path,):
     else:
         if not starts_with_ENVI:
             print('File does not appear to be an ENVI header')
-            return
     hdr = hdr[4:]
     # Get all "key = {val}" type matches
     regex = re.compile(r'^([\w\s*?]+?)\s*=\s*\n*\s*\{([^\}]*?)\s*\n*\s*}',
@@ -66,7 +65,7 @@ def hdrtodict(path,):
     regex = re.compile(r'^(.+?)\s*=\s*(.*?)$', re.M | re.I)
     result = regex.findall(subhdr)
     for item in result:
-        composed[item[0]] = item[1]
+        composed[item[0]] = item[1].rstrip()
     # info for bands :
     # pof = dict(zip(res['wavelength'],res['fwhm']))
 
