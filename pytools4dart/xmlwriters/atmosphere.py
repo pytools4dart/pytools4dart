@@ -129,31 +129,33 @@ class DartAtmosphereXML(object):
                 'ignoreGasForExtrapolation': '0'}
         etree.SubElement(isatm, 'AtmosphericOpticalPropertyModel', atmopt_atr)
         # parent nodes
-        atmgeom_atr = {'minimumNumberOfDivisions': '4',
-                       'discretisationAtmos': '1', 'heightOfSensor': '3000'}
-        atmgeom = etree.SubElement(isatm, 'AtmosphereGeometry', atmgeom_atr)
+
+        # atmiter branch
 
         atmiter = etree.SubElement(isatm, 'AtmosphereIterations')
 
-        # atmiter branch
-        atmprod_atr = {'atmosphereRadiance_BOA_avantCouplage': '0',
-                       'atmosphereRadiance_BOA_apresCouplage': '0',
-                       'ordreUnAtmos': '0', 'atmosphereBRF_TOA': '0'}
-        etree.SubElement(atmiter, 'AtmosphereProducts', atmprod_atr)
-
-        etree.SubElement(atmiter, 'AtmosphereComponents',
-                         {'upwardingFluxes': '0', 'downwardingFluxes': '0'})
-        etree.SubElement(atmiter, 'AtmosphereExpertModeZone',
-                         {'seuilFTAtmos': '0.0001',
-                          'seuilEclairementAtmos': '0.00001',
-                          'extrapol_atmos': '1'})
         # # transfer functions branch
+
         transfunc = etree.SubElement(atmiter, 'AtmosphereTransfertFunctions',
                                      {'inputOutputTransfertFunctions': '0'})
         etree.SubElement(transfunc, 'ComputedTransferFunctions',
                          {'writeTransferFunctions': '0'})
 
+        atmprod_atr = {'atmosphereRadiance_BOA_avantCouplage': '0',
+                       'atmosphereRadiance_BOA_apresCouplage': '0',
+                       'ordreUnAtmos': '0', 'atmosphereBRF_TOA': '0'}
+        etree.SubElement(atmiter, 'AtmosphereProducts', atmprod_atr)
+        etree.SubElement(atmiter, 'AtmosphereComponents',
+                         {'upwardingFluxes': '0', 'downwardingFluxes': '0'})
+
+        etree.SubElement(atmiter, 'AtmosphereExpertModeZone',
+                         {'seuilFTAtmos': '0.0001',
+                          'seuilEclairementAtmos': '0.00001',
+                          'extrapol_atmos': '1'})
         # atmgeom branch
+        atmgeom_atr = {'minimumNumberOfDivisions': '4',
+                       'discretisationAtmos': '1', 'heightOfSensor': '3000'}
+        atmgeom = etree.SubElement(isatm, 'AtmosphereGeometry', atmgeom_atr)
         etree.SubElement(atmgeom, 'discretisationAtmosAuto',
                          {'epsilon_atmos': '0.003', 'xAI': '400.0',
                           'gamma_atmos': '0.95', 'yAI': '400.0'})
