@@ -34,7 +34,7 @@ It allows to read .hdr file and returns a dictionnary.
 import re
 
 
-def hdrtodict(path,):
+def hdrtodict(path, dartlabels = False):
     with open(path, 'r') as myfile:
             hdr = myfile.read().replace("\r", "")
     try:
@@ -68,7 +68,8 @@ def hdrtodict(path,):
         composed[item[0]] = item[1].rstrip()
     # info for bands :
     # pof = dict(zip(res['wavelength'],res['fwhm']))
-
+    if dartlabels:
+        composed = {v: k for k, v in composed.iteritems()}
     return composed
 
 
