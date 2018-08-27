@@ -120,6 +120,7 @@ class DartObject3dXML(object):
         dflt_types = etree.SubElement(types, 'DefaultTypes', {})
         etree.SubElement(dflt_types, 'DefaultType', dftype1_atr)
         etree.SubElement(dflt_types, 'DefaultType', dftype2_atr)
+        etree.SubElement(types, 'CustomTypes',{})
 
         return
 
