@@ -123,7 +123,6 @@ class DartMaketXML(object):
         xcell = self.cell[0]
         zcell = self.cell[1]
 
-
         # parent nodes
         scene = etree.SubElement(self.root, 'Scene')
         soil = etree.SubElement(self.root, 'Soil')
@@ -147,7 +146,7 @@ class DartMaketXML(object):
         etree.SubElement(soil, 'Topography', {'presenceOfTopography': '0'})
         etree.SubElement(soil, 'DEM_properties', {'createTopography': '0'})
 
-         latlon_atr = {'latitude': '0.0',
+        latlon_atr = {'latitude': '0.0',
                       'altitude': '0.0',
                       'longitude': '0.0'}
 
