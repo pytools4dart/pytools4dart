@@ -110,6 +110,7 @@ class DartTreesXML(object):
             # etc....
             return
         else:
+
             return
 
     def writetrees(self):
@@ -215,6 +216,9 @@ class DartTreesXML(object):
                              {'version': '5.7.0', 'build': 'v1033'})
         if self.root is not None:
             root.append(self.root)
+        else:
+            etree.SubElement(root, 'Trees',
+                             {'isTrees': '0', 'sceneModelCharacteristic': "1"})
         tree = etree.ElementTree(root)
         tree.write(outpath, encoding="UTF-8", xml_declaration=True)
         return
