@@ -40,6 +40,7 @@ xml editing functions.
 import os
 import pandas as pd
 import subprocess
+import pprint
 # local imports
 import xmlwriters as dxml
 from helpers.voxreader import voxel
@@ -495,6 +496,18 @@ class simulation(object):
 
         return
 
+    def properties(self):
+        """list general properties of the simulation
+        """
+        self.listmodifications()
+        print 'scene dimensions : {}\n'.format(self.scene)
+        print 'cell dimensions : {}\n'.format(self.cell)
+        print 'table of  plots\n{} \n'.format(self.plots)
+        print 'defined optical properties: \n'
+        pprint.pprint(self.optprops)
+
+        return
+
     def setcell(self, cell):
         """change cell dimensions
         TODO : maybe a bit more verbose?
@@ -664,6 +677,7 @@ if __name__ == '__main__':
                   'elm_top', '0']
     pof.addopt(optpropveg)
     pof.addsingleplot(opt='proprieteopt', densitydef='UL')
+    pof.properties()
 
     pof.write_xmls()
 
