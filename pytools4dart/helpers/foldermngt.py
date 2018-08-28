@@ -75,6 +75,9 @@ def checkinput(path):
     else:
         print "Incorrect Input. please enter the correct path to a folder"
         raise Exception("Please retry with a correct path")
+    output = os.path.join(os.path.dirname(pathin), 'output')
+    if not os.path.isdir(output):
+        os.mkdir(output)
 
     return
 
