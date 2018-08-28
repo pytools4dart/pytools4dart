@@ -46,7 +46,7 @@ import xmlwriters as dxml
 from helpers.voxreader import voxel
 from helpers.hdrtodict import hdrtodict
 from helpers.foldermngt import checkinput
-from helpers.foldermngt import checksettings
+# from helpers.foldermngt import checksettings
 
 
 class simulation(object):
@@ -76,7 +76,7 @@ class simulation(object):
                     - 1: Spherical
                     - 3: Planophil
         """
-        # checksettings()
+
         outpath = checkinput(outpath)
 
         # Variables to be used in subsequent methods
@@ -152,7 +152,8 @@ class simulation(object):
                 data = pd.DataFrame(data)
                 data.columns = self.BANDSCOLNAMES
                 if nmtomicron:
-                    data['centralwvl'] = data['centralwvl'].apply(pd.to_numeric)
+                    data['centralwvl'] = data['centralwvl'].\
+                                        apply(pd.to_numeric)
                     data['fwhm'] = data['fwhm'].apply(pd.to_numeric)
                     data.loc[:, 'centralwvl'] *= 0.001
                     data.loc[:, 'fwhm'] *= 0.001
@@ -486,6 +487,9 @@ class simulation(object):
         """TODO : Appends a dataframe to plots, matches columns
         based on a dictionnary  columns = {Olndame:Newname, .....}
 
+        TODO : Error catching and protection of self.plots in case of
+        modifications
+
         """
         self._registerchange('plots')
         dataframe.rename(columns=dic, inplace=True)
@@ -498,14 +502,22 @@ class simulation(object):
 
     def properties(self):
         """list general properties of the simulation
+
+        TODO : Find a nice way to print the panda dataframe, and all variables
+        add all relevant informations. And more or less verbose modes.
+        (And maybe a txt output)
         """
+        print "Simulation properties"
+        print '__________________________________\n'
         self.listmodifications()
-        print 'scene dimensions : {}\n'.format(self.scene)
+        print '\nscene dimensions : {}\n'.format(self.scene)
         print 'cell dimensions : {}\n'.format(self.cell)
         print 'table of  plots\n{} \n'.format(self.plots)
         print 'defined optical properties: \n'
         pprint.pprint(self.optprops)
-
+        print '\nmeasured wavelengths :\n'
+        print self.bands
+        print '__________________________________\n'
         return
 
     def setcell(self, cell):
@@ -677,6 +689,8 @@ if __name__ == '__main__':
                   'elm_top', '0']
     pof.addopt(optpropveg)
     pof.addsingleplot(opt='proprieteopt', densitydef='UL')
+    pof.addsequence({'wvl': (400, 50, 10)})
+
     pof.properties()
 
     pof.write_xmls()
