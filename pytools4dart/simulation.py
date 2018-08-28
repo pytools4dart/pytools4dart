@@ -247,7 +247,7 @@ class simulation(object):
 
         return
 
-    def addsequence(self, parargs, group='default', name='sequence',
+    def addsequence(self, parargs, group='default', name='sequencepytdart',
                     verbose=False):
         """add a sequence xml file with given parameters
 
@@ -689,8 +689,8 @@ if __name__ == '__main__':
                   'elm_top', '0']
     pof.addopt(optpropveg)
     pof.addsingleplot(opt='proprieteopt', densitydef='UL')
-    pof.addsequence({'wvl': (400, 50, 10)})
-
+    pof.addsequence({'wvl': (0.400, 0.50, 10)})
+    #pof.addband([])
     pof.properties()
 
     pof.write_xmls()
