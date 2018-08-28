@@ -571,6 +571,8 @@ class simulation(object):
         """launch the simulation with set parameters
 
         Code from Claudia Lavalley
+
+        TODO : IMPORTANT!
         """
         scriptpath = "???"
         scripts = {'directions': 'dart-directions.sh ',

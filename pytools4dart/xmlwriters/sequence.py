@@ -41,6 +41,7 @@ try:
 except ImportError:
     import xml.etree.ElementTree as etree
 
+from xmlhelpers import indent
 
 def write_sequence(changetracker):
     """write coeff_diff xml fil
@@ -255,7 +256,9 @@ class DartSequenceXML(object):
         """
         root = etree.Element('DartFile', {'version': '1.0'})
         root.append(self.root)
+        indent(root)
         tree = etree.ElementTree(root)
+
         tree.write(outpath, encoding="UTF-8", xml_declaration=True)
         return
 

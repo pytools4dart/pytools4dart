@@ -187,91 +187,99 @@ def get_all_structures(pathin, pathout=None):
     if pathout:
         sys.stdout = orig
     return
+if __name__ == "__main__":
+
+    pathseq = '/media/mtd/stock/DART/user_data/simulations/test_debug/'
+    pathout = '/media/mtd/stock/boulot_sur_dart/temp/compare/seq/'
+    get_all_structures(pathseq+'seq/', pathout)
 
 
-pathin = "/media/mtd/stock/DART/user_data/simulations/testadopt/input/"
-pathessai = '/media/mtd/stock/boulot_sur_dart/temp/test_debug/input/'
-pathout = '/media/mtd/stock/boulot_sur_dart/temp/lastbug/'
-get_all_structures(pathin, pathout+'dart/')
-get_all_structures(pathessai, pathout+'essai/')
-
-# XML validation
-#inpath = '/media/mtd/stock/boulot_sur_dart/temp/essai_sequence/'
-#xsd = "/media/mtd/stock/boulot_sur_dart/XSDs/schemaXml/"
-#
-#fichier = "inputphase"
-#valxmlxsd('/media/mtd/stock/DART/user_data/simulations/empty/input/'
-#          + 'phase'+".xml", xsd+'phase'+".xsd")
-#print "ah?"
-#valxmlxsd(inpath+fichier+".xml", xsd+'phase'+".xsd")
-#"""
-
-# Get structure of a single xml file
-"""
-pathin = "/media/mtd/stock/DART/user_data/simulations/essai_sequence/input/"
-pathessai = '/media/mtd/stock/boulot_sur_dart/temp/essai_sequence/input/'
-otherpath = "/media/mtd/stock/boulot_sur_dart/temp/"
-# pathout="/media/mtd/stock/boulot_sur_dart/temp/empty_strucs(djasimulee)/"
-fichier = "coeff_diff.xml"
-a = pathin+fichier
-tree = etree.parse(a)
-root = tree.getroot()
-
-get_children(root, True)
-"""
-"""
-# print 'And now, for something completely different'
+    """"
+    pathin = "/media/mtd/stock/DART/user_data/simulations/testadopt/input/"
+    pathessai = '/media/mtd/stock/boulot_sur_dart/temp/test_debug/input/'
+    pathout = '/media/mtd/stock/boulot_sur_dart/temp/lastbug/'
 
 
-# get structures of xml files in a folder, and prints them to file if needed
-# pathin="/media/mtd/stock/DART/user_data/simulations/sequence_wvl/"seq_bdwvlwidth.xml
-# pathout="/media/mtd/stock/boulot_sur_dart/temp/"
-# get_all_structures(pathin)
+    get_all_structures(pathin, pathout+'dart/')
+    get_all_structures(pathessai, pathout+'essai/')
+    """
+    # XML validation
+    #inpath = '/media/mtd/stock/boulot_sur_dart/temp/essai_sequence/'
+    #xsd = "/media/mtd/stock/boulot_sur_dart/XSDs/schemaXml/"
+    #
+    #fichier = "inputphase"
+    #valxmlxsd('/media/mtd/stock/DART/user_data/simulations/empty/input/'
+    #          + 'phase'+".xml", xsd+'phase'+".xsd")
+    #print "ah?"
+    #valxmlxsd(inpath+fichier+".xml", xsd+'phase'+".xsd")
+    #"""
 
-"""
-"""
-#https://stackoverflow.com/questions/3605680/creating-a-simple-xml-file-using-python
+    # Get structure of a single xml file
+    """
+    pathin = "/media/mtd/stock/DART/user_data/simulations/essai_sequence/input/"
+    pathessai = '/media/mtd/stock/boulot_sur_dart/temp/essai_sequence/input/'
+    otherpath = "/media/mtd/stock/boulot_sur_dart/temp/"
+    # pathout="/media/mtd/stock/boulot_sur_dart/temp/empty_strucs(djasimulee)/"
+    fichier = "coeff_diff.xml"
+    a = pathin+fichier
+    tree = etree.parse(a)
+    root = tree.getroot()
 
-import xml.etree.cElementTree as ET
+    get_children(root, True)
+    """
+    """
+    # print 'And now, for something completely different'
 
-root = ET.Element("root")
-doc = ET.SubElement(root, "doc")
 
-ET.SubElement(doc, "field1", name="blah").text = "some value1"
-ET.SubElement(doc, "field2", name="asdfasd").text = "some vlaue2"
+    # get structures of xml files in a folder, and prints them to file if needed
+    # pathin="/media/mtd/stock/DART/user_data/simulations/sequence_wvl/"seq_bdwvlwidth.xml
+    # pathout="/media/mtd/stock/boulot_sur_dart/temp/"
+    # get_all_structures(pathin)
 
-tree = ET.ElementTree(root)
-tree.write("filename.xml")
+    """
+    """
+    #https://stackoverflow.com/questions/3605680/creating-a-simple-xml-file-using-python
 
-output :
-<root>
- <doc>
-     <field1 name="blah">some value1</field1>
-     <field2 name="asdfasd">some vlaue2</field2>
- </doc>
+    import xml.etree.cElementTree as ET
 
-</root>
-"""
+    root = ET.Element("root")
+    doc = ET.SubElement(root, "doc")
 
-#
-# class idee(object):
-#    def __init__(self):
-#        self.time=0
-#        self.root=etree.Element("Base")
-#        self.tree=etree.ElementTree(self.root)
-#        expertmode=0
-#    def think(self):
-#        print "hum"
-#        return
-#    def doctrine(self):
-#        expertmode=etree.SubElement(self.root,"ExpertModeZone")
-#        return
-# class emotion(idee):
-#    def __init__(self):
-#        idee.__init__(self)
-#        return
-#    def essai(self):
-#        return
-#
-# pheno=emotion()
-# pheno.doctrine()
+    ET.SubElement(doc, "field1", name="blah").text = "some value1"
+    ET.SubElement(doc, "field2", name="asdfasd").text = "some vlaue2"
+
+    tree = ET.ElementTree(root)
+    tree.write("filename.xml")
+
+    output :
+    <root>
+     <doc>
+         <field1 name="blah">some value1</field1>
+         <field2 name="asdfasd">some vlaue2</field2>
+     </doc>
+
+    </root>
+    """
+
+    #
+    # class idee(object):
+    #    def __init__(self):
+    #        self.time=0
+    #        self.root=etree.Element("Base")
+    #        self.tree=etree.ElementTree(self.root)
+    #        expertmode=0
+    #    def think(self):
+    #        print "hum"
+    #        return
+    #    def doctrine(self):
+    #        expertmode=etree.SubElement(self.root,"ExpertModeZone")
+    #        return
+    # class emotion(idee):
+    #    def __init__(self):
+    #        idee.__init__(self)
+    #        return
+    #    def essai(self):
+    #        return
+    #
+    # pheno=emotion()
+    # pheno.doctrine()
