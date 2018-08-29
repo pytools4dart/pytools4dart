@@ -82,9 +82,11 @@ class DartPhaseXML(object):
         self.tree = etree.ElementTree(self.root)
         if 'phase' in changetracker[0]:
             self.changes = changetracker[1]['phase']
+
         else:
             self.changes = []
         self.specintervals = 0
+
         return
 
     def adoptchanges(self):
@@ -357,14 +359,17 @@ class FluxPhaseXML(DartPhaseXML):
 
         # # spectralirradiance subbranch
         spectralirrad = etree.SubElement(nodeillumode, "SpectralIrradiance")
+
         commonparams_attrib = {'irraDef': '0', 'commonIrradianceCheckBox': '1',
                                'commonSkylCheckBox': '1'}
-        spectralirrad_attrib = {'bandNumber': '0', 'irradiance': '0',
-                                'Skyl': '0'}
         etree.SubElement(spectralirrad, "CommonParameters",
                          commonparams_attrib)
-        etree.SubElement(spectralirrad, "SpectralIrradianceValue",
-                         spectralirrad_attrib)
+
+        for i in range(self.changes['bands'].shape[0]):
+            spectralirrad_attrib = {'bandNumber': str(i), 'irradiance': '0',
+                                    'Skyl': '0'}
+            etree.SubElement(spectralirrad, "SpectralIrradianceValue",
+                             spectralirrad_attrib)
 
         # Adding nodes under DartProduct
         dartprod = self.root.find("./DartProduct")

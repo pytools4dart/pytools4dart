@@ -127,8 +127,8 @@ class DartPlotsXML(object):
 
 
         """
-
-        self.plotsfrompanda(self.changes)
+        if self.changes is not None:
+            self.plotsfrompanda(self.changes)
         return
 
     def basenodes(self):

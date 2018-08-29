@@ -647,13 +647,14 @@ class simulation(object):
         # Setting changetracker
         self.indexprops()
         self.changetracker[1]['coeff_diff'] = self.optprops
+        if 'phase' in self.changetracker[0]:
+            self.changetracker[1]['phase']['bands'] = self.bands
+
         dxml.write_coeff_diff(self.changetracker)
 
         self.changetracker[1]['indexopts'] = self.indexopts
 
         self.changetracker[1]['plots'] = self.plots
-        if 'phase' in self.changetracker[0]:
-            self.changetracker[1]['phase']['bands'] = self.bands
 
         # WIP : self.changetracker[1]['maket']
 
@@ -666,6 +667,7 @@ class simulation(object):
         dxml.write_phase(self.changetracker)
         dxml.write_plots(self.changetracker)
         dxml.write_sequence(self.changetracker)
+
         # Special stuff for trees : writing trees.txt and pass the path
         # But bad condition...for now
         if self.nspecies > 0:
@@ -694,24 +696,31 @@ class simulation(object):
 if __name__ == '__main__':
     import time
     start = time.time()
+    """
 
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/test_debug')
     optpropveg = ['vegetation', 'proprieteopt',
                   '/media/mtd/stock/DART/database/Vegetation.db',
                   'leaf_deciduous', '0']
     pof.addopt(optpropveg)
+    print pof.changetracker[0]
     optpropveg = ['vegetation', 'proprieteopt2',
                   '/media/mtd/stock/DART/database/Vegetation.db',
                   'elm_top', '0']
     pof.addopt(optpropveg)
+    print pof.changetracker[0]
+
     pof.addsingleplot(opt='proprieteopt', densitydef='UL')
+    print pof.changetracker[0]
+
     pof.addsequence({'wvl': (0.400, 0.50, 10)})
+    print pof.changetracker[0]
+
     #pof.addband([])
-    pof.properties()
 
     pof.write_xmls()
 
-
+    """
     """
     pof.setscene([5, 5])
     corners = [[3,  4],
@@ -753,9 +762,9 @@ if __name__ == '__main__':
     # pof.addopt(prosoptveg)
     """
     """
-    end = time.time()
-
-    print "Time = {}".format(end - start)
+#    end = time.time()
+#
+#    print "Time = {}".format(end - start)
     """
     start = time.time()
 
@@ -828,8 +837,8 @@ if __name__ == '__main__':
                       trunkopt = 'Lambertian_Phase_Function_1')
 
     pof.addband("/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr")
-    optprop = ['lambertian', 'proprieteopt', 'Vegetation.db',
-               'ashtop', '0']
+    optprop = ['lambertian', 'proprieteopt', 'Lambertian_vegetation.db',
+               'lichen', '0']
     pof.addopt(optprop)
 
     optpropveg = ['vegetation', 'proprieteopt2',
@@ -838,7 +847,7 @@ if __name__ == '__main__':
     pof.addopt(optpropveg)
     path = '/media/mtd/stock/boulot_sur_dart/temp/model_trees.txt'
     pof.addtrees(path)
-    pof.addsingleplot(opt='proprieteopt2')
+    #pof.addsingleplot(opt='proprieteopt2')
     pof.trees['SPECIES_ID'] = 1
     pof.write_xmls()
     end = time.time()
