@@ -280,7 +280,7 @@ class simulation(object):
         # Here go the conditions for prospect, probably to write in another
         # function
         self._registerchange('sequence')
-        index = self.indexopts['vegetations'][optident]
+        index = self.indexprops['vegetations'][optident]
         baseprospectstring = ('Coeff_diff.UnderstoryMultiFunctions'
                               'UnderstoryMulti[{}].'
                               'ProspectExternalModule.'
@@ -428,7 +428,7 @@ class simulation(object):
 
         return
 
-    def indexprops(self):
+    def setindexprops(self):
         """Creates the index for optical properties
 
         This function is necessary in order to have easy tracking of
@@ -696,8 +696,19 @@ class simulation(object):
 if __name__ == '__main__':
     import time
     start = time.time()
-    """
+    # Case Study 1
+    pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/case1')
+    pof.addsingleplot(opt='proprieteoptpros')
+    prosoptveg = ['vegetation', 'proprieteoptpros', 'prospect', 'blank', 0]
 
+    dic = {'CBrown': [3, 4, 5], 'Cab': 5, 'Car': 1,
+           'Cm': 1, 'Cw': 4, 'N': 2, 'anthocyanin': 1}
+
+    pof.addprospectsequence(dic, 'proprieteoptpros')
+    pof.write_xmls()
+
+
+    """
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/test_debug')
     optpropveg = ['vegetation', 'proprieteopt',
                   '/media/mtd/stock/DART/database/Vegetation.db',
@@ -773,6 +784,7 @@ if __name__ == '__main__':
     pof.addsequence({'wvl': (1, 2, 3)})
     """
     """
+    # prospect simulation
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
                      'essaiDossier/')
 
@@ -830,7 +842,7 @@ if __name__ == '__main__':
     pof.write_xmls()
     print(pof.bands)
     """
-
+    """
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
                      'testrees/')
     pof.addtreespecie(1, vegopt = 'proprieteopt2',
@@ -852,3 +864,6 @@ if __name__ == '__main__':
     pof.write_xmls()
     end = time.time()
     print(end - start)
+    """
+    end = time.time()
+    print start - end
