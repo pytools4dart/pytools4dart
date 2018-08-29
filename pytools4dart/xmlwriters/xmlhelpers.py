@@ -34,7 +34,7 @@ etree objects and xml files.
 
 import os
 import sys
-import xmlschema
+#import xmlschema
 try:
     import xml.etree.cElementTree as etree
     print ("imported cetree")

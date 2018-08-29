@@ -407,6 +407,7 @@ class simulation(object):
             - veg opt prop
             - veg therm prop
         TODO : Error catching when only trees or species are defined!
+        TODO Add remove 
         """
         # specie = {'id': self.nspecies, 'ntrees': ntrees, 'lai': lai,
         #        'crowns': [[holes, trunkopt, trunktherm, vegopt, vegtherm]]}
@@ -697,22 +698,68 @@ class simulation(object):
 # ##################################test zone
 if __name__ == '__main__':
     import time
+    import subprocess
+    
     start = time.time()
     # Case Study 1
-    pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/case1')
+    PathDART            = '/home/jbferet/PROGRAMS/DART/'
+    SimulationName      = 'testPytools6'
+    SequenceName        = 'prospect_sequence.xml'
+    
+    pof = simulation(PathDART+'user_data/simulations/'+SimulationName+'/')
     pof.addsingleplot(opt='proprieteoptpros')
     prosoptveg = ['vegetation', 'proprieteoptpros', 'prospect', 'blank', 0]
 
+    pof.addband([0.400, 0.01])
+    pof.addband([0.450, 0.01])
     pof.addband([0.500, 0.01])
-
+    pof.addband([0.550, 0.01])
+    pof.addband([0.600, 0.01])
+    pof.addband([0.650, 0.01])
+    pof.addband([0.700, 0.01])
+    pof.addband([0.750, 0.01])
+    pof.addband([0.800, 0.01])
     pof.addopt(prosoptveg)
-    dic = {'CBrown': [3, 4, 5], 'Cab': 5, 'Car': 1,
-           'Cm': 1, 'Cw': 4, 'N': 2, 'anthocyanin': 1}
+    dic = {'CBrown': 0.0, 'Cab': [0.0,10,20,30,40,50,60,80], 'Car': 10,
+           'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
 
     pof.addprospectsequence(dic, 'proprieteoptpros')
     pof.write_xmls()
+    
+    
+    # define path for tools
+    PathTOOLS = PathDART+'tools/linux/'
+    # define name for script to be run
+    namescript  = 'dart-sequence.sh'
+    
+    # define option
+    OptionStart = '-start'
+    CmdJoin     = PathTOOLS+namescript+' '+ SimulationName +'/'+SequenceName + ' ' + OptionStart
+    subprocess.Popen(['/bin/bash', '-c', CmdJoin], stdout = subprocess.PIPE).wait()
+   
 
+    """
+    pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
+                     'testrees/')
+    pof.addtreespecie(1, vegopt = 'proprieteopt2',
+                      trunkopt = 'Lambertian_Phase_Function_1')
 
+    pof.addband("/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr")
+    optprop = ['lambertian', 'proprieteopt', 'Lambertian_vegetation.db',
+               'lichen', '0']
+    pof.addopt(optprop)
+
+    optpropveg = ['vegetation', 'proprieteopt2',
+                  '/media/mtd/stock/DART/database/Vegetation.db',
+                  'ash_top', '0']
+    pof.addopt(optpropveg)
+    path = '/media/mtd/stock/boulot_sur_dart/temp/model_trees.txt'
+    pof.addtrees(path)
+    #pof.addsingleplot(opt='proprieteopt2')
+    pof.trees['SPECIES_ID'] = 1
+    pof.write_xmls()
+    
+    """
     """
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/test_debug')
     optpropveg = ['vegetation', 'proprieteopt',
@@ -846,27 +893,7 @@ if __name__ == '__main__':
     #   pof.addsequence({'hello': (1, 2, 3)})
     pof.write_xmls()
     print(pof.bands)
-    """
-    """
-    pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
-                     'testrees/')
-    pof.addtreespecie(1, vegopt = 'proprieteopt2',
-                      trunkopt = 'Lambertian_Phase_Function_1')
 
-    pof.addband("/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr")
-    optprop = ['lambertian', 'proprieteopt', 'Lambertian_vegetation.db',
-               'lichen', '0']
-    pof.addopt(optprop)
-
-    optpropveg = ['vegetation', 'proprieteopt2',
-                  '/media/mtd/stock/DART/database/Vegetation.db',
-                  'ash_top', '0']
-    pof.addopt(optpropveg)
-    path = '/media/mtd/stock/boulot_sur_dart/temp/model_trees.txt'
-    pof.addtrees(path)
-    #pof.addsingleplot(opt='proprieteopt2')
-    pof.trees['SPECIES_ID'] = 1
-    pof.write_xmls()
     end = time.time()
     print(end - start)
     """
