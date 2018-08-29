@@ -220,11 +220,12 @@ class DartSequenceXML(object):
                                        'DartSequencerDescriptorGroup',
                                        {'groupName': groupname})
                 for param, values in self.sequences[groupname].iteritems():
+                        sep = ';'
+                        args = sep.join([str(i) for i in values])
                         seqarg = {'propertyName': param,
-                                  'args': str(values[0])
-                                  + ';' + str(values[1])
-                                  + ';' + str(values[2]),
-                                  'type': 'linear'}
+                                  'args': args,
+                                  'type': 'enumerate'}
+
                         etree.SubElement(grp, 'DartSequencerDescriptorEntry',
                                          seqarg)
             else:

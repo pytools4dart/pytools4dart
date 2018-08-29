@@ -238,10 +238,10 @@ class simulation(object):
         self._registerchange('coeff_diff')
         if optprop[0] == 'lambertian':
             self.optprops['lambertians'].append(optprop[1:])
-            self.indexprops()
+            self.setindexprops()
         elif optprop[0] == 'vegetation':
             self.optprops['vegetations'].append(optprop[1:])
-            self.indexprops()
+            self.setindexprops()
         else:
             print 'Non recognized optical property type. Returning'
             return
@@ -249,11 +249,12 @@ class simulation(object):
         return
 
     def addsequence(self, parargs, group='default', name='sequencepytdart',
-                    verbose=False):
+                    verbose=False, variationmode = 'linear'):
         """add a sequence xml file with given parameters
 
         parargs must be a dictionnary structured in this way :
             parargs = { 'parameter1' : basevalue, stepvalue, numberofsteps}
+        For now only LINEAR!
         """
         try:
             parargs.keys()
@@ -280,12 +281,13 @@ class simulation(object):
         # Here go the conditions for prospect, probably to write in another
         # function
         self._registerchange('sequence')
-        index = self.indexprops['vegetations'][optident]
-        baseprospectstring = ('Coeff_diff.UnderstoryMultiFunctions'
+        self.setindexprops()
+        index = self.indexopts['vegetations'][optident]
+        baseprospectstring = ('Coeff_diff.UnderstoryMultiFunctions.'
                               'UnderstoryMulti[{}].'
                               'ProspectExternalModule.'
                               'ProspectExternParameters.')
-        baseprospectstring.format(index)
+        baseprospectstring = baseprospectstring.replace('{}', str(index))
 
         if not group:
             group = 'prosequence{}'.format(self.prossequence)
@@ -308,7 +310,8 @@ class simulation(object):
             if not isinstance(value, list):
                 prosdic[key] = [value] * maxlen
 
-        self.addsequence(prosdic, group=group, name='prospect_sequence')
+        self.addsequence(prosdic, group=group,
+                         name='prospect_sequence',variationmode='enumerate')
         self.prossequence += 1
         return
 
@@ -631,7 +634,6 @@ class simulation(object):
         # self.checksimu()
 
         print 'Writing XML files'
-        # WARNING : Terminology Problem?
         self.bands.index += 1
         """
         TODO : stuff to do here to properly write "trees.txt"
@@ -645,7 +647,7 @@ class simulation(object):
         TODO : Better Check and Error catch for trees.(and in general)
         """
         # Setting changetracker
-        self.indexprops()
+        self.setindexprops()
         self.changetracker[1]['coeff_diff'] = self.optprops
         if 'phase' in self.changetracker[0]:
             self.changetracker[1]['phase']['bands'] = self.bands
@@ -701,6 +703,9 @@ if __name__ == '__main__':
     pof.addsingleplot(opt='proprieteoptpros')
     prosoptveg = ['vegetation', 'proprieteoptpros', 'prospect', 'blank', 0]
 
+    pof.addband([0.500, 0.01])
+
+    pof.addopt(prosoptveg)
     dic = {'CBrown': [3, 4, 5], 'Cab': 5, 'Car': 1,
            'Cm': 1, 'Cw': 4, 'N': 2, 'anthocyanin': 1}
 
@@ -866,4 +871,4 @@ if __name__ == '__main__':
     print(end - start)
     """
     end = time.time()
-    print start - end
+    print end - start

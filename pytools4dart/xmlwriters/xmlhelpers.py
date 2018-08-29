@@ -189,14 +189,14 @@ def get_all_structures(pathin, pathout=None):
     return
 if __name__ == "__main__":
     """
-    pathseq = '/media/mtd/stock/DART/user_data/simulations/test_debug/'
+    pathseq = '/media/mtd/stock/DART/user_data/simulations/test/'
     pathout = '/media/mtd/stock/boulot_sur_dart/temp/compare/seq/'
     get_all_structures(pathseq+'seq/', pathout)
 
     """
-    pathin = "/media/mtd/stock/DART/user_data/simulations/testrees/input/"
-    pathessai = '/media/mtd/stock/boulot_sur_dart/temp/testrees/input/'
-    pathout = '/media/mtd/stock/boulot_sur_dart/temp/phasebug/'
+    pathin = "/media/mtd/stock/DART/user_data/simulations/testprospect/input/"
+    pathessai = '/media/mtd/stock/boulot_sur_dart/temp/case1/input/'
+    pathout = '/media/mtd/stock/boulot_sur_dart/temp/case1debug/'
 
 
     get_all_structures(pathin, pathout+'dart/')

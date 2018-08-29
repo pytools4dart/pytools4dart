@@ -34,7 +34,7 @@ try:
     import xml.etree.cElementTree as etree
 except ImportError:
     import xml.etree.ElementTree as etree
-
+import pandas as pd
 
 def write_phase(changetracker):
     """write phase xml fil
@@ -54,10 +54,7 @@ def write_phase(changetracker):
         phase = FluxPhaseXML(changetracker)
     else:
         print "what the ...?"
-    phase.basenodes()
 
-    phase.specnodes()
-    phase.adoptchanges()
 
     outpath = changetracker[2]
     phase.writexml(outpath+"phase.xml")
@@ -86,6 +83,18 @@ class DartPhaseXML(object):
         else:
             self.changes = []
         self.specintervals = 0
+        self.basenodes()
+
+        if 'bands' in self.changes:
+            self.isband = True
+            self.specnodes()
+            for index, bands in self.changes['bands'].iterrows():
+                self.addspecband(bands)
+
+        else:
+            self.isband = False
+            self.specnodes()
+            return
 
         return
 
@@ -103,11 +112,6 @@ class DartPhaseXML(object):
 
         """
 
-        if 'bands' in self.changes:
-            for index, bands in self.changes['bands'].iterrows():
-                self.addspecband(bands)
-        else:
-            return
         return
 
     def addspecband(self, vals):
@@ -124,7 +128,6 @@ class DartPhaseXML(object):
                        'meanLambda': str(wvlcenter),
                        'spectralDartMode': '0',
                        'deltaLambda': str(wvlwidth)}
-
         specbands = self.root.find("./DartInputParameters/SpectralIntervals")
         etree.SubElement(specbands, "SpectralIntervalsProperties", band_attrib)
         self.specintervals += 1
@@ -174,13 +177,11 @@ class DartPhaseXML(object):
         dartproduct = etree.SubElement(self.root, "DartProduct")
 
         # # # dartInputParameters branch
-        specprops_attrib = {'bandNumber': '0', 'meanLambda': '0.56',
-                            'spectralDartMode': '0', 'deltaLambda': '0.02'}
-
         specintervals = etree.SubElement(dartinputparameters,
                                          "SpectralIntervals")
+
         etree.SubElement(dartinputparameters, "temperatureAtmosphere",
-                         {'atmosphericApparentTemperature':'260.0'})
+                         {'atmosphericApparentTemperature': '260.0'})
         # # dartproduct branch
         etree.SubElement(dartproduct, "maketModuleProducts",
                          maketmodule_attrib)
@@ -364,12 +365,28 @@ class FluxPhaseXML(DartPhaseXML):
                                'commonSkylCheckBox': '1'}
         etree.SubElement(spectralirrad, "CommonParameters",
                          commonparams_attrib)
-
-        for i in range(self.changes['bands'].shape[0]):
-            spectralirrad_attrib = {'bandNumber': str(i), 'irradiance': '0',
+        #if self.changes['bands'] == 0:
+        """
+            spectralirrad_attrib = {'bandNumber': '0',
+                                    'irradiance': '0',
+                                    'Skyl': '0'}
+            etree.SubElement(spectralirrad,
+                             "SpectralIrradianceValue",
+                             spectralirrad_attrib)
+        """
+        if self.isband:
+            for i in range(self.changes['bands'].shape[0]):
+                spectralirrad_attrib = {'bandNumber': str(i),
+                                        'irradiance': '0',
+                                        'Skyl': '0'}
+                etree.SubElement(spectralirrad, "SpectralIrradianceValue",
+                                 spectralirrad_attrib)
+        else:
+            spectralirrad_attrib = {'bandNumber': str(i),
+                                    'irradiance': '0',
                                     'Skyl': '0'}
             etree.SubElement(spectralirrad, "SpectralIrradianceValue",
-                             spectralirrad_attrib)
+                                spectralirrad_attrib)
 
         # Adding nodes under DartProduct
         dartprod = self.root.find("./DartProduct")
