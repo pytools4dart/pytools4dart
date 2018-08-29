@@ -101,7 +101,7 @@ class DartCoefXML(object):
 
         return
 
-    def basenodes(self, default_lamb=False):
+    def basenodes(self, default_lamb=True):
         """creates all nodes and properties common to default simulations
 
         a default lambertian optical property is created unless otherwise

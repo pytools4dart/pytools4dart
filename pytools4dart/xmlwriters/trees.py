@@ -132,78 +132,76 @@ class DartTreesXML(object):
             - veg optptop (with index!)
             - veg therm prop
         """
-        for specie in self.species:
-            if not etree.iselement(self.root):
-                trees_atr = {'sceneModelCharacteristic': '1', 'isTrees': '1'}
-                self.root = etree.Element('Trees', trees_atr)
-                etree.SubElement(self.root, 'TreeGeneralOptions',
-                                 {'triangleTreeRepresentation': '0'})
+        # here specie is a dictionnary of all of a treespecie's properties.
+        self.species.apply(self.writetree,axis=1)
+        return
 
-                treeone_atr = {'laiZone': '0',
-                               # 'sceneParametersFileName': self.treepath}
-                               'sceneParametersFileName': 'pytrees.txt'}
-                subroot = etree.SubElement(self.root, "Trees_1", treeone_atr)
+    def writetree(self, row):
+        if not etree.iselement(self.root):
+            trees_atr = {'sceneModelCharacteristic': '1', 'isTrees': '1'}
+            self.root = etree.Element('Trees', trees_atr)
+            etree.SubElement(self.root, 'TreeGeneralOptions',
+                             {'triangleTreeRepresentation': '0'})
 
-            ntrees = specie['ntrees']
-            lai = specie['lai']
-            # specie branch
-            specie_atr = {'numberOfTreesInWholeScene': str(ntrees),
-                          'branchesAndTwigsSimulation': '0', 'lai': str(lai)}
-            specietree = etree.SubElement(subroot, 'Specie', specie_atr)
-            for crown in specie['crowns']:
-                # TODO : Here are properties that could be changed
-                # Crown sub branch
-                # here go the attribution of specified parameters.
-                distribution = crown[0]
-                trunkopt = crown[1]
-                trunktherm = crown[2]
-                vegopt = crown[3]
-                # To be changed when management of thermal properties
-                vegtherm = crown[4]
+            treeone_atr = {'laiZone': '0',
+                           # 'sceneParametersFileName': self.treepath}
+                           'sceneParametersFileName': 'pytrees.txt'}
+            subroot = etree.SubElement(self.root, "Trees_1", treeone_atr)
 
-                vegindex = self._indexopt(vegopt)
-                trunkindex = self._indexopt(trunkopt)
+        ntrees = row['ntrees']
+        lai = row['lai']
+        # specie branch
+        specie_atr = {'numberOfTreesInWholeScene': str(ntrees),
+                      'branchesAndTwigsSimulation': '0', 'lai': str(lai)}
+        specietree = etree.SubElement(subroot, 'Specie', specie_atr)
+        # Crown sub branch
+        # here go the attribution of specified parameters.
+        holes = row['holes']
+        trunkopt = row['trunkopt']
+        trunktherm = row['trunktherm']
+        vegopt = row['vegopt']
+        vegtherm = row['vegtherm']
 
-                crown_atr = {'verticalWeightForUf': '1.00',
-                             'distribution': str(distribution),
-                             'relativeHeightVsCrownHeight': '1.00',
-                             'laiConservation': '1',
-                             'relativeTrunkDiameterWithinCrown': '0.50'}
-                opt_atr = {'indexFctPhase': str(trunkindex),
-                           'ident': str(trunkopt),
-                           'type': '0'}
-                therm_atr = {'idTemperature': str(trunktherm),
-                             'indexTemperature': '0'}
-                etree.SubElement(specietree, 'OpticalPropertyLink', opt_atr)
-                etree.SubElement(specietree, 'ThermalPropertyLink', therm_atr)
-                crown = etree.SubElement(specietree, 'CrownLevel', crown_atr)
+        vegindex = self._indexopt(vegopt)
+        trunkindex = self._indexopt(trunkopt)
 
-                cropt_atr = {'indexFctPhase': str(trunkindex),
-                             'ident': str(trunkopt),
-                             'type': '0'}
-                crotherm_atr = {'idTemperature': 'ThermalFunction290_310',
-                                'indexTemperature': '0'}
+        crown_atr = {'verticalWeightForUf': '1.00',
+                     'distribution': str(holes),
+                     'relativeHeightVsCrownHeight': '1.00',
+                     'laiConservation': '1',
+                     'relativeTrunkDiameterWithinCrown': '0.50'}
+        opt_atr = {'indexFctPhase': str(trunkindex),
+                   'ident': str(trunkopt),
+                   'type': '0'}
+        therm_atr = {'idTemperature': str(trunktherm),
+                     'indexTemperature': '0'}
+        etree.SubElement(specietree, 'OpticalPropertyLink', opt_atr)
+        etree.SubElement(specietree, 'ThermalPropertyLink', therm_atr)
+        crown = etree.SubElement(specietree, 'CrownLevel', crown_atr)
 
-                etree.SubElement(crown, 'OpticalPropertyLink', cropt_atr)
-                etree.SubElement(crown, 'ThermalPropertyLink', crotherm_atr)
+        cropt_atr = {'indexFctPhase': str(trunkindex),
+                     'ident': str(trunkopt),
+                     'type': '0'}
+        crotherm_atr = {'idTemperature': 'ThermalFunction290_310',
+                        'indexTemperature': '0'}
 
-                veg = etree.SubElement(crown, 'VegetationProperty')
+        etree.SubElement(crown, 'OpticalPropertyLink', cropt_atr)
+        etree.SubElement(crown, 'ThermalPropertyLink', crotherm_atr)
 
-                # Vegetation Sub Sub branch
-                # TODO : check how indectFctPhase works!!
+        veg = etree.SubElement(crown, 'VegetationProperty')
 
-                vegopt_atr = {'indexFctPhase': str(vegindex),
-                              'ident': str(vegopt)}
-                vegtherm_atr = {'idTemperature': 'ThermalFunction290_310',
-                                'indexTemperature': '0'}
+        # Vegetation Sub Sub branch
+        vegopt_atr = {'indexFctPhase': str(vegindex),
+                      'ident': str(vegopt)}
+        vegtherm_atr = {'idTemperature': vegtherm,
+                        'indexTemperature': '0'}
 
-                etree.SubElement(veg, 'VegetationOpticalPropertyLink',
-                                 vegopt_atr)
-                etree.SubElement(veg, 'ThermalPropertyLink', vegtherm_atr)
+        etree.SubElement(veg, 'VegetationOpticalPropertyLink',
+                         vegopt_atr)
+        etree.SubElement(veg, 'ThermalPropertyLink', vegtherm_atr)
 
-        # base nodes
-        # etree.SubElement(self.root, 'SunViewingAngles', sunangles_atr)
-
+    # base nodes
+    # etree.SubElement(self.root, 'SunViewingAngles', sunangles_atr)
         return
 
     def writexml(self, outpath):

@@ -62,6 +62,7 @@ class simulation(object):
         the user.
         TODO : WARNING : For now, 'flux' ( changetracker[3]) is hardcoded in
         the simulation object. It will have to be flexible depending on input.
+        Temperatures not managed.
 
         optprops is a dictionnary containing two lists :
             for each type : 'lambertian' or 'vegetation'
@@ -388,7 +389,7 @@ class simulation(object):
         print('--------------\n')
         return
 
-    def addtreespecie(self, ntrees='1', lai='4.0', holes='0',
+    def addtreespecie(self, idspecie, ntrees='1', lai='4.0', holes='0',
                       trunkopt='Lambertian_Phase_Function_1',
                       trunktherm='ThermalFunction290_310',
                       vegopt='custom',
@@ -402,13 +403,23 @@ class simulation(object):
             - trunk therm prop
             - veg opt prop
             - veg therm prop
+        TODO : Error catching when only trees or species are defined!
         """
-        if self.nspecies == 0:
-            self.species = []
+        # specie = {'id': self.nspecies, 'ntrees': ntrees, 'lai': lai,
+        #        'crowns': [[holes, trunkopt, trunktherm, vegopt, vegtherm]]}
 
-        specie = {'id': self.nspecies, 'ntrees': ntrees, 'lai': lai,
-                  'crowns': [[holes, trunkopt, trunktherm, vegopt, vegtherm]]}
-        self.species.append(specie)
+        cols = ['idspecie', 'ntrees', 'lai', 'holes',
+                'trunkopt', 'trunktherm', 'vegopt', 'vegtherm']
+        if self.nspecies == 0:
+            self.species = pd.DataFrame(columns=cols)
+
+        if idspecie in self.species['idspecie']:
+                print "Warning, you are erasing a defined tree specie"
+
+        specieprops = [idspecie, ntrees, lai, holes,
+                       trunkopt, trunktherm, vegopt, vegtherm]
+        specie = pd.DataFrame(data=[specieprops], columns=cols)
+        self.species = self.species.append(specie, ignore_index=True)
         self.nspecies += 1
         self._registerchange('trees')
         print ("A tree specie has been added. Make sure the specified optical "
@@ -484,9 +495,10 @@ class simulation(object):
         return
 
     def plotsfromdataframe(self, dataframe, dic):
-        """TODO : Appends a dataframe to plots, matches columns
-        based on a dictionnary  columns = {Olndame:Newname, .....}
+        """Appends a dataframe to plots based on a dictionnary
 
+        dic = {Olndame:Newname, .....}
+        new names in self.PLOTSCOLNAMES
         TODO : Error catching and protection of self.plots in case of
         modifications
 
@@ -657,6 +669,8 @@ class simulation(object):
         # Special stuff for trees : writing trees.txt and pass the path
         # But bad condition...for now
         if self.nspecies > 0:
+            self.species.sort_values(by=['idspecie'], inplace=True)
+
             pathtrees = self.changetracker[2]+'pytrees.txt'
             self.trees.to_csv(pathtrees, sep="\t", header=True, index=False)
             self.changetracker[1]['trees'] = pathtrees
@@ -808,26 +822,24 @@ if __name__ == '__main__':
     print(pof.bands)
     """
 
-    """
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
-                     'testrees/input/')
-    pof.addtreespecie(vegopt = 'proprieteopt2',
+                     'testrees/')
+    pof.addtreespecie(1, vegopt = 'proprieteopt2',
                       trunkopt = 'Lambertian_Phase_Function_1')
 
     pof.addband("/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr")
     optprop = ['lambertian', 'proprieteopt', 'Vegetation.db',
-               'citrus_sinensis', '0']
+               'ashtop', '0']
     pof.addopt(optprop)
 
     optpropveg = ['vegetation', 'proprieteopt2',
                   '/media/mtd/stock/DART/database/Vegetation.db',
                   'ash_top', '0']
     pof.addopt(optpropveg)
-    path = '/media/mtd/stock/boulsequencesot_sur_dart/temp/testrees/model_trees.txt'
+    path = '/media/mtd/stock/boulot_sur_dart/temp/model_trees.txt'
     pof.addtrees(path)
     pof.addsingleplot(opt='proprieteopt2')
-    pof.trees['SPECIES_ID'] = 0
+    pof.trees['SPECIES_ID'] = 1
     pof.write_xmls()
     end = time.time()
     print(end - start)
-    """
