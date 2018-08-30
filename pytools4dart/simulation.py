@@ -460,7 +460,7 @@ class simulation(object):
             self.species = pd.DataFrame(columns=cols)
 
         if idspecie in self.species.idspecie.values:
-                print "Warning, you overwrote a defined tree specie"
+                print "Warning: you overwrote a defined tree specie"
                 self.species = self.species[self.species.idspecie != idspecie]
 
         specieprops = [idspecie, ntrees, lai, holes,
@@ -783,9 +783,12 @@ if __name__ == '__main__':
 
     ###################################
     # case study 2
-    pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
-                     'testrees/')
-    pof.setscene([40,40])
+    PathDART            = '/media/mtd/stock/DART_5-7-1_v1061/'
+    SimulationName      = 'testrees2'
+    SequenceName        = 'testrees.xml'
+
+    pof = simulation(PathDART+'user_data/simulations/'+SimulationName+'/')
+    pof.setscene([40, 40])
     pof.addtreespecie(1)
     pof.addtreespecie(1, vegopt = 'proprieteopt2',
                       trunkopt = 'Lambertian_Phase_Function_1')
@@ -810,15 +813,13 @@ if __name__ == '__main__':
     pof.addopt(optpropveg)
     path = '/media/mtd/stock/boulot_sur_dart/temp/model_trees.txt'
     pof.addtrees(path)
-    #pof.addsingleplot(opt='proprieteopt2')
     pof.trees['SPECIES_ID'] = 1
     pof.write_xmls()
 
-    ######################################"
-    """
+    # #####################################
+    # case study 3
 
-
-    """
+    # # #####################################
     """
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/test_debug')
     optpropveg = ['vegetation', 'proprieteopt',
