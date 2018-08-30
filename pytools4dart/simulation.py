@@ -450,7 +450,6 @@ class simulation(object):
             - veg opt prop
             - veg therm prop
         TODO : Error catching when only trees or species are defined!
-        TODO Add remove
         """
         # specie = {'id': self.nspecies, 'ntrees': ntrees, 'lai': lai,
         #        'crowns': [[holes, trunkopt, trunktherm, vegopt, vegtherm]]}
@@ -461,7 +460,10 @@ class simulation(object):
             self.species = pd.DataFrame(columns=cols)
 
         if idspecie in self.species['idspecie']:
-                print "Warning, you are erasing a defined tree specie"
+                print "Warning, you overwrote a defined tree specie"
+                idx = self.species.index[self.species['idspecie'] == idspecie]
+                idx = idx.tolist()
+                self.species.drop(idx, inplace=True)
 
         specieprops = [idspecie, ntrees, lai, holes,
                        trunkopt, trunktherm, vegopt, vegtherm]
