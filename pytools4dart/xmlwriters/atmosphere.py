@@ -111,22 +111,27 @@ class DartAtmosphereXML(object):
         isatm = etree.SubElement(self.root, 'IsAtmosphere',
                                  {'typeOfAtmosphere': '1'})
         # simple
+        aerosol = etree.SubElement(self.root, 'Aerosol')
+        aerosolprop_atr = {'hgParametersModelName': 'RURALV23',
+                           'aerosolsModelName': 'USSTD76_RURALV23',
+                           'aerosolCumulativeModelName': 'RURALV23',
+                           'aerosolOptDepthFactor': '1.0',
+                           'databaseName': 'dart_atmosphere.db'}
+
+        etree.SubElement(aerosol, 'AerosolProperties', aerosolprop_atr)
         atmopt_atr = {
-                'hgParametersModelName': 'RURALV23',
                 'gasGroup': '1',
                 'co2MixRate': '365.0',
                 'correctionBandModel': '1',
                 'temperatureModelName': 'USSTD76',
-                'scaleOtherGases': '0',
-                'gasCumulativeModelName': 'USSTD76',
                 'redefTemperature': '0',
                 'gasModelName': 'USSTD76',
-                'aerosolsModelName': 'USSTD76_RURALV23',
-                'aerosolCumulativeModelName': 'RURALV23',
-                'aerosolOptDepthFactor': '1',
+                'scaleOtherGases': '0',
+                'gasCumulativeModelName': 'USSTD76',
+                'ignoreGasForExtrapolation': '0',
                 'databaseName': 'dart_atmosphere.db',
-                'precipitableWaterAmountCkeckbox': '0',
-                'ignoreGasForExtrapolation': '0'}
+                'precipitableWaterAmountCkeckbox': '0'}
+
         etree.SubElement(isatm, 'AtmosphericOpticalPropertyModel', atmopt_atr)
         # parent nodes
 
@@ -149,8 +154,8 @@ class DartAtmosphereXML(object):
                          {'upwardingFluxes': '0', 'downwardingFluxes': '0'})
 
         etree.SubElement(atmiter, 'AtmosphereExpertModeZone',
-                         {'seuilFTAtmos': '0.0001',
-                          'seuilEclairementAtmos': '0.00001',
+                         {'threshold_Atmos_scattering': '1.0E-4',
+                          'number_iterationMax': '100',
                           'extrapol_atmos': '1'})
         # atmgeom branch
         atmgeom_atr = {'minimumNumberOfDivisions': '4',
