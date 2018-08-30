@@ -430,7 +430,7 @@ class simulation(object):
         print('--------------\n')
         return
 
-    def addtreespecie(self, idspecie, ntrees='1', lai='4.0', holes='0',
+    def addtreespecie(self, idspecie, ntrees='12', lai='4.0', holes='0',
                       trunkopt='Lambertian_Phase_Function_1',
                       trunktherm='ThermalFunction290_310',
                       vegopt='custom',
@@ -459,11 +459,9 @@ class simulation(object):
         if self.nspecies == 0:
             self.species = pd.DataFrame(columns=cols)
 
-        if idspecie in self.species['idspecie']:
+        if idspecie in self.species.idspecie.values:
                 print "Warning, you overwrote a defined tree specie"
-                idx = self.species.index[self.species['idspecie'] == idspecie]
-                idx = idx.tolist()
-                self.species.drop(idx, inplace=True)
+                self.species = self.species[self.species.idspecie != idspecie]
 
         specieprops = [idspecie, ntrees, lai, holes,
                        trunkopt, trunktherm, vegopt, vegtherm]
@@ -744,7 +742,8 @@ if __name__ == '__main__':
     import time
 
     start = time.time()
-    # Case Study 1
+    # Case Study 1 ################
+    """
     PathDART            = '/media/mtd/stock/DART_5-7-1_v1061/'
     SimulationName      = 'testprosequence10'
     SequenceName        = 'prospect_sequence.xml'
@@ -763,7 +762,7 @@ if __name__ == '__main__':
     pof.addband([0.750, 0.01])
     pof.addband([0.800, 0.01])
     pof.addopt(prosoptveg)
-    dic = {'CBrown': 0.0, 'Cab': [2,28,72], 'Car': 10,
+    dic = {'CBrown': 0.0, 'Cab': [2, 28, 72], 'Car': 10,
            'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
 
     pof.addprospectsequence(dic, 'proprieteoptpros')
@@ -776,12 +775,18 @@ if __name__ == '__main__':
 
     # define option
     OptionStart = '-start'
-    CmdJoin     = PathTOOLS+namescript+' '+ SimulationName +'/'+SequenceName + ' ' + OptionStart
-    subprocess.Popen(['/bin/bash', '-c', CmdJoin], stdout = subprocess.PIPE).wait()
-
+    CmdJoin = PathTOOLS + namescript + ' ' + SimulationName
+             +'/'+SequenceName + ' ' + OptionStart
+    subprocess.Popen(['/bin/bash', '-c', CmdJoin],
+                     stdout=subprocess.PIPE).wait()
     """
+
+    ###################################
+    # case study 2
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
                      'testrees/')
+    pof.setscene([40,40])
+    pof.addtreespecie(1)
     pof.addtreespecie(1, vegopt = 'proprieteopt2',
                       trunkopt = 'Lambertian_Phase_Function_1')
 
@@ -789,9 +794,18 @@ if __name__ == '__main__':
     optprop = ['lambertian', 'proprieteopt', 'Lambertian_vegetation.db',
                'lichen', '0']
     pof.addopt(optprop)
-
+    corners = [[1, 1],
+               [1, 5],
+               [5, 7],
+               [7, 1],
+               ]
+    pof.addsingleplot(corners = corners, opt = 'proprieteplot')
+    optpropplot = ['vegetation', 'proprieteplot',
+                  'Vegetation.db',
+                  'beech_top', '0']
+    pof.addopt(optpropplot)
     optpropveg = ['vegetation', 'proprieteopt2',
-                  '/media/mtd/stock/DART/database/Vegetation.db',
+                  'Vegetation.db',
                   'ash_top', '0']
     pof.addopt(optpropveg)
     path = '/media/mtd/stock/boulot_sur_dart/temp/model_trees.txt'
@@ -799,6 +813,10 @@ if __name__ == '__main__':
     #pof.addsingleplot(opt='proprieteopt2')
     pof.trees['SPECIES_ID'] = 1
     pof.write_xmls()
+
+    ######################################"
+    """
+
 
     """
     """

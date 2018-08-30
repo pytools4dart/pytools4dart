@@ -72,6 +72,7 @@ class DartTreesXML(object):
     def __init__(self, changetracker):
         self.changes = changetracker
         self.opts = changetracker[1]['indexopts']
+        self.path = changetracker[2]
         self.root = None
         return
 
@@ -103,8 +104,19 @@ class DartTreesXML(object):
         """
 
         if "trees" in self.changes[0]:
+
             self.treepath = self.changes[1]["trees"]
             self.species = self.changes[1]["treespecies"]
+            trees_atr = {'sceneModelCharacteristic': '1', 'isTrees': '1'}
+            self.root = etree.Element('Trees', trees_atr)
+            etree.SubElement(self.root, 'TreeGeneralOptions',
+                             {'triangleTreeRepresentation': '0'})
+
+            treeone_atr = {'laiZone': '0',
+                           # 'sceneParametersFileName': self.treepath}
+                           'sceneParametersFileName': self.path+'pytrees.txt'}
+            etree.SubElement(self.root, "Trees_1", treeone_atr)
+
             self.writetrees()
 
             # etc....
@@ -133,21 +145,12 @@ class DartTreesXML(object):
             - veg therm prop
         """
         # here specie is a dictionnary of all of a treespecie's properties.
-        self.species.apply(self.writetree,axis=1)
+        self.species.apply(self.writetree, axis=1)
         return
 
     def writetree(self, row):
-        if not etree.iselement(self.root):
-            trees_atr = {'sceneModelCharacteristic': '1', 'isTrees': '1'}
-            self.root = etree.Element('Trees', trees_atr)
-            etree.SubElement(self.root, 'TreeGeneralOptions',
-                             {'triangleTreeRepresentation': '0'})
 
-            treeone_atr = {'laiZone': '0',
-                           # 'sceneParametersFileName': self.treepath}
-                           'sceneParametersFileName': 'pytrees.txt'}
-            subroot = etree.SubElement(self.root, "Trees_1", treeone_atr)
-
+        subroot = self.root.find("./Trees_1")
         ntrees = row['ntrees']
         lai = row['lai']
         # specie branch
@@ -211,7 +214,7 @@ class DartTreesXML(object):
         This part could(should?) be modified.
         """
         root = etree.Element('DartFile',
-                             {'version': '5.7.1', 'build': 'v1061'})
+                             {'version': '5.7.1', 'build': '0'})
         if self.root is not None:
             root.append(self.root)
         else:

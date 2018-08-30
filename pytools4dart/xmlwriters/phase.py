@@ -155,6 +155,7 @@ class DartPhaseXML(object):
                         'extrapolationMethod': '0',
                         'sparseVoxelAcceleration': '1',
                         'expertMode': '0',
+                        'triangleStorageMode': "0",
                         'maxNbSceneCrossing': '1000',
                         'subFaceBarycenterSubdivision': '1',
                         'surfaceBarycenterEnabled': '1'}
