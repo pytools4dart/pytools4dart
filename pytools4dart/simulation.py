@@ -249,12 +249,12 @@ class simulation(object):
         return
 
     def addsequence(self, parargs, group='default', name='sequencepytdart',
-                    verbose=False, variationmode = 'linear'):
+                    verbose=False, variationmode='linear'):
         """add a sequence xml file with given parameters
 
         parargs must be a dictionnary structured in this way :
             parargs = { 'parameter1' : basevalue, stepvalue, numberofsteps}
-        For now only LINEAR!
+        TODO : For now only LINEAR, should be possible to change
         """
         try:
             parargs.keys()
@@ -282,7 +282,6 @@ class simulation(object):
         # function
         self._registerchange('prospect')
         self._registerchange('sequence')
-
 
         self.setindexprops()
         index = self.indexopts['vegetations'][optident]
@@ -314,7 +313,7 @@ class simulation(object):
                 prosdic[key] = [value] * maxlen
 
         self.addsequence(prosdic, group=group,
-                         name='prospect_sequence',variationmode='enumerate')
+                         name='prospect_sequence', variationmode='enumerate')
         self.prossequence += 1
         return
 
@@ -685,7 +684,6 @@ class simulation(object):
             self.changetracker[1]['treespecies'] = self.species
         dxml.write_trees(self.changetracker)
 
-
         dxml.write_urban(self.changetracker)
         dxml.write_water(self.changetracker)
         print "XML files written to {}".format(self.changetracker[2])
@@ -701,7 +699,6 @@ class simulation(object):
 # ##################################test zone
 if __name__ == '__main__':
     import time
-    import subprocess
 
     start = time.time()
     # Case Study 1
@@ -729,9 +726,8 @@ if __name__ == '__main__':
     pof.addprospectsequence(dic, 'proprieteoptpros')
     pof.write_xmls()
 
-
     # define path for tools
-    PathTOOLS = PathDART+'tools/linux/'
+    PathTOOLS = PathDART + 'tools/linux/'
     # define name for script to be run
     namescript  = 'dart-sequence.sh'
 
@@ -739,7 +735,6 @@ if __name__ == '__main__':
     OptionStart = '-start'
     CmdJoin     = PathTOOLS+namescript+' '+ SimulationName +'/'+SequenceName + ' ' + OptionStart
     subprocess.Popen(['/bin/bash', '-c', CmdJoin], stdout = subprocess.PIPE).wait()
-
 
     """
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
