@@ -213,8 +213,6 @@ class simulation(object):
         """adds and optical property to the simulation
 
         TODO : think about : do we want optprops as an object?
-        simplified management of all variables...
-        Vegetation.db is Dart default.
         TODO : Managing Thermal properties?
         TODO : Add Error catching!
 
@@ -252,9 +250,17 @@ class simulation(object):
                     verbose=False, variationmode='linear'):
         """add a sequence xml file with given parameters
 
-        parargs must be a dictionnary structured in this way :
+        Parameters
+        ---------
+        parargs : dic
+            must be a dictionnary structured in this way :
             parargs = { 'parameter1' : basevalue, stepvalue, numberofsteps}
-        TODO : For now only LINEAR, should be possible to change
+        group : str, optional
+            string assigning a name to the group of the sequence. This allows
+            for the combination of variation of parameters in a single sequence
+        name : str, optional
+            name of the sequence (given to the xml file).
+        TODO : For now only LINEAR, should be possible to change to enumerate
         """
         try:
             parargs.keys()
@@ -276,6 +282,16 @@ class simulation(object):
 
     def addprospectsequence(self, dic, optident, group=None):
         """adds a sequence of prospect generated optical properties
+
+        Parameters
+        ---------
+        dic : dic
+            must be a dictionnary containing the prospect parameters
+            and the assigned value. For now only one parameter can vary.
+        optident : str
+            name of the prospect optical property. For now created indepedently
+            via addopt()
+
         TODO : Absolutey NOT Optimized nor clean!
         """
         # Here go the conditions for prospect, probably to write in another
@@ -326,6 +342,26 @@ class simulation(object):
         "custom" one is assigned:  vegetation - leaf deciduous.
         This optical property if initialized by default in
         coeff_diff.addvegetation()
+
+        Parameters
+        ----------
+            corners : list, optional
+                list of 4 lists, each containing the x and y of a corner
+            baseheight: int, optional
+                base height of the plot
+            density : int, optional
+                density of the plot
+            opt : str, optional
+                ident of the optical property assigned to the plot. Does not
+                have to be created at the assignation time.
+            ident: str, optional
+                ident of the plot. Unused for now.
+            densitydef: str, optional
+                 defines the interpretation of the density value :
+                     ul = m²/ m³
+                     lai = m²/m²
+        TODO : think about simpler corner definition
+        TODO : add modifiable height
         """
         self._registerchange('plots')
 
@@ -399,7 +435,12 @@ class simulation(object):
                       trunktherm='ThermalFunction290_310',
                       vegopt='custom',
                       vegtherm='ThermalFunction290_310'):
-        """
+        """adds a tree specie to the simulation
+
+        Parameters
+        ----------
+        idspecie : int
+        netrees : int, optional
         properties of a specie :
             - number of trees
             - LAI > 0 or Ul <0
@@ -590,7 +631,7 @@ class simulation(object):
 
         Code from Claudia Lavalley
 
-        TODO : IMPORTANT!
+        TODO : doesn't work yet.
         """
         scriptpath = "???"
         scripts = {'directions': 'dart-directions.sh ',
@@ -703,7 +744,7 @@ if __name__ == '__main__':
     start = time.time()
     # Case Study 1
     PathDART            = '/media/mtd/stock/DART_5-7-1_v1061/'
-    SimulationName      = 'testprosequence3'
+    SimulationName      = 'testprosequence10'
     SequenceName        = 'prospect_sequence.xml'
 
     pof = simulation(PathDART+'user_data/simulations/'+SimulationName+'/')
@@ -720,7 +761,7 @@ if __name__ == '__main__':
     pof.addband([0.750, 0.01])
     pof.addband([0.800, 0.01])
     pof.addopt(prosoptveg)
-    dic = {'CBrown': 0.0, 'Cab': [0.6,32,62,82], 'Car': 10,
+    dic = {'CBrown': 0.0, 'Cab': [2,28,72], 'Car': 10,
            'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
 
     pof.addprospectsequence(dic, 'proprieteoptpros')
