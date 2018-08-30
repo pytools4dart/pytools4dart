@@ -376,8 +376,8 @@ class FluxPhaseXML(DartPhaseXML):
         """
         if self.isband:
             for i in range(self.changes['bands'].shape[0]):
-                spectralirrad_attrib = {'bandNumber': str(i),
-                                        'irradiance': '0',
+                spectralirrad_attrib = {'irradiance': '0',
+                                        'bandNumber': str(i),
                                         'Skyl': '0'}
                 etree.SubElement(spectralirrad, "SpectralIrradianceValue",
                                  spectralirrad_attrib)

@@ -107,8 +107,7 @@ class DartObject3dXML(object):
         """
 
         # base nodes
-        etree.SubElement(self.root, 'ObjectList', {})
-        etree.SubElement(self.root, 'ObjectFields', {})
+
         types = etree.SubElement(self.root, 'Types', {})
 
         # # types branch
@@ -121,6 +120,8 @@ class DartObject3dXML(object):
         etree.SubElement(dflt_types, 'DefaultType', dftype1_atr)
         etree.SubElement(dflt_types, 'DefaultType', dftype2_atr)
         etree.SubElement(types, 'CustomTypes',{})
+        etree.SubElement(self.root, 'ObjectList', {})
+        etree.SubElement(self.root, 'ObjectFields', {})
 
         return
 
