@@ -194,9 +194,9 @@ if __name__ == "__main__":
     get_all_structures(pathseq+'seq/', pathout)
 
     """
-    pathin = "/media/mtd/stock/DART/user_data/simulations/testprospect/input/"
-    pathessai = '/media/mtd/stock/boulot_sur_dart/temp/case1/input/'
-    pathout = '/media/mtd/stock/boulot_sur_dart/temp/case1debug/'
+    pathin = "/media/mtd/stock/DART_5-7-1_v1061/user_data/simulations/testprosequence/input/"
+    pathessai = '/media/mtd/stock/boulot_sur_dart/temp/essai_sequence/input/'
+    pathout = '/media/mtd/stock/boulot_sur_dart/temp/compare/seq/'
 
 
     get_all_structures(pathin, pathout+'dart/')

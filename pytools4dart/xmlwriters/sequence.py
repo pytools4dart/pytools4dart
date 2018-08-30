@@ -58,7 +58,10 @@ def write_sequence(changetracker):
         # seqname = 'sequence'
         seq = DartSequenceXML(changetracker, seqname)
         seq.addsequences()
-        seq.basenodes()
+        if "prospect" in changetracker[0]:
+            seq.basenodes(prosequence=True)
+        else:
+            seq.basenodes()
         pathsimu = changetracker[2]
         outpath = os.path.dirname(os.path.dirname(pathsimu))
         print outpath
@@ -102,12 +105,16 @@ class DartSequenceXML(object):
         self.changes = changetracker[1]
         return
 
-    def basenodes(self):
+    def basenodes(self,prosequence=False):
         """ here go the general parameters for a sequence.
 
         Determines which outputs are generated and deleted during the sequence
         run.
         """
+        if prosequence:
+            prospect = "true"
+        else:
+            prospect = "false"
 
         # base nodes
         pref_atr = {'atmosphereMaketLaunched':  "true",
@@ -134,7 +141,7 @@ class DartSequenceXML(object):
                     'maketLaunched':  "true",
                     'numberParallelThreads':  "4",
                     'phaseLaunched':  "true",
-                    'prospectLaunched':  "false",
+                    'prospectLaunched':  prospect,
                     'triangleFileProcessorLaunched':  "true",
                     'useBroadBand':  "true",
                     'useSceneSpectra':  "true",

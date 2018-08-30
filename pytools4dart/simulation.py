@@ -280,7 +280,10 @@ class simulation(object):
         """
         # Here go the conditions for prospect, probably to write in another
         # function
+        self._registerchange('prospect')
         self._registerchange('sequence')
+
+
         self.setindexprops()
         index = self.indexopts['vegetations'][optident]
         baseprospectstring = ('Coeff_diff.UnderstoryMultiFunctions.'
@@ -407,7 +410,7 @@ class simulation(object):
             - veg opt prop
             - veg therm prop
         TODO : Error catching when only trees or species are defined!
-        TODO Add remove 
+        TODO Add remove
         """
         # specie = {'id': self.nspecies, 'ntrees': ntrees, 'lai': lai,
         #        'crowns': [[holes, trunkopt, trunktherm, vegopt, vegtherm]]}
@@ -699,13 +702,13 @@ class simulation(object):
 if __name__ == '__main__':
     import time
     import subprocess
-    
+
     start = time.time()
     # Case Study 1
-    PathDART            = '/home/jbferet/PROGRAMS/DART/'
-    SimulationName      = 'testPytools6'
+    PathDART            = '/media/mtd/stock/DART_5-7-1_v1061/'
+    SimulationName      = 'testprosequence3'
     SequenceName        = 'prospect_sequence.xml'
-    
+
     pof = simulation(PathDART+'user_data/simulations/'+SimulationName+'/')
     pof.addsingleplot(opt='proprieteoptpros')
     prosoptveg = ['vegetation', 'proprieteoptpros', 'prospect', 'blank', 0]
@@ -720,23 +723,23 @@ if __name__ == '__main__':
     pof.addband([0.750, 0.01])
     pof.addband([0.800, 0.01])
     pof.addopt(prosoptveg)
-    dic = {'CBrown': 0.0, 'Cab': [0.0,10,20,30,40,50,60,80], 'Car': 10,
+    dic = {'CBrown': 0.0, 'Cab': [0.6,32,62,82], 'Car': 10,
            'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
 
     pof.addprospectsequence(dic, 'proprieteoptpros')
     pof.write_xmls()
-    
-    
+
+
     # define path for tools
     PathTOOLS = PathDART+'tools/linux/'
     # define name for script to be run
     namescript  = 'dart-sequence.sh'
-    
+
     # define option
     OptionStart = '-start'
     CmdJoin     = PathTOOLS+namescript+' '+ SimulationName +'/'+SequenceName + ' ' + OptionStart
     subprocess.Popen(['/bin/bash', '-c', CmdJoin], stdout = subprocess.PIPE).wait()
-   
+
 
     """
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
@@ -758,7 +761,7 @@ if __name__ == '__main__':
     #pof.addsingleplot(opt='proprieteopt2')
     pof.trees['SPECIES_ID'] = 1
     pof.write_xmls()
-    
+
     """
     """
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/test_debug')
