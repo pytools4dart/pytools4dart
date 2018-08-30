@@ -90,8 +90,8 @@ class DartWaterXML(object):
 
         """
 
-        if "atmosphere" in changetracker[0]:
-            self.changes = changetracker[1]["atmosphere"]
+        if "water" in changetracker[0]:
+            self.changes = changetracker[1]["water"]
             for node in self.changes:
                 print "Modifying : ", node
                 self.root.find(node)
@@ -119,7 +119,7 @@ class DartWaterXML(object):
         This part could(should?) be modified.
         """
         root = etree.Element('DartFile',
-                             {'version': '5.7.0', 'build': 'v1033'})
+                             {'version': '5.7.1', 'build': 'v1061'})
         root.append(self.root)
         tree = etree.ElementTree(root)
         tree.write(outpath, encoding="UTF-8", xml_declaration=True)

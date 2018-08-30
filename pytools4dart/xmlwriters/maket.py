@@ -160,7 +160,7 @@ class DartMaketXML(object):
         This part could(should?) be modified.
         """
         root = etree.Element('DartFile',
-                             {'version': '5.7.0', 'build': 'v1033'})
+                             {'version': '5.7.1', 'build': 'v1061'})
         root.append(self.root)
         tree = etree.ElementTree(root)
         tree.write(outpath, encoding="UTF-8", xml_declaration=True)
