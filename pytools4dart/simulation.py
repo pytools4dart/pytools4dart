@@ -280,7 +280,8 @@ class simulation(object):
         self.changetracker[1]['sequencename'] = name
         return
 
-    def addprospectsequence(self, dic, optident, group=None):
+    def addprospectsequence(self, dic, optident,
+                            group=None, name='prospect_sequence'):
         """adds a sequence of prospect generated optical properties
 
         Parameters
@@ -329,7 +330,7 @@ class simulation(object):
                 prosdic[key] = [value] * maxlen
 
         self.addsequence(prosdic, group=group,
-                         name='prospect_sequence', variationmode='enumerate')
+                         name=name, variationmode='enumerate')
         self.prossequence += 1
         return
 
