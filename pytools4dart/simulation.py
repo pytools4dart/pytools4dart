@@ -472,6 +472,10 @@ class simulation(object):
         self._registerchange('trees')
         print ("A tree specie has been added. Make sure the specified optical "
                "properties match those defined in self.optsprops\n")
+        print ("Warning : Treespecies' ids must be consecutive, "
+               "begining with 0 in order to effectively match those define in "
+               "trees.txt.\n")
+
         print('--------------\n')
 
         return
@@ -745,13 +749,11 @@ class simulation(object):
         try:
             for name in self.changetracker[1]['pickfile']:
                 dxml.copyxml(name, self.changetracker)
-                print ('{} overwritten with {}'
-                       .format(name,
-                               self.changetracker[1]['pickfile'][name]))
+                print '{} overwritten with {}'.format(
+                        name, self.changetracker[1]['pickfile'][name])
         except KeyError:
             return
         return
-
 
     def write_sequence(self):
         """Only writes the ongoing sequence xml.
@@ -776,19 +778,21 @@ if __name__ == '__main__':
     prosoptveg = ['vegetation', 'proprieteoptpros', 'prospect', 'blank', 0]
 
     pof.addband([0.400, 0.01])
-    pof.addband([0.450, 0.01])
-    pof.addband([0.500, 0.01])
-    pof.addband([0.550, 0.01])
-    pof.addband([0.600, 0.01])
-    pof.addband([0.650, 0.01])
-    pof.addband([0.700, 0.01])
-    pof.addband([0.750, 0.01])
-    pof.addband([0.800, 0.01])
+    pof.addsequence({'wvl':[400,50,8]},
+                    group = 'wvl', name = 'seqcomb')
+#    pof.addband([0.450, 0.01])
+#    pof.addband([0.500, 0.01])
+#    pof.addband([0.550, 0.01])
+#    pof.addband([0.600, 0.01])
+#    pof.addband([0.650, 0.01])
+#    pof.addband([0.700, 0.01])
+#    pof.addband([0.750, 0.01])
+#    pof.addband([0.800, 0.01])
     pof.addopt(prosoptveg)
     dic = {'CBrown': 0.0, 'Cab': [2, 28, 72], 'Car': 10,
            'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
 
-    pof.addprospectsequence(dic, 'proprieteoptpros')
+    pof.addprospectsequence(dic, 'proprieteoptpros',name = 'seqcomb')
     pof.write_xmls()
 
     # define path for tools
@@ -815,7 +819,8 @@ if __name__ == '__main__':
     pof.addtreespecie(1)
     pof.addtreespecie(1, vegopt = 'proprieteopt2',
                       trunkopt = 'Lambertian_Phase_Function_1')
-
+    pof.addtreespecie(0, vegopt = 'proprieteplot',
+                      trunkopt = 'Lambertian_Phase_Function_1')
     pof.addband("/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr")
     optprop = ['lambertian', 'proprieteopt', 'Lambertian_vegetation.db',
                'lichen', '0']
@@ -828,7 +833,7 @@ if __name__ == '__main__':
     pof.addsingleplot(corners = corners, opt = 'proprieteplot')
     optpropplot = ['vegetation', 'proprieteplot',
                   'Vegetation.db',
-                  'beech_top', '0']
+                  'needle_spruce_stressed', '0']
     pof.addopt(optpropplot)
     optpropveg = ['vegetation', 'proprieteopt2',
                   'Vegetation.db',
@@ -908,25 +913,15 @@ if __name__ == '__main__':
     # pof.addopt(prosoptveg)
     """
     """
-#    end = time.time()
-#
-#    print "Time = {}".format(end - start)
     """
-    start = time.time()
-
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
                      'essai_sequence/input/')
-    pof.addsequence({'wvl': (1, 2, 3)})
-    """
-    """
-    # prospect simulation
-    pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
-                     'essaiDossier/')
 
-    corners = ((3,  4),
-               (3,  0),
-               (0,  0),
-               (0,  4))
+
+    corners = [[3,  4],
+               [3,  0],
+               [0,  0],
+               [0,  4]]
     pof.addsingleplot(corners=corners, opt='proprieteopt2', densitydef='UL')
     pof.setscene([5, 5])
     optpropveg = ['vegetation', 'proprieteopt2',
