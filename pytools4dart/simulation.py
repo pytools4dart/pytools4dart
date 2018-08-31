@@ -285,7 +285,15 @@ class simulation(object):
                 self.changetracker[1]['sequence'][group] = {}
 
             self.changetracker[1]['sequence'][group][param] = args
-        self.changetracker[1]['sequencename'] = name
+
+        try:
+            self.changetracker[1]['sequencename']
+        except KeyError:
+            self.changetracker[1]['sequencename'] = name
+        else:
+            print 'The xml sequence file was already named {}' \
+                .format(self.changetracker[1]['sequencename'])
+            return
         return
 
     def addprospectsequence(self, dic, optident, group=None,
@@ -800,14 +808,17 @@ if __name__ == '__main__':
     SequenceName        = 'prospect_sequence.xml'
 
     pof = simulation(PathDART+'user_data/simulations/'+SimulationName+'/')
-    pof.addsingleplot(opt='proprieteoptplot')
+    pof.addsingleplot(opt='proprieteoptpros')
     proplot = ['vegetation','proprieteoptplot','Vegetation.db',
                   'needle_spruce_stressed', '0']
     # prosoptveg = ['vegetation', 'proprieteoptpros', 'prospect', 'blank', 0]
     pof.addopt(proplot)
     pof.addband([0.400, 0.01])
+#    pof.addband([0.450, 0.01])
+#    pof.addband([0.500, 0.01])
+
 #    pof.addsequence({'wvl':[400,50,8]},
-#                    group = 'wvl', name = 'seqcomb')
+#                    group = 'wvl', name = 'prospect_sequence')
 #    pof.addband([0.450, 0.01])
 #    pof.addband([0.500, 0.01])
 #    pof.addband([0.550, 0.01])
@@ -817,16 +828,17 @@ if __name__ == '__main__':
 #    pof.addband([0.750, 0.01])
 #    pof.addband([0.800, 0.01])
     # pof.addopt(prosoptveg)
-    dic = {'CBrown': 0.0, 'Cab': [2, 28, 72], 'Car': 10,
+    dic = {'CBrown': 0.0, 'Cab': [5, 27, 71.5], 'Car': 10,
            'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
 
     pof.addprospectsequence(dic, 'proprieteoptpros', name='prospect_sequence')
-    corner = [[1,1],
-              [1,2],
-              [2,2],
-              [2,1]]
+    corner = [[1, 1],
+              [1, 2],
+              [2, 2],
+              [2, 1]]
+    pof.addsingleplot(corners=corner,opt='proprieteoptpros' )
+    # pof.addsequence({'wvl':[400,20,8]})
 
-    pof.addsingleplot(corners = corner,opt = 'proprieteoptpros' )
     pof.write_xmls()
 
     # define path for tools
