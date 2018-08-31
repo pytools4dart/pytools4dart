@@ -1,10 +1,22 @@
+![licence](https://img.shields.io/badge/Licence-GPL--3-blue.svg) 
+
 # pytools4dart: python API for [DART](http://www.cesbio.ups-tlse.fr/dart/index.php#/) simulator
 
-## Getting Started
 
-###### Prerequisites
+## Requirements
 
-###### Installing
+*pytools4dart* is based on DART radiative transfer software that has to be installed (before or after installing pytools4dart).
+DART paths have to be configured with `pytools4dart.settings`.
+
+
+## Installation
+In the `pytools4dartMTD` directory (same one where you found this file after
+cloning the git repo), execute:
+
+```sh
+python setup.py install
+```
+
 
 ## Deployment
 
