@@ -739,17 +739,16 @@ class simulation(object):
         return
 
     def writepickedfiles(self):
+        """Effectively writes selected files to be copied into simulation
+        """
         try:
-            self.changetracker[1]['pickfile']
-        # if no file is picked up
-        except KeyError:
-            return
-        # if a file is picked up
-        else:
             for name in self.changetracker[1]['pickfile']:
                 dxml.copyxml(name, self.changetracker)
                 print ('{} overwritten with {}'
-                       .format(name, self.changetracker[1]['pickfile'][name]))
+                       .format(name,
+                               self.changetracker[1]['pickfile'][name]))
+        except KeyError:
+            return
         return
 
 
