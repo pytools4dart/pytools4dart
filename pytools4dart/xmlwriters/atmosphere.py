@@ -154,7 +154,7 @@ class DartAtmosphereXML(object):
                          {'upwardingFluxes': '0', 'downwardingFluxes': '0'})
 
         etree.SubElement(atmiter, 'AtmosphereExpertModeZone',
-                         {'threshold_Atmos_scattering': '1.0E-4',
+                         {'threshold_Atmos_scattering': '0.0001',
                           'number_iterationMax': '100',
                           'extrapol_atmos': '1'})
         # atmgeom branch
