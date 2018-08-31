@@ -4,11 +4,10 @@
 
 
 ## Requirements
+**pytools4dart** is based on [DART](http://www.cesbio.ups-tlse.fr/dart/index.php#/) radiative transfer software that has to be installed (before or after installing pytools4dart).
+[DART](http://www.cesbio.ups-tlse.fr/dart/index.php#/) is free software under proprietary license. To download DART software please [sign up](http://www.cesbio.ups-tlse.fr/dart/index.php#/getDart), login and fill the license resquest in GET DART section of [DART website](http://www.cesbio.ups-tlse.fr/dart/index.php#/).
 
-*pytools4dart* is based on DART radiative transfer software that has to be installed (before or after installing pytools4dart).
-DART paths have to be configured with `pytools4dart.settings`.
-
-
+*TO BE COMPLETED*
 ## Installation
 In the `pytools4dartMTD` directory (same one where you found this file after
 cloning the git repo), execute:
@@ -16,6 +15,8 @@ cloning the git repo), execute:
 ```sh
 python setup.py install
 ```
+
+DART paths have to be configured with `pytools4dart.settings`.
 
 
 ## Deployment
