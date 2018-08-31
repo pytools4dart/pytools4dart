@@ -212,11 +212,12 @@ class DartTreesXML(object):
         Also includes the version and build of DART as the root element.
         This part could(should?) be modified.
         """
-        etree.SubElement(self.root, 'TreeGeneralOptions',
-                             {'triangleTreeRepresentation': '0'})
         root = etree.Element('DartFile',
-                             {'version': '5.7.1', 'build': '0'})
+                                 {'version': '5.7.1', 'build': '0'})
         if self.root is not None:
+            etree.SubElement(self.root, 'TreeGeneralOptions',
+                             {'triangleTreeRepresentation': '0'})
+
             root.append(self.root)
         else:
             etree.SubElement(root, 'Trees',
