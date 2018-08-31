@@ -132,7 +132,7 @@ class simulation(object):
         if txt data separate by spaces.
         bandnumer(optional) wavelengthcenter wavelengthwidth
         hdrnm is used to convert nm to µm when reading from header.
-        TODO : check if .txt info works.
+        TODO : check if .txt info works. Split into 3 smaller helper functions
 
         Parameters
         ----------
@@ -581,6 +581,11 @@ class simulation(object):
 
     def setcell(self, cell):
         """change cell dimensions
+
+        Parameters
+        ----------
+            cell: list
+                List containing the [x,y] of the cell dimensions
         TODO : maybe a bit more verbose?
         """
         self._registerchange('maket')
@@ -617,7 +622,7 @@ class simulation(object):
         return
 
     def listmodifications(self):
-        """returns record of modifications to simulation
+        """returns record of changed xml files relative to default simulation
 
         TODO : stuff to make all that look nicer.
         """
@@ -648,11 +653,17 @@ class simulation(object):
             raise Exception("Erreur DART directions " + str(ok))
         return
 
-    def pickupfile(self, path):
+    def pickfile(self, path):
         """uses a previously defined .xml dart file
+
+        Parameters
+        ----------
+            path: str
+                Complete path to an xml file to be copied to the new simulation
+                in place of a pyt4dart generated file.
         """
         dartfile = os.path.splitext(os.path.basename(path))
-        self.changetracker[1]['usefile'][dartfile] = path
+        self.changetracker[1]['pickfile'][dartfile] = path
         return
 
     def getsfileparams(self, path):
@@ -680,30 +691,24 @@ class simulation(object):
         print 'Writing XML files'
         self.bands.index += 1
         """
-        TODO : stuff to do here to properly write "trees.txt"
-        if self.istrees:
-            self.trees.to_string()
-
         WARNING : important to write coeff diff before indexing opt props :
             coeff diff needs all optprops info, whereas the other writers
             only need ident + index.
         WARNING : here the structure for changetracker[1]['trees'] is defined.
         TODO : Better Check and Error catch for trees.(and in general)
+        And general simplification.
         """
         # Setting changetracker
         self.setindexprops()
         self.changetracker[1]['coeff_diff'] = self.optprops
+
         if 'phase' in self.changetracker[0]:
             self.changetracker[1]['phase']['bands'] = self.bands
 
         dxml.write_coeff_diff(self.changetracker)
 
         self.changetracker[1]['indexopts'] = self.indexopts
-
         self.changetracker[1]['plots'] = self.plots
-
-        # WIP : self.changetracker[1]['maket']
-
         # Effectively write xmls
         dxml.write_atmosphere(self.changetracker)
         dxml.write_directions(self.changetracker)
@@ -720,15 +725,33 @@ class simulation(object):
             self.species.sort_values(by=['idspecie'], inplace=True)
 
             pathtrees = self.changetracker[2]+'pytrees.txt'
-            self.trees.to_csv(pathtrees, sep="\t", header=True, index=False)
+            self.trees.to_csv(pathtrees, sep="\t",
+                              header=True, index=False)
             self.changetracker[1]['trees'] = pathtrees
             self.changetracker[1]['treespecies'] = self.species
         dxml.write_trees(self.changetracker)
 
         dxml.write_urban(self.changetracker)
         dxml.write_water(self.changetracker)
-        print "XML files written to {}".format(self.changetracker[2])
+        print "pyt4dart XML files written to {}".format(self.changetracker[2])
+
+        self.writepickedfiles()
         return
+
+    def writepickedfiles(self):
+        try:
+            self.changetracker[1]['pickfile']
+        # if no file is picked up
+        except KeyError:
+            return
+        # if a file is picked up
+        else:
+            for name in self.changetracker[1]['pickfile']:
+                dxml.copyxml(name, self.changetracker)
+                print ('{} overwritten with {}'
+                       .format(name, self.changetracker[1]['pickfile'][name]))
+        return
+
 
     def write_sequence(self):
         """Only writes the ongoing sequence xml.

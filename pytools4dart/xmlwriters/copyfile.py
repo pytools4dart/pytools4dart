@@ -1,5 +1,5 @@
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
+# !/usr/bin/env python2
+#  -*- coding: utf-8 -*-
 """
 ===============================================================================
 # PROGRAMMERS:
@@ -26,24 +26,26 @@ https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
 #
 ===============================================================================
-to be called this way :
-    from xmlwriters import *
+
+Objects and functions necessary to write the atmosphere xml file.
+It is important to note the resulting xml file is written over a single line.
 
 """
-from atmosphere import write_atmosphere
-from coeff_diff import write_coeff_diff
-from directions import write_directions
-from inversion import write_inversion
-from maket import write_maket
-from object_3d import write_object_3d
-from phase import write_phase
-from plots import write_plots
-from sequence import write_sequence
-from trees import write_trees
-from urban import write_urban
-from water import write_water
-from copyfile import copyfile
 
-__all__ = ['atmosphere', 'coeff_diff', 'directions', 'inversion',
-           'maket', 'object_3d', 'phase', 'plots', 'sequence', 'trees',
-           'urban', 'water']
+from shutil import copyfile
+
+
+def copyxml(name, changetracker):
+    """copies an xml file from a given path, to the simulation input directory
+    """
+    src = changetracker[1]['pickfile'][name]
+    dst = changetracker[2]
+
+    copyfile(src, dst)
+    return
+
+# to be expanded.....
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # ZONE DE TESTS
+"""outpath = "/media/mtd/stock/boulot_sur_dart/temp/"
+
+write_atmosphere([], outpath)"""
