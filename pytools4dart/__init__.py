@@ -26,3 +26,6 @@ https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 ===============================================================================
 """
 from _version import __version__
+from settings import configure
+from simulation import simulation
+
