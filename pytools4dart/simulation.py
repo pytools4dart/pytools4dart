@@ -132,7 +132,7 @@ class simulation(object):
         if txt data separate by spaces.
         bandnumer(optional) wavelengthcenter wavelengthwidth
         hdrnm is used to convert nm to µm when reading from header.
-        TODO : check if .txt info works.
+        TODO : check if .txt info works. Split into 3 smaller helper functions
 
         Parameters
         ----------
@@ -235,11 +235,19 @@ class simulation(object):
         """
         self._registerchange('coeff_diff')
         if optprop[0] == 'lambertian':
-            self.optprops['lambertians'].append(optprop[1:])
-            self.setindexprops()
+            if optprop[1] in self.optprops['lambertians']:
+                print 'Please chose a new name for the new optical property'
+                print 'Returning'
+            else:
+                self.optprops['lambertians'].append(optprop[1:])
+                self.setindexprops()
         elif optprop[0] == 'vegetation':
-            self.optprops['vegetations'].append(optprop[1:])
-            self.setindexprops()
+            if optprop[1] in self.optprops['vegetations']:
+                print 'Please chose a new name for the new optical property'
+                print 'Returning'
+            else:
+                self.optprops['vegetations'].append(optprop[1:])
+                self.setindexprops()
         else:
             print 'Non recognized optical property type. Returning'
             return
@@ -277,10 +285,19 @@ class simulation(object):
                 self.changetracker[1]['sequence'][group] = {}
 
             self.changetracker[1]['sequence'][group][param] = args
-        self.changetracker[1]['sequencename'] = name
+
+        try:
+            self.changetracker[1]['sequencename']
+        except KeyError:
+            self.changetracker[1]['sequencename'] = name
+        else:
+            print 'The xml sequence file was already named {}' \
+                .format(self.changetracker[1]['sequencename'])
+            return
         return
 
-    def addprospectsequence(self, dic, optident, group=None):
+    def addprospectsequence(self, dic, optident, group=None,
+                            name='prospect_sequence', lad=0):
         """adds a sequence of prospect generated optical properties
 
         Parameters
@@ -299,38 +316,50 @@ class simulation(object):
         self._registerchange('prospect')
         self._registerchange('sequence')
 
+        # definition of the 'blank' prospect optical property
+        prosoptveg = ['vegetation', optident, 'prospect', 'blank', lad]
+        self.addopt(prosoptveg)
+
+
         self.setindexprops()
-        index = self.indexopts['vegetations'][optident]
-        baseprospectstring = ('Coeff_diff.UnderstoryMultiFunctions.'
-                              'UnderstoryMulti[{}].'
-                              'ProspectExternalModule.'
-                              'ProspectExternParameters.')
-        baseprospectstring = baseprospectstring.replace('{}', str(index))
+        try:
+            index = self.indexopts['vegetations'][optident]
+        except KeyError:
+            print 'Undefined optical Property!'
+            print 'Please define first a blank prospect optical property.'
+            print 'Returning.\n'
+            return
+        else:
+            baseprospectstring = ('Coeff_diff.UnderstoryMultiFunctions.'
+                                  'UnderstoryMulti[{}].'
+                                  'ProspectExternalModule.'
+                                  'ProspectExternParameters.')
+            baseprospectstring = baseprospectstring.replace('{}', str(index))
 
-        if not group:
-            group = 'prosequence{}'.format(self.prossequence)
-        elif not group.startswith('prosequence'):
-            group = 'prosequence'+group
-        maxlen = 0
-        prosdic = {}
-        for params in dic.iteritems():
-            if params[0] not in self.prosparams:
-                raise ValueError('please enter one of the following'
-                                 'values :{}'.format(self.prosparams))
+            if not group:
+                group = 'prosequence{}'.format(self.prossequence)
+            elif not group.startswith('prosequence'):
+                group = 'prosequence'+group
+            maxlen = 0
+            prosdic = {}
+            for params in dic.iteritems():
+                if params[0] not in self.prosparams:
+                    raise ValueError('please enter one of the following'
+                                     'values :{}'.format(self.prosparams))
 
-            prosdic[baseprospectstring+params[0]] = params[1]
-            # records max lengths of parameter to duplicate single values.
-            if isinstance(params[1], list) and len(params[1]) > maxlen:
-                maxlen = len(params[1])
-        # TODO : better type checking : in order to go from single element
-        # to maxlen length list of identical values
-        for key, value in prosdic.iteritems():
-            if not isinstance(value, list):
-                prosdic[key] = [value] * maxlen
+                prosdic[baseprospectstring+params[0]] = params[1]
+                # records max lengths of parameter to duplicate single values.
+                if isinstance(params[1], list) and len(params[1]) > maxlen:
+                    maxlen = len(params[1])
+            # TODO : better type checking : in order to go from single element
+            # to maxlen length list of identical values
+            for key, value in prosdic.iteritems():
+                if not isinstance(value, list):
+                    prosdic[key] = [value] * maxlen
 
-        self.addsequence(prosdic, group=group,
-                         name='prospect_sequence', variationmode='enumerate')
-        self.prossequence += 1
+            self.addsequence(prosdic, group=group,
+                             name=name, variationmode='enumerate')
+            self.prossequence += 1
         return
 
     def addsingleplot(self, corners=None, baseheight=1, density=1,
@@ -460,7 +489,7 @@ class simulation(object):
             self.species = pd.DataFrame(columns=cols)
 
         if idspecie in self.species.idspecie.values:
-                print "Warning, you overwrote a defined tree specie"
+                print "Warning: you overwrote a defined tree specie"
                 self.species = self.species[self.species.idspecie != idspecie]
 
         specieprops = [idspecie, ntrees, lai, holes,
@@ -471,6 +500,10 @@ class simulation(object):
         self._registerchange('trees')
         print ("A tree specie has been added. Make sure the specified optical "
                "properties match those defined in self.optsprops\n")
+        print ("Warning : Treespecies' ids must be consecutive, "
+               "begining with 0 in order to effectively match those define in "
+               "trees.txt.\n")
+
         print('--------------\n')
 
         return
@@ -501,6 +534,13 @@ class simulation(object):
     def plotsfromvox(self, path, densitydef=None):
         """Adds Plots based on AMAP vox file.
 
+
+        Parameters
+        ---------
+            path: str
+                path to the AMAP vox file
+            densitydef: str
+                'lai' or 'ul'
         Based on code from Claudia, Florian and Dav.
         Needs "voxreader". Most complicated function being: intersect,
         that is needed in Dav's project to get the optical properties of the
@@ -560,7 +600,7 @@ class simulation(object):
         return
 
     def properties(self):
-        """list general properties of the simulation
+        """List general properties of the simulation
 
         TODO : Find a nice way to print the panda dataframe, and all variables
         add all relevant informations. And more or less verbose modes.
@@ -581,6 +621,11 @@ class simulation(object):
 
     def setcell(self, cell):
         """change cell dimensions
+
+        Parameters
+        ----------
+            cell: list
+                List containing the [x,y] of the cell dimensions
         TODO : maybe a bit more verbose?
         """
         self._registerchange('maket')
@@ -617,7 +662,7 @@ class simulation(object):
         return
 
     def listmodifications(self):
-        """returns record of modifications to simulation
+        """returns record of changed xml files relative to default simulation
 
         TODO : stuff to make all that look nicer.
         """
@@ -648,15 +693,23 @@ class simulation(object):
             raise Exception("Erreur DART directions " + str(ok))
         return
 
-    def pickupfile(self, path):
-        """uses a previously defined .xml dart file
+    def pickfile(self, path):
+        """Select an existing .xml dart file to use instead of generating one
+
+        Parameters
+        ----------
+            path: str
+                Complete path to an xml file to be copied to the new simulation
+                in place of a pyt4dart generated file.
         """
         dartfile = os.path.splitext(os.path.basename(path))
-        self.changetracker[1]['usefile'][dartfile] = path
+        self.changetracker[1]['pickfile'][dartfile] = path
         return
 
     def getsfileparams(self, path):
-        """gets the parameters of
+        """gets the parameters of an existing xml file
+
+        TODO: Lot of work. But important : read xmlfiles into python simulation
         """
         return
 
@@ -668,10 +721,8 @@ class simulation(object):
         print('--------------\n')
 
     def write_xmls(self):
-        """writes the xmls with all defined input parameters
+        """Writes the xml files with all defined input parameters
 
-        The functions are written so that default parameters are first written,
-        then updated with the given changes contained in "changetracker".
         WARNING : For now this function is the only proper way to write
         the DART xmls.
         """
@@ -680,30 +731,24 @@ class simulation(object):
         print 'Writing XML files'
         self.bands.index += 1
         """
-        TODO : stuff to do here to properly write "trees.txt"
-        if self.istrees:
-            self.trees.to_string()
-
         WARNING : important to write coeff diff before indexing opt props :
             coeff diff needs all optprops info, whereas the other writers
             only need ident + index.
         WARNING : here the structure for changetracker[1]['trees'] is defined.
         TODO : Better Check and Error catch for trees.(and in general)
+        And general simplification.
         """
         # Setting changetracker
         self.setindexprops()
         self.changetracker[1]['coeff_diff'] = self.optprops
+
         if 'phase' in self.changetracker[0]:
             self.changetracker[1]['phase']['bands'] = self.bands
 
         dxml.write_coeff_diff(self.changetracker)
 
         self.changetracker[1]['indexopts'] = self.indexopts
-
         self.changetracker[1]['plots'] = self.plots
-
-        # WIP : self.changetracker[1]['maket']
-
         # Effectively write xmls
         dxml.write_atmosphere(self.changetracker)
         dxml.write_directions(self.changetracker)
@@ -720,14 +765,29 @@ class simulation(object):
             self.species.sort_values(by=['idspecie'], inplace=True)
 
             pathtrees = self.changetracker[2]+'pytrees.txt'
-            self.trees.to_csv(pathtrees, sep="\t", header=True, index=False)
+            self.trees.to_csv(pathtrees, sep="\t",
+                              header=True, index=False)
             self.changetracker[1]['trees'] = pathtrees
             self.changetracker[1]['treespecies'] = self.species
         dxml.write_trees(self.changetracker)
 
         dxml.write_urban(self.changetracker)
         dxml.write_water(self.changetracker)
-        print "XML files written to {}".format(self.changetracker[2])
+        print "pyt4dart XML files written to {}".format(self.changetracker[2])
+
+        self.writepickedfiles()
+        return
+
+    def writepickedfiles(self):
+        """Effectively writes selected files to be copied into simulation
+        """
+        try:
+            for name in self.changetracker[1]['pickfile']:
+                dxml.copyxml(name, self.changetracker)
+                print '{} overwritten with {}'.format(
+                        name, self.changetracker[1]['pickfile'][name])
+        except KeyError:
+            return
         return
 
     def write_sequence(self):
@@ -743,53 +803,70 @@ if __name__ == '__main__':
 
     start = time.time()
     # Case Study 1 ################
-    """
     PathDART            = '/media/mtd/stock/DART_5-7-1_v1061/'
     SimulationName      = 'testprosequence10'
     SequenceName        = 'prospect_sequence.xml'
 
     pof = simulation(PathDART+'user_data/simulations/'+SimulationName+'/')
     pof.addsingleplot(opt='proprieteoptpros')
-    prosoptveg = ['vegetation', 'proprieteoptpros', 'prospect', 'blank', 0]
-
+    proplot = ['vegetation','proprieteoptplot','Vegetation.db',
+                  'needle_spruce_stressed', '0']
+    # prosoptveg = ['vegetation', 'proprieteoptpros', 'prospect', 'blank', 0]
+    pof.addopt(proplot)
     pof.addband([0.400, 0.01])
-    pof.addband([0.450, 0.01])
-    pof.addband([0.500, 0.01])
-    pof.addband([0.550, 0.01])
-    pof.addband([0.600, 0.01])
-    pof.addband([0.650, 0.01])
-    pof.addband([0.700, 0.01])
-    pof.addband([0.750, 0.01])
-    pof.addband([0.800, 0.01])
-    pof.addopt(prosoptveg)
-    dic = {'CBrown': 0.0, 'Cab': [2, 28, 72], 'Car': 10,
+#    pof.addband([0.450, 0.01])
+#    pof.addband([0.500, 0.01])
+
+#    pof.addsequence({'wvl':[400,50,8]},
+#                    group = 'wvl', name = 'prospect_sequence')
+#    pof.addband([0.450, 0.01])
+#    pof.addband([0.500, 0.01])
+#    pof.addband([0.550, 0.01])
+#    pof.addband([0.600, 0.01])
+#    pof.addband([0.650, 0.01])
+#    pof.addband([0.700, 0.01])
+#    pof.addband([0.750, 0.01])
+#    pof.addband([0.800, 0.01])
+    # pof.addopt(prosoptveg)
+    dic = {'CBrown': 0.0, 'Cab': [5, 27, 71.5], 'Car': 10,
            'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
 
-    pof.addprospectsequence(dic, 'proprieteoptpros')
+    pof.addprospectsequence(dic, 'proprieteoptpros', name='prospect_sequence')
+    corner = [[1, 1],
+              [1, 2],
+              [2, 2],
+              [2, 1]]
+    pof.addsingleplot(corners=corner,opt='proprieteoptpros' )
+    # pof.addsequence({'wvl':[400,20,8]})
+
     pof.write_xmls()
 
     # define path for tools
     PathTOOLS = PathDART + 'tools/linux/'
     # define name for script to be run
-    namescript  = 'dart-sequence.sh'
+    namescript = 'dart-sequence.sh'
 
     # define option
     OptionStart = '-start'
-    CmdJoin = PathTOOLS + namescript + ' ' + SimulationName
-             +'/'+SequenceName + ' ' + OptionStart
+    CmdJoin = PathTOOLS + namescript + ' ' + SimulationName+'/'+SequenceName \
+     + ' ' + OptionStart
     subprocess.Popen(['/bin/bash', '-c', CmdJoin],
                      stdout=subprocess.PIPE).wait()
-    """
 
     ###################################
     # case study 2
-    pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
-                     'testrees/')
-    pof.setscene([40,40])
+    """
+    PathDART            = '/media/mtd/stock/DART_5-7-1_v1061/'
+    SimulationName      = 'testrees2'
+    SequenceName        = 'testrees.xml'
+
+    pof = simulation(PathDART+'user_data/simulations/'+SimulationName+'/')
+    pof.setscene([40, 40])
     pof.addtreespecie(1)
     pof.addtreespecie(1, vegopt = 'proprieteopt2',
                       trunkopt = 'Lambertian_Phase_Function_1')
-
+    pof.addtreespecie(0, vegopt = 'proprieteplot',
+                      trunkopt = 'Lambertian_Phase_Function_1')
     pof.addband("/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr")
     optprop = ['lambertian', 'proprieteopt', 'Lambertian_vegetation.db',
                'lichen', '0']
@@ -802,7 +879,7 @@ if __name__ == '__main__':
     pof.addsingleplot(corners = corners, opt = 'proprieteplot')
     optpropplot = ['vegetation', 'proprieteplot',
                   'Vegetation.db',
-                  'beech_top', '0']
+                  'needle_spruce_stressed', '0']
     pof.addopt(optpropplot)
     optpropveg = ['vegetation', 'proprieteopt2',
                   'Vegetation.db',
@@ -810,15 +887,13 @@ if __name__ == '__main__':
     pof.addopt(optpropveg)
     path = '/media/mtd/stock/boulot_sur_dart/temp/model_trees.txt'
     pof.addtrees(path)
-    #pof.addsingleplot(opt='proprieteopt2')
     pof.trees['SPECIES_ID'] = 1
     pof.write_xmls()
-
-    ######################################"
     """
+    # #####################################
+    # case study 3
 
-
-    """
+    # # #####################################
     """
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/test_debug')
     optpropveg = ['vegetation', 'proprieteopt',
@@ -884,25 +959,15 @@ if __name__ == '__main__':
     # pof.addopt(prosoptveg)
     """
     """
-#    end = time.time()
-#
-#    print "Time = {}".format(end - start)
     """
-    start = time.time()
-
     pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
                      'essai_sequence/input/')
-    pof.addsequence({'wvl': (1, 2, 3)})
-    """
-    """
-    # prospect simulation
-    pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
-                     'essaiDossier/')
 
-    corners = ((3,  4),
-               (3,  0),
-               (0,  0),
-               (0,  4))
+
+    corners = [[3,  4],
+               [3,  0],
+               [0,  0],
+               [0,  4]]
     pof.addsingleplot(corners=corners, opt='proprieteopt2', densitydef='UL')
     pof.setscene([5, 5])
     optpropveg = ['vegetation', 'proprieteopt2',

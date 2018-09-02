@@ -109,8 +109,7 @@ class DartTreesXML(object):
             self.species = self.changes[1]["treespecies"]
             trees_atr = {'sceneModelCharacteristic': '1', 'isTrees': '1'}
             self.root = etree.Element('Trees', trees_atr)
-            etree.SubElement(self.root, 'TreeGeneralOptions',
-                             {'triangleTreeRepresentation': '0'})
+
 
             treeone_atr = {'laiZone': '0',
                            # 'sceneParametersFileName': self.treepath}
@@ -214,8 +213,11 @@ class DartTreesXML(object):
         This part could(should?) be modified.
         """
         root = etree.Element('DartFile',
-                             {'version': '5.7.1', 'build': '0'})
+                                 {'version': '5.7.1', 'build': '0'})
         if self.root is not None:
+            etree.SubElement(self.root, 'TreeGeneralOptions',
+                             {'triangleTreeRepresentation': '0'})
+
             root.append(self.root)
         else:
             etree.SubElement(root, 'Trees',
