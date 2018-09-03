@@ -124,10 +124,10 @@ def indent(elem, level=0):
     tree = indent(element)
     tree.write(path, xml-decaration = True, encoding = "utf-8", method="xml")
     """
-    i = "\n" + level*"  "
+    i = "\n" + level*"    "
     if len(elem):
         if not elem.text or not elem.text.strip():
-            elem.text = i + "  "
+            elem.text = i + "    "
         if not elem.tail or not elem.tail.strip():
             elem.tail = i
         for elem in elem:
