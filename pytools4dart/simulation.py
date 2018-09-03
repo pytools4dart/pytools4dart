@@ -320,7 +320,6 @@ class simulation(object):
         prosoptveg = ['vegetation', optident, 'prospect', 'blank', lad]
         self.addopt(prosoptveg)
 
-
         self.setindexprops()
         try:
             index = self.indexopts['vegetations'][optident]
@@ -572,8 +571,8 @@ class simulation(object):
             baseheight = str(k * height)  # voxel height
 
             voxlist.append(dict(zip(self.PLOTCOLNAMES,
-                                    [corners, baseheight, density, optpropname,
-                                     densitydef])))
+                                    [corners, baseheight, str(res), density,
+                                     optpropname, densitydef])))
             self.plotsnumber += 1
         data = pd.DataFrame(voxlist, columns=self.PLOTCOLNAMES)
         self.plots.append(data, ignore_index=True)
