@@ -400,7 +400,7 @@ class simulation(object):
                        [self.scene[0],  0],
                        [0,              0],
                        [0,              self.scene[1]]]
-        data = [corners, baseheight, density, opt, densitydef]
+        data = [corners, baseheight, height, density, opt, densitydef]
         miniframe = pd.DataFrame([data], columns=self.PLOTCOLNAMES)
         self.plots = self.plots.append(miniframe, ignore_index=True)
         self.plotsnumber += 1
