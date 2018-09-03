@@ -5,6 +5,7 @@ from os.path import expanduser
 import os
 import platform
 import subprocess
+import glob
 
 
 def default_dartdir():
@@ -21,7 +22,12 @@ def pytools4dartrc():
     home = expanduser('~')
     return pjoin(home, '.pytools4dartrc')
 
-def configure(dartdir = default_dartdir()):
+def getdartdir():
+    with open(pytools4dartrc()) as f:
+        dartdir = f.read()
+    return dartdir
+
+def configure(dartdir = None):
     '''Configure path to DART directory
 
     Parameters
@@ -34,6 +40,10 @@ def configure(dartdir = default_dartdir()):
     -------
         None
     '''
+
+    if not dartdir:
+        dartdir = default_dartdir()
+
     dartdir = expanduser(dartdir)
     if checkdartdir(dartdir):
         with open(pytools4dartrc(), 'w') as pt4drc:
@@ -47,6 +57,7 @@ def configure(dartdir = default_dartdir()):
 class dartconfig(object):
 
     def __init__(self):
+
         self.pt4drc = pytools4dartrc()
 
         if not os.path.isfile(self.pt4drc):
@@ -55,18 +66,15 @@ class dartconfig(object):
 
         self.dartenv = getdartenv()
 
-
-def getdartenv():
-    with open(pytools4dartrc()) as f:
-        dartdir = f.readlines()
+def getdartenv(dartdir = getdartdir()):
 
     if not checkdartdir(dartdir):
         raise ValueError('Please (re)configure pytools4dart before use.',
                          'Use pytools4dart.configure(dartdir)')
 
     # Look for config.ini
-    with open(os.join(dartdir, 'config.ini')) as f:
-        dartrcpath = f.readlines()
+    with open(pjoin(dartdir, 'config.ini')) as f:
+        dartrcpath = f.read()
 
     # set environmental variables
     if platform.system() == "Windows":
@@ -77,7 +85,7 @@ def getdartenv():
         raise ValueError('OS not supported.', 'Supported OS are Linux and Windows')
 
     return dartenv
-    
+
 def getDartEnvLinux(dartrcpath, verbose = False):
 
     command = ['bash', '-c', 'source ' + dartrcpath + ' && env']
@@ -86,12 +94,13 @@ def getDartEnvLinux(dartrcpath, verbose = False):
 
     dartenv = {}
     for line in proc.stdout:
-      (key, _, value) = line.partition("=")
+      (key, _, value) = line.rstrip().partition("=")
       if verbose:
             print "%s=%s"%(key, value)
       dartenv[key] = value
 
-    return dartenv
+    return {k: dartenv[k] for k in ('DART_HOME', 'DART_LOCAL', 'DART_JAVA_MAX_MEMORY',
+                    'PATH', 'LD_LIBRARY_PATH')}
 
 
 def getDartEnvWin(dartrcpath, verbose = False):
@@ -121,5 +130,40 @@ def checkdartdir(dartdir = default_dartdir()):
 
     return True
 
+def darttools(dartdir = getdartdir()):
+    dartenv = getdartenv(dartdir)
+    currentplatform = platform.system().lower()
+    if currentplatform == 'windows':
+        darttools = 'windows'
+        bashext = 'bat'
+    else:
+        darttools = 'linux'
+        bashext = 'sh'
 
+    toolsdir = pjoin(dartenv['DART_HOME'], 'tools', darttools)
+
+    darttoolspaths = glob.glob(pjoin(toolsdir, 'dart-*.' + bashext))
+
+    darttoolspattern = re.compile("dart-(.*?)." + bashext, re.MULTILINE)
+    dtools = {re.findall(darttoolspattern, p)[0] : p
+                          for p in darttoolspaths}
+
+    return dtools
+
+def getssimupath(simuName, dartdir = None):
+
+    if not simuName:
+        return None
+
+    if not dartdir:
+        dartdir = getdartdir()
+
+    return pjoin(getdartenv()['DART_LOCAL'], 'simulations', simuName)
+
+def getssimuinputpath(simuName):
+
+    if not simuName:
+        return None
+
+    return pjoin(getdartenv()['DART_LOCAL'], 'simulations', simuName)
 
