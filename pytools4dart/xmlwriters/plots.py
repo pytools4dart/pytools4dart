@@ -149,13 +149,15 @@ class DartPlotsXML(object):
         for index, row in pandaplots.iterrows():
             corners = row[0]
             baseheight = row[1]
-            density = row[2]
-            optprop = row[3]
-            densitydef = row[4]
-            self.addplot(corners, baseheight, density, optprop, densitydef)
+            height = row[2]
+            density = row[3]
+            optprop = row[4]
+            densitydef = row[5]
+            self.addplot(corners, baseheight, height,
+                         density, optprop, densitydef)
         return
 
-    def addplot(self, corners, baseheight, density, optprop, densitydef):
+    def addplot(self, corners, baseheight, height, density, optprop, densitydef):
         """Adds a plot based on a few basic parameters
 
         This method could evolve to receive a variable number of parameters.
@@ -190,7 +192,7 @@ class DartPlotsXML(object):
         vegprops = etree.SubElement(plot, "PlotVegetationProperties",
                                     vegprops_atr)
 
-        veggeom = {"baseheight": (str(baseheight)), "height": "1.0",
+        veggeom = {"baseheight": (str(baseheight)), "height": str(height),
                    "stDev": "0.0"}
         # here optical property passed as argument to method
         # TODO : better way of referencing indices....!!!

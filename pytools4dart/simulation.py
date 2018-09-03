@@ -81,8 +81,8 @@ class simulation(object):
         outpath = checkinput(outpath)
 
         # Variables to be used in subsequent methods
-        self.PLOTCOLNAMES = ['corners', 'baseheight', 'density', 'optprop',
-                             'densitydef']
+        self.PLOTCOLNAMES = ['corners', 'baseheight', 'height', 'density',
+                             'optprop', 'densitydef']
         self.BANDSCOLNAMES = ['bandnames', 'centralwvl', 'fwhm']
 
         self.changetracker = [[], {}, outpath, "flux"]
@@ -363,7 +363,7 @@ class simulation(object):
         return
 
     def addsingleplot(self, corners=None, baseheight=1, density=1,
-                      opt="custom", ident=None, densitydef='ul'):
+                      opt="custom", ident=None, height=1, densitydef='ul'):
         """adds a plot to the scene with certain parameters
 
         For now, if no corners are specified, a default plot is created
@@ -817,8 +817,7 @@ if __name__ == '__main__':
 #    pof.addband([0.450, 0.01])
 #    pof.addband([0.500, 0.01])
 
-#    pof.addsequence({'wvl':[400,50,8]},
-#                    group = 'wvl', name = 'prospect_sequence')
+#
 #    pof.addband([0.450, 0.01])
 #    pof.addband([0.500, 0.01])
 #    pof.addband([0.550, 0.01])
@@ -828,10 +827,12 @@ if __name__ == '__main__':
 #    pof.addband([0.750, 0.01])
 #    pof.addband([0.800, 0.01])
     # pof.addopt(prosoptveg)
-    dic = {'CBrown': 0.0, 'Cab': [5, 27, 71.5], 'Car': 10,
+    dic = {'CBrown': [0.8, 0.2, 0.0], 'Cab': [5, 27, 71.5], 'Car': 10,
            'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
 
     pof.addprospectsequence(dic, 'proprieteoptpros', name='prospect_sequence')
+    pof.addsequence({'wvl':[0.400,0.050,8]},
+                    group = 'wvl', name = 'prospect_sequence')
     corner = [[1, 1],
               [1, 2],
               [2, 2],
@@ -855,6 +856,8 @@ if __name__ == '__main__':
 
     ###################################
     # case study 2
+    # Trees simulated with prospect, over a plot of dry grass
+    # S2 bands
     """
     PathDART            = '/media/mtd/stock/DART_5-7-1_v1061/'
     SimulationName      = 'testrees2'
@@ -876,10 +879,10 @@ if __name__ == '__main__':
                [5, 7],
                [7, 1],
                ]
-    pof.addsingleplot(corners = corners, opt = 'proprieteplot')
+    # pof.addsingleplot(corners = corners, opt = 'proprieteplot')
     optpropplot = ['vegetation', 'proprieteplot',
                   'Vegetation.db',
-                  'needle_spruce_stressed', '0']
+                  'grass_dry', '0']
     pof.addopt(optpropplot)
     optpropveg = ['vegetation', 'proprieteopt2',
                   'Vegetation.db',
@@ -887,8 +890,25 @@ if __name__ == '__main__':
     pof.addopt(optpropveg)
     path = '/media/mtd/stock/boulot_sur_dart/temp/model_trees.txt'
     pof.addtrees(path)
-    pof.trees['SPECIES_ID'] = 1
+    pof.trees['SPECIES_ID'] = 2
+    pof.addtreespecie(2, vegopt = 'prosopt')
+    dic = {'CBrown': 0.0, 'Cab': [7, 20.5, 40.3, 82.5], 'Car': 10,
+           'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
+    pof.addprospectsequence(dic, 'prosopt')
     pof.write_xmls()
+
+    # define path for tools
+    PathTOOLS = PathDART + 'tools/linux/'
+    # define name for script to be run
+    namescript = 'dart-sequence.sh'
+
+    # define option
+    OptionStart = '-start'
+    CmdJoin = PathTOOLS + namescript + ' ' + SimulationName+'/'+SequenceName \
+    + ' ' + OptionStart
+    subprocess.Popen(['/bin/bash', '-c', CmdJoin],
+                     stdout=subprocess.PIPE).wait()
+
     """
     # #####################################
     # case study 3
@@ -980,6 +1000,26 @@ if __name__ == '__main__':
     pof.addopt(prosoptveg)
     pof.addprospectsequence(dic, 'proprieteoptpros')
     pof.write_sequence()
+    """
+    """
+    # progress bar
+    import time
+import sys
+
+toolbar_width = 40
+
+# setup toolbar
+sys.stdout.write("[%s]" % (" " * toolbar_width))
+sys.stdout.flush()
+sys.stdout.write("\b" * (toolbar_width+1)) # return to start of line, after '['
+
+for i in xrange(toolbar_width):
+    time.sleep(0.1) # do real work here
+    # update the bar
+    sys.stdout.write("-")
+    sys.stdout.flush()
+
+sys.stdout.write("\n")
     """
     """
     corners = ((3,  4),
