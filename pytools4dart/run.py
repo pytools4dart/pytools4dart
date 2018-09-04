@@ -22,7 +22,7 @@ def rundart(path, tool, options = [], dartdir = None):
 
     Returns
     -------
-
+        True if good
     '''
 
     dtools = darttools(dartdir)
@@ -37,7 +37,7 @@ def rundart(path, tool, options = [], dartdir = None):
     ok = subprocess.call(command)
     os.chdir(cdir)
     if ok != 0:
-        raise Exception("Erreur DART directions " + str(ok))
+        raise Exception("Erreur DART run " + str(ok))
 
     return True
 
@@ -58,7 +58,7 @@ def full(simu_name, dartdir=None):
     -------
 
     '''
-    rundart(simu_name, 'full', dartdir=dartdir)
+    return rundart(simu_name, 'full', dartdir=dartdir)
 
 def direction(simu_name, dartdir=None):
     '''
@@ -73,9 +73,9 @@ def direction(simu_name, dartdir=None):
 
     Returns
     -------
-
+        True if good
     '''
-    rundart(simu_name, 'direction', dartdir=dartdir)
+    return rundart(simu_name, 'direction', dartdir=dartdir)
 
 def phase(simu_name, dartdir=None):
     '''
@@ -108,9 +108,9 @@ def dart(simu_name, dartdir=None):
 
     Returns
     -------
-
+        True if good
     '''
-    rundart(simu_name, 'only', dartdir=dartdir)
+    return rundart(simu_name, 'only', dartdir=dartdir)
 
 def sequence(sequenceFile, option='-start', dartdir=None):
     '''
@@ -129,9 +129,9 @@ def sequence(sequenceFile, option='-start', dartdir=None):
 
     Returns
     -------
-
+        True if good
     '''
-    rundart(sequenceFile, 'sequence', [option], dartdir=dartdir)
+    return rundart(sequenceFile, 'sequence', [option], dartdir=dartdir)
 
 def colorComposite(simu_name, red, green, blue, pngfile, dartdir=None):
     '''
@@ -155,9 +155,9 @@ def colorComposite(simu_name, red, green, blue, pngfile, dartdir=None):
 
     Returns
     -------
-
+        True if good
     '''
-    rundart(simu_name, 'colorComposite', [red, green, blue, pngfile], dartdir=dartdir)
+    return rundart(simu_name, 'colorComposite', [red, green, blue, pngfile], dartdir=dartdir)
 
 def colorCompositeBands(simu_name, red, green, blue, iteration, outdir, dartdir=None):
     '''
@@ -184,9 +184,9 @@ def colorCompositeBands(simu_name, red, green, blue, iteration, outdir, dartdir=
 
     Returns
     -------
-
+        True if good
     '''
-    rundart(simu_name, 'colorCompositeBands', [red, green, blue, iteration, outdir], dartdir=dartdir)
+    return rundart(simu_name, 'colorCompositeBands', [red, green, blue, iteration, outdir], dartdir=dartdir)
 
 
 

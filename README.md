@@ -16,7 +16,11 @@ cloning the git repo), execute:
 python setup.py install
 ```
 
-DART paths have to be configured with `pytools4dart.settings`.
+DART paths have to be configured with method `configure` :
+```
+import pytools4dart
+pytools4dart.configure('specific_path_to_DART')
+```
 
 
 ## Deployment
