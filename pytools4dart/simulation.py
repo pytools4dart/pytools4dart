@@ -46,7 +46,6 @@ import pprint
 import xmlwriters as dxml
 from helpers.voxreader import voxel
 from helpers.hdrtodict import hdrtodict
-from helpers.foldermngt import checkinput
 from settings import getsimupath
 # from helpers.foldermngt import checksettings
 
@@ -715,12 +714,8 @@ class simulation(object):
         """
         return
 
-    def updatepath(self, simuName):
-        path = checkinput(simuName)
-        self.changetracker[2] = path
-        print "Successfully updated simulation path to: "
-        print path
-        print('--------------\n')
+    def updatepath(self, simuname):
+        self.name = simuname
 
     def write_xmls(self, simu_name=None, dartdir=None):
         """Writes the xml files with all defined input parameters
