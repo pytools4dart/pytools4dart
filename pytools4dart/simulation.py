@@ -38,6 +38,7 @@ xml editing functions.
 """
 
 import os
+from os.path import join as pjoin
 import pandas as pd
 import subprocess
 import pprint
@@ -46,6 +47,7 @@ import xmlwriters as dxml
 from helpers.voxreader import voxel
 from helpers.hdrtodict import hdrtodict
 from helpers.foldermngt import checkinput
+from settings import getsimupath
 # from helpers.foldermngt import checksettings
 
 
@@ -55,7 +57,7 @@ class simulation(object):
 
     """
 
-    def __init__(self, outpath):
+    def __init__(self, name = None):
         """initialisation
 
         self.plots is supposed to be a pandaDataFrame that can be modified by
@@ -78,14 +80,14 @@ class simulation(object):
                     - 3: Planophil
         """
 
-        outpath = checkinput(outpath)
+        self.name = name
 
         # Variables to be used in subsequent methods
         self.PLOTCOLNAMES = ['corners', 'baseheight', 'density', 'optprop',
                              'densitydef']
         self.BANDSCOLNAMES = ['bandnames', 'centralwvl', 'fwhm']
 
-        self.changetracker = [[], {}, outpath, "flux"]
+        self.changetracker = [[], {}, "flux"]
 
         self.plotsnumber = 0
         defaultlamb = ['Lambertian_Phase_Function_1',
@@ -713,20 +715,36 @@ class simulation(object):
         """
         return
 
-    def updatepath(self, path):
-        path = checkinput(path)
+    def updatepath(self, simuName):
+        path = checkinput(simuName)
         self.changetracker[2] = path
         print "Successfully updated simulation path to: "
         print path
         print('--------------\n')
 
-    def write_xmls(self):
+    def write_xmls(self, simu_name=None, dartdir=None):
         """Writes the xml files with all defined input parameters
 
         WARNING : For now this function is the only proper way to write
         the DART xmls.
         """
         # self.checksimu()
+
+        if not simu_name:
+            simu_name = self.name
+
+        if not simu_name:
+            raise ValueError('Simulation name not defined.')
+
+        simupath = getsimupath(simu_name, dartdir)
+
+        if not os.path.isdir(simupath):
+            os.mkdir(simupath)
+
+        simuinputpath = pjoin(simupath, 'input')
+
+        if not os.path.isdir(simuinputpath):
+            os.mkdir(simuinputpath)
 
         print 'Writing XML files'
         self.bands.index += 1
@@ -745,34 +763,34 @@ class simulation(object):
         if 'phase' in self.changetracker[0]:
             self.changetracker[1]['phase']['bands'] = self.bands
 
-        dxml.write_coeff_diff(self.changetracker)
+        dxml.write_coeff_diff(self.changetracker, pjoin(simuinputpath, 'coeff_diff.xml'))
 
         self.changetracker[1]['indexopts'] = self.indexopts
         self.changetracker[1]['plots'] = self.plots
         # Effectively write xmls
-        dxml.write_atmosphere(self.changetracker)
-        dxml.write_directions(self.changetracker)
-        dxml.write_inversion(self.changetracker)
-        dxml.write_maket(self.changetracker)
-        dxml.write_object_3d(self.changetracker)
-        dxml.write_phase(self.changetracker)
-        dxml.write_plots(self.changetracker)
-        dxml.write_sequence(self.changetracker)
+        dxml.write_atmosphere(self.changetracker, pjoin(simuinputpath, 'atmosphere.xml'))
+        dxml.write_directions(self.changetracker, pjoin(simuinputpath, 'directions.xml'))
+        dxml.write_inversion(self.changetracker, pjoin(simuinputpath, 'inversion.xml'))
+        dxml.write_maket(self.changetracker, pjoin(simuinputpath, 'maket.xml'))
+        dxml.write_object_3d(self.changetracker, pjoin(simuinputpath, 'object_3d.xml'))
+        dxml.write_phase(self.changetracker, pjoin(simuinputpath, 'phase.xml'))
+        dxml.write_plots(self.changetracker, pjoin(simuinputpath, 'plots.xml'))
+        # dxml.write_sequence(self.changetracker, pjoin(simuinputpath, 'sequence.xml'))
 
         # Special stuff for trees : writing trees.txt and pass the path
         # But bad condition...for now
         if self.nspecies > 0:
             self.species.sort_values(by=['idspecie'], inplace=True)
 
-            pathtrees = self.changetracker[2]+'pytrees.txt'
+            pathtrees = pjoin(simuinputpath, 'pytrees.txt')
             self.trees.to_csv(pathtrees, sep="\t",
                               header=True, index=False)
             self.changetracker[1]['trees'] = pathtrees
             self.changetracker[1]['treespecies'] = self.species
-        dxml.write_trees(self.changetracker)
+        dxml.write_trees(self.changetracker, pjoin(simuinputpath, 'trees.xml'))
 
-        dxml.write_urban(self.changetracker)
-        dxml.write_water(self.changetracker)
+        dxml.write_urban(self.changetracker, pjoin(simuinputpath, 'urban.xml'))
+        dxml.write_water(self.changetracker, pjoin(simuinputpath, 'water.xml'))
         print "pyt4dart XML files written to {}".format(self.changetracker[2])
 
         self.writepickedfiles()
@@ -790,10 +808,12 @@ class simulation(object):
             return
         return
 
-    def write_sequence(self):
+    def write_sequence(self, sequence_path = None):
         """Only writes the ongoing sequence xml.
         """
-        dxml.write_sequence(self.changetracker)
+        if not sequence_path:
+            sequence_path
+        dxml.write_sequence(self.changetracker, simu_name)
         return
 
 

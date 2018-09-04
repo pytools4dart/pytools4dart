@@ -36,7 +36,8 @@ except ImportError:
     import xml.etree.ElementTree as etree
 import pandas as pd
 
-def write_phase(changetracker):
+from dartxml import DartXml
+def write_phase(changetracker, phasepath):
     """write phase xml fil
 
     proceed in the following manner :
@@ -47,7 +48,7 @@ def write_phase(changetracker):
         -output file to xml
 
     """
-    simutype = changetracker[3]
+    simutype = changetracker[2]
     if simutype == "lidar":
         phase = LidarPhaseXML(changetracker)
     elif simutype == "flux":
@@ -56,12 +57,11 @@ def write_phase(changetracker):
         print "what the ...?"
 
 
-    outpath = changetracker[2]
-    phase.writexml(outpath+"phase.xml")
+    phase.writexml(phasepath)
     return
 
 
-class DartPhaseXML(object):
+class DartPhaseXML(DartXml):
     """object for the editing and exporting to xml of phase related parameters
 
     It should not be used as such, but rather through its subclasses
@@ -196,18 +196,18 @@ class DartPhaseXML(object):
             self.specintervals += 1
         return
 
-    def writexml(self, outpath):
-        """ Writes the built tree to the specified path
-
-        Also includes the version and build of DART as the root element.
-        This part could(should?) be modified.
-        """
-        root = etree.Element('DartFile',
-                             {'version': '5.7.1', 'build': 'v1061'})
-        root.append(self.root)
-        tree = etree.ElementTree(root)
-        tree.write(outpath, encoding="UTF-8", xml_declaration=True)
-        return
+    # def writexml(self, outpath):
+    #     """ Writes the built tree to the specified path
+    #
+    #     Also includes the version and build of DART as the root element.
+    #     This part could(should?) be modified.
+    #     """
+    #     root = etree.Element('DartFile',
+    #                          {'version': '5.7.1', 'build': 'v1061'})
+    #     root.append(self.root)
+    #     tree = etree.ElementTree(root)
+    #     tree.write(outpath, encoding="UTF-8", xml_declaration=True)
+    #     return
 
 
 class LidarPhaseXML(DartPhaseXML):

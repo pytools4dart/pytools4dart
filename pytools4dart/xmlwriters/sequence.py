@@ -40,10 +40,10 @@ try:
     import xml.etree.cElementTree as etree
 except ImportError:
     import xml.etree.ElementTree as etree
+from dartxml import DartXml
 
-from xmlhelpers import indent
 
-def write_sequence(changetracker):
+def write_sequence(changetracker, seqpath):
     """write coeff_diff xml fil
 
     proceed in the following manner :
@@ -54,7 +54,7 @@ def write_sequence(changetracker):
 
     """
     if "sequence" in changetracker[0]:
-        seqname = changetracker[1]['sequencename']
+        seqname, seqext = os.path.splitext(os.path.basename(seqpath))
         # seqname = 'sequence'
         seq = DartSequenceXML(changetracker, seqname)
         seq.addsequences()
@@ -62,17 +62,15 @@ def write_sequence(changetracker):
             seq.basenodes(prosequence=True)
         else:
             seq.basenodes()
-        pathsimu = changetracker[2]
-        outpath = os.path.dirname(os.path.dirname(pathsimu))
-        print outpath
-        seq.writexml(os.path.join(outpath,seqname) + ".xml")
-        print (os.path.join(outpath,seqname) + ".xml")
+
+        seq.writexml(seqpath)
+        print (seqpath)
         return
     else:
         return
 
 
-class DartSequenceXML(object):
+class DartSequenceXML(DartXml):
     """object for the editing and exporting to xml sequence parameters
 
     After instantiation, a default tree of nodes is created.
@@ -255,20 +253,20 @@ class DartSequenceXML(object):
                                      seqarg)
         return
 
-    def writexml(self, outpath):
-        """ Writes the built tree to the specified path
-
-        Also includes the version and build of DART as the root element.
-        This part could(should?) be modified.
-        The version number here differs from the one on all other xml files.
-        """
-        root = etree.Element('DartFile', {'version': '1.0'})
-        root.append(self.root)
-        indent(root)
-        tree = etree.ElementTree(root)
-
-        tree.write(outpath, encoding="UTF-8", xml_declaration=True)
-        return
+    # def writexml(self, outpath):
+    #     """ Writes the built tree to the specified path
+    #
+    #     Also includes the version and build of DART as the root element.
+    #     This part could(should?) be modified.
+    #     The version number here differs from the one on all other xml files.
+    #     """
+    #     root = etree.Element('DartFile', {'version': '1.0'})
+    #     root.append(self.root)
+    #     indent(root)
+    #     tree = etree.ElementTree(root)
+    #
+    #     tree.write(outpath, encoding="UTF-8", xml_declaration=True)
+    #     return
 
 
 # to be expanded.....

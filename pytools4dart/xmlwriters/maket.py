@@ -36,9 +36,10 @@ try:
 except ImportError:
     import xml.etree.ElementTree as etree
 from shutil import copyfile
+from dartxml import DartXml
 
 
-def write_maket(changetracker):
+def write_maket(changetracker, maketpath):
     """write coeff_diff xml fil
 
     proceed in the following manner :
@@ -48,7 +49,6 @@ def write_maket(changetracker):
         -output file to xml
     TODO : Function to be put in common between all wmlwriters?
     """
-    outpath = changetracker[2]
 
     if 'usefile' in changetracker[1]:
         if 'maket' in changetracker['usefile']:
@@ -59,11 +59,11 @@ def write_maket(changetracker):
         maket.basenodes()
         maket.adoptchanges(changetracker)
 
-        maket.writexml(outpath+"maket.xml")
+        maket.writexml(maketpath)
     return
 
 
-class DartMaketXML(object):
+class DartMaketXML(DartXml):
     """object for the editing and exporting to xml of maket related parameters
 
     After instantiation, a default tree of nodes is created.
@@ -153,19 +153,19 @@ class DartMaketXML(object):
         etree.SubElement(self.root, 'LatLon', latlon_atr)
         return
 
-    def writexml(self, outpath):
-        """ Writes the built tree to the specified path
-
-        Also includes the version and build of DART as the root element.
-        This part could(should?) be modified.
-        """
-        root = etree.Element('DartFile',
-                             {'version': '5.7.1', 'build': 'v1061'})
-        root.append(self.root)
-        tree = etree.ElementTree(root)
-        tree.write(outpath, encoding="UTF-8", xml_declaration=True)
-        return
-
+    # def writexml(self, outpath):
+    #     """ Writes the built tree to the specified path
+    #
+    #     Also includes the version and build of DART as the root element.
+    #     This part could(should?) be modified.
+    #     """
+    #     root = etree.Element('DartFile',
+    #                          {'version': '5.7.1', 'build': 'v1061'})
+    #     root.append(self.root)
+    #     tree = etree.ElementTree(root)
+    #     tree.write(outpath, encoding="UTF-8", xml_declaration=True)
+    #     return
+    #
 
 # to be expanded.....
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # ZONE DE TESTS

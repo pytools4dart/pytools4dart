@@ -35,13 +35,11 @@ It is important to note the resulting xml file is written over a single line.
 from shutil import copyfile
 
 
-def copyxml(name, changetracker):
+def copyxml(name, changetracker, dstdir):
     """copies an xml file from a given path, to the simulation input directory
     """
     src = changetracker[1]['pickfile'][name]
-    dst = changetracker[2]
-
-    copyfile(src, dst)
+    copyfile(src, dstdir)
     return
 
 # to be expanded.....

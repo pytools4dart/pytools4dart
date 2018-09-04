@@ -1,8 +1,9 @@
 
 from settings import darttools, getdartdir, getdartenv
 import subprocess
+import os
 
-def rundart(path, tool, options, dartdir = None):
+def rundart(path, tool, options = [], dartdir = None):
     '''
 
     Parameters
@@ -29,9 +30,12 @@ def rundart(path, tool, options, dartdir = None):
         raise ValueError('DART tool not found.')
 
     # simulationName = re.findall(re.compile("^" + ))
-
-    command = [darttools()[tool], path] + options
-    ok = subprocess.check_call(command, shell=True)
+    tooldir,toolname = os.path.split(dtools[tool])
+    cdir = os.getcwd()
+    os.chdir(tooldir)
+    command = [dtools[tool], path] + options
+    ok = subprocess.call(command)
+    os.chdir(cdir)
     if ok != 0:
         raise Exception("Erreur DART directions " + str(ok))
 
@@ -39,7 +43,7 @@ def rundart(path, tool, options, dartdir = None):
 
 
 
-def full(simuName, dartdir=None):
+def full(simu_name, dartdir=None):
     '''
     Run full DART simulation, i.e. successively direction, phase, maket and only
     Parameters
@@ -54,9 +58,9 @@ def full(simuName, dartdir=None):
     -------
 
     '''
-    rundart(simuName, 'full', dartdir=dartdir)
+    rundart(simu_name, 'full', dartdir=dartdir)
 
-def direction(simuName, dartdir=None):
+def direction(simu_name, dartdir=None):
     '''
     Run DART direction module.
     Parameters
@@ -71,9 +75,9 @@ def direction(simuName, dartdir=None):
     -------
 
     '''
-    rundart(simuName, 'direction', dartdir=dartdir)
+    rundart(simu_name, 'direction', dartdir=dartdir)
 
-def phase(simuName, dartdir=None):
+def phase(simu_name, dartdir=None):
     '''
     Run the DART phase module.
     Parameters
@@ -88,9 +92,9 @@ def phase(simuName, dartdir=None):
     -------
 
     '''
-    rundart(simuName, 'phase', dartdir=dartdir)
+    rundart(simu_name, 'phase', dartdir=dartdir)
 
-def dart(simuName, dartdir=None):
+def dart(simu_name, dartdir=None):
     '''
     Run only DART radiative transfer module,
     with direction, phase and maket computed separately.
@@ -106,7 +110,7 @@ def dart(simuName, dartdir=None):
     -------
 
     '''
-    rundart(simuName, 'only', dartdir=dartdir)
+    rundart(simu_name, 'only', dartdir=dartdir)
 
 def sequence(sequenceFile, option='-start', dartdir=None):
     '''
@@ -127,9 +131,9 @@ def sequence(sequenceFile, option='-start', dartdir=None):
     -------
 
     '''
-    rundart(sequenceFile, 'sequence', option, dartdir=dartdir)
+    rundart(sequenceFile, 'sequence', [option], dartdir=dartdir)
 
-def colorComposite(simuName, red, green, blue, pngfile, dartdir=None):
+def colorComposite(simu_name, red, green, blue, pngfile, dartdir=None):
     '''
     Build color composite image
 
@@ -153,9 +157,9 @@ def colorComposite(simuName, red, green, blue, pngfile, dartdir=None):
     -------
 
     '''
-    rundart(simuName, 'colorComposite', [red, green, blue, pngfile], dartdir=dartdir)
+    rundart(simu_name, 'colorComposite', [red, green, blue, pngfile], dartdir=dartdir)
 
-def colorCompositeBands(simuName, red, green, blue, iteration, outdir, dartdir=None):
+def colorCompositeBands(simu_name, red, green, blue, iteration, outdir, dartdir=None):
     '''
     Build color composite of iteration N
 
@@ -182,7 +186,7 @@ def colorCompositeBands(simuName, red, green, blue, iteration, outdir, dartdir=N
     -------
 
     '''
-    rundart(simuName, 'colorCompositeBands', red, green, blue, iteration, outdir, dartdir=dartdir)
+    rundart(simu_name, 'colorCompositeBands', [red, green, blue, iteration, outdir], dartdir=dartdir)
 
 
 
