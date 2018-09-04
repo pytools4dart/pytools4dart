@@ -35,9 +35,10 @@ try:
     import xml.etree.cElementTree as etree
 except ImportError:
     import xml.etree.ElementTree as etree
+from dartxml import DartXml
 
 
-def write_water(changetracker):
+def write_water(changetracker, waterpath):
     """write coeff_diff xml fil
 
     proceed in the following manner :
@@ -53,12 +54,11 @@ def write_water(changetracker):
 
     water.adoptchanges(changetracker)
 
-    outpath = changetracker[2]
-    water.writexml(outpath+"water.xml")
+    water.writexml(waterpath)
     return
 
 
-class DartWaterXML(object):
+class DartWaterXML(DartXml):
     """object for the editing and exporting to xml of atmosphere related parameters
 
     After instantiation, a default tree of nodes is created.
@@ -112,18 +112,18 @@ class DartWaterXML(object):
         etree.SubElement(self.root, 'Rivers', {})
         return
 
-    def writexml(self, outpath):
-        """ Writes the built tree to the specified path
-
-        Also includes the version and build of DART as the root element.
-        This part could(should?) be modified.
-        """
-        root = etree.Element('DartFile',
-                             {'version': '5.7.1', 'build': 'v1061'})
-        root.append(self.root)
-        tree = etree.ElementTree(root)
-        tree.write(outpath, encoding="UTF-8", xml_declaration=True)
-        return
+    # def writexml(self, outpath):
+    #     """ Writes the built tree to the specified path
+    #
+    #     Also includes the version and build of DART as the root element.
+    #     This part could(should?) be modified.
+    #     """
+    #     root = etree.Element('DartFile',
+    #                          {'version': '5.7.1', 'build': 'v1061'})
+    #     root.append(self.root)
+    #     tree = etree.ElementTree(root)
+    #     tree.write(outpath, encoding="UTF-8", xml_declaration=True)
+    #     return
 
 
 # to be expanded.....

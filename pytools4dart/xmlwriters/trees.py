@@ -35,10 +35,11 @@ try:
     import xml.etree.cElementTree as etree
 except ImportError:
     import xml.etree.ElementTree as etree
+from ..settings import getdartdir, getdartversion
+from xmlhelpers import indent
 
-
-def write_trees(changetracker):
-    """write coeff_diff xml fil
+def write_trees(changetracker, treepath):
+    """write tree xml file
 
     proceed in the following manner :
         -instantiate appropriate dartdir object
@@ -51,8 +52,7 @@ def write_trees(changetracker):
 
     trees.adoptchanges()
 
-    outpath = changetracker[2]
-    trees.writexml(outpath+"trees.xml")
+    trees.writexml(treepath)
     return
 
 
@@ -72,7 +72,7 @@ class DartTreesXML(object):
     def __init__(self, changetracker):
         self.changes = changetracker
         self.opts = changetracker[1]['indexopts']
-        self.path = changetracker[2]
+        # self.path = changetracker[2]
         self.root = None
         return
 
@@ -112,8 +112,8 @@ class DartTreesXML(object):
 
 
             treeone_atr = {'laiZone': '0',
-                           # 'sceneParametersFileName': self.treepath}
-                           'sceneParametersFileName': self.path+'pytrees.txt'}
+                           'sceneParametersFileName': self.treepath}
+                           # 'sceneParametersFileName': self.path+'pytrees.txt'}
             etree.SubElement(self.root, "Trees_1", treeone_atr)
 
             self.writetrees()
@@ -206,14 +206,20 @@ class DartTreesXML(object):
     # etree.SubElement(self.root, 'SunViewingAngles', sunangles_atr)
         return
 
-    def writexml(self, outpath):
+    def writexml(self, outpath, dartdir=None):
         """ Writes the built tree to the specified path
 
         Also includes the version and build of DART as the root element.
         This part could(should?) be modified.
         """
+
+        if not dartdir:
+            dartdir = getdartdir()
+
+        version, _, build = getdartversion(dartdir)
         root = etree.Element('DartFile',
-                                 {'version': '5.7.1', 'build': '0'})
+                             {'version': version, 'build': build})
+
         if self.root is not None:
             etree.SubElement(self.root, 'TreeGeneralOptions',
                              {'triangleTreeRepresentation': '0'})
@@ -222,6 +228,7 @@ class DartTreesXML(object):
         else:
             etree.SubElement(root, 'Trees',
                              {'isTrees': '0', 'sceneModelCharacteristic': "1"})
+        indent(root)
         tree = etree.ElementTree(root)
         tree.write(outpath, encoding="UTF-8", xml_declaration=True)
         return

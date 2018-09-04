@@ -35,6 +35,8 @@ etree objects and xml files.
 import os
 import sys
 #import xmlschema
+from ..settings import getdartdir, getdartversion
+
 try:
     import xml.etree.cElementTree as etree
     print ("imported cetree")
@@ -42,6 +44,15 @@ except ImportError:
     print ("oups!, importing pytetree")
     import xml.etree.ElementTree as etree
 
+
+def dartxmlroot(dartdir = None):
+    if not dartdir:
+        dartdir = getdartdir()
+
+    version, _, build = getdartversion(dartdir)
+
+    root = etree.Element('DartFile',
+                     {'version': version, 'build': build})
 
 def valxmlxsd(filename_xml, filename_xsd):
     """ validates xml based on xsd file

@@ -37,9 +37,10 @@ try:
     import xml.etree.cElementTree as etree
 except ImportError:
     import xml.etree.ElementTree as etree
+from dartxml import DartXml
 
 
-def write_coeff_diff(changetracker):
+def write_coeff_diff(changetracker, coeffdifffpath):
     """write coeff_diff xml fil
 
     proceed in the following manner :
@@ -53,12 +54,11 @@ def write_coeff_diff(changetracker):
     coeff.basenodes()
     coeff.adoptchanges()
 
-    outpath = changetracker[2]
-    coeff.writexml(outpath+'coeff_diff.xml')
+    coeff.writexml(coeffdifffpath)
     return
 
 
-class DartCoefXML(object):
+class DartCoefXML(DartXml):
     """object for the editing and exporting to xml of phase related parameters
 
     It should not be used as such, but rather through its subclasses
@@ -308,19 +308,19 @@ class DartCoefXML(object):
             #                 multilut_atr)
         return
 
-    def writexml(self, outpath):
-        """ Writes the built tree to the specified path
-
-        Also includes the version and build of DART as the root element.
-        This part could(should?) be modified.
-        """
-        root = etree.Element('DartFile',
-                             {'version': '5.7.1', 'build': 'v1061'})
-        root.append(self.root)
-        tree = etree.ElementTree(root)
-        tree.write(outpath, encoding="UTF-8", xml_declaration=True)
-        return
-
+    # def writexml(self, outpath):
+    #     """ Writes the built tree to the specified path
+    #
+    #     Also includes the version and build of DART as the root element.
+    #     This part could(should?) be modified.
+    #     """
+    #     root = etree.Element('DartFile',
+    #                          {'version': '5.7.1', 'build': 'v1061'})
+    #     root.append(self.root)
+    #     tree = etree.ElementTree(root)
+    #     tree.write(outpath, encoding="UTF-8", xml_declaration=True)
+    #     return
+    #
 
 # to be expanded.....
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # ZONE DE TESTS
