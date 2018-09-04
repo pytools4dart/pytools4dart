@@ -356,6 +356,9 @@ class simulation(object):
             for key, value in prosdic.iteritems():
                 if not isinstance(value, list):
                     prosdic[key] = [value] * maxlen
+                elif len(value) != maxlen:
+                    print "Error in Prospect parameter"
+                    return
 
             self.addsequence(prosdic, group=group,
                              name=name, variationmode='enumerate')
@@ -807,7 +810,7 @@ class simulation(object):
         """
         if not sequence_path:
             sequence_path
-        dxml.write_sequence(self.changetracker, simu_name)
+        dxml.write_sequence(self.changetracker, self.name)
         return
 
 
