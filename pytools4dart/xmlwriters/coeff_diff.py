@@ -256,7 +256,8 @@ class DartCoefXML(object):
                 subpros_atr = {'CBrown': '0.0', 'Cab': '30', 'Car': '10.',
                                'Cm': '0.01', 'Cw': '0.012', 'N': '1.8',
                                'anthocyanin': '0',
-                               'inputProspectFile': 'Prospect_Fluspect/Prospect_6D_2015.txt'}
+                               'inputProspectFile': 'Prospect_Fluspect/'
+                                   'Optipar2017_ProspectD.txt'}
                 etree.SubElement(prospect, 'ProspectExternParameters',
                                  subpros_atr)
             else:
