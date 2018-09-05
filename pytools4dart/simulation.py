@@ -788,7 +788,7 @@ class simulation(object):
 
         dxml.write_urban(self.changetracker, pjoin(simuinputpath, 'urban.xml'))
         dxml.write_water(self.changetracker, pjoin(simuinputpath, 'water.xml'))
-        print "pyt4dart XML files written to {}".format(self.changetracker[2])
+        print "pyt4dart XML files written to {}".format(simuinputpath)
 
         self.writepickedfiles()
         return
