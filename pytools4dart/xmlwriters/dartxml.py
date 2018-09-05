@@ -4,7 +4,7 @@ try:
 except ImportError:
     import xml.etree.ElementTree as etree
 
-from ..settings import getdartdir, getdartversion
+from pytools4dart.settings import getdartdir, getdartversion
 from xmlhelpers import indent
 
 class DartXml(object):

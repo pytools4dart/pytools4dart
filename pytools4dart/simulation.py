@@ -90,7 +90,7 @@ class simulation(object):
 
         self.plotsnumber = 0
         defaultlamb = ['Lambertian_Phase_Function_1',
-                       'Lambertian_vegetation.db',
+                       'Lambertian.db',
                        'reflect_equal_1_trans_equal_0_0',
                        '0']
 
@@ -769,7 +769,7 @@ class simulation(object):
         dxml.write_object_3d(self.changetracker, pjoin(simuinputpath, 'object_3d.xml'))
         dxml.write_phase(self.changetracker, pjoin(simuinputpath, 'phase.xml'))
         dxml.write_plots(self.changetracker, pjoin(simuinputpath, 'plots.xml'))
-        # dxml.write_sequence(self.changetracker, pjoin(simuinputpath, 'sequence.xml'))
+        dxml.write_sequence(self.changetracker, pjoin(simupath, 'sequence.xml'))
 
         # Special stuff for trees : writing trees.txt and pass the path
         # But bad condition...for now
@@ -807,66 +807,67 @@ class simulation(object):
         """
         if not sequence_path:
             sequence_path
-        dxml.write_sequence(self.changetracker, simu_name)
+        dxml.write_sequence(self.changetracker, sequence_path)
         return
 
 
 # ##################################test zone
 if __name__ == '__main__':
-    import time
-
-    start = time.time()
-    # Case Study 1 ################
-    PathDART            = '/media/mtd/stock/DART_5-7-1_v1061/'
-    SimulationName      = 'testprosequence10'
-    SequenceName        = 'prospect_sequence.xml'
-
-    pof = simulation(PathDART+'user_data/simulations/'+SimulationName+'/')
-    pof.addsingleplot(opt='proprieteoptpros')
-    proplot = ['vegetation','proprieteoptplot','Vegetation.db',
-                  'needle_spruce_stressed', '0']
-    # prosoptveg = ['vegetation', 'proprieteoptpros', 'prospect', 'blank', 0]
-    pof.addopt(proplot)
-    pof.addband([0.400, 0.01])
-#    pof.addband([0.450, 0.01])
-#    pof.addband([0.500, 0.01])
-
+#     import time
 #
-#    pof.addband([0.450, 0.01])
-#    pof.addband([0.500, 0.01])
-#    pof.addband([0.550, 0.01])
-#    pof.addband([0.600, 0.01])
-#    pof.addband([0.650, 0.01])
-#    pof.addband([0.700, 0.01])
-#    pof.addband([0.750, 0.01])
-#    pof.addband([0.800, 0.01])
-    # pof.addopt(prosoptveg)
-    dic = {'CBrown': [0.8, 0.2, 0.0], 'Cab': [5, 27, 71.5], 'Car': 10,
-           'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
-
-    pof.addprospectsequence(dic, 'proprieteoptpros', name='prospect_sequence')
-    pof.addsequence({'wvl':[0.400,0.050,8]},
-                    group = 'wvl', name = 'prospect_sequence')
-    corner = [[1, 1],
-              [1, 2],
-              [2, 2],
-              [2, 1]]
-    pof.addsingleplot(corners=corner,opt='proprieteoptpros' )
-    # pof.addsequence({'wvl':[400,20,8]})
-
-    pof.write_xmls()
-
-    # define path for tools
-    PathTOOLS = PathDART + 'tools/linux/'
-    # define name for script to be run
-    namescript = 'dart-sequence.sh'
-
-    # define option
-    OptionStart = '-start'
-    CmdJoin = PathTOOLS + namescript + ' ' + SimulationName+'/'+SequenceName \
-     + ' ' + OptionStart
-    subprocess.Popen(['/bin/bash', '-c', CmdJoin],
-                     stdout=subprocess.PIPE).wait()
+#     start = time.time()
+#     # Case Study 1 ################
+#     # PathDART            = '/media/claudia/Donnees/Linux/DART_5-6-7_v1000/'
+#     # SimulationName      = 'testprosequence10'
+#     # SequenceName        = 'prospect_sequence.xml'
+#
+#     pof = simulation('test1')
+#     pof.addsingleplot(opt='proprieteoptpros')
+#     proplot = ['vegetation','proprieteoptplot','Vegetation.db',
+#                   'needle_spruce_stressed', '0']
+#     # prosoptveg = ['vegetation', 'proprieteoptpros', 'prospect', 'blank', 0]
+#     pof.addopt(proplot)
+#     pof.addband([0.400, 0.01])
+# #    pof.addband([0.450, 0.01])
+# #    pof.addband([0.500, 0.01])
+#
+# #
+# #    pof.addband([0.450, 0.01])
+# #    pof.addband([0.500, 0.01])
+# #    pof.addband([0.550, 0.01])
+# #    pof.addband([0.600, 0.01])
+# #    pof.addband([0.650, 0.01])
+# #    pof.addband([0.700, 0.01])
+# #    pof.addband([0.750, 0.01])
+# #    pof.addband([0.800, 0.01])
+#     # pof.addopt(prosoptveg)
+#     dic = {'CBrown': [0.8, 0.2, 0.0], 'Cab': [5, 27, 71.5], 'Car': 10,
+#            'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
+#
+#     pof.addprospectsequence(dic, 'proprieteoptpros', name='prospect_sequence')
+#     pof.addsequence({'wvl':[0.400,0.050,8]},
+#                     group = 'wvl', name = 'prospect_sequence')
+#     corner = [[1, 1],
+#               [1, 2],
+#               [2, 2],
+#               [2, 1]]
+#     pof.addsingleplot(corners=corner,opt='proprieteoptpros' )
+#     # pof.addsequence({'wvl':[400,20,8]})
+#
+#     pof.write_xmls()
+#
+#     # define path for tools
+#     PathTOOLS = PathDART + 'tools/linux/'
+#     # define name for script to be run
+#     namescript = 'dart-sequence.sh'
+#
+#     # define option
+#     OptionStart = '-start'
+#
+#     CmdJoin = PathTOOLS + namescript + ' ' + SimulationName+'/input/'+SequenceName \
+#      + ' ' + OptionStart
+#     subprocess.Popen(['/bin/bash', '-c', CmdJoin],
+#                      stdout=subprocess.PIPE).wait()
 
     ###################################
     # case study 2
@@ -955,7 +956,7 @@ if __name__ == '__main__':
     """
     pof.setscene([5, 5])
     corners = [[3,  4],
-               [3,  0],
+               [3,  0],rundart(
                [0,  0],
                [0,  4]]
     pof.addsingleplot(corners=corners, opt='proprieteopt2')
@@ -976,7 +977,7 @@ if __name__ == '__main__':
     optpropveg = ['vegetation', 'proprieteopt2',
                   '/media/mtd/stock/DART/database/Vegetation.db',
                   'beech_bottom', '0']
-    pof.addopt(optpropveg)
+    pof.addopt(optpropveg)rundart(
     optpropveg = ['vegetation', 'proprieteopt2',
                   '/media/mtd/stock/DART/database/Vegetation.db',
                   'beech_top', '0']
