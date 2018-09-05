@@ -34,8 +34,8 @@ etree objects and xml files.
 
 import os
 import sys
-#import xmlschema
-from ..settings import getdartdir, getdartversion
+import xmlschema
+from pytools4dart.settings import getdartdir, getdartversion
 
 try:
     import xml.etree.cElementTree as etree

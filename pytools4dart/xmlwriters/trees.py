@@ -35,7 +35,7 @@ try:
     import xml.etree.cElementTree as etree
 except ImportError:
     import xml.etree.ElementTree as etree
-from ..settings import getdartdir, getdartversion
+from pytools4dart.settings import getdartdir, getdartversion
 from xmlhelpers import indent
 
 def write_trees(changetracker, treepath):
