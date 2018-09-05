@@ -769,7 +769,7 @@ class simulation(object):
         dxml.write_object_3d(self.changetracker, pjoin(simuinputpath, 'object_3d.xml'))
         dxml.write_phase(self.changetracker, pjoin(simuinputpath, 'phase.xml'))
         dxml.write_plots(self.changetracker, pjoin(simuinputpath, 'plots.xml'))
-        # dxml.write_sequence(self.changetracker, pjoin(simuinputpath, 'sequence.xml'))
+        dxml.write_sequence(self.changetracker, pjoin(simupath, 'sequence.xml'))
 
         # Special stuff for trees : writing trees.txt and pass the path
         # But bad condition...for now

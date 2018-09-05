@@ -118,7 +118,7 @@ def sequence(sequenceFile, option='-start', dartdir=None):
     Parameters
     ----------
     sequenceFile: str
-        Full path of the sequence file
+        Path of the sequence file relative to 'user_data/simulations', i.e. 'simu_name/sequence_name.xml'
     option: str
         Either:
             * '-start' to start from the begining
