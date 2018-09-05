@@ -40,7 +40,7 @@ try:
     import xml.etree.cElementTree as etree
 except ImportError:
     import xml.etree.ElementTree as etree
-from dartxml import DartXml
+# from dartxml import DartXml
 
 
 def write_sequence(changetracker, seqpath):
@@ -253,20 +253,20 @@ class DartSequenceXML(DartXml):
                                      seqarg)
         return
 
-    # def writexml(self, outpath):
-    #     """ Writes the built tree to the specified path
-    #
-    #     Also includes the version and build of DART as the root element.
-    #     This part could(should?) be modified.
-    #     The version number here differs from the one on all other xml files.
-    #     """
-    #     root = etree.Element('DartFile', {'version': '1.0'})
-    #     root.append(self.root)
-    #     indent(root)
-    #     tree = etree.ElementTree(root)
-    #
-    #     tree.write(outpath, encoding="UTF-8", xml_declaration=True)
-    #     return
+    def writexml(self, outpath):
+         """ Writes the built tree to the specified path
+
+         Also includes the version and build of DART as the root element.
+         This part could(should?) be modified.
+         The version number here differs from the one on all other xml files.
+         """
+         root = etree.Element('DartFile', {'version': '1.0'})
+         root.append(self.root)
+         indent(root)
+         tree = etree.ElementTree(root)
+
+         tree.write(outpath, encoding="UTF-8", xml_declaration=True)
+         return
 
 
 # to be expanded.....
