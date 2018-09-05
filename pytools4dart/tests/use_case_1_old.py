@@ -29,6 +29,7 @@ simu.addsingleplot(corners=corner, opt='proprieteoptpros')
 # pof.addsequence({'wvl':[400,20,8]})
 
 simu.write_xmls()
+simu.run.sequence('prospect_sequence')
 
-pt4d.run.sequence(os.path.join("test1","sequence.xml"))
+# pt4d.run.sequence(os.path.join("test1","sequence.xml"))
 
