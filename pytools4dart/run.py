@@ -93,6 +93,23 @@ def phase(simu_name, dartdir=None):
     '''
     rundart(simu_name, 'phase', dartdir=dartdir)
 
+def maket(simu_name, dartdir=None):
+    '''
+    Run the DART maket module.
+    Parameters
+    ----------
+    simuName: str
+        Simulation name or path relative 'user_data/simulations' directory
+    dartdir: str
+        DART home directory, default is taken from :fun:`~pytools4dart.configuration`
+        (see pytools4dart.configure).
+
+    Returns
+    -------
+
+    '''
+    rundart(simu_name, 'maket', dartdir=dartdir)
+
 def dart(simu_name, dartdir=None):
     '''
     Run only DART radiative transfer module,
@@ -111,7 +128,7 @@ def dart(simu_name, dartdir=None):
     '''
     return rundart(simu_name, 'only', dartdir=dartdir)
 
-def sequence(sequenceFile, option='-start', dartdir=None):
+def sequence(simu_name, sequence_name, option='-start', dartdir=None):
     '''
 
     Parameters
@@ -130,7 +147,7 @@ def sequence(sequenceFile, option='-start', dartdir=None):
     -------
         True if good
     '''
-    return rundart(sequenceFile, 'sequence', [option], dartdir=dartdir)
+    return rundart(os.path.join(simu_name, sequence_name+'.xml'), 'sequence', [option], dartdir=dartdir)
 
 def colorComposite(simu_name, red, green, blue, pngfile, dartdir=None):
     '''
@@ -188,6 +205,27 @@ def colorCompositeBands(simu_name, red, green, blue, iteration, outdir, dartdir=
     return rundart(simu_name, 'colorCompositeBands', [red, green, blue, iteration, outdir], dartdir=dartdir)
 
 
+class runners(object):
 
+    def __init__(self, simu):
+        self.simu = simu
+
+    def full(self, dartdir=None):
+        full(self.simu.name, dartdir)
+
+    def direction(self, dartdir=None):
+        direction(self.simu.name, dartdir)
+
+    def phase(self, dartdir=None):
+        phase(self.simu.name, dartdir)
+
+    def maket(self, dartdir=None):
+        maket(self.simu.name, dartdir)
+
+    def dart(self, dartdir=None):
+        dart(self.simu.name, dartdir)
+
+    def sequence(self, sequence_name, option='-start', dartdir=None):
+        sequence(self.simu.name, sequence_name, option, dartdir)
 
 

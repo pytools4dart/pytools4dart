@@ -47,7 +47,7 @@ import xmlwriters as dxml
 from helpers.voxreader import voxel
 from helpers.hdrtodict import hdrtodict
 from settings import getsimupath
-import pytools4dart.run as run
+from pytools4dart.run import runners
 # from helpers.foldermngt import checksettings
 
 
@@ -108,6 +108,9 @@ class simulation(object):
         self.prosparams = ['CBrown', 'Cab', 'Car', 'Cm',
                            'Cw', 'N', 'anthocyanin']
         self.prossequence = 0
+
+        self.run = runners(self)
+
         print ('New Simulation initiated')
         print('--------------\n')
 
@@ -767,7 +770,7 @@ class simulation(object):
         dxml.write_object_3d(self.changetracker, pjoin(simuinputpath, 'object_3d.xml'))
         dxml.write_phase(self.changetracker, pjoin(simuinputpath, 'phase.xml'))
         dxml.write_plots(self.changetracker, pjoin(simuinputpath, 'plots.xml'))
-        dxml.write_sequence(self.changetracker, pjoin(simupath, 'sequence.xml'))
+        dxml.write_sequence(self.changetracker, self.name)
 
         # Special stuff for trees : writing trees.txt and pass the path
         # But bad condition...for now
@@ -808,11 +811,12 @@ class simulation(object):
         dxml.write_sequence(self.changetracker, self.name)
         return
 
-    def runfull(self, dartdir=None):
-        run.full(self.name, dartdir)
+    # def runfull(self, dartdir=None):
+    #     run.full(self.name, dartdir)
+    #
+    # def runsequence(self, sequence_name, option='-start', dartdir=None):
+    #     run.sequence(pjoin(self.name,sequence_name), option, dartdir)
 
-    def runsequence(self, sequence_name, option='-start', dartdir=None):
-        run.sequence(pjoin(self.name,sequence_name), option, dartdir)
 
 
 

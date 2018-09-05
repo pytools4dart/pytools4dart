@@ -136,7 +136,7 @@ class DartCoefXML(DartXml):
                              'useSpecular': '0',
                              'roStDev': '0.000',
                              'ModelName': 'reflect_equal_1_trans_equal_0_0',
-                             'databaseName': 'Lambertian.db',
+                             'databaseName': 'Lambertian_vegetation.db',
                              'useMultiplicativeFactorForLUT': '0'}
             lambmulti = etree.SubElement(lambmultif, "LambertianMulti",
                                          lambmulti_atr)

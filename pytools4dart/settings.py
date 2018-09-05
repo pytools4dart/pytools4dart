@@ -169,6 +169,17 @@ def getsimupath(simuName, dartdir = None):
 
     return pjoin(getdartenv()['DART_LOCAL'], 'simulations', simuName)
 
+def get_simu_input_path(simuName, dartdir = None):
+
+    if not simuName:
+        return None
+
+    if not dartdir:
+        dartdir = getdartdir()
+
+    return pjoin(getdartenv()['DART_LOCAL'], 'simulations', simuName, 'input')
+
+
 def getdartversion(dartdir=None):
 
     if not dartdir:

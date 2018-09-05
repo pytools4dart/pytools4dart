@@ -40,10 +40,12 @@ try:
     import xml.etree.cElementTree as etree
 except ImportError:
     import xml.etree.ElementTree as etree
-# from dartxml import DartXml
+from dartxml import DartXml
+from xmlhelpers import indent
+from pytools4dart.settings import getsimupath
 
 
-def write_sequence(changetracker, seqpath):
+def write_sequence(changetracker, simu_name, dartdir = None):
     """write coeff_diff xml fil
 
     proceed in the following manner :
@@ -54,8 +56,8 @@ def write_sequence(changetracker, seqpath):
 
     """
     if "sequence" in changetracker[0]:
-        seqname, seqext = os.path.splitext(os.path.basename(seqpath))
-        # seqname = 'sequence'
+        seqname = changetracker[1]['sequencename']
+        seqpath = os.path.join(getsimupath(simu_name, dartdir), seqname+'.xml')
         seq = DartSequenceXML(changetracker, seqname)
         seq.addsequences()
         if "prospect" in changetracker[0]:
