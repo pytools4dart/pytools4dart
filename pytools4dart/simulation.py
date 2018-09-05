@@ -47,6 +47,7 @@ import xmlwriters as dxml
 from helpers.voxreader import voxel
 from helpers.hdrtodict import hdrtodict
 from settings import getsimupath
+import pytools4dart.run as run
 # from helpers.foldermngt import checksettings
 
 
@@ -584,7 +585,23 @@ class simulation(object):
         print ("Optical properties have to be added in the column 'optprop'\n")
         return
 
-    def plotsfromdataframe(self, dataframe, dic):
+    def addmultiplots(self, data, colnames={'corners':'corners', 'baseheight':'baseheight',
+                            'height':'height', 'density':'density', 'optprop':'optprop', 'densitydef':'densitydef'}):
+        '''
+        Appends a dataframe to plots based on a dictionnary
+
+        Parameters
+        ----------
+        data : DataFrame
+            Plots properties.
+        colnames : dict
+            Column names corresponding to PLOTSCOLNAMES.
+
+        Returns
+        -------
+
+        '''
+
         """Appends a dataframe to plots based on a dictionnary
 
         dic = {Olndame:Newname, .....}
@@ -594,8 +611,8 @@ class simulation(object):
 
         """
         self._registerchange('plots')
-        dataframe.rename(columns=dic, inplace=True)
-        plots = self.plots.append(dataframe, ignore_index=True)
+        data.rename(columns=dic, inplace=True)
+        plots = self.plots.append(data, ignore_index=True)
         self.plots = plots
 
         print ("Dataframe successfully appended to plots")
@@ -672,28 +689,6 @@ class simulation(object):
         print 'Impacted xml files:'
         print self.changetracker[0]
 
-        return
-
-    def launchdartscript(self, script):
-        """launch the simulation with set parameters
-
-        Code from Claudia Lavalley
-
-        TODO : doesn't work yet.
-        """
-        scriptpath = "???"
-        scripts = {'directions': 'dart-directions.sh ',
-                   'phase': 'dart-phase.sh ',
-                   'maket': 'dart-maket.sh ', 'justdart': 'dart-only.sh ',
-                   'fulldart': 'dart-full.sh ',
-                   'sequence': 'dart-sequence.sh ',
-                   'vegetation': 'dart-vegetation.sh'}
-
-        command = (scriptpath + scripts[script] + self.changetracker[2])
-        print command
-        ok = subprocess.check_call(command, shell=True)
-        if ok != 0:
-            raise Exception("Erreur DART directions " + str(ok))
         return
 
     def pickfile(self, path):
@@ -812,6 +807,13 @@ class simulation(object):
             sequence_path
         dxml.write_sequence(self.changetracker, self.name)
         return
+
+    def runfull(self, dartdir=None):
+        run.full(self.name, dartdir)
+
+    def runsequence(self, sequence_name, option='-start', dartdir=None):
+        run.sequence(pjoin(self.name,sequence_name), option, dartdir)
+
 
 
 # ##################################test zone

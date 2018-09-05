@@ -3,6 +3,7 @@ from settings import darttools, getdartdir, getdartenv
 import subprocess
 import os
 
+
 def rundart(path, tool, options = [], dartdir = None):
     '''
 
@@ -40,8 +41,6 @@ def rundart(path, tool, options = [], dartdir = None):
         raise Exception("Erreur DART run " + str(ok))
 
     return True
-
-
 
 def full(simu_name, dartdir=None):
     '''
