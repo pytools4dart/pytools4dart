@@ -39,7 +39,7 @@ from shutil import copyfile
 from dartxml import DartXml
 
 
-def write_maket(changetracker, maketpath):
+def write_maket(changetracker, simu_name, dartdir=None):
     """write coeff_diff xml fil
 
     proceed in the following manner :
@@ -59,7 +59,7 @@ def write_maket(changetracker, maketpath):
         maket.basenodes()
         maket.adoptchanges(changetracker)
 
-        maket.writexml(maketpath)
+        maket.writexml(simu_name, 'maket.xml', dartdir)
     return
 
 

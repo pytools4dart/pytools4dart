@@ -38,7 +38,7 @@ except ImportError:
 from dartxml import DartXml
 
 
-def write_object_3d(changetracker, object3dpath):
+def write_object_3d(changetracker, simu_name, dartdir=None):
     """write coeff_diff xml fil
 
     proceed in the following manner :
@@ -54,7 +54,7 @@ def write_object_3d(changetracker, object3dpath):
 
     object_3d.adoptchanges(changetracker)
 
-    object_3d.writexml(object3dpath)
+    object_3d.writexml(simu_name, 'object_3d.xml', dartdir)
     return
 
 

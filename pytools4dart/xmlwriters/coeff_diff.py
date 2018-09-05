@@ -40,7 +40,7 @@ except ImportError:
 from dartxml import DartXml
 
 
-def write_coeff_diff(changetracker, coeffdifffpath):
+def write_coeff_diff(changetracker, simu_name, dartdir=None):
     """write coeff_diff xml fil
 
     proceed in the following manner :
@@ -54,7 +54,7 @@ def write_coeff_diff(changetracker, coeffdifffpath):
     coeff.basenodes()
     coeff.adoptchanges()
 
-    coeff.writexml(coeffdifffpath)
+    coeff.writexml(simu_name, 'coeff_diff.xml', dartdir)
     return
 
 

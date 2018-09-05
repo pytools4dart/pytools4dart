@@ -38,7 +38,7 @@ except ImportError:
 from dartxml import DartXml
 
 
-def write_urban(changetracker, urbanpath):
+def write_urban(changetracker, simu_name, dartdir=None):
     """write urban xml fil
 
     proceed in the following manner :
@@ -54,7 +54,7 @@ def write_urban(changetracker, urbanpath):
 
     urban.adoptchanges(changetracker)
 
-    urban.writexml(urbanpath)
+    urban.writexml(simu_name, 'urban.xml', dartdir)
     return
 
 

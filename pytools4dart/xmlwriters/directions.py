@@ -38,7 +38,7 @@ except ImportError:
 from dartxml import DartXml
 
 
-def write_directions(changetracker, directionpath):
+def write_directions(changetracker, simu_name, dartdir=None):
     """write coeff_diff xml fil
 
     proceed in the following manner :
@@ -54,7 +54,7 @@ def write_directions(changetracker, directionpath):
 
     directions.adoptchanges(changetracker)
 
-    directions.writexml(directionpath)
+    directions.writexml(simu_name, 'direction.xml', dartdir)
     return
 
 

@@ -46,7 +46,7 @@ import pprint
 import xmlwriters as dxml
 from helpers.voxreader import voxel
 from helpers.hdrtodict import hdrtodict
-from settings import getsimupath
+from settings import getsimupath, get_simu_input_path
 from pytools4dart.run import runners
 # from helpers.foldermngt import checksettings
 
@@ -736,7 +736,7 @@ class simulation(object):
         if not os.path.isdir(simupath):
             os.mkdir(simupath)
 
-        simuinputpath = pjoin(simupath, 'input')
+        simuinputpath = get_simu_input_path(simu_name, dartdir)
 
         if not os.path.isdir(simuinputpath):
             os.mkdir(simuinputpath)
@@ -763,14 +763,14 @@ class simulation(object):
         self.changetracker[1]['indexopts'] = self.indexopts
         self.changetracker[1]['plots'] = self.plots
         # Effectively write xmls
-        dxml.write_atmosphere(self.changetracker, pjoin(simuinputpath, 'atmosphere.xml'))
-        dxml.write_directions(self.changetracker, pjoin(simuinputpath, 'directions.xml'))
-        dxml.write_inversion(self.changetracker, pjoin(simuinputpath, 'inversion.xml'))
-        dxml.write_maket(self.changetracker, pjoin(simuinputpath, 'maket.xml'))
-        dxml.write_object_3d(self.changetracker, pjoin(simuinputpath, 'object_3d.xml'))
-        dxml.write_phase(self.changetracker, pjoin(simuinputpath, 'phase.xml'))
-        dxml.write_plots(self.changetracker, pjoin(simuinputpath, 'plots.xml'))
-        dxml.write_sequence(self.changetracker, self.name)
+        dxml.write_atmosphere(self.changetracker, self.name, dartdir)
+        dxml.write_directions(self.changetracker, self.name, dartdir)
+        dxml.write_inversion(self.changetracker, self.name, dartdir)
+        dxml.write_maket(self.changetracker, self.name, dartdir)
+        dxml.write_object_3d(self.changetracker, self.name, dartdir)
+        dxml.write_phase(self.changetracker, self.name, dartdir)
+        dxml.write_plots(self.changetracker, self.name, dartdir)
+        dxml.write_sequence(self.changetracker, self.name, dartdir)
 
         # Special stuff for trees : writing trees.txt and pass the path
         # But bad condition...for now
@@ -803,12 +803,12 @@ class simulation(object):
             return
         return
 
-    def write_sequence(self, sequence_path = None):
+    def write_sequence(self, sequence_path = None, dartdir = None):
         """Only writes the ongoing sequence xml.
         """
         if not sequence_path:
             sequence_path
-        dxml.write_sequence(self.changetracker, self.name)
+        dxml.write_sequence(self.changetracker, self.name, dartdir)
         return
 
     # def runfull(self, dartdir=None):

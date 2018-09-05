@@ -38,7 +38,7 @@ except ImportError:
 from dartxml import DartXml
 
 
-def write_water(changetracker, waterpath):
+def write_water(changetracker, simu_name, dartdir=None):
     """write coeff_diff xml fil
 
     proceed in the following manner :
@@ -54,7 +54,7 @@ def write_water(changetracker, waterpath):
 
     water.adoptchanges(changetracker)
 
-    water.writexml(waterpath)
+    water.writexml(simu_name, 'water.xml', dartdir)
     return
 
 

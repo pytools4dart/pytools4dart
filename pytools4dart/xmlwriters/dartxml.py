@@ -4,12 +4,13 @@ try:
 except ImportError:
     import xml.etree.ElementTree as etree
 
-from pytools4dart.settings import getdartdir, getdartversion
+from pytools4dart.settings import getdartdir, getdartversion, get_simu_input_path
 from xmlhelpers import indent
+from os.path import join as pjoin
 
 class DartXml(object):
 
-     def writexml(self, outpath, dartdir=None):
+     def writexml(self, simu_name, filename, dartdir=None):
         """ Writes the built tree to the specified path
 
         Also includes the version and build of DART as the root element.
@@ -17,6 +18,8 @@ class DartXml(object):
         """
         if not dartdir:
             dartdir = getdartdir()
+
+        outpath = pjoin(get_simu_input_path(simu_name, dartdir),filename)
 
         version, _, build = getdartversion(dartdir)
         root = etree.Element('DartFile',

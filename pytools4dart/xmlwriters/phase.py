@@ -37,7 +37,7 @@ except ImportError:
 import pandas as pd
 
 from dartxml import DartXml
-def write_phase(changetracker, phasepath):
+def write_phase(changetracker, simu_name, dartdir=None):
     """write phase xml fil
 
     proceed in the following manner :
@@ -57,7 +57,7 @@ def write_phase(changetracker, phasepath):
         print "what the ...?"
 
 
-    phase.writexml(phasepath)
+    phase.writexml(simu_name, 'phase.xml', dartdir)
     return
 
 

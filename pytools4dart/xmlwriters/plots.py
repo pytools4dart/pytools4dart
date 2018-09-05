@@ -36,7 +36,7 @@ except ImportError:
 from dartxml import DartXml
 
 
-def write_plots(changetracker, plotspath):
+def write_plots(changetracker, simu_name, dartdir=None):
     """write phase xml file
 
     proceed in the following manner:

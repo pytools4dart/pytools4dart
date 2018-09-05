@@ -35,10 +35,11 @@ try:
     import xml.etree.cElementTree as etree
 except ImportError:
     import xml.etree.ElementTree as etree
-from pytools4dart.settings import getdartdir, getdartversion
+from pytools4dart.settings import getdartdir, getdartversion, get_simu_input_path
 from xmlhelpers import indent
+from os.path import join as pjoin
 
-def write_trees(changetracker, treepath):
+def write_trees(changetracker, simu_name, dartdir=None):
     """write tree xml file
 
     proceed in the following manner :
@@ -52,7 +53,7 @@ def write_trees(changetracker, treepath):
 
     trees.adoptchanges()
 
-    trees.writexml(treepath)
+    trees.writexml(simu_name, 'tree.xml', dartdir)
     return
 
 
@@ -206,7 +207,7 @@ class DartTreesXML(object):
     # etree.SubElement(self.root, 'SunViewingAngles', sunangles_atr)
         return
 
-    def writexml(self, outpath, dartdir=None):
+    def writexml(self, simu_name, filename, dartdir=None):
         """ Writes the built tree to the specified path
 
         Also includes the version and build of DART as the root element.
@@ -215,6 +216,8 @@ class DartTreesXML(object):
 
         if not dartdir:
             dartdir = getdartdir()
+
+        outpath = pjoin(get_simu_input_path(simu_name, dartdir),filename)
 
         version, _, build = getdartversion(dartdir)
         root = etree.Element('DartFile',
@@ -225,7 +228,7 @@ class DartTreesXML(object):
                              {'triangleTreeRepresentation': '0'})
 
             root.append(self.root)
-        else:
+        else: # should be at __init__ not here and modified when trees
             etree.SubElement(root, 'Trees',
                              {'isTrees': '0', 'sceneModelCharacteristic': "1"})
         indent(root)

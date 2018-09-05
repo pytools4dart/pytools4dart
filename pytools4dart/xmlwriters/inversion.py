@@ -38,7 +38,7 @@ except ImportError:
 from dartxml import DartXml
 
 
-def write_inversion(changetracker, inversionpath):
+def write_inversion(changetracker, simu_name, dartdir=None):
     """write inversion xml file
 
     proceed in the following manner :
@@ -54,7 +54,7 @@ def write_inversion(changetracker, inversionpath):
 
     inversion.adoptchanges(changetracker)
 
-    inversion.writexml(inversionpath)
+    inversion.writexml(simu_name, 'inversion.xml', dartdir)
     return
 
 

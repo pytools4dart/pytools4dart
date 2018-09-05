@@ -38,7 +38,7 @@ except ImportError:
 from dartxml import DartXml
 
 
-def write_atmosphere(changetracker, atmospherepath):
+def write_atmosphere(changetracker, simu_name, dartdir=None):
     """write coeff_diff xml fil
 
     proceed in the following manner :
@@ -53,7 +53,7 @@ def write_atmosphere(changetracker, atmospherepath):
     atmo.adoptchanges(changetracker)
 
 
-    atmo.writexml(atmospherepath)
+    atmo.writexml(simu_name, 'atmosphere.xml', dartdir)
     return
 
 
