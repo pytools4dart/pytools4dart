@@ -54,7 +54,7 @@ def write_directions(changetracker, simu_name, dartdir=None):
 
     directions.adoptchanges(changetracker)
 
-    directions.writexml(simu_name, 'direction.xml', dartdir)
+    directions.writexml(simu_name, 'directions.xml', dartdir)
     return
 
 

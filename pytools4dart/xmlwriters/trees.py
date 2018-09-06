@@ -53,7 +53,7 @@ def write_trees(changetracker, simu_name, dartdir=None):
 
     trees.adoptchanges()
 
-    trees.writexml(simu_name, 'tree.xml', dartdir)
+    trees.writexml(simu_name, 'trees.xml', dartdir)
     return
 
 
