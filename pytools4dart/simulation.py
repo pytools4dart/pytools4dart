@@ -782,10 +782,10 @@ class simulation(object):
                               header=True, index=False)
             self.changetracker[1]['trees'] = pathtrees
             self.changetracker[1]['treespecies'] = self.species
-        dxml.write_trees(self.changetracker, pjoin(simuinputpath, 'trees.xml'))
+        dxml.write_trees(self.changetracker, self.name, dartdir)
 
-        dxml.write_urban(self.changetracker, pjoin(simuinputpath, 'urban.xml'))
-        dxml.write_water(self.changetracker, pjoin(simuinputpath, 'water.xml'))
+        dxml.write_urban(self.changetracker, self.name, dartdir)
+        dxml.write_water(self.changetracker, self.name, dartdir)
         print "pyt4dart XML files written to {}".format(simuinputpath)
 
         self.writepickedfiles()
