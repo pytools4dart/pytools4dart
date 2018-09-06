@@ -141,20 +141,21 @@ class DartPlotsXML(DartXml):
         etree.SubElement(self.root, "ImportationFichierRaster")
         return
 
-    def plotsfrompanda(self, pandaplots):
+    def plotsfrompanda(self, data, columns={
+        'corners':'corners', 'baseheight':'baseheight', 'height':'height',
+        'density':'density', 'optprop':'optprop', 'densitydef':'densitydef'}):
         """adds plots in elementree from a pandaDataFrame
 
         TODO: feed whole row directly to addplot without sloppy referencing?
         """
-        for index, row in pandaplots.iterrows():
-            corners = row[0]
-            baseheight = row[1]
-            height = row[2]
-            density = row[3]
-            optprop = row[4]
-            densitydef = row[5]
-            self.addplot(corners, baseheight, height,
-                         density, optprop, densitydef)
+        for index, row in data.itertuples():
+            corners = row.corners
+            baseheight = row.baseheight
+            height = row.height
+            density = row.density
+            optprop = row.optprop
+            densitydef = row.densitydef
+            self.addplot(*row)
         return
 
     def addplot(self, corners, baseheight, height, density, optprop, densitydef):
