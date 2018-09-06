@@ -35,7 +35,7 @@ try:
     import xml.etree.cElementTree as etree
 except ImportError:
     import xml.etree.ElementTree as etree
-from pytools4dart.settings import getdartdir, getdartversion, get_simu_input_path
+from pytools4dart.settings import getdartversion, get_simu_input_path
 from xmlhelpers import indent
 from os.path import join as pjoin
 
@@ -213,9 +213,6 @@ class DartTreesXML(object):
         Also includes the version and build of DART as the root element.
         This part could(should?) be modified.
         """
-
-        if not dartdir:
-            dartdir = getdartdir()
 
         outpath = pjoin(get_simu_input_path(simu_name, dartdir),filename)
 

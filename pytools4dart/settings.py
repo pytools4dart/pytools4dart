@@ -22,9 +22,13 @@ def pytools4dartrc():
     home = expanduser('~')
     return pjoin(home, '.pytools4dartrc')
 
-def getdartdir():
-    with open(pytools4dartrc()) as f:
-        dartdir = f.read()
+def getdartdir(dartdir=None):
+    if not dartdir:
+        with open(pytools4dartrc()) as f:
+            dartdir = f.read()
+    else:
+        dartdir = os.path.expanduser(dartdir)
+
     return dartdir
 
 def configure(dartdir = None):
@@ -68,8 +72,7 @@ class dartconfig(object):
 
 def getdartenv(dartdir = None):
 
-    if not dartdir:
-        dartdir = getdartdir()
+    dartdir = getdartdir(dartdir)
 
     if not checkdartdir(dartdir):
         raise ValueError('Please (re)configure pytools4dart before use.',
@@ -137,9 +140,6 @@ def checkdartdir(dartdir = None):
     return True
 
 def darttools(dartdir = None):
-    if not dartdir:
-        dartdir = getdartdir()
-
     dartenv = getdartenv(dartdir)
     currentplatform = platform.system().lower()
     if currentplatform == 'windows':
@@ -163,27 +163,19 @@ def getsimupath(simuName, dartdir = None):
 
     if not simuName:
         return None
-
-    if not dartdir:
-        dartdir = getdartdir()
-
-    return pjoin(getdartenv()['DART_LOCAL'], 'simulations', simuName)
+    return pjoin(getdartenv(dartdir)['DART_LOCAL'], 'simulations', simuName)
 
 def get_simu_input_path(simuName, dartdir = None):
 
     if not simuName:
         return None
 
-    if not dartdir:
-        dartdir = getdartdir()
-
-    return pjoin(getdartenv()['DART_LOCAL'], 'simulations', simuName, 'input')
+    return pjoin(getdartenv(dartdir)['DART_LOCAL'], 'simulations', simuName, 'input')
 
 
 def getdartversion(dartdir=None):
 
-    if not dartdir:
-        dartdir = getdartdir()
+    dartdir = getdartdir(dartdir)
 
     versionfile = pjoin(dartdir, 'bin', 'version')
 

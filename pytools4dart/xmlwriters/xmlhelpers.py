@@ -35,7 +35,7 @@ etree objects and xml files.
 import os
 import sys
 import xmlschema
-from pytools4dart.settings import getdartdir, getdartversion
+from pytools4dart.settings import getdartversion
 
 try:
     import xml.etree.cElementTree as etree
@@ -46,9 +46,6 @@ except ImportError:
 
 
 def dartxmlroot(dartdir = None):
-    if not dartdir:
-        dartdir = getdartdir()
-
     version, _, build = getdartversion(dartdir)
 
     root = etree.Element('DartFile',
