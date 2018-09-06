@@ -47,7 +47,7 @@ import xmlwriters as dxml
 from helpers.voxreader import voxel
 from helpers.hdrtodict import hdrtodict
 from settings import getsimupath, get_simu_input_path
-from pytools4dart.run import runners
+import pytools4dart.run as run
 # from helpers.foldermngt import checksettings
 
 
@@ -109,7 +109,7 @@ class simulation(object):
                            'Cw', 'N', 'anthocyanin']
         self.prossequence = 0
 
-        self.run = runners(self)
+        self.run = run.runners(self)
 
         print ('New Simulation initiated')
         print('--------------\n')
@@ -811,12 +811,11 @@ class simulation(object):
         dxml.write_sequence(self.changetracker, self.name, dartdir)
         return
 
-    # def runfull(self, dartdir=None):
-    #     run.full(self.name, dartdir)
-    #
-    # def runsequence(self, sequence_name, option='-start', dartdir=None):
-    #     run.sequence(pjoin(self.name,sequence_name), option, dartdir)
+    def runfull(self, dartdir=None):
+        run.full(self.name, dartdir)
 
+    def runsequence(self, sequence_name, option='-start', dartdir=None):
+        run.sequence(pjoin(self.name,sequence_name), option, dartdir)
 
 
 
