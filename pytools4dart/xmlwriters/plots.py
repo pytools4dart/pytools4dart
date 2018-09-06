@@ -53,7 +53,7 @@ def write_plots(changetracker, simu_name, dartdir=None):
     plots.basenodes()
     plots.adoptchanges()
 
-    plots.writexml(plotspath)
+    plots.writexml(simu_name, 'plots.xml', dartdir)
     return
 
 
