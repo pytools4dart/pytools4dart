@@ -758,7 +758,7 @@ class simulation(object):
         if 'phase' in self.changetracker[0]:
             self.changetracker[1]['phase']['bands'] = self.bands
 
-        dxml.write_coeff_diff(self.changetracker, pjoin(simuinputpath, 'coeff_diff.xml'))
+        dxml.write_coeff_diff(self.changetracker, self.name, dartdir)
 
         self.changetracker[1]['indexopts'] = self.indexopts
         self.changetracker[1]['plots'] = self.plots
