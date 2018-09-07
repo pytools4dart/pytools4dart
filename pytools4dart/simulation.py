@@ -85,8 +85,8 @@ class simulation(object):
 
         # Variables to be used in subsequent methods
         self.PLOTCOLNAMES = ['x1', 'y1', 'x2', 'y2', 'x3', 'y3', 'x4', 'y4',
-                             'baseheight', 'height', 'density',
-                             'optprop', 'densitydef']
+                             'zmin', 'dz', 'density',
+                             'densitydef', 'optprop']
         self.BANDSCOLNAMES = ['bandnames', 'centralwvl', 'fwhm']
 
         self.changetracker = [[], {}, "flux"]
@@ -453,7 +453,7 @@ class simulation(object):
 
         return
 
-    def add_plots_from_vox(self, path, densitydef='ul'):
+    def add_plots_from_vox(self, vox, densitydef='ul', optprop=None):
         """Adds Plots based on AMAP vox file.
 
 
@@ -471,7 +471,6 @@ class simulation(object):
         self._registerchange('plots')
         self.changetracker[1]['plots']['voxels'] = True
 
-        vox = voxel.from_vox(path)
         voxlist = []
         res = vox.header["res"][0]
 
@@ -482,7 +481,6 @@ class simulation(object):
             i = row.i  # voxel x
             j = row.j  # voxel y
             k = row.k  # voxel z
-            optpropname = None
             density = row.PadBVTotal  # voxel density
 
             corners = [i * res, j * res,
@@ -494,11 +492,11 @@ class simulation(object):
             baseheight = k * height  # voxel height
 
             voxlist.append(corners+[baseheight, res, density,
-                            densitydef, optpropname])
+                            densitydef, optprop])
 
         data = pd.DataFrame(voxlist, columns=self.PLOTCOLNAMES)
 
-        self.plots.append(data, ignore_index=True)
+        self.plots = self.plots.append(data, ignore_index=True)
         print ("Plots added from .vox file.")
         print ("Optical properties have to be added in the column 'optprop'\n")
         return
