@@ -7,7 +7,7 @@ simu = pt4d.simulation(name='user_case_3')
 vox = pt4d.voxreader.voxel().from_vox("/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/data_test/Extended_modR_fus3.vox")
 
 vox.data = vox.data[(vox.data.i < 20) & (vox.data.j < 20)]
-simu.scene=[20,20]
+simu.setscene([20,20])
 simu.add_plots_from_vox(vox, densitydef='ul', optprop=None)
 simu.plots['optprop'] = 'proprieteoptpros'
 simu.addband([0.485, 0.07])
