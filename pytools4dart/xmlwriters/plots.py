@@ -35,6 +35,11 @@ except ImportError:
     import xml.etree.ElementTree as etree
 from dartxml import DartXml
 
+from pytools4dart.settings import getsimupath
+from os.path import join as pjoin
+import pandas as pd
+import numpy as np
+
 
 def write_plots(changetracker, simu_name, dartdir=None):
     """write phase xml file
@@ -49,7 +54,7 @@ def write_plots(changetracker, simu_name, dartdir=None):
     (i.e. panda dataframes).
 
     """
-    plots = DartPlotsXML(changetracker)
+    plots = DartPlotsXML(changetracker, simu_name, dartdir)
     plots.basenodes()
     plots.adoptchanges()
 
@@ -73,20 +78,49 @@ class DartPlotsXML(DartXml):
     PLOT_DEFAULT_ATR = {"form": "0", "hidden": "0", "isDisplayed": "1",
                         "repeatedOnBorder": "1", "type": "1"}
 
-    def __init__(self, changetracker):
+    def __init__(self, changetracker, simu_name, dartdir):
         """
 
         Here is initialized the index for the optical properties.
         The dictionnary referencing allows for easier calling inside the
         'add plot' method.
         """
+
+        if not simu_name:
+            raise ValueError("Simulation name is 'None'.")
+        self.changes = changetracker
+        self.simu_name = simu_name
+        self.dartdir = dartdir
+        self.root = None
+        self.plotsfile = pjoin(getsimupath(self.simu_name, self.dartdir), '_'.join([self.simu_name, 'plots.txt']))
+
+        # self.basenodes()
+
+        # self.tree = etree.ElementTree(self.root)
+
+
+    def basenodes(self):
+        """creates all nodes and properties common to default simulations
+
+        """
+
+        # base nodes
+        # # simple
         self.root = etree.Element("Plots", {'addExtraPlotsTextFile': '0',
-                                  'isVegetation': '0'})
-        self.tree = etree.ElementTree(self.root)
-        self.changes = None
-        if 'plots' in changetracker[0]:
-            self.indexopts = changetracker[1]['indexopts']
-            self.changes = changetracker[1]['plots']
+                                            'isVegetation': '0'})
+        etree.SubElement(self.root, "ImportationFichierRaster")
+
+    def adoptchanges(self):
+
+        if 'plots' in self.changes[0]:
+            self.root.set('addExtraPlotsTextFile', '1')
+            etree.SubElement(self.root, 'ExtraPlotsTextFileDefinition', {'extraPlotsFileName': self.plotsfile})
+
+            self.write_plots_txt()
+
+
+            # self.indexopts = changetracker[1]['indexopts']
+            # self.changes = changetracker[1]['plots']
             """
             try:
                 self.opts = changetracker[1]['coeff_diff']
@@ -102,130 +136,141 @@ class DartPlotsXML(DartXml):
                     index += 1
             except KeyError:
             """
-            print "Adding plot(s) to simulation."
-            return
+            # print "Adding plot(s) to simulation."
+            # return
+        # else:
+        #     # print "No plot in simulation."
+        # return
+
+    # def adoptchanges(self):
+    #     """method to update xml tree based on user-defined parameters
+    #
+    #     here goes the magic where we change some nodes based on parameters
+    #     it would maybe be something like this:
+    #        - for some values, just append them somewhere
+    #        - for the others, find them in the tree and modify them (tricky bit)
+    #
+    #     Complete path to node to be modified will have to be explicitly written
+    #     in this way: './Phase/DartInputParameters/SpectralDomainTir'
+    #     for the query to work.
+    #
+    #     Work In Progress : Relies on changetracker architecture
+    #     for now : architecture relies on dictionnaries containing dictionnaries
+    #     plot is a dictionnary, containing certain keywords.
+    #     Those dictionnaries are initialized in the addplot method of simulation
+    #
+    #
+    #     """
+    #     if self.changes is not None:
+    #         self.plotsfrompanda(self.changes)
+    #     return
+    #
+
+    def write_plots_txt(self):
+        indexopt = self.changes[1]['indexopts']
+        plotsdf = self.changes[1]['plots']
+
+        # convert
+        outdf = pd.DataFrame(plotsdf.corners.apply(lambda x: np.array(x).flatten()).tolist(),
+                              columns='PT_1_X PT_1_Y PT_2_X PT_2_Y PT_3_X PT_3_Y PT_4_X PT_4_Y'.split())
+        outdf['PLT_OPT_NUMB'] = [indexopt['vegetations'][i] for i in plotsdf['optprop'].tolist()]
+        outdf['PLT_TYPE']=1
+        outdf['VEG_DENSITY_DEF'] = plotsdf.densitydef.apply(lambda x: 0 if x.lower()=='LAI' else 1).values
+
+        if all(outdf.VEG_DENSITY_DEF):
+            outdf['VEG_UL'] = plotsdf.density.values
         else:
-            print "No plot in simulation."
-        return
+            outdf['VEG_LAI'] = plotsdf.density.values
 
-    def adoptchanges(self):
-        """method to update xml tree based on user-defined parameters
-
-        here goes the magic where we change some nodes based on parameters
-        it would maybe be something like this:
-           - for some values, just append them somewhere
-           - for the others, find them in the tree and modify them (tricky bit)
-
-        Complete path to node to be modified will have to be explicitly written
-        in this way: './Phase/DartInputParameters/SpectralDomainTir'
-        for the query to work.
-
-        Work In Progress : Relies on changetracker architecture
-        for now : architecture relies on dictionnaries containing dictionnaries
-        plot is a dictionnary, containing certain keywords.
-        Those dictionnaries are initialized in the addplot method of simulation
+        outdf.to_csv(self.plotsfile, header=True, index=False, sep=' ')
 
 
-        """
-        if self.changes is not None:
-            self.plotsfrompanda(self.changes)
-        return
 
-    def basenodes(self):
-        """creates all nodes and properties common to default simulations
-
-        """
-
-        # base nodes
-        # # simple
-        etree.SubElement(self.root, "ImportationFichierRaster")
-        return
-
-    def plotsfrompanda(self, data, columns={
-        'corners':'corners', 'baseheight':'baseheight', 'height':'height',
-        'density':'density', 'optprop':'optprop', 'densitydef':'densitydef'}):
-        """adds plots in elementree from a pandaDataFrame
-
-        TODO: feed whole row directly to addplot without sloppy referencing?
-        """
-        for index, row in data.itertuples():
-            corners = row.corners
-            baseheight = row.baseheight
-            height = row.height
-            density = row.density
-            optprop = row.optprop
-            densitydef = row.densitydef
-            self.addplot(*row)
-        return
-
-    def addplot(self, corners, baseheight, height, density, optprop, densitydef):
-        """Adds a plot based on a few basic parameters
-
-        This method could evolve to receive a variable number of parameters.
-        For now it is used mainly as the way to integrate voxels from a .vox
-        file. Parameters are cast to strings in order to ensure compatibility
-        with Element Tree.
-        """
-        if densitydef == 'lai' or 'LAI':
-            densdef = '0'
-        if densitydef == 'ul' or 'UL':
-            densdef = '1'
-        # appends new plot to plots
-        plot = etree.SubElement(self.root, "Plot", self.PLOT_DEFAULT_ATR)
-
-        # Polygon 2D Branch
-        polygon_plot1 = etree.SubElement(plot, "Polygon2D", {"mode": "0"})
-
-        # # with its four defining points
-        etree.SubElement(polygon_plot1, "Point2D",
-                         {"x": str(corners[0][0]), "y": str((corners[0][1]))})
-        etree.SubElement(polygon_plot1, "Point2D",
-                         {"x": str(corners[1][0]), "y": str((corners[1][1]))})
-        etree.SubElement(polygon_plot1, "Point2D",
-                         {"x": str((corners[2][0])), "y": str(corners[2][1])})
-        etree.SubElement(polygon_plot1, "Point2D",
-                         {"x": str(corners[3][0]), "y": str(corners[3][1])})
-
-        # plot vegetation properties branch
-        vegprops_atr = {"densityDefinition": densdef,
-                        "trianglePlotRepresentation": "0",
-                        "verticalFillMode": "0"}
-        vegprops = etree.SubElement(plot, "PlotVegetationProperties",
-                                    vegprops_atr)
-
-        veggeom = {"baseheight": (str(baseheight)), "height": str(height),
-                   "stDev": "0.0"}
-        # here optical property passed as argument to method
-        # TODO : better way of referencing indices....!!!
-
-        if optprop in self.indexopts['lambertians']:
-            indexphase = self.indexopts['lambertians'][optprop]
-        elif optprop in self.indexopts['vegetations']:
-            indexphase = self.indexopts['vegetations'][optprop]
-        else:
-            print "Unrecognized optical property for plot"
-            return
-
-        vegoptlink = {"ident": str(optprop), "indexFctPhase": str(indexphase)}
-        grdthermalprop = {"idTemperature": "ThermalFunction290_310",
-                          "indexTemperature": "0"}
-
-        etree.SubElement(vegprops, "VegetationGeometry", veggeom)
-        etree.SubElement(vegprops, "VegetationOpticalPropertyLink", vegoptlink)
-        etree.SubElement(vegprops, "GroundThermalPropertyLink", grdthermalprop)
-
-        # here density parameter added in LAI or ul
-        if densitydef in ('lai', 'LAI'):
-            etree.SubElement(vegprops, "LAIVegetation", {"LAI": str(density)})
-        elif densitydef in ('ul', 'UL'):
-            etree.SubElement(vegprops, "UFVegetation", {"UF": str(density)})
-        else:
-            # TODO : put a warning when not recognised
-            print "Not recognised density definition : {}".format(densitydef)
-            etree.SubElement(vegprops, "UFVegetation", {"UF": str(density)})
-        return
-
-
+    # def plotsfrompanda(self, data, columns={
+    #     'corners':'corners', 'baseheight':'baseheight', 'height':'height',
+    #     'density':'density', 'optprop':'optprop', 'densitydef':'densitydef'}):
+    #     """adds plots in elementree from a pandaDataFrame
+    #
+    #     TODO: feed whole row directly to addplot without sloppy referencing?
+    #     """
+    #     for index, row in data.itertuples():
+    #         corners = row.corners
+    #         baseheight = row.baseheight
+    #         height = row.height
+    #         density = row.density
+    #         optprop = row.optprop
+    #         densitydef = row.densitydef
+    #         self.addplot(*row)
+    #     return
+    #
+    # def addplot(self, corners, baseheight, height, density, optprop, densitydef):
+    #     """Adds a plot based on a few basic parameters
+    #
+    #     This method could evolve to receive a variable number of parameters.
+    #     For now it is used mainly as the way to integrate voxels from a .vox
+    #     file. Parameters are cast to strings in order to ensure compatibility
+    #     with Element Tree.
+    #     """
+    #     if densitydef == 'lai' or 'LAI':
+    #         densdef = '0'
+    #     if densitydef == 'ul' or 'UL':
+    #         densdef = '1'
+    #     # appends new plot to plots
+    #     plot = etree.SubElement(self.root, "Plot", self.PLOT_DEFAULT_ATR)
+    #
+    #     # Polygon 2D Branch
+    #     polygon_plot1 = etree.SubElement(plot, "Polygon2D", {"mode": "0"})
+    #
+    #     # # with its four defining points
+    #     etree.SubElement(polygon_plot1, "Point2D",
+    #                      {"x": str(corners[0][0]), "y": str((corners[0][1]))})
+    #     etree.SubElement(polygon_plot1, "Point2D",
+    #                      {"x": str(corners[1][0]), "y": str((corners[1][1]))})
+    #     etree.SubElement(polygon_plot1, "Point2D",
+    #                      {"x": str((corners[2][0])), "y": str(corners[2][1])})
+    #     etree.SubElement(polygon_plot1, "Point2D",
+    #                      {"x": str(corners[3][0]), "y": str(corners[3][1])})
+    #
+    #     # plot vegetation properties branch
+    #     vegprops_atr = {"densityDefinition": densdef,
+    #                     "trianglePlotRepresentation": "0",
+    #                     "verticalFillMode": "0"}
+    #     vegprops = etree.SubElement(plot, "PlotVegetationProperties",
+    #                                 vegprops_atr)
+    #
+    #     veggeom = {"baseheight": (str(baseheight)), "height": str(height),
+    #                "stDev": "0.0"}
+    #     # here optical property passed as argument to method
+    #     # TODO : better way of referencing indices....!!!
+    #
+    #     if optprop in self.indexopts['lambertians']:
+    #         indexphase = self.indexopts['lambertians'][optprop]
+    #     elif optprop in self.indexopts['vegetations']:
+    #         indexphase = self.indexopts['vegetations'][optprop]
+    #     else:
+    #         print "Unrecognized optical property for plot"
+    #         return
+    #
+    #     vegoptlink = {"ident": str(optprop), "indexFctPhase": str(indexphase)}
+    #     grdthermalprop = {"idTemperature": "ThermalFunction290_310",
+    #                       "indexTemperature": "0"}
+    #
+    #     etree.SubElement(vegprops, "VegetationGeometry", veggeom)
+    #     etree.SubElement(vegprops, "VegetationOpticalPropertyLink", vegoptlink)
+    #     etree.SubElement(vegprops, "GroundThermalPropertyLink", grdthermalprop)
+    #
+    #     # here density parameter added in LAI or ul
+    #     if densitydef in ('lai', 'LAI'):
+    #         etree.SubElement(vegprops, "LAIVegetation", {"LAI": str(density)})
+    #     elif densitydef in ('ul', 'UL'):
+    #         etree.SubElement(vegprops, "UFVegetation", {"UF": str(density)})
+    #     else:
+    #         # TODO : put a warning when not recognised
+    #         print "Not recognised density definition : {}".format(densitydef)
+    #         etree.SubElement(vegprops, "UFVegetation", {"UF": str(density)})
+    #     return
+    #
+    #
 
 
     # def writexml(self, outpath):
