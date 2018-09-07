@@ -190,7 +190,7 @@ def colorCompositeBands(simu_name, red, green, blue, iteration, outdir, dartdir=
     blue: int
         Band number.
     iteration: int
-        Iteration nmuber in [0, 1, 2, ..., X]
+        Iteration number in [0, 1, 2, ..., X]
     outdir: str
         Folder path for output inside the simulation 'output' folder (created if not exists)
     dartdir: str
