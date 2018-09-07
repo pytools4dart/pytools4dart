@@ -42,6 +42,7 @@ from os.path import join as pjoin
 import pandas as pd
 import subprocess
 import pprint
+import numpy as np
 # local imports
 import xmlwriters as dxml
 from helpers.voxreader import voxel
@@ -83,7 +84,8 @@ class simulation(object):
         self.name = name
 
         # Variables to be used in subsequent methods
-        self.PLOTCOLNAMES = ['corners', 'baseheight', 'height', 'density',
+        self.PLOTCOLNAMES = ['x1', 'y1', 'x2', 'y2', 'x3', 'y3', 'x4', 'y4',
+                             'baseheight', 'height', 'density',
                              'optprop', 'densitydef']
         self.BANDSCOLNAMES = ['bandnames', 'centralwvl', 'fwhm']
 
@@ -369,7 +371,7 @@ class simulation(object):
             self.prossequence += 1
         return
 
-    def addsingleplot(self, corners=None, baseheight=1, density=1,
+    def add_singleplot(self, corners=None, baseheight=1, density=1,
                       opt="custom", ident=None, height=1, densitydef='ul'):
         """adds a plot to the scene with certain parameters
 
@@ -408,11 +410,99 @@ class simulation(object):
                        [self.scene[0],  0],
                        [0,              0],
                        [0,              self.scene[1]]]
-        data = [corners, baseheight, height, density, opt, densitydef]
+        data = np.array(corners).flatten().tolist()+[baseheight, height, density, opt, densitydef]
         miniframe = pd.DataFrame([data], columns=self.PLOTCOLNAMES)
         self.plots = self.plots.append(miniframe, ignore_index=True)
         self.plotsnumber += 1
         return
+
+    def add_multiplots(self, data, colnames={'x1':'x1', 'y1':'y1', 'x2':'x2', 'y2':'y2',
+                                            'x3':'x3', 'y3':'y3', 'x4':'x4', 'y4':'y4',
+                                            'baseheight':'baseheight', 'height':'height',
+                                            'density':'density', 'densitydef':'densitydef',
+                                            'optprop':'optprop'}):
+        '''
+        Appends a dataframe to plots based on a dictionnary
+
+        Parameters
+        ----------
+        data : DataFrame
+            Plots properties.
+        colnames : dict
+            Column names corresponding to PLOTSCOLNAMES.
+
+        Returns
+        -------
+
+        '''
+
+        """Appends a dataframe to plots based on a dictionnary
+
+        dic = {Olndame:Newname, .....}
+        new names in self.PLOTSCOLNAMES
+        TODO : Error catching and protection of self.plots in case of
+        modifications
+
+        """
+        self._registerchange('plots')
+        data.rename(columns=dic, inplace=True)
+        plots = self.plots.append(data, ignore_index=True)
+        self.plots = plots
+
+        print ("Dataframe successfully appended to plots")
+
+        return
+
+    def add_plots_from_vox(self, path, densitydef='ul'):
+        """Adds Plots based on AMAP vox file.
+
+
+        Parameters
+        ---------
+            path: str
+                path to the AMAP vox file
+            densitydef: str
+                'lai' or 'ul'
+        Based on code from Claudia, Florian and Dav.
+        Needs "voxreader". Most complicated function being: intersect,
+        that is needed in Dav's project to get the optical properties of the
+        voxels depending on another file.
+        """
+        self._registerchange('plots')
+        self.changetracker[1]['plots']['voxels'] = True
+
+        vox = voxel.from_vox(path)
+        voxlist = []
+        res = vox.header["res"][0]
+
+        # itertuples is 10x faster than apply (already faster than iterrows)
+        # operation was tested
+        # remove Ul=0 value, as it means empty voxel
+        for row in vox.data[vox.data.PadBVTotal!=0].itertuples():
+            i = row.i  # voxel x
+            j = row.j  # voxel y
+            k = row.k  # voxel z
+            optpropname = None
+            density = row.PadBVTotal  # voxel density
+
+            corners = [i * res, j * res,
+                       (i + 1) * res, j * res,
+                       (i + 1) * res, (j + 1) * res,
+                       i * res, (j + 1) * res]
+
+            height = res
+            baseheight = k * height  # voxel height
+
+            voxlist.append(corners+[baseheight, res, density,
+                            densitydef, optpropname])
+
+        data = pd.DataFrame(voxlist, columns=self.PLOTCOLNAMES)
+
+        self.plots.append(data, ignore_index=True)
+        print ("Plots added from .vox file.")
+        print ("Optical properties have to be added in the column 'optprop'\n")
+        return
+
 
     def addtrees(self, path):
         """Add trees.txt file to the simulation
@@ -535,90 +625,6 @@ class simulation(object):
             index += 1
         self.indexopts = {'lambertians': self.index_lamb,
                           'vegetations': self.index_veg}
-
-        return
-
-    def plotsfromvox(self, path, densitydef=None):
-        """Adds Plots based on AMAP vox file.
-
-
-        Parameters
-        ---------
-            path: str
-                path to the AMAP vox file
-            densitydef: str
-                'lai' or 'ul'
-        Based on code from Claudia, Florian and Dav.
-        Needs "voxreader". Most complicated function being: intersect,
-        that is needed in Dav's project to get the optical properties of the
-        voxels depending on another file.
-        For now redundant : panda from panda..
-        Density is LAI when >0 and UL when <0
-        TODO : simplification, for now a pd is read into another pd
-        """
-        self._registerchange('plots')
-        self.changetracker[1]['plots']['voxels'] = True
-
-        vox = voxel.from_vox(path)
-        voxlist = []
-        res = vox.header["res"][0]
-
-        for index, row in vox.data.iterrows():
-            i = row.i  # voxel x
-            j = row.j  # voxel y
-            k = row.k  # voxel z
-            optpropname = None
-            density = str(row.PadBVTotal)  # voxel density
-
-            corners = (((i * res),          (j * res)),
-                       ((i + 1 * res),      (j * res)),
-                       (((i + 1) * res),    ((j + 1) * res)),
-                       ((i * res),          ((j + 1) * res)))
-
-            height = res
-            baseheight = str(k * height)  # voxel height
-
-            voxlist.append(dict(zip(self.PLOTCOLNAMES,
-                                    [corners, baseheight, str(res), density,
-                                     optpropname, densitydef])))
-            self.plotsnumber += 1
-        data = pd.DataFrame(voxlist, columns=self.PLOTCOLNAMES)
-        self.plots.append(data, ignore_index=True)
-        print ("Plots added from .vox file.")
-        print ("Optical properties have to be added in the column 'optprop'\n")
-        return
-
-    def addmultiplots(self, data, colnames={'corners':'corners', 'baseheight':'baseheight',
-                            'height':'height', 'density':'density', 'optprop':'optprop', 'densitydef':'densitydef'}):
-        '''
-        Appends a dataframe to plots based on a dictionnary
-
-        Parameters
-        ----------
-        data : DataFrame
-            Plots properties.
-        colnames : dict
-            Column names corresponding to PLOTSCOLNAMES.
-
-        Returns
-        -------
-
-        '''
-
-        """Appends a dataframe to plots based on a dictionnary
-
-        dic = {Olndame:Newname, .....}
-        new names in self.PLOTSCOLNAMES
-        TODO : Error catching and protection of self.plots in case of
-        modifications
-
-        """
-        self._registerchange('plots')
-        data.rename(columns=dic, inplace=True)
-        plots = self.plots.append(data, ignore_index=True)
-        self.plots = plots
-
-        print ("Dataframe successfully appended to plots")
 
         return
 

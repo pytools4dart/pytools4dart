@@ -171,8 +171,11 @@ class DartPlotsXML(DartXml):
         plotsdf = self.changes[1]['plots']
 
         # convert
-        outdf = pd.DataFrame(plotsdf.corners.apply(lambda x: np.array(x).flatten()).tolist(),
-                              columns='PT_1_X PT_1_Y PT_2_X PT_2_Y PT_3_X PT_3_Y PT_4_X PT_4_Y'.split())
+        simu_plots_coords = ['x1', 'y1', 'x2', 'y2', 'x3', 'y3', 'x4', 'y4']
+        dart_plots_coords = 'PT_1_X PT_1_Y PT_2_X PT_2_Y PT_3_X PT_3_Y PT_4_X PT_4_Y'.split()
+        simu2dart_plots_coords = {simu_plots_coords[i]: dart_plots_coords[i] for i in range(len(simu_plots_coords))}
+
+        outdf = plotsdf[simu_plots_coords].rename(index=str, columns=simu2dart_plots_coords)
         outdf['PLT_OPT_NUMB'] = [indexopt['vegetations'][i] for i in plotsdf['optprop'].tolist()]
         outdf['PLT_TYPE']=1
         outdf['VEG_DENSITY_DEF'] = plotsdf.densitydef.apply(lambda x: 0 if x.lower()=='LAI' else 1).values
