@@ -14,16 +14,18 @@ simu.addband([0.485, 0.07])
 simu.addband([0.555, 0.07])
 simu.addband([0.655, 0.07])
 
-simu.addsequence({'wvl':[.4,.1,10]}, group='wavelength', name='prospect_sequence')
+# simu.addsequence({'wvl':[.4,.1,10]}, group='wavelength', name='prospect_sequence')
 
 dic = {'CBrown': 0.0, 'Cab': [20, 30], 'Car': 10,
            'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
 simu.addprospectsequence(dic, 'proprieteoptpros', name='prospect_sequence')
 simu.write_xmls()
 simu.run.full()
-# simu.run.sequence('prospect_sequence')
 
-pt4d.run.colorCompositeBands('user_case_3', red='2', green='1', blue='0', iteration='X', outdir='rgb')
+simu.stack_bands()
+simu.run.sequence('prospect_sequence')
+
+# pt4d.run.colorCompositeBands('user_case_3', red='2', green='1', blue='0', iteration='X', outdir='rgb')
 
 # def f2(a=None, b=None, c=None):
 #     print([a,b,c])

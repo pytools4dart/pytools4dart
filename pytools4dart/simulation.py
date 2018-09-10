@@ -46,9 +46,10 @@ import numpy as np
 # local imports
 import xmlwriters as dxml
 from helpers.voxreader import voxel
-from helpers.hdrtodict import hdrtodict
-from settings import getsimupath, get_simu_input_path
+from helpers.hstools import hdrtodict, get_bands_files, get_wavelengths, stack_dart_bands
+from settings import getsimupath, get_simu_input_path, get_simu_output_path
 import pytools4dart.run as run
+
 # from helpers.foldermngt import checksettings
 
 
@@ -718,6 +719,24 @@ class simulation(object):
         """
         return
 
+    def stack_bands(self, zenith=0, azimuth=0, dartdir=None):
+
+        simu_input_dir = get_simu_input_path(self.name, dartdir)
+        simu_output_dir = get_simu_output_path(self.name, dartdir)
+
+        bands = get_bands_files(simu_output_dir, band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART'))
+
+        band_files=bands.path[(bands.zenith==0) & (bands.azimuth==0)]
+
+        wvl = get_wavelengths(simu_input_dir)
+
+        outputfile = pjoin(simu_output_dir, os.path.basename(band_files.iloc[0]).replace('.mpr','.bil'))
+
+        stack_dart_bands(band_files, outputfile, wavelengths=wvl.wavelength.values, fwhm=wvl.fwhm.values, verbose=True)
+
+        # get_simu_out_path, get_bands_files, get_wavelengths, stack_dart_bands
+
+
     def updatepath(self, simuname):
         self.name = simuname
 
@@ -814,12 +833,6 @@ class simulation(object):
             sequence_path
         dxml.write_sequence(self.changetracker, self.name, dartdir)
         return
-
-    def runfull(self, dartdir=None):
-        run.full(self.name, dartdir)
-
-    def runsequence(self, sequence_name, option='-start', dartdir=None):
-        run.sequence(pjoin(self.name,sequence_name), option, dartdir)
 
 
 
