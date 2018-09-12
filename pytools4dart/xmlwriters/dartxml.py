@@ -30,7 +30,7 @@ class DartXml(object):
         tree.write(outpath, encoding="UTF-8", xml_declaration=True)
         return
 
-def gettemplates(dartdir=None):
+def get_templates(dartdir=None):
     dartenv = getdartenv(dartdir)
     jarfile = pjoin(dartenv['DART_HOME'], 'bin',  'DARTDocument.jar')
 
@@ -40,7 +40,7 @@ def gettemplates(dartdir=None):
 
     return templates
 
-def getschemas(dartdir=None):
+def get_schemas(dartdir=None):
     dartenv = getdartenv(dartdir)
     jarfile = pjoin(dartenv['DART_HOME'], 'bin',  'DARTEnv.jar')
 
