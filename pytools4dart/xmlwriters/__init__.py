@@ -46,4 +46,4 @@ from copyfile import copyfile
 
 __all__ = ['atmosphere', 'coeff_diff', 'directions', 'inversion',
            'maket', 'object_3d', 'phase', 'plots', 'sequence', 'trees',
-           'urban', 'water']
+           'urban', 'water', 'dartxml']
