@@ -31,7 +31,7 @@ It allows to read .hdr file and returns a dictionnary.
 """
 
 
-import gdal
+from osgeo import gdal
 import os
 from os.path import join as pjoin
 import re

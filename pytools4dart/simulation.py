@@ -411,7 +411,7 @@ class simulation(object):
                        [self.scene[0],  0],
                        [0,              0],
                        [0,              self.scene[1]]]
-        data = np.array(corners).flatten().tolist()+[baseheight, height, density, opt, densitydef]
+        data = np.array(corners).flatten().tolist()+[baseheight, height, density, densitydef, opt]
         miniframe = pd.DataFrame([data], columns=self.PLOTCOLNAMES)
         self.plots = self.plots.append(miniframe, ignore_index=True)
         self.plotsnumber += 1
