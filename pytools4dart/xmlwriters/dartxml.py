@@ -45,7 +45,7 @@ def get_schemas(dartdir=None):
     jarfile = pjoin(dartenv['DART_HOME'], 'bin',  'DARTEnv.jar')
 
     with zipfile.ZipFile(jarfile, "r") as j:
-        schemas = {os.path.basename(s) : j.read(s) for s in j.namelist()
+        schemas = {os.path.basename(s).replace('.xsd', '') : j.read(s) for s in j.namelist()
                           if re.match(r'schemaXml/.*\.xsd', s)}
 
     return schemas
