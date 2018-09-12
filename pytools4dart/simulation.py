@@ -503,7 +503,7 @@ class simulation(object):
         return
 
 
-    def addtrees(self, path):
+    def addtrees(self, data):
         """Add trees.txt file to the simulation
 
 
@@ -526,8 +526,14 @@ class simulation(object):
 
         Parameters
         ----------
-        path : string
-            Path to the trees.txt file to be read into simulation
+        data : pandas DataFrame
+            see Notes for details on mandatory and optional columns.
+
+        Notes
+        -----
+        `data` should have the following columns:
+         SPECIES_ID, POS_X  POS_Y  T_HEI_BELOW  T_HEI_WITHIN  T_DIA_BELOW  C_TYPE  C_HEI  C_GEO_1  C_GEO_2
+
         """
 
         if self.nspecies == 0:
@@ -535,11 +541,10 @@ class simulation(object):
             print "The trees you will add have no optical link."
 
         if self.trees == 0:
-            self.trees = pd.read_csv(path, comment='*', sep='\t')
+            self.trees = data
         else:
             print "appending trees to the existing trees dataframe : "
-            newtrees = pd.read_csv(path, comment='*', sep='\t')
-            self.trees.append(newtrees, ignore_index=True)
+            self.trees.append(data, ignore_index=True)
 
             # columns
 #            # cols = ['SPECIES_ID', 'C_TYPE', 'POS_X', 'POS_Y', 'T_HEI_BELOW',
