@@ -4,8 +4,8 @@
 ===============================================================================
 # PROGRAMMERS:
 #
-# Eric Chraibi <eric.chraibi@irstea.fr>  -
-https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
+# Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>
+# https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
 # Copyright 2018 Eric Chraibi
 #
@@ -54,16 +54,18 @@ import pytools4dart.run as run
 
 
 class simulation(object):
-    """Simulation object allowing for storing and editing of all the parameters
-
-
+    """Simulation object corresponding to a DART simulation.
+    It allows for storing and editing parameters, and running simulation
     """
 
     def __init__(self, name = None):
-        """initialisation
+        """
+        Initialisation
+        Parameters
+        ----------
+        name: str
+            Name of the simulation
 
-        self.plots is supposed to be a pandaDataFrame that can be modified by
-        the user.
         TODO : WARNING : For now, 'flux' ( changetracker[3]) is hardcoded in
         the simulation object. It will have to be flexible depending on input.
         Temperatures not managed.
@@ -80,6 +82,7 @@ class simulation(object):
                     - 0: Uniform
                     - 1: Spherical
                     - 3: Planophil
+
         """
 
         self.name = name
@@ -125,12 +128,21 @@ class simulation(object):
         return "pytools4dart simulation object"
 
     def _registerchange(self, param):
-        """updates changetracker 0 and creates dictionnaries on the fly
+        """update changetracker 0 and creates dictionnaries on the fly
+        Parameters
+        ----------
+        param: list
+            Parameters to be added or updated
+
+        Returns
+        -------
+            None
         """
         if param not in self.changetracker[0]:
             self.changetracker[0].append(param)
             self.changetracker[1][param] = {}
         return
+
 
     def addband(self, invar, nmtomicron=True):
         """add spectral band to simulation sensor
@@ -310,11 +322,11 @@ class simulation(object):
 
         Parameters
         ---------
-        dic : dic
-            must be a dictionnary containing the prospect parameters
+        dic : dict
+            must be a dictionary containing the prospect parameters
             and the assigned value. For now only one parameter can vary.
         optident : str
-            name of the prospect optical property. For now created indepedently
+            name of the prospect optical property. For now created independently
             via addopt()
 
         TODO : Absolutey NOT Optimized nor clean!
@@ -422,7 +434,7 @@ class simulation(object):
                                             'baseheight':'baseheight', 'height':'height',
                                             'density':'density', 'densitydef':'densitydef',
                                             'optprop':'optprop'}):
-        '''
+        """
         Appends a dataframe to plots based on a dictionnary
 
         Parameters
@@ -431,11 +443,7 @@ class simulation(object):
             Plots properties.
         colnames : dict
             Column names corresponding to PLOTSCOLNAMES.
-
-        Returns
-        -------
-
-        '''
+        """
 
         """Appends a dataframe to plots based on a dictionnary
 
@@ -455,19 +463,14 @@ class simulation(object):
         return
 
     def add_plots_from_vox(self, vox, densitydef='ul', optprop=None):
-        """Adds Plots based on AMAP vox file.
-
+        """Add Plots based on AMAPVox file.
 
         Parameters
         ---------
             path: str
-                path to the AMAP vox file
+                path to the AMAPVox file
             densitydef: str
                 'lai' or 'ul'
-        Based on code from Claudia, Florian and Dav.
-        Needs "voxreader". Most complicated function being: intersect,
-        that is needed in Dav's project to get the optical properties of the
-        voxels depending on another file.
         """
         self._registerchange('plots')
         self.changetracker[1]['plots']['voxels'] = True
@@ -647,24 +650,17 @@ class simulation(object):
         print '__________________________________\n'
         return
 
-    def setcell(self, cell):
-        """change cell dimensions
-
-        Parameters
-        ----------
-            cell: list
-                List containing the [x,y] of the cell dimensions
-        TODO : maybe a bit more verbose?
-        """
-        self._registerchange('maket')
-        self.cell = cell
-        return
-
     def setoptplots(self, opt, mode=None):
         """sets the optical property of the plots
 
+        Parameters
+        ----------
+        opt: str
+            Name of optical property
+
         TODO : modify and add options : superior plots...
         For now sets ALL plots to the same 'opt' optical property
+        Specific assignment can be done in self.plots['optprop'] directly.
         """
         if not self.plots:
             print "There are no plots in this simulation"
@@ -674,12 +670,12 @@ class simulation(object):
         return
 
     def setscene(self, scene):
-        """change scene dimensions
+        """set scene size
 
         Parameters:
         ----------
-
-            -list of two numbers : [x,y] of the scene
+        scene: list
+            [x,y] size of scene
         TODO: error catching
         """
         self._registerchange('maket')
@@ -687,6 +683,19 @@ class simulation(object):
         print 'Scene length set to:', scene[0]
         print 'Scene width set to:', scene[1]
         self.changetracker[1]['maket']['scene'] = self.scene
+        return
+
+    def setcell(self, cell):
+        """set cell size
+
+        Parameters
+        ----------
+            cell: list
+                [x,y] size of cell
+        TODO : maybe a bit more verbose?
+        """
+        self._registerchange('maket')
+        self.cell = cell
         return
 
     def listmodifications(self):
@@ -707,6 +716,12 @@ class simulation(object):
             path: str
                 Complete path to an xml file to be copied to the new simulation
                 in place of a pyt4dart generated file.
+
+        Notes
+        -----
+            File copy is made after simulation updates and will overwrite any
+            previous change. Use carefully as it can lead to erroneous simulation,
+            example changing the order of optical properties in coeff_diff.xml
         """
         dartfile = os.path.splitext(os.path.basename(path))
         self.changetracker[1]['pickfile'][dartfile] = path
@@ -720,6 +735,21 @@ class simulation(object):
         return
 
     def stack_bands(self, zenith=0, azimuth=0, dartdir=None):
+        """Stack bands into an ENVI .bil file
+
+        Parameters
+        ----------
+        zenith: float
+            Zenith viewing angle
+        azimuth: float
+            Azimuth viewing angle
+        dartdir: str
+            see getdartdir.
+
+        Returns
+        -------
+            str: output file path
+        """
 
         simu_input_dir = get_simu_input_path(self.name, dartdir)
         simu_output_dir = get_simu_output_path(self.name, dartdir)
@@ -734,14 +764,22 @@ class simulation(object):
 
         stack_dart_bands(band_files, outputfile, wavelengths=wvl.wavelength.values, fwhm=wvl.fwhm.values, verbose=True)
 
-        # get_simu_out_path, get_bands_files, get_wavelengths, stack_dart_bands
-
-
-    def updatepath(self, simuname):
-        self.name = simuname
+        return outputfile
 
     def write_xmls(self, simu_name=None, dartdir=None):
         """Writes the xml files with all defined input parameters
+
+        Parameters
+        ----------
+        simu_name: str
+            Simulation name. If None, self.name is taken.
+        dartdir: str
+            If None, default dartdir is taken. See getdartdir
+
+        Returns
+        -------
+            str: simulation path
+
 
         WARNING : For now this function is the only proper way to write
         the DART xmls.
@@ -812,7 +850,7 @@ class simulation(object):
         print "pyt4dart XML files written to {}".format(simuinputpath)
 
         self.writepickedfiles()
-        return
+        return simupath
 
     def writepickedfiles(self):
         """Effectively writes selected files to be copied into simulation
