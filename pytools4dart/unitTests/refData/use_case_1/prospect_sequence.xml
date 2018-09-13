@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<DartFile version="1.0">
+    <DartSequencerDescriptor sequenceName="sequence;;prospect_sequence">
+        <DartSequencerDescriptorEntries>
+            <DartSequencerDescriptorGroup groupName="default">
+                <DartSequencerDescriptorEntry args="0.4;0.1;8" propertyName="Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties.meanLambda" type="linear" />
+            </DartSequencerDescriptorGroup>
+            <DartSequencerDescriptorGroup groupName="prosequence0">
+                <DartSequencerDescriptorEntry args="10;10;10;10;10;10;10;10;10;10;10" propertyName="Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.Car" type="enumerate" />
+                <DartSequencerDescriptorEntry args="0.01;0.01;0.01;0.01;0.01;0.01;0.01;0.01;0.01;0.01;0.01" propertyName="Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.Cw" type="enumerate" />
+                <DartSequencerDescriptorEntry args="0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0" propertyName="Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.CBrown" type="enumerate" />
+                <DartSequencerDescriptorEntry args="0.01;0.01;0.01;0.01;0.01;0.01;0.01;0.01;0.01;0.01;0.01" propertyName="Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.Cm" type="enumerate" />
+                <DartSequencerDescriptorEntry args="0;10;20;30;40;50;60;70;80;90;100" propertyName="Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.Cab" type="enumerate" />
+                <DartSequencerDescriptorEntry args="2;2;2;2;2;2;2;2;2;2;2" propertyName="Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.N" type="enumerate" />
+                <DartSequencerDescriptorEntry args="1;1;1;1;1;1;1;1;1;1;1" propertyName="Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].ProspectExternalModule.ProspectExternParameters.anthocyanin" type="enumerate" />
+            </DartSequencerDescriptorGroup>
+        </DartSequencerDescriptorEntries>
+        <DartSequencerPreferences atmosphereMaketLaunched="true" dartLaunched="true" deleteAll="false" deleteAtmosphere="true" deleteAtmosphereMaket="true" deleteDartLut="true" deleteDartSequenceur="true" deleteDartTxt="true" deleteDirection="false" deleteInputs="false" deleteLibPhase="true" deleteMaket="true" deleteMaketTreeResults="true" deleteTreePosition="true" deleteTriangles="true" demGeneratorLaunched="true" directionLaunched="true" displayEnabled="true" genMode="XML" hapkeLaunched="true" individualDisplayEnabled="false" maketLaunched="true" numberParallelThreads="4" phaseLaunched="true" prospectLaunched="true" triangleFileProcessorLaunched="true" useBroadBand="true" useSceneSpectra="true" vegetationLaunched="true" zippedResults="false" />
+        <DartLutPreferences addedDirection="false" atmosToa="true" atmosToaOrdre="false" coupl="false" fluorescence="false" generateLUT="true" iterx="true" luminance="true" maketCoverage="false" ordre="false" otherIter="false" phiMax="" phiMin="" productsPerType="false" reflectance="true" sensor="true" storeIndirect="false" thetaMax="" thetaMin="" toa="true" />
+    </DartSequencerDescriptor>
+</DartFile>
