@@ -49,3 +49,23 @@ def get_schemas(dartdir=None):
                           if re.match(r'schemaXml/.*\.xsd', s)}
 
     return schemas
+
+
+def get_labels(dartdir=None):
+
+    dartenv = getdartenv(dartdir)
+    jarfile = pjoin(dartenv['DART_HOME'], 'bin',  'DARTIHMSimulationEditor.jar')
+    labelsfile = 'cesbio/dart/ihm/DartSimulationEditor/ressources/DartIhmSimulationLabel_en.properties'
+    with zipfile.ZipFile(jarfile, "r") as j:
+        labels = j.read(labelsfile)
+
+    labels = labels.split('\n')
+
+    labelsdic = {}
+    regex = re.compile(r'^(.+?)\s*=\s*(.*?)\s*$', re.M | re.I)
+    for line in labels:
+        result = regex.findall(line)
+        if len(result):
+            labelsdic[result[0][0]]=result[0][1]
+
+    return labelsdic

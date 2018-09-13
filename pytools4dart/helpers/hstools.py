@@ -30,8 +30,12 @@ This module contains the function "hdrtodict".
 It allows to read .hdr file and returns a dictionnary.
 """
 
+try:
+    from osgeo import gdal
+except ImportError as e:
+    raise ImportError(
+        str(e) + "\n\nPlease install GDAL.")
 
-from osgeo import gdal
 import os
 from os.path import join as pjoin
 import re
