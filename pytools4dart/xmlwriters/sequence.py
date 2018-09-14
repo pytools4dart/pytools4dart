@@ -220,14 +220,13 @@ class DartSequenceXML(DartXml):
 
         for groupname in self.sequences:
             print "Adding:", groupname, "to sequence"
-
+            sep = ';'
             if groupname.startswith('prosequence'):
                 entries = self.root.find('./DartSequencerDescriptorEntries')
                 grp = etree.SubElement(entries,
                                        'DartSequencerDescriptorGroup',
                                        {'groupName': groupname})
                 for param, values in self.sequences[groupname].iteritems():
-                        sep = ';'
                         args = sep.join([str(i) for i in values])
                         seqarg = {'propertyName': param,
                                   'args': args,
@@ -247,10 +246,8 @@ class DartSequenceXML(DartXml):
                         param = ("Phase.DartInputParameters.SpectralIntervals."
                                  "SpectralIntervalsProperties.meanLambda")
                     seqarg = {'propertyName': param,
-                              'args': str(values[0])
-                              + ';' + str(values[1])
-                              + ';' + str(values[2]),
-                              'type': 'linear'}
+                              'args': sep.join([str(i) for i in values]),
+                              'type': 'enumerate'}
                     etree.SubElement(grp, 'DartSequencerDescriptorEntry',
                                      seqarg)
         return

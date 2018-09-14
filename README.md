@@ -165,20 +165,21 @@ has been implemented in the simulation object.
 it requires as entry a dictionnary :
 
 ```python 
-dictionnary = { 'parameter' : basevalue, stepvalue, numberofsteps}
+dictionnary = { 'parameter' : list of values}
 ```
 
-For now, the 'parameter' string has to correspond exactly to a Dart parameter:
+For now, the `'parameter'` string has to correspond exactly to a Dart parameter:
 
 
 Several properties can vary in this way at the same time.
 In order to produce all the combination of the variations of two properties,
-the method has to be called several times with different group names : 
+the method has to be called several times with different group names.
+The following example makes a sequence of the 12 combinations of `param1` and `param2`.  
 
 ```python
 simu = simulation(outpath)
-simu.addsequence({'param1' : (1,2,3)}, group = 'group1')
-simu.addsequence({'param2' : (4,5,6)}, group = 'group2')
+simu.addsequence({'param1' : [1,2,3]}, group = 'group1')
+simu.addsequence({'param2' : [4,5,6,7]}, group = 'group2')
 ```
 
 A name is required in order to save the xml file. At this time now a single 
