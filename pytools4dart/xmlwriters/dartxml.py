@@ -32,6 +32,17 @@ class DartXml(object):
         return
 
 def get_templates(dartdir=None):
+    """
+    Extract DART xml templates from DARTDocument.jar
+    Parameters
+    ----------
+    dartdir
+
+    Returns
+    -------
+        dict
+
+    """
     dartenv = getdartenv(dartdir)
     jarfile = pjoin(dartenv['DART_HOME'], 'bin',  'DARTDocument.jar')
 
@@ -42,6 +53,17 @@ def get_templates(dartdir=None):
     return templates
 
 def get_schemas(dartdir=None):
+    """
+    Extracts DART xsd schemas from DARTEnv.jar
+    Parameters
+    ----------
+    dartdir
+
+    Returns
+    -------
+        dict
+
+    """
     dartenv = getdartenv(dartdir)
     jarfile = pjoin(dartenv['DART_HOME'], 'bin',  'DARTEnv.jar')
 
@@ -53,6 +75,17 @@ def get_schemas(dartdir=None):
 
 
 def get_labels(dartdir=None):
+    """
+    Extract DART labels and corresponding nodes from DARTIHMSimulationEditor.jar
+    Parameters
+    ----------
+    dartdir
+
+    Returns
+    -------
+        DataFrame
+
+    """
 
     dartenv = getdartenv(dartdir)
     jarfile = pjoin(dartenv['DART_HOME'], 'bin',  'DARTIHMSimulationEditor.jar')
@@ -62,12 +95,7 @@ def get_labels(dartdir=None):
 
     labels = labels.split('\n')
 
-    # labelsdic = {}
     regex = re.compile(r'^(.+?)\s*=\s*(.*?)\s*$', re.M | re.I)
-    # for line in labels:
-    #     result = regex.findall(line)
-    #     if len(result):
-    #         labelsdic[result[0][0]]=result[0][1]
 
     labelsdf = pd.DataFrame(
         [regex.findall(line)[0] for line in labels if len(regex.findall(line))],
