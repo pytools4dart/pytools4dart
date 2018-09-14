@@ -1,5 +1,9 @@
 import commands
 import numpy as np
+import os
+from os import listdir
+from os.path import isfile, isdir
+import filecmp
 
 def compareBinaryFiles(filename1, filename2):
     cmd = 'cmp --verbose %s %s'%(filename1, filename2)
@@ -16,15 +20,10 @@ def compareBinaryFiles(filename1, filename2):
         raise RuntimeError('invalid exitcode detected')
     return is_different, output
 
-# if __name__ == '__main__':
-#     # create two binary files with different values
-#     # file 1
-#     tmp1 = np.arange(10, dtype=np.uint8)
-#     tmp1.tofile('tmp1')
-#     # file 2
-#     tmp2 = np.arange(10, dtype=np.uint8)
-#     tmp2[5] = 0xFF
-#     tmp2.tofile('tmp2')
-#     # compare using the shell command 'cmp'
-#     is_different, output = run_cmp(filename1='tmp1', filename2='tmp2')
-#     print 'is_different=%s, output=\n\"\n%s\n\"'%(is_different, output)
+def compareFilesInDirs(dirpath1,dirpath2):
+    differ = False
+    comp = filecmp.dircmp(dirpath1,dirpath2)
+    if len(comp.right_only) != 0 or len(comp.left_only) != 0 or len(comp.diff_files) != 0:
+        differ = True
+    return differ
+

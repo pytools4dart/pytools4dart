@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<DartFile build="v1061" version="5-7-1">
+    <Maket dartZone="0" exactlyPeriodicScene="1">
+        <Scene>
+            <CellDimensions x="1" z="1" />
+            <SceneDimensions x="10" y="10" />
+        </Scene>
+        <Soil>
+            <OpticalPropertyLink ident="Lambertian_Phase_Function_1" indexFctPhase="0" type="0" />
+            <ThermalPropertyLink idTemperature="ThermalFunction290_310" indexTemperature="0" />
+            <Topography presenceOfTopography="0" />
+            <DEM_properties createTopography="0" />
+        </Soil>
+        <LatLon altitude="0.0" latitude="0.0" longitude="0.0" />
+    </Maket>
+</DartFile>

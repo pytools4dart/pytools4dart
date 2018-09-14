@@ -4,7 +4,7 @@ import pytools4dart as pt4d
 from os.path import join as pjoin
 import pytools4dart.settings as settings
 
-def run_use_case_1(testSimuName):
+def run_use_case_1(testSimuName, run_required = False):
 
     simu = pt4d.simulation(name=testSimuName)
     print(simu.name)
@@ -21,8 +21,9 @@ def run_use_case_1(testSimuName):
     simu.addsequence({'wvl':[.400,.1,8]})
 
     simu.write_xmls()
-    #simu.run.sequence('prospect_sequence')
+    if run_required:
+        simu.run.sequence('prospect_sequence')
     
 
 if __name__ == '__main__':
-    run_use_case_1()
+    run_use_case_1("use_case_1", run_required = True)

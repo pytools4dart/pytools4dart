@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<DartFile build="v1061" version="5-7-1">
+    <Plots addExtraPlotsTextFile="1" isVegetation="0">
+        <ImportationFichierRaster />
+        <ExtraPlotsTextFileDefinition extraPlotsFileName="/home/claudia/DART/DART_5-7-1_v1061/user_data/simulations/test_use_case_1/test_use_case_1_plots.txt" />
+    </Plots>
+</DartFile>

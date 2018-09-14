@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import pytools4dart as pt4d
-from os.path import join as pjoin
 import numpy as np
+pt4d.configure('/home/claudia/DART/DART_5-7-1_v1061')
 
 simu = pt4d.simulation(name='use_case_1')
 

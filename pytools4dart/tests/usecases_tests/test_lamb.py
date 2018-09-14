@@ -1,6 +1,6 @@
 ##File test_lamb.py
 import unittest
-from pytools4dart.tests import lamb
+from pytools4dart.examples import lamb
 
 class LambTests(unittest.TestCase):
     def test_lamb_output(self):
