@@ -872,7 +872,35 @@ class simulation(object):
         dxml.write_sequence(self.changetracker, self.name, dartdir)
         return
 
+    def getsimupath(self, dartdir=None):
+        """
 
+        Parameters
+        ----------
+        dartdir
+
+        Returns
+        -------
+            str: Simulation full path
+
+        """
+        return getsimupath(self.name, dartdir)
+
+    def get_sequence_db_path(self, sequence_name, dartdir=None):
+        """
+        Path of sequence database
+        Parameters
+        ----------
+        sequence_name
+        dartdir
+
+        Returns
+        -------
+            str: Path of sequence database
+
+        """
+
+        return pjoin(getsimupath(self.name, dartdir), self.name+'_'+sequence_name+'.db')
 
 # ##################################test zone
 if __name__ == '__main__':

@@ -9,6 +9,7 @@ import os
 from os.path import join as pjoin
 from pytools4dart.settings import getdartversion, get_simu_input_path, getdartenv
 from xmlhelpers import indent
+import pandas as pd
 
 class DartXml(object):
 
@@ -61,11 +62,17 @@ def get_labels(dartdir=None):
 
     labels = labels.split('\n')
 
-    labelsdic = {}
+    # labelsdic = {}
     regex = re.compile(r'^(.+?)\s*=\s*(.*?)\s*$', re.M | re.I)
-    for line in labels:
-        result = regex.findall(line)
-        if len(result):
-            labelsdic[result[0][0]]=result[0][1]
+    # for line in labels:
+    #     result = regex.findall(line)
+    #     if len(result):
+    #         labelsdic[result[0][0]]=result[0][1]
 
-    return labelsdic
+    labelsdf = pd.DataFrame(
+        [regex.findall(line)[0] for line in labels if len(regex.findall(line))],
+    columns = ['dartnode', 'label'])
+
+    labelsdf = labelsdf[['label', 'dartnode']]
+
+    return labelsdf
