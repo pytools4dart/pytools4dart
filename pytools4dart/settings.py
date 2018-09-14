@@ -71,8 +71,11 @@ def getdartdir(dartdir=None):
         str: full path to DART directory
     '''
     if not dartdir:
-        with open(pytools4dartrc()) as f:
-            dartdir = f.read()
+        if os.path.isfile(pytools4dartrc()):
+            with open(pytools4dartrc()) as f:
+                dartdir = f.read()
+        else:
+            dartdir = default_dartdir()
     else:
         dartdir = os.path.expanduser(dartdir)
 
@@ -196,8 +199,7 @@ def checkdartdir(dartdir = None):
         bool: True if dartdir exist and if config.ini found in directory
     """
 
-    if not dartdir:
-        dartdir = default_dartdir()
+    dartdir = getdartdir(dartdir)
 
     if not os.path.isdir(dartdir):
         print('DART directory not found: ' + dartdir)
@@ -206,6 +208,11 @@ def checkdartdir(dartdir = None):
     dartconfig = pjoin(dartdir, 'config.ini')
     if not os.path.isfile(dartconfig):
         print('DART configuration file not found: ' + pjoin(dartconfig))
+        return False
+
+    version,_,build = getdartversion(dartdir)
+    if version < '5-7-1':
+        print('DART version is too old: '+version)
         return False
 
     return True

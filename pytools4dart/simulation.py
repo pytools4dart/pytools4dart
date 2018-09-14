@@ -669,7 +669,7 @@ class simulation(object):
             self.plots['optprop'] = opt
         return
 
-    def setscene(self, scene):
+    def set_scene_size(self, scene):
         """set scene size
 
         Parameters:
@@ -685,7 +685,7 @@ class simulation(object):
         self.changetracker[1]['maket']['scene'] = self.scene
         return
 
-    def setcell(self, cell):
+    def set_cell_size(self, cell):
         """set cell size
 
         Parameters
@@ -872,7 +872,35 @@ class simulation(object):
         dxml.write_sequence(self.changetracker, self.name, dartdir)
         return
 
+    def getsimupath(self, dartdir=None):
+        """
 
+        Parameters
+        ----------
+        dartdir
+
+        Returns
+        -------
+            str: Simulation full path
+
+        """
+        return getsimupath(self.name, dartdir)
+
+    def get_sequence_db_path(self, sequence_name, dartdir=None):
+        """
+        Path of sequence database
+        Parameters
+        ----------
+        sequence_name
+        dartdir
+
+        Returns
+        -------
+            str: Path of sequence database
+
+        """
+
+        return pjoin(getsimupath(self.name, dartdir), self.name+'_'+sequence_name+'.db')
 
 # ##################################test zone
 if __name__ == '__main__':
@@ -941,7 +969,7 @@ if __name__ == '__main__':
     SequenceName        = 'testrees.xml'
 
     pof = simulation(PathDART+'user_data/simulations/'+SimulationName+'/')
-    pof.setscene([40, 40])
+    pof.set_scene_size([40, 40])
     pof.addtreespecie(1)
     pof.addtreespecie(1, vegopt = 'proprieteopt2',
                       trunkopt = 'Lambertian_Phase_Function_1')
@@ -1016,7 +1044,7 @@ if __name__ == '__main__':
 
     """
     """
-    pof.setscene([5, 5])
+    pof.set_scene_size([5, 5])
     corners = [[3,  4],
                [3,  0],
                [0,  0],
@@ -1066,7 +1094,7 @@ if __name__ == '__main__':
                [0,  0],
                [0,  4]]
     pof.addsingleplot(corners=corners, opt='proprieteopt2', densitydef='UL')
-    pof.setscene([5, 5])
+    pof.set_scene_size([5, 5])
     optpropveg = ['vegetation', 'proprieteopt2',
                   '/media/mtd/stock/DART/database/Vegetation.db',
                   'ash_top', '0']
