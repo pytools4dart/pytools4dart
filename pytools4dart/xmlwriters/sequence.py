@@ -221,35 +221,23 @@ class DartSequenceXML(DartXml):
         for groupname in self.sequences:
             print "Adding:", groupname, "to sequence"
             sep = ';'
-            if groupname.startswith('prosequence'):
-                entries = self.root.find('./DartSequencerDescriptorEntries')
-                grp = etree.SubElement(entries,
-                                       'DartSequencerDescriptorGroup',
-                                       {'groupName': groupname})
-                for param, values in self.sequences[groupname].iteritems():
-                        args = sep.join([str(i) for i in values])
-                        seqarg = {'propertyName': param,
-                                  'args': args,
-                                  'type': 'enumerate'}
+            entries = self.root.find('./DartSequencerDescriptorEntries')
+            grp = etree.SubElement(entries,
+                                   'DartSequencerDescriptorGroup',
+                                   {'groupName': groupname})
 
-                        etree.SubElement(grp, 'DartSequencerDescriptorEntry',
-                                         seqarg)
-            else:
-                entries = self.root.find('./DartSequencerDescriptorEntries')
-                grp = etree.SubElement(entries,
-                                       'DartSequencerDescriptorGroup',
-                                       {'groupName': groupname})
+            for param, values in self.sequences[groupname].iteritems():
+                if param == 'wvl':
+                    param = ("Phase.DartInputParameters.SpectralIntervals."
+                             "SpectralIntervalsProperties.meanLambda")
+                args = sep.join([str(i) for i in values])
+                seqarg = {'propertyName': param,
+                          'args': args,
+                          'type': 'enumerate'}
 
-                for param, values in self.sequences[groupname].iteritems():
-                    """ TODO : Temporary fix to replace with hdr to dict"""
-                    if param == 'wvl':
-                        param = ("Phase.DartInputParameters.SpectralIntervals."
-                                 "SpectralIntervalsProperties.meanLambda")
-                    seqarg = {'propertyName': param,
-                              'args': sep.join([str(i) for i in values]),
-                              'type': 'enumerate'}
-                    etree.SubElement(grp, 'DartSequencerDescriptorEntry',
-                                     seqarg)
+                etree.SubElement(grp, 'DartSequencerDescriptorEntry',
+                                 seqarg)
+
         return
 
     def writexml(self, outpath):
