@@ -157,14 +157,14 @@ def colorComposite(simu_name, red, green, blue, pngfile, dartdir=None):
     ----------
     simuName: str
         Simulation name or path relative 'user_data/simulations' directory
-    red: int
-        Red spectral band number (integer).
-    green: int
-        Green spectral band number (integer).
-    blue: int
-        Blue spectral band number (integer).
+    red: str
+        Red image file name (full path).
+    green: str
+        Green image file name (full path).
+    blue: str
+        Blue image file name (full path).
     pngfile: str
-        PNG image file name for output
+        PNG image file name for output.
     dartdir: str
         DART home directory, default is taken from :fun:`~pytools4dart.configuration`
         (see pytools4dart.configure).
@@ -189,7 +189,7 @@ def colorCompositeBands(simu_name, red, green, blue, iteration, outdir, dartdir=
         Band number.
     blue: int
         Band number.
-    iteration: int
+    iteration: int or str
         Iteration number in [0, 1, 2, ..., X]
     outdir: str
         Folder path for output inside the simulation 'output' folder (created if not exists)
@@ -227,5 +227,8 @@ class runners(object):
 
     def sequence(self, sequence_name, option='-start', dartdir=None):
         sequence(self.simu.name, sequence_name, option, dartdir)
+
+    def colorCompositeBands(self, red, green, blue, iteration, outdir, dartdir=None):
+        colorCompositeBands(self.simu.name, red, green, blue, iteration, outdir, dartdir=None)
 
 
