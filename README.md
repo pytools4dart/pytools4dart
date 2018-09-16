@@ -7,10 +7,93 @@
 **pytools4dart** is based on [DART](http://www.cesbio.ups-tlse.fr/dart/index.php#/) radiative transfer software that has to be installed (before or after installing pytools4dart).
 [DART](http://www.cesbio.ups-tlse.fr/dart/index.php#/) is free software under proprietary license. It is available for Linux (32/64 bits) and Windows (32/64 bits). To download DART software please [sign up](http://www.cesbio.ups-tlse.fr/dart/index.php#/getDart), login and fill the license resquest in GET DART section of [DART website](http://www.cesbio.ups-tlse.fr/dart/index.php#/).
 
+### Windows
+Tips to install python, pip and virtualenv can be found [here](http://timmyreilly.azurewebsites.net/python-pip-virtualenv-installation-on-windows)
+and [here](http://tinwhiskers.net/setting-up-your-python-environment-with-pip-virtualenv-and-pycharm-windows/):
+
+#### Virtual environment
+We recommend installation of virtualenv to create a virtual environment specific to the project.
+Packages will be installed in this virtual environment instead of locally.
+It avoids conflicts between with locally installed packages for other projects.
+
+After installing virtualenvwrapper-win, open a `cmd` window and create a new virtual environment
+```commandline
+mkvirtualenv pytools4dart
+```
+The virtual environment is contained in `C:\Users\username\Envs\pytools4dart`.
+
+To activate it from command line (from anywhere):
+```commandline
+workon pytools4dart
+```
+and deactivate it with:
+```commandline
+deactivate
+```
+
+If any problem occures with this environment (e.g. something wrongly installed),
+it can be removed just by suppressing the directory after deactivating it.
+
+#### GDAL and geopandas
+
+GDAL and geopandas are needded in some features, like stacking bands to an ENVI file or
+intersecting voxelized scene with shapefile.
+On Windows, the easy way is to follow this 
+[post](https://gis.stackexchange.com/questions/2276/installing-gdal-with-python-on-windows)
+Download the wheels of GDAL, Shapely, pyproj and Fiona from [here](https://www.lfd.uci.edu/~gohlke/pythonlibs/#gdal),
+and install them in the virtual environement :
+```commandline
+pip install GDAL-2.2.4-cp27-cp27m-win_amd64.whl
+pip install Shapely-1.6.4.post1-cp27-cp27m-win_amd64.whl
+pip install pyproj-1.9.5.1-cp27-cp27m-win_amd64.whl
+pip install Fiona-1.7.13-cp27-cp27m-win_amd64.whl
+pip install geopandas
+```
+
+### Linux
+We recommend installation of virtualenv to create a virtual environment specific to the project.
+Packages will be installed in this virtual environment instead of locally.
+It avoids conflicts between with locally installed packages for other projects.
+
+On Ubuntu:
+```commandline
+sudo apt-get install virtualenv
+```
+
+After getting into pyttols4dart directory, create a virtual environment:
+```commandline
+virtualenv venv
+```
+The virtual environment is contained in the directory `venv` where you created it.
+
+To activate it just execute script `activate`:
+```commandline
+venv/bin/activate
+```
+
+To dectivate:
+```commandline
+deactivate
+```
+
+To suppress the environment, suppress the directory `venv` after desactivating it.
+
+### Pre-install requirements
+Required packages are listed in file requirements.txt. The command line to install is:
+```commandline
+pip install -r requirements.txt
+```
+
+### GDAL
+
+```commandline
+pip install GDAL-X.Y.Z-cp27-none-win_XYZ.whl
+```
+
+
 *TO BE COMPLETED*
 ## Installation
-In the `pytools4dartMTD` directory (same one where you found this file after
-cloning the git repo), execute:
+In the `pytools4dartMTD` directory, execute:
 
 ```sh
 python setup.py install
@@ -165,20 +248,21 @@ has been implemented in the simulation object.
 it requires as entry a dictionnary :
 
 ```python 
-dictionnary = { 'parameter' : basevalue, stepvalue, numberofsteps}
+dictionnary = { 'parameter' : list of values}
 ```
 
-For now, the 'parameter' string has to correspond exactly to a Dart parameter:
+For now, the `'parameter'` string has to correspond exactly to a Dart parameter:
 
 
 Several properties can vary in this way at the same time.
 In order to produce all the combination of the variations of two properties,
-the method has to be called several times with different group names : 
+the method has to be called several times with different group names.
+The following example makes a sequence of the 12 combinations of `param1` and `param2`.  
 
 ```python
 simu = simulation(outpath)
-simu.addsequence({'param1' : (1,2,3)}, group = 'group1')
-simu.addsequence({'param2' : (4,5,6)}, group = 'group2')
+simu.addsequence({'param1' : [1,2,3]}, group = 'group1')
+simu.addsequence({'param2' : [4,5,6,7]}, group = 'group2')
 ```
 
 A name is required in order to save the xml file. At this time now a single 

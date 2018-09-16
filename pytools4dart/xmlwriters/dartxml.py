@@ -3,10 +3,13 @@ try:
     import xml.etree.cElementTree as etree
 except ImportError:
     import xml.etree.ElementTree as etree
-
-from pytools4dart.settings import getdartversion, get_simu_input_path
-from xmlhelpers import indent
+import zipfile
+import re
+import os
 from os.path import join as pjoin
+from pytools4dart.settings import getdartversion, get_simu_input_path, getdartenv
+from xmlhelpers import indent
+import pandas as pd
 
 class DartXml(object):
 
@@ -27,3 +30,77 @@ class DartXml(object):
         tree = etree.ElementTree(root)
         tree.write(outpath, encoding="UTF-8", xml_declaration=True)
         return
+
+def get_templates(dartdir=None):
+    """
+    Extract DART xml templates from DARTDocument.jar
+    Parameters
+    ----------
+    dartdir
+
+    Returns
+    -------
+        dict
+
+    """
+    dartenv = getdartenv(dartdir)
+    jarfile = pjoin(dartenv['DART_HOME'], 'bin',  'DARTDocument.jar')
+
+    with zipfile.ZipFile(jarfile, "r") as j:
+        templates = {s.split('/')[3] : j.read(s) for s in j.namelist()
+                          if re.match(r'cesbio/dart/documents/.*/ressources/Template.xml', s)}
+
+    return templates
+
+def get_schemas(dartdir=None):
+    """
+    Extracts DART xsd schemas from DARTEnv.jar
+    Parameters
+    ----------
+    dartdir
+
+    Returns
+    -------
+        dict
+
+    """
+    dartenv = getdartenv(dartdir)
+    jarfile = pjoin(dartenv['DART_HOME'], 'bin',  'DARTEnv.jar')
+
+    with zipfile.ZipFile(jarfile, "r") as j:
+        schemas = {os.path.basename(s).replace('.xsd', '') : j.read(s) for s in j.namelist()
+                          if re.match(r'schemaXml/.*\.xsd', s)}
+
+    return schemas
+
+
+def get_labels(dartdir=None):
+    """
+    Extract DART labels and corresponding nodes from DARTIHMSimulationEditor.jar
+    Parameters
+    ----------
+    dartdir
+
+    Returns
+    -------
+        DataFrame
+
+    """
+
+    dartenv = getdartenv(dartdir)
+    jarfile = pjoin(dartenv['DART_HOME'], 'bin',  'DARTIHMSimulationEditor.jar')
+    labelsfile = 'cesbio/dart/ihm/DartSimulationEditor/ressources/DartIhmSimulationLabel_en.properties'
+    with zipfile.ZipFile(jarfile, "r") as j:
+        labels = j.read(labelsfile)
+
+    labels = labels.split('\n')
+
+    regex = re.compile(r'^(.+?)\s*=\s*(.*?)\s*$', re.M | re.I)
+
+    labelsdf = pd.DataFrame(
+        [regex.findall(line)[0] for line in labels if len(regex.findall(line))],
+    columns = ['dartnode', 'label'])
+
+    labelsdf = labelsdf[['label', 'dartnode']]
+
+    return labelsdf

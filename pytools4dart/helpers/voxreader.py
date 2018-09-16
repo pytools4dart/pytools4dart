@@ -12,14 +12,8 @@ Created on Thu Jul 12 13:28:15 2018
 
 # Set work directory
 
-import os
-import csv
 import pandas as pd
-import pprint
-import re
-import numpy as np
-import geopandas as gpd
-from shapely.geometry import box
+
 
 # path="/media/DATA/DATA/SIMULATION_P1_P9/MaquettesALS_INRAP1P9_2016"
 # os.chdir(path)
@@ -83,35 +77,3 @@ class voxel(object):
         data = pd.read_csv(self.inputfile, sep=" ", comment="#", skiprows=skiprows)
         self.data = data
 
-    def intersect(self, shapefile):
-        crowns = gpd.read_file(shapefile)
-        intersectList=[]
-        for i in range(int(self.header["split"][0])):
-            for j in range(int(self.header["split"][1])):
-                cell = box(i * self.header["res"][0] + self.header["min_corner"][0],
-                           j * self.header["res"][0] + self.header["min_corner"][1],
-                           (i + 1) * self.header["res"][0] + self.header["min_corner"][0],
-                           (j + 1) * self.header["res"][0] + self.header["min_corner"][1])
-                try:
-                    areas = map(lambda r: r.intersection(cell).area, crowns['geometry'])
-                except:
-                    print "Area not computable for i=%d, j=%d" % (i,j)
-                    for p in range(len(crowns['geometry'])):
-                        try:
-                            crowns['geometry'][p].intersection(cell).area
-                        except:
-                            print "Polygon involved : %d" % p
-                    areas=0
-
-
-                area = np.max(areas)
-                if area > 0:
-                    ID = np.argmax(areas)
-                    intersectList.append((i, j, ID, area))
-                else:
-                    ID= np.nan
-                    intersectList.append((i, j, ID, area))
-
-        intersectDF = pd.merge(pd.DataFrame(intersectList, columns=('i', 'j', 'ID', 'intersected_area')),
-                       crowns, left_on="ID", right_index=True, how='left').drop("geometry", axis=1)
-        self.data=pd.merge(self.data, intersectDF, on=("i", "j"))

@@ -1,4 +1,34 @@
+#!/usr/bin/env python2
 # -*- coding: utf-8 -*-
+"""
+===============================================================================
+# PROGRAMMERS:
+#
+# Florian de Boissieu <florian.deboissieu@irstea.fr>
+# https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
+#
+# Copyright 2018 Eric Chraibi
+#
+# This file is part of the pytools4dart package.
+#
+# pytools4dart is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+#
+#
+===============================================================================
+This module contains settings functions and others related to dart path such as simulation
+absolute paths.
+"""
 import re
 from os.path import join as pjoin
 from os.path import expanduser
@@ -6,7 +36,7 @@ import os
 import platform
 import subprocess
 import glob
-
+import zipfile
 
 def default_dartdir():
     '''
@@ -19,13 +49,33 @@ def default_dartdir():
 
 
 def pytools4dartrc():
+    '''
+    Path of pytools4dart configuration path
+    Returns
+    -------
+        str: path of .pytools4dartrc
+    '''
     home = expanduser('~')
     return pjoin(home, '.pytools4dartrc')
 
 def getdartdir(dartdir=None):
+    '''
+    Get DART default directory or expand and normalize input DART directory
+    Parameters
+    ----------
+    dartdir: str
+        path to DART directory, e.g. /home/username/DART
+
+    Returns
+    -------
+        str: full path to DART directory
+    '''
     if not dartdir:
-        with open(pytools4dartrc()) as f:
-            dartdir = f.read()
+        if os.path.isfile(pytools4dartrc()):
+            with open(pytools4dartrc()) as f:
+                dartdir = f.read()
+        else:
+            dartdir = default_dartdir()
     else:
         dartdir = os.path.expanduser(dartdir)
 
@@ -38,7 +88,7 @@ def configure(dartdir = None):
     ----------
     dartdir : str
         Path of the DART directory containing dart executable
-        e.g. '/home/username/DART' or '\Users\username\DART'
+        e.g. '/home/username/DART' or 'C:\Users\username\DART'
 
     Returns
     -------
@@ -58,20 +108,23 @@ def configure(dartdir = None):
         print('Please (re)configure.')
 
 
-class dartconfig(object):
+def getdartenv(dartdir=None, verbose=False):
+    """
+    Get DART environment variables from the .dartrc corresponding to
+    input DART version.
+    Parameters
+    ----------
+    dartdir : str
+        Path of the DART directory containing dart executable
+        e.g. '/home/username/DART' or 'C:\Users\username\DART'
+    verbose : bool
+        Print dictionary
 
-    def __init__(self):
+    Returns
+    -------
+        dict: DART environment variables
 
-        self.pt4drc = pytools4dartrc()
-
-        if not os.path.isfile(self.pt4drc):
-            raise ValueError('Please (re)configure pytools4dart before use.',
-                             'Use pytools4dart.configure(dartdir)')
-
-        self.dartenv = getdartenv()
-
-def getdartenv(dartdir = None):
-
+    """
     dartdir = getdartdir(dartdir)
 
     if not checkdartdir(dartdir):
@@ -84,16 +137,19 @@ def getdartenv(dartdir = None):
 
     # set environmental variables
     if platform.system() == "Windows":
-        dartenv = getDartEnvWin(dartrcpath)
+        dartenv = get_dart_env_win(dartrcpath, verbose)
     elif platform.system() == "Linux":
-        dartenv = getDartEnvLinux(dartrcpath)
+        dartenv = get_dart_env_linux(dartrcpath, verbose)
     else:
         raise ValueError('OS not supported.', 'Supported OS are Linux and Windows')
 
     return dartenv
 
-def getDartEnvLinux(dartrcpath, verbose = False):
 
+def get_dart_env_linux(dartrcpath, verbose = False):
+    """
+    Linux version of getdartenv, see corresponding doc.
+    """
     command = ['bash', '-c', 'source ' + dartrcpath + ' && env']
 
     proc = subprocess.Popen(command, stdout = subprocess.PIPE)
@@ -109,7 +165,10 @@ def getDartEnvLinux(dartrcpath, verbose = False):
                     'PATH', 'LD_LIBRARY_PATH')}
 
 
-def getDartEnvWin(dartrcpath, verbose = False):
+def get_dart_env_win(dartrcpath, verbose = False):
+    """
+    Windows version of getdartenv, see corresponding doc.
+    """
     SetEnvPattern = re.compile("set (\w+)(?:=)(.*)$", re.MULTILINE)
     with open(dartrcpath) as f:
         SetEnvText = f.read()
@@ -123,10 +182,24 @@ def getDartEnvWin(dartrcpath, verbose = False):
             print "%s=%s"%(VarName,VarValue)
         dartenv[VarName] = VarValue
 
-def checkdartdir(dartdir = None):
 
-    if not dartdir:
-        dartdir = default_dartdir()
+def checkdartdir(dartdir = None):
+    """
+    Configuration checker
+
+    Parameters
+    ----------
+    dartdir : str
+        Path of the DART directory containing dart executable
+        e.g. '/home/username/DART' or 'C:\Users\username\DART'
+
+
+    Returns
+    -------
+        bool: True if dartdir exist and if config.ini found in directory
+    """
+
+    dartdir = getdartdir(dartdir)
 
     if not os.path.isdir(dartdir):
         print('DART directory not found: ' + dartdir)
@@ -137,9 +210,27 @@ def checkdartdir(dartdir = None):
         print('DART configuration file not found: ' + pjoin(dartconfig))
         return False
 
+    version,_,build = getdartversion(dartdir)
+    if version < '5-7-1':
+        print('DART version is too old: '+version)
+        return False
+
     return True
 
-def darttools(dartdir = None):
+
+def darttools(dartdir=None):
+    """
+    Get DART tools batch paths
+    Parameters
+    ----------
+    dartdir : str
+        Path of the DART directory containing dart executable
+        e.g. '/home/username/DART' or 'C:\Users\username\DART'
+
+    Returns
+    -------
+        dict: path of the different tools
+    """
     dartenv = getdartenv(dartdir)
     currentplatform = platform.system().lower()
     if currentplatform == 'windows':
@@ -159,20 +250,61 @@ def darttools(dartdir = None):
 
     return dtools
 
-def getsimupath(simuName, dartdir = None):
 
-    if not simuName:
+def getsimupath(simu_name, dartdir = None):
+    """
+    Get path of simulation directory
+    Parameters
+    ----------
+    simu_name: str
+    dartdir : str
+        Path of the DART directory containing dart executable
+        e.g. '/home/username/DART' or 'C:\Users\username\DART'
+
+    Returns
+    -------
+        str: full path of simulation directory
+    """
+    if not simu_name:
         return None
-    return pjoin(getdartenv(dartdir)['DART_LOCAL'], 'simulations', simuName)
+    return pjoin(getdartenv(dartdir)['DART_LOCAL'], 'simulations', simu_name)
+
 
 def get_simu_input_path(simu_name, dartdir = None):
+    """
+    Get path of simulation input directory
+    Parameters
+    ----------
+    simu_name: str
+    dartdir : str
+        Path of the DART directory containing dart executable
+        e.g. '/home/username/DART' or 'C:\Users\username\DART'
+
+    Returns
+    -------
+        str: full path of simulation input dircetory
+    """
 
     if not simu_name:
         return None
 
     return pjoin(getdartenv(dartdir)['DART_LOCAL'], 'simulations', simu_name, 'input')
 
+
 def get_simu_output_path(simu_name, dartdir = None):
+    """
+    Get path of simulation output directory
+    Parameters
+    ----------
+    simu_name: str
+    dartdir : str
+        Path of the DART directory containing dart executable
+        e.g. '/home/username/DART' or 'C:\Users\username\DART'
+
+    Returns
+    -------
+        str: full path of simulation input dircetory
+    """
 
     if not simu_name:
         return None
@@ -180,9 +312,19 @@ def get_simu_output_path(simu_name, dartdir = None):
     return pjoin(getdartenv(dartdir)['DART_LOCAL'], 'simulations', simu_name, 'output')
 
 
-
 def getdartversion(dartdir=None):
+    """
+    Get DART version
+    Parameters
+    ----------
+    dartdir : str
+        Path of the DART directory containing dart executable
+        e.g. '/home/username/DART' or 'C:\Users\username\DART'
 
+    Returns
+    -------
+        list: with version, release date and build
+    """
     dartdir = getdartdir(dartdir)
 
     versionfile = pjoin(dartdir, 'bin', 'version')
