@@ -24,7 +24,7 @@ simu.run.full()
 simu.stack_bands()
 simu.run.sequence('prospect_sequence')
 
-simu.run.colorCompositeBands(red='2', green='1', blue='0', iteration='X', outdir='rgb')
+simu.run.colorCompositeBands(red=2, green=1, blue=0, iteration='X', outdir='rgb')
 
 # def f2(a=None, b=None, c=None):
 #     print([a,b,c])
