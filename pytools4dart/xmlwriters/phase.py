@@ -146,7 +146,7 @@ class DartPhaseXML(DartXml):
                         'accelerationEngine': '0',
                         'nbSubSubcenterTurbidEmission': '40',
                         'distanceBetweenIlluminationSubCenters': '0.1',
-                        'nbThreads': multiprocessing.cpu_count(),
+                        'nbThreads': str(multiprocessing.cpu_count()),
                         'illuminationRepartitionMode': '2',
                         'useExternalScripts': '0',
                         'nbTrianglesWithinVoxelAcceleration': '10',
