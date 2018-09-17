@@ -74,7 +74,7 @@ def direction(simu_name, dartdir=None):
     -------
         True if good
     '''
-    return rundart(simu_name, 'direction', dartdir=dartdir)
+    return rundart(simu_name, 'directions', dartdir=dartdir)
 
 def phase(simu_name, dartdir=None):
     '''
