@@ -24,8 +24,13 @@ def run_use_case_3(testSimuName, run_required = False):
     simu.addprospectsequence(dic, 'proprieteoptpros', name='prospect_sequence')
     simu.write_xmls()
 
+    simu.run.direction()
+    simu.run.phase()
+    simu.run.maket()
+
     if run_required:
-        simu.run.full()
+        #simu.run.full()
+        simu.run.dart()
         simu.stack_bands()
         simu.run.sequence('prospect_sequence')
 

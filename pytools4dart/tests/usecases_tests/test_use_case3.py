@@ -15,7 +15,7 @@ class UseCase3Test(unittest.TestCase):
         testsimuname = "test_use_case_3"
 
         #run use_case_3
-        use_case_3_forUnitTest.run_use_case_3(testsimuname, run_required = True)
+        use_case_3_forUnitTest.run_use_case_3(testsimuname)
 
         #result comparison
         ref_inputdir_path = os.path.join(current_dir, "refData/use_case_3/input/")
