@@ -34,6 +34,8 @@ def rundart(path, tool, options = [], dartdir = None):
     tooldir,toolname = os.path.split(dtools[tool])
     cdir = os.getcwd()
     os.chdir(tooldir)
+    if len(options):
+        options = [str(s) for s in options]
     command = [dtools[tool], path] + options
     ok = subprocess.call(command)
     os.chdir(cdir)
