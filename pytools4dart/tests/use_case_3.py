@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import pytools4dart as pt4d
-pt4d.configure('~/IRSTEA/Software/DART_5-7-1_v1061')
-simu = pt4d.simulation(name='user_case_3')
+import pytools4dart as ptd
+simu = ptd.simulation(name='user_case_3')
 
-vox = pt4d.voxreader.voxel().from_vox("data/forest.vox")
+vox = ptd.voxreader.voxel().from_vox("data/forest.vox")
 
 vox.data = vox.data[(vox.data.i < 20) & (vox.data.j < 20)]
 simu.set_scene_size([20, 20])
@@ -25,7 +24,7 @@ simu.run.full()
 simu.stack_bands()
 simu.run.sequence('prospect_sequence')
 
-# pt4d.run.colorCompositeBands('user_case_3', red='2', green='1', blue='0', iteration='X', outdir='rgb')
+simu.run.colorCompositeBands(red='2', green='1', blue='0', iteration='X', outdir='rgb')
 
 # def f2(a=None, b=None, c=None):
 #     print([a,b,c])

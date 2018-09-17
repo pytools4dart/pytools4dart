@@ -182,6 +182,7 @@ def get_dart_env_win(dartrcpath, verbose = False):
             print "%s=%s"%(VarName,VarValue)
         dartenv[VarName] = VarValue
 
+    return dartenv
 
 def checkdartdir(dartdir = None):
     """
