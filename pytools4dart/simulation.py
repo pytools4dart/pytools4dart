@@ -239,15 +239,16 @@ class simulation(object):
         Parameters
         ----------
         optprop : list
-            optprop is supposed to be structured this way :
-                -type : 'lambertian' or 'vegetation'
-                -ident: string for name
-                -database: string-path to database
-                -modelname: name of opt in database
+            with the following ordered elements:
+                    - type : 'lambertian' or 'vegetation'
+                    - ident: string for name
+                    - database: string-path to database
+                    - modelname: name of opt in database
+
                 if lambertian :
-                    -specular : 0 or 1, 1 if UseSpecular
+                    - specular : 0 or 1, 1 if UseSpecular
                 if vegetation :
-                    -lad : leaf angle distribution :
+                    - lad : leaf angle distribution :
                         - 0: Uniform
                         - 1: Spherical
                         - 3: Planophil
@@ -511,6 +512,7 @@ class simulation(object):
 
 
         The XML OPT PROP goes with a "FctPhaseIndex".
+        TODO : other than 'exact location + exact parameters'
         TODO : Empy leaf cells/ leaves+ holes management!
                         -- > 'distribution' parameter
         Big question : from what will a tree be created?
@@ -563,7 +565,7 @@ class simulation(object):
         print('--------------\n')
         return
 
-    def addtreespecie(self, idspecie, ntrees='12', lai='4.0', holes='0',
+    def addtreespecies(self, species_id, lai='4.0', holes='0',
                       trunkopt='Lambertian_Phase_Function_1',
                       trunktherm='ThermalFunction290_310',
                       vegopt='custom',
@@ -587,19 +589,21 @@ class simulation(object):
         # specie = {'id': self.nspecies, 'ntrees': ntrees, 'lai': lai,
         #        'crowns': [[holes, trunkopt, trunktherm, vegopt, vegtherm]]}
 
-        cols = ['idspecie', 'ntrees', 'lai', 'holes',
+        ntrees=12
+
+        cols = ['species_id', 'ntrees', 'lai', 'holes',
                 'trunkopt', 'trunktherm', 'vegopt', 'vegtherm']
         if self.nspecies == 0:
             self.species = pd.DataFrame(columns=cols)
 
-        if idspecie in self.species.idspecie.values:
-                print "Warning: you overwrote a defined tree specie"
-                self.species = self.species[self.species.idspecie != idspecie]
+        if species_id in self.species.species_id.values:
+                print "Warning: you overwrote tree species: "+str(species_id)
+                self.species = self.species[self.species.species_id != species_id]
 
-        specieprops = [idspecie, ntrees, lai, holes,
-                       trunkopt, trunktherm, vegopt, vegtherm]
-        specie = pd.DataFrame(data=[specieprops], columns=cols)
-        self.species = self.species.append(specie, ignore_index=True)
+        species_props = [species_id, ntrees, lai, holes,
+                         trunkopt, trunktherm, vegopt, vegtherm]
+        species = pd.DataFrame(data=[species_props], columns=cols)
+        self.species = self.species.append(species, ignore_index=True)
         self.nspecies += 1
         self._registerchange('trees')
         print ("A tree specie has been added. Make sure the specified optical "
