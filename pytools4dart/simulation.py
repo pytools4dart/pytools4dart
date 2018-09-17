@@ -253,6 +253,14 @@ class simulation(object):
                         - 1: Spherical
                         - 3: Planophil
 
+            default lambertian in DART is:
+            ['lambertian', 'Lambertian_Phase_Function_1', 'Lambertian_vegetation.db',
+            'reflect_equal_1_trans_equal_0_0', 0]
+
+            default vegetation in DART is:
+            ['vegetation', 'Turbid_Leaf_Deciduous_Phase_Function', 'Vegetation.db',
+            'leaf_deciuous', 1]
+
         """
         self._registerchange('coeff_diff')
         if optprop[0] == 'lambertian':
@@ -318,7 +326,7 @@ class simulation(object):
         return
 
     def addprospectsequence(self, dic, optident, group=None,
-                            name='prospect_sequence', lad=0):
+                            name='prospect_sequence', lad=1):
         """adds a sequence of prospect generated optical properties
 
         Parameters
@@ -565,7 +573,7 @@ class simulation(object):
         print('--------------\n')
         return
 
-    def addtreespecies(self, species_id, lai='4.0', holes='0',
+    def addtreespecies(self, species_id, lai=4.0, holes=0,
                       trunkopt='Lambertian_Phase_Function_1',
                       trunktherm='ThermalFunction290_310',
                       vegopt='custom',
@@ -589,7 +597,7 @@ class simulation(object):
         # specie = {'id': self.nspecies, 'ntrees': ntrees, 'lai': lai,
         #        'crowns': [[holes, trunkopt, trunktherm, vegopt, vegtherm]]}
 
-        ntrees=12
+        ntrees=0
 
         cols = ['species_id', 'ntrees', 'lai', 'holes',
                 'trunkopt', 'trunktherm', 'vegopt', 'vegtherm']
@@ -845,12 +853,7 @@ class simulation(object):
         # Special stuff for trees : writing trees.txt and pass the path
         # But bad condition...for now
         if self.nspecies > 0:
-            self.species.sort_values(by=['idspecie'], inplace=True)
-
-            pathtrees = pjoin(simuinputpath, 'pytrees.txt')
-            self.trees.to_csv(pathtrees, sep="\t",
-                              header=True, index=False)
-            self.changetracker[1]['trees'] = pathtrees
+            self.changetracker[1]['trees'] = self.trees
             self.changetracker[1]['treespecies'] = self.species
         dxml.write_trees(self.changetracker, self.name, dartdir)
 
