@@ -35,7 +35,7 @@ try:
     import xml.etree.cElementTree as etree
 except ImportError:
     import xml.etree.ElementTree as etree
-from pytools4dart.settings import getdartversion, get_simu_input_path
+from pytools4dart.settings import getdartversion, getsimupath, get_simu_input_path
 from xmlhelpers import indent
 from os.path import join as pjoin
 
@@ -70,11 +70,13 @@ class DartTreesXML(object):
 
     """
 
-    def __init__(self, changetracker):
+    def __init__(self, changetracker, simu_name, dartdir):
         self.changes = changetracker
         self.opts = changetracker[1]['indexopts']
         # self.path = changetracker[2]
         self.root = None
+        self.treesfile = pjoin(getsimupath(self.simu_name, self.dartdir),
+                               '_'.join([self.simu_name, 'trees.txt']))
         return
 
     def _indexopt(self, optprop):
@@ -106,14 +108,17 @@ class DartTreesXML(object):
 
         if "trees" in self.changes[0]:
 
-            self.treepath = self.changes[1]["trees"]
+            self.trees = self.changes[1]["trees"]
             self.species = self.changes[1]["treespecies"]
+
+            self.write_trees_txt()
+
             trees_atr = {'sceneModelCharacteristic': '1', 'isTrees': '1'}
             self.root = etree.Element('Trees', trees_atr)
 
 
             treeone_atr = {'laiZone': '0',
-                           'sceneParametersFileName': self.treepath}
+                           'sceneParametersFileName': self.treesfile}
                            # 'sceneParametersFileName': self.path+'pytrees.txt'}
             etree.SubElement(self.root, "Trees_1", treeone_atr)
 
@@ -124,6 +129,30 @@ class DartTreesXML(object):
         else:
 
             return
+
+    def write_trees_txt(self):
+        ntrees = self.trees.SPECIES_ID.value_counts().reset_index()
+        self.species
+        indexopt = self.changes[1]['indexopts']
+        plotsdf = self.changes[1]['plots']
+
+        # convert
+        simu_plots_coords = ['x1', 'y1', 'x2', 'y2', 'x3', 'y3', 'x4', 'y4', 'zmin', 'dz']
+        dart_plots_coords = 'PT_1_X PT_1_Y PT_2_X PT_2_Y PT_3_X PT_3_Y PT_4_X PT_4_Y PLT_BTM_HEI PLT_HEI_MEA'.split()
+        simu2dart_plots_coords = {simu_plots_coords[i]: dart_plots_coords[i] for i in range(len(simu_plots_coords))}
+
+        outdf = plotsdf[simu_plots_coords].rename(index=str, columns=simu2dart_plots_coords)
+        outdf['PLT_OPT_NUMB'] = [indexopt['vegetations'][i] for i in plotsdf['optprop'].tolist()]
+        outdf['PLT_TYPE']=1
+        outdf['VEG_DENSITY_DEF'] = plotsdf.densitydef.apply(lambda x: 0 if x.lower()=='LAI' else 1).values
+
+        if all(outdf.VEG_DENSITY_DEF):
+            outdf['VEG_UL'] = plotsdf.density.values
+        else:
+            outdf['VEG_LAI'] = plotsdf.density.values
+
+        outdf.to_csv(self.plotsfile, header=True, index=False, sep=' ')
+
 
     def writetrees(self):
         """Converts to elementree the species passed.
