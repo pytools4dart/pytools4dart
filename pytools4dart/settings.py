@@ -212,7 +212,7 @@ def checkdartdir(dartdir = None):
         return False
 
     version,_,build = getdartversion(dartdir)
-    if version < '5-7-1':
+    if version < '5.7.1':
         print('DART version is too old: '+version)
         return False
 
@@ -334,5 +334,6 @@ def getdartversion(dartdir=None):
         versionstr = f.readlines()[0]
 
     version, releasedate, build = versionstr.rstrip().split('_')
+    version = version.replace('-','.')
 
     return version, releasedate, build

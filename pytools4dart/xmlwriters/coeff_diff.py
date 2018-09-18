@@ -97,6 +97,7 @@ class DartCoefXML(DartXml):
                 self.addlamb(lamb)
         except KeyError:
             pass
+
         try:
             for veg in self.changes['vegetations']:
                 self.addvegetation(veg)
@@ -105,7 +106,7 @@ class DartCoefXML(DartXml):
 
         return
 
-    def basenodes(self, default_lamb=True):
+    def basenodes(self, default_lamb=False):
         """creates all nodes and properties common to default simulations
 
         a default lambertian optical property is created unless otherwise
@@ -129,7 +130,6 @@ class DartCoefXML(DartXml):
         # parent nodes
         # # lambertian branch  : default lambertian created in Dart simulations
 
-
         if default_lamb:
             # # # lambertian default object
             lambmulti_atr = {'ident': 'Lambertian_Phase_Function_1',
@@ -142,25 +142,7 @@ class DartCoefXML(DartXml):
                                          lambmulti_atr)
             prosp_atr = {'useProspectExternalModule': '0',
                          'isFluorescent': '0'}
-            lambnode_atr = {'diffuseTransmittanceFactor': '1',
-                            'directTransmittanceFactor': '1',
-                            'useSameOpticalFactorMatrixForAllBands': '0',
-                            'reflectanceFactor': '1',
-                            'useSameFactorForAllBands': '1',
-                            'specularIntensityFactor': '1'}
-
             etree.SubElement(lambmulti, 'ProspectExternalModule', prosp_atr)
-            lambnode = etree.SubElement(
-                    lambmulti, 'lambertianNodeMultiplicativeFactorForLUT',
-                    lambnode_atr)
-            multlut_atr = {'diffuseTransmittanceFactor': '1',
-                           'specularIntensityFactor': '1',
-                           'reflectanceFactor': '1',
-                           'directTransmittanceFactor': '1',
-                           'useOpticalFactorMatrix': '0'}
-            for i in range(self.nbands):
-                etree.SubElement(lambnode, 'lambertianMultiplicativeFactorForLUT',
-                                 multlut_atr)
 
         # # temperatures branch
         temp = etree.SubElement(self.root, 'Temperatures')
@@ -182,7 +164,7 @@ class DartCoefXML(DartXml):
         # 'reflect_equal_1_trans_equal_0_0', specular='0'
         rootlamb = self.root.find("./LambertianMultiFunctions")
         lamb_atr = {'ident': ident,
-                    'useSpecular': specular,
+                    'useSpecular': str(specular),
                     'roStDev': '0.000',
                     'ModelName': modelname,
                     'databaseName': database,
@@ -192,26 +174,28 @@ class DartCoefXML(DartXml):
         # Other parameters. Supposed to be necessary for Dart Functionning
         prosp_atr = {'useProspectExternalModule': '0',
                      'isFluorescent': '0'}
-        lambnode_atr = {'diffuseTransmittanceFactor': '1',
-                        'directTransmittanceFactor': '1',
-                        'useSameOpticalFactorMatrixForAllBands': '0',
-                        'reflectanceFactor': '1',
-                        'useSameFactorForAllBands': '0',
-                        'specularIntensityFactor': '1'}
         etree.SubElement(lambmulti, 'ProspectExternalModule', prosp_atr)
 
-        lamb_nodelut = etree.SubElement(
-                lambmulti, 'lambertianNodeMultiplicativeFactorForLUT',
-                lambnode_atr)
-        lamb_lutatr = {'diffuseTransmittanceFactor': '1',
-                       'specularIntensityFactor': '1',
-                       'reflectanceFactor': '1',
-                       'directTransmittanceFactor': '1',
-                       'useOpticalFactorMatrix': '0'}
-        for i in range(self.nbands):
-            etree.SubElement(lamb_nodelut,
-                             'lambertianMultiplicativeFactorForLUT',
-                             lamb_lutatr)
+        ## Only usefull when useMultiplicativeFactorForLUT can be '1'
+        # lambnode_atr = {'diffuseTransmittanceFactor': '1',
+        #                 'directTransmittanceFactor': '1',
+        #                 'useSameOpticalFactorMatrixForAllBands': '0',
+        #                 'reflectanceFactor': '1',
+        #                 'useSameFactorForAllBands': '0',
+        #                 'specularIntensityFactor': '1'}
+        #
+        # lamb_nodelut = etree.SubElement(
+        #         lambmulti, 'lambertianNodeMultiplicativeFactorForLUT',
+        #         lambnode_atr)
+        # lamb_lutatr = {'diffuseTransmittanceFactor': '1',
+        #                'specularIntensityFactor': '1',
+        #                'reflectanceFactor': '1',
+        #                'directTransmittanceFactor': '1',
+        #                'useOpticalFactorMatrix': '0'}
+        # for i in range(self.nbands):
+        #     etree.SubElement(lamb_nodelut,
+        #                      'lambertianMultiplicativeFactorForLUT',
+        #                      lamb_lutatr)
 
         return
 
@@ -270,7 +254,7 @@ class DartCoefXML(DartXml):
             lad = optprop[3]
 
             rootveg = self.root.find("./UnderstoryMultiFunctions")
-            veg_atr = {'ident': ident, 'dimFoliar': '0.01', 'lad': lad,
+            veg_atr = {'ident': ident, 'dimFoliar': '0.01', 'lad': str(lad),
                        'useSpecular': '0', 'ModelName': modelname,
                        'databaseName': database,
                        'useMultiplicativeFactorForLUT': '0',
@@ -285,23 +269,23 @@ class DartCoefXML(DartXml):
 
             prospect_atr = {'useProspectExternalModule': '0',
                             'isFluorescent': '0'}
-            multilutnode_atr = {'LeafTransmittanceFactor': '1',
-                                'abaxialReflectanceFactor': '1',
-                                'adaxialReflectanceFactor': '1',
-                                'useSameFactorForAllBands': '1',
-                                'useSameOpticalFactorMatrixForAllBands': '0',
-                                }
 
             etree.SubElement(veg, 'ProspectExternalModule', prospect_atr)
-            """
-            mlut = etree.SubElement(veg,
-                                    'understoryNodeMultiplicativeFactorForLUT',
-                                    multilutnode_atr)
-            multilut_atr = {'useOpticalFactorMatrix': '0',
-                            'adaxialReflectanceFactor': '1.0',
-                            'abaxialReflectanceFactor': '1.0',
-                            'LeafTransmittanceFactor': '1.0'}
-            """
+
+            ## When useMultiplicativeFactorForLUT=1 will be available
+            # multilutnode_atr = {'LeafTransmittanceFactor': '1',
+            #                     'abaxialReflectanceFactor': '1',
+            #                     'adaxialReflectanceFactor': '1',
+            #                     'useSameFactorForAllBands': '1',
+            #                     'useSameOpticalFactorMatrixForAllBands': '0',
+            #                     }
+            # mlut = etree.SubElement(veg,
+            #                         'understoryNodeMultiplicativeFactorForLUT',
+            #                         multilutnode_atr)
+            # multilut_atr = {'useOpticalFactorMatrix': '0',
+            #                 'adaxialReflectanceFactor': '1.0',
+            #                 'abaxialReflectanceFactor': '1.0',
+            #                 'LeafTransmittanceFactor': '1.0'}
             # for i in range(self.nbands+1):
             # etree.SubElement(mlut,
             #                 'understoryMultiplicativeFactorForLUT',

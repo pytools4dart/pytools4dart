@@ -239,18 +239,27 @@ class simulation(object):
         Parameters
         ----------
         optprop : list
-            optprop is supposed to be structured this way :
-                -type : 'lambertian' or 'vegetation'
-                -ident: string for name
-                -database: string-path to database
-                -modelname: name of opt in database
+            with the following ordered elements:
+                    - type : 'lambertian' or 'vegetation'
+                    - ident: string for name
+                    - database: string-path to database
+                    - modelname: name of opt in database
+
                 if lambertian :
-                    -specular : 0 or 1, 1 if UseSpecular
+                    - specular : 0 or 1, 1 if UseSpecular
                 if vegetation :
-                    -lad : leaf angle distribution :
+                    - lad : leaf angle distribution :
                         - 0: Uniform
                         - 1: Spherical
                         - 3: Planophil
+
+            default lambertian in DART is:
+            ['lambertian', 'Lambertian_Phase_Function_1', 'Lambertian_vegetation.db',
+            'reflect_equal_1_trans_equal_0_0', 0]
+
+            default vegetation in DART is:
+            ['vegetation', 'Turbid_Leaf_Deciduous_Phase_Function', 'Vegetation.db',
+            'leaf_deciuous', 1]
 
         """
         self._registerchange('coeff_diff')
@@ -317,7 +326,7 @@ class simulation(object):
         return
 
     def addprospectsequence(self, dic, optident, group=None,
-                            name='prospect_sequence', lad=0):
+                            name='prospect_sequence', lad=1):
         """adds a sequence of prospect generated optical properties
 
         Parameters
@@ -506,11 +515,12 @@ class simulation(object):
         return
 
 
-    def addtrees(self, path):
+    def addtrees(self, data):
         """Add trees.txt file to the simulation
 
 
         The XML OPT PROP goes with a "FctPhaseIndex".
+        TODO : other than 'exact location + exact parameters'
         TODO : Empy leaf cells/ leaves+ holes management!
                         -- > 'distribution' parameter
         Big question : from what will a tree be created?
@@ -529,8 +539,14 @@ class simulation(object):
 
         Parameters
         ----------
-        path : string
-            Path to the trees.txt file to be read into simulation
+        data : pandas DataFrame
+            see Notes for details on mandatory and optional columns.
+
+        Notes
+        -----
+        `data` should have the following columns:
+         SPECIES_ID, POS_X  POS_Y  T_HEI_BELOW  T_HEI_WITHIN  T_DIA_BELOW  C_TYPE  C_HEI  C_GEO_1  C_GEO_2
+
         """
 
         if self.nspecies == 0:
@@ -538,11 +554,10 @@ class simulation(object):
             print "The trees you will add have no optical link."
 
         if self.trees == 0:
-            self.trees = pd.read_csv(path, comment='*', sep='\t')
+            self.trees = data
         else:
             print "appending trees to the existing trees dataframe : "
-            newtrees = pd.read_csv(path, comment='*', sep='\t')
-            self.trees.append(newtrees, ignore_index=True)
+            self.trees.append(data, ignore_index=True)
 
             # columns
 #            # cols = ['SPECIES_ID', 'C_TYPE', 'POS_X', 'POS_Y', 'T_HEI_BELOW',
@@ -558,7 +573,7 @@ class simulation(object):
         print('--------------\n')
         return
 
-    def addtreespecie(self, idspecie, ntrees='12', lai='4.0', holes='0',
+    def addtreespecies(self, species_id, lai=4.0, holes=0,
                       trunkopt='Lambertian_Phase_Function_1',
                       trunktherm='ThermalFunction290_310',
                       vegopt='custom',
@@ -582,19 +597,21 @@ class simulation(object):
         # specie = {'id': self.nspecies, 'ntrees': ntrees, 'lai': lai,
         #        'crowns': [[holes, trunkopt, trunktherm, vegopt, vegtherm]]}
 
-        cols = ['idspecie', 'ntrees', 'lai', 'holes',
+        ntrees=0
+
+        cols = ['species_id', 'ntrees', 'lai', 'holes',
                 'trunkopt', 'trunktherm', 'vegopt', 'vegtherm']
         if self.nspecies == 0:
             self.species = pd.DataFrame(columns=cols)
 
-        if idspecie in self.species.idspecie.values:
-                print "Warning: you overwrote a defined tree specie"
-                self.species = self.species[self.species.idspecie != idspecie]
+        if species_id in self.species.species_id.values:
+                print "Warning: you overwrote tree species: "+str(species_id)
+                self.species = self.species[self.species.species_id != species_id]
 
-        specieprops = [idspecie, ntrees, lai, holes,
-                       trunkopt, trunktherm, vegopt, vegtherm]
-        specie = pd.DataFrame(data=[specieprops], columns=cols)
-        self.species = self.species.append(specie, ignore_index=True)
+        species_props = [species_id, ntrees, lai, holes,
+                         trunkopt, trunktherm, vegopt, vegtherm]
+        species = pd.DataFrame(data=[species_props], columns=cols)
+        self.species = self.species.append(species, ignore_index=True)
         self.nspecies += 1
         self._registerchange('trees')
         print ("A tree specie has been added. Make sure the specified optical "
@@ -836,12 +853,7 @@ class simulation(object):
         # Special stuff for trees : writing trees.txt and pass the path
         # But bad condition...for now
         if self.nspecies > 0:
-            self.species.sort_values(by=['idspecie'], inplace=True)
-
-            pathtrees = pjoin(simuinputpath, 'pytrees.txt')
-            self.trees.to_csv(pathtrees, sep="\t",
-                              header=True, index=False)
-            self.changetracker[1]['trees'] = pathtrees
+            self.changetracker[1]['trees'] = self.trees
             self.changetracker[1]['treespecies'] = self.species
         dxml.write_trees(self.changetracker, self.name, dartdir)
 

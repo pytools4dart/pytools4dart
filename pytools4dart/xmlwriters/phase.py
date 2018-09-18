@@ -35,6 +35,7 @@ try:
 except ImportError:
     import xml.etree.ElementTree as etree
 import pandas as pd
+import multiprocessing
 
 from dartxml import DartXml
 def write_phase(changetracker, simu_name, dartdir=None):
@@ -145,7 +146,7 @@ class DartPhaseXML(DartXml):
                         'accelerationEngine': '0',
                         'nbSubSubcenterTurbidEmission': '40',
                         'distanceBetweenIlluminationSubCenters': '0.1',
-                        'nbThreads': '4',
+                        'nbThreads': str(multiprocessing.cpu_count()),
                         'illuminationRepartitionMode': '2',
                         'useExternalScripts': '0',
                         'nbTrianglesWithinVoxelAcceleration': '10',
