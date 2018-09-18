@@ -170,8 +170,15 @@ class simulation(object):
             self._registerchange('phase')
 
         elif isinstance(x, dict):
-            self.add_bands(pd.DataFrame(columns=x.keys()).\
-                         append(x, ignore_index=True), verbose)
+            try:
+                df=pd.DataFrame(x)
+            except TypeError:
+                try: # case of scalars
+                    df=pd.DataFrame(x, index=[0])
+                except TypeError:
+                    raise ValueError('Could not transform to DataFrame.')
+            self.add_bands(df, verbose)
+
         elif isinstance(x, basestring):
             if not os.path.isfile(x):
                 print 'File not found: '+x
