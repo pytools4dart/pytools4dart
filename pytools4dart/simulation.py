@@ -46,7 +46,7 @@ import numpy as np
 # local imports
 import xmlwriters as dxml
 from helpers.voxreader import voxel
-from helpers.hstools import hdrtodict, get_bands_files, get_wavelengths, stack_dart_bands
+from helpers.hstools import read_ENVI_hdr, get_hdr_bands, get_bands_files, get_wavelengths, stack_dart_bands
 from settings import getsimupath, get_simu_input_path, get_simu_output_path
 import pytools4dart.run as run
 
@@ -91,7 +91,7 @@ class simulation(object):
         self.PLOTCOLNAMES = ['x1', 'y1', 'x2', 'y2', 'x3', 'y3', 'x4', 'y4',
                              'zmin', 'dz', 'density',
                              'densitydef', 'optprop']
-        self.BANDSCOLNAMES = ['bandnames', 'centralwvl', 'fwhm']
+        self.BANDSCOLNAMES = ['wvl', 'fwhm']
 
         self.changetracker = [[], {}, "flux"]
 
@@ -144,7 +144,7 @@ class simulation(object):
         return
 
 
-    def addband(self, invar, nmtomicron=True):
+    def addband(self, x, verbose=False):
         """add spectral band to simulation sensor
 
         Possibility to add a band either from a HDR file, txt file, list
@@ -156,78 +156,60 @@ class simulation(object):
 
         Parameters
         ----------
-        invar: list or str
-            invar can be either the path to a hdr, a txt file, or a
-            list containing :
-                -BandName (optionnal)
-                -central wavelength(in µm)
-                -fwhm (in µm)
+        x: DataFrame, dict or str
+            - if DataFrame it is expected to have columns 'wvl' and 'fwhm'
+            - if dict it is expected to have elements: 'wvl' and 'fwhm'
+            - if str it should be the path to an ENVI hdr
+            or a csv file with 2 columns
         """
-        self._registerchange('phase')
-        try:
-            os.path.isfile(invar)
-            if invar.endswith('.hdr'):
-                print 'reading header'
-                hdr = hdrtodict(invar)
-                data = zip(hdr['band names'], hdr['wavelength'], hdr['fwhm'])
-                data = pd.DataFrame(data)
-                data.columns = self.BANDSCOLNAMES
-                if nmtomicron:
-                    data['centralwvl'] = data['centralwvl'].\
-                                        apply(pd.to_numeric)
-                    data['fwhm'] = data['fwhm'].apply(pd.to_numeric)
-                    data.loc[:, 'centralwvl'] *= 0.001
-                    data.loc[:, 'fwhm'] *= 0.001
+        if isinstance(x, pd.DataFrame):
+            # check columns:
+            if not set(self.BANDSCOLNAMES).issubset(x.columns):
+                print("'wvl' or 'fwhm' is missing.")
+            self.bands = self.bands.append(x.loc[:, self.BANDSCOLNAMES], ignore_index=True)
+            self._registerchange('phase')
 
-                self.bands = self.bands.append(data, ignore_index=True)
-                print ("header successfully read.")
-                print ("{} bands added".format(len(hdr['fwhm'])))
-                print('--------------\n')
+        elif isinstance(x, dict):
+            self.addband(pd.DataFrame(columns=x.keys()).\
+                         append(x, ignore_index=True), verbose)
+        elif isinstance(x, basestring):
+            if not os.path.isfile(x):
+                print 'File not found: '+x
+                return
+            if x.endswith('.hdr'):
+                hdr = read_ENVI_hdr(x)
+                data = get_hdr_bands(hdr).rename({'wavelength':'wvl'})
+                self.addband(data)
+                if verbose:
+                    print ("header successfully read.")
+                    print ("{} bands added".format(len(hdr['fwhm'])))
+                    print('--------------\n')
 
             else:
                 try:
                     # Try to read bands from txt
                     print 'reading text'
-                    with open(invar) as f:
+                    with open(x) as f:
                         line = f.readline()
                         band = line.split()
 
                     if len(band) == 2:
-                        data = pd.read_csv(invar, sep=" ", header=None)
-                        data.columns = ["centralwvl", "fwhm"]
+                        data = pd.read_csv(x, sep=" ", header=None)
+                        data.columns = ['wvl', 'fwhm']
                         # in order to add band numbers
-                        lencol = len(data["fwhm"])
+                        lencol = len(data['fwhm'])
                         data['bandnumber'] = range(0, lencol)
                         self.bands = self.bands.append(data, ignore_index=True)
 
                     elif len(band) == 3:
-                        data = pd.read_csv(invar, sep=" ", header=None)
+                        data = pd.read_csv(x, sep=" ", header=None)
                         data.columns = self.BANDCOLNAMES
                         self.bands = self.bands.append(data, ignore_index=True)
                 except TypeError:
                     print " Trouble reading txt file"
-        except TypeError:
-            try:
-                # Try to read band from a list
-                addband = pd.Series(invar)
-                if len(addband) == 2:
-                    addband.name = self.nbands+1
-                    addband.index = self.BANDSCOLNAMES[1:]
-                    self.bands = self.bands.append(addband,
-                                                   ignore_index=True)
-                    self.nbands += 1
 
-                elif len(addband) == 3:
-                    addband.name = addband[0]
-                    addband.index = self.BANDSCOLNAMES
-                    self.bands = self.bands.append(addband, ignore_index=True)
-                    self.nbands += 1
-
-                else:
-                    return
-            except TypeError:
-                print "Big Problem"
-                return
+        else:
+            print('x type not supported')
 
     def addopt(self, optprop):
         """adds and optical property to the simulation
