@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<DartFile build="v1061" version="5.7.1">
+    <Trees isTrees="1" sceneModelCharacteristic="1">
+        <Trees_1 laiZone="0" sceneParametersFileName="/home/claudia/DART/DART_5-7-1_v1061/user_data/simulations/use_case_2/use_case_2_trees.txt">
+            <Specie branchesAndTwigsSimulation="0" lai="-0.25" numberOfTreesInWholeScene="2">
+                <CrownLevel distribution="0" laiConservation="1" relativeHeightVsCrownHeight="1.00" relativeTrunkDiameterWithinCrown="0.50" verticalWeightForUf="1.00">
+                    <OpticalPropertyLink ident="trunk" indexFctPhase="1" type="0" />
+                    <ThermalPropertyLink idTemperature="ThermalFunction290_310" indexTemperature="0" />
+                    <VegetationProperty>
+                        <VegetationOpticalPropertyLink ident="leafs" indexFctPhase="0" />
+                        <ThermalPropertyLink idTemperature="ThermalFunction290_310" indexTemperature="0" />
+                    </VegetationProperty>
+                </CrownLevel>
+                <OpticalPropertyLink ident="trunk" indexFctPhase="1" type="0" />
+                <ThermalPropertyLink idTemperature="ThermalFunction290_310" indexTemperature="0" />
+            </Specie>
+            <Specie branchesAndTwigsSimulation="0" lai="-0.1" numberOfTreesInWholeScene="1">
+                <CrownLevel distribution="0" laiConservation="1" relativeHeightVsCrownHeight="1.00" relativeTrunkDiameterWithinCrown="0.50" verticalWeightForUf="1.00">
+                    <OpticalPropertyLink ident="trunk" indexFctPhase="1" type="0" />
+                    <ThermalPropertyLink idTemperature="ThermalFunction290_310" indexTemperature="0" />
+                    <VegetationProperty>
+                        <VegetationOpticalPropertyLink ident="leafs" indexFctPhase="0" />
+                        <ThermalPropertyLink idTemperature="ThermalFunction290_310" indexTemperature="0" />
+                    </VegetationProperty>
+                </CrownLevel>
+                <OpticalPropertyLink ident="trunk" indexFctPhase="1" type="0" />
+                <ThermalPropertyLink idTemperature="ThermalFunction290_310" indexTemperature="0" />
+            </Specie>
+        </Trees_1>
+        <TreeGeneralOptions triangleTreeRepresentation="0" />
+    </Trees>
+</DartFile>

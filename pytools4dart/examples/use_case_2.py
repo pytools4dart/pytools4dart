@@ -3,7 +3,9 @@ import numpy as np
 import pytools4dart as ptd
 from os.path import join as pjoin
 
-inventory_file = '/home/claudia/DART/DART_5-7-1_v1061/database/trees.txt'
+db_dir = pjoin(ptd.settings.getdartdir(),'database')
+inventory_file = pjoin(db_dir,'trees.txt')
+
 inventory = pd.read_csv(inventory_file, comment='*', sep='\t')
 
 simu = ptd.simulation('use_case_2')
@@ -11,10 +13,7 @@ simu.set_scene_size([40, 40])
 
 print(inventory)
 
-fwhm = 0.07 # full width at half maximum
-for wvl in [0.485, 0.555, 0.655]:
-    simu.add_bands([wvl, fwhm])
-
+simu.add_bands({'wvl':[0.485, 0.555, 0.655], 'fwhm':0.07})
 simu.addtrees(inventory)
 simu.addtreespecies(species_id = 0, lai=-0.25, holes=0,
                    trunkopt='trunk',

@@ -3,7 +3,7 @@ import os, shutil
 
 import pytools4dart as pt4d
 import pytools4dart.settings as settings
-from pytools4dart.examples import use_case_1_forUnitTest
+from pytools4dart.tests.usecases_tests import use_case_1_forUnitTest
 from testTools import compareFilesInDirs
 
 
