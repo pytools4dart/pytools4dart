@@ -5,7 +5,7 @@ import numpy as np
 
 simu = ptd.simulation(name='use_case_1')
 
-simu.addband([0.400, 0.01])
+simu.add_bands({'wvl':0.4, 'fwhm':0.07})
 
 dic = {'CBrown': 0.0, 'Cab': range(0,30,10), 'Car': 10,
            'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}

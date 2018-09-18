@@ -9,9 +9,7 @@ vox.data = vox.data[(vox.data.i < 20) & (vox.data.j < 20)]
 simu.set_scene_size([20, 20])
 simu.add_plots_from_vox(vox, densitydef='ul', optprop=None)
 simu.plots['optprop'] = 'proprieteoptpros'
-fwhm = 0.07 # full width at half maximum
-for wvl in [0.485, 0.555, 0.655]:
-    simu.addband([wvl, fwhm])
+simu.add_bands({'wvl':[0.485, 0.555, 0.655], 'fwhm':0.07})
 
 # simu.addsequence({'wvl':[.4,.1,10]}, group='wavelength', name='prospect_sequence')
 
