@@ -40,7 +40,7 @@ def rundart(path, tool, options = [], dartdir = None):
     ok = subprocess.call(command)
     os.chdir(cdir)
     if ok != 0:
-        raise Exception("Erreur DART run " + str(ok))
+        raise Exception('Error in ' + tool + ' : ' + str(ok))
 
     return True
 
