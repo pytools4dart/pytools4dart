@@ -167,9 +167,9 @@ def get_wavelengths(simuinputpath, dartdir=None):
     df = pd.DataFrame(tmp, columns=['band_num', 'fwhm', 'wavelength'])
     return df
 
-def hdrtodict(path, dartlabels = False):
+def read_ENVI_hdr(path, dartlabels = False):
     with open(path, 'r') as myfile:
-            hdr = myfile.read().replace("\r", "")
+        hdr = myfile.read().replace("\r", "")
     try:
         starts_with_ENVI = hdr.startswith('ENVI')
     except UnicodeDecodeError:
@@ -203,10 +203,23 @@ def hdrtodict(path, dartlabels = False):
     # pof = dict(zip(res['wavelength'],res['fwhm']))
     if dartlabels:
         composed = {v: k for k, v in composed.iteritems()}
+
+    numerics = ["samples", "lines", "bands", "header offset", "data type",
+     "byte order", "default bands", "data ignore value",
+     "wavelength", "fwhm", "data gain values"]
+
+    for k in composed.keys():
+        if k in numerics:
+            composed[k] = pd.to_numeric(composed[k])
+
     return composed
 
+def get_hdr_bands(hdr, nm_to_um=True):
+    data = pd.DataFrame({k:hdr[k] for k in ['wavelength', 'fwhm'] if k in hdr.keys()})
+    if nm_to_um:
+        data *= 0.001
 
-
+    return data
 
 
 # TEST ZONE
