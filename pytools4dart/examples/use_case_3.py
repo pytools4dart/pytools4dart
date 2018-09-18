@@ -3,7 +3,7 @@
 import pytools4dart as ptd
 simu = ptd.simulation(name='user_case_3')
 
-vox = ptd.voxreader.voxel().from_vox("data/forest.vox")
+vox = ptd.voxreader.voxel().from_vox("../../data/forest.vox")
 
 vox.data = vox.data[(vox.data.i < 20) & (vox.data.j < 20)]
 simu.set_scene_size([20, 20])
