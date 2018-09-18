@@ -3,7 +3,7 @@ import numpy as np
 import pytools4dart as ptd
 from os.path import join as pjoin
 
-inventory_file = '/home/boissieu/Florian/IRSTEA/Software/DART_5-7-1_v1061/database/trees.txt'
+inventory_file = '/home/claudia/DART/DART_5-7-1_v1061/database/trees.txt'
 inventory = pd.read_csv(inventory_file, comment='*', sep='\t')
 
 simu = ptd.simulation('use_case_2')

@@ -20,10 +20,17 @@ def compareBinaryFiles(filename1, filename2):
         raise RuntimeError('invalid exitcode detected')
     return is_different, output
 
-def compareFilesInDirs(dirpath1,dirpath2):
+def compareFilesInDirs(dirpath1, dirpath2, list_of_files_to_ignore = None):
+    #files_to_ignore: sometimes files are not identical between reference dir and the tested one, then we can exclude them from test
     differ = False
-    comp = filecmp.dircmp(dirpath1,dirpath2)
+    comp = filecmp.dircmp(dirpath1, dirpath2)
+
+    if list_of_files_to_ignore != None:
+        for fn in list_of_files_to_ignore:
+            comp.ignore.append(fn)
+
     if len(comp.right_only) != 0 or len(comp.left_only) != 0 or len(comp.diff_files) != 0:
         differ = True
+
     return differ
 
