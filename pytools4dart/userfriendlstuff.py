@@ -71,7 +71,7 @@ def simtrees(outpath, header = None, trees = None):
                   'ash_top', '0']
     pof.addopt(optpropveg)
     if header:
-        pof.addband(header)
+        pof.add_bands(header)
     if trees:
         pof.addtrees(trees)
         pof.trees['SPECIES_ID'] = 0

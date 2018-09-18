@@ -13,7 +13,7 @@ print(inventory)
 
 fwhm = 0.07 # full width at half maximum
 for wvl in [0.485, 0.555, 0.655]:
-    simu.addband([wvl, fwhm])
+    simu.add_bands([wvl, fwhm])
 
 simu.addtrees(inventory)
 simu.addtreespecies(species_id = 0, lai=-0.25, holes=0,

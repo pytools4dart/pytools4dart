@@ -13,7 +13,7 @@ proplot = ['vegetation', 'proprieteoptplot', 'Vegetation.db',
            'needle_spruce_stressed', '0']
 # prosoptveg = ['vegetation', 'proprieteoptpros', 'prospect', 'blank', 0]
 simu.addopt(proplot)
-simu.addband([0.400, 0.01])
+simu.add_bands([0.400, 0.01])
 
 dic = {'CBrown': [0.8, 0.2, 0.0], 'Cab': [5, 27, 71.5], 'Car': 10,
        'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}

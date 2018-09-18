@@ -121,7 +121,7 @@ class DartPhaseXML(DartXml):
         it only takes as input a Panda Serie with the index names :
             bandnumber, centralwvl and fwhm
         """
-        wvlcenter = vals['centralwvl']
+        wvlcenter = vals['wvl']
         wvlwidth = vals['fwhm']
         # bandnumber = vals['bandnames']
 

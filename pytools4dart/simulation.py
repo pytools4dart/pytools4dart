@@ -144,7 +144,7 @@ class simulation(object):
         return
 
 
-    def addband(self, x, verbose=False):
+    def add_bands(self, x, verbose=False):
         """add spectral band to simulation sensor
 
         Possibility to add a band either from a HDR file, txt file, list
@@ -170,7 +170,7 @@ class simulation(object):
             self._registerchange('phase')
 
         elif isinstance(x, dict):
-            self.addband(pd.DataFrame(columns=x.keys()).\
+            self.add_bands(pd.DataFrame(columns=x.keys()).\
                          append(x, ignore_index=True), verbose)
         elif isinstance(x, basestring):
             if not os.path.isfile(x):
@@ -179,7 +179,7 @@ class simulation(object):
             if x.endswith('.hdr'):
                 hdr = read_ENVI_hdr(x)
                 data = get_hdr_bands(hdr).rename({'wavelength':'wvl'})
-                self.addband(data)
+                self.add_bands(data)
                 if verbose:
                     print ("header successfully read.")
                     print ("{} bands added".format(len(hdr['fwhm'])))
@@ -912,19 +912,19 @@ if __name__ == '__main__':
                   'needle_spruce_stressed', '0']
     # prosoptveg = ['vegetation', 'proprieteoptpros', 'prospect', 'blank', 0]
     pof.addopt(proplot)
-    pof.addband([0.400, 0.01])
-#    pof.addband([0.450, 0.01])
-#    pof.addband([0.500, 0.01])
+    pof.add_bands([0.400, 0.01])
+#    pof.add_bands([0.450, 0.01])
+#    pof.add_bands([0.500, 0.01])
 
 #
-#    pof.addband([0.450, 0.01])
-#    pof.addband([0.500, 0.01])
-#    pof.addband([0.550, 0.01])
-#    pof.addband([0.600, 0.01])
-#    pof.addband([0.650, 0.01])
-#    pof.addband([0.700, 0.01])
-#    pof.addband([0.750, 0.01])
-#    pof.addband([0.800, 0.01])
+#    pof.add_bands([0.450, 0.01])
+#    pof.add_bands([0.500, 0.01])
+#    pof.add_bands([0.550, 0.01])
+#    pof.add_bands([0.600, 0.01])
+#    pof.add_bands([0.650, 0.01])
+#    pof.add_bands([0.700, 0.01])
+#    pof.add_bands([0.750, 0.01])
+#    pof.add_bands([0.800, 0.01])
     # pof.addopt(prosoptveg)
     dic = {'CBrown': [0.8, 0.2, 0.0], 'Cab': [5, 27, 71.5], 'Car': 10,
            'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
@@ -969,7 +969,7 @@ if __name__ == '__main__':
                       trunkopt = 'Lambertian_Phase_Function_1')
     pof.addtreespecie(0, vegopt = 'proprieteplot',
                       trunkopt = 'Lambertian_Phase_Function_1')
-    pof.addband("/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr")
+    pof.add_bands("/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr")
     optprop = ['lambertian', 'proprieteopt', 'Lambertian_vegetation.db',
                'lichen', '0']
     pof.addopt(optprop)
@@ -1032,7 +1032,7 @@ if __name__ == '__main__':
     pof.addsequence({'wvl': (0.400, 0.50, 10)})
     print pof.changetracker[0]
 
-    #pof.addband([])
+    #pof.add_bands([])
 
     pof.write_xmls()
 
@@ -1129,10 +1129,10 @@ sys.stdout.write("\n")
     pof.addsingleplot(corners=corners, opt='proprieteopt3')
     pof.addsingleplot(corners=corners, opt='proprieteopt1')
 
-    #   pof.addband([1, 2, 3])
-    #   pof.addband([2, 2, 3])
-    pof.addband([12, 2, 3])
-    pof.addband("/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr")
+    #   pof.add_bands([1, 2, 3])
+    #   pof.add_bands([2, 2, 3])
+    pof.add_bands([12, 2, 3])
+    pof.add_bands("/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr")
     optprop = ['lambertian', 'proprieteopt', 'Vegetation.db', 'truc', '0']
     pof.addopt(optprop)
 
