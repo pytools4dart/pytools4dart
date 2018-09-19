@@ -1,11 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<DartFile build="v1061" version="5-7-1">
+<DartFile build="v1061" version="5.7.1">
     <Phase calculatorMethod="0">
         <AtmosphereRadiativeTransfer TOAtoBOA="0" />
-        <ExpertModeZone accelerationEngine="0" albedoThreshold="1E-7" distanceBetweenIlluminationSubCenters="0.1" expertMode="0" extrapolationMethod="0" illuminationRepartitionMode="2" isInterceptedPowerPerDirectionForSpecularCheck="0" lightPropagationThreshold="1E-7" maxNbSceneCrossing="1000" nbRandomPointsPerInteceptionAtmosphere="1" nbSubSubcenterTurbidEmission="40" nbSubcenterVolume="2" nbThreads="4" nbTrianglesWithinVoxelAcceleration="10" sparseVoxelAcceleration="1" subFaceBarycenterEnabled="1" subFaceBarycenterSubdivision="1" surfaceBarycenterEnabled="1" thermalEmissionSurfaceSubdivision="0.01" triangleStorageMode="0" useExternalScripts="0" />
+        <ExpertModeZone accelerationEngine="0" albedoThreshold="1E-7" distanceBetweenIlluminationSubCenters="0.1" expertMode="0" extrapolationMethod="0" illuminationRepartitionMode="2" isInterceptedPowerPerDirectionForSpecularCheck="0" lightPropagationThreshold="1E-7" maxNbSceneCrossing="1000" nbRandomPointsPerInteceptionAtmosphere="1" nbSubSubcenterTurbidEmission="40" nbSubcenterVolume="2" nbThreads="8" nbTrianglesWithinVoxelAcceleration="10" sparseVoxelAcceleration="1" subFaceBarycenterEnabled="1" subFaceBarycenterSubdivision="1" surfaceBarycenterEnabled="1" thermalEmissionSurfaceSubdivision="0.01" triangleStorageMode="0" useExternalScripts="0" />
         <DartInputParameters>
             <SpectralIntervals>
-                <SpectralIntervalsProperties bandNumber="0" deltaLambda="0.01" meanLambda="0.4" spectralDartMode="0" />
+                <SpectralIntervalsProperties bandNumber="0" deltaLambda="0.07" meanLambda="0.485" spectralDartMode="0" />
+                <SpectralIntervalsProperties bandNumber="1" deltaLambda="0.07" meanLambda="0.555" spectralDartMode="0" />
+                <SpectralIntervalsProperties bandNumber="2" deltaLambda="0.07" meanLambda="0.655" spectralDartMode="0" />
             </SpectralIntervals>
             <temperatureAtmosphere atmosphericApparentTemperature="260.0" />
             <nodefluxtracking gaussSiedelAcceleratingTechnique="0" numberOfIteration="5" />
@@ -20,6 +22,8 @@
                 <SpectralIrradiance>
                     <CommonParameters commonIrradianceCheckBox="1" commonSkylCheckBox="1" irraDef="0" />
                     <SpectralIrradianceValue Skyl="0" bandNumber="0" irradiance="0" />
+                    <SpectralIrradianceValue Skyl="0" bandNumber="1" irradiance="0" />
+                    <SpectralIrradianceValue Skyl="0" bandNumber="2" irradiance="0" />
                 </SpectralIrradiance>
             </nodeIlluminationMode>
         </DartInputParameters>

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import pytools4dart as ptd
-simu = ptd.simulation(name='user_case_3')
+simu = ptd.simulation(name='use_case_3')
 
 vox = ptd.voxreader.voxel().from_vox("../../data/forest.vox")
 

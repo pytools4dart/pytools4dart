@@ -10,6 +10,7 @@ def run_use_case_2(testSimuName, run_required = False):
     inventory = pd.read_csv(inventory_file, comment='*', sep='\t')
 
     simu = ptd.simulation(testSimuName)
+
     simu.set_scene_size([40, 40])
 
     print(inventory)
@@ -36,16 +37,16 @@ def run_use_case_2(testSimuName, run_required = False):
 
     # simu.addopt(['vegetation', 'leafs', 'Vegetation.db',
     #              'leaf_deciduous', 1])
-
-    dic = {'CBrown': 0.0, 'Cab': range(0, 40, 10), 'Car': 10,
+    Cab = range(0, 40, 10)
+    dic = {'CBrown': 0.0, 'Cab': Cab, 'Car': 10,
            'Cm': 0.01, 'Cw': 0.012, 'N': 1.8, 'anthocyanin': 0}
 
     simu.addprospectsequence(dic, 'leafs', name='prospect_sequence')
 
     simu.write_xmls()
     simu.run.sequence('prospect_sequence')
-    ptd.run.colorCompositeBands(pjoin(testSimuName, 'sequence', 'prospect_sequence_3'), 2, 1, 0, 'X', 'rgb')
-
+    for i in range(len(Cab)):
+        ptd.run.colorCompositeBands(pjoin('use_case_2', 'sequence', 'prospect_sequence_' + str(i)), 2, 1, 0, 'X', 'rgb')
 
 if __name__ == '__main__':
     run_use_case_2("use_case_2", run_required=True)

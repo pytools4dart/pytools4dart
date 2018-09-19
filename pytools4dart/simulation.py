@@ -461,7 +461,7 @@ class simulation(object):
         return
 
     def add_plots_from_vox(self, vox, densitydef='ul', optprop=None):
-        """Add Plots based on AMAPVox file.
+        """Add plots based on AMAPVox file.
 
         Parameters
         ---------

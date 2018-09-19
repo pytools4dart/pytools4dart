@@ -1,8 +1,4 @@
 import commands
-import numpy as np
-import os
-from os import listdir
-from os.path import isfile, isdir
 import filecmp
 
 def compareBinaryFiles(filename1, filename2):

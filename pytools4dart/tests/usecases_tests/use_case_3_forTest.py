@@ -1,21 +1,19 @@
 # -*- coding: utf-8 -*-
 
-import pytools4dart as pt4d
+import pytools4dart as ptd
 import os.path
-pt4d.configure('/home/claudia/DART/DART_5-7-1_v1061')
+ptd.configure('/home/claudia/DART/DART_5-7-1_v1061')
 
 def run_use_case_3(testSimuName, run_required = False):
-    simu = pt4d.simulation(name=testSimuName)
-    current_dir = os.path.dirname(os.path.realpath(__file__))
-    vox = pt4d.voxreader.voxel().from_vox(os.path.join(current_dir,"../../data/forest.vox"))
+    simu = ptd.simulation(name = testSimuName)
+
+    vox = ptd.voxreader.voxel().from_vox("../../../data/forest.vox")
 
     vox.data = vox.data[(vox.data.i < 20) & (vox.data.j < 20)]
     simu.set_scene_size([20, 20])
     simu.add_plots_from_vox(vox, densitydef='ul', optprop=None)
     simu.plots['optprop'] = 'proprieteoptpros'
-    simu.addband([0.485, 0.07])
-    simu.addband([0.555, 0.07])
-    simu.addband([0.655, 0.07])
+    simu.add_bands({'wvl': [0.485, 0.555, 0.655], 'fwhm': 0.07})
 
     # simu.addsequence({'wvl':[.4,.1,10]}, group='wavelength', name='prospect_sequence')
 
@@ -33,6 +31,7 @@ def run_use_case_3(testSimuName, run_required = False):
         simu.run.dart()
         simu.stack_bands()
         simu.run.sequence('prospect_sequence')
+        simu.run.colorCompositeBands(red=2, green=1, blue=0, iteration='X', outdir='rgb')
 
 if __name__ == '__main__':
     run_use_case_3("use_case_3", run_required = True)
