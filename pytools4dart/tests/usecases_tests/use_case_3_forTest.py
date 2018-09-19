@@ -2,12 +2,14 @@
 
 import pytools4dart as ptd
 import os.path
+from os.path import join as pjoin
 ptd.configure('/home/claudia/DART/DART_5-7-1_v1061')
 
 def run_use_case_3(testSimuName, run_required = False):
     simu = ptd.simulation(name = testSimuName)
-
-    vox = ptd.voxreader.voxel().from_vox("../../../data/forest.vox")
+    cd =  os.getcwd()
+    ptdroot_dir = cd.split("pytools4dartMTD")[0]
+    vox = ptd.voxreader.voxel().from_vox(pjoin(ptdroot_dir, "pytools4dartMTD/data/forest.vox"))
 
     vox.data = vox.data[(vox.data.i < 20) & (vox.data.j < 20)]
     simu.set_scene_size([20, 20])
