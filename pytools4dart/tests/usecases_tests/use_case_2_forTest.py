@@ -41,7 +41,7 @@ def run_use_case_2(testSimuName, run_required = False):
     dic = {'CBrown': 0.0, 'Cab': Cab, 'Car': 10,
            'Cm': 0.01, 'Cw': 0.012, 'N': 1.8, 'anthocyanin': 0}
 
-    simu.addprospectsequence(dic, 'leafs', name='prospect_sequence')
+    simu.add_prospect_sequence(dic, 'leafs', name='prospect_sequence')
 
     simu.write_xmls()
     simu.run.sequence('prospect_sequence')

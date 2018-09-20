@@ -14,7 +14,7 @@ def run_use_case_1(testSimuName, run_required = False):
     dic = {'CBrown': 0.0, 'Cab': range(0, 30, 10), 'Car': 10,
            'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
 
-    simu.addprospectsequence(dic, 'proprieteoptpros', name='prospect_sequence')
+    simu.add_prospect_sequence(dic, 'proprieteoptpros', name='prospect_sequence')
     simu.add_single_plot(opt='proprieteoptpros')
 
     simu.add_sequence({'wvl': np.linspace(.4, .8, 5)})

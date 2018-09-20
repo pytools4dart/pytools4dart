@@ -324,7 +324,7 @@ class simulation(object):
             return
         return
 
-    def addprospectsequence(self, dic, optident, group=None,
+    def add_prospect_sequence(self, dic, optident, group=None,
                             name='prospect_sequence', lad=1):
         """adds a sequence of prospect generated optical properties
 
@@ -935,7 +935,7 @@ if __name__ == '__main__':
     dic = {'CBrown': [0.8, 0.2, 0.0], 'Cab': [5, 27, 71.5], 'Car': 10,
            'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
 
-    pof.addprospectsequence(dic, 'proprieteoptpros', name='prospect_sequence')
+    pof.add_prospect_sequence(dic, 'proprieteoptpros', name='prospect_sequence')
     pof.add_sequence({'wvl':[0.400,0.050,8]},
                     group = 'wvl', name = 'prospect_sequence')
     corner = [[1, 1],
@@ -999,7 +999,7 @@ if __name__ == '__main__':
     pof.addtreespecie(2, vegopt = 'prosopt')
     dic = {'CBrown': 0.0, 'Cab': [7, 20.5, 40.3, 82.5], 'Car': 10,
            'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
-    pof.addprospectsequence(dic, 'prosopt')
+    pof.add_prospect_sequence(dic, 'prosopt')
     pof.write_xmls()
 
     # define path for tools
@@ -1074,7 +1074,7 @@ if __name__ == '__main__':
     pof.add_optical_property(optpropveg)
 
     pof.add_sequence({'wvl': (400,50,3)})
-    # pof.addprospectsequence(dic, 'proprieteoptpros')
+    # pof.add_prospect_sequence(dic, 'proprieteoptpros')
     # dxml.write_coeff_diff(pof.changetracker)
     pof.write_xmls()
     """
@@ -1103,7 +1103,7 @@ if __name__ == '__main__':
            'Cm':1, 'Cw':4, 'N':2, 'anthocyanin':1}
     prosoptveg = ['vegetation','proprieteoptpros', 'prospect', 'blank',0]
     pof.add_optical_property(prosoptveg)
-    pof.addprospectsequence(dic, 'proprieteoptpros')
+    pof.add_prospect_sequence(dic, 'proprieteoptpros')
     pof.write_sequence()
     """
     """

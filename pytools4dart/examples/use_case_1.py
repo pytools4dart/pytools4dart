@@ -10,7 +10,7 @@ simu.add_bands({'wvl':[0.485, 0.555, 0.655], 'fwhm':0.07})
 dic = {'CBrown': 0.0, 'Cab': range(0,30,10), 'Car': 10,
            'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
 
-simu.addprospectsequence(dic, 'proprieteoptpros', name='prospect_sequence')
+simu.add_prospect_sequence(dic, 'proprieteoptpros', name='prospect_sequence')
 simu.add_single_plot(opt_name='proprieteoptpros')
 
 simu.add_sequence({'wvl':np.linspace(.4,.8,5)})
