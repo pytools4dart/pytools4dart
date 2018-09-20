@@ -1,7 +1,6 @@
 # !/usr/bin/env python2
 #  -*- coding: utf-8 -*-
-"""
-===============================================================================
+# ===============================================================================
 # PROGRAMMERS:
 #
 # Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>
@@ -25,11 +24,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 #
 #
-===============================================================================
-
+# ===============================================================================
+"""
 Objects and functions necessary to write the directions xml file.
 It is important to note the resulting xml file is written over a single line.
-
 """
 try:
     import xml.etree.cElementTree as etree

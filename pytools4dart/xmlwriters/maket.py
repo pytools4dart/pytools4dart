@@ -1,11 +1,9 @@
-# !/usr/bin/env python2
 #  -*- coding: utf-8 -*-
-"""
-===============================================================================
+# ===============================================================================
 # PROGRAMMERS:
 #
-# Eric Chraibi <eric.chraibi@irstea.fr>  -
-https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
+# Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>
+# https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
 # Copyright 2018 TETIS
 #
@@ -25,8 +23,8 @@ https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 #
 #
-===============================================================================
-
+# ===============================================================================
+"""
 Objects and functions necessary to write the maket xml file.
 It is important to note the resulting xml file is written over a single line.
 TODO : easier maket possibilities
@@ -166,10 +164,3 @@ class DartMaketXML(DartXml):
     #     tree.write(outpath, encoding="UTF-8", xml_declaration=True)
     #     return
     #
-
-# to be expanded.....
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # ZONE DE TESTS
-if __name__ == '__main__':
-    """outpath = "/media/mtd/stock/boulot_sur_dart/temp/"
-
-    write_maket("flux", [], outpath)"""

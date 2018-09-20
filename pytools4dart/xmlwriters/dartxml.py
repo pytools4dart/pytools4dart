@@ -1,12 +1,11 @@
 #  -*- coding: utf-8 -*-
-"""
-===============================================================================
+# ===============================================================================
 # PROGRAMMERS:
 #
-# Florian de Boissieu <florian.deboissieu@irstea.fr>
+# Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
-# Copyright 2018 Florian de Boissieu
+# Copyright 2018 TETIS
 #
 # This file is part of the pytools4dart package.
 #
@@ -24,10 +23,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 #
 #
-===============================================================================
-
+# ===============================================================================
+"""
 Objects and functions necessary to write the dart xml file.
-
 """
 
 try:

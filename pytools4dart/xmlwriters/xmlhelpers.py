@@ -1,11 +1,9 @@
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
-"""
-===============================================================================
+#  -*- coding: utf-8 -*-
+# ===============================================================================
 # PROGRAMMERS:
 #
-# Eric Chraibi <eric.chraibi@irstea.fr>  -
-https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
+# Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>
+# https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
 # Copyright 2018 TETIS
 #
@@ -25,11 +23,10 @@ https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 #
 #
-===============================================================================
-
+# ===============================================================================
+"""
 This module is a test zone with basic functions to visualize, write and edit
 etree objects and xml files.
-
 """
 
 import os

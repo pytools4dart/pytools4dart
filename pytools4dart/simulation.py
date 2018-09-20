@@ -1,7 +1,5 @@
-#!/usr/bin/env python2
 # -*- coding: utf-8 -*-
-"""
-===============================================================================
+# ===============================================================================
 # PROGRAMMERS:
 #
 # Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>
@@ -25,7 +23,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 #
 #
-===============================================================================
+# ===============================================================================
+"""
 This module contains the class "simulation".
 This class allows for the storing of all of data relevant to the simulation.
 It can be either created by one of the functions of the UFPD
@@ -51,8 +50,6 @@ from helpers.hstools import read_ENVI_hdr, get_hdr_bands, get_bands_files, get_w
 from settings import getsimupath, get_simu_input_path, get_simu_output_path
 import pytools4dart.run as run
 import helpers.dbtools as dbtools
-# from helpers.foldermngt import checksettings
-
 
 class simulation(object):
     """Simulation object corresponding to a DART simulation.
