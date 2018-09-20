@@ -511,7 +511,7 @@ class simulation(object):
         return
 
 
-    def addtrees(self, data):
+    def add_trees(self, data):
         """Add trees.txt file to the simulation
 
 
@@ -569,7 +569,7 @@ class simulation(object):
         print('--------------\n')
         return
 
-    def addtreespecies(self, species_id, lai=4.0, holes=0,
+    def add_treespecies(self, species_id, lai=4.0, holes=0,
                       trunkopt='Lambertian_Phase_Function_1',
                       trunktherm='ThermalFunction290_310',
                       vegopt='custom',
@@ -970,10 +970,10 @@ if __name__ == '__main__':
 
     pof = simulation(PathDART+'user_data/simulations/'+SimulationName+'/')
     pof.set_scene_size([40, 40])
-    pof.addtreespecie(1)
-    pof.addtreespecie(1, vegopt = 'proprieteopt2',
+    pof.add_treespecie(1)
+    pof.add_treespecie(1, vegopt = 'proprieteopt2',
                       trunkopt = 'Lambertian_Phase_Function_1')
-    pof.addtreespecie(0, vegopt = 'proprieteplot',
+    pof.add_treespecie(0, vegopt = 'proprieteplot',
                       trunkopt = 'Lambertian_Phase_Function_1')
     pof.add_bands("/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr")
     optprop = ['lambertian', 'proprieteopt', 'Lambertian_vegetation.db',
@@ -994,9 +994,9 @@ if __name__ == '__main__':
                   'ash_top', '0']
     pof.add_optical_property(optpropveg)
     path = '/media/mtd/stock/boulot_sur_dart/temp/model_trees.txt'
-    pof.addtrees(path)
+    pof.add_trees(path)
     pof.trees['SPECIES_ID'] = 2
-    pof.addtreespecie(2, vegopt = 'prosopt')
+    pof.add_treespecie(2, vegopt = 'prosopt')
     dic = {'CBrown': 0.0, 'Cab': [7, 20.5, 40.3, 82.5], 'Car': 10,
            'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
     pof.add_prospect_sequence(dic, 'prosopt')
