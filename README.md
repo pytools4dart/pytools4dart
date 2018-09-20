@@ -78,24 +78,25 @@ deactivate
 
 To suppress the environment, suppress the directory `venv` after desactivating it.
 
-### Pre-install requirements
-Required packages are listed in file requirements.txt. The command line to install is:
+#### GIS packages
+Some required packages are not in `requirements.txt` due to Windows compatibility issues. 
+Therefore they should be installed separatly:
+```commandline
+pip install pygdal
+pip install geopandas
+```
+
+### Other requirements
+Other required packages are listed in file requirements.txt
+that can be installed from command line with:
 ```commandline
 pip install -r requirements.txt
 ```
 
-### GDAL
+## Installation
+Installation can be done from the `pytools4dartMTD` directory:
 
 ```commandline
-pip install GDAL-X.Y.Z-cp27-none-win_XYZ.whl
-```
-
-
-*TO BE COMPLETED*
-## Installation
-In the `pytools4dartMTD` directory, execute:
-
-```sh
 python setup.py install
 ```
 
@@ -106,35 +107,40 @@ pytools4dart.configure('specific_path_to_DART')
 ```
 
 
-## Deployment
+## Features
+At the moment only part of DART simulator features are supported:
+- create 'flux' simulation
+- scene and cell size definition
+- bands, plots, optical properties management
+- simulation sequence generator
+- DART xml writers
+- dart runners: dart-direction, dart-phase, dart-maket,
+dart-only, dart-full, dart-sequence, dart-colorCompositeBands
+- hyperspectral tools: read ENVI .hdr files, extact wavelengths and bandwidths
+- read AMAPVox files
 
-###### Simulation object
 
-All the simulation launching function are wrappers of a simulation object
-which manages the lists of modified parameters to be written in the xml files
-which will be given as entry to DART.
+###### Create simulation
 
-This object contains a certain number of methods and variables to ease 
+`simulation` creates an object with methods and variables to ease 
 the synthesis and understanding of the general properties of a given 
 simulation.
 
-A number of variables are panda DataFrame objects, and can be directly 
+Many variables are pandas DataFrame objects, and can be directly 
 interacted with by the user.
 
+To create a new simulation:
 ```python
-self.PLOTCOLNAMES = ['corners', 'baseheight', 'density', 'optprop']
-self.BANDSCOLNAMES = ['bandnames', 'centralwvl', 'fwhm']
-
-self.bands = pd.DataFrame(columns=self.BANDSCOLNAMES)
-self.plots = pd.DataFrame(columns=self.PLOTCOLNAMES)
+import pytools4dart as ptd
+simu = ptd.simulation('new_simulation')
 ```
 
-The names of the columns are hardcoded and not to be changed. 
-Those variables will be passed to the xmlwriters except if an existing
-xml file is specified.
+Usefull variables are:
+```python
+self.scene
+self.plots # plots to be written
+```
 
-The optical properties or "Phase Functions", are managed interactively 
-through the variable defined l.69.
 
 ```python
 self.optsprops = {'lambertians': [], 'vegetations': []}
@@ -145,36 +151,11 @@ the ordered list of the corresponding optical properties. This
 allowed easier indexing for the referencing of optical properties by
 index in the xmlwriter for "plots.xml".
 
-###### Description of "changetracker"
-
-changetracker is a variable of the "simulation" object. It allows to save the
-user defined parameters in order for them to be passed to the xmlwriters
-functions. 
-It is structured in the following way l. 67 of simulation.py: 
-
-```python
-self.changetracker = [[], {}, outpath, simulationtype]
-```
-
-Changetracker contains first a list of all modules that will have to be
-updated, then a dictionnary of dictionnaries accessed in the following way: 
-
-```python
-self.changetracker[1]['plots'][parameter] = paramvalue
-```
-
-Thereby all parameters relevant to a particular xml file can be accessed 
-through the dictionnary with the same name.
-
-The outpath should be to an "input" named folder, placed in a folder where
-the DART "output" folder will be created upon running.
-
-The simulationtype can be either "flux" or "lidar".
 
 ###### Plots management
 
 Before the plots.xml file is effectively written, all plots related information
-is saved in the simulation.plots variable which is a panda DataFrame object.
+is saved in the simulation.plots variable which is a pandas DataFrame object.
 This object has the following named columns : 'corners', 'baseheight', 
 'density' and 'optprop'.
 Those parameters can be directly modified.
@@ -207,7 +188,7 @@ ordered information:
 ###### Using DART - trees
 
 It is possible to add trees to a simulation based on a trees.txt file.
-The 'addtrees' method reads a trees.txt file into a panda Dataframe
+The 'addtrees' method reads a trees.txt file into a pandas Dataframe
 which can then be interacted with directly through the self.trees variable.
 
 Upon launching of the simulation (or writing of all xmls), this variable is 
@@ -304,9 +285,33 @@ The above parameters give the following values for :
 
 
 ###### Authors
-
+Florian de Boissieu <florian.deboissieu@irstea.fr>
+Eric Chraibi <eric.chraibi@irstea.fr>
+Claudia Lavalley <claudia.lavalley@irstea.fr>
+Jean-Baptiste Féret <jean-baptiste.feret@irstea.fr>
 
 ###### License
+*pytools4dart* is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 
 ###### Acknowledgments
+
+The development was partially supported by CNES TOSCA program for Hypertropik project,
+and french ANR JC program for BioCop project. 
+
+We thank our colleagues from DART development team at CESBIO
+who provided insight and expertise
+that greatly assisted the development of this package.
+
+We also thank Yingjie WANG for his previous work on python interface to DART simulator. 

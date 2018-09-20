@@ -85,17 +85,14 @@ class simulation(object):
 
         """
 
-        self.name = name
+        self.name = name # name of the simulation
+        self.scene = [10, 10] # scene size in meters
+        self.cell = [1, 1] # cell size in meters
+
 
         # Variables to be used in subsequent methods
-        self.PLOTCOLNAMES = ['x1', 'y1', 'x2', 'y2', 'x3', 'y3', 'x4', 'y4',
-                             'zmin', 'dz', 'density',
-                             'densitydef', 'optprop']
         self.BANDSCOLNAMES = ['wvl', 'fwhm']
 
-        self.changetracker = [[], {}, "flux"]
-
-        self.plotsnumber = 0
         defaultlamb = ['Lambertian_Phase_Function_1',
                        'Lambertian_vegetation.db',
                        'reflect_equal_1_trans_equal_0_0',
@@ -105,15 +102,21 @@ class simulation(object):
                          'vegetations': []}
         self.nbands = 0
         self.bands = pd.DataFrame(columns=self.BANDSCOLNAMES)
-        self.plots = pd.DataFrame(columns=self.PLOTCOLNAMES)
-        self.scene = [10, 10]
-        self.cell = [1, 1]
+
+        # Plots variables
+        self.PLOTCOLNAMES = ['x1', 'y1', 'x2', 'y2', 'x3', 'y3', 'x4', 'y4',
+                             'zmin', 'dz', 'density',
+                             'densitydef', 'optprop']
+        self.plots = pd.DataFrame(columns=self.PLOTCOLNAMES) # plots description
+
         self.nspecies = 0
         self.trees = 0
 
         self.prosparams = ['CBrown', 'Cab', 'Car', 'Cm',
                            'Cw', 'N', 'anthocyanin']
         self.prossequence = 0
+
+        self.changetracker = [[], {}, "flux"]
 
         self.run = run.runners(self)
 
@@ -383,7 +386,7 @@ class simulation(object):
         return
 
     def add_singleplot(self, corners=None, baseheight=1, density=1,
-                      opt="custom", ident=None, height=1, densitydef='ul'):
+                      opt="custom", height=1, densitydef='ul'):
         """adds a plot to the scene with certain parameters
 
         For now, if no corners are specified, a default plot is created
@@ -403,8 +406,6 @@ class simulation(object):
             opt : str, optional
                 ident of the optical property assigned to the plot. Does not
                 have to be created at the assignation time.
-            ident: str, optional
-                ident of the plot. Unused for now.
             densitydef: str, optional
                  defines the interpretation of the density value :
                      ul = m²/ m³
@@ -414,8 +415,6 @@ class simulation(object):
         """
         self._registerchange('plots')
 
-        if not ident:
-            ident = self.plotsnumber
         if not corners:
             corners = [[self.scene[0],  self.scene[1]],
                        [self.scene[0],  0],
@@ -424,7 +423,7 @@ class simulation(object):
         data = np.array(corners).flatten().tolist()+[baseheight, height, density, densitydef, opt]
         miniframe = pd.DataFrame([data], columns=self.PLOTCOLNAMES)
         self.plots = self.plots.append(miniframe, ignore_index=True)
-        self.plotsnumber += 1
+
         return
 
     def add_multiplots(self, data, colnames={'x1':'x1', 'y1':'y1', 'x2':'x2', 'y2':'y2',
@@ -521,7 +520,7 @@ class simulation(object):
             -X
             -Y
             -Height below crown
-            -Heiht within crown
+            -Height within crown
             -diameter below crown
             -Trunk Rotation
             -Trunk nutation rotation
