@@ -1,11 +1,11 @@
-"""
-===============================================================================
+# -*- coding: utf-8 -*-
+# ===============================================================================
 # PROGRAMMERS:
 #
-# Eric Chraibi <eric.chraibi@irstea.fr>  -
-https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
+# Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>
+# https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
-# Copyright 2018 Eric Chraibi
+# Copyright 2018 TETIS
 #
 # This file is part of the pytools4dart package.
 #
@@ -23,7 +23,7 @@ https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 #
 #
-===============================================================================
+# ===============================================================================
 """
 __version__ = "0.0.dev1"
 

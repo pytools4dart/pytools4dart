@@ -1,13 +1,11 @@
-#!/usr/bin/env python2
 # -*- coding: utf-8 -*-
-"""
-===============================================================================
+# ===============================================================================
 # PROGRAMMERS:
 #
 # Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
-# Copyright 2018 Eric Chraibi
+# Copyright 2018 TETIS
 #
 # This file is part of the pytools4dart package.
 #
@@ -25,7 +23,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 #
 #
-===============================================================================
+# ===============================================================================
+"""
 This module contains the function to extract DART database elements.
 """
 

@@ -85,6 +85,27 @@ Therefore they should be installed separatly:
 pip install pygdal
 pip install geopandas
 ```
+##### Error on GDAL version
+If install of `pygdal` throws an error on gdal version:
+```
+__main__.GDALConfigError: Version mismatch 2.1.3 != 2.3.1
+```
+specify the version corresponding installed gdal:
+```commandline
+gdal-config --version
+# 2.1.3
+pip install pygdal==2.1.3.3
+``` 
+
+##### Error on Python.h
+If install throws an error on `Python.h`, e.g.
+```
+extensions/gdal_wrap.cpp:155:21: fatal error: Python.h: No such file or directory
+```
+install package python development package, e.g. on Ubuntu:
+```commandline
+sudo apt-get install python-dev
+```
 
 ### Other requirements
 Other required packages are listed in file requirements.txt

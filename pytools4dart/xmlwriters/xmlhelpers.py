@@ -7,7 +7,7 @@
 # Eric Chraibi <eric.chraibi@irstea.fr>  -
 https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
-# Copyright 2018 Eric Chraibi
+# Copyright 2018 TETIS
 #
 # This file is part of the pytools4dart package.
 #
