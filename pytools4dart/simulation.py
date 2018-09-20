@@ -248,7 +248,7 @@ class simulation(object):
 
             default vegetation in DART is:
             ['vegetation', 'Turbid_Leaf_Deciduous_Phase_Function', 'Vegetation.db',
-            'leaf_deciuous', 1]
+            'leaf_deciduous', 1]
 
         """
         self._registerchange('coeff_diff')
