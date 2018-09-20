@@ -69,7 +69,7 @@ def simtrees(outpath, header = None, trees = None):
     optpropveg = ['vegetation', 'proprieteopt2',
                   '/media/mtd/stock/DART/database/Vegetation.db',
                   'ash_top', '0']
-    pof.addopt(optpropveg)
+    pof.add_optical_property(optpropveg)
     if header:
         pof.add_bands(header)
     if trees:

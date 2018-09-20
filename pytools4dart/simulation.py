@@ -72,9 +72,9 @@ class simulation(object):
 
         optprops is a dictionnary containing two lists :
             for each type : 'lambertian' or 'vegetation'
-            -ident: string for name
+            -op_name: string for name
             -database: string-path to database
-            -modelname: name of opt in database
+            -op_name_in_db: name of opt in database
             if lambertian :
                 -specular : 0 or 1, 1 if UseSpecular
             if vegetation :
@@ -221,7 +221,7 @@ class simulation(object):
         else:
             print('x type not supported')
 
-    def addopt(self, optprop):
+    def add_optical_property(self, optprop):
         """adds and optical property to the simulation
 
         TODO : think about : do we want optprops as an object?
@@ -233,9 +233,9 @@ class simulation(object):
         optprop : list
             with the following ordered elements:
                     - type : 'lambertian' or 'vegetation'
-                    - ident: string for name
+                    - op_name: string for name
                     - database: string-path to database
-                    - modelname: name of opt in database
+                    - op_name_in_db: name of opt in database
 
                 if lambertian :
                     - specular : 0 or 1, 1 if UseSpecular
@@ -328,7 +328,7 @@ class simulation(object):
             and the assigned value. For now only one parameter can vary.
         optident : str
             name of the prospect optical property. For now created independently
-            via addopt()
+            via add_optical_property()
 
         TODO : Absolutey NOT Optimized nor clean!
         """
@@ -339,7 +339,7 @@ class simulation(object):
 
         # definition of the 'blank' prospect optical property
         prosoptveg = ['vegetation', optident, 'prospect', 'blank', lad]
-        self.addopt(prosoptveg)
+        self.add_optical_property(prosoptveg)
 
         self.setindexprops()
         try:
@@ -386,7 +386,7 @@ class simulation(object):
         return
 
     def add_singleplot(self, corners=None, baseheight=1, density=1,
-                      opt="custom", height=1, densitydef='ul'):
+                      opt_name="custom", height=1, densitydef='ul'):
         """adds a plot to the scene with certain parameters
 
         For now, if no corners are specified, a default plot is created
@@ -403,9 +403,10 @@ class simulation(object):
                 base height of the plot
             density : int, optional
                 density of the plot
-            opt : str, optional
-                ident of the optical property assigned to the plot. Does not
-                have to be created at the assignation time.
+            opt_name : str, optional
+                name of the optical property assigned to the plot. This optical property must exist
+                in the opt properties list before running dart modules,
+                even if it is not mandatory it to be created before the assignation time.
             densitydef: str, optional
                  defines the interpretation of the density value :
                      ul = m²/ m³
@@ -420,7 +421,7 @@ class simulation(object):
                        [self.scene[0],  0],
                        [0,              0],
                        [0,              self.scene[1]]]
-        data = np.array(corners).flatten().tolist()+[baseheight, height, density, densitydef, opt]
+        data = np.array(corners).flatten().tolist()+[baseheight, height, density, densitydef, opt_name]
         miniframe = pd.DataFrame([data], columns=self.PLOTCOLNAMES)
         self.plots = self.plots.append(miniframe, ignore_index=True)
 
@@ -917,7 +918,7 @@ if __name__ == '__main__':
     proplot = ['vegetation','proprieteoptplot','Vegetation.db',
                   'needle_spruce_stressed', '0']
     # prosoptveg = ['vegetation', 'proprieteoptpros', 'prospect', 'blank', 0]
-    pof.addopt(proplot)
+    pof.add_optical_property(proplot)
     pof.add_bands([0.400, 0.01])
 #    pof.add_bands([0.450, 0.01])
 #    pof.add_bands([0.500, 0.01])
@@ -931,7 +932,7 @@ if __name__ == '__main__':
 #    pof.add_bands([0.700, 0.01])
 #    pof.add_bands([0.750, 0.01])
 #    pof.add_bands([0.800, 0.01])
-    # pof.addopt(prosoptveg)
+    # pof.add_optical_property(prosoptveg)
     dic = {'CBrown': [0.8, 0.2, 0.0], 'Cab': [5, 27, 71.5], 'Car': 10,
            'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
 
@@ -978,7 +979,7 @@ if __name__ == '__main__':
     pof.add_bands("/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr")
     optprop = ['lambertian', 'proprieteopt', 'Lambertian_vegetation.db',
                'lichen', '0']
-    pof.addopt(optprop)
+    pof.add_optical_property(optprop)
     corners = [[1, 1],
                [1, 5],
                [5, 7],
@@ -988,11 +989,11 @@ if __name__ == '__main__':
     optpropplot = ['vegetation', 'proprieteplot',
                   'Vegetation.db',
                   'grass_dry', '0']
-    pof.addopt(optpropplot)
+    pof.add_optical_property(optpropplot)
     optpropveg = ['vegetation', 'proprieteopt2',
                   'Vegetation.db',
                   'ash_top', '0']
-    pof.addopt(optpropveg)
+    pof.add_optical_property(optpropveg)
     path = '/media/mtd/stock/boulot_sur_dart/temp/model_trees.txt'
     pof.addtrees(path)
     pof.trees['SPECIES_ID'] = 2
@@ -1024,12 +1025,12 @@ if __name__ == '__main__':
     optpropveg = ['vegetation', 'proprieteopt',
                   '/media/mtd/stock/DART/database/Vegetation.db',
                   'leaf_deciduous', '0']
-    pof.addopt(optpropveg)
+    pof.add_optical_property(optpropveg)
     print pof.changetracker[0]
     optpropveg = ['vegetation', 'proprieteopt2',
                   '/media/mtd/stock/DART/database/Vegetation.db',
                   'elm_top', '0']
-    pof.addopt(optpropveg)
+    pof.add_optical_property(optpropveg)
     print pof.changetracker[0]
 
     pof.addsingleplot(opt='proprieteopt', densitydef='UL')
@@ -1059,19 +1060,19 @@ if __name__ == '__main__':
     optpropveg = ['vegetation', 'proprieteopt2',
                   '/media/mtd/stock/DART/database/Vegetation.db',
                   'ash_top', '0']
-    pof.addopt(optpropveg)
+    pof.add_optical_property(optpropveg)
     optpropveg = ['vegetation', 'proprieteopt2',
               '/media/mtd/stock/DART/database/Vegetation.db',
               'beech_middle', '0']
-    pof.addopt(optpropveg)
+    pof.add_optical_property(optpropveg)
     optpropveg = ['vegetation', 'proprieteopt2',
                   '/media/mtd/stock/DART/database/Vegetation.db',
                   'beech_bottom', '0']
-    pof.addopt(optpropveg)
+    pof.add_optical_property(optpropveg)
     optpropveg = ['vegetation', 'proprieteopt2',
                   '/media/mtd/stock/DART/database/Vegetation.db',
                   'beech_top', '0']
-    pof.addopt(optpropveg)
+    pof.add_optical_property(optpropveg)
 
     pof.addsequence({'wvl': (400,50,3)})
     # pof.addprospectsequence(dic, 'proprieteoptpros')
@@ -1081,7 +1082,7 @@ if __name__ == '__main__':
     """
     """
     # prosoptveg = ['vegetation', 'proprieteoptpros', 'prospect', 'blank', 0]
-    # pof.addopt(prosoptveg)
+    # pof.add_optical_property(prosoptveg)
     """
     """
     """
@@ -1098,11 +1099,11 @@ if __name__ == '__main__':
     optpropveg = ['vegetation', 'proprieteopt2',
                   '/media/mtd/stock/DART/database/Vegetation.db',
                   'ash_top', '0']
-    pof.addopt(optpropveg)
+    pof.add_optical_property(optpropveg)
     dic = {'CBrown':[3,4,5], 'Cab': 5, 'Car':1,
            'Cm':1, 'Cw':4, 'N':2, 'anthocyanin':1}
     prosoptveg = ['vegetation','proprieteoptpros', 'prospect', 'blank',0]
-    pof.addopt(prosoptveg)
+    pof.add_optical_property(prosoptveg)
     pof.addprospectsequence(dic, 'proprieteoptpros')
     pof.write_sequence()
     """
@@ -1140,23 +1141,23 @@ sys.stdout.write("\n")
     pof.add_bands([12, 2, 3])
     pof.add_bands("/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr")
     optprop = ['lambertian', 'proprieteopt', 'Vegetation.db', 'truc', '0']
-    pof.addopt(optprop)
+    pof.add_optical_property(optprop)
 
     optpropveg = ['vegetation', 'proprieteopt2',
                   '/media/mtd/stock/DART/database/Vegetation.db',
                   'ash_top', '0']
-    pof.addopt(optpropveg)
+    pof.add_optical_property(optpropveg)
 
     optpropveg = ['vegetation', 'proprieteopt1',
                   '/media/mtd/stock/DART/database/Vegetation.db',
                   'elm_top', '0']
-    pof.addopt(optpropveg)
+    pof.add_optical_property(optpropveg)
 
     optpropveg = ['vegetation', 'proprieteopt3',
                   '/media/mtd/stock/DART/database/Vegetation.db',
                   'beech_middle', '0']
 
-    pof.addopt(optpropveg)
+    pof.add_optical_property(optpropveg)
 
     pof.listmodifications()
     #   pof.addsequence({'hello': (1, 2, 3)})

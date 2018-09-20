@@ -11,7 +11,7 @@ dic = {'CBrown': 0.0, 'Cab': range(0,30,10), 'Car': 10,
            'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
 
 simu.addprospectsequence(dic, 'proprieteoptpros', name='prospect_sequence')
-simu.add_singleplot(opt='proprieteoptpros')
+simu.add_singleplot(opt_name='proprieteoptpros')
 
 simu.addsequence({'wvl':np.linspace(.4,.8,5)})
 

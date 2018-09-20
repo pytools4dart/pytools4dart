@@ -170,7 +170,7 @@ assigned.
 
 ###### Optical property management
 
-Optical properties are added through the addopt method of the simulation
+Optical properties are added through the add_optical_property method of the simulation
 object.
 This function takes as input a list of strings containing the following 
 ordered information: 
