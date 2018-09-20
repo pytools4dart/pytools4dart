@@ -21,7 +21,7 @@ veg_opt_prop = ['vegetation', opt_prop_name, 'Vegetation.db',
 simu.add_optical_property(veg_opt_prop)
 
 # add a turbid plot with associated VOP
-simu.add_singleplot(opt_name = opt_prop_name)
+simu.add_single_plot(opt_name = opt_prop_name)
 
 # run simulation
 simu.write_xmls()

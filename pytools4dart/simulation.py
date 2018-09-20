@@ -392,7 +392,7 @@ class simulation(object):
             self.prossequence += 1
         return
 
-    def add_singleplot(self, corners=None, baseheight=1, density=1,
+    def add_single_plot(self, corners=None, baseheight=1, density=1,
                       opt_name="custom", height=1, densitydef='ul'):
         """adds a plot to the scene with certain parameters
 

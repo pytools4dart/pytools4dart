@@ -15,7 +15,7 @@ def run_use_case_1(testSimuName, run_required = False):
            'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
 
     simu.addprospectsequence(dic, 'proprieteoptpros', name='prospect_sequence')
-    simu.add_singleplot(opt='proprieteoptpros')
+    simu.add_single_plot(opt='proprieteoptpros')
 
     simu.addsequence({'wvl': np.linspace(.4, .8, 5)})
 
