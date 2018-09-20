@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<DartFile build="v1061" version="5.7.1">
+    <object_3d>
+        <Types>
+            <DefaultTypes>
+                <DefaultType indexOT="101" name="Default_Object" typeColor="125 0 125" />
+                <DefaultType indexOT="102" name="Leaf" typeColor="0 175 0" />
+            </DefaultTypes>
+            <CustomTypes />
+        </Types>
+        <ObjectList />
+        <ObjectFields />
+    </object_3d>
+</DartFile>

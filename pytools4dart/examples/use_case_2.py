@@ -28,13 +28,13 @@ simu.addtreespecies(species_id = 1, lai=-0.1, holes=0,
                    vegopt='leafs',
                    vegtherm='ThermalFunction290_310')
 
-# simu.addopt(['lambertian', 'ground', 'Lambertian_mineral.db',
+# simu.add_optical_property(['lambertian', 'ground', 'Lambertian_mineral.db',
 #              'clay_brown', 0])
 
-simu.addopt(['lambertian', 'trunk', 'Lambertian_vegetation.db',
+simu.add_optical_property(['lambertian', 'trunk', 'Lambertian_vegetation.db',
              'bark_deciduous', 0])
 
-# simu.addopt(['vegetation', 'leafs', 'Vegetation.db',
+# simu.add_optical_property(['vegetation', 'leafs', 'Vegetation.db',
 #              'leaf_deciduous', 1])
 Cab = range(0,40,10)
 dic = {'CBrown': 0.0, 'Cab': Cab, 'Car': 10,
