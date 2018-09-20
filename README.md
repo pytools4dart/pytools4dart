@@ -86,24 +86,17 @@ pip install pygdal
 pip install geopandas
 ```
 
-### Pre-install requirements
-Required packages are listed in file requirements.txt. The command line to install is:
+### Other requirements
+Other required packages are listed in file requirements.txt
+that can be installed from command line with:
 ```commandline
 pip install -r requirements.txt
 ```
 
-### GDAL
+## Installation
+Installation can be done from the `pytools4dartMTD` directory:
 
 ```commandline
-pip install GDAL-X.Y.Z-cp27-none-win_XYZ.whl
-```
-
-
-*TO BE COMPLETED*
-## Installation
-In the `pytools4dartMTD` directory, execute:
-
-```sh
 python setup.py install
 ```
 
