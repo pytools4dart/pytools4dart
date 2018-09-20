@@ -48,7 +48,7 @@ def get_models(dbfile):
     import pytools4dart as ptd
     from os.path import join as pjoin
     dbfile = pjoin(ptd.getdartdir(), 'database', 'Lambertian_vegetation.db')
-    ptd.helpers.database.get_models(dbfile)
+    ptd.helpers.dbtools.get_models(dbfile)
 
 
     '''
