@@ -31,13 +31,22 @@ This module contains the function to extract DART database elements.
 
 import sqlite3
 import pandas as pd
-def get_models(dbfile):
+import os
+from pytools4dart.settings import getdartdir, getdartenv
+
+def get_models(dbname, search=True):
     '''
 
     Parameters
     ----------
-    dbfile: str
-        DART database file
+    dbname: str
+        DART database file name or full path
+        depending on search argument
+
+    search: bool
+        If True it will search file name in
+        DART_LOCAL/database then in DART_HOME/database
+        If False, dbfile is considered as a full path.
 
     Returns
     -------
@@ -47,11 +56,14 @@ def get_models(dbfile):
     --------
     import pytools4dart as ptd
     from os.path import join as pjoin
-    dbfile = pjoin(ptd.getdartdir(), 'database', 'Lambertian_vegetation.db')
+    dbfile = 'Lambertian_vegetation.db'
     ptd.helpers.dbtools.get_models(dbfile)
 
 
     '''
+
+    if search:
+        dbfile = search_dbfile(dbname)
 
     conn = sqlite3.connect(dbfile)
     c = conn.cursor()
@@ -64,6 +76,33 @@ def get_models(dbfile):
 
     return pd.DataFrame(result, columns=['name', 'description'])
 
+def search_dbfile(dbname='Lambertian_vegetation.db'):
+    '''
+
+    Parameters
+    ----------
+    dbname: str
+        Database file name
+
+    Returns
+    -------
+        str: full path of database if file exist
+
+    '''
+
+    dartdbfile=os.path.join(getdartdir(), 'database', dbname)
+    userdbfile=os.path.join(getdartenv()['DART_LOCAL'], 'database', dbname)
+
+    if os.path.isfile(dbname):
+        return os.path.abspath(dbname)
+
+    if os.path.isfile(userdbfile):
+        return userdbfile
+
+    if os.path.isfile(dartdbfile):
+        return dartdbfile
+
+    print('Database not found.')
 
 
 
