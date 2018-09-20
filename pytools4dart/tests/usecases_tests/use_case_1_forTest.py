@@ -17,7 +17,7 @@ def run_use_case_1(testSimuName, run_required = False):
     simu.addprospectsequence(dic, 'proprieteoptpros', name='prospect_sequence')
     simu.add_single_plot(opt='proprieteoptpros')
 
-    simu.addsequence({'wvl': np.linspace(.4, .8, 5)})
+    simu.add_sequence({'wvl': np.linspace(.4, .8, 5)})
 
     simu.write_xmls()
     if run_required:

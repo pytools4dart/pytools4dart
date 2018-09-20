@@ -282,7 +282,7 @@ class simulation(object):
 
         return
 
-    def addsequence(self, parargs, group='default', name='sequencepytdart',
+    def add_sequence(self, parargs, group='default', name='sequencepytdart',
                     verbose=False, variationmode='linear'):
         """add a sequence xml file with given parameters
 
@@ -387,7 +387,7 @@ class simulation(object):
                     print "Error in Prospect parameter"
                     return
 
-            self.addsequence(prosdic, group=group,
+            self.add_sequence(prosdic, group=group,
                              name=name, variationmode='enumerate')
             self.prossequence += 1
         return
@@ -936,14 +936,14 @@ if __name__ == '__main__':
            'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
 
     pof.addprospectsequence(dic, 'proprieteoptpros', name='prospect_sequence')
-    pof.addsequence({'wvl':[0.400,0.050,8]},
+    pof.add_sequence({'wvl':[0.400,0.050,8]},
                     group = 'wvl', name = 'prospect_sequence')
     corner = [[1, 1],
               [1, 2],
               [2, 2],
               [2, 1]]
     pof.addsingleplot(corners=corner,opt='proprieteoptpros' )
-    # pof.addsequence({'wvl':[400,20,8]})
+    # pof.add_sequence({'wvl':[400,20,8]})
 
     pof.write_xmls()
 
@@ -1035,7 +1035,7 @@ if __name__ == '__main__':
     pof.addsingleplot(opt='proprieteopt', densitydef='UL')
     print pof.changetracker[0]
 
-    pof.addsequence({'wvl': (0.400, 0.50, 10)})
+    pof.add_sequence({'wvl': (0.400, 0.50, 10)})
     print pof.changetracker[0]
 
     #pof.add_bands([])
@@ -1073,7 +1073,7 @@ if __name__ == '__main__':
                   'beech_top', '0']
     pof.add_optical_property(optpropveg)
 
-    pof.addsequence({'wvl': (400,50,3)})
+    pof.add_sequence({'wvl': (400,50,3)})
     # pof.addprospectsequence(dic, 'proprieteoptpros')
     # dxml.write_coeff_diff(pof.changetracker)
     pof.write_xmls()
@@ -1159,7 +1159,7 @@ sys.stdout.write("\n")
     pof.add_optical_property(optpropveg)
 
     pof.listmodifications()
-    #   pof.addsequence({'hello': (1, 2, 3)})
+    #   pof.add_sequence({'hello': (1, 2, 3)})
     pof.write_xmls()
     print(pof.bands)
 

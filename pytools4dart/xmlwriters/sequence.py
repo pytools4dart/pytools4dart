@@ -56,7 +56,7 @@ def write_sequence(changetracker, simu_name):
         seqname = changetracker[1]['sequencename']
         seqpath = os.path.join(getsimupath(simu_name), seqname+'.xml')
         seq = DartSequenceXML(changetracker, seqname)
-        seq.addsequences()
+        seq.add_sequences()
         if "prospect" in changetracker[0]:
             seq.basenodes(prosequence=True)
         else:
@@ -173,7 +173,7 @@ class DartSequenceXML(DartXml):
         # DartSequenceDescriptorGroup branch
         return
 
-    def addsequences(self):
+    def add_sequences(self):
         """
 
         the sequence options are organised in this way :

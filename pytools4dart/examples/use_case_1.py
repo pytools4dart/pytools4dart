@@ -13,7 +13,7 @@ dic = {'CBrown': 0.0, 'Cab': range(0,30,10), 'Car': 10,
 simu.addprospectsequence(dic, 'proprieteoptpros', name='prospect_sequence')
 simu.add_single_plot(opt_name='proprieteoptpros')
 
-simu.addsequence({'wvl':np.linspace(.4,.8,5)})
+simu.add_sequence({'wvl':np.linspace(.4,.8,5)})
 
 simu.write_xmls()
 simu.run.sequence('prospect_sequence')

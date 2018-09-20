@@ -11,7 +11,7 @@ simu.add_plots_from_vox(vox, densitydef='ul', optprop=None)
 simu.plots['optprop'] = 'proprieteoptpros'
 simu.add_bands({'wvl':[0.485, 0.555, 0.655], 'fwhm':0.07})
 
-# simu.addsequence({'wvl':[.4,.1,10]}, group='wavelength', name='prospect_sequence')
+# simu.add_sequence({'wvl':[.4,.1,10]}, group='wavelength', name='prospect_sequence')
 
 dic = {'CBrown': 0.0, 'Cab': [20, 30], 'Car': 10,
            'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
