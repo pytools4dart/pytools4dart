@@ -120,33 +120,27 @@ dart-only, dart-full, dart-sequence, dart-colorCompositeBands
 - read AMAPVox files
 
 
-###### Simulation object
+###### Create simulation
 
-All the simulation launching function are wrappers of a simulation object
-which manages the lists of modified parameters to be written in the xml files
-which will be given as entry to DART.
-
-This object contains methods and variables to ease 
+`simulation` creates an object with methods and variables to ease 
 the synthesis and understanding of the general properties of a given 
 simulation.
 
 Many variables are pandas DataFrame objects, and can be directly 
 interacted with by the user.
 
+To create a new simulation:
 ```python
-self.PLOTCOLNAMES = ['corners', 'baseheight', 'density', 'optprop']
-self.BANDSCOLNAMES = ['bandnames', 'centralwvl', 'fwhm']
-
-self.bands = pd.DataFrame(columns=self.BANDSCOLNAMES)
-self.plots = pd.DataFrame(columns=self.PLOTCOLNAMES)
+import pytools4dart as ptd
+simu = ptd.simulation('new_simulation')
 ```
 
-The names of the columns are hardcoded and not to be changed. 
-Those variables will be passed to the xmlwriters except if an existing
-xml file is specified.
+Usefull variables are:
+```python
+self.scene
+self.plots # plots to be written
+```
 
-The optical properties or "Phase Functions", are managed interactively 
-through the variable defined l.69.
 
 ```python
 self.optsprops = {'lambertians': [], 'vegetations': []}
