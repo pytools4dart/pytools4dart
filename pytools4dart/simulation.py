@@ -675,19 +675,19 @@ class simulation(object):
             self.plots['optprop'] = opt
         return
 
-    def set_scene_size(self, scene):
+    def set_scene_size(self, scene_dims):
         """set scene size
 
         Parameters:
         ----------
-        scene: list
+        scene: 2D vector
             [x,y] size of scene
         TODO: error catching
         """
         self._registerchange('maket')
-        self.scene = scene
-        print 'Scene length set to:', scene[0]
-        print 'Scene width set to:', scene[1]
+        self.scene = scene_dims
+        print 'Scene length set to:', scene_dims[0]
+        print 'Scene width set to:', scene_dims[1]
         self.changetracker[1]['maket']['scene'] = self.scene
         return
 
