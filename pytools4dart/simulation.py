@@ -122,11 +122,17 @@ class simulation(object):
         print('--------------\n')
 
     def __repr__(self):
-        return "pytools4dart simulation object"
+        description ='\n'.join(
+            ["\nSimulation '{}'".format(self.name),
+             '__________________________________\n',
+             'scene size : {}'.format(self.scene),
+             'cell size : {}'.format(self.cell),
+             'number of plots : {}'.format(len(self.plots)),
+             'number of optical properties : {}'.format(len(self.optprops)),
+             'number of bands : {}'.format(len(self.bands)),
+             '__________________________________\n'])
 
-    def __str__(self):
-        # TODO : Description
-        return "pytools4dart simulation object"
+        return description
 
     def _registerchange(self, param):
         """update changetracker 0 and creates dictionnaries on the fly
@@ -219,7 +225,7 @@ class simulation(object):
         else:
             print('x type not supported')
 
-    def add_optical_property(self, optprop):
+    def add_optical_property(self, optprop, verbose=False):
         """adds and optical property to the simulation
 
         TODO : think about : do we want optprops as an object?
@@ -269,16 +275,19 @@ class simulation(object):
                 raise ValueError('Optical property name already used: ' + optprop[1])
             else:
                 self.optprops['lambertians'].append(optprop[1:])
-                self.setindexprops()
+                self._set_index_props()
         elif optprop[0] == 'vegetation':
             if optprop[1] in self.optprops['vegetations']:
                 raise ValueError('Optical property name already used: ' + optprop[1])
             else:
                 self.optprops['vegetations'].append(optprop[1:])
-                self.setindexprops()
+                self._set_index_props()
         else:
             print 'Non recognized optical property type. Returning'
             return
+
+        if verbose:
+            print('Optical property added.')
 
         return
 
@@ -348,7 +357,7 @@ class simulation(object):
         prosoptveg = ['vegetation', optident, 'prospect', 'blank', lad]
         self.add_optical_property(prosoptveg)
 
-        self.setindexprops()
+        self._set_index_props()
         try:
             index = self.indexopts['vegetations'][optident]
         except KeyError:
@@ -434,7 +443,7 @@ class simulation(object):
 
         return
 
-    def add_multiplots(self, data, colnames={'x1':'x1', 'y1':'y1', 'x2':'x2', 'y2':'y2',
+    def add_plots(self, data, colnames={'x1':'x1', 'y1':'y1', 'x2':'x2', 'y2':'y2',
                                             'x3':'x3', 'y3':'y3', 'x4':'x4', 'y4':'y4',
                                             'baseheight':'baseheight', 'height':'height',
                                             'density':'density', 'densitydef':'densitydef',
@@ -467,7 +476,7 @@ class simulation(object):
 
         return
 
-    def add_plots_from_vox(self, vox, densitydef='ul', optprop=None):
+    def add_plots_from_vox(self, vox, densitydef='ul', optprop=None, verbose=False):
         """Add plots based on AMAPVox file.
 
         Parameters
@@ -506,8 +515,9 @@ class simulation(object):
         data = pd.DataFrame(voxlist, columns=self.PLOTCOLNAMES)
 
         self.plots = self.plots.append(data, ignore_index=True)
-        print ("Plots added from .vox file.")
-        print ("Optical properties have to be added in the column 'optprop'\n")
+        if verbose:
+            print ("{} plots added with first optical property.".format(len(data)))
+
         return
 
 
@@ -569,7 +579,7 @@ class simulation(object):
         print('--------------\n')
         return
 
-    def add_treespecies(self, species_id, lai=4.0, holes=0,
+    def add_tree_species(self, species_id, lai=4.0, holes=0,
                       trunkopt='Lambertian_Phase_Function_1',
                       trunktherm='ThermalFunction290_310',
                       vegopt='custom',
@@ -620,7 +630,7 @@ class simulation(object):
 
         return
 
-    def setindexprops(self):
+    def _set_index_props(self):
         """Creates the index for optical properties
 
         This function is necessary in order to have easy tracking of
@@ -641,26 +651,6 @@ class simulation(object):
         self.indexopts = {'lambertians': self.index_lamb,
                           'vegetations': self.index_veg}
 
-        return
-
-    def properties(self):
-        """List general properties of the simulation
-
-        TODO : Find a nice way to print the panda dataframe, and all variables
-        add all relevant informations. And more or less verbose modes.
-        (And maybe a txt output)
-        """
-        print "Simulation properties"
-        print '__________________________________\n'
-        self.listmodifications()
-        print '\nscene dimensions : {}\n'.format(self.scene)
-        print 'cell dimensions : {}\n'.format(self.cell)
-        print 'table of  plots\n{} \n'.format(self.plots)
-        print 'defined optical properties: \n'
-        pprint.pprint(self.optprops)
-        print '\nmeasured wavelengths :\n'
-        print self.bands
-        print '__________________________________\n'
         return
 
     def setoptplots(self, opt, mode=None):
@@ -716,10 +706,8 @@ class simulation(object):
 
         TODO : stuff to make all that look nicer.
         """
-        print 'Impacted xml files:'
-        print self.changetracker[0]
-
-        return
+        return '\n'.join(['Impacted xml files:',
+                  str(self.changetracker[0])])
 
     def pickfile(self, path):
         """Select an existing .xml dart file to use instead of generating one
@@ -822,7 +810,7 @@ class simulation(object):
         And general simplification.
         """
         # Setting changetracker
-        self.setindexprops()
+        self._set_index_props()
         self.changetracker[1]['coeff_diff'] = self.optprops
 
         if 'phase' in self.changetracker[0]:

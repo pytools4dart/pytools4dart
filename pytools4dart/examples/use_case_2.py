@@ -16,13 +16,13 @@ print(inventory)
 
 simu.add_bands({'wvl':[0.485, 0.555, 0.655], 'fwhm':0.07})
 simu.add_trees(inventory)
-simu.add_treespecies(species_id = 0, lai=-0.25, holes=0,
+simu.add_tree_species(species_id = 0, lai=-0.25, holes=0,
                    trunkopt='trunk',
                    trunktherm='ThermalFunction290_310',
                    vegopt='leafs',
                    vegtherm='ThermalFunction290_310')
 
-simu.add_treespecies(species_id = 1, lai=-0.1, holes=0,
+simu.add_tree_species(species_id = 1, lai=-0.1, holes=0,
                    trunkopt='trunk',
                    trunktherm='ThermalFunction290_310',
                    vegopt='leafs',
