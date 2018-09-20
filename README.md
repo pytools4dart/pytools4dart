@@ -4,17 +4,31 @@
 
 
 ## Requirements
+
+### DART
 **pytools4dart** is based on [DART](http://www.cesbio.ups-tlse.fr/dart/index.php#/) radiative transfer software that has to be installed (before or after installing pytools4dart).
 [DART](http://www.cesbio.ups-tlse.fr/dart/index.php#/) is free software under proprietary license. It is available for Linux (32/64 bits) and Windows (32/64 bits). To download DART software please [sign up](http://www.cesbio.ups-tlse.fr/dart/index.php#/getDart), login and fill the license resquest in GET DART section of [DART website](http://www.cesbio.ups-tlse.fr/dart/index.php#/).
 
-### Windows
-Tips to install python, pip and virtualenv can be found [here](http://timmyreilly.azurewebsites.net/python-pip-virtualenv-installation-on-windows)
-and [here](http://tinwhiskers.net/setting-up-your-python-environment-with-pip-virtualenv-and-pycharm-windows/):
+#### Linux 
+Make sure that the DART batch scripts are executable (i.e. mode x should be activated for user at least):
+```commandline
+ls -al DART_HOME/tools/linux/*.sh 
+```
 
-#### Virtual environment
+If not change mode with (replace DART_HOME with the DART directory)
+```commandline
+chmod +x DART_HOME/tools/linux/*.sh
+```
+
+### Virtual environment
 We recommend installation of virtualenv to create a virtual environment specific to the project.
 Packages will be installed in this virtual environment instead of locally.
 It avoids conflicts between with locally installed packages for other projects.
+
+#### Windows
+Tips to install python, pip and virtualenv can be found [here](http://timmyreilly.azurewebsites.net/python-pip-virtualenv-installation-on-windows)
+and [here](http://tinwhiskers.net/setting-up-your-python-environment-with-pip-virtualenv-and-pycharm-windows/):
+
 
 After installing virtualenvwrapper-win, open a `cmd` window and create a new virtual environment
 ```commandline
@@ -34,27 +48,7 @@ deactivate
 If any problem occures with this environment (e.g. something wrongly installed),
 it can be removed just by suppressing the directory after deactivating it.
 
-#### GDAL and geopandas
-
-GDAL and geopandas are needded in some features, like stacking bands to an ENVI file or
-intersecting voxelized scene with shapefile.
-On Windows, the easy way is to follow this 
-[post](https://gis.stackexchange.com/questions/2276/installing-gdal-with-python-on-windows)
-Download the wheels of GDAL, Shapely, pyproj and Fiona from [here](https://www.lfd.uci.edu/~gohlke/pythonlibs/#gdal),
-and install them in the virtual environement :
-```commandline
-pip install GDAL-2.2.4-cp27-cp27m-win_amd64.whl
-pip install Shapely-1.6.4.post1-cp27-cp27m-win_amd64.whl
-pip install pyproj-1.9.5.1-cp27-cp27m-win_amd64.whl
-pip install Fiona-1.7.13-cp27-cp27m-win_amd64.whl
-pip install geopandas
-```
-
-### Linux
-We recommend installation of virtualenv to create a virtual environment specific to the project.
-Packages will be installed in this virtual environment instead of locally.
-It avoids conflicts between with locally installed packages for other projects.
-
+#### Linux
 On Ubuntu:
 ```commandline
 sudo apt-get install virtualenv
@@ -78,13 +72,33 @@ deactivate
 
 To suppress the environment, suppress the directory `venv` after desactivating it.
 
-#### GIS packages
-Some required packages are not in `requirements.txt` due to Windows compatibility issues. 
-Therefore they should be installed separatly:
+
+### GIS packages
+Some required like GDAL and geopandas are needded in some features, like stacking bands to an ENVI file or
+intersecting voxelized scene with shapefile. These are not in `requirements.txt` due to Windows compatibility issues. 
+Therefore they should be installed separately as well as there dependencies.
+
+#### Windows
+On Windows, the easy way is to follow this 
+[post](https://gis.stackexchange.com/questions/2276/installing-gdal-with-python-on-windows)
+Download the wheels of GDAL, Shapely, pyproj and Fiona from [here](https://www.lfd.uci.edu/~gohlke/pythonlibs/#gdal),
+and install them in the virtual environement :
+```commandline
+pip install GDAL-2.2.4-cp27-cp27m-win_amd64.whl
+pip install Shapely-1.6.4.post1-cp27-cp27m-win_amd64.whl
+pip install pyproj-1.9.5.1-cp27-cp27m-win_amd64.whl
+pip install Fiona-1.7.13-cp27-cp27m-win_amd64.whl
+pip install geopandas
+```
+
+#### Linux
+On Linux it can be installed in command line with:
 ```commandline
 pip install pygdal
 pip install geopandas
 ```
+Some of the following errors could occure.
+
 ##### Error on GDAL version
 If install of `pygdal` throws an error on gdal version:
 ```
@@ -114,7 +128,7 @@ that can be installed from command line with:
 pip install -r requirements.txt
 ```
 
-## Installation
+## Install
 Installation can be done from the `pytools4dartMTD` directory:
 
 ```commandline
