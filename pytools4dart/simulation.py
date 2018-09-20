@@ -520,7 +520,7 @@ class simulation(object):
             -X
             -Y
             -Height below crown
-            -Heiht within crown
+            -Height within crown
             -diameter below crown
             -Trunk Rotation
             -Trunk nutation rotation

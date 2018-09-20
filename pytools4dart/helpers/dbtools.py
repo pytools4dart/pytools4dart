@@ -102,7 +102,7 @@ def search_dbfile(dbname='Lambertian_vegetation.db'):
     if os.path.isfile(dartdbfile):
         return dartdbfile
 
-    print('Database not found.')
+    print('Database not found: ' + dbname)
 
 
 
