@@ -43,13 +43,14 @@ import pandas as pd
 import subprocess
 import pprint
 import numpy as np
+
 # local imports
 import xmlwriters as dxml
 from helpers.voxreader import voxel
 from helpers.hstools import read_ENVI_hdr, get_hdr_bands, get_bands_files, get_wavelengths, stack_dart_bands
 from settings import getsimupath, get_simu_input_path, get_simu_output_path
 import pytools4dart.run as run
-
+import helpers.dbtools as dbtools
 # from helpers.foldermngt import checksettings
 
 
@@ -254,6 +255,15 @@ class simulation(object):
             'leaf_deciduous', 1]
 
         """
+        #check if requested model and db exist
+        dbmodels_names = dbtools.get_models(optprop[2])['name'].values.tolist()
+        optprop_name_in_db = optprop[3]
+        optprop_name_in_db in dbmodels_names
+        if not (optprop_name_in_db in dbmodels_names):
+            raise Exception("model does not exist in this DB")
+            print 'model does not exist in this DB'
+            return
+
         self._registerchange('coeff_diff')
         if optprop[0] == 'lambertian':
             if optprop[1] in self.optprops['lambertians']:

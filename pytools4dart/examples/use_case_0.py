@@ -17,6 +17,7 @@ simu.add_bands({'wvl':[0.485, 0.555, 0.655], 'fwhm':0.07})
 opt_prop_name = 'Turbid_Leaf_Deciduous_Phase_Function'
 veg_opt_prop = ['vegetation', opt_prop_name, 'Vegetation.db',
             'leaf_deciduous', 1]
+
 simu.add_optical_property(veg_opt_prop)
 
 # add a turbid plot with associated VOP
