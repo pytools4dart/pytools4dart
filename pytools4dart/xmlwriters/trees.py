@@ -5,7 +5,6 @@
 # Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
-# Copyright 2018 TETIS
 #
 # This file is part of the pytools4dart package.
 #
@@ -33,11 +32,11 @@ try:
     import xml.etree.cElementTree as etree
 except ImportError:
     import xml.etree.ElementTree as etree
-from pytools4dart.settings import getdartversion, getsimupath, get_simu_input_path
+from pytools4dart.settings import getdartdir, getdartversion, getsimupath, get_simu_input_path
 from xmlhelpers import indent
 from os.path import join as pjoin
 
-def write_trees(changetracker, simu_name, dartdir=None):
+def write_trees(changetracker, simu_name):
     """write tree xml file
 
     proceed in the following manner :
@@ -47,11 +46,11 @@ def write_trees(changetracker, simu_name, dartdir=None):
         -output file to xml
 
     """
-    trees = DartTreesXML(changetracker, simu_name, dartdir)
+    trees = DartTreesXML(changetracker, simu_name)
 
     trees.adoptchanges()
 
-    trees.writexml(simu_name, 'trees.xml', dartdir)
+    trees.writexml(simu_name, 'trees.xml')
     return
 
 
@@ -68,9 +67,9 @@ class DartTreesXML(object):
 
     """
 
-    def __init__(self, changetracker, simu_name, dartdir):
+    def __init__(self, changetracker, simu_name):
         self.simu_name = simu_name
-        self.dartdir = dartdir
+        self.dartdir = getdartdir()
         self.changes = changetracker
         self.opts = changetracker[1]['indexopts']
         # self.path = changetracker[2]
@@ -223,16 +222,16 @@ class DartTreesXML(object):
     # etree.SubElement(self.root, 'SunViewingAngles', sunangles_atr)
         return
 
-    def writexml(self, simu_name, filename, dartdir=None):
+    def writexml(self, simu_name, filename):
         """ Writes the built tree to the specified path
 
         Also includes the version and build of DART as the root element.
         This part could(should?) be modified.
         """
 
-        outpath = pjoin(get_simu_input_path(simu_name, dartdir),filename)
+        outpath = pjoin(get_simu_input_path(simu_name),filename)
 
-        version, _, build = getdartversion(dartdir)
+        version, _, build = getdartversion()
         root = etree.Element('DartFile',
                              {'version': version, 'build': build})
 

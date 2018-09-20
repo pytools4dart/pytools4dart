@@ -5,7 +5,6 @@
 # Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
-# Copyright 2018 TETIS
 #
 # This file is part of the pytools4dart package.
 #
@@ -151,7 +150,7 @@ def complete_hdr(hdrfile, wavelengths, fwhms):
         f.write(hdr)
 
 
-def get_wavelengths(simuinputpath, dartdir=None):
+def get_wavelengths(simuinputpath):
     phasefile = pjoin(simuinputpath,'phase.xml')
     phase = etree.parse(phasefile)
 

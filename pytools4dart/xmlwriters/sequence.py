@@ -5,7 +5,6 @@
 # Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
-# Copyright 2018 TETIS
 #
 # This file is part of the pytools4dart package.
 #
@@ -43,7 +42,7 @@ from xmlhelpers import indent
 from pytools4dart.settings import getsimupath
 
 
-def write_sequence(changetracker, simu_name, dartdir = None):
+def write_sequence(changetracker, simu_name):
     """write coeff_diff xml fil
 
     proceed in the following manner :
@@ -55,7 +54,7 @@ def write_sequence(changetracker, simu_name, dartdir = None):
     """
     if "sequence" in changetracker[0]:
         seqname = changetracker[1]['sequencename']
-        seqpath = os.path.join(getsimupath(simu_name, dartdir), seqname+'.xml')
+        seqpath = os.path.join(getsimupath(simu_name), seqname+'.xml')
         seq = DartSequenceXML(changetracker, seqname)
         seq.addsequences()
         if "prospect" in changetracker[0]:

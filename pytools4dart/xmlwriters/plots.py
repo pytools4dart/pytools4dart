@@ -5,7 +5,6 @@
 # Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
-# Copyright 2018 TETIS
 #
 # This file is part of the pytools4dart package.
 #
@@ -34,13 +33,13 @@ except ImportError:
     import xml.etree.ElementTree as etree
 from dartxml import DartXml
 
-from pytools4dart.settings import getsimupath
+from pytools4dart.settings import getsimupath, getdartdir
 from os.path import join as pjoin
 import pandas as pd
 import numpy as np
 
 
-def write_plots(changetracker, simu_name, dartdir=None):
+def write_plots(changetracker, simu_name):
     """write phase xml file
 
     proceed in the following manner:
@@ -53,11 +52,11 @@ def write_plots(changetracker, simu_name, dartdir=None):
     (i.e. panda dataframes).
 
     """
-    plots = DartPlotsXML(changetracker, simu_name, dartdir)
+    plots = DartPlotsXML(changetracker, simu_name)
     plots.basenodes()
     plots.adoptchanges()
 
-    plots.writexml(simu_name, 'plots.xml', dartdir)
+    plots.writexml(simu_name, 'plots.xml')
     return
 
 
@@ -77,7 +76,7 @@ class DartPlotsXML(DartXml):
     PLOT_DEFAULT_ATR = {"form": "0", "hidden": "0", "isDisplayed": "1",
                         "repeatedOnBorder": "1", "type": "1"}
 
-    def __init__(self, changetracker, simu_name, dartdir):
+    def __init__(self, changetracker, simu_name):
         """
 
         Here is initialized the index for the optical properties.
@@ -89,7 +88,7 @@ class DartPlotsXML(DartXml):
             raise ValueError("Simulation name is 'None'.")
         self.changes = changetracker
         self.simu_name = simu_name
-        self.dartdir = dartdir
+        self.dartdir = getdartdir()
         self.root = None
         self.plotsfile = pjoin(getsimupath(self.simu_name, self.dartdir), '_'.join([self.simu_name, 'plots.txt']))
 

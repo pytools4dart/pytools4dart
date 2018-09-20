@@ -6,7 +6,6 @@
 # Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
-# Copyright 2018 TETIS
 #
 # This file is part of the pytools4dart package.
 #
@@ -36,7 +35,7 @@ except ImportError:
 from dartxml import DartXml
 
 
-def write_atmosphere(changetracker, simu_name, dartdir=None):
+def write_atmosphere(changetracker, simu_name):
     """write coeff_diff xml fil
 
     proceed in the following manner :
@@ -51,7 +50,7 @@ def write_atmosphere(changetracker, simu_name, dartdir=None):
     atmo.adoptchanges(changetracker)
 
 
-    atmo.writexml(simu_name, 'atmosphere.xml', dartdir)
+    atmo.writexml(simu_name, 'atmosphere.xml')
     return
 
 

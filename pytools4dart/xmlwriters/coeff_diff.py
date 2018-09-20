@@ -6,7 +6,6 @@
 # Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
-# Copyright 2018 TETIS
 #
 # This file is part of the pytools4dart package.
 #
@@ -39,7 +38,7 @@ except ImportError:
 from dartxml import DartXml
 
 
-def write_coeff_diff(changetracker, simu_name, dartdir=None):
+def write_coeff_diff(changetracker, simu_name):
     """write coeff_diff xml fil
 
     proceed in the following manner :
@@ -53,7 +52,7 @@ def write_coeff_diff(changetracker, simu_name, dartdir=None):
     coeff.basenodes()
     coeff.adoptchanges()
 
-    coeff.writexml(simu_name, 'coeff_diff.xml', dartdir)
+    coeff.writexml(simu_name, 'coeff_diff.xml')
     return
 
 

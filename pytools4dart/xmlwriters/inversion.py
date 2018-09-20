@@ -6,7 +6,6 @@
 # Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
-# Copyright 2018 TETIS
 #
 # This file is part of the pytools4dart package.
 #
@@ -36,7 +35,7 @@ except ImportError:
 from dartxml import DartXml
 
 
-def write_inversion(changetracker, simu_name, dartdir=None):
+def write_inversion(changetracker, simu_name):
     """write inversion xml file
 
     proceed in the following manner :
@@ -52,7 +51,7 @@ def write_inversion(changetracker, simu_name, dartdir=None):
 
     inversion.adoptchanges(changetracker)
 
-    inversion.writexml(simu_name, 'inversion.xml', dartdir)
+    inversion.writexml(simu_name, 'inversion.xml')
     return
 
 

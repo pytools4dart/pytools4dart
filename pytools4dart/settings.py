@@ -5,7 +5,6 @@
 # Florian de Boissieu <florian.deboissieu@irstea.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
-# Copyright 2018 TETIS
 #
 # This file is part of the pytools4dart package.
 #
@@ -80,7 +79,7 @@ def getdartdir(dartdir=None):
 
     return dartdir
 
-def configure(dartdir = None):
+def configure(dartdir=None):
     '''Configure path to DART directory
 
     Parameters
@@ -251,7 +250,7 @@ def darttools(dartdir=None):
     return dtools
 
 
-def getsimupath(simu_name, dartdir = None):
+def getsimupath(simu_name, dartdir=None):
     """
     Get path of simulation directory
     Parameters
@@ -270,7 +269,7 @@ def getsimupath(simu_name, dartdir = None):
     return pjoin(getdartenv(dartdir)['DART_LOCAL'], 'simulations', simu_name)
 
 
-def get_simu_input_path(simu_name, dartdir = None):
+def get_simu_input_path(simu_name, dartdir=None):
     """
     Get path of simulation input directory
     Parameters
@@ -291,7 +290,7 @@ def get_simu_input_path(simu_name, dartdir = None):
     return pjoin(getdartenv(dartdir)['DART_LOCAL'], 'simulations', simu_name, 'input')
 
 
-def get_simu_output_path(simu_name, dartdir = None):
+def get_simu_output_path(simu_name, dartdir=None):
     """
     Get path of simulation output directory
     Parameters

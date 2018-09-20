@@ -5,7 +5,6 @@
 # Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
-# Copyright 2018 TETIS
 #
 # This file is part of the pytools4dart package.
 #
@@ -101,7 +100,7 @@ def search_dbfile(dbname='Lambertian_vegetation.db'):
     if os.path.isfile(dartdbfile):
         return dartdbfile
 
-    print('Database not found: ' + dbname)
+    raise ValueError('Database not found: ' + dbname)
 
 
 

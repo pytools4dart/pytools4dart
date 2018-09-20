@@ -5,7 +5,6 @@
 # Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
-# Copyright 2018 TETIS
 #
 # This file is part of the pytools4dart package.
 #
@@ -37,7 +36,7 @@ from shutil import copyfile
 from dartxml import DartXml
 
 
-def write_maket(changetracker, simu_name, dartdir=None):
+def write_maket(changetracker, simu_name):
     """write coeff_diff xml fil
 
     proceed in the following manner :
@@ -57,7 +56,7 @@ def write_maket(changetracker, simu_name, dartdir=None):
         maket.basenodes()
         maket.adoptchanges(changetracker)
 
-        maket.writexml(simu_name, 'maket.xml', dartdir)
+        maket.writexml(simu_name, 'maket.xml')
     return
 
 

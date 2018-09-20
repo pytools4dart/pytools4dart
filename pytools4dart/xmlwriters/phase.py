@@ -5,7 +5,6 @@
 # Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
-# Copyright 2018 TETIS
 #
 # This file is part of the pytools4dart package.
 #
@@ -37,7 +36,7 @@ import pandas as pd
 import multiprocessing
 
 from dartxml import DartXml
-def write_phase(changetracker, simu_name, dartdir=None):
+def write_phase(changetracker, simu_name):
     """write phase xml fil
 
     proceed in the following manner :
@@ -57,7 +56,7 @@ def write_phase(changetracker, simu_name, dartdir=None):
         print "what the ...?"
 
 
-    phase.writexml(simu_name, 'phase.xml', dartdir)
+    phase.writexml(simu_name, 'phase.xml')
     return
 
 

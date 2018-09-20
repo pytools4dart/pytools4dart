@@ -5,7 +5,6 @@
 # Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
-# Copyright 2018 TETIS
 #
 # This file is part of the pytools4dart package.
 #
@@ -42,16 +41,16 @@ import pandas as pd
 
 class DartXml(object):
 
-     def writexml(self, simu_name, filename, dartdir=None):
+     def writexml(self, simu_name, filename):
         """ Writes the built tree to the specified path
 
         Also includes the version and build of DART as the root element.
         This part could(should?) be modified.
         """
 
-        outpath = pjoin(get_simu_input_path(simu_name, dartdir),filename)
+        outpath = pjoin(get_simu_input_path(simu_name),filename)
 
-        version, _, build = getdartversion(dartdir)
+        version, _, build = getdartversion()
         root = etree.Element('DartFile',
                              {'version': version, 'build': build})
         root.append(self.root)
@@ -60,19 +59,16 @@ class DartXml(object):
         tree.write(outpath, encoding="UTF-8", xml_declaration=True)
         return
 
-def get_templates(dartdir=None):
+def get_templates():
     """
     Extract DART xml templates from DARTDocument.jar
-    Parameters
-    ----------
-    dartdir
 
     Returns
     -------
         dict
 
     """
-    dartenv = getdartenv(dartdir)
+    dartenv = getdartenv()
     jarfile = pjoin(dartenv['DART_HOME'], 'bin',  'DARTDocument.jar')
 
     with zipfile.ZipFile(jarfile, "r") as j:
@@ -81,19 +77,16 @@ def get_templates(dartdir=None):
 
     return templates
 
-def get_schemas(dartdir=None):
+def get_schemas():
     """
     Extracts DART xsd schemas from DARTEnv.jar
-    Parameters
-    ----------
-    dartdir
 
     Returns
     -------
         dict
 
     """
-    dartenv = getdartenv(dartdir)
+    dartenv = getdartenv()
     jarfile = pjoin(dartenv['DART_HOME'], 'bin',  'DARTEnv.jar')
 
     with zipfile.ZipFile(jarfile, "r") as j:
@@ -103,7 +96,7 @@ def get_schemas(dartdir=None):
     return schemas
 
 
-def get_labels(dartdir=None):
+def get_labels():
     """
     Extract DART labels and corresponding nodes from DARTIHMSimulationEditor.jar
     Parameters
@@ -116,7 +109,7 @@ def get_labels(dartdir=None):
 
     """
 
-    dartenv = getdartenv(dartdir)
+    dartenv = getdartenv()
     jarfile = pjoin(dartenv['DART_HOME'], 'bin',  'DARTIHMSimulationEditor.jar')
     labelsfile = 'cesbio/dart/ihm/DartSimulationEditor/ressources/DartIhmSimulationLabel_en.properties'
     with zipfile.ZipFile(jarfile, "r") as j:

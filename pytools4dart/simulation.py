@@ -5,7 +5,6 @@
 # Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
-# Copyright 2018 TETIS
 #
 # This file is part of the pytools4dart package.
 #
@@ -42,6 +41,7 @@ import pandas as pd
 import subprocess
 import pprint
 import numpy as np
+import warnings
 
 # local imports
 import xmlwriters as dxml
@@ -252,27 +252,27 @@ class simulation(object):
             'leaf_deciduous', 1]
 
         """
-        #check if requested model and db exist
-        dbmodels_names = dbtools.get_models(optprop[2])['name'].values.tolist()
-        optprop_name_in_db = optprop[3]
-        optprop_name_in_db in dbmodels_names
-        if not (optprop_name_in_db in dbmodels_names):
-            raise Exception("model does not exist in this DB")
-            print 'model does not exist in this DB'
-            return
+        #check if requested model and db exist, although it could be created a posteriori with prospect
+        try:
+            dbmodels_names = dbtools.get_models(optprop[2])['name'].values.tolist()
+            optprop_name_in_db = optprop[3]
+            if not (optprop_name_in_db in dbmodels_names):
+                warnings.warn("model '{0}' not found in {1}".format(optprop[3], optprop[2]))
+        except Exception as e:
+            warnings.warn(str(e))
+
+
 
         self._registerchange('coeff_diff')
         if optprop[0] == 'lambertian':
             if optprop[1] in self.optprops['lambertians']:
-                print 'Please chose a new name for the new optical property'
-                print 'Returning'
+                raise ValueError('Optical property name already used: ' + optprop[1])
             else:
                 self.optprops['lambertians'].append(optprop[1:])
                 self.setindexprops()
         elif optprop[0] == 'vegetation':
             if optprop[1] in self.optprops['vegetations']:
-                print 'Please chose a new name for the new optical property'
-                print 'Returning'
+                raise ValueError('Optical property name already used: ' + optprop[1])
             else:
                 self.optprops['vegetations'].append(optprop[1:])
                 self.setindexprops()
@@ -747,7 +747,7 @@ class simulation(object):
         """
         return
 
-    def stack_bands(self, zenith=0, azimuth=0, dartdir=None):
+    def stack_bands(self, zenith=0, azimuth=0):
         """Stack bands into an ENVI .bil file
 
         Parameters
@@ -756,16 +756,14 @@ class simulation(object):
             Zenith viewing angle
         azimuth: float
             Azimuth viewing angle
-        dartdir: str
-            see getdartdir.
 
         Returns
         -------
             str: output file path
         """
 
-        simu_input_dir = get_simu_input_path(self.name, dartdir)
-        simu_output_dir = get_simu_output_path(self.name, dartdir)
+        simu_input_dir = get_simu_input_path(self.name)
+        simu_output_dir = get_simu_output_path(self.name)
 
         bands = get_bands_files(simu_output_dir, band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART'))
 
@@ -779,15 +777,13 @@ class simulation(object):
 
         return outputfile
 
-    def write_xmls(self, simu_name=None, dartdir=None):
+    def write_xmls(self, simu_name=None):
         """Writes the xml files with all defined input parameters
 
         Parameters
         ----------
         simu_name: str
             Simulation name. If None, self.name is taken.
-        dartdir: str
-            If None, default dartdir is taken. See getdartdir
 
         Returns
         -------
@@ -805,12 +801,12 @@ class simulation(object):
         if not simu_name:
             raise ValueError('Simulation name not defined.')
 
-        simupath = getsimupath(simu_name, dartdir)
+        simupath = getsimupath(simu_name)
 
         if not os.path.isdir(simupath):
             os.mkdir(simupath)
 
-        simuinputpath = get_simu_input_path(simu_name, dartdir)
+        simuinputpath = get_simu_input_path(simu_name)
 
         if not os.path.isdir(simuinputpath):
             os.mkdir(simuinputpath)
@@ -832,29 +828,29 @@ class simulation(object):
         if 'phase' in self.changetracker[0]:
             self.changetracker[1]['phase']['bands'] = self.bands
 
-        dxml.write_coeff_diff(self.changetracker, self.name, dartdir)
+        dxml.write_coeff_diff(self.changetracker, self.name)
 
         self.changetracker[1]['indexopts'] = self.indexopts
         self.changetracker[1]['plots'] = self.plots
         # Effectively write xmls
-        dxml.write_atmosphere(self.changetracker, self.name, dartdir)
-        dxml.write_directions(self.changetracker, self.name, dartdir)
-        dxml.write_inversion(self.changetracker, self.name, dartdir)
-        dxml.write_maket(self.changetracker, self.name, dartdir)
-        dxml.write_object_3d(self.changetracker, self.name, dartdir)
-        dxml.write_phase(self.changetracker, self.name, dartdir)
-        dxml.write_plots(self.changetracker, self.name, dartdir)
-        dxml.write_sequence(self.changetracker, self.name, dartdir)
+        dxml.write_atmosphere(self.changetracker, self.name)
+        dxml.write_directions(self.changetracker, self.name)
+        dxml.write_inversion(self.changetracker, self.name)
+        dxml.write_maket(self.changetracker, self.name)
+        dxml.write_object_3d(self.changetracker, self.name)
+        dxml.write_phase(self.changetracker, self.name)
+        dxml.write_plots(self.changetracker, self.name)
+        dxml.write_sequence(self.changetracker, self.name)
 
         # Special stuff for trees : writing trees.txt and pass the path
         # But bad condition...for now
         if self.nspecies > 0:
             self.changetracker[1]['trees'] = self.trees
             self.changetracker[1]['treespecies'] = self.species
-        dxml.write_trees(self.changetracker, self.name, dartdir)
+        dxml.write_trees(self.changetracker, self.name)
 
-        dxml.write_urban(self.changetracker, self.name, dartdir)
-        dxml.write_water(self.changetracker, self.name, dartdir)
+        dxml.write_urban(self.changetracker, self.name)
+        dxml.write_water(self.changetracker, self.name)
         print "pyt4dart XML files written to {}".format(simuinputpath)
 
         self.writepickedfiles()
@@ -872,35 +868,31 @@ class simulation(object):
             return
         return
 
-    def write_sequence(self, sequence_path = None, dartdir = None):
+    def write_sequence(self, sequence_path = None):
         """Only writes the ongoing sequence xml.
         """
         if not sequence_path:
             sequence_path
-        dxml.write_sequence(self.changetracker, self.name, dartdir)
+        dxml.write_sequence(self.changetracker, self.name)
         return
 
-    def getsimupath(self, dartdir=None):
+    def getsimupath(self):
         """
-
-        Parameters
-        ----------
-        dartdir
+        Get simulation directory path
 
         Returns
         -------
             str: Simulation full path
 
         """
-        return getsimupath(self.name, dartdir)
+        return getsimupath(self.name)
 
-    def get_sequence_db_path(self, sequence_name, dartdir=None):
+    def get_sequence_db_path(self, sequence_name):
         """
         Path of sequence database
         Parameters
         ----------
         sequence_name
-        dartdir
 
         Returns
         -------
@@ -908,7 +900,7 @@ class simulation(object):
 
         """
 
-        return pjoin(getsimupath(self.name, dartdir), self.name+'_'+sequence_name+'.db')
+        return pjoin(getsimupath(self.name), self.name+'_'+sequence_name+'.db')
 
 # ##################################test zone
 if __name__ == '__main__':

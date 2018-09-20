@@ -5,7 +5,6 @@
 # Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
-# Copyright 2018 TETIS
 #
 # This file is part of the pytools4dart package.
 #
@@ -42,8 +41,8 @@ except ImportError:
     import xml.etree.ElementTree as etree
 
 
-def dartxmlroot(dartdir = None):
-    version, _, build = getdartversion(dartdir)
+def dartxmlroot():
+    version, _, build = getdartversion()
 
     root = etree.Element('DartFile',
                      {'version': version, 'build': build})

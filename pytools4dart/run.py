@@ -5,7 +5,6 @@
 # Florian de Boissieu <florian.deboissieu@irstea.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
-# Copyright 2018 TETIS
 #
 # This file is part of the pytools4dart package.
 #
@@ -34,7 +33,7 @@ import subprocess
 import os
 
 
-def rundart(path, tool, options = [], dartdir = None):
+def rundart(path, tool, options = []):
     '''
 
     Parameters
@@ -47,16 +46,13 @@ def rundart(path, tool, options = [], dartdir = None):
         'colorCompositeBands'
     options: list
         DART module options. See batch scripts in DART_HOME/tools/os.
-    dartdir: str
-        DART home directory, default is taken from pytools4dart configuration
-        (see pytools4dart.configure).
 
     Returns
     -------
         True if good
     '''
 
-    dtools = darttools(dartdir)
+    dtools = darttools()
     if tool not in dtools.keys():
         raise ValueError('DART tool not found.')
 
@@ -74,75 +70,63 @@ def rundart(path, tool, options = [], dartdir = None):
 
     return True
 
-def full(simu_name, dartdir=None):
+def full(simu_name):
     '''
     Run full DART simulation, i.e. successively direction, phase, maket and only
     Parameters
     ----------
     simuName: str
         Simulation name or path relative 'user_data/simulations' directory
-    dartdir: str
-        DART home directory, default is taken from :fun:`~pytools4dart.configuration`
-        (see pytools4dart.configure).
 
     Returns
     -------
 
     '''
-    return rundart(simu_name, 'full', dartdir=dartdir)
+    return rundart(simu_name, 'full')
 
-def direction(simu_name, dartdir=None):
+def direction(simu_name):
     '''
     Run DART direction module.
     Parameters
     ----------
     simuName: str
         Simulation name or path relative 'user_data/simulations' directory
-    dartdir: str
-        DART home directory, default is taken from :fun:`~pytools4dart.configuration`
-        (see pytools4dart.configure).
 
     Returns
     -------
         True if good
     '''
-    return rundart(simu_name, 'directions', dartdir=dartdir)
+    return rundart(simu_name, 'directions')
 
-def phase(simu_name, dartdir=None):
+def phase(simu_name):
     '''
     Run the DART phase module.
     Parameters
     ----------
     simuName: str
         Simulation name or path relative 'user_data/simulations' directory
-    dartdir: str
-        DART home directory, default is taken from :fun:`~pytools4dart.configuration`
-        (see pytools4dart.configure).
 
     Returns
     -------
 
     '''
-    rundart(simu_name, 'phase', dartdir=dartdir)
+    rundart(simu_name, 'phase')
 
-def maket(simu_name, dartdir=None):
+def maket(simu_name):
     '''
     Run the DART maket module.
     Parameters
     ----------
     simuName: str
         Simulation name or path relative 'user_data/simulations' directory
-    dartdir: str
-        DART home directory, default is taken from :fun:`~pytools4dart.configuration`
-        (see pytools4dart.configure).
 
     Returns
     -------
 
     '''
-    rundart(simu_name, 'maket', dartdir=dartdir)
+    rundart(simu_name, 'maket')
 
-def dart(simu_name, dartdir=None):
+def dart(simu_name):
     '''
     Run only DART radiative transfer module,
     with direction, phase and maket computed separately.
@@ -150,17 +134,14 @@ def dart(simu_name, dartdir=None):
     ----------
     simuName: str
         Simulation name or path relative 'user_data/simulations' directory
-    dartdir: str
-        DART home directory, default is taken from :fun:`~pytools4dart.configuration`
-        (see pytools4dart.configure).
 
     Returns
     -------
         True if good
     '''
-    return rundart(simu_name, 'only', dartdir=dartdir)
+    return rundart(simu_name, 'only')
 
-def sequence(simu_name, sequence_name, option='-start', dartdir=None):
+def sequence(simu_name, sequence_name, option='-start'):
     '''
 
     Parameters
@@ -171,17 +152,14 @@ def sequence(simu_name, sequence_name, option='-start', dartdir=None):
         Either:
             * '-start' to start from the begining
             * '-continue' to continue an interupted run
-    dartdir: str
-        DART home directory, default is taken from :fun:`~pytools4dart.configuration`
-        (see pytools4dart.configure).
 
     Returns
     -------
         True if good
     '''
-    return rundart(os.path.join(simu_name, sequence_name+'.xml'), 'sequence', [option], dartdir=dartdir)
+    return rundart(os.path.join(simu_name, sequence_name+'.xml'), 'sequence', [option])
 
-def colorComposite(simu_name, red, green, blue, pngfile, dartdir=None):
+def colorComposite(simu_name, red, green, blue, pngfile):
     '''
     Build color composite image
 
@@ -197,17 +175,14 @@ def colorComposite(simu_name, red, green, blue, pngfile, dartdir=None):
         Blue image file name (full path).
     pngfile: str
         PNG image file name for output.
-    dartdir: str
-        DART home directory, default is taken from :fun:`~pytools4dart.configuration`
-        (see pytools4dart.configure).
 
     Returns
     -------
         True if good
     '''
-    return rundart(simu_name, 'colorComposite', [red, green, blue, pngfile], dartdir=dartdir)
+    return rundart(simu_name, 'colorComposite', [red, green, blue, pngfile])
 
-def colorCompositeBands(simu_name, red, green, blue, iteration, outdir, dartdir=None):
+def colorCompositeBands(simu_name, red, green, blue, iteration, outdir):
     '''
     Build color composite of iteration N
 
@@ -225,16 +200,13 @@ def colorCompositeBands(simu_name, red, green, blue, iteration, outdir, dartdir=
         Iteration number in [0, 1, 2, ..., X]
     outdir: str
         Folder path for output inside the simulation 'output' folder (created if not exists)
-    dartdir: str
-        DART home directory, default is taken from :fun:`~pytools4dart.configuration`
-        (see pytools4dart.configure).
 
 
     Returns
     -------
         True if good
     '''
-    return rundart(simu_name, 'colorCompositeBands', [red, green, blue, iteration, outdir], dartdir=dartdir)
+    return rundart(simu_name, 'colorCompositeBands', [red, green, blue, iteration, outdir])
 
 
 class runners(object):
@@ -242,25 +214,25 @@ class runners(object):
     def __init__(self, simu):
         self.simu = simu
 
-    def full(self, dartdir=None):
-        full(self.simu.name, dartdir)
+    def full(self):
+        full(self.simu.name)
 
-    def direction(self, dartdir=None):
-        direction(self.simu.name, dartdir)
+    def direction(self):
+        direction(self.simu.name)
 
-    def phase(self, dartdir=None):
-        phase(self.simu.name, dartdir)
+    def phase(self):
+        phase(self.simu.name)
 
-    def maket(self, dartdir=None):
-        maket(self.simu.name, dartdir)
+    def maket(self):
+        maket(self.simu.name)
 
-    def dart(self, dartdir=None):
-        dart(self.simu.name, dartdir)
+    def dart(self):
+        dart(self.simu.name)
 
-    def sequence(self, sequence_name, option='-start', dartdir=None):
-        sequence(self.simu.name, sequence_name, option, dartdir)
+    def sequence(self, sequence_name, option='-start'):
+        sequence(self.simu.name, sequence_name, option)
 
-    def colorCompositeBands(self, red, green, blue, iteration, outdir, dartdir=None):
-        colorCompositeBands(self.simu.name, red, green, blue, iteration, outdir, dartdir=None)
+    def colorCompositeBands(self, red, green, blue, iteration, outdir):
+        colorCompositeBands(self.simu.name, red, green, blue, iteration, outdir)
 
 
