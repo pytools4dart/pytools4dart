@@ -149,10 +149,16 @@ At the moment only part of DART simulator features are supported:
 - bands, plots, optical properties management
 - simulation sequence generator
 - DART xml writers
-- dart runners: dart-direction, dart-phase, dart-maket,
-dart-only, dart-full, dart-sequence, dart-colorCompositeBands
-- hyperspectral tools: read ENVI .hdr files, extact wavelengths and bandwidths
-- read AMAPVox files
+- DART runners:
+    - direction
+    - phase
+    - maket
+    - dart
+    - full
+    - sequence
+    - colorCompositeBands
+- hyperspectral tools: read ENVI .hdr files, extract wavelengths and bandwidths, stack results to ENVI file
+- lidar tools: read voxelized scene 
 
 
 ###### Create simulation

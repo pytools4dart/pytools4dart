@@ -42,7 +42,13 @@ dic = {'CBrown': 0.0, 'Cab': Cab, 'Car': 10,
 
 simu.add_prospect_sequence(dic, 'leafs', name='prospect_sequence')
 
+print(simu)
+
+
 simu.write_xmls()
+simu.run.full()
+
+
 simu.run.sequence('prospect_sequence')
 for i in range(len(Cab)):
     ptd.run.colorCompositeBands(pjoin('use_case_2', 'sequence', 'prospect_sequence_'+str(i)),2, 1, 0, 'X', 'rgb')

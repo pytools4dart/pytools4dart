@@ -27,7 +27,7 @@ simu.run.sequence('prospect_sequence')
 import numpy as np
 import pandas as pd
 import sqlite3
-import matplotlib
+# import matplotlib
 simu.get_sequence_db_path("prospect_sequence")
 
 conn = sqlite3.connect(simu.get_sequence_db_path("prospect_sequence"))
@@ -49,6 +49,5 @@ group by idCombination, valueCentralWavelength
 arr = np.array(result)
 df = pd.DataFrame(result, columns=['id', 'wavelength', 'reflectance'])
 df.set_index('wavelength', inplace=True)
-df.groupby('id')['reflectance'].plot(legend=True)
-
+plot = df.groupby('id')['reflectance'].plot(legend=True)
 
