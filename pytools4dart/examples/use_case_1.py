@@ -28,7 +28,7 @@ simu.run.sequence('prospect_sequence')
 
 
 
-
+###
 simu.get_sequence_db_path("prospect_sequence")
 
 conn = sqlite3.connect(simu.get_sequence_db_path("prospect_sequence"))
@@ -51,6 +51,7 @@ df = pd.DataFrame(result, columns=['id', 'wavelength', 'reflectance'])
 df.set_index('wavelength', inplace=True)
 df.groupby('id')['reflectance'].plot(legend=True)
 plt.show()
+plt.ylabel('reflectance')
 
 plt.savefig(pjoin(simu.getsimupath(), 'output', 'R_Chl.png'))
 plt.close()
