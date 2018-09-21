@@ -21,11 +21,36 @@ chmod +x DART_HOME/tools/linux/*.sh
 ```
 
 ### Virtual environment
-We recommend installation of virtualenv to create a virtual environment specific to the project.
-Packages will be installed in this virtual environment instead of locally.
-It avoids conflicts between with locally installed packages for other projects.
+We recommend use of a virtual environment to create an environment specific to the project.
+Packages will be installed in this virtual environment and avoid conflict with locally installed packages of other projects.
 
-#### Windows
+The virtual environment can be created with Anaconda (if you already use it for Spyder python IDE)
+or with virtualenvwrapper-win
+
+#### Anaconda
+If Anaconda is already used for spyder, create a new environment:
+```commandline
+conda create --name pytools4dart
+```
+
+Activate the environment:
+- windows
+```commandline
+activate pytools4dart
+```
+- linux
+```commandline
+source activate pytools4dart
+```
+
+Then install required packages.
+
+#### Virtualenv
+Those who do not have Anaconda are recommended to use `virtualenv` and a more complete IDE like pycharm.
+
+The following details the installation steps of `virtualenv` on Windows and Linux.
+
+##### Windows
 Tips to install python, pip and virtualenv can be found 
 [here](http://timmyreilly.azurewebsites.net/python-pip-virtualenv-installation-on-windows)
 and [here](http://tinwhiskers.net/setting-up-your-python-environment-with-pip-virtualenv-and-pycharm-windows/):
@@ -56,7 +81,7 @@ deactivate
 If any problem occures with this environment (e.g. something wrongly installed),
 it can be removed just by suppressing the directory after deactivating it.
 
-#### Linux
+##### Linux
 On Ubuntu:
 ```commandline
 sudo apt-get install virtualenv
