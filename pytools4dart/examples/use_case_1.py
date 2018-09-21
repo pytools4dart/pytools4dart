@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
-
-import pytools4dart as ptd
+import matplotlib.pyplot as plt
+import pandas as pd
+import sqlite3
 import numpy as np
+from os.path import join as pjoin
+import pytools4dart as ptd
+
 
 simu = ptd.simulation(name='use_case_1')
 
@@ -24,10 +28,7 @@ simu.run.sequence('prospect_sequence')
 
 
 
-import numpy as np
-import pandas as pd
-import sqlite3
-# import matplotlib
+
 simu.get_sequence_db_path("prospect_sequence")
 
 conn = sqlite3.connect(simu.get_sequence_db_path("prospect_sequence"))
@@ -46,8 +47,10 @@ group by idCombination, valueCentralWavelength
 '''):
     result.append(row)
 
-arr = np.array(result)
 df = pd.DataFrame(result, columns=['id', 'wavelength', 'reflectance'])
 df.set_index('wavelength', inplace=True)
-plot = df.groupby('id')['reflectance'].plot(legend=True)
+df.groupby('id')['reflectance'].plot(legend=True)
+plt.show()
 
+plt.savefig(pjoin(simu.getsimupath(), 'output', 'R_Chl.png'))
+plt.close()
