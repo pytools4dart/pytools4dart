@@ -26,9 +26,17 @@ Packages will be installed in this virtual environment instead of locally.
 It avoids conflicts between with locally installed packages for other projects.
 
 #### Windows
-Tips to install python, pip and virtualenv can be found [here](http://timmyreilly.azurewebsites.net/python-pip-virtualenv-installation-on-windows)
+Tips to install python, pip and virtualenv can be found 
+[here](http://timmyreilly.azurewebsites.net/python-pip-virtualenv-installation-on-windows)
 and [here](http://tinwhiskers.net/setting-up-your-python-environment-with-pip-virtualenv-and-pycharm-windows/):
 
+Download [python 2.7.15](https://www.python.org/downloads/release/python-2715)
+here and install with option `Add python.exe to Path`.
+
+Install virtualenv with:
+```commandline
+pip install virtualenvwrapper-win
+```
 
 After installing virtualenvwrapper-win, open a `cmd` window and create a new virtual environment
 ```commandline
@@ -81,8 +89,13 @@ Therefore they should be installed separately as well as there dependencies.
 #### Windows
 On Windows, the easy way is to follow this 
 [post](https://gis.stackexchange.com/questions/2276/installing-gdal-with-python-on-windows)
-Download the wheels of GDAL, Shapely, pyproj and Fiona from [here](https://www.lfd.uci.edu/~gohlke/pythonlibs/#gdal),
-and install them in the virtual environement :
+Download the wheels (latest version is prefered) of
+[GDAL](https://www.lfd.uci.edu/~gohlke/pythonlibs/#gdal),
+[Shapely](https://www.lfd.uci.edu/~gohlke/pythonlibs/#shapely),
+[pyproj](https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyproj) and
+[Fiona](https://www.lfd.uci.edu/~gohlke/pythonlibs/#fiona),
+and install them in the virtual environement.
+Make sure to be in the directory where the wheels have been downloaded.
 ```commandline
 pip install GDAL-2.2.4-cp27-cp27m-win_amd64.whl
 pip install Shapely-1.6.4.post1-cp27-cp27m-win_amd64.whl
