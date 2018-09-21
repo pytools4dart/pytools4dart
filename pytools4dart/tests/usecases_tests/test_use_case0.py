@@ -52,7 +52,9 @@ class UseCase0Test(unittest.TestCase):
         self.test_simu_path = simu.getsimupath()
         #self.test_simu_path = settings.getsimupath(simu.name, settings.getdartdir())
         result_inputdir_path = settings.get_simu_input_path(simu.name, settings.getdartdir())
-        dirs_differ = compareFilesInDirs(ref_inputdir_path, result_inputdir_path, list_of_files_to_ignore = ["plots.xml"] )
+        dirs_differ = compareFilesInDirs(ref_inputdir_path, result_inputdir_path, list_of_files_to_ignore = ["plots.xml"])
+        if dirs_differ:
+            print("Input directory differ:\n{}\n{}".format(ref_inputdir_path, result_inputdir_path))
         self.assertEqual(False,dirs_differ)
 
     def setUp(self):
@@ -62,5 +64,5 @@ class UseCase0Test(unittest.TestCase):
         if (os.path.isdir(ref_inputdir_path) != True):
             print "WARNING: Reference Dir for test_use_case_0 does not exist"
 
-    def tearDown(self):
-        shutil.rmtree(self.test_simu_path)
+    # def tearDown(self):
+    #     shutil.rmtree(self.test_simu_path)
