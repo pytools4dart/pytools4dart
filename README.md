@@ -179,7 +179,6 @@ import pytools4dart
 pytools4dart.configure('specific_path_to_DART')
 ```
 
-
 ## Features
 At the moment only part of DART simulator features are supported:
 - create 'flux' simulation
@@ -212,156 +211,20 @@ To create a new simulation:
 ```python
 import pytools4dart as ptd
 simu = ptd.simulation('new_simulation')
+print(simu)
 ```
 
-Usefull variables are:
+Parameters of `simu` are in:
 ```python
-self.scene
-self.plots # plots to be written
+simu.bands # spectral products
+simu.optprops # optical properties of mokup elements
+simu.scene # scene size
+simu.cell # cell size
+simu.plots # turbid plots
+self.trees # lollipop trees
 ```
 
-
-```python
-self.optsprops = {'lambertians': [], 'vegetations': []}
-```
-
-It is a dictionnary, containing for each named type of optical property
-the ordered list of the corresponding optical properties. This
-allowed easier indexing for the referencing of optical properties by
-index in the xmlwriter for "plots.xml".
-
-
-###### Plots management
-
-Before the plots.xml file is effectively written, all plots related information
-is saved in the simulation.plots variable which is a pandas DataFrame object.
-This object has the following named columns : 'corners', 'baseheight', 
-'density' and 'optprop'.
-Those parameters can be directly modified.
-It is recommended not to use the simulation.addsingleplot() method for a great
-number of plots, the plotsfromvox() or pickupfile() could be used for this 
-purpose.
-
-It has to be noted that for now, no method for adding plots to a simulation
-except pickupfile() completes the "optprop" column.
-In the absence of value, a default vegetation optical property will be 
-assigned.
-
-###### Optical property management
-
-Optical properties are added through the add_optical_property method of the simulation
-object.
-This function takes as input a list of strings containing the following 
-ordered information: 
-
-- type : 'lambertian' or 'vegetation' 
-- ident: string for name 
-- database: string-path to database 
-- modelname: name of opt in database 
-- (if lambertian) specular : 0 or 1, 1 if UseSpecular
-- (if vegetation )lad : leaf angle distribution - can take the following values :
-        - 0: Uniform
-        - 1: Spherical
-        - 3: Planophil
-
-###### Using DART - trees
-
-It is possible to add trees to a simulation based on a trees.txt file.
-The 'addtrees' method reads a trees.txt file into a pandas Dataframe
-which can then be interacted with directly through the self.trees variable.
-
-Upon launching of the simulation (or writing of all xmls), this variable is 
-written into a pytrees.txt file, placed in the input folder, alongside all 
-the other input information.
-
-Trees described in trees.txt have to be linked to the thermic and optical
-properties of species. This can be done through the first column of 
-the trees Dataframe. Species are added using the addtreespecie method : 
-
-```python 
-addtreespecie(self, ntrees='1', lai='4.0', holes='0',
-              trunkopt='Lambertian_Phase_Function_1',
-              trunktherm='ThermalFunction290_310',
-              vegopt='custom',
-              vegtherm='ThermalFunction290_310'):
-```
-
-This methods takes as input the properties of a specie: 
-properties of a specie :
-- number of trees
-- LAI greater than 0 or Ul lower than 0
-- Holes in crown
-- trunk optical property 
-- trunk thermal property
-- vegetation optical property
-- vegetation thermal property
-
-For now it does not manage branch and twig simulation.
-
-
-
-###### Sequencer use
-
-In order to use the DART SequenceLauncher tool, the "addsequence" method
-has been implemented in the simulation object.
-
-it requires as entry a dictionnary :
-
-```python 
-dictionnary = { 'parameter' : list of values}
-```
-
-For now, the `'parameter'` string has to correspond exactly to a Dart parameter:
-
-
-Several properties can vary in this way at the same time.
-In order to produce all the combination of the variations of two properties,
-the method has to be called several times with different group names.
-The following example makes a sequence of the 12 combinations of `param1` and `param2`.  
-
-```python
-simu = simulation(outpath)
-simu.addsequence({'param1' : [1,2,3]}, group = 'group1')
-simu.addsequence({'param2' : [4,5,6,7]}, group = 'group2')
-```
-
-A name is required in order to save the xml file. At this time now a single 
-name has to be used, for a single xml sequence file will be produced.
-
-Example : 
-
-```xml
-<DartSequencerDescriptorGroup groupName="group1">
-
-    <DartSequencerDescriptorEntry args="400;50;3"
-        propertyName="Phase.DartInputParameters.SpectralIntervals.
-                SpectralIntervalsProperties.meanLambda" type="linear"/>
-
-    <DartSequencerDescriptorEntry args="10;5;3"
-        propertyName="Phase.DartInputParameters.SpectralIntervals.
-            SpectralIntervalsProperties.deltaLambda" type="linear"/>
-<DartSequencerDescriptorGroup/>
-
-<DartSequencerDescriptorGroup groupName="group2">
-    <DartSequencerDescriptorEntry args="0;60;2" 
-	propertyName="Directions.SunViewingAngles.dayOfTheYear" 
-		type="linear"/>
-	        
-<DartSequencerDescriptorGroup/>
-```
-
-The above parameters give the following values for :
-
-| SpectralIntervals | deltaLambda | dayOfTheYear |
-| --- | --- | --- |
-| 400 | 10 | 0 |
-| 400 | 10 | 60 |
-| 450 | 15 | 0 |
-| 450 | 15 | 60 |
-| 500 | 20 | 0 |
-| 500 | 20 | 60 |
-
-
+See help pages and `examples` for more details.
 
 ###### Authors
 Florian de Boissieu <florian.deboissieu@irstea.fr>

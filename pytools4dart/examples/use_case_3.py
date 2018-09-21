@@ -19,10 +19,13 @@ simu.add_prospect_sequence(dic, 'proprieteoptpros', name='prospect_sequence')
 simu.write_xmls()
 simu.run.full()
 
+# stack bands
 simu.stack_bands()
+simu.run.colorCompositeBands(red=2, green=1, blue=0, iteration='X', outdir='rgb')
+
+# run sequence
 simu.run.sequence('prospect_sequence')
 
-simu.run.colorCompositeBands(red=2, green=1, blue=0, iteration='X', outdir='rgb')
 
 # def f2(a=None, b=None, c=None):
 #     print([a,b,c])
