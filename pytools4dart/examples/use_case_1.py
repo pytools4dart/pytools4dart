@@ -11,8 +11,8 @@ simu = ptd.simulation(name='use_case_1')
 
 simu.add_bands({'wvl':[0.485, 0.555, 0.655], 'fwhm':0.07})
 
-dic = {'CBrown': 0.0, 'Cab': range(0,30,10), 'Car': 50,
-           'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
+dic = {'CBrown': 0.0, 'Cab': range(0,30,10), 'Car': 5,
+           'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 0}
 
 simu.add_prospect_sequence(dic, 'proprieteoptpros', name='prospect_sequence')
 simu.add_single_plot(opt_name='proprieteoptpros')
