@@ -91,11 +91,6 @@ class simulation(object):
         # Variables to be used in subsequent methods
         self.BANDSCOLNAMES = ['wvl', 'fwhm']
 
-        defaultlamb = ['Lambertian_Phase_Function_1',
-                       'Lambertian_vegetation.db',
-                       'reflect_equal_1_trans_equal_0_0',
-                       '0']
-
         self.optprops = {'lambertians': [defaultlamb],
                          'vegetations': []}
         self.nbands = 0
@@ -225,7 +220,7 @@ class simulation(object):
         else:
             print('x type not supported')
 
-    def add_optical_property(self, optprop, verbose=False):
+    def add_optical_property(self, optprop,verbose=False):
         """adds and optical property to the simulation
 
         TODO : think about : do we want optprops as an object?
@@ -234,11 +229,11 @@ class simulation(object):
 
         Parameters
         ----------
-        optprop : list
-            with the following ordered elements:
+        optprop : dict
+            with the following elements:
                     - type : 'lambertian' or 'vegetation'
                     - op_name: string for name
-                    - database: string-path to database
+                    - db_name: string to database
                     - op_name_in_db: name of opt in database
 
                 if lambertian :
@@ -249,28 +244,43 @@ class simulation(object):
                         - 1: Spherical
                         - 3: Planophil
 
-            default lambertian in DART is:
-            ['lambertian', 'Lambertian_Phase_Function_1', 'Lambertian_vegetation.db',
-            'reflect_equal_1_trans_equal_0_0', 0]
+            prospect properties can be added with key 'prospect'.
+            It must be a dictionary with elements
 
-            default vegetation in DART is:
-            ['vegetation', 'Turbid_Leaf_Deciduous_Phase_Function', 'Vegetation.db',
-            'leaf_deciduous', 1]
+
+        Examples
+        --------
+        import pytools4dart as ptd
+        simu=ptd.simulation('lambertian')
+        simu.add_optical_property({'type':'lambertian',
+         'op_name':'Lambertian_Phase_Function_1',
+         'db_name':'Lambertian_vegetation.db',
+         'op_name_in_db':'reflect_equal_1_trans_equal_0_0',
+         'lad': 0})
+
+        simu.add_optical_property({
+        'type':'vegetation',
+        'op_name':'Turbid_Leaf_Deciduous_Phase_Function',
+        'db_name':'Vegetation.db',
+        'op_name_in_db':'leaf_deciduous',
+        'specular': 1})
+
 
         """
         #check if requested model and db exist, although it could be created a posteriori with prospect
         try:
-            dbmodels_names = dbtools.get_models(optprop[2])['name'].values.tolist()
-            optprop_name_in_db = optprop[3]
+            dbmodels_names = dbtools.get_models(optprop['db_name'])['name'].values.tolist()
+            optprop_name_in_db = optprop['op_name_in_db']
             if not (optprop_name_in_db in dbmodels_names):
-                warnings.warn("model '{0}' not found in {1}".format(optprop[3], optprop[2]))
+                warnings.warn("model '{0}' not found in {1}".format(optprop['op_name_in_db'],
+                                                                    optprop['db_name']))
         except Exception as e:
             warnings.warn(str(e))
 
 
 
         self._registerchange('coeff_diff')
-        if optprop[0] == 'lambertian':
+        if optprop['type'] == 'lambertian':
             if optprop[1] in self.optprops['lambertians']:
                 raise ValueError('Optical property name already used: ' + optprop[1])
             else:
