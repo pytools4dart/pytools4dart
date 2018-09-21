@@ -279,7 +279,7 @@ properties of species. This can be done through the first column of
 the trees Dataframe. Species are added using the addtreespecie method : 
 
 ```python 
-addtreespecie(self, ntrees='1', lai='4.0', holes='0',
+add_tree_species(self, ntrees='1', lai='4.0', holes='0',
               trunkopt='Lambertian_Phase_Function_1',
               trunktherm='ThermalFunction290_310',
               vegopt='custom',
@@ -320,9 +320,8 @@ the method has to be called several times with different group names.
 The following example makes a sequence of the 12 combinations of `param1` and `param2`.  
 
 ```python
-simu = simulation(outpath)
-simu.addsequence({'param1' : [1,2,3]}, group = 'group1')
-simu.addsequence({'param2' : [4,5,6,7]}, group = 'group2')
+simu.add_sequence({'param1' : [1,2,3]}, group = 'group1')
+simu.add_sequence({'param2' : [4,5,6,7]}, group = 'group2')
 ```
 
 A name is required in order to save the xml file. At this time now a single 
