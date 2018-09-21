@@ -225,7 +225,7 @@ self.plots # plots to be written
 self.optsprops = {'lambertians': [], 'vegetations': []}
 ```
 
-It is a dictionnary, containing for each named type of optical property
+It is a dictionary, containing for each named type of optical property
 the ordered list of the corresponding optical properties. This
 allowed easier indexing for the referencing of optical properties by
 index in the xmlwriter for "plots.xml".
@@ -279,7 +279,7 @@ properties of species. This can be done through the first column of
 the trees Dataframe. Species are added using the addtreespecie method : 
 
 ```python 
-add_tree_species(self, ntrees='1', lai='4.0', holes='0',
+simu.add_tree_species(self, ntrees='1', lai='4.0', holes='0',
               trunkopt='Lambertian_Phase_Function_1',
               trunktherm='ThermalFunction290_310',
               vegopt='custom',
