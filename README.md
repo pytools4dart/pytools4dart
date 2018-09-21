@@ -179,7 +179,6 @@ import pytools4dart
 pytools4dart.configure('specific_path_to_DART')
 ```
 
-
 ## Features
 At the moment only part of DART simulator features are supported:
 - create 'flux' simulation
@@ -223,11 +222,9 @@ simu.scene # scene size
 simu.cell # cell size
 simu.plots # turbid plots
 self.trees # lollipop trees
-
-
 ```
 
-See `examples` for more details.
+See help pages and `examples` for more details.
 
 ###### Authors
 Florian de Boissieu <florian.deboissieu@irstea.fr>
