@@ -272,14 +272,14 @@ class simulation(object):
         # TODO : Add Error catching!
 
         #check if requested model and db exist, although it could be created a posteriori with prospect
-        try:
-            dbmodels_names = dbtools.get_models(optprop['db_name'])['name'].values.tolist()
-            optprop_name_in_db = optprop['op_name_in_db']
-            if not (optprop_name_in_db in dbmodels_names):
-                warnings.warn("model '{0}' not found in {1}".format(optprop['op_name_in_db'],
-                                                                    optprop['db_name']))
-        except Exception as e:
-            warnings.warn(str(e))
+        # try:
+        #     dbmodels_names = dbtools.get_models(optprop['db_name'])['name'].values.tolist()
+        #     optprop_name_in_db = optprop['op_name_in_db']
+        #     if not (optprop_name_in_db in dbmodels_names):
+        #         warnings.warn("model '{0}' not found in {1}".format(optprop['op_name_in_db'],
+        #                                                             optprop['db_name']))
+        # except Exception as e:
+        #     warnings.warn(str(e))
 
 
 
