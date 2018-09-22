@@ -2,7 +2,7 @@
 import pytools4dart as ptd
 
 # create an empty simulation
-simu = ptd.simulation(name = 'use_case_1')
+simu = ptd.simulation(name = 'use_case_3')
 
 # set scene size
 scene_dims = [20,20]
