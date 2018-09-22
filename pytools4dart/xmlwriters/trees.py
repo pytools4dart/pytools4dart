@@ -158,7 +158,7 @@ class DartTreesXML(object):
             - veg optptop (with index!)
             - veg therm prop
         """
-        # here specie is a dictionnary of all of a treespecie's properties.
+        # here specie is a dictionary of all of a treespecie's properties.
         for row in self.species.itertuples():
             subroot = self.root.find("./Trees_1")
             # ntrees = row.ntrees

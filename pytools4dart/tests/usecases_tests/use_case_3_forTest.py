@@ -13,8 +13,8 @@ def run_use_case_3(testSimuName, run_required = False):
 
     vox.data = vox.data[(vox.data.i < 20) & (vox.data.j < 20)]
     simu.set_scene_size([20, 20])
-    simu.add_plots_from_vox(vox, densitydef='ul', optprop=None)
-    simu.plots['optprop'] = 'proprieteoptpros'
+    simu.add_plots_from_vox(vox, densitydef='ul', op_name=None)
+    simu.plots['op_name'] = 'proprieteoptpros'
     simu.add_bands({'wvl': [0.485, 0.555, 0.655], 'fwhm': 0.07})
 
     # simu.add_sequence({'wvl':[.4,.1,10]}, group='wavelength', name='prospect_sequence')

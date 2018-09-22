@@ -14,14 +14,17 @@ simu.set_scene_size(scene_dims)
 simu.add_bands({'wvl':[0.485, 0.555, 0.655], 'fwhm':0.07})
 
 # define vegetation optical properties (VOP): here using the default veg opt property suggested by DART interface
-opt_prop_name = 'Turbid_Leaf_Deciduous_Phase_Function'
-veg_opt_prop = ['vegetation', opt_prop_name, 'Vegetation.db',
-            'leaf_deciduous', 1]
+op_name = 'turbid_leaf'
+op_vegetation = {'type':'vegetation',
+                'op_name':op_name,
+                'db_name':'Vegetation.db',
+                'op_name_in_db':'leaf_deciduous',
+                'lad': 1}
 
-simu.add_optical_property(veg_opt_prop)
+simu.add_optical_property(op_vegetation)
 
 # add a turbid plot with associated VOP
-simu.add_single_plot(opt_name = opt_prop_name)
+simu.add_single_plot(op_name = op_name)
 
 print(simu)
 

@@ -68,7 +68,7 @@ class simulation(object):
         the simulation object. It will have to be flexible depending on input.
         Temperatures not managed.
 
-        optprops is a dictionnary containing two lists :
+        optprops is a dictionary containing two lists :
             for each type : 'lambertian' or 'vegetation'
             -op_name: string for name
             -database: string-path to database
@@ -82,6 +82,7 @@ class simulation(object):
                     - 3: Planophil
 
         """
+        self.changetracker = [[], {}, "flux"]
 
         self.name = name # name of the simulation
         self.scene = [10, 10] # scene size in meters
@@ -91,20 +92,22 @@ class simulation(object):
         # Variables to be used in subsequent methods
         self.BANDSCOLNAMES = ['wvl', 'fwhm']
 
-        defaultlamb = ['Lambertian_Phase_Function_1',
-                       'Lambertian_vegetation.db',
-                       'reflect_equal_1_trans_equal_0_0',
-                       '0']
-
-        self.optprops = {'lambertians': [defaultlamb],
+        self.optprops = {'lambertians': [],
                          'vegetations': []}
+
+        self.add_optical_property({'type': 'lambertian',
+                               'op_name': 'Lambertian_Phase_Function_1',
+                               'db_name': 'Lambertian_vegetation.db',
+                               'op_name_in_db': 'reflect_equal_1_trans_equal_0_0',
+                               'specular': 0})
+
         self.nbands = 0
         self.bands = pd.DataFrame(columns=self.BANDSCOLNAMES)
 
         # Plots variables
         self.PLOTCOLNAMES = ['x1', 'y1', 'x2', 'y2', 'x3', 'y3', 'x4', 'y4',
                              'zmin', 'dz', 'density',
-                             'densitydef', 'optprop']
+                             'densitydef', 'op_name']
         self.plots = pd.DataFrame(columns=self.PLOTCOLNAMES) # plots description
 
         self.nspecies = 0
@@ -113,8 +116,6 @@ class simulation(object):
         self.prosparams = ['CBrown', 'Cab', 'Car', 'Cm',
                            'Cw', 'N', 'anthocyanin']
         self.prossequence = 0
-
-        self.changetracker = [[], {}, "flux"]
 
         self.run = run.runners(self)
 
@@ -155,7 +156,7 @@ class simulation(object):
         """add spectral band to simulation sensor
 
         Possibility to add a band either from a HDR file, txt file, list
-        or dictionnary: central band, width
+        or dictionary: central band, width
         if txt data separate by spaces.
         bandnumer(optional) wavelengthcenter wavelengthwidth
         hdrnm is used to convert nm to µm when reading from header.
@@ -225,7 +226,7 @@ class simulation(object):
         else:
             print('x type not supported')
 
-    def add_optical_property(self, optprop, verbose=False):
+    def add_optical_property(self, optprop,verbose=False):
         """adds and optical property to the simulation
 
         TODO : think about : do we want optprops as an object?
@@ -234,11 +235,11 @@ class simulation(object):
 
         Parameters
         ----------
-        optprop : list
-            with the following ordered elements:
+        optprop : dict
+            with the following elements:
                     - type : 'lambertian' or 'vegetation'
                     - op_name: string for name
-                    - database: string-path to database
+                    - db_name: string to database
                     - op_name_in_db: name of opt in database
 
                 if lambertian :
@@ -249,38 +250,67 @@ class simulation(object):
                         - 1: Spherical
                         - 3: Planophil
 
-            default lambertian in DART is:
-            ['lambertian', 'Lambertian_Phase_Function_1', 'Lambertian_vegetation.db',
-            'reflect_equal_1_trans_equal_0_0', 0]
+            prospect properties can be added with key 'prospect'.
+            It must be a dictionary with elements
 
-            default vegetation in DART is:
-            ['vegetation', 'Turbid_Leaf_Deciduous_Phase_Function', 'Vegetation.db',
-            'leaf_deciduous', 1]
+
+        Examples
+        --------
+        .. code-block:: python
+
+            import pytools4dart as ptd
+            simu=ptd.simulation('lambertian')
+
+            simu.add_optical_property({
+                'type':'lambertian',
+                'op_name':'Lambertian_Phase_Function_1',
+                'db_name':'Lambertian_vegetation.db',
+                'op_name_in_db':'reflect_equal_1_trans_equal_0_0',
+                'specular': 0})
+
+            simu.add_optical_property({
+                'type':'vegetation',
+                'op_name':'Turbid_Leaf_Deciduous_Phase_Function',
+                'db_name':'Vegetation.db',
+                'op_name_in_db':'leaf_deciduous',
+                'lad': 1})
+
+            simu.add_optical_property({
+                'type':'vegetation',
+                'op_name':'op_prospect',
+                'db_name':'prospect.db',
+                'op_name_in_db':'',
+                'lad': 1,
+                'prospect':{'CBrown': '0.0', 'Cab': '30', 'Car': '12',
+                           'Cm': '0.01', 'Cw': '0.012', 'N': '1.8',
+                           'anthocyanin': '0'}})
+
 
         """
         #check if requested model and db exist, although it could be created a posteriori with prospect
         try:
-            dbmodels_names = dbtools.get_models(optprop[2])['name'].values.tolist()
-            optprop_name_in_db = optprop[3]
+            dbmodels_names = dbtools.get_models(optprop['db_name'])['name'].values.tolist()
+            optprop_name_in_db = optprop['op_name_in_db']
             if not (optprop_name_in_db in dbmodels_names):
-                warnings.warn("model '{0}' not found in {1}".format(optprop[3], optprop[2]))
+                warnings.warn("model '{0}' not found in {1}".format(optprop['op_name_in_db'],
+                                                                    optprop['db_name']))
         except Exception as e:
             warnings.warn(str(e))
 
 
 
         self._registerchange('coeff_diff')
-        if optprop[0] == 'lambertian':
-            if optprop[1] in self.optprops['lambertians']:
-                raise ValueError('Optical property name already used: ' + optprop[1])
+        if optprop['type'] == 'lambertian':
+            if optprop['op_name'] in self.optprops['lambertians']:
+                raise ValueError('Optical property name already used: ' + optprop['op_name'])
             else:
-                self.optprops['lambertians'].append(optprop[1:])
+                self.optprops['lambertians'].append({k:v for k,v in optprop.iteritems() if k != 'type'})
                 self._set_index_props()
-        elif optprop[0] == 'vegetation':
-            if optprop[1] in self.optprops['vegetations']:
-                raise ValueError('Optical property name already used: ' + optprop[1])
+        elif optprop['type'] == 'vegetation':
+            if optprop['op_name'] in self.optprops['vegetations']:
+                raise ValueError('Optical property name already used: ' + optprop['op_name'])
             else:
-                self.optprops['vegetations'].append(optprop[1:])
+                self.optprops['vegetations'].append({k:v for k,v in optprop.iteritems() if k != 'type'})
                 self._set_index_props()
         else:
             print 'Non recognized optical property type. Returning'
@@ -291,37 +321,62 @@ class simulation(object):
 
         return
 
-    def add_sequence(self, parargs, group='default', name='sequencepytdart',
-                    verbose=False, variationmode='linear'):
+    def add_sequence(self, param, group='group1', name='sequence',
+                    verbose=False):
         """add a sequence xml file with given parameters
 
         Parameters
         ---------
-        parargs : dic
-            must be a dictionnary structured in this way :
-            parargs = { 'parameter1' : basevalue, stepvalue, numberofsteps}
+        param : dict
+            must be a dictionary structured in this way :
+            parargs = { 'parameter1' : [value_0, value_1, ...]}
         group : str, optional
             string assigning a name to the group of the sequence. This allows
             for the combination of variation of parameters in a single sequence
         name : str, optional
             name of the sequence (given to the xml file).
-        TODO : For now only LINEAR, should be possible to change to enumerate
+
+        Notes
+        -----
+        parameters can be found as 'dartnode' in:
+        ```
+        import pytools4dart as ptd
+        ptd.xmlwriters.dartxml.get_labels()
+        ```
+
+        As parameters are not very user-friendly, some parameters have acronym:
+            wvl: central wavelength
+
+        Example
+        -------
+        .. code-block:: python
+
+            import pytools4dart as ptd
+            simu = ptd.simulation('CHL')
+            simu.add_band({'wvl':0.4, 'fwhm':0.07})
+            simu.add_sequence(id=0, {'wvl':[0.4, 0.5, 0.6]},
+                group='wavelength', name='chl_sequence')
+
         """
-        try:
-            parargs.keys()
-        except AttributeError:
-            print 'sequence input must be a dictionnary = {parameters:args}'
-            return
+        if not isinstance(param, dict):
+            raise ValueError('argument must be a dictionary = {parameters:args}')
+
         self._registerchange('sequence')
 
-        for param, args in parargs.iteritems():
+        for k, v in param.iteritems():
             if verbose:
-                print 'key =', param
-                print 'values =', args
+                print 'key =', k
+                print 'values =', v
             if group not in self.changetracker[1]['sequence']:
                 self.changetracker[1]['sequence'][group] = {}
+            else:
+                # check length
+                group_len =[len(gv) for gv in self.changetracker[1]['sequence'][group]][0]
+                if len(v) != group_len:
+                    raise ValueError('Members of group {} must be of length {}'.format(group, group_len))
 
-            self.changetracker[1]['sequence'][group][param] = args
+
+            self.changetracker[1]['sequence'][group][k] = v
 
         try:
             self.changetracker[1]['sequencename']
@@ -333,33 +388,34 @@ class simulation(object):
             return
         return
 
-    def add_prospect_sequence(self, dic, optident, group=None,
-                            name='prospect_sequence', lad=1):
+    def add_prospect_sequence(self, param, op_name, group='group1',
+                            name='prospect_sequence'):
         """adds a sequence of prospect generated optical properties
 
         Parameters
         ---------
-        dic : dict
+        param : dict
             must be a dictionary containing the prospect parameters
             and the assigned value. For now only one parameter can vary.
-        optident : str
+        op_name : str
             name of the prospect optical property. For now created independently
             via add_optical_property()
 
-        TODO : Absolutey NOT Optimized nor clean!
         """
+        # TODO : Absolutey NOT Optimized nor clean!
+
         # Here go the conditions for prospect, probably to write in another
         # function
         self._registerchange('prospect')
         self._registerchange('sequence')
 
         # definition of the 'blank' prospect optical property
-        prosoptveg = ['vegetation', optident, 'prospect', 'blank', lad]
-        self.add_optical_property(prosoptveg)
+        # prosoptveg = ['vegetation', op_name, 'prospect', 'blank', lad]
+        # self.add_optical_property(prosoptveg)
 
         self._set_index_props()
         try:
-            index = self.indexopts['vegetations'][optident]
+            index = self.indexopts['vegetations'][op_name]
         except KeyError:
             print 'Undefined optical Property!'
             print 'Please define first a blank prospect optical property.'
@@ -378,7 +434,7 @@ class simulation(object):
                 group = 'prosequence'+group
             maxlen = 0
             prosdic = {}
-            for params in dic.iteritems():
+            for params in param.iteritems():
                 if params[0] not in self.prosparams:
                     raise ValueError('please enter one of the following'
                                      'values :{}'.format(self.prosparams))
@@ -397,12 +453,12 @@ class simulation(object):
                     return
 
             self.add_sequence(prosdic, group=group,
-                             name=name, variationmode='enumerate')
+                             name=name)
             self.prossequence += 1
         return
 
     def add_single_plot(self, corners=None, baseheight=1, density=1,
-                      opt_name="custom", height=1, densitydef='ul'):
+                      op_name="custom", height=1, densitydef='ul'):
         """adds a plot to the scene with certain parameters
 
         For now, if no corners are specified, a default plot is created
@@ -419,7 +475,7 @@ class simulation(object):
                 base height of the plot
             density : int, optional
                 density of the plot
-            opt_name : str, optional
+            op_name : str, optional
                 name of the optical property assigned to the plot. This optical property must exist
                 in the opt properties list before running dart modules,
                 even if it is not mandatory it to be created before the assignation time.
@@ -437,7 +493,7 @@ class simulation(object):
                        [self.scene[0],  0],
                        [0,              0],
                        [0,              self.scene[1]]]
-        data = np.array(corners).flatten().tolist()+[baseheight, height, density, densitydef, opt_name]
+        data = np.array(corners).flatten().tolist()+[baseheight, height, density, densitydef, op_name]
         miniframe = pd.DataFrame([data], columns=self.PLOTCOLNAMES)
         self.plots = self.plots.append(miniframe, ignore_index=True)
 
@@ -447,9 +503,9 @@ class simulation(object):
                                             'x3':'x3', 'y3':'y3', 'x4':'x4', 'y4':'y4',
                                             'baseheight':'baseheight', 'height':'height',
                                             'density':'density', 'densitydef':'densitydef',
-                                            'optprop':'optprop'}):
+                                            'op_name':'op_name'}):
         """
-        Appends a dataframe to plots based on a dictionnary
+        Appends a dataframe to plots based on a dictionary
 
         Parameters
         ----------
@@ -459,7 +515,7 @@ class simulation(object):
             Column names corresponding to PLOTSCOLNAMES.
         """
 
-        """Appends a dataframe to plots based on a dictionnary
+        """Appends a dataframe to plots based on a dictionary
 
         dic = {Olndame:Newname, .....}
         new names in self.PLOTSCOLNAMES
@@ -476,7 +532,7 @@ class simulation(object):
 
         return
 
-    def add_plots_from_vox(self, vox, densitydef='ul', optprop=None, verbose=False):
+    def add_plots_from_vox(self, vox, densitydef='ul', op_name=None, verbose=False):
         """Add plots based on AMAPVox file.
 
         Parameters
@@ -510,7 +566,7 @@ class simulation(object):
             baseheight = k * height  # voxel height
 
             voxlist.append(corners+[baseheight, res, density,
-                            densitydef, optprop])
+                            densitydef, op_name])
 
         data = pd.DataFrame(voxlist, columns=self.PLOTCOLNAMES)
 
@@ -641,35 +697,16 @@ class simulation(object):
         index = 0
         self.index_lamb = {}
         for lamb in self.optprops['lambertians']:
-            self.index_lamb[lamb[0]] = index
+            self.index_lamb[lamb['op_name']] = index
             index += 1
         index = 0
         self.index_veg = {}
         for veg in self.optprops['vegetations']:
-            self.index_veg[veg[0]] = index
+            self.index_veg[veg['op_name']] = index
             index += 1
         self.indexopts = {'lambertians': self.index_lamb,
                           'vegetations': self.index_veg}
 
-        return
-
-    def setoptplots(self, opt, mode=None):
-        """sets the optical property of the plots
-
-        Parameters
-        ----------
-        opt: str
-            Name of optical property
-
-        TODO : modify and add options : superior plots...
-        For now sets ALL plots to the same 'opt' optical property
-        Specific assignment can be done in self.plots['optprop'] directly.
-        """
-        if not self.plots:
-            print "There are no plots in this simulation"
-            return
-        else:
-            self.plots['optprop'] = opt
         return
 
     def set_scene_size(self, scene_dims):
@@ -890,269 +927,3 @@ class simulation(object):
 
         return pjoin(getsimupath(self.name), self.name+'_'+sequence_name+'.db')
 
-# ##################################test zone
-if __name__ == '__main__':
-    import time
-
-    start = time.time()
-    # Case Study 1 ################
-    PathDART            = '/media/mtd/stock/DART_5-7-1_v1061/'
-    SimulationName      = 'testprosequence10'
-    SequenceName        = 'prospect_sequence.xml'
-
-    pof = simulation(PathDART+'user_data/simulations/'+SimulationName+'/')
-    pof.addsingleplot(opt='proprieteoptpros')
-    proplot = ['vegetation','proprieteoptplot','Vegetation.db',
-                  'needle_spruce_stressed', '0']
-    # prosoptveg = ['vegetation', 'proprieteoptpros', 'prospect', 'blank', 0]
-    pof.add_optical_property(proplot)
-    pof.add_bands([0.400, 0.01])
-#    pof.add_bands([0.450, 0.01])
-#    pof.add_bands([0.500, 0.01])
-
-#
-#    pof.add_bands([0.450, 0.01])
-#    pof.add_bands([0.500, 0.01])
-#    pof.add_bands([0.550, 0.01])
-#    pof.add_bands([0.600, 0.01])
-#    pof.add_bands([0.650, 0.01])
-#    pof.add_bands([0.700, 0.01])
-#    pof.add_bands([0.750, 0.01])
-#    pof.add_bands([0.800, 0.01])
-    # pof.add_optical_property(prosoptveg)
-    dic = {'CBrown': [0.8, 0.2, 0.0], 'Cab': [5, 27, 71.5], 'Car': 10,
-           'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
-
-    pof.add_prospect_sequence(dic, 'proprieteoptpros', name='prospect_sequence')
-    pof.add_sequence({'wvl':[0.400,0.050,8]},
-                    group = 'wvl', name = 'prospect_sequence')
-    corner = [[1, 1],
-              [1, 2],
-              [2, 2],
-              [2, 1]]
-    pof.addsingleplot(corners=corner,opt='proprieteoptpros' )
-    # pof.add_sequence({'wvl':[400,20,8]})
-
-    pof.write_xmls()
-
-    # define path for tools
-    PathTOOLS = PathDART + 'tools/linux/'
-    # define name for script to be run
-    namescript = 'dart-sequence.sh'
-
-    # define option
-    OptionStart = '-start'
-    CmdJoin = PathTOOLS + namescript + ' ' + SimulationName+'/'+SequenceName \
-     + ' ' + OptionStart
-    subprocess.Popen(['/bin/bash', '-c', CmdJoin],
-                     stdout=subprocess.PIPE).wait()
-
-    ###################################
-    # case study 2
-    # Trees simulated with prospect, over a plot of dry grass
-    # S2 bands
-    """
-    PathDART            = '/media/mtd/stock/DART_5-7-1_v1061/'
-    SimulationName      = 'testrees2'
-    SequenceName        = 'testrees.xml'
-
-    pof = simulation(PathDART+'user_data/simulations/'+SimulationName+'/')
-    pof.set_scene_size([40, 40])
-    pof.add_treespecie(1)
-    pof.add_treespecie(1, vegopt = 'proprieteopt2',
-                      trunkopt = 'Lambertian_Phase_Function_1')
-    pof.add_treespecie(0, vegopt = 'proprieteplot',
-                      trunkopt = 'Lambertian_Phase_Function_1')
-    pof.add_bands("/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr")
-    optprop = ['lambertian', 'proprieteopt', 'Lambertian_vegetation.db',
-               'lichen', '0']
-    pof.add_optical_property(optprop)
-    corners = [[1, 1],
-               [1, 5],
-               [5, 7],
-               [7, 1],
-               ]
-    # pof.addsingleplot(corners = corners, opt = 'proprieteplot')
-    optpropplot = ['vegetation', 'proprieteplot',
-                  'Vegetation.db',
-                  'grass_dry', '0']
-    pof.add_optical_property(optpropplot)
-    optpropveg = ['vegetation', 'proprieteopt2',
-                  'Vegetation.db',
-                  'ash_top', '0']
-    pof.add_optical_property(optpropveg)
-    path = '/media/mtd/stock/boulot_sur_dart/temp/model_trees.txt'
-    pof.add_trees(path)
-    pof.trees['SPECIES_ID'] = 2
-    pof.add_treespecie(2, vegopt = 'prosopt')
-    dic = {'CBrown': 0.0, 'Cab': [7, 20.5, 40.3, 82.5], 'Car': 10,
-           'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
-    pof.add_prospect_sequence(dic, 'prosopt')
-    pof.write_xmls()
-
-    # define path for tools
-    PathTOOLS = PathDART + 'tools/linux/'
-    # define name for script to be run
-    namescript = 'dart-sequence.sh'
-
-    # define option
-    OptionStart = '-start'
-    CmdJoin = PathTOOLS + namescript + ' ' + SimulationName+'/'+SequenceName \
-    + ' ' + OptionStart
-    subprocess.Popen(['/bin/bash', '-c', CmdJoin],
-                     stdout=subprocess.PIPE).wait()
-
-    """
-    # #####################################
-    # case study 3
-
-    # # #####################################
-    """
-    pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/test_debug')
-    optpropveg = ['vegetation', 'proprieteopt',
-                  '/media/mtd/stock/DART/database/Vegetation.db',
-                  'leaf_deciduous', '0']
-    pof.add_optical_property(optpropveg)
-    print pof.changetracker[0]
-    optpropveg = ['vegetation', 'proprieteopt2',
-                  '/media/mtd/stock/DART/database/Vegetation.db',
-                  'elm_top', '0']
-    pof.add_optical_property(optpropveg)
-    print pof.changetracker[0]
-
-    pof.addsingleplot(opt='proprieteopt', densitydef='UL')
-    print pof.changetracker[0]
-
-    pof.add_sequence({'wvl': (0.400, 0.50, 10)})
-    print pof.changetracker[0]
-
-    #pof.add_bands([])
-
-    pof.write_xmls()
-
-    """
-    """
-    pof.set_scene_size([5, 5])
-    corners = [[3,  4],
-               [3,  0],
-               [0,  0],
-               [0,  4]]
-    pof.addsingleplot(corners=corners, opt='proprieteopt2')
-
-    dic = {'CBrown': [3, 4, 5], 'Cab': 5, 'Car': 1,
-           'Cm': 1, 'Cw': 4, 'N': 2, 'anthocyanin': 1}
-    # dummy optprop
-    pof.addsingleplot(corners=corners, opt='proprieteopt2', densitydef='UL')
-
-    optpropveg = ['vegetation', 'proprieteopt2',
-                  '/media/mtd/stock/DART/database/Vegetation.db',
-                  'ash_top', '0']
-    pof.add_optical_property(optpropveg)
-    optpropveg = ['vegetation', 'proprieteopt2',
-              '/media/mtd/stock/DART/database/Vegetation.db',
-              'beech_middle', '0']
-    pof.add_optical_property(optpropveg)
-    optpropveg = ['vegetation', 'proprieteopt2',
-                  '/media/mtd/stock/DART/database/Vegetation.db',
-                  'beech_bottom', '0']
-    pof.add_optical_property(optpropveg)
-    optpropveg = ['vegetation', 'proprieteopt2',
-                  '/media/mtd/stock/DART/database/Vegetation.db',
-                  'beech_top', '0']
-    pof.add_optical_property(optpropveg)
-
-    pof.add_sequence({'wvl': (400,50,3)})
-    # pof.add_prospect_sequence(dic, 'proprieteoptpros')
-    # dxml.write_coeff_diff(pof.changetracker)
-    pof.write_xmls()
-    """
-    """
-    """
-    # prosoptveg = ['vegetation', 'proprieteoptpros', 'prospect', 'blank', 0]
-    # pof.add_optical_property(prosoptveg)
-    """
-    """
-    """
-    pof = simulation('/media/mtd/stock/boulot_sur_dart/temp/'
-                     'essai_sequence/input/')
-
-
-    corners = [[3,  4],
-               [3,  0],
-               [0,  0],
-               [0,  4]]
-    pof.addsingleplot(corners=corners, opt='proprieteopt2', densitydef='UL')
-    pof.set_scene_size([5, 5])
-    optpropveg = ['vegetation', 'proprieteopt2',
-                  '/media/mtd/stock/DART/database/Vegetation.db',
-                  'ash_top', '0']
-    pof.add_optical_property(optpropveg)
-    dic = {'CBrown':[3,4,5], 'Cab': 5, 'Car':1,
-           'Cm':1, 'Cw':4, 'N':2, 'anthocyanin':1}
-    prosoptveg = ['vegetation','proprieteoptpros', 'prospect', 'blank',0]
-    pof.add_optical_property(prosoptveg)
-    pof.add_prospect_sequence(dic, 'proprieteoptpros')
-    pof.write_sequence()
-    """
-    """
-    # progress bar
-    import time
-import sys
-
-toolbar_width = 40
-
-# setup toolbar
-sys.stdout.write("[%s]" % (" " * toolbar_width))
-sys.stdout.flush()
-sys.stdout.write("\b" * (toolbar_width+1)) # return to start of line, after '['
-
-for i in xrange(toolbar_width):
-    time.sleep(0.1) # do real work here
-    # update the bar
-    sys.stdout.write("-")
-    sys.stdout.flush()
-
-sys.stdout.write("\n")
-    """
-    """
-    corners = ((3,  4),
-               (3,  0),
-               (0,  0),
-               (0,  4))
-    pof.addsingleplot(corners=corners, opt='proprieteopt2')
-    pof.addsingleplot(corners=corners, opt='proprieteopt3')
-    pof.addsingleplot(corners=corners, opt='proprieteopt1')
-
-    #   pof.add_bands([1, 2, 3])
-    #   pof.add_bands([2, 2, 3])
-    pof.add_bands([12, 2, 3])
-    pof.add_bands("/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr")
-    optprop = ['lambertian', 'proprieteopt', 'Vegetation.db', 'truc', '0']
-    pof.add_optical_property(optprop)
-
-    optpropveg = ['vegetation', 'proprieteopt2',
-                  '/media/mtd/stock/DART/database/Vegetation.db',
-                  'ash_top', '0']
-    pof.add_optical_property(optpropveg)
-
-    optpropveg = ['vegetation', 'proprieteopt1',
-                  '/media/mtd/stock/DART/database/Vegetation.db',
-                  'elm_top', '0']
-    pof.add_optical_property(optpropveg)
-
-    optpropveg = ['vegetation', 'proprieteopt3',
-                  '/media/mtd/stock/DART/database/Vegetation.db',
-                  'beech_middle', '0']
-
-    pof.add_optical_property(optpropveg)
-
-    pof.listmodifications()
-    #   pof.add_sequence({'hello': (1, 2, 3)})
-    pof.write_xmls()
-    print(pof.bands)
-
-    end = time.time()
-    print(end - start)
-    """
-    end = time.time()
-    print end - start

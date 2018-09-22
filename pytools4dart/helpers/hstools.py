@@ -25,7 +25,7 @@
 # ===============================================================================
 """
 This module contains the function "hdrtodict".
-It allows to read .hdr file and returns a dictionnary.
+It allows to read .hdr file and returns a dictionary.
 """
 
 try:
