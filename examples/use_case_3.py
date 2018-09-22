@@ -28,7 +28,7 @@ op_vegetation = {'type':'vegetation',
 simu.add_optical_property(op_vegetation)
 
 # add plots from voxelized data
-vox = ptd.voxreader.voxel().from_vox("../../data/forest.vox")
+vox = ptd.voxreader.voxel().from_vox("../data/forest.vox")
 simu.add_plots_from_vox(vox, densitydef='ul', op_name='op_prospect')
 
 # write simulation
