@@ -38,7 +38,7 @@ simu.add_prospect_sequence({'Cab': range(0,30,10)}, 'op_prospect',
 print(simu)
 
 #### write simulation
-simu.write()
+simu.write(overwrite=True)
 simu.run.full()
 simu.run.sequence('prospect_sequence')
 

@@ -29,7 +29,7 @@ simu.add_single_plot(op_name = op_name)
 print(simu)
 
 # run simulation
-simu.write()
+simu.write(overwrite=True)
 simu.run.full()
 # explore results:
 #

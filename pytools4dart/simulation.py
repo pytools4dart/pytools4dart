@@ -41,6 +41,7 @@ import pandas as pd
 import subprocess
 import pprint
 import numpy as np
+import shutil
 import warnings
 
 # local imports
@@ -817,7 +818,7 @@ class simulation(object):
 
         if os.path.isdir(simupath):
             if overwrite:
-                os.rmdir()
+                shutil.rmtree(simupath)
             else:
                 raise ValueError('Simulation directory already exists:\n{}'.format(simupath)+
                              '\n\nChange name or set overwrite argument.')

@@ -6,7 +6,6 @@
 optical properties and simulate an RGB acquisition.*
 
 ## Algorithm
-
 - create an empty simulation
 - define scene size
 - add spectral bands, e.g. 0.485, 0.555, 0.655 nm
@@ -28,7 +27,7 @@ optical properties and simulate an RGB acquisition.*
    - simulate a 1m resolution multispectral image*
 
 ## Algorithm
-- rename previous simulation
+- follow steps of previous or rename previous simulation
 - add the prospect sequence with varying chlorophyll
 - add a turbid plot associated with prospect optical properties
 - run sequence
@@ -65,7 +64,12 @@ it should contain position, shape and species ID
 ## Description
 
 ## Algorithm
-
+- create an empty simulation
+- define scene size
+- add spectral bands, e.g. 0.485, 0.555, 0.655 nm
+   with 0.07 full width at half maximum
+- add vegetation optical properties (VOP)
+- read .vox file and add it to simulation
 
 
  
