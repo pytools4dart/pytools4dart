@@ -42,8 +42,8 @@ op_trunk = {
 simu.add_optical_property(op_trunk)
 
 
-propect_prop = {'CBrown': 0, 'Cab': 30, 'Car': 10,
-                'Cm': 0.01, 'Cw': 0.012, 'N': 1.8,
+propect_prop = {'CBrown': 0, 'Cab': 30, 'Car': 5,
+                'Cm': 0.01, 'Cw': 0.01, 'N': 1.8,
                 'anthocyanin': 0}
 
 op_name ='leaf'

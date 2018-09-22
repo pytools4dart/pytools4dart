@@ -13,8 +13,8 @@ simu.add_bands({'wvl':[0.485, 0.555, 0.655], 'fwhm':0.07})
 
 
 #### Define optical properties
-propect_prop = {'CBrown': 0, 'Cab': 30, 'Car': 10,
-                'Cm': 0.01, 'Cw': 0.012, 'N': 1.8,
+propect_prop = {'CBrown': 0, 'Cab': 30, 'Car': 5,
+                'Cm': 0.01, 'Cw': 0.015, 'N': 1.8,
                 'anthocyanin': 0}
 
 op_vegetation = {'type':'vegetation',
