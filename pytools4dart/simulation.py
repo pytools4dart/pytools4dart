@@ -496,7 +496,7 @@ class simulation(object):
         data : DataFrame
             Plots properties.
         colnames : dict
-            Column names corresponding to PLOTSCOLNAMES.
+            Column names corresponding to the standard names (see self.COLNAMES)
         """
 
         """Appends a dataframe to plots based on a dictionary
@@ -508,7 +508,7 @@ class simulation(object):
 
         """
         self._registerchange('plots')
-        data.rename(columns=dic, inplace=True)
+        data.rename(columns=colnames, inplace=True)
         plots = self.plots.append(data, ignore_index=True)
         self.plots = plots
 
