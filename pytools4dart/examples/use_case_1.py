@@ -6,12 +6,18 @@ import numpy as np
 from os.path import join as pjoin
 import pytools4dart as ptd
 
+# create an empty simulation
+simu = ptd.simulation(name = 'use_case_1')
 
-simu = ptd.simulation(name='use_case_1')
+# set scene size
+scene_dims = [40,40]
+simu.set_scene_size(scene_dims)
 
-simu.add_bands({'wvl':np.linspace(.4, 1, 10), 'fwhm':0.01})
+# add spectral RGB bands, e.g. B=0.485, G=0.555, R=0.655 nm
+# with 0.07 full width at half maximum
+simu.add_bands({'wvl':[0.485, 0.555, 0.655], 'fwhm':0.07})
 
-#### Define optical properties
+# define optical properties with prospect parameters
 propect_prop = {'CBrown': 0, 'Cab': 30, 'Car': 5,
                 'Cm': 0.01, 'Cw': 0.01, 'N': 1.8,
                 'anthocyanin': 0}
@@ -27,30 +33,31 @@ op_vegetation = {'type':'vegetation',
 simu.add_optical_property(op_vegetation)
 
 
-#### Define mockup
+# add a turbid plot
 simu.add_single_plot(op_name=op_name)
 
-#### Define sequence
+# define sequence
 simu.add_prospect_sequence({'Cab': range(0,30,10)}, 'op_prospect',
                            name='prospect_sequence')
 
-#### show simulation content
+# show simulation content
 print(simu)
 
-#### write simulation
+# write simulation
 simu.write(overwrite=True)
+
+# run simulation
 simu.run.full()
+
+# run sequence
 simu.run.sequence('prospect_sequence')
 
-
-
-
-#### Figure of scene reflectance function of chlorophyll
+# Figure of scene reflectance function of chlorophyll
 simu.get_sequence_db_path("prospect_sequence")
 conn = sqlite3.connect(simu.get_sequence_db_path("prospect_sequence"))
 c=conn.cursor()
 
-# extract reflectance and chlorophyll values
+## extract reflectance and chlorophyll values
 result=[]
 for row in c.execute('''select  valueParameter, valueCentralWavelength, valueResult
 from ScalarResult, DirectionalResult, Reflectance, SpectralBand, Combination, P_Cab
@@ -65,13 +72,12 @@ group by valueParameter, valueCentralWavelength
     result.append(row)
 
 df = pd.DataFrame(result, columns=['chl', 'wavelength', 'reflectance'])
-# df.chl = pd.to_numeric(df.chl)
 df.wavelength = 10**9*df.wavelength
 df.set_index('wavelength', inplace=True)
 df.groupby('chl')['reflectance'].plot(legend=True)
 plt.xlabel('Wavelength [nm]')
 plt.ylabel('Reflectance')
 plt.legend(title='Chl [mg/m3]')
-plt.show()
-# plt.savefig(pjoin(simu.getsimupath(), 'output', 'R_Chl.png'))
+# plt.show()
+plt.savefig(pjoin(simu.getsimupath(), 'output', 'R_Chl.png'))
 plt.close()

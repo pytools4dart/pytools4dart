@@ -55,13 +55,12 @@ Trees can be simulated as an association of simple 3D geometries object:
 - load and add tree inventory from a file, e.g. Dart/database/tree.txt 
 it should contain position, shape and species ID
 - define tree species with associated optical properties
+- generate RGB acquisition images of each chlorophyll concentration
 
 # Use case 3
 
 ## Goal
 *Simulate trees from airborne lidar voxelization.*
-
-## Description
 
 ## Algorithm
 - create an empty simulation
@@ -70,6 +69,5 @@ it should contain position, shape and species ID
    with 0.07 full width at half maximum
 - add vegetation optical properties (VOP)
 - read .vox file and add it to simulation
-
-
+- stack bands and export to ENVI file
  

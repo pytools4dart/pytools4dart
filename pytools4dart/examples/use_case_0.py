@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
-
 import pytools4dart as ptd
 
 # create an empty simulation
 simu = ptd.simulation(name = 'use_case_0')
 
-# define scene size
+# set scene size
 scene_dims = [40,40]
 simu.set_scene_size(scene_dims)
 
-# add spectral bands, e.g. 0.485, 0.555, 0.655 nm
+# add spectral RGB bands, e.g. B=0.485, G=0.555, R=0.655 nm
 # with 0.07 full width at half maximum
 simu.add_bands({'wvl':[0.485, 0.555, 0.655], 'fwhm':0.07})
 
@@ -31,9 +30,8 @@ print(simu)
 # run simulation
 simu.write(overwrite=True)
 simu.run.full()
+
 # explore results:
-#
-#
 # databases with SQLite database browser
 # generate RGB image (ENVI or PNG formats)
 simu.run.colorCompositeBands(red=2, green=1, blue=0, iteration='X', outdir='rgb')
