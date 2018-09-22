@@ -63,25 +63,9 @@ class simulation(object):
         ----------
         name: str
             Name of the simulation
-
-        TODO : WARNING : For now, 'flux' ( changetracker[3]) is hardcoded in
-        the simulation object. It will have to be flexible depending on input.
-        Temperatures not managed.
-
-        optprops is a dictionary containing two lists :
-            for each type : 'lambertian' or 'vegetation'
-            -op_name: string for name
-            -database: string-path to database
-            -op_name_in_db: name of opt in database
-            if lambertian :
-                -specular : 0 or 1, 1 if UseSpecular
-            if vegetation :
-                -lad : leaf angle distribution :
-                    - 0: Uniform
-                    - 1: Spherical
-                    - 3: Planophil
-
         """
+        # TODO : WARNING : For now, 'flux' ( changetracker[3]) is hardcoded in
+
         self.changetracker = [[], {}, "flux"]
 
         self.name = name # name of the simulation
@@ -153,14 +137,10 @@ class simulation(object):
 
 
     def add_bands(self, x, verbose=False):
-        """add spectral band to simulation sensor
+        """add spectral band to simulated sensor
 
-        Possibility to add a band either from a HDR file, txt file, list
-        or dictionary: central band, width
-        if txt data separate by spaces.
-        bandnumer(optional) wavelengthcenter wavelengthwidth
-        hdrnm is used to convert nm to µm when reading from header.
-        TODO : check if .txt info works. Split into 3 smaller helper functions
+        Add a band either from DataFrame, dictionary, HDR file or txt file.
+        Values are considered in µm.
 
         Parameters
         ----------
@@ -169,7 +149,10 @@ class simulation(object):
             - if dict it is expected to have elements: 'wvl' and 'fwhm'
             - if str it should be the path to an ENVI hdr
             or a csv file with 2 columns
+
         """
+        # TODO : check if .txt info works. Split into 3 smaller helper functions
+
         if isinstance(x, pd.DataFrame):
             # check columns:
             if not set(self.BANDSCOLNAMES).issubset(x.columns):
@@ -229,10 +212,6 @@ class simulation(object):
     def add_optical_property(self, optprop,verbose=False):
         """adds and optical property to the simulation
 
-        TODO : think about : do we want optprops as an object?
-        TODO : Managing Thermal properties?
-        TODO : Add Error catching!
-
         Parameters
         ----------
         optprop : dict
@@ -287,6 +266,10 @@ class simulation(object):
 
 
         """
+        # TODO : think about : do we want optprops as an object?
+        # TODO : Managing Thermal properties?
+        # TODO : Add Error catching!
+
         #check if requested model and db exist, although it could be created a posteriori with prospect
         try:
             dbmodels_names = dbtools.get_models(optprop['db_name'])['name'].values.tolist()
@@ -581,11 +564,6 @@ class simulation(object):
         """Add trees.txt file to the simulation
 
 
-        The XML OPT PROP goes with a "FctPhaseIndex".
-        TODO : other than 'exact location + exact parameters'
-        TODO : Empy leaf cells/ leaves+ holes management!
-                        -- > 'distribution' parameter
-        Big question : from what will a tree be created?
         tree must contain :
             -specie ID
             -C_TYPE (type of crown geometry)
@@ -610,6 +588,9 @@ class simulation(object):
          SPECIES_ID, POS_X  POS_Y  T_HEI_BELOW  T_HEI_WITHIN  T_DIA_BELOW  C_TYPE  C_HEI  C_GEO_1  C_GEO_2
 
         """
+        # TODO : other than 'exact location + exact parameters'
+        # TODO : Empy leaf cells/ leaves+ holes management!
+        #                 -- > 'distribution' parameter
 
         if self.nspecies == 0:
             print "Warning : No tree specie has been defined."
@@ -654,8 +635,8 @@ class simulation(object):
             - trunk therm prop
             - veg opt prop
             - veg therm prop
-        TODO : Error catching when only trees or species are defined!
         """
+        # TODO : Error catching when only trees or species are defined!
         # specie = {'id': self.nspecies, 'ntrees': ntrees, 'lai': lai,
         #        'crowns': [[holes, trunkopt, trunktherm, vegopt, vegtherm]]}
 
@@ -692,8 +673,9 @@ class simulation(object):
         This function is necessary in order to have easy tracking of
         optical properties indices "IndexFctPhase" which is referenced a lot
         in Dart XMLs.
-        TODO : Index Thermal properties!
         """
+        # TODO : Index Thermal properties!
+
         index = 0
         self.index_lamb = {}
         for lamb in self.optprops['lambertians']:
@@ -732,17 +714,18 @@ class simulation(object):
         ----------
             cell: list
                 [x,y] size of cell
-        TODO : maybe a bit more verbose?
         """
+        #         TODO : maybe a bit more verbose?
+
         self._registerchange('maket')
         self.cell = cell
         return
 
     def listmodifications(self):
         """returns record of changed xml files relative to default simulation
-
-        TODO : stuff to make all that look nicer.
         """
+        #         TODO : stuff to make all that look nicer.
+
         return '\n'.join(['Impacted xml files:',
                   str(self.changetracker[0])])
 
@@ -758,18 +741,15 @@ class simulation(object):
         Notes
         -----
             File copy is made after simulation updates and will overwrite any
-            previous change. Use carefully as it can lead to erroneous simulation,
-            example changing the order of optical properties in coeff_diff.xml
+            previous change.
+
+            Dart has some dependencies between input xml files,
+            e.g. between number of bands (defined in phase.xml)
+            and optical properties factors (defined in coeff_diff.xml).
+            Therefore, it should be used very carefully as it can lead to erroneous simulation.
         """
         dartfile = os.path.splitext(os.path.basename(path))
         self.changetracker[1]['pickfile'][dartfile] = path
-        return
-
-    def getsfileparams(self, path):
-        """gets the parameters of an existing xml file
-
-        TODO: Lot of work. But important : read xmlfiles into python simulation
-        """
         return
 
     def stack_bands(self, zenith=0, azimuth=0):
@@ -802,7 +782,7 @@ class simulation(object):
 
         return outputfile
 
-    def write_xmls(self, simu_name=None, overwrite=False):
+    def write(self, simu_name=None, overwrite=False):
         """Writes the xml files with all defined input parameters
 
         Parameters

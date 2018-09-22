@@ -24,7 +24,7 @@ def run_use_case_0(testSimuName, run_required = False):
     simu.add_single_plot(op_name=opt_prop_name)
 
     # run simulation
-    simu.write_xmls()
+    simu.write()
     simu.run.direction()
     simu.run.phase()
     simu.run.maket()

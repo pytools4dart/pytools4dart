@@ -65,7 +65,7 @@ simu.add_prospect_sequence({'Cab': Cab},
 print(simu)
 
 
-simu.write_xmls()
+simu.write()
 # simu.run.full()
 
 simu.run.sequence('prospect_sequence')

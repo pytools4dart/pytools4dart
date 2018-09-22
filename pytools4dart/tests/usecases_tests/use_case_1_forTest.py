@@ -19,7 +19,7 @@ def run_use_case_1(testSimuName, run_required = False):
 
     simu.add_sequence({'wvl': np.linspace(.4, .8, 5)})
 
-    simu.write_xmls()
+    simu.write()
     if run_required:
         simu.run.sequence('prospect_sequence')
 

@@ -31,7 +31,7 @@ simu.add_optical_property(op_vegetation)
 simu.add_prospect_sequence({'Cab': range(0,30,10)},
                            op_name='op_prospect',
                            name='prospect_sequence')
-simu.write_xmls()
+simu.write()
 simu.run.full()
 
 # stack bands
