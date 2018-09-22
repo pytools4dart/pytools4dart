@@ -802,7 +802,7 @@ class simulation(object):
 
         return outputfile
 
-    def write_xmls(self, simu_name=None):
+    def write_xmls(self, simu_name=None, overwrite=False):
         """Writes the xml files with all defined input parameters
 
         Parameters
@@ -828,8 +828,14 @@ class simulation(object):
 
         simupath = getsimupath(simu_name)
 
-        if not os.path.isdir(simupath):
-            os.mkdir(simupath)
+        if os.path.isdir(simupath):
+            if overwrite:
+                os.rmdir()
+            else:
+                raise ValueError('Simulation directory already exists:\n{}'.format(simupath)+
+                             '\n\nChange name or set overwrite argument.')
+
+        os.mkdir(simupath)
 
         simuinputpath = get_simu_input_path(simu_name)
 
