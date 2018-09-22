@@ -89,7 +89,7 @@ class DartUrbanXML(DartXml):
         if "urban" in changetracker[0]:
             self.changes = changetracker[1]["urban"]
             for node in self.changes:
-                print "Modifying : ", node
+                print("Modifying : " + node)
                 self.root.find(node)
 
             return

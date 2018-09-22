@@ -22,7 +22,7 @@ def run_use_case_3(testSimuName, run_required = False):
     dic = {'CBrown': 0.0, 'Cab': [20, 30], 'Car': 10,
            'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
     simu.add_prospect_sequence(dic, 'proprieteoptpros', name='prospect_sequence')
-    simu.write_xmls()
+    simu.write()
 
     simu.run.direction()
     simu.run.phase()

@@ -43,7 +43,7 @@ def run_use_case_2(testSimuName, run_required = False):
 
     simu.add_prospect_sequence(dic, 'leafs', name='prospect_sequence')
 
-    simu.write_xmls()
+    simu.write()
     simu.run.sequence('prospect_sequence')
     for i in range(len(Cab)):
         ptd.run.colorCompositeBands(pjoin('use_case_2', 'sequence', 'prospect_sequence_' + str(i)), 2, 1, 0, 'X', 'rgb')

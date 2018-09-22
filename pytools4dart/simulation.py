@@ -41,6 +41,7 @@ import pandas as pd
 import subprocess
 import pprint
 import numpy as np
+import shutil
 import warnings
 
 # local imports
@@ -63,25 +64,9 @@ class simulation(object):
         ----------
         name: str
             Name of the simulation
-
-        TODO : WARNING : For now, 'flux' ( changetracker[3]) is hardcoded in
-        the simulation object. It will have to be flexible depending on input.
-        Temperatures not managed.
-
-        optprops is a dictionary containing two lists :
-            for each type : 'lambertian' or 'vegetation'
-            -op_name: string for name
-            -database: string-path to database
-            -op_name_in_db: name of opt in database
-            if lambertian :
-                -specular : 0 or 1, 1 if UseSpecular
-            if vegetation :
-                -lad : leaf angle distribution :
-                    - 0: Uniform
-                    - 1: Spherical
-                    - 3: Planophil
-
         """
+        # TODO : WARNING : For now, 'flux' ( changetracker[3]) is hardcoded in
+
         self.changetracker = [[], {}, "flux"]
 
         self.name = name # name of the simulation
@@ -153,14 +138,10 @@ class simulation(object):
 
 
     def add_bands(self, x, verbose=False):
-        """add spectral band to simulation sensor
+        """add spectral band to simulated sensor
 
-        Possibility to add a band either from a HDR file, txt file, list
-        or dictionary: central band, width
-        if txt data separate by spaces.
-        bandnumer(optional) wavelengthcenter wavelengthwidth
-        hdrnm is used to convert nm to µm when reading from header.
-        TODO : check if .txt info works. Split into 3 smaller helper functions
+        Add a band either from DataFrame, dictionary, HDR file or txt file.
+        Values are considered in µm.
 
         Parameters
         ----------
@@ -169,7 +150,10 @@ class simulation(object):
             - if dict it is expected to have elements: 'wvl' and 'fwhm'
             - if str it should be the path to an ENVI hdr
             or a csv file with 2 columns
+
         """
+        # TODO : check if .txt info works. Split into 3 smaller helper functions
+
         if isinstance(x, pd.DataFrame):
             # check columns:
             if not set(self.BANDSCOLNAMES).issubset(x.columns):
@@ -229,10 +213,6 @@ class simulation(object):
     def add_optical_property(self, optprop,verbose=False):
         """adds and optical property to the simulation
 
-        TODO : think about : do we want optprops as an object?
-        TODO : Managing Thermal properties?
-        TODO : Add Error catching!
-
         Parameters
         ----------
         optprop : dict
@@ -287,6 +267,10 @@ class simulation(object):
 
 
         """
+        # TODO : think about : do we want optprops as an object?
+        # TODO : Managing Thermal properties?
+        # TODO : Add Error catching!
+
         #check if requested model and db exist, although it could be created a posteriori with prospect
         try:
             dbmodels_names = dbtools.get_models(optprop['db_name'])['name'].values.tolist()
@@ -483,9 +467,10 @@ class simulation(object):
                  defines the interpretation of the density value :
                      ul = m²/ m³
                      lai = m²/m²
-        TODO : think about simpler corner definition
-        TODO : add modifiable height
         """
+        # TODO : think about simpler corner definition
+        # TODO : add modifiable height
+
         self._registerchange('plots')
 
         if not corners:
@@ -512,7 +497,7 @@ class simulation(object):
         data : DataFrame
             Plots properties.
         colnames : dict
-            Column names corresponding to PLOTSCOLNAMES.
+            Column names corresponding to the standard names (see self.COLNAMES)
         """
 
         """Appends a dataframe to plots based on a dictionary
@@ -524,7 +509,7 @@ class simulation(object):
 
         """
         self._registerchange('plots')
-        data.rename(columns=dic, inplace=True)
+        data.rename(columns=colnames, inplace=True)
         plots = self.plots.append(data, ignore_index=True)
         self.plots = plots
 
@@ -537,8 +522,8 @@ class simulation(object):
 
         Parameters
         ---------
-            path: str
-                path to the AMAPVox file
+            vox: object of class voxel
+                lidar voxelized data, see pytools4dart.helpers.voxreader
             densitydef: str
                 'lai' or 'ul'
         """
@@ -578,15 +563,10 @@ class simulation(object):
 
 
     def add_trees(self, data):
-        """Add trees.txt file to the simulation
+        """Add tree data to the simulation
 
 
-        The XML OPT PROP goes with a "FctPhaseIndex".
-        TODO : other than 'exact location + exact parameters'
-        TODO : Empy leaf cells/ leaves+ holes management!
-                        -- > 'distribution' parameter
-        Big question : from what will a tree be created?
-        tree must contain :
+        data must contain :
             -specie ID
             -C_TYPE (type of crown geometry)
                 -0 = ellipsoid, 1=ellipsoid composed, 2=cone,
@@ -610,6 +590,9 @@ class simulation(object):
          SPECIES_ID, POS_X  POS_Y  T_HEI_BELOW  T_HEI_WITHIN  T_DIA_BELOW  C_TYPE  C_HEI  C_GEO_1  C_GEO_2
 
         """
+        # TODO : other than 'exact location + exact parameters'
+        # TODO : Empy leaf cells/ leaves+ holes management!
+        #                 -- > 'distribution' parameter
 
         if self.nspecies == 0:
             print "Warning : No tree specie has been defined."
@@ -638,24 +621,33 @@ class simulation(object):
     def add_tree_species(self, species_id, lai=4.0, holes=0,
                       trunkopt='Lambertian_Phase_Function_1',
                       trunktherm='ThermalFunction290_310',
-                      vegopt='custom',
+                      vegopt='',
                       vegtherm='ThermalFunction290_310'):
-        """adds a tree specie to the simulation
+        """
 
         Parameters
         ----------
-        idspecie : int
-        netrees : int, optional
-        properties of a specie :
-            - number of trees
-            - LAI > 0 or Ul <0
-            - hole simulation
-            - trunk opt prop
-            - trunk therm prop
-            - veg opt prop
-            - veg therm prop
-        TODO : Error catching when only trees or species are defined!
+        species_id: int
+            Numerical identifier of species.
+        lai: float
+            considered as leaf area index (LAI) if lai > 0
+            leaf area density (Ul) if lai <0
+        holes: float
+            propertion of holes in crown
+        trunkopt: str
+            optical property name for trunk
+        trunktherm: str
+            thermal property name for trunk
+        vegopt: str
+            optical property name for turbid crown
+        vegtherm: str
+            thermal property name for turbid crown
+
+        Returns
+        -------
+
         """
+        # TODO : Error catching when only trees or species are defined!
         # specie = {'id': self.nspecies, 'ntrees': ntrees, 'lai': lai,
         #        'crowns': [[holes, trunkopt, trunktherm, vegopt, vegtherm]]}
 
@@ -692,8 +684,9 @@ class simulation(object):
         This function is necessary in order to have easy tracking of
         optical properties indices "IndexFctPhase" which is referenced a lot
         in Dart XMLs.
-        TODO : Index Thermal properties!
         """
+        # TODO : Index Thermal properties!
+
         index = 0
         self.index_lamb = {}
         for lamb in self.optprops['lambertians']:
@@ -716,8 +709,9 @@ class simulation(object):
         ----------
         scene: 2D vector
             [x,y] size of scene
-        TODO: error catching
         """
+        # TODO: error catching
+
         self._registerchange('maket')
         self.scene = scene_dims
         print 'Scene length set to:', scene_dims[0]
@@ -732,22 +726,23 @@ class simulation(object):
         ----------
             cell: list
                 [x,y] size of cell
-        TODO : maybe a bit more verbose?
         """
+        # TODO : maybe a bit more verbose?
+
         self._registerchange('maket')
         self.cell = cell
         return
 
     def listmodifications(self):
         """returns record of changed xml files relative to default simulation
-
-        TODO : stuff to make all that look nicer.
         """
+        # TODO : stuff to make all that look nicer.
+
         return '\n'.join(['Impacted xml files:',
                   str(self.changetracker[0])])
 
     def pickfile(self, path):
-        """Select an existing .xml dart file to use instead of generating one
+        """Select an existing dart xml file to use instead of generating one
 
         Parameters
         ----------
@@ -758,18 +753,15 @@ class simulation(object):
         Notes
         -----
             File copy is made after simulation updates and will overwrite any
-            previous change. Use carefully as it can lead to erroneous simulation,
-            example changing the order of optical properties in coeff_diff.xml
+            previous change.
+
+            Dart has some dependencies between input xml files,
+            e.g. between number of bands (defined in phase.xml)
+            and optical properties factors (defined in coeff_diff.xml).
+            Therefore, it should be used very carefully as it can lead to erroneous simulation.
         """
         dartfile = os.path.splitext(os.path.basename(path))
         self.changetracker[1]['pickfile'][dartfile] = path
-        return
-
-    def getsfileparams(self, path):
-        """gets the parameters of an existing xml file
-
-        TODO: Lot of work. But important : read xmlfiles into python simulation
-        """
         return
 
     def stack_bands(self, zenith=0, azimuth=0):
@@ -802,7 +794,7 @@ class simulation(object):
 
         return outputfile
 
-    def write_xmls(self, simu_name=None):
+    def write(self, simu_name=None, overwrite=False):
         """Writes the xml files with all defined input parameters
 
         Parameters
@@ -813,10 +805,6 @@ class simulation(object):
         Returns
         -------
             str: simulation path
-
-
-        WARNING : For now this function is the only proper way to write
-        the DART xmls.
         """
         # self.checksimu()
 
@@ -828,8 +816,14 @@ class simulation(object):
 
         simupath = getsimupath(simu_name)
 
-        if not os.path.isdir(simupath):
-            os.mkdir(simupath)
+        if os.path.isdir(simupath):
+            if overwrite:
+                shutil.rmtree(simupath)
+            else:
+                raise ValueError('Simulation directory already exists:\n{}'.format(simupath)+
+                             '\n\nChange name or set overwrite argument.')
+
+        os.mkdir(simupath)
 
         simuinputpath = get_simu_input_path(simu_name)
 

@@ -30,7 +30,7 @@ etree objects and xml files.
 
 import os
 import sys
-import xmlschema
+# import xmlschema
 from pytools4dart.settings import getdartversion
 
 try:
@@ -47,75 +47,75 @@ def dartxmlroot():
     root = etree.Element('DartFile',
                      {'version': version, 'build': build})
 
-def valxmlxsd(filename_xml, filename_xsd):
-    """ validates xml based on xsd file
-
-    works if stuff is in same order
-    """
-    my_schema = xmlschema.XMLSchema(filename_xsd)
-    my_schema.validate(filename_xml)
-
-    return
-
-
-def validatexml(filename_xml, filename_xsd):
-    """validating xml with xsd file
-
-    credits to : https://emredjan.github.io/blog/2017/04/08/validating-xml/
-    BUT DOESN'T WORK YET
-    """
-    from lxml import etree
-    from io import StringIO
-
-    # open and read schema file
-    with open(filename_xsd, 'r') as schema_file:
-        schema_to_check = schema_file.read()
-
-    # open and read xml file
-    with open(filename_xml, 'r') as xml_file:
-        xml_to_check = xml_file.read()
-
-    # changed following line from :
-    # xmlschema_doc = etree.parse(StringIO(schema_to_check))
-    # to :
-    xmlschema_doc = etree.parse(StringIO(schema_to_check.decode('utf-8')))
+# def valxmlxsd(filename_xml, filename_xsd):
+#     """ validates xml based on xsd file
 #
-    xmlschema = etree.XMLSchema(xmlschema_doc)
-    # parse xml
-    try:
-        doc = etree.parse(StringIO(xml_to_check))
-        print('XML well formed, syntax ok.')
+#     works if stuff is in same order
+#     """
+#     my_schema = xmlschema.XMLSchema(filename_xsd)
+#     my_schema.validate(filename_xml)
+#
+#     return
 
-    # check for file IO error
-    except IOError:
-        print('Invalid File')
 
-    # check for XML syntax errors
-    except etree.XMLSyntaxError as err:
-        print('XML Syntax Error, see error_syntax.log')
-        with open('error_syntax.log', 'w') as error_log_file:
-            error_log_file.write(str(err.error_log))
-        quit()
-
-    except:
-        print('Unknown error, exiting.')
-        quit()
-    # validate against schema
-    try:
-        xmlschema.assertValid(doc)
-        print('XML valid, schema validation ok.')
-
-    except etree.DocumentInvalid as err:
-        print('Schema validation error, see error_schema.log')
-        with open('error_schema.log', 'w') as error_log_file:
-            error_log_file.write(str(err.error_log))
-        quit()
-
-    except:
-        print('Unknown error, exiting.')
-        quit()
-
-    return
+# def validatexml(filename_xml, filename_xsd):
+#     """validating xml with xsd file
+#
+#     credits to : https://emredjan.github.io/blog/2017/04/08/validating-xml/
+#     BUT DOESN'T WORK YET
+#     """
+#     from lxml import etree
+#     from io import StringIO
+#
+#     # open and read schema file
+#     with open(filename_xsd, 'r') as schema_file:
+#         schema_to_check = schema_file.read()
+#
+#     # open and read xml file
+#     with open(filename_xml, 'r') as xml_file:
+#         xml_to_check = xml_file.read()
+#
+#     # changed following line from :
+#     # xmlschema_doc = etree.parse(StringIO(schema_to_check))
+#     # to :
+#     xmlschema_doc = etree.parse(StringIO(schema_to_check.decode('utf-8')))
+# #
+#     xmlschema = etree.XMLSchema(xmlschema_doc)
+#     # parse xml
+#     try:
+#         doc = etree.parse(StringIO(xml_to_check))
+#         print('XML well formed, syntax ok.')
+#
+#     # check for file IO error
+#     except IOError:
+#         print('Invalid File')
+#
+#     # check for XML syntax errors
+#     except etree.XMLSyntaxError as err:
+#         print('XML Syntax Error, see error_syntax.log')
+#         with open('error_syntax.log', 'w') as error_log_file:
+#             error_log_file.write(str(err.error_log))
+#         quit()
+#
+#     except:
+#         print('Unknown error, exiting.')
+#         quit()
+#     # validate against schema
+#     try:
+#         xmlschema.assertValid(doc)
+#         print('XML valid, schema validation ok.')
+#
+#     except etree.DocumentInvalid as err:
+#         print('Schema validation error, see error_schema.log')
+#         with open('error_schema.log', 'w') as error_log_file:
+#             error_log_file.write(str(err.error_log))
+#         quit()
+#
+#     except:
+#         print('Unknown error, exiting.')
+#         quit()
+#
+#     return
 
 
 # prettify xml :

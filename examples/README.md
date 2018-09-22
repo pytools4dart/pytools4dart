@@ -6,7 +6,6 @@
 optical properties and simulate an RGB acquisition.*
 
 ## Algorithm
-
 - create an empty simulation
 - define scene size
 - add spectral bands, e.g. 0.485, 0.555, 0.655 nm
@@ -28,7 +27,7 @@ optical properties and simulate an RGB acquisition.*
    - simulate a 1m resolution multispectral image*
 
 ## Algorithm
-- rename previous simulation
+- follow steps of previous or rename previous simulation
 - add the prospect sequence with varying chlorophyll
 - add a turbid plot associated with prospect optical properties
 - run sequence
@@ -56,16 +55,19 @@ Trees can be simulated as an association of simple 3D geometries object:
 - load and add tree inventory from a file, e.g. Dart/database/tree.txt 
 it should contain position, shape and species ID
 - define tree species with associated optical properties
+- generate RGB acquisition images of each chlorophyll concentration
 
 # Use case 3
 
 ## Goal
 *Simulate trees from airborne lidar voxelization.*
 
-## Description
-
 ## Algorithm
-
-
-
+- create an empty simulation
+- define scene size
+- add spectral bands, e.g. 0.485, 0.555, 0.655 nm
+   with 0.07 full width at half maximum
+- add vegetation optical properties (VOP)
+- read .vox file and add it to simulation
+- stack bands and export to ENVI file
  
