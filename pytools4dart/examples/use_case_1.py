@@ -9,31 +9,35 @@ import pytools4dart as ptd
 
 simu = ptd.simulation(name='use_case_1')
 
-simu.add_bands({'wvl':[0.485, 0.555, 0.655], 'fwhm':0.07})
-simu.add_optical_property({
-    'type':'vegetation',
-    'op_name':'Turbid_Leaf_Deciduous_Phase_Function',
-    'db_name':'Vegetation.db',
-    'op_name_in_db':'leaf_deciduous',
-    'lad': 1})
+simu.add_bands({'wvl':np.linspace(.4, 1, 10), 'fwhm':0.01})
 
-simu.add_optical_property({
-    'type':'vegetation',
-    'op_name':'op_prospect',
-    'db_name':'prospect.db',
-    'op_name_in_db':'',
-    'lad': 1,
-    'prospect':{'CBrown': '0.0', 'Cab': '30', 'Car': '10',
-               'Cm': '0.01', 'Cw': '0.012', 'N': '1.8',
-               'anthocyanin': '0'}})
+#### Define optical properties
+propect_prop = {'CBrown': 0, 'Cab': 30, 'Car': 10,
+                'Cm': 0.01, 'Cw': 0.012, 'N': 1.8,
+                'anthocyanin': 0}
 
-simu.add_prospect_sequence({'Cab': range(0,30,10)}, 'op_prospect', name='prospect_sequence')
-simu.add_single_plot(op_name='op_prospect')
+op_name ='op_prospect'
+op_vegetation = {'type':'vegetation',
+              'op_name': op_name,
+              'db_name':'prospect.db',
+              'op_name_in_db':'',
+              'lad': 1,
+              'prospect':propect_prop}
 
-simu.add_sequence({'wvl':np.linspace(.4,.8,5)})
+simu.add_optical_property(op_vegetation)
 
+
+#### Define mockup
+simu.add_single_plot(op_name=op_name)
+
+#### Define sequence
+simu.add_prospect_sequence({'Cab': range(0,30,10)}, 'op_prospect',
+                           name='prospect_sequence')
+
+#### show simulation content
 print(simu)
 
+#### write simulation
 simu.write_xmls()
 simu.run.full()
 simu.run.sequence('prospect_sequence')
@@ -41,30 +45,33 @@ simu.run.sequence('prospect_sequence')
 
 
 
-###
+#### Figure of scene reflectance function of chlorophyll
 simu.get_sequence_db_path("prospect_sequence")
-
 conn = sqlite3.connect(simu.get_sequence_db_path("prospect_sequence"))
-
 c=conn.cursor()
 
-# Create table
+# extract reflectance and chlorophyll values
 result=[]
-for row in c.execute('''select  idCombination,  valueCentralWavelength, valueResult
-from ScalarResult, DirectionalResult, Reflectance, SpectralBand
+for row in c.execute('''select  valueParameter, valueCentralWavelength, valueResult
+from ScalarResult, DirectionalResult, Reflectance, SpectralBand, Combination, P_Cab
 where directionalResult.IdViewAngle = 1
 and scalarResult.idSpectralBand = SpectralBand.idSpectralBand
 and scalarResult.IdScalarResult = DirectionalResult.IdScalarResult
 and DirectionalResult.idDirectionalResult = reflectance.idDirectionalResult
-group by idCombination, valueCentralWavelength
+and Combination.idCombination = scalarResult.idCombination
+and P_Cab.idValueParameter = Combination.id_Cab
+group by valueParameter, valueCentralWavelength
 '''):
     result.append(row)
 
-df = pd.DataFrame(result, columns=['id', 'wavelength', 'reflectance'])
+df = pd.DataFrame(result, columns=['chl', 'wavelength', 'reflectance'])
+# df.chl = pd.to_numeric(df.chl)
+df.wavelength = 10**9*df.wavelength
 df.set_index('wavelength', inplace=True)
-df.groupby('id')['reflectance'].plot(legend=True)
+df.groupby('chl')['reflectance'].plot(legend=True)
+plt.xlabel('Wavelength [nm]')
+plt.ylabel('Reflectance')
+plt.legend(title='Chl [mg/m3]')
 plt.show()
-plt.ylabel('reflectance')
-
-plt.savefig(pjoin(simu.getsimupath(), 'output', 'R_Chl.png'))
+# plt.savefig(pjoin(simu.getsimupath(), 'output', 'R_Chl.png'))
 plt.close()

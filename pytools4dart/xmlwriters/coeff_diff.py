@@ -269,15 +269,16 @@ class DartCoefXML(DartXml):
                     'useProspectExternalModule': '1'}
             prospect = etree.SubElement(veg, 'ProspectExternalModule', prospect_atr)
 
-            subpros_atr = {'CBrown': '0.0', 'Cab': '30', 'Car': '10.',
-                           'Cm': '0.01', 'Cw': '0.012', 'N': '1.8',
-                           'anthocyanin': '0',
+            subpros_atr = {'CBrown': 0.0, 'Cab': 30, 'Car': 10,
+                           'Cm': 0.01, 'Cw': 0.012, 'N': 1.8,
+                           'anthocyanin': 0,
                            'inputProspectFile': 'Prospect_Fluspect/'
                                                 'Optipar2017_ProspectD.txt'}
             for k,v in optprop['prospect'].iteritems():
                 if k in subpros_atr.keys():
                     subpros_atr[k] = v
-
+            # convert to string
+            subpros_atr = {k:str(v) for k,v in subpros_atr.iteritems()}
             etree.SubElement(prospect, 'ProspectExternParameters',
                              subpros_atr)
         else:

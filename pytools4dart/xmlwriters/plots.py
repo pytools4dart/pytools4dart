@@ -174,7 +174,7 @@ class DartPlotsXML(DartXml):
         simu2dart_plots_coords = {simu_plots_coords[i]: dart_plots_coords[i] for i in range(len(simu_plots_coords))}
 
         outdf = plotsdf[simu_plots_coords].rename(index=str, columns=simu2dart_plots_coords)
-        outdf['PLT_OPT_NUMB'] = [indexopt['vegetations'][i] for i in plotsdf['optprop'].tolist()]
+        outdf['PLT_OPT_NUMB'] = [indexopt['vegetations'][i] for i in plotsdf.op_name.tolist()]
         outdf['PLT_TYPE']=1
         outdf['VEG_DENSITY_DEF'] = plotsdf.densitydef.apply(lambda x: 0 if x.lower()=='LAI' else 1).values
 
