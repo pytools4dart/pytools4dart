@@ -50,12 +50,14 @@ def get_models(dbname, search=True):
     -------
         Pandas DataFrame with model name and model description
 
-    Examples
-    --------
-    import pytools4dart as ptd
-    from os.path import join as pjoin
-    dbfile = 'Lambertian_vegetation.db'
-    ptd.helpers.dbtools.get_models(dbfile)
+    Example
+    -------
+    .. code-block::
+
+        import pytools4dart as ptd
+        from os.path import join as pjoin
+        dbfile = 'Lambertian_vegetation.db'
+        ptd.helpers.dbtools.get_models(dbfile)
 
 
     '''

@@ -211,9 +211,8 @@ class DartSequenceXML(DartXml):
                 450;15;60
                 500;20;0
                 500;20;60
-
-        TODO : should not be working....to check in depth
         """
+        # TODO : should not be working....to check in depth
 
         for groupname in self.sequences:
             print "Adding:", groupname, "to sequence"
@@ -227,6 +226,13 @@ class DartSequenceXML(DartXml):
                 if param == 'wvl':
                     param = ("Phase.DartInputParameters.SpectralIntervals."
                              "SpectralIntervalsProperties.meanLambda")
+                if param == 'prospect':
+                    basenode = ('Coeff_diff.UnderstoryMultiFunctions.'
+                                          'UnderstoryMulti[{}].'
+                                          'ProspectExternalModule.'
+                                          'ProspectExternParameters.')
+                    basenode = basenode.format(str(index))
+
                 args = sep.join([str(i) for i in values])
                 seqarg = {'propertyName': param,
                           'args': args,

@@ -10,12 +10,25 @@ import pytools4dart as ptd
 simu = ptd.simulation(name='use_case_1')
 
 simu.add_bands({'wvl':[0.485, 0.555, 0.655], 'fwhm':0.07})
+simu.add_optical_property({
+    'type':'vegetation',
+    'op_name':'Turbid_Leaf_Deciduous_Phase_Function',
+    'db_name':'Vegetation.db',
+    'op_name_in_db':'leaf_deciduous',
+    'lad': 1})
 
-dic = {'CBrown': 0.0, 'Cab': range(0,30,10), 'Car': 50,
-           'Cm': 0.01, 'Cw': 0.01, 'N': 2, 'anthocyanin': 1}
+simu.add_optical_property({
+    'type':'vegetation',
+    'op_name':'op_prospect',
+    'db_name':'prospect.db',
+    'op_name_in_db':'',
+    'lad': 1,
+    'prospect':{'CBrown': '0.0', 'Cab': '30', 'Car': '10',
+               'Cm': '0.01', 'Cw': '0.012', 'N': '1.8',
+               'anthocyanin': '0'}})
 
-simu.add_prospect_sequence(dic, 'proprieteoptpros', name='prospect_sequence')
-simu.add_single_plot(opt_name='proprieteoptpros')
+simu.add_prospect_sequence({'Cab': range(0,30,10)}, 'op_prospect', name='prospect_sequence')
+simu.add_single_plot(op_name='op_prospect')
 
 simu.add_sequence({'wvl':np.linspace(.4,.8,5)})
 

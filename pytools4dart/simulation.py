@@ -68,7 +68,7 @@ class simulation(object):
         the simulation object. It will have to be flexible depending on input.
         Temperatures not managed.
 
-        optprops is a dictionnary containing two lists :
+        optprops is a dictionary containing two lists :
             for each type : 'lambertian' or 'vegetation'
             -op_name: string for name
             -database: string-path to database
@@ -82,6 +82,7 @@ class simulation(object):
                     - 3: Planophil
 
         """
+        self.changetracker = [[], {}, "flux"]
 
         self.name = name # name of the simulation
         self.scene = [10, 10] # scene size in meters
@@ -91,8 +92,15 @@ class simulation(object):
         # Variables to be used in subsequent methods
         self.BANDSCOLNAMES = ['wvl', 'fwhm']
 
-        self.optprops = {'lambertians': [defaultlamb],
+        self.optprops = {'lambertians': [],
                          'vegetations': []}
+
+        self.add_optical_property({'type': 'lambertian',
+                               'op_name': 'Lambertian_Phase_Function_1',
+                               'db_name': 'Lambertian_vegetation.db',
+                               'op_name_in_db': 'reflect_equal_1_trans_equal_0_0',
+                               'specular': 0})
+
         self.nbands = 0
         self.bands = pd.DataFrame(columns=self.BANDSCOLNAMES)
 
@@ -108,8 +116,6 @@ class simulation(object):
         self.prosparams = ['CBrown', 'Cab', 'Car', 'Cm',
                            'Cw', 'N', 'anthocyanin']
         self.prossequence = 0
-
-        self.changetracker = [[], {}, "flux"]
 
         self.run = run.runners(self)
 
@@ -150,7 +156,7 @@ class simulation(object):
         """add spectral band to simulation sensor
 
         Possibility to add a band either from a HDR file, txt file, list
-        or dictionnary: central band, width
+        or dictionary: central band, width
         if txt data separate by spaces.
         bandnumer(optional) wavelengthcenter wavelengthwidth
         hdrnm is used to convert nm to µm when reading from header.
@@ -250,20 +256,34 @@ class simulation(object):
 
         Examples
         --------
-        import pytools4dart as ptd
-        simu=ptd.simulation('lambertian')
-        simu.add_optical_property({'type':'lambertian',
-         'op_name':'Lambertian_Phase_Function_1',
-         'db_name':'Lambertian_vegetation.db',
-         'op_name_in_db':'reflect_equal_1_trans_equal_0_0',
-         'lad': 0})
+        .. code-block:: python
 
-        simu.add_optical_property({
-        'type':'vegetation',
-        'op_name':'Turbid_Leaf_Deciduous_Phase_Function',
-        'db_name':'Vegetation.db',
-        'op_name_in_db':'leaf_deciduous',
-        'specular': 1})
+            import pytools4dart as ptd
+            simu=ptd.simulation('lambertian')
+
+            simu.add_optical_property({
+                'type':'lambertian',
+                'op_name':'Lambertian_Phase_Function_1',
+                'db_name':'Lambertian_vegetation.db',
+                'op_name_in_db':'reflect_equal_1_trans_equal_0_0',
+                'specular': 0})
+
+            simu.add_optical_property({
+                'type':'vegetation',
+                'op_name':'Turbid_Leaf_Deciduous_Phase_Function',
+                'db_name':'Vegetation.db',
+                'op_name_in_db':'leaf_deciduous',
+                'lad': 1})
+
+            simu.add_optical_property({
+                'type':'vegetation',
+                'op_name':'op_prospect',
+                'db_name':'prospect.db',
+                'op_name_in_db':'',
+                'lad': 1,
+                'prospect':{'CBrown': '0.0', 'Cab': '30', 'Car': '12',
+                           'Cm': '0.01', 'Cw': '0.012', 'N': '1.8',
+                           'anthocyanin': '0'}})
 
 
         """
@@ -281,16 +301,16 @@ class simulation(object):
 
         self._registerchange('coeff_diff')
         if optprop['type'] == 'lambertian':
-            if optprop[1] in self.optprops['lambertians']:
-                raise ValueError('Optical property name already used: ' + optprop[1])
+            if optprop['op_name'] in self.optprops['lambertians']:
+                raise ValueError('Optical property name already used: ' + optprop['op_name'])
             else:
-                self.optprops['lambertians'].append(optprop[1:])
+                self.optprops['lambertians'].append({k:v for k,v in optprop.iteritems() if k != 'type'})
                 self._set_index_props()
-        elif optprop[0] == 'vegetation':
-            if optprop[1] in self.optprops['vegetations']:
-                raise ValueError('Optical property name already used: ' + optprop[1])
+        elif optprop['type'] == 'vegetation':
+            if optprop['op_name'] in self.optprops['vegetations']:
+                raise ValueError('Optical property name already used: ' + optprop['op_name'])
             else:
-                self.optprops['vegetations'].append(optprop[1:])
+                self.optprops['vegetations'].append({k:v for k,v in optprop.iteritems() if k != 'type'})
                 self._set_index_props()
         else:
             print 'Non recognized optical property type. Returning'
@@ -301,37 +321,62 @@ class simulation(object):
 
         return
 
-    def add_sequence(self, parargs, group='default', name='sequencepytdart',
-                    verbose=False, variationmode='linear'):
+    def add_sequence(self, param, group='group1', name='sequence',
+                    verbose=False):
         """add a sequence xml file with given parameters
 
         Parameters
         ---------
-        parargs : dic
-            must be a dictionnary structured in this way :
-            parargs = { 'parameter1' : basevalue, stepvalue, numberofsteps}
+        param : dict
+            must be a dictionary structured in this way :
+            parargs = { 'parameter1' : [value_0, value_1, ...]}
         group : str, optional
             string assigning a name to the group of the sequence. This allows
             for the combination of variation of parameters in a single sequence
         name : str, optional
             name of the sequence (given to the xml file).
-        TODO : For now only LINEAR, should be possible to change to enumerate
+
+        Notes
+        -----
+        parameters can be found as 'dartnode' in:
+        ```
+        import pytools4dart as ptd
+        ptd.xmlwriters.dartxml.get_labels()
+        ```
+
+        As parameters are not very user-friendly, some parameters have acronym:
+            wvl: central wavelength
+
+        Example
+        -------
+        .. code-block:: python
+
+            import pytools4dart as ptd
+            simu = ptd.simulation('CHL')
+            simu.add_band({'wvl':0.4, 'fwhm':0.07})
+            simu.add_sequence(id=0, {'wvl':[0.4, 0.5, 0.6]},
+                group='wavelength', name='chl_sequence')
+
         """
-        try:
-            parargs.keys()
-        except AttributeError:
-            print 'sequence input must be a dictionnary = {parameters:args}'
-            return
+        if not isinstance(param, dict):
+            raise ValueError('argument must be a dictionary = {parameters:args}')
+
         self._registerchange('sequence')
 
-        for param, args in parargs.iteritems():
+        for k, v in param.iteritems():
             if verbose:
-                print 'key =', param
-                print 'values =', args
+                print 'key =', k
+                print 'values =', v
             if group not in self.changetracker[1]['sequence']:
                 self.changetracker[1]['sequence'][group] = {}
+            else:
+                # check length
+                group_len =[len(gv) for gv in self.changetracker[1]['sequence'][group]][0]
+                if len(v) != group_len:
+                    raise ValueError('Members of group {} must be of length {}'.format(group, group_len))
 
-            self.changetracker[1]['sequence'][group][param] = args
+
+            self.changetracker[1]['sequence'][group][k] = v
 
         try:
             self.changetracker[1]['sequencename']
@@ -343,33 +388,34 @@ class simulation(object):
             return
         return
 
-    def add_prospect_sequence(self, dic, optident, group=None,
-                            name='prospect_sequence', lad=1):
+    def add_prospect_sequence(self, param, op_name, group=None,
+                            name='prospect_sequence'):
         """adds a sequence of prospect generated optical properties
 
         Parameters
         ---------
-        dic : dict
+        param : dict
             must be a dictionary containing the prospect parameters
             and the assigned value. For now only one parameter can vary.
-        optident : str
+        op_name : str
             name of the prospect optical property. For now created independently
             via add_optical_property()
 
-        TODO : Absolutey NOT Optimized nor clean!
         """
+        # TODO : Absolutey NOT Optimized nor clean!
+
         # Here go the conditions for prospect, probably to write in another
         # function
         self._registerchange('prospect')
         self._registerchange('sequence')
 
         # definition of the 'blank' prospect optical property
-        prosoptveg = ['vegetation', optident, 'prospect', 'blank', lad]
-        self.add_optical_property(prosoptveg)
+        # prosoptveg = ['vegetation', op_name, 'prospect', 'blank', lad]
+        # self.add_optical_property(prosoptveg)
 
         self._set_index_props()
         try:
-            index = self.indexopts['vegetations'][optident]
+            index = self.indexopts['vegetations'][op_name]
         except KeyError:
             print 'Undefined optical Property!'
             print 'Please define first a blank prospect optical property.'
@@ -388,7 +434,7 @@ class simulation(object):
                 group = 'prosequence'+group
             maxlen = 0
             prosdic = {}
-            for params in dic.iteritems():
+            for params in param.iteritems():
                 if params[0] not in self.prosparams:
                     raise ValueError('please enter one of the following'
                                      'values :{}'.format(self.prosparams))
@@ -407,12 +453,12 @@ class simulation(object):
                     return
 
             self.add_sequence(prosdic, group=group,
-                             name=name, variationmode='enumerate')
+                             name=name)
             self.prossequence += 1
         return
 
     def add_single_plot(self, corners=None, baseheight=1, density=1,
-                      opt_name="custom", height=1, densitydef='ul'):
+                      op_name="custom", height=1, densitydef='ul'):
         """adds a plot to the scene with certain parameters
 
         For now, if no corners are specified, a default plot is created
@@ -429,7 +475,7 @@ class simulation(object):
                 base height of the plot
             density : int, optional
                 density of the plot
-            opt_name : str, optional
+            op_name : str, optional
                 name of the optical property assigned to the plot. This optical property must exist
                 in the opt properties list before running dart modules,
                 even if it is not mandatory it to be created before the assignation time.
@@ -447,7 +493,7 @@ class simulation(object):
                        [self.scene[0],  0],
                        [0,              0],
                        [0,              self.scene[1]]]
-        data = np.array(corners).flatten().tolist()+[baseheight, height, density, densitydef, opt_name]
+        data = np.array(corners).flatten().tolist()+[baseheight, height, density, densitydef, op_name]
         miniframe = pd.DataFrame([data], columns=self.PLOTCOLNAMES)
         self.plots = self.plots.append(miniframe, ignore_index=True)
 
@@ -459,7 +505,7 @@ class simulation(object):
                                             'density':'density', 'densitydef':'densitydef',
                                             'optprop':'optprop'}):
         """
-        Appends a dataframe to plots based on a dictionnary
+        Appends a dataframe to plots based on a dictionary
 
         Parameters
         ----------
@@ -469,7 +515,7 @@ class simulation(object):
             Column names corresponding to PLOTSCOLNAMES.
         """
 
-        """Appends a dataframe to plots based on a dictionnary
+        """Appends a dataframe to plots based on a dictionary
 
         dic = {Olndame:Newname, .....}
         new names in self.PLOTSCOLNAMES
@@ -651,12 +697,12 @@ class simulation(object):
         index = 0
         self.index_lamb = {}
         for lamb in self.optprops['lambertians']:
-            self.index_lamb[lamb[0]] = index
+            self.index_lamb[lamb['op_name']] = index
             index += 1
         index = 0
         self.index_veg = {}
         for veg in self.optprops['vegetations']:
-            self.index_veg[veg[0]] = index
+            self.index_veg[veg['op_name']] = index
             index += 1
         self.indexopts = {'lambertians': self.index_lamb,
                           'vegetations': self.index_veg}

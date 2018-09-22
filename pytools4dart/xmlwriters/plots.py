@@ -80,7 +80,7 @@ class DartPlotsXML(DartXml):
         """
 
         Here is initialized the index for the optical properties.
-        The dictionnary referencing allows for easier calling inside the
+        The dictionary referencing allows for easier calling inside the
         'add plot' method.
         """
 
@@ -154,7 +154,7 @@ class DartPlotsXML(DartXml):
     #
     #     Work In Progress : Relies on changetracker architecture
     #     for now : architecture relies on dictionnaries containing dictionnaries
-    #     plot is a dictionnary, containing certain keywords.
+    #     plot is a dictionary, containing certain keywords.
     #     Those dictionnaries are initialized in the addplot method of simulation
     #
     #

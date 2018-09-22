@@ -21,7 +21,7 @@ def run_use_case_0(testSimuName, run_required = False):
     simu.add_optical_property(veg_opt_prop)
 
     # add a turbid plot with associated VOP
-    simu.add_single_plot(opt_name=opt_prop_name)
+    simu.add_single_plot(op_name=opt_prop_name)
 
     # run simulation
     simu.write_xmls()

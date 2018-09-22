@@ -155,10 +155,10 @@ class DartCoefXML(DartXml):
         """add a lambertian optical property
         """
 
-        ident = optprop[0]
-        database = optprop[1]
-        modelname = optprop[2]
-        specular = optprop[3]
+        ident = optprop['op_name']
+        database = optprop['db_name']
+        modelname = optprop['op_name_in_db']
+        specular = optprop['specular']
         # 'reflect_equal_1_trans_equal_0_0', specular='0'
         rootlamb = self.root.find("./LambertianMultiFunctions")
         lamb_atr = {'ident': ident,
@@ -212,62 +212,77 @@ class DartCoefXML(DartXml):
         ident=None, database='Vegetation.db',
         modelname='leaf_deciduous', lad=1
         """
-        if 'prospect' in optprop:
-            if 'blank' in optprop:
-                ident = optprop[0]
-                lad = optprop[3]
+        # if 'prospect' in optprop:
+        #     if 'blank' in optprop:
+        #         ident = optprop['op_name']
+        #         database = optprop['db_name']
+        #         lad = optprop['lad']
+        #
+        #         print ('blank prospect generated optical property')
+        #         rootveg = self.root.find("./UnderstoryMultiFunctions")
+        #         veg_atr = {'ident': ident, 'dimFoliar': '0.01',
+        #                    'lad': str(lad),
+        #                    'useSpecular': '0', 'ModelName': '',
+        #                    'databaseName': database,
+        #                    'useMultiplicativeFactorForLUT': '0',
+        #                    'useOpticalFactorMatrix': '0'}
+        #         veg = etree.SubElement(rootveg, 'UnderstoryMulti', veg_atr)
+        #
+        #         clump_atr = {'omegaMax': '0', 'clumpinga': '0',
+        #                      'clumpingb': '0', 'omegaMin': '1'}
+        #         etree.SubElement(veg, 'DirectionalClumpingIndexProperties',
+        #                          clump_atr)
+        #         pros = {'isFluorescent': "0",
+        #                 'useProspectExternalModule': '1'}
+        #         prospect = etree.SubElement(veg, 'ProspectExternalModule',
+        #                                     pros)
+        #         subpros_atr = {'CBrown': '0.0', 'Cab': '30', 'Car': '10.',
+        #                        'Cm': '0.01', 'Cw': '0.012', 'N': '1.8',
+        #                        'anthocyanin': '0',
+        #                        'inputProspectFile': 'Prospect_Fluspect/'
+        #                            'Optipar2017_ProspectD.txt'}
+        #         etree.SubElement(prospect, 'ProspectExternParameters',
+        #                          subpros_atr)
+        #
+        # else:
 
-                print ('blank prospect generated optical property')
-                rootveg = self.root.find("./UnderstoryMultiFunctions")
-                veg_atr = {'ident': ident, 'dimFoliar': '0.01',
-                           'lad': str(lad),
-                           'useSpecular': '0', 'ModelName': '',
-                           'databaseName': 'ProspectVegetation.db',
-                           'useMultiplicativeFactorForLUT': '0',
-                           'useOpticalFactorMatrix': '0'}
-                veg = etree.SubElement(rootveg, 'UnderstoryMulti', veg_atr)
+        ident = optprop['op_name']
+        database = optprop['db_name']
+        modelname = optprop['op_name_in_db']
+        lad = optprop['lad']
 
-                clump_atr = {'omegaMax': '0', 'clumpinga': '0',
-                             'clumpingb': '0', 'omegaMin': '1'}
-                etree.SubElement(veg, 'DirectionalClumpingIndexProperties',
-                                 clump_atr)
-                pros = {'isFluorescent': "0",
-                        'useProspectExternalModule': '1'}
-                prospect = etree.SubElement(veg, 'ProspectExternalModule',
-                                            pros)
-                subpros_atr = {'CBrown': '0.0', 'Cab': '30', 'Car': '10.',
-                               'Cm': '0.01', 'Cw': '0.012', 'N': '1.8',
-                               'anthocyanin': '0',
-                               'inputProspectFile': 'Prospect_Fluspect/'
-                                   'Optipar2017_ProspectD.txt'}
-                etree.SubElement(prospect, 'ProspectExternParameters',
-                                 subpros_atr)
-            else:
-                print 'Custom prospect optical property not yet implemented'
+        rootveg = self.root.find("./UnderstoryMultiFunctions")
+        veg_atr = {'ident': ident, 'dimFoliar': '0.01', 'lad': str(lad),
+                   'useSpecular': '0', 'ModelName': modelname,
+                   'databaseName': database,
+                   'useMultiplicativeFactorForLUT': '0',
+                   'useOpticalFactorMatrix': '0'}
+
+        veg = etree.SubElement(rootveg, 'UnderstoryMulti', veg_atr)
+
+        clump_atr = {'omegaMax': '0', 'clumpinga': '0',
+                     'clumpingb': '0', 'omegaMin': '1'}
+        etree.SubElement(veg, 'DirectionalClumpingIndexProperties',
+                         clump_atr)
+        if 'prospect' in optprop.keys():
+            prospect_atr = {'isFluorescent': "0",
+                    'useProspectExternalModule': '1'}
+            prospect = etree.SubElement(veg, 'ProspectExternalModule', prospect_atr)
+
+            subpros_atr = {'CBrown': '0.0', 'Cab': '30', 'Car': '10.',
+                           'Cm': '0.01', 'Cw': '0.012', 'N': '1.8',
+                           'anthocyanin': '0',
+                           'inputProspectFile': 'Prospect_Fluspect/'
+                                                'Optipar2017_ProspectD.txt'}
+            for k,v in optprop['prospect'].iteritems():
+                if k in subpros_atr.keys():
+                    subpros_atr[k] = v
+
+            etree.SubElement(prospect, 'ProspectExternParameters',
+                             subpros_atr)
         else:
-
-            ident = optprop[0]
-            database = optprop[1]
-            modelname = optprop[2]
-            lad = optprop[3]
-
-            rootveg = self.root.find("./UnderstoryMultiFunctions")
-            veg_atr = {'ident': ident, 'dimFoliar': '0.01', 'lad': str(lad),
-                       'useSpecular': '0', 'ModelName': modelname,
-                       'databaseName': database,
-                       'useMultiplicativeFactorForLUT': '0',
-                       'useOpticalFactorMatrix': '0'}
-
-            veg = etree.SubElement(rootveg, 'UnderstoryMulti', veg_atr)
-
-            clump_atr = {'omegaMax': '0', 'clumpinga': '0',
-                         'clumpingb': '0', 'omegaMin': '1'}
-            etree.SubElement(veg, 'DirectionalClumpingIndexProperties',
-                             clump_atr)
-
             prospect_atr = {'useProspectExternalModule': '0',
-                            'isFluorescent': '0'}
-
+                        'isFluorescent': '0'}
             etree.SubElement(veg, 'ProspectExternalModule', prospect_atr)
 
             ## When useMultiplicativeFactorForLUT=1 will be available
