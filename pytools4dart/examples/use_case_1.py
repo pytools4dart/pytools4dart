@@ -10,7 +10,7 @@ import pytools4dart as ptd
 simu = ptd.simulation(name = 'use_case_1')
 
 # set scene size
-scene_dims = [40,40]
+scene_dims = [10,10]
 simu.set_scene_size(scene_dims)
 
 # add spectral RGB bands, e.g. B=0.485, G=0.555, R=0.655 nm
