@@ -466,9 +466,10 @@ class simulation(object):
                  defines the interpretation of the density value :
                      ul = m²/ m³
                      lai = m²/m²
-        TODO : think about simpler corner definition
-        TODO : add modifiable height
         """
+        # TODO : think about simpler corner definition
+        # TODO : add modifiable height
+
         self._registerchange('plots')
 
         if not corners:
@@ -520,8 +521,8 @@ class simulation(object):
 
         Parameters
         ---------
-            path: str
-                path to the AMAPVox file
+            vox: object of class voxel
+                lidar voxelized data, see pytools4dart.helpers.voxreader
             densitydef: str
                 'lai' or 'ul'
         """
@@ -561,10 +562,10 @@ class simulation(object):
 
 
     def add_trees(self, data):
-        """Add trees.txt file to the simulation
+        """Add tree data to the simulation
 
 
-        tree must contain :
+        data must contain :
             -specie ID
             -C_TYPE (type of crown geometry)
                 -0 = ellipsoid, 1=ellipsoid composed, 2=cone,
@@ -619,22 +620,31 @@ class simulation(object):
     def add_tree_species(self, species_id, lai=4.0, holes=0,
                       trunkopt='Lambertian_Phase_Function_1',
                       trunktherm='ThermalFunction290_310',
-                      vegopt='custom',
+                      vegopt='',
                       vegtherm='ThermalFunction290_310'):
-        """adds a tree specie to the simulation
+        """
 
         Parameters
         ----------
-        idspecie : int
-        netrees : int, optional
-        properties of a specie :
-            - number of trees
-            - LAI > 0 or Ul <0
-            - hole simulation
-            - trunk opt prop
-            - trunk therm prop
-            - veg opt prop
-            - veg therm prop
+        species_id: int
+            Numerical identifier of species.
+        lai: float
+            considered as leaf area index (LAI) if lai > 0
+            leaf area density (Ul) if lai <0
+        holes: float
+            propertion of holes in crown
+        trunkopt: str
+            optical property name for trunk
+        trunktherm: str
+            thermal property name for trunk
+        vegopt: str
+            optical property name for turbid crown
+        vegtherm: str
+            thermal property name for turbid crown
+
+        Returns
+        -------
+
         """
         # TODO : Error catching when only trees or species are defined!
         # specie = {'id': self.nspecies, 'ntrees': ntrees, 'lai': lai,
@@ -698,8 +708,9 @@ class simulation(object):
         ----------
         scene: 2D vector
             [x,y] size of scene
-        TODO: error catching
         """
+        # TODO: error catching
+
         self._registerchange('maket')
         self.scene = scene_dims
         print 'Scene length set to:', scene_dims[0]
@@ -715,7 +726,7 @@ class simulation(object):
             cell: list
                 [x,y] size of cell
         """
-        #         TODO : maybe a bit more verbose?
+        # TODO : maybe a bit more verbose?
 
         self._registerchange('maket')
         self.cell = cell
@@ -724,13 +735,13 @@ class simulation(object):
     def listmodifications(self):
         """returns record of changed xml files relative to default simulation
         """
-        #         TODO : stuff to make all that look nicer.
+        # TODO : stuff to make all that look nicer.
 
         return '\n'.join(['Impacted xml files:',
                   str(self.changetracker[0])])
 
     def pickfile(self, path):
-        """Select an existing .xml dart file to use instead of generating one
+        """Select an existing dart xml file to use instead of generating one
 
         Parameters
         ----------
@@ -793,10 +804,6 @@ class simulation(object):
         Returns
         -------
             str: simulation path
-
-
-        WARNING : For now this function is the only proper way to write
-        the DART xmls.
         """
         # self.checksimu()
 
