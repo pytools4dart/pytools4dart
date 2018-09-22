@@ -1,7 +1,6 @@
 import pandas as pd
-import numpy as np
-import pytools4dart as ptd
 from os.path import join as pjoin
+import pytools4dart as ptd
 
 
 simu = ptd.simulation('use_case_2')
