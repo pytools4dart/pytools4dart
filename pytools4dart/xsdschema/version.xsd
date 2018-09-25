@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="DARTXmlDoc.xsl" type="text/xsl"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<!-- Element racine -->
+	<xsd:annotation>
+		<xsd:appinfo>
+    		Fichier version.xsd -- version 5.6.7
+    	</xsd:appinfo>
+		<xsd:documentation xml:lang="en">
+			
+		</xsd:documentation>
+		<xsd:documentation xml:lang="fr">
+			Document contenant les informations relatives aux differentes versions des fichiers xml de DART 
+			depuis la version 4.2 du logiciel. Ces donnees sont utilisees par l'outil de cobntrole de version 
+			du logiciel pour actualiser les fichiers xml si necessaire.
+		</xsd:documentation>
+	</xsd:annotation>
+	<xsd:element name="DartFile">
+		<xsd:annotation>
+    		<xsd:documentation xml:lang="en">
+    			Source tag of all the DART XML files. Contains the actual version of the file.
+    		</xsd:documentation>
+    		<xsd:documentation xml:lang="fr">
+    			Balise source de tous les fichiers XML de DART. Contient la version actuelle du fichier.
+    		</xsd:documentation>
+    	</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="MonterDeVersion" type="_MonterDeVersion" maxOccurs="1" minOccurs="1"/>
+			</xsd:sequence>
+			<xsd:attribute name="version" type="xsd:string">
+				<xsd:annotation>
+	    			<xsd:documentation xml:lang="en" source="attribut">
+	    				Version of the monteeDeVersion.xml file. Depends of the version on DART itself.
+	    			</xsd:documentation>
+	    			<xsd:documentation xml:lang="fr" source="attribut">
+	    				Version du fichier monteeDeVersion.xml. Depend directement de la version de DART.
+	    			</xsd:documentation>
+	    		</xsd:annotation>
+	    	</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:complexType name="_MonterDeVersion">
+		<xsd:annotation>
+    		<xsd:documentation xml:lang="en">
+    			Contains the list of the version of the DART file and also the starting version from which 
+    			upgrade tool is working.
+    		</xsd:documentation>
+    		<xsd:documentation xml:lang="fr">
+    			Contient la liste des versions des fichiers de DART ainsi que la version de depart 
+    			pour la prise en charge des fichiers XML par l'outil de montee de version.
+    		</xsd:documentation>
+    	</xsd:annotation>
+    	<xsd:sequence>
+    		<xsd:element name="Version" type="_Version" minOccurs="1" maxOccurs="unbounded"/>
+    	</xsd:sequence>
+    	<xsd:attribute name="base" type="xsd:string">
+    		<xsd:annotation>
+	   			<xsd:documentation xml:lang="en" source="attribut">
+	   				
+	   			</xsd:documentation>
+	   			<xsd:documentation xml:lang="fr" source="attribut">
+	   				Numero de la version de depart pour la prise en charge des fichiers XML par l'outil de montee 
+	   				de version. Les fichiers de version inferieure ne sont pas pris en charge !
+	   			</xsd:documentation>
+	   		</xsd:annotation>
+    	</xsd:attribute>
+    	<xsd:attribute name="derniere" type="xsd:string">
+    		<xsd:annotation>
+	   			<xsd:documentation xml:lang="en" source="attribut">
+	   				
+	   			</xsd:documentation>
+	   			<xsd:documentation xml:lang="fr" source="attribut">
+	   				Numero de la derniere version des fichiers XML de DART.
+	   			</xsd:documentation>
+	   		</xsd:annotation>
+    	</xsd:attribute>
+	</xsd:complexType>
+	<xsd:complexType name="_Version">
+		<xsd:annotation>
+    		<xsd:documentation xml:lang="en">
+    			
+    		</xsd:documentation>
+    		<xsd:documentation xml:lang="fr">
+    			Contient la liste des versions des fichiers de DART 
+    			ainsi que la version de depart pour l'outil de montee de version.
+    		</xsd:documentation>
+    	</xsd:annotation>
+    	<xsd:sequence>
+    		<xsd:element name="ReglesTransformation" type="_ReglesTransformation" minOccurs="1" maxOccurs="1"/>
+    	</xsd:sequence>
+    	<xsd:attribute name="valeur" type="xsd:string">
+    		<xsd:annotation>
+	   			<xsd:documentation xml:lang="en" source="attribut">
+	   				
+	   			</xsd:documentation>
+	   			<xsd:documentation xml:lang="fr" source="attribut">
+	   				Numero de la version courante. Est directement base sur la version de DART.
+	   			</xsd:documentation>
+	   		</xsd:annotation>
+    	</xsd:attribute>
+    	<xsd:attribute name="next" type="xsd:string">
+    		<xsd:annotation>
+	   			<xsd:documentation xml:lang="en" source="attribut">
+	   				
+	   			</xsd:documentation>
+	   			<xsd:documentation xml:lang="fr" source="attribut">
+	   				Numero de la version suivante.
+	   			</xsd:documentation>
+	   		</xsd:annotation>
+    	</xsd:attribute>
+	</xsd:complexType>
+	<xsd:complexType name="_ReglesTransformation">
+		<xsd:annotation>
+    		<xsd:documentation xml:lang="en">
+    			
+    		</xsd:documentation>
+    		<xsd:documentation xml:lang="fr">
+    			Contient la liste des regles de transformation permettant de passer d'unbe version a sa suivante. 
+    			Cette liste contient au moins la regle permettant de mettre a jour la version du fichier.
+    		</xsd:documentation>
+    	</xsd:annotation>
+<!--    	<xsd:sequence>-->
+<!--    		<xsd:element name="Regle" type="_Regle" minOccurs="0" maxOccurs="unbounded"/>-->
+<!--    	</xsd:sequence>-->
+	</xsd:complexType>
+<!--	<xsd:complexType name="_Regle">-->
+<!--		<xsd:annotation>-->
+<!--    		<xsd:documentation xml:lang="en">-->
+<!--    			-->
+<!--    		</xsd:documentation>-->
+<!--    		<xsd:documentation xml:lang="fr">-->
+<!--    			Contient la definition d'une regle de transformation. Ces informations doivent etre coherentes avec les regles-->
+<!--    			 presentes dans l'outil de montee de version (et inversement).-->
+<!--    		</xsd:documentation>-->
+<!--    	</xsd:annotation>-->
+<!--    	<xsd:attribute name="nom" type="xsd:string">-->
+<!--    		<xsd:annotation>-->
+<!--	   			<xsd:documentation xml:lang="en" source="attribut">-->
+<!--	   				-->
+<!--	   			</xsd:documentation>-->
+<!--	   			<xsd:documentation xml:lang="fr" source="attribut">-->
+<!--	   				Nom de la regle. Present a titre purement informatif.-->
+<!--	   			</xsd:documentation>-->
+<!--	   		</xsd:annotation>-->
+<!--    	</xsd:attribute>-->
+<!--    	<xsd:attribute name="methode" type="xsd:string">-->
+<!--    		<xsd:annotation>-->
+<!--	   			<xsd:documentation xml:lang="en" source="attribut">-->
+<!--	   				-->
+<!--	   			</xsd:documentation>-->
+<!--	   			<xsd:documentation xml:lang="fr" source="attribut">-->
+<!--	   				Nom de la methode contenant les intructions a appliquer pour cette regle.-->
+<!--	   			</xsd:documentation>-->
+<!--	   		</xsd:annotation>-->
+<!--    	</xsd:attribute>-->
+<!--    	<xsd:attribute name="parram" type="xsd:string">-->
+<!--    		<xsd:annotation>-->
+<!--	   			<xsd:documentation xml:lang="en" source="attribut">-->
+<!--	   				-->
+<!--	   			</xsd:documentation>-->
+<!--	   			<xsd:documentation xml:lang="fr" source="attribut">-->
+<!--	   				Valeur du parametre a passe a la methode.-->
+<!--	   			</xsd:documentation>-->
+<!--	   		</xsd:annotation>-->
+<!--    	</xsd:attribute>-->
+<!--    	<xsd:attribute name="typeparam" type="xsd:string">-->
+<!--    		<xsd:annotation>-->
+<!--	   			<xsd:documentation xml:lang="en" source="attribut">-->
+<!--	   				-->
+<!--	   			</xsd:documentation>-->
+<!--	   			<xsd:documentation xml:lang="fr" source="attribut">-->
+<!--	   				Type du parametre a passer a la regle de transformation.-->
+<!--	   			</xsd:documentation>-->
+<!--	   		</xsd:annotation>-->
+<!--    	</xsd:attribute>-->
+<!--	</xsd:complexType>-->
+</xsd:schema>

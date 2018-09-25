@@ -59,6 +59,15 @@ class DartXml(object):
         tree.write(outpath, encoding="UTF-8", xml_declaration=True)
         return
 
+def write_templates(directory):
+    directory = 'templates'
+    xml_templates = ptd.xmlwriters.dartxml.get_templates()
+    for k, v in xml_templates.iteritems():
+        filename=pjoin('/home/boissieu/git/pytools4dartMTD',directory, k+'.xml')
+        with open(filename, 'w') as f:
+            f.write(v)
+
+
 def get_templates():
     """
     Extract DART xml templates from DARTDocument.jar
@@ -76,6 +85,16 @@ def get_templates():
                           if re.match(r'cesbio/dart/documents/.*/ressources/Template.xml', s)}
 
     return templates
+
+def write_schemas(directory):
+    # directory = 'xsdschema'
+    xmlschemas = get_schemas()
+    for k, v in xmlschemas.iteritems():
+        filename=pjoin(directory, k+'.xsd')
+        with open(filename, 'w') as f:
+            f.write(v)
+
+
 
 def get_schemas():
     """

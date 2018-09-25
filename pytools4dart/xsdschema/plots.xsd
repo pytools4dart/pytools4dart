@@ -1,0 +1,690 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="DARTXmlDoc.xsl" type="text/xsl"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<!-- Element racine -->
+	<xsd:annotation>
+		<xsd:appinfo>Fichier plots.xsd -- version 5.7.1</xsd:appinfo> 
+		<xsd:documentation xml:lang = "en"> Before a run of the Vegetation module, the plots.xml file stores the description of the input data (name and characteristics of the input raster image, name of the description text file, sub-zone definition).  A run of the Vegetation module adds to the plots.xml file some information for each plot that is created: coordinates of the 4 corners, LAI, type of optical property, etc</xsd:documentation> 
+		<xsd:documentation xml:lang = "fr"> Before a run of the Vegetation module, the plots.xml file stores the description of the input data (name and characteristics of the input raster image, name of the description text file, sub-zone definition).  A run of the Vegetation module adds to the plots.xml file some information for each plot that is created: coordinates of the 4 corners, LAI, type of optical property, etc</xsd:documentation>
+	</xsd:annotation>
+
+	<xsd:element name="DartFile">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+	<xsd:complexType>
+		<xsd:sequence>
+			<xsd:element name="Plots" type="_Plots" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="version" type="xsd:string" default="5.7.1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Version of the plots.xml file. Depends of the version on DART itself.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Version of the plots.xml file. Depends of the version on DART itself.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="build" type="xsd:string" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+	</xsd:element>
+
+	<xsd:complexType name="_Plots">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Contains the description of the working environment for the Vegetation module. Contains also the list of the plots for the simulation and their optical(s) property(ies).</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Contains the description of the working environment for the Vegetation module. Contains also the list of the plots for the simulation and their optical(s) property(ies).</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ExtraPlotsTextFileDefinition" type="_ExtraPlotsTextFileDefinition" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="ImportationFichierRaster" type="_ImportationFichierRaster" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Plot" type="_Plot" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="isVegetation" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Indicate if there is information for the module Vegetation. 1 if the user wants to use the Vegetation module, 0 otherwise.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Indicate if there is information for the module Vegetation. 1 if the user wants to use the Vegetation module, 0 otherwise.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="addExtraPlotsTextFile" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Choose if you want to add an extra plot file </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Choose if you want to add an extra plot file </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_ExtraPlotsTextFileDefinition">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Extra plot file definition</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Extra plot file definition</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="extraPlotsFileName" type="xsd:string" default="plots.txt">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Path to extra plot file</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Path to extra plot file</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_ImportationFichierRaster">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Contains the information of the input files for the Vegetation module.</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Contains the information of the input files for the Vegetation module.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VegetationProperties" type="_VegetationProperties" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="RasterCOSInformation" type="_RasterCOSInformation" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="_VegetationProperties">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Properties of the raster image of the Vegetation module (name, number of lines/colunms, type of the pixel ...).</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Properties of the raster image of the Vegetation module (name, number of lines/colunms, type of the pixel ...).</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SelectSubZoneProperties" type="_SelectSubZoneProperties" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="selectSubZone" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Allows the user to work on a subzone of the raster image. 1 for extracting a sub-zone of the COS, 0 otherwise. </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Allows the user to work on a subzone of the raster image. 1 for extracting a sub-zone of the COS, 0 otherwise. </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="coverLandMapFileName" type="xsd:string" default="land_cover.mp#">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Raster file name. It must be in the simulation "input" directory of the simulation.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Raster file name. It must be in the simulation "input" directory of the simulation.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="coverLandMapDescFileName" type="xsd:string" default="Desc_CoverLandMap.txt">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="OverwritePlots" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Allows Vegetation module to keep or crush the current plots. 1, the plots are crushed. 0, the plots are kept.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Allows Vegetation module to keep or crush the current plots. 1, the plots are crushed. 0, the plots are kept.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_SelectSubZoneProperties">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Properties of the sub zone. It's defined by a starting point and a number of lines/colunms.</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Properties of the sub zone. It's defined by a starting point and a number of lines/colunms.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="lineNbSubZone" type="xsd:int" default="5">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Number of lines of the subzone.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Number of lines of the subzone.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="columnOfTopLeftPixel" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> First column of the sub-zone.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> First column of the sub-zone.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="columnNbSubZone" type="xsd:int" default="5">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Number of columns of the sub-zone.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Number of columns of the sub-zone.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="lineOfTopLeftPixel" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> First line of the sub-zone.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> First line of the sub-zone.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_RasterCOSInformation">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Properties of the raster image of the Vegetation module (name, number of lines/colunms, type of the pixel ...).</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Properties of the raster image of the Vegetation module (name, number of lines/colunms, type of the pixel ...).</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="pixelSizeCol" type="xsd:double" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Dimension in meters of a pixel of the raster image, along a column.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Dimension in meters of a pixel of the raster image, along a column.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="nbColCOS" type="xsd:int" default="20">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Number of columns of the raster image.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Number of columns of the raster image.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="pixelSizeLi" type="xsd:double" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Dimension in meters of a pixel of the raster image, along a line.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Dimension in meters of a pixel of the raster image, along a line.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="pixelByteSizeCOS" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> double.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> double.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="nbLiCOS" type="xsd:int" default="20">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Number of lines of the raster image.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Number of lines of the raster image.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Plot">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Representation of a DART plot. It's defined by its type, a geometric property and its optical(s) property(ies). The number of optical properties depends of the type of the plot. It can be formed of soil, vegetation or a combinaison of soil and vegetation.</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Representation of a DART plot. It's defined by its type, a geometric property and its optical(s) property(ies). The number of optical properties depends of the type of the plot. It can be formed of soil, vegetation or a combinaison of soil and vegetation.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Polygon2D" type="_Polygon2D" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Rectangle2D" type="_Rectangle2D" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="GroundOpticalPropertyLink" type="_GroundOpticalPropertyLink" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="GroundThermalPropertyLink" type="_GroundThermalPropertyLink" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="PlotVegetationProperties" type="_PlotVegetationProperties" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="PlotAirProperties" type="_PlotAirProperties" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="PlotWaterProperties" type="_PlotWaterProperties" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="hidden" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> If you select this option, this plot are not use in all DART modules, \n it's useful if you want conserve plot properties backup without delete this for tests </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> If you select this option, this plot are not use in all DART modules, \n it's useful if you want conserve plot properties backup without delete this for tests </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="repeatedOnBorder" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> If part of the object goes beyond the border of the scene, this part is copied on the other side of the scene. </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> If part of the object goes beyond the border of the scene, this part is copied on the other side of the scene. </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="type" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Plot: "vegetation layer + ground surface over the ground of the scene", "ground surface over the ground of the scene" or "vegetation layer over the ground of the scene"</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Plot: "vegetation layer + ground surface over the ground of the scene", "ground surface over the ground of the scene" or "vegetation layer over the ground of the scene"</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="form" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> How the plot geometry will be defined. This can be done by giving the dimension and position of a rectangle, or by directly giving the coordinates of the four corners of the the delimiting quadrilater.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> How the plot geometry will be defined. This can be done by giving the dimension and position of a rectangle, or by directly giving the coordinates of the four corners of the the delimiting quadrilater.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="isDisplayed" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Objects's positions are taken from the position file.\nDesactivate this option if you experience some slowdown.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Objects's positions are taken from the position file.\nDesactivate this option if you experience some slowdown.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Polygon2D">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Representation of a DART polygon. He's defined by his 4 corners, starting form the top left one, and turning anticlockwise.</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Representation of a DART polygon. He's defined by his 4 corners, starting form the top left one, and turning anticlockwise.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Point2D" type="_Point2D" minOccurs="4" maxOccurs="4" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Point2D">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Optical properties for a DART soil phase function.</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Optical properties for a DART soil phase function.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="y" type="xsd:double" default="0.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> y coordinate of a corner of the quadrilateral that defines the plot. Points are defined anticlockwise</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> y coordinate of a corner of the quadrilateral that defines the plot. Points are defined anticlockwise</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="x" type="xsd:double" default="0.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> x coordinate of a corner of the quadrilateral that defines the plot. Points are defined anticlockwise</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> x coordinate of a corner of the quadrilateral that defines the plot. Points are defined anticlockwise</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Rectangle2D">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Rectangle2D</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Rectangle2D</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="coteX" type="xsd:double" default="10">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Length along X axis (in meters)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Length along X axis (in meters)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="coteY" type="xsd:double" default="10">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Length along Y axis (in meters)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Length along Y axis (in meters)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="intrinsicRotation" type="xsd:double" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Rotation around the plot center (in degrees, in the range [-180, 180])</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Rotation around the plot center (in degrees, in the range [-180, 180])</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="centreX" type="xsd:double" default="5">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Center along X axis (in meters)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Center along X axis (in meters)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="centreY" type="xsd:double" default="5">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Center along Y axis (in meters)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Center along Y axis (in meters)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_GroundOpticalPropertyLink">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Optical properties for a DART soil phase function (name, type and index).</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Optical properties for a DART soil phase function (name, type and index).</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="indexFctPhase" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Index of the DART phase function of the ground of the plot.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Index of the DART phase function of the ground of the plot.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="ident" type="xsd:string" default="Lambertian_Phase_Function_1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> proportion of photons intercepted along an incident direction that are scattered within a solid angle along a given direction</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> proportion of photons intercepted along an incident direction that are scattered within a solid angle along a given direction</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="type" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Type of phase function (lambertian, etc.)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Type of phase function (lambertian, etc.)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_GroundThermalPropertyLink">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> GroundThermalPropertyLink</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> GroundThermalPropertyLink</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="indexTemperature" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> indexTemperature</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> indexTemperature</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="idTemperature" type="xsd:string" default="ThermalFunction290_310">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Thermal Function ID</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Thermal Function ID</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_PlotVegetationProperties">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Caracteristics of a plot (height of its vegetation, LAI ...).</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Caracteristics of a plot (height of its vegetation, LAI ...).</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="MeshPlotRepresentation" type="_MeshPlotRepresentation" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="VegetationGeometry" type="_VegetationGeometry" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="VegetationFillGeometry" type="_VegetationFillGeometry" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="LAIVegetation" type="_LAIVegetation" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="UFVegetation" type="_UFVegetation" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="VegetationOpticalPropertyLink" type="_VegetationOpticalPropertyLink" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="GroundThermalPropertyLink" type="_GroundThermalPropertyLink" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="verticalFillMode" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Fill everything in the defined area below a given altitude.                </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Fill everything in the defined area below a given altitude.                </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="trianglePlotRepresentation" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> If checked, the plot will be represented as a cloud of triangles. Otherwise, it will be represented as a juxtaposition of turbid cells.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> If checked, the plot will be represented as a cloud of triangles. Otherwise, it will be represented as a juxtaposition of turbid cells.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="densityDefinition" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Choose if you define vegetation by LAI (foliar m2 / m2 of the plot) or Ul (foliar m2 / m3 of the plot) </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Choose if you define vegetation by LAI (foliar m2 / m2 of the plot) or Ul (foliar m2 / m3 of the plot) </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_MeshPlotRepresentation">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="NumberOfTriangleParameters" type="_NumberOfTriangleParameters" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="MeshLeafDimensionParameters" type="_MeshLeafDimensionParameters" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="distributionMode" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Defines how the leaves are geometrically distributed in the crown.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Defines how the leaves are geometrically distributed in the crown.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="leafDefinition" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Definition of the leaves geometry and numbers.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Definition of the leaves geometry and numbers.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_NumberOfTriangleParameters">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="nbTriangles" type="xsd:int" default="10000">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Fix the number of leaves/triangles of the plot. The leaf area will then be the total area of leaves in the plot divided by this number. The real effective number generated may vary due to rounding and distribution errors.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Fix the number of leaves/triangles of the plot. The leaf area will then be the total area of leaves in the plot divided by this number. The real effective number generated may vary due to rounding and distribution errors.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_MeshLeafDimensionParameters">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="meshLeafDimension" type="xsd:double" default="0.003">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Area of each individual leaf/triangle. The number of leaves/triangles will then be the total area of leaves in the plot divided by this number. The real effective number generated may vary due to rounding and distribution errors.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Area of each individual leaf/triangle. The number of leaves/triangles will then be the total area of leaves in the plot divided by this number. The real effective number generated may vary due to rounding and distribution errors.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_VegetationGeometry">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="height" type="xsd:double" default="1.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Thickness of the vegetation layer </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Thickness of the vegetation layer </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="baseheight" type="xsd:double" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Altitude in meter of the base of the vegetation above the ground of the plot.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Altitude in meter of the base of the vegetation above the ground of the plot.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="stDev" type="xsd:double" default="0.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Standard deviation of the vegetation layer height</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Standard deviation of the vegetation layer height</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_VegetationFillGeometry">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="topHeight" type="xsd:double" default="1.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Altitude up to which the plot fill the scene, stating from the bottom of the scene</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Altitude up to which the plot fill the scene, stating from the bottom of the scene</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_LAIVegetation">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="LAI" type="xsd:double" default="1.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Leaf Area Index: total leaf area in the plot divided by the scene area.    </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Leaf Area Index: total leaf area in the plot divided by the scene area.    </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_UFVegetation">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="UF" type="xsd:double" default="1.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Ul</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Ul</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_VegetationOpticalPropertyLink">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Optical properties for a DART vegetation phase function (name, type and index).</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Optical properties for a DART vegetation phase function (name, type and index).</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="indexFctPhase" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Index of the DART phase function of the ground of the plot.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Index of the DART phase function of the ground of the plot.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="ident" type="xsd:string" default="Turbid_Leaf_Deciduous_Phase_Function">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> proportion of photons intercepted along an incident direction that are scattered within a solid angle along a given direction</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> proportion of photons intercepted along an incident direction that are scattered within a solid angle along a given direction</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_PlotAirProperties">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> PlotAirProperties</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> PlotAirProperties</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="AirGeometry" type="_AirGeometry" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="AirFillGeometry" type="_AirFillGeometry" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="AirOpticalProperties" type="_AirOpticalProperties" minOccurs="1" maxOccurs="unbounded" />
+			<xsd:element name="GroundThermalPropertyLink" type="_GroundThermalPropertyLink" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="verticalFillMode" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Fill everything in the defined area below a given altitude.                 </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Fill everything in the defined area below a given altitude.                 </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="nbParticule" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Number of gas/particles in the air plot.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Number of gas/particles in the air plot.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_AirGeometry">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="height" type="xsd:double" default="1.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Thickness of the air layer </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Thickness of the air layer </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="baseheight" type="xsd:double" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Altitude in meter of the base of the vegetation above the ground of the plot.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Altitude in meter of the base of the vegetation above the ground of the plot.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="stDev" type="xsd:double" default="0.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Standard deviation of the air layer height</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Standard deviation of the air layer height</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_AirFillGeometry">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="topHeight" type="xsd:double" default="1.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Altitude up to which the plot fill the scene, stating from the bottom of the scene </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Altitude up to which the plot fill the scene, stating from the bottom of the scene </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_AirOpticalProperties">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> AirOpticalProperties</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> AirOpticalProperties</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="AirOpticalPropertyLink" type="_AirOpticalPropertyLink" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="extinctionCoefficient" type="xsd:double" default="5E-16">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Particle Density (Number of particle per meter-cube)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Particle Density (Number of particle per meter-cube)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_AirOpticalPropertyLink">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> AirOpticalPropertyLink</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> AirOpticalPropertyLink</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="indexFctPhase" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Index of the DART phase function of the ground of the plot.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Index of the DART phase function of the ground of the plot.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="ident" type="xsd:string" default="Molecule">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> proportion of photons intercepted along an incident direction that are scattered within a solid angle along a given direction</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> proportion of photons intercepted along an incident direction that are scattered within a solid angle along a given direction</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_PlotWaterProperties">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Water properties</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Water properties</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="WaterOpticalProperties" type="_WaterOpticalProperties" minOccurs="1" maxOccurs="unbounded" />
+			<xsd:element name="GroundThermalPropertyLink" type="_GroundThermalPropertyLink" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="nbComponents" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Number of components of the water volume</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Number of components of the water volume</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="waterDepth" type="xsd:double" default="10.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Water depth</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Water depth</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="waterHeight" type="xsd:double" default="0.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Water height level</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Water height level</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="stDev" type="xsd:double" default="0.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> stDev</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> stDev</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_WaterOpticalProperties">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Component properties</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Component properties</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="AirOpticalPropertyLink" type="_AirOpticalPropertyLink" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="extinctionCoefficient" type="xsd:double" default="0.5">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Extinction coefficient</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Extinction coefficient</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+</xsd:schema>
