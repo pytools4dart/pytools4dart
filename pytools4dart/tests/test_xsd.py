@@ -1,11 +1,18 @@
 #  -*- coding: utf-8 -*-
+# Exemple du couplage de template + xsd
+# Pour la creation de l'interface python
+# utiliser generateDS.py en ligne de commande
+# python generateDS.py --always-export-default -o ~/git/pytools4dartMTD/pytools4dart/xsdschema/plots_gds.py ~/git/pytools4dartMTD/pytools4dart/xsdschema/plots.xsd
+# Peut-être pouvons nous trouver un moyen de les générer à la volé, i.e. à l'import de pytools4dart...
+# pour creer les template:
+# ptd.xmlwriters.dartxml.write_templates('templates')
 
 import pytools4dart as ptd
 import lxml.etree as etree
 from pytools4dart.xmlwriters.xmlhelpers import indent
 import pandas as pd
 
-
+#### Fonctions pour l'interprétation du template
 def update_node(rnode, tnode):
     # temp = plots_temp_root
     rchildstags = [c.tag for c in rnode.getchildren()]
@@ -16,7 +23,9 @@ def update_node(rnode, tnode):
                     update_node(rnode, tchild)
             elif any('type' == s for s in tchild.attrib.keys()):
                 if tchild.attrib['type']=='list':
-                    for i in range(pd.to_numeric(tchild.attrib['min'])):
+                    # TODO la gestion de l'attribut static='1'
+                    if max(pd.to_numeric(tchild.attrib['min']),
+                                       len(rnode.xpath(tchild.getchildren()[0].tag)))>0:
                         update_node(rnode, tchild)
             else:
                 update_node(rnode, tchild)
@@ -60,7 +69,7 @@ def eval_test(xmlnode, test):
                         sk.append('attrib["'+n+'"]')
                     else:
                         sk.append('xpath("'+n+'")[0]')
-            s='.'.join(sk)+sep+value
+            s='.'.join(sk)+sep+'"'+value+'"'
 
             # s.sub(r'\.([a-z]')
             # s = rreplace(knode, 'parent.', 'parent.attrib["')
@@ -71,12 +80,7 @@ def eval_test(xmlnode, test):
     print(' '.join(ptest))
     return eval(' '.join(ptest))
 
-
-# pattern = re.compile( "(?<!\{)\{(?!\{)(.*)" )
-# pattern.sub( "hello \\1", "{test}}" )
-
-
-# ptd.xmlwriters.dartxml.write_templates('templates')
+#####
 
 
 # plots_xml=ptd.plots_gds.parseLiteral('/home/boissieu/user_data/simulations/use_case_0/input/plots.xml', silence=True)
@@ -91,13 +95,17 @@ for c in comments:
     if p is not None:
         p.remove(c)
 
+# Creation d'un plots.xml par défaut
 rroot = etree.Element('DartFile', {'version': '5.7.1', 'build': '0'})
 update_node(rroot, troot.getchildren()[0])
-
 indent(rroot)
 tree = etree.ElementTree(rroot)
 plots = ptd.plots_gds.parseString(etree.tostring(tree))
 
+# ajout d'un plot par défaut
+plots.Plots.add_Plot(ptd.plots_gds._Plot())
+
+# update du plot avec les valeurs par défaut du template
 import sys
 from StringIO import StringIO  # Python2
 # from io import StringIO  # Python3
@@ -107,7 +115,31 @@ sys.stdout = mystdout = StringIO()
 plots.export(sys.stdout,level=0)
 sys.stdout = old_stdout
 mystdout.getvalue()
-update_node(etree.parse(mystdout.getvalue()).getroot(), )
+rroot = etree.fromstring(mystdout.getvalue())
+update_node(rroot, troot.getchildren()[0])
+indent(rroot)
+tree = etree.ElementTree(rroot)
+plots = ptd.plots_gds.parseString(etree.tostring(tree))
+
+# ajout d'un 2eme plot par defaut
+plots.Plots.add_Plot(ptd.plots_gds._Plot())
+
+# update du plot avec les valeurs par défaut du template
+import sys
+from StringIO import StringIO  # Python2
+# from io import StringIO  # Python3
+
+old_stdout = sys.stdout
+sys.stdout = mystdout = StringIO()
+plots.export(sys.stdout,level=0)
+sys.stdout = old_stdout
+mystdout.getvalue()
+rroot = etree.fromstring(mystdout.getvalue())
+update_node(rroot, troot.getchildren()[0])
+indent(rroot)
+tree = etree.ElementTree(rroot)
+plots = ptd.plots_gds.parseString(etree.tostring(tree))
+
 tree.write('/home/boissieu/plots.xml', encoding="UTF-8", xml_declaration=True)
 
 

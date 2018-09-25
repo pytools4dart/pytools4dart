@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<!-- ==================================================================== -->
+<!-- ==                                                                == -->
+<!-- ==               Template Exemple de fichier PLOTS                == -->
+<!-- ==                                                                == -->
+<!-- ==================================================================== -->
+<DartDocumentTemplateNode type="header" version="1.0">
+	<DartFile version="5.7.1" build="0">
+		<Plots addExtraPlotsTextFile="0" isVegetation="0">
+			<DartDocumentTemplateNode test="parent.addExtraPlotsTextFile==1">
+				<ExtraPlotsTextFileDefinition extraPlotsFileName="plots.txt" />
+			</DartDocumentTemplateNode>
+			<ImportationFichierRaster>
+				<DartDocumentTemplateNode test="parent.parent.isVegetation==1">
+					<VegetationProperties coverLandMapFileName="land_cover.mp#" coverLandMapDescFileName="Desc_CoverLandMap.txt" OverwritePlots="1" selectSubZone="0">
+						<DartDocumentTemplateNode test="parent.selectSubZone==1">
+							<SelectSubZoneProperties lineOfTopLeftPixel="0" columnOfTopLeftPixel="0" lineNbSubZone="5" columnNbSubZone="5"/>
+						</DartDocumentTemplateNode>
+					</VegetationProperties>
+				</DartDocumentTemplateNode>
+				<DartDocumentTemplateNode test="parent.parent.isVegetation==1">
+					<RasterCOSInformation nbLiCOS="20" nbColCOS="20" pixelByteSizeCOS="1" pixelSizeCol="1" pixelSizeLi="1"/>
+				</DartDocumentTemplateNode>
+			</ImportationFichierRaster>
+			<DartDocumentTemplateNode type="list" min="0">
+				<Plot type="1" form="0" isDisplayed="1" hidden="0" repeatedOnBorder="1">
+					<DartDocumentTemplateNode test="parent.form==0">
+						<Polygon2D>
+							<Point2D x="0.00" y="0.00" />
+							<Point2D x="10.00" y="0.00" />
+							<Point2D x="10.00" y="10.00" /> 
+							<Point2D x="0.00" y="10.00" />
+						</Polygon2D>
+					</DartDocumentTemplateNode>
+					<DartDocumentTemplateNode test="parent.form==1">
+						<Rectangle2D coteX="10" coteY="10" centreX="5" centreY="5" intrinsicRotation="0" />
+					</DartDocumentTemplateNode>
+					<DartDocumentTemplateNode test="parent.type==0 or parent.type==2">
+						<GroundOpticalPropertyLink type="0" indexFctPhase="0" ident="Lambertian_Phase_Function_1" />
+						<GroundThermalPropertyLink indexTemperature="0" idTemperature="ThermalFunction290_310" />
+					</DartDocumentTemplateNode>
+					<DartDocumentTemplateNode test="parent.type==1 or parent.type==2">
+						<PlotVegetationProperties densityDefinition="0" verticalFillMode="0" trianglePlotRepresentation="0">							
+							<DartDocumentTemplateNode test="parent.trianglePlotRepresentation==1">
+								<MeshPlotRepresentation distributionMode="0" leafDefinition="1">
+									<DartDocumentTemplateNode test="parent.leafDefinition==0">
+										<NumberOfTriangleParameters nbTriangles="10000"/>
+									</DartDocumentTemplateNode>
+									<DartDocumentTemplateNode test="parent.leafDefinition==1">
+										<MeshLeafDimensionParameters meshLeafDimension="0.003"/>
+									</DartDocumentTemplateNode>
+								</MeshPlotRepresentation>
+							</DartDocumentTemplateNode>
+							<DartDocumentTemplateNode test="parent.verticalFillMode==0">
+								<VegetationGeometry baseheight="0" height="1.0" stDev="0.0" />
+							</DartDocumentTemplateNode>
+							<DartDocumentTemplateNode test="parent.verticalFillMode==1">
+								<VegetationFillGeometry topHeight="1.0"/>
+							</DartDocumentTemplateNode>
+							<DartDocumentTemplateNode test="parent.densityDefinition==0">
+								<LAIVegetation LAI="1.0"/>
+							</DartDocumentTemplateNode>
+							<DartDocumentTemplateNode test="parent.densityDefinition==1">
+								<UFVegetation UF="1.0"/>
+							</DartDocumentTemplateNode>
+                            <VegetationOpticalPropertyLink indexFctPhase="0" ident="Turbid_Leaf_Deciduous_Phase_Function" />
+                            <GroundThermalPropertyLink indexTemperature="0" idTemperature="ThermalFunction290_310" />
+						</PlotVegetationProperties>
+					</DartDocumentTemplateNode>
+					<DartDocumentTemplateNode test="parent.type==3">
+						<PlotAirProperties verticalFillMode="0" nbParticule="1">
+							<DartDocumentTemplateNode test="parent.verticalFillMode==0">
+								<AirGeometry baseheight="0" height="1.0" stDev="0.0" />
+							</DartDocumentTemplateNode>
+							<DartDocumentTemplateNode test="parent.verticalFillMode==1">
+								<AirFillGeometry topHeight="1.0"/>
+							</DartDocumentTemplateNode>
+							<DartDocumentTemplateNode type="list" min="1">
+								<AirOpticalProperties extinctionCoefficient="5E-16">
+									<AirOpticalPropertyLink indexFctPhase="0" ident="Molecule" />
+								</AirOpticalProperties>
+							</DartDocumentTemplateNode>
+							<GroundThermalPropertyLink indexTemperature="0" idTemperature="ThermalFunction290_310" />
+						</PlotAirProperties>
+					</DartDocumentTemplateNode>
+					<DartDocumentTemplateNode test="parent.type==4">
+						<PlotWaterProperties waterDepth="10.0" waterHeight="0.0" stDev="0.0" nbComponents="1">
+							<DartDocumentTemplateNode type="list" min="1">
+								<WaterOpticalProperties extinctionCoefficient="0.5">
+									<AirOpticalPropertyLink indexFctPhase="0" ident="Water" />
+								</WaterOpticalProperties>
+							</DartDocumentTemplateNode>
+							<GroundThermalPropertyLink indexTemperature="0" idTemperature="ThermalFunction290_310" />
+						</PlotWaterProperties>
+					</DartDocumentTemplateNode>
+					
+				</Plot>
+			</DartDocumentTemplateNode>
+		</Plots>
+	</DartFile>
+</DartDocumentTemplateNode>	

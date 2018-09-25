@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<!-- ====================================================================
+-->
+<!-- ==					                                 			   == -->
+<!-- ==					Template Exemple de fichier ATMOSPHERE		   == -->
+<!-- ==					                                 			   == -->
+<!-- ====================================================================
+-->
+
+<DartDocumentTemplateNode type="header"
+	version="1.0">
+	<DartFile version="5.7.1" build="0">
+		<Atmosphere isRadiativeTransfertInBottomAtmosphereDefined="0">		
+			<Aerosol>
+				<DartDocumentTemplateNode type="list" min="1">
+					<AerosolProperties databaseName="dart_atmosphere.db" aerosolsModelName="USSTD76_RURALV23" aerosolCumulativeModelName="RURALV23" 
+					hgParametersModelName="RURALV23" aerosolOptDepthFactor="1" >
+					</AerosolProperties>
+				</DartDocumentTemplateNode>
+			</Aerosol>	
+			<IsAtmosphere typeOfAtmosphere="1">
+				<DartDocumentTemplateNode test="parent.parent.isRadiativeTransfertInBottomAtmosphereDefined==1" >
+					<isRadiativeTransfertInBottomAtmosphere BA_altitude="0" writeTemperatureFile="0"/>
+				</DartDocumentTemplateNode>
+				<DartDocumentTemplateNode test="parent.typeOfAtmosphere==0">
+					<AtmosphericOpticalProperty aerosolScaleFactor="1000" aerosolOpticalDepth="0.202" aerosolAlbedo="0.947"
+						g1="0.790" g2="0.4" a_HG="0.95" gasOpticalDepth="0.049" gasScaleFactor="8400" transmittanceOfGases="0.750"
+						courbureTerre="1" pointMilieu="1"/>
+					<TemperatureFile atmosphereTemperatureFileName="atmosphereTemperature.txt"/>
+				</DartDocumentTemplateNode>
+				<DartDocumentTemplateNode test="parent.typeOfAtmosphere==1">
+					<AtmosphericOpticalPropertyModel databaseName="dart_atmosphere.db" gasModelName= "USSTD76" gasCumulativeModelName=
+						"USSTD76" temperatureModelName="USSTD76" gasGroup="1" precipitableWaterAmountCkeckbox="0" redefTemperature="0"
+						correctionBandModel="1" co2MixRate="365.0" ignoreGasForExtrapolation="0" scaleOtherGases="0">
+						
+						<DartDocumentTemplateNode test="parent.ignoreGasForExtrapolation==1">
+							<ignoredGas H2O="0" O3="0" N2="0" CO2="0" CO="0" CH4="0" N2O="0" O2="0" NH3="0" NO="0" NO2="0" SO2="0" HNO3="0">
+								<DartDocumentTemplateNode test="parent.H2O==1">
+									<fillH2O ifFillH2O="0">
+										<DartDocumentTemplateNode test="parent.ifFillH2O==1">
+											<h2oDef altitude="0" pressure="1013" rh="40" temp="273.15" dist="160"/>
+										</DartDocumentTemplateNode>
+									</fillH2O>
+								</DartDocumentTemplateNode>
+							</ignoredGas>
+						</DartDocumentTemplateNode>
+						<DartDocumentTemplateNode test="parent.scaleOtherGases==1">
+							<OtherGasesScale coMulFactor="1" ch4MulFactor="1" n2oMulFactor="1" o2MulFactor="1" n2MulFactor="1" o3MulFactor="1"
+			 nh3MulFactor="1" noMulFactor="1" no2MulFactor="1" so2MulFactor="1" hno3MulFactor="1" othersMulFactor="1" scatMulFactor="1"/>
+						</DartDocumentTemplateNode>
+						<DartDocumentTemplateNode test="parent.precipitableWaterAmountCkeckbox==1">
+							<WaterAmount defWaterAmount="0">
+							  <DartDocumentTemplateNode test="parent.defWaterAmount==0">
+							    <M_factor mulFactorH2O="1.0"/> 
+							  </DartDocumentTemplateNode>
+							  <DartDocumentTemplateNode test="parent.defWaterAmount==1">
+							    <Amount_g_per_cm2 g_per_cm2="1.41"/> 
+							  </DartDocumentTemplateNode>
+							  <DartDocumentTemplateNode test="parent.defWaterAmount==2">
+							    <Amount_atm_cm atm_cm="1762.3"/> 
+							  </DartDocumentTemplateNode>
+							  <DartDocumentTemplateNode test="parent.defWaterAmount==3">
+							    <Density_atm_cm_per_km_altitude atm_cm_per_km="734.0" altitude="0"/> 
+							  </DartDocumentTemplateNode>
+							  <DartDocumentTemplateNode test="parent.defWaterAmount==4">
+							    <Density_RH_temp_altitude rh="50.0" temp="288.15" altitude="0"/> 
+							  </DartDocumentTemplateNode>
+							</WaterAmount>
+						</DartDocumentTemplateNode>
+						<DartDocumentTemplateNode test="parent.redefTemperature==1">
+						  <tempParameters temp="288.15" altitude="0"/> 
+						</DartDocumentTemplateNode>
+					</AtmosphericOpticalPropertyModel>
+				</DartDocumentTemplateNode>
+				<AtmosphereIterations>
+					<AtmosphereTransfertFunctions inputOutputTransfertFunctions="0">
+						<DartDocumentTemplateNode test="parent.inputOutputTransfertFunctions==0">
+							<ComputedTransferFunctions writeTransferFunctions="0"/>
+						</DartDocumentTemplateNode>
+						<DartDocumentTemplateNode test="parent.inputOutputTransfertFunctions==1">
+							<ImportedTransferFunctions transferFunctionsFile="atmosphereTransferFunctions.binary"/>
+						</DartDocumentTemplateNode>
+					</AtmosphereTransfertFunctions>
+					<AtmosphereProducts atmosphereRadiance_BOA_avantCouplage="0" atmosphereRadiance_BOA_apresCouplage="0"
+						atmosphereBRF_TOA="0" ordreUnAtmos="0" />
+					<AtmosphereComponents upwardingFluxes="0" downwardingFluxes="0"/>
+					<AtmosphereExpertModeZone extrapol_atmos="1" threshold_Atmos_scattering="0.0001" number_iterationMax="100"/>
+				</AtmosphereIterations>
+				<AtmosphereGeometry heightOfSensor="3000" discretisationAtmos="1" minimumNumberOfDivisions="4">
+					<DartDocumentTemplateNode test="parent.discretisationAtmos==1">
+						<discretisationAtmosAuto epsilon_atmos = "0.003" gamma_atmos = "0.95" xAI="400.0" yAI="400.0"/>
+					</DartDocumentTemplateNode>
+					<DartDocumentTemplateNode test="parent.discretisationAtmos==0">
+						<MidAtmosphere>
+							<CellDimensions xAI="100.0" yAI="100.0" zAI="500.0"/>
+							<Height hCFAI="4000.0"/>
+						</MidAtmosphere>
+						<UpperAtmosphere hCFHA="80000.0">
+							<Layer zHA="2000.0"/>
+						</UpperAtmosphere>
+					</DartDocumentTemplateNode>
+				</AtmosphereGeometry>
+			</IsAtmosphere>
+		</Atmosphere>
+	</DartFile>
+</DartDocumentTemplateNode>

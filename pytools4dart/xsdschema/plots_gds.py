@@ -2,17 +2,18 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Sep 24 13:53:27 2018 by generateDS.py version 2.29.24.
+# Generated Tue Sep 25 22:15:37 2018 by generateDS.py version 2.29.24.
 # Python 2.7.12 (default, Dec  4 2017, 14:50:18)  [GCC 5.4.0 20160609]
 #
 # Command line options:
-#   ('-o', '/home/boissieu/git/pytools4dartMTD/xsdschema/plots_gds.py')
+#   ('--always-export-default', '')
+#   ('-o', '/home/boissieu/git/pytools4dartMTD/pytools4dart/xsdschema/plots_gds.py')
 #
 # Command line arguments:
-#   /home/boissieu/git/pytools4dartMTD/xsdschema/plots.xsd
+#   /home/boissieu/git/pytools4dartMTD/pytools4dart/xsdschema/plots.xsd
 #
 # Command line:
-#   generateDS.py -o "/home/boissieu/git/pytools4dartMTD/xsdschema/plots_gds.py" /home/boissieu/git/pytools4dartMTD/xsdschema/plots.xsd
+#   generateDS.py --always-export-default -o "/home/boissieu/git/pytools4dartMTD/pytools4dart/xsdschema/plots_gds.py" /home/boissieu/git/pytools4dartMTD/pytools4dart/xsdschema/plots.xsd
 #
 # Current working directory (os.getcwd()):
 #   generateDS-2.29.24
@@ -778,10 +779,10 @@ class DartFile(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='DartFile'):
-        if self.version != "5.7.1" and 'version' not in already_processed:
+        if self.version is not None and 'version' not in already_processed:
             already_processed.add('version')
             outfile.write(' version=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.version), input_name='version')), ))
-        if self.build_ != "0" and 'build_' not in already_processed:
+        if self.build_ is not None and 'build_' not in already_processed:
             already_processed.add('build_')
             outfile.write(' build=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.build_), input_name='build')), ))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='DartFile', fromsubclass_=False, pretty_print=True):
@@ -896,10 +897,10 @@ class _Plots(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_Plots'):
-        if self.isVegetation != 0 and 'isVegetation' not in already_processed:
+        if self.isVegetation is not None and 'isVegetation' not in already_processed:
             already_processed.add('isVegetation')
             outfile.write(' isVegetation="%s"' % self.gds_format_integer(self.isVegetation, input_name='isVegetation'))
-        if self.addExtraPlotsTextFile != 0 and 'addExtraPlotsTextFile' not in already_processed:
+        if self.addExtraPlotsTextFile is not None and 'addExtraPlotsTextFile' not in already_processed:
             already_processed.add('addExtraPlotsTextFile')
             outfile.write(' addExtraPlotsTextFile="%s"' % self.gds_format_integer(self.addExtraPlotsTextFile, input_name='addExtraPlotsTextFile'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_Plots', fromsubclass_=False, pretty_print=True):
@@ -1003,7 +1004,7 @@ class _ExtraPlotsTextFileDefinition(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_ExtraPlotsTextFileDefinition'):
-        if self.extraPlotsFileName != "plots.txt" and 'extraPlotsFileName' not in already_processed:
+        if self.extraPlotsFileName is not None and 'extraPlotsFileName' not in already_processed:
             already_processed.add('extraPlotsFileName')
             outfile.write(' extraPlotsFileName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.extraPlotsFileName), input_name='extraPlotsFileName')), ))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_ExtraPlotsTextFileDefinition', fromsubclass_=False, pretty_print=True):
@@ -1187,16 +1188,16 @@ class _VegetationProperties(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_VegetationProperties'):
-        if self.selectSubZone != 0 and 'selectSubZone' not in already_processed:
+        if self.selectSubZone is not None and 'selectSubZone' not in already_processed:
             already_processed.add('selectSubZone')
             outfile.write(' selectSubZone="%s"' % self.gds_format_integer(self.selectSubZone, input_name='selectSubZone'))
-        if self.coverLandMapFileName != "land_cover.mp#" and 'coverLandMapFileName' not in already_processed:
+        if self.coverLandMapFileName is not None and 'coverLandMapFileName' not in already_processed:
             already_processed.add('coverLandMapFileName')
             outfile.write(' coverLandMapFileName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.coverLandMapFileName), input_name='coverLandMapFileName')), ))
-        if self.coverLandMapDescFileName != "Desc_CoverLandMap.txt" and 'coverLandMapDescFileName' not in already_processed:
+        if self.coverLandMapDescFileName is not None and 'coverLandMapDescFileName' not in already_processed:
             already_processed.add('coverLandMapDescFileName')
             outfile.write(' coverLandMapDescFileName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.coverLandMapDescFileName), input_name='coverLandMapDescFileName')), ))
-        if self.OverwritePlots != 1 and 'OverwritePlots' not in already_processed:
+        if self.OverwritePlots is not None and 'OverwritePlots' not in already_processed:
             already_processed.add('OverwritePlots')
             outfile.write(' OverwritePlots="%s"' % self.gds_format_integer(self.OverwritePlots, input_name='OverwritePlots'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_VegetationProperties', fromsubclass_=False, pretty_print=True):
@@ -1308,16 +1309,16 @@ class _SelectSubZoneProperties(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_SelectSubZoneProperties'):
-        if self.lineNbSubZone != 5 and 'lineNbSubZone' not in already_processed:
+        if self.lineNbSubZone is not None and 'lineNbSubZone' not in already_processed:
             already_processed.add('lineNbSubZone')
             outfile.write(' lineNbSubZone="%s"' % self.gds_format_integer(self.lineNbSubZone, input_name='lineNbSubZone'))
-        if self.columnOfTopLeftPixel != 0 and 'columnOfTopLeftPixel' not in already_processed:
+        if self.columnOfTopLeftPixel is not None and 'columnOfTopLeftPixel' not in already_processed:
             already_processed.add('columnOfTopLeftPixel')
             outfile.write(' columnOfTopLeftPixel="%s"' % self.gds_format_integer(self.columnOfTopLeftPixel, input_name='columnOfTopLeftPixel'))
-        if self.columnNbSubZone != 5 and 'columnNbSubZone' not in already_processed:
+        if self.columnNbSubZone is not None and 'columnNbSubZone' not in already_processed:
             already_processed.add('columnNbSubZone')
             outfile.write(' columnNbSubZone="%s"' % self.gds_format_integer(self.columnNbSubZone, input_name='columnNbSubZone'))
-        if self.lineOfTopLeftPixel != 0 and 'lineOfTopLeftPixel' not in already_processed:
+        if self.lineOfTopLeftPixel is not None and 'lineOfTopLeftPixel' not in already_processed:
             already_processed.add('lineOfTopLeftPixel')
             outfile.write(' lineOfTopLeftPixel="%s"' % self.gds_format_integer(self.lineOfTopLeftPixel, input_name='lineOfTopLeftPixel'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_SelectSubZoneProperties', fromsubclass_=False, pretty_print=True):
@@ -1433,19 +1434,19 @@ class _RasterCOSInformation(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_RasterCOSInformation'):
-        if self.pixelSizeCol != 1 and 'pixelSizeCol' not in already_processed:
+        if self.pixelSizeCol is not None and 'pixelSizeCol' not in already_processed:
             already_processed.add('pixelSizeCol')
             outfile.write(' pixelSizeCol="%s"' % self.gds_format_double(self.pixelSizeCol, input_name='pixelSizeCol'))
-        if self.nbColCOS != 20 and 'nbColCOS' not in already_processed:
+        if self.nbColCOS is not None and 'nbColCOS' not in already_processed:
             already_processed.add('nbColCOS')
             outfile.write(' nbColCOS="%s"' % self.gds_format_integer(self.nbColCOS, input_name='nbColCOS'))
-        if self.pixelSizeLi != 1 and 'pixelSizeLi' not in already_processed:
+        if self.pixelSizeLi is not None and 'pixelSizeLi' not in already_processed:
             already_processed.add('pixelSizeLi')
             outfile.write(' pixelSizeLi="%s"' % self.gds_format_double(self.pixelSizeLi, input_name='pixelSizeLi'))
-        if self.pixelByteSizeCOS != 1 and 'pixelByteSizeCOS' not in already_processed:
+        if self.pixelByteSizeCOS is not None and 'pixelByteSizeCOS' not in already_processed:
             already_processed.add('pixelByteSizeCOS')
             outfile.write(' pixelByteSizeCOS="%s"' % self.gds_format_integer(self.pixelByteSizeCOS, input_name='pixelByteSizeCOS'))
-        if self.nbLiCOS != 20 and 'nbLiCOS' not in already_processed:
+        if self.nbLiCOS is not None and 'nbLiCOS' not in already_processed:
             already_processed.add('nbLiCOS')
             outfile.write(' nbLiCOS="%s"' % self.gds_format_integer(self.nbLiCOS, input_name='nbLiCOS'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_RasterCOSInformation', fromsubclass_=False, pretty_print=True):
@@ -1618,19 +1619,19 @@ class _Plot(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_Plot'):
-        if self.hidden != 0 and 'hidden' not in already_processed:
+        if self.hidden is not None and 'hidden' not in already_processed:
             already_processed.add('hidden')
             outfile.write(' hidden="%s"' % self.gds_format_integer(self.hidden, input_name='hidden'))
-        if self.repeatedOnBorder != 1 and 'repeatedOnBorder' not in already_processed:
+        if self.repeatedOnBorder is not None and 'repeatedOnBorder' not in already_processed:
             already_processed.add('repeatedOnBorder')
             outfile.write(' repeatedOnBorder="%s"' % self.gds_format_integer(self.repeatedOnBorder, input_name='repeatedOnBorder'))
-        if self.type_ != 1 and 'type_' not in already_processed:
+        if self.type_ is not None and 'type_' not in already_processed:
             already_processed.add('type_')
             outfile.write(' type="%s"' % self.gds_format_integer(self.type_, input_name='type'))
-        if self.form != 0 and 'form' not in already_processed:
+        if self.form is not None and 'form' not in already_processed:
             already_processed.add('form')
             outfile.write(' form="%s"' % self.gds_format_integer(self.form, input_name='form'))
-        if self.isDisplayed != 1 and 'isDisplayed' not in already_processed:
+        if self.isDisplayed is not None and 'isDisplayed' not in already_processed:
             already_processed.add('isDisplayed')
             outfile.write(' isDisplayed="%s"' % self.gds_format_integer(self.isDisplayed, input_name='isDisplayed'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_Plot', fromsubclass_=False, pretty_print=True):
@@ -1877,10 +1878,10 @@ class _Point2D(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_Point2D'):
-        if self.y != 0.00 and 'y' not in already_processed:
+        if self.y is not None and 'y' not in already_processed:
             already_processed.add('y')
             outfile.write(' y="%s"' % self.gds_format_double(self.y, input_name='y'))
-        if self.x != 0.00 and 'x' not in already_processed:
+        if self.x is not None and 'x' not in already_processed:
             already_processed.add('x')
             outfile.write(' x="%s"' % self.gds_format_double(self.x, input_name='x'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_Point2D', fromsubclass_=False, pretty_print=True):
@@ -1978,19 +1979,19 @@ class _Rectangle2D(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_Rectangle2D'):
-        if self.coteX != 10 and 'coteX' not in already_processed:
+        if self.coteX is not None and 'coteX' not in already_processed:
             already_processed.add('coteX')
             outfile.write(' coteX="%s"' % self.gds_format_double(self.coteX, input_name='coteX'))
-        if self.coteY != 10 and 'coteY' not in already_processed:
+        if self.coteY is not None and 'coteY' not in already_processed:
             already_processed.add('coteY')
             outfile.write(' coteY="%s"' % self.gds_format_double(self.coteY, input_name='coteY'))
-        if self.intrinsicRotation != 0 and 'intrinsicRotation' not in already_processed:
+        if self.intrinsicRotation is not None and 'intrinsicRotation' not in already_processed:
             already_processed.add('intrinsicRotation')
             outfile.write(' intrinsicRotation="%s"' % self.gds_format_double(self.intrinsicRotation, input_name='intrinsicRotation'))
-        if self.centreX != 5 and 'centreX' not in already_processed:
+        if self.centreX is not None and 'centreX' not in already_processed:
             already_processed.add('centreX')
             outfile.write(' centreX="%s"' % self.gds_format_double(self.centreX, input_name='centreX'))
-        if self.centreY != 5 and 'centreY' not in already_processed:
+        if self.centreY is not None and 'centreY' not in already_processed:
             already_processed.add('centreY')
             outfile.write(' centreY="%s"' % self.gds_format_double(self.centreY, input_name='centreY'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_Rectangle2D', fromsubclass_=False, pretty_print=True):
@@ -2106,13 +2107,13 @@ class _GroundOpticalPropertyLink(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_GroundOpticalPropertyLink'):
-        if self.indexFctPhase != 0 and 'indexFctPhase' not in already_processed:
+        if self.indexFctPhase is not None and 'indexFctPhase' not in already_processed:
             already_processed.add('indexFctPhase')
             outfile.write(' indexFctPhase="%s"' % self.gds_format_integer(self.indexFctPhase, input_name='indexFctPhase'))
-        if self.ident != "Lambertian_Phase_Function_1" and 'ident' not in already_processed:
+        if self.ident is not None and 'ident' not in already_processed:
             already_processed.add('ident')
             outfile.write(' ident=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.ident), input_name='ident')), ))
-        if self.type_ != 0 and 'type_' not in already_processed:
+        if self.type_ is not None and 'type_' not in already_processed:
             already_processed.add('type_')
             outfile.write(' type="%s"' % self.gds_format_integer(self.type_, input_name='type'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_GroundOpticalPropertyLink', fromsubclass_=False, pretty_print=True):
@@ -2200,10 +2201,10 @@ class _GroundThermalPropertyLink(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_GroundThermalPropertyLink'):
-        if self.indexTemperature != 0 and 'indexTemperature' not in already_processed:
+        if self.indexTemperature is not None and 'indexTemperature' not in already_processed:
             already_processed.add('indexTemperature')
             outfile.write(' indexTemperature="%s"' % self.gds_format_integer(self.indexTemperature, input_name='indexTemperature'))
-        if self.idTemperature != "ThermalFunction290_310" and 'idTemperature' not in already_processed:
+        if self.idTemperature is not None and 'idTemperature' not in already_processed:
             already_processed.add('idTemperature')
             outfile.write(' idTemperature=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.idTemperature), input_name='idTemperature')), ))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_GroundThermalPropertyLink', fromsubclass_=False, pretty_print=True):
@@ -2325,13 +2326,13 @@ class _PlotVegetationProperties(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_PlotVegetationProperties'):
-        if self.verticalFillMode != 0 and 'verticalFillMode' not in already_processed:
+        if self.verticalFillMode is not None and 'verticalFillMode' not in already_processed:
             already_processed.add('verticalFillMode')
             outfile.write(' verticalFillMode="%s"' % self.gds_format_integer(self.verticalFillMode, input_name='verticalFillMode'))
-        if self.trianglePlotRepresentation != 0 and 'trianglePlotRepresentation' not in already_processed:
+        if self.trianglePlotRepresentation is not None and 'trianglePlotRepresentation' not in already_processed:
             already_processed.add('trianglePlotRepresentation')
             outfile.write(' trianglePlotRepresentation="%s"' % self.gds_format_integer(self.trianglePlotRepresentation, input_name='trianglePlotRepresentation'))
-        if self.densityDefinition != 0 and 'densityDefinition' not in already_processed:
+        if self.densityDefinition is not None and 'densityDefinition' not in already_processed:
             already_processed.add('densityDefinition')
             outfile.write(' densityDefinition="%s"' % self.gds_format_integer(self.densityDefinition, input_name='densityDefinition'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_PlotVegetationProperties', fromsubclass_=False, pretty_print=True):
@@ -2483,10 +2484,10 @@ class _MeshPlotRepresentation(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_MeshPlotRepresentation'):
-        if self.distributionMode != 0 and 'distributionMode' not in already_processed:
+        if self.distributionMode is not None and 'distributionMode' not in already_processed:
             already_processed.add('distributionMode')
             outfile.write(' distributionMode="%s"' % self.gds_format_integer(self.distributionMode, input_name='distributionMode'))
-        if self.leafDefinition != 1 and 'leafDefinition' not in already_processed:
+        if self.leafDefinition is not None and 'leafDefinition' not in already_processed:
             already_processed.add('leafDefinition')
             outfile.write(' leafDefinition="%s"' % self.gds_format_integer(self.leafDefinition, input_name='leafDefinition'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_MeshPlotRepresentation', fromsubclass_=False, pretty_print=True):
@@ -2589,7 +2590,7 @@ class _NumberOfTriangleParameters(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_NumberOfTriangleParameters'):
-        if self.nbTriangles != 10000 and 'nbTriangles' not in already_processed:
+        if self.nbTriangles is not None and 'nbTriangles' not in already_processed:
             already_processed.add('nbTriangles')
             outfile.write(' nbTriangles="%s"' % self.gds_format_integer(self.nbTriangles, input_name='nbTriangles'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_NumberOfTriangleParameters', fromsubclass_=False, pretty_print=True):
@@ -2669,7 +2670,7 @@ class _MeshLeafDimensionParameters(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_MeshLeafDimensionParameters'):
-        if self.meshLeafDimension != 0.003 and 'meshLeafDimension' not in already_processed:
+        if self.meshLeafDimension is not None and 'meshLeafDimension' not in already_processed:
             already_processed.add('meshLeafDimension')
             outfile.write(' meshLeafDimension="%s"' % self.gds_format_double(self.meshLeafDimension, input_name='meshLeafDimension'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_MeshLeafDimensionParameters', fromsubclass_=False, pretty_print=True):
@@ -2753,13 +2754,13 @@ class _VegetationGeometry(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_VegetationGeometry'):
-        if self.height != 1.0 and 'height' not in already_processed:
+        if self.height is not None and 'height' not in already_processed:
             already_processed.add('height')
             outfile.write(' height="%s"' % self.gds_format_double(self.height, input_name='height'))
-        if self.baseheight != 0 and 'baseheight' not in already_processed:
+        if self.baseheight is not None and 'baseheight' not in already_processed:
             already_processed.add('baseheight')
             outfile.write(' baseheight="%s"' % self.gds_format_double(self.baseheight, input_name='baseheight'))
-        if self.stDev != 0.0 and 'stDev' not in already_processed:
+        if self.stDev is not None and 'stDev' not in already_processed:
             already_processed.add('stDev')
             outfile.write(' stDev="%s"' % self.gds_format_double(self.stDev, input_name='stDev'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_VegetationGeometry', fromsubclass_=False, pretty_print=True):
@@ -2848,7 +2849,7 @@ class _VegetationFillGeometry(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_VegetationFillGeometry'):
-        if self.topHeight != 1.0 and 'topHeight' not in already_processed:
+        if self.topHeight is not None and 'topHeight' not in already_processed:
             already_processed.add('topHeight')
             outfile.write(' topHeight="%s"' % self.gds_format_double(self.topHeight, input_name='topHeight'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_VegetationFillGeometry', fromsubclass_=False, pretty_print=True):
@@ -2923,7 +2924,7 @@ class _LAIVegetation(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_LAIVegetation'):
-        if self.LAI != 1.0 and 'LAI' not in already_processed:
+        if self.LAI is not None and 'LAI' not in already_processed:
             already_processed.add('LAI')
             outfile.write(' LAI="%s"' % self.gds_format_double(self.LAI, input_name='LAI'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_LAIVegetation', fromsubclass_=False, pretty_print=True):
@@ -2996,7 +2997,7 @@ class _UFVegetation(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_UFVegetation'):
-        if self.UF != 1.0 and 'UF' not in already_processed:
+        if self.UF is not None and 'UF' not in already_processed:
             already_processed.add('UF')
             outfile.write(' UF="%s"' % self.gds_format_double(self.UF, input_name='UF'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_UFVegetation', fromsubclass_=False, pretty_print=True):
@@ -3080,10 +3081,10 @@ class _VegetationOpticalPropertyLink(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_VegetationOpticalPropertyLink'):
-        if self.indexFctPhase != 0 and 'indexFctPhase' not in already_processed:
+        if self.indexFctPhase is not None and 'indexFctPhase' not in already_processed:
             already_processed.add('indexFctPhase')
             outfile.write(' indexFctPhase="%s"' % self.gds_format_integer(self.indexFctPhase, input_name='indexFctPhase'))
-        if self.ident != "Turbid_Leaf_Deciduous_Phase_Function" and 'ident' not in already_processed:
+        if self.ident is not None and 'ident' not in already_processed:
             already_processed.add('ident')
             outfile.write(' ident=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.ident), input_name='ident')), ))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_VegetationOpticalPropertyLink', fromsubclass_=False, pretty_print=True):
@@ -3188,10 +3189,10 @@ class _PlotAirProperties(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_PlotAirProperties'):
-        if self.verticalFillMode != 0 and 'verticalFillMode' not in already_processed:
+        if self.verticalFillMode is not None and 'verticalFillMode' not in already_processed:
             already_processed.add('verticalFillMode')
             outfile.write(' verticalFillMode="%s"' % self.gds_format_integer(self.verticalFillMode, input_name='verticalFillMode'))
-        if self.nbParticule != 1 and 'nbParticule' not in already_processed:
+        if self.nbParticule is not None and 'nbParticule' not in already_processed:
             already_processed.add('nbParticule')
             outfile.write(' nbParticule="%s"' % self.gds_format_integer(self.nbParticule, input_name='nbParticule'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_PlotAirProperties', fromsubclass_=False, pretty_print=True):
@@ -3311,13 +3312,13 @@ class _AirGeometry(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_AirGeometry'):
-        if self.height != 1.0 and 'height' not in already_processed:
+        if self.height is not None and 'height' not in already_processed:
             already_processed.add('height')
             outfile.write(' height="%s"' % self.gds_format_double(self.height, input_name='height'))
-        if self.baseheight != 0 and 'baseheight' not in already_processed:
+        if self.baseheight is not None and 'baseheight' not in already_processed:
             already_processed.add('baseheight')
             outfile.write(' baseheight="%s"' % self.gds_format_double(self.baseheight, input_name='baseheight'))
-        if self.stDev != 0.0 and 'stDev' not in already_processed:
+        if self.stDev is not None and 'stDev' not in already_processed:
             already_processed.add('stDev')
             outfile.write(' stDev="%s"' % self.gds_format_double(self.stDev, input_name='stDev'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_AirGeometry', fromsubclass_=False, pretty_print=True):
@@ -3406,7 +3407,7 @@ class _AirFillGeometry(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_AirFillGeometry'):
-        if self.topHeight != 1.0 and 'topHeight' not in already_processed:
+        if self.topHeight is not None and 'topHeight' not in already_processed:
             already_processed.add('topHeight')
             outfile.write(' topHeight="%s"' % self.gds_format_double(self.topHeight, input_name='topHeight'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_AirFillGeometry', fromsubclass_=False, pretty_print=True):
@@ -3485,7 +3486,7 @@ class _AirOpticalProperties(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_AirOpticalProperties'):
-        if self.extinctionCoefficient != 5E-16 and 'extinctionCoefficient' not in already_processed:
+        if self.extinctionCoefficient is not None and 'extinctionCoefficient' not in already_processed:
             already_processed.add('extinctionCoefficient')
             outfile.write(' extinctionCoefficient="%s"' % self.gds_format_double(self.extinctionCoefficient, input_name='extinctionCoefficient'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_AirOpticalProperties', fromsubclass_=False, pretty_print=True):
@@ -3576,10 +3577,10 @@ class _AirOpticalPropertyLink(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_AirOpticalPropertyLink'):
-        if self.indexFctPhase != 0 and 'indexFctPhase' not in already_processed:
+        if self.indexFctPhase is not None and 'indexFctPhase' not in already_processed:
             already_processed.add('indexFctPhase')
             outfile.write(' indexFctPhase="%s"' % self.gds_format_integer(self.indexFctPhase, input_name='indexFctPhase'))
-        if self.ident != "Molecule" and 'ident' not in already_processed:
+        if self.ident is not None and 'ident' not in already_processed:
             already_processed.add('ident')
             outfile.write(' ident=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.ident), input_name='ident')), ))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_AirOpticalPropertyLink', fromsubclass_=False, pretty_print=True):
@@ -3681,16 +3682,16 @@ class _PlotWaterProperties(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_PlotWaterProperties'):
-        if self.nbComponents != 1 and 'nbComponents' not in already_processed:
+        if self.nbComponents is not None and 'nbComponents' not in already_processed:
             already_processed.add('nbComponents')
             outfile.write(' nbComponents="%s"' % self.gds_format_integer(self.nbComponents, input_name='nbComponents'))
-        if self.waterDepth != 10.0 and 'waterDepth' not in already_processed:
+        if self.waterDepth is not None and 'waterDepth' not in already_processed:
             already_processed.add('waterDepth')
             outfile.write(' waterDepth="%s"' % self.gds_format_double(self.waterDepth, input_name='waterDepth'))
-        if self.waterHeight != 0.0 and 'waterHeight' not in already_processed:
+        if self.waterHeight is not None and 'waterHeight' not in already_processed:
             already_processed.add('waterHeight')
             outfile.write(' waterHeight="%s"' % self.gds_format_double(self.waterHeight, input_name='waterHeight'))
-        if self.stDev != 0.0 and 'stDev' not in already_processed:
+        if self.stDev is not None and 'stDev' not in already_processed:
             already_processed.add('stDev')
             outfile.write(' stDev="%s"' % self.gds_format_double(self.stDev, input_name='stDev'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_PlotWaterProperties', fromsubclass_=False, pretty_print=True):
@@ -3805,7 +3806,7 @@ class _WaterOpticalProperties(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_WaterOpticalProperties'):
-        if self.extinctionCoefficient != 0.5 and 'extinctionCoefficient' not in already_processed:
+        if self.extinctionCoefficient is not None and 'extinctionCoefficient' not in already_processed:
             already_processed.add('extinctionCoefficient')
             outfile.write(' extinctionCoefficient="%s"' % self.gds_format_double(self.extinctionCoefficient, input_name='extinctionCoefficient'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_WaterOpticalProperties', fromsubclass_=False, pretty_print=True):
@@ -3942,7 +3943,6 @@ def parseLiteral(inFileName, silence=False):
         rootClass = DartFile
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
-    print(rootObj.__dict__)
     # Enable Python to collect the space used by the DOM.
     doc = None
     if not silence:
