@@ -19,8 +19,13 @@ def update_node(rnode, tnode):
     for tchild in tnode.getchildren():
         if (tchild.tag == 'DartDocumentTemplateNode'):
             if any('test'==s for s in tchild.attrib.keys()):
-                if(eval_test(rnode, tchild.attrib['test'])):
+                test = tchild.attrib['test']
+                if(eval_test(rnode, test)):
                     update_node(rnode, tchild)
+                else: # remove child if exist
+                    for bad in rnode.xpath(tchild.getchildren()[0].tag):
+                        bad.getparent().remove(bad)
+
             elif any('type' == s for s in tchild.attrib.keys()):
                 if tchild.attrib['type']=='list':
                     # TODO la gestion de l'attribut static='1'
@@ -139,6 +144,19 @@ update_node(rroot, troot.getchildren()[0])
 indent(rroot)
 tree = etree.ElementTree(rroot)
 plots = ptd.plots_gds.parseString(etree.tostring(tree))
+
+# change form of 1st plot
+plots.Plots.Plot[0].form=1
+
+old_stdout = sys.stdout
+sys.stdout = mystdout = StringIO()
+plots.export(sys.stdout,level=0)
+sys.stdout = old_stdout
+mystdout.getvalue()
+rroot = etree.fromstring(mystdout.getvalue())
+update_node(rroot, troot.getchildren()[0])
+indent(rroot)
+tree = etree.ElementTree(rroot)
 
 tree.write('/home/boissieu/plots.xml', encoding="UTF-8", xml_declaration=True)
 
