@@ -11,8 +11,24 @@ import pytools4dart as ptd
 import lxml.etree as etree
 from pytools4dart.xmlwriters.xmlhelpers import indent
 import pandas as pd
+import sys
+from StringIO import StringIO  # Python2
+# from io import StringIO  # Python3
 
 #### Fonctions pour l'interprétation du template
+def get_template_root(module):
+    template_string = ptd.xmlwriters.dartxml.get_templates()[module]
+    troot = etree.fromstring(template_string)
+
+    # remove comments:
+    comments = troot.xpath('//comment()')
+    for c in comments:
+        p = c.getparent()
+        if p is not None:
+            p.remove(c)
+    return troot
+
+
 def update_node(rnode, tnode):
     # temp = plots_temp_root
     rchildstags = [c.tag for c in rnode.getchildren()]
@@ -37,7 +53,7 @@ def update_node(rnode, tnode):
         else:
 
             if not tchild.tag in rchildstags:
-                print(tchild.tag)
+                # print(tchild.tag)
                 etree.SubElement(rnode, tchild.tag, tchild.attrib)
             rchilds = rnode.xpath('./' + tchild.tag)
             for rchild in rchilds:
@@ -82,10 +98,32 @@ def eval_test(xmlnode, test):
             # s = s.replace('==','"]=="').replace('!=','"]!="')+'"'
             # s = s.replace('parent','getparent()')
         ptest.append(s)
-    print(' '.join(ptest))
+    # print(' '.join(ptest))
     return eval(' '.join(ptest))
 
+#### foncions pour les object issus des module générés par generateDSs
+def update_xsd(xsd_obj, troot):
+    xsd_string = export_xsd_to_string(xsd_obj)
+    rroot = etree.fromstring(xsd_string)
+    update_node(rroot, troot.getchildren()[0])
+    indent(rroot)
+    tree = etree.ElementTree(rroot)
+    return ptd.plots_gds.parseString(etree.tostring(tree), silence=True)
+
+def export_xsd_to_string(xsd_obj):
+    old_stdout = sys.stdout
+    sys.stdout = mystdout = StringIO()
+    plots.export(sys.stdout, level=0)
+    sys.stdout = old_stdout
+    return mystdout.getvalue()
+
+def export_xsd_to_tree(xsd_obj):
+    rroot = etree.fromstring(export_xsd_to_string(xsd_obj))
+    indent(rroot)
+    return etree.ElementTree(rroot)
+
 #####
+
 
 
 # plots_xml=ptd.plots_gds.parseLiteral('/home/boissieu/user_data/simulations/use_case_0/input/plots.xml', silence=True)
@@ -101,64 +139,29 @@ for c in comments:
         p.remove(c)
 
 # Creation d'un plots.xml par défaut
-rroot = etree.Element('DartFile', {'version': '5.7.1', 'build': '0'})
-update_node(rroot, troot.getchildren()[0])
-indent(rroot)
-tree = etree.ElementTree(rroot)
-plots = ptd.plots_gds.parseString(etree.tostring(tree))
+troot = get_template_root('plots')
+
+
+plots = ptd.plots_gds.DartFile()
+plots = update_xsd(plots, troot)
 
 # ajout d'un plot par défaut
 plots.Plots.add_Plot(ptd.plots_gds._Plot())
 
 # update du plot avec les valeurs par défaut du template
-import sys
-from StringIO import StringIO  # Python2
-# from io import StringIO  # Python3
-
-old_stdout = sys.stdout
-sys.stdout = mystdout = StringIO()
-plots.export(sys.stdout,level=0)
-sys.stdout = old_stdout
-mystdout.getvalue()
-rroot = etree.fromstring(mystdout.getvalue())
-update_node(rroot, troot.getchildren()[0])
-indent(rroot)
-tree = etree.ElementTree(rroot)
-plots = ptd.plots_gds.parseString(etree.tostring(tree))
+# plots = update_xsd(plots, troot)
 
 # ajout d'un 2eme plot par defaut
 plots.Plots.add_Plot(ptd.plots_gds._Plot())
 
-# update du plot avec les valeurs par défaut du template
-import sys
-from StringIO import StringIO  # Python2
-# from io import StringIO  # Python3
-
-old_stdout = sys.stdout
-sys.stdout = mystdout = StringIO()
-plots.export(sys.stdout,level=0)
-sys.stdout = old_stdout
-mystdout.getvalue()
-rroot = etree.fromstring(mystdout.getvalue())
-update_node(rroot, troot.getchildren()[0])
-indent(rroot)
-tree = etree.ElementTree(rroot)
-plots = ptd.plots_gds.parseString(etree.tostring(tree))
+# plots = update_xsd(plots, troot)
 
 # change form of 1st plot
-plots.Plots.Plot[0].form=1
+plots.Plots.Plot[0].set_form(1)
 
-old_stdout = sys.stdout
-sys.stdout = mystdout = StringIO()
-plots.export(sys.stdout,level=0)
-sys.stdout = old_stdout
-mystdout.getvalue()
-rroot = etree.fromstring(mystdout.getvalue())
-update_node(rroot, troot.getchildren()[0])
-indent(rroot)
-tree = etree.ElementTree(rroot)
+plots = update_xsd(plots, troot)
 
-tree.write('/home/boissieu/plots.xml', encoding="UTF-8", xml_declaration=True)
+export_xsd_to_tree(plots).write('/home/boissieu/plots.xml', encoding="UTF-8", xml_declaration=True)
 
 
 
