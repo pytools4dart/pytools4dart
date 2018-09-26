@@ -127,7 +127,7 @@ def eval_test(xmlnode, test):
     # print(' '.join(ptest))
     return eval(' '.join(ptest))
 
-#### foncions pour les object issus des module générés par generateDSs
+#### Foncions pour les object issus des module générés par generateDSs
 def update_xsd(xsd_obj, troot):
     xsd_string = export_xsd_to_string(xsd_obj)
     rroot = etree.fromstring(xsd_string)
@@ -150,7 +150,7 @@ def export_xsd_to_tree(xsd_obj):
 
 #####
 
-
+#### Exemple d'utilisation
 
 # récupération  du template
 troot = get_template_root('plots')
