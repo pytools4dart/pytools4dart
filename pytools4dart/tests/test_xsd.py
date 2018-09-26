@@ -1,4 +1,29 @@
 #  -*- coding: utf-8 -*-
+# #  -*- coding: utf-8 -*-
+# ===============================================================================
+# PROGRAMMERS:
+#
+# Florian de Boissieu <florian.deboissieu@irstea.fr>
+# https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
+#
+#
+# This file is part of the pytools4dart package.
+#
+# pytools4dart is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+#
+#
+# ===============================================================================
 # Exemple du couplage de template + xsd
 # Pour la creation de l'interface python
 # utiliser generateDS.py en ligne de commande
@@ -62,9 +87,10 @@ def update_node(rnode, tnode):
 
     # return(refnode)
 
-def rreplace(s, old, new):
-    li = s.rsplit(old, 1) #Split only once
-    return new.join(li)
+# def rreplace(s, old, new):
+#     li = s.rsplit(old, 1) #Split only once
+#     return new.join(li)
+
 def eval_test(xmlnode, test):
     ptest=[]
     testlist = test.split(' ')
@@ -155,7 +181,7 @@ plots.Plots.Plot[0].set_form(1)
 
 plots = update_xsd(plots, troot)
 
-export_xsd_to_tree(plots).write('/home/boissieu/plots1.xml', encoding="UTF-8", xml_declaration=True)
+export_xsd_to_tree(plots).write('~/plots1.xml', encoding="UTF-8", xml_declaration=True)
 
 
 
