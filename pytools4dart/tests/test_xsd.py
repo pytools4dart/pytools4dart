@@ -126,24 +126,18 @@ def export_xsd_to_tree(xsd_obj):
 
 
 
-# plots_xml=ptd.plots_gds.parseLiteral('/home/boissieu/user_data/simulations/use_case_0/input/plots.xml', silence=True)
-
-plots_temp = etree.parse('/home/boissieu/git/pytools4dartMTD/templates/plots.xml')
-troot = plots_temp.getroot()
-
-# remove comments:
-comments = troot.xpath('//comment()')
-for c in comments:
-    p = c.getparent()
-    if p is not None:
-        p.remove(c)
-
-# Creation d'un plots.xml par défaut
+# récupération  du template
 troot = get_template_root('plots')
 
-
+# creation d'un plots.xml par défaut
 plots = ptd.plots_gds.DartFile()
 plots = update_xsd(plots, troot)
+
+# ecriture du plots.xml
+export_xsd_to_tree(plots).write('/home/boissieu/plots.xml', encoding="UTF-8", xml_declaration=True)
+
+# lecture d'un fichier plots.xml
+plots = ptd.plots_gds.parse('/home/boissieu/plots.xml', silence=True)
 
 # ajout d'un plot par défaut
 plots.Plots.add_Plot(ptd.plots_gds._Plot())
@@ -161,7 +155,7 @@ plots.Plots.Plot[0].set_form(1)
 
 plots = update_xsd(plots, troot)
 
-export_xsd_to_tree(plots).write('/home/boissieu/plots.xml', encoding="UTF-8", xml_declaration=True)
+export_xsd_to_tree(plots).write('/home/boissieu/plots1.xml', encoding="UTF-8", xml_declaration=True)
 
 
 
