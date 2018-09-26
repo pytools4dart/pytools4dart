@@ -134,10 +134,10 @@ plots = ptd.plots_gds.DartFile()
 plots = update_xsd(plots, troot)
 
 # ecriture du plots.xml
-export_xsd_to_tree(plots).write('/home/boissieu/plots.xml', encoding="UTF-8", xml_declaration=True)
+export_xsd_to_tree(plots).write('~/plots.xml', encoding="UTF-8", xml_declaration=True)
 
 # lecture d'un fichier plots.xml
-plots = ptd.plots_gds.parse('/home/boissieu/plots.xml', silence=True)
+plots = ptd.plots_gds.parse('~/plots.xml', silence=True)
 
 # ajout d'un plot par défaut
 plots.Plots.add_Plot(ptd.plots_gds._Plot())
