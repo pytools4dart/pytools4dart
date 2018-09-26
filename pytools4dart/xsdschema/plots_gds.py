@@ -2,18 +2,19 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Tue Sep 25 22:15:37 2018 by generateDS.py version 2.29.24.
-# Python 2.7.12 (default, Dec  4 2017, 14:50:18)  [GCC 5.4.0 20160609]
+# Generated Wed Sep 26 12:42:36 2018 by generateDS.py version 2.29.24.
+# Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
 #
 # Command line options:
 #   ('--always-export-default', '')
-#   ('-o', '/home/boissieu/git/pytools4dartMTD/pytools4dart/xsdschema/plots_gds.py')
+#   ('--export', 'write literal etree')
+#   ('-o', '/home/boissieu/Scripts/pytools4dartMTD/pytools4dart/xsdschema/plots_gds.py')
 #
 # Command line arguments:
-#   /home/boissieu/git/pytools4dartMTD/pytools4dart/xsdschema/plots.xsd
+#   /home/boissieu/Scripts/pytools4dartMTD/pytools4dart/xsdschema/plots.xsd
 #
 # Command line:
-#   generateDS.py --always-export-default -o "/home/boissieu/git/pytools4dartMTD/pytools4dart/xsdschema/plots_gds.py" /home/boissieu/git/pytools4dartMTD/pytools4dart/xsdschema/plots.xsd
+#   generateDS.py --always-export-default --export="write literal etree" -o "/home/boissieu/Scripts/pytools4dartMTD/pytools4dart/xsdschema/plots_gds.py" /home/boissieu/Scripts/pytools4dartMTD/pytools4dart/xsdschema/plots.xsd
 #
 # Current working directory (os.getcwd()):
 #   generateDS-2.29.24
@@ -792,6 +793,43 @@ class DartFile(GeneratedsSuper):
             eol_ = ''
         if self.Plots is not None:
             self.Plots.export(outfile, level, namespaceprefix_, name_='Plots', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='DartFile', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.version is not None:
+            element.set('version', self.gds_format_string(self.version))
+        if self.build_ is not None:
+            element.set('build', self.gds_format_string(self.build_))
+        if self.Plots is not None:
+            Plots_ = self.Plots
+            Plots_.to_etree(element, name_='Plots', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='DartFile'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.version is not None and 'version' not in already_processed:
+            already_processed.add('version')
+            showIndent(outfile, level)
+            outfile.write('version="%s",\n' % (self.version,))
+        if self.build_ is not None and 'build_' not in already_processed:
+            already_processed.add('build_')
+            showIndent(outfile, level)
+            outfile.write('build_="%s",\n' % (self.build_,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.Plots is not None:
+            showIndent(outfile, level)
+            outfile.write('Plots=model_._Plots(\n')
+            self.Plots.exportLiteral(outfile, level, name_='Plots')
+            showIndent(outfile, level)
+            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -914,6 +952,66 @@ class _Plots(GeneratedsSuper):
             self.ImportationFichierRaster.export(outfile, level, namespaceprefix_, name_='ImportationFichierRaster', pretty_print=pretty_print)
         for Plot_ in self.Plot:
             Plot_.export(outfile, level, namespaceprefix_, name_='Plot', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_Plots', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.isVegetation is not None:
+            element.set('isVegetation', self.gds_format_integer(self.isVegetation))
+        if self.addExtraPlotsTextFile is not None:
+            element.set('addExtraPlotsTextFile', self.gds_format_integer(self.addExtraPlotsTextFile))
+        if self.ExtraPlotsTextFileDefinition is not None:
+            ExtraPlotsTextFileDefinition_ = self.ExtraPlotsTextFileDefinition
+            ExtraPlotsTextFileDefinition_.to_etree(element, name_='ExtraPlotsTextFileDefinition', mapping_=mapping_)
+        if self.ImportationFichierRaster is not None:
+            ImportationFichierRaster_ = self.ImportationFichierRaster
+            ImportationFichierRaster_.to_etree(element, name_='ImportationFichierRaster', mapping_=mapping_)
+        for Plot_ in self.Plot:
+            Plot_.to_etree(element, name_='Plot', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_Plots'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.isVegetation is not None and 'isVegetation' not in already_processed:
+            already_processed.add('isVegetation')
+            showIndent(outfile, level)
+            outfile.write('isVegetation=%d,\n' % (self.isVegetation,))
+        if self.addExtraPlotsTextFile is not None and 'addExtraPlotsTextFile' not in already_processed:
+            already_processed.add('addExtraPlotsTextFile')
+            showIndent(outfile, level)
+            outfile.write('addExtraPlotsTextFile=%d,\n' % (self.addExtraPlotsTextFile,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.ExtraPlotsTextFileDefinition is not None:
+            showIndent(outfile, level)
+            outfile.write('ExtraPlotsTextFileDefinition=model_._ExtraPlotsTextFileDefinition(\n')
+            self.ExtraPlotsTextFileDefinition.exportLiteral(outfile, level, name_='ExtraPlotsTextFileDefinition')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.ImportationFichierRaster is not None:
+            showIndent(outfile, level)
+            outfile.write('ImportationFichierRaster=model_._ImportationFichierRaster(\n')
+            self.ImportationFichierRaster.exportLiteral(outfile, level, name_='ImportationFichierRaster')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        showIndent(outfile, level)
+        outfile.write('Plot=[\n')
+        level += 1
+        for Plot_ in self.Plot:
+            showIndent(outfile, level)
+            outfile.write('model_._Plot(\n')
+            Plot_.exportLiteral(outfile, level, name_='_Plot')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1009,6 +1107,29 @@ class _ExtraPlotsTextFileDefinition(GeneratedsSuper):
             outfile.write(' extraPlotsFileName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.extraPlotsFileName), input_name='extraPlotsFileName')), ))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_ExtraPlotsTextFileDefinition', fromsubclass_=False, pretty_print=True):
         pass
+    def to_etree(self, parent_element=None, name_='_ExtraPlotsTextFileDefinition', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.extraPlotsFileName is not None:
+            element.set('extraPlotsFileName', self.gds_format_string(self.extraPlotsFileName))
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_ExtraPlotsTextFileDefinition'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.extraPlotsFileName is not None and 'extraPlotsFileName' not in already_processed:
+            already_processed.add('extraPlotsFileName')
+            showIndent(outfile, level)
+            outfile.write('extraPlotsFileName="%s",\n' % (self.extraPlotsFileName,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1091,6 +1212,41 @@ class _ImportationFichierRaster(GeneratedsSuper):
             self.VegetationProperties.export(outfile, level, namespaceprefix_, name_='VegetationProperties', pretty_print=pretty_print)
         if self.RasterCOSInformation is not None:
             self.RasterCOSInformation.export(outfile, level, namespaceprefix_, name_='RasterCOSInformation', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_ImportationFichierRaster', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.VegetationProperties is not None:
+            VegetationProperties_ = self.VegetationProperties
+            VegetationProperties_.to_etree(element, name_='VegetationProperties', mapping_=mapping_)
+        if self.RasterCOSInformation is not None:
+            RasterCOSInformation_ = self.RasterCOSInformation
+            RasterCOSInformation_.to_etree(element, name_='RasterCOSInformation', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_ImportationFichierRaster'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.VegetationProperties is not None:
+            showIndent(outfile, level)
+            outfile.write('VegetationProperties=model_._VegetationProperties(\n')
+            self.VegetationProperties.exportLiteral(outfile, level, name_='VegetationProperties')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.RasterCOSInformation is not None:
+            showIndent(outfile, level)
+            outfile.write('RasterCOSInformation=model_._RasterCOSInformation(\n')
+            self.RasterCOSInformation.exportLiteral(outfile, level, name_='RasterCOSInformation')
+            showIndent(outfile, level)
+            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1207,6 +1363,55 @@ class _VegetationProperties(GeneratedsSuper):
             eol_ = ''
         if self.SelectSubZoneProperties is not None:
             self.SelectSubZoneProperties.export(outfile, level, namespaceprefix_, name_='SelectSubZoneProperties', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_VegetationProperties', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.selectSubZone is not None:
+            element.set('selectSubZone', self.gds_format_integer(self.selectSubZone))
+        if self.coverLandMapFileName is not None:
+            element.set('coverLandMapFileName', self.gds_format_string(self.coverLandMapFileName))
+        if self.coverLandMapDescFileName is not None:
+            element.set('coverLandMapDescFileName', self.gds_format_string(self.coverLandMapDescFileName))
+        if self.OverwritePlots is not None:
+            element.set('OverwritePlots', self.gds_format_integer(self.OverwritePlots))
+        if self.SelectSubZoneProperties is not None:
+            SelectSubZoneProperties_ = self.SelectSubZoneProperties
+            SelectSubZoneProperties_.to_etree(element, name_='SelectSubZoneProperties', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_VegetationProperties'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.selectSubZone is not None and 'selectSubZone' not in already_processed:
+            already_processed.add('selectSubZone')
+            showIndent(outfile, level)
+            outfile.write('selectSubZone=%d,\n' % (self.selectSubZone,))
+        if self.coverLandMapFileName is not None and 'coverLandMapFileName' not in already_processed:
+            already_processed.add('coverLandMapFileName')
+            showIndent(outfile, level)
+            outfile.write('coverLandMapFileName="%s",\n' % (self.coverLandMapFileName,))
+        if self.coverLandMapDescFileName is not None and 'coverLandMapDescFileName' not in already_processed:
+            already_processed.add('coverLandMapDescFileName')
+            showIndent(outfile, level)
+            outfile.write('coverLandMapDescFileName="%s",\n' % (self.coverLandMapDescFileName,))
+        if self.OverwritePlots is not None and 'OverwritePlots' not in already_processed:
+            already_processed.add('OverwritePlots')
+            showIndent(outfile, level)
+            outfile.write('OverwritePlots=%d,\n' % (self.OverwritePlots,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.SelectSubZoneProperties is not None:
+            showIndent(outfile, level)
+            outfile.write('SelectSubZoneProperties=model_._SelectSubZoneProperties(\n')
+            self.SelectSubZoneProperties.exportLiteral(outfile, level, name_='SelectSubZoneProperties')
+            showIndent(outfile, level)
+            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1322,6 +1527,47 @@ class _SelectSubZoneProperties(GeneratedsSuper):
             already_processed.add('lineOfTopLeftPixel')
             outfile.write(' lineOfTopLeftPixel="%s"' % self.gds_format_integer(self.lineOfTopLeftPixel, input_name='lineOfTopLeftPixel'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_SelectSubZoneProperties', fromsubclass_=False, pretty_print=True):
+        pass
+    def to_etree(self, parent_element=None, name_='_SelectSubZoneProperties', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.lineNbSubZone is not None:
+            element.set('lineNbSubZone', self.gds_format_integer(self.lineNbSubZone))
+        if self.columnOfTopLeftPixel is not None:
+            element.set('columnOfTopLeftPixel', self.gds_format_integer(self.columnOfTopLeftPixel))
+        if self.columnNbSubZone is not None:
+            element.set('columnNbSubZone', self.gds_format_integer(self.columnNbSubZone))
+        if self.lineOfTopLeftPixel is not None:
+            element.set('lineOfTopLeftPixel', self.gds_format_integer(self.lineOfTopLeftPixel))
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_SelectSubZoneProperties'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.lineNbSubZone is not None and 'lineNbSubZone' not in already_processed:
+            already_processed.add('lineNbSubZone')
+            showIndent(outfile, level)
+            outfile.write('lineNbSubZone=%d,\n' % (self.lineNbSubZone,))
+        if self.columnOfTopLeftPixel is not None and 'columnOfTopLeftPixel' not in already_processed:
+            already_processed.add('columnOfTopLeftPixel')
+            showIndent(outfile, level)
+            outfile.write('columnOfTopLeftPixel=%d,\n' % (self.columnOfTopLeftPixel,))
+        if self.columnNbSubZone is not None and 'columnNbSubZone' not in already_processed:
+            already_processed.add('columnNbSubZone')
+            showIndent(outfile, level)
+            outfile.write('columnNbSubZone=%d,\n' % (self.columnNbSubZone,))
+        if self.lineOfTopLeftPixel is not None and 'lineOfTopLeftPixel' not in already_processed:
+            already_processed.add('lineOfTopLeftPixel')
+            showIndent(outfile, level)
+            outfile.write('lineOfTopLeftPixel=%d,\n' % (self.lineOfTopLeftPixel,))
+    def exportLiteralChildren(self, outfile, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -1450,6 +1696,53 @@ class _RasterCOSInformation(GeneratedsSuper):
             already_processed.add('nbLiCOS')
             outfile.write(' nbLiCOS="%s"' % self.gds_format_integer(self.nbLiCOS, input_name='nbLiCOS'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_RasterCOSInformation', fromsubclass_=False, pretty_print=True):
+        pass
+    def to_etree(self, parent_element=None, name_='_RasterCOSInformation', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.pixelSizeCol is not None:
+            element.set('pixelSizeCol', self.gds_format_double(self.pixelSizeCol))
+        if self.nbColCOS is not None:
+            element.set('nbColCOS', self.gds_format_integer(self.nbColCOS))
+        if self.pixelSizeLi is not None:
+            element.set('pixelSizeLi', self.gds_format_double(self.pixelSizeLi))
+        if self.pixelByteSizeCOS is not None:
+            element.set('pixelByteSizeCOS', self.gds_format_integer(self.pixelByteSizeCOS))
+        if self.nbLiCOS is not None:
+            element.set('nbLiCOS', self.gds_format_integer(self.nbLiCOS))
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_RasterCOSInformation'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.pixelSizeCol is not None and 'pixelSizeCol' not in already_processed:
+            already_processed.add('pixelSizeCol')
+            showIndent(outfile, level)
+            outfile.write('pixelSizeCol=%e,\n' % (self.pixelSizeCol,))
+        if self.nbColCOS is not None and 'nbColCOS' not in already_processed:
+            already_processed.add('nbColCOS')
+            showIndent(outfile, level)
+            outfile.write('nbColCOS=%d,\n' % (self.nbColCOS,))
+        if self.pixelSizeLi is not None and 'pixelSizeLi' not in already_processed:
+            already_processed.add('pixelSizeLi')
+            showIndent(outfile, level)
+            outfile.write('pixelSizeLi=%e,\n' % (self.pixelSizeLi,))
+        if self.pixelByteSizeCOS is not None and 'pixelByteSizeCOS' not in already_processed:
+            already_processed.add('pixelByteSizeCOS')
+            showIndent(outfile, level)
+            outfile.write('pixelByteSizeCOS=%d,\n' % (self.pixelByteSizeCOS,))
+        if self.nbLiCOS is not None and 'nbLiCOS' not in already_processed:
+            already_processed.add('nbLiCOS')
+            showIndent(outfile, level)
+            outfile.write('nbLiCOS=%d,\n' % (self.nbLiCOS,))
+    def exportLiteralChildren(self, outfile, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -1653,6 +1946,115 @@ class _Plot(GeneratedsSuper):
             self.PlotAirProperties.export(outfile, level, namespaceprefix_, name_='PlotAirProperties', pretty_print=pretty_print)
         if self.PlotWaterProperties is not None:
             self.PlotWaterProperties.export(outfile, level, namespaceprefix_, name_='PlotWaterProperties', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_Plot', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.hidden is not None:
+            element.set('hidden', self.gds_format_integer(self.hidden))
+        if self.repeatedOnBorder is not None:
+            element.set('repeatedOnBorder', self.gds_format_integer(self.repeatedOnBorder))
+        if self.type_ is not None:
+            element.set('type', self.gds_format_integer(self.type_))
+        if self.form is not None:
+            element.set('form', self.gds_format_integer(self.form))
+        if self.isDisplayed is not None:
+            element.set('isDisplayed', self.gds_format_integer(self.isDisplayed))
+        if self.Polygon2D is not None:
+            Polygon2D_ = self.Polygon2D
+            Polygon2D_.to_etree(element, name_='Polygon2D', mapping_=mapping_)
+        if self.Rectangle2D is not None:
+            Rectangle2D_ = self.Rectangle2D
+            Rectangle2D_.to_etree(element, name_='Rectangle2D', mapping_=mapping_)
+        if self.GroundOpticalPropertyLink is not None:
+            GroundOpticalPropertyLink_ = self.GroundOpticalPropertyLink
+            GroundOpticalPropertyLink_.to_etree(element, name_='GroundOpticalPropertyLink', mapping_=mapping_)
+        if self.GroundThermalPropertyLink is not None:
+            GroundThermalPropertyLink_ = self.GroundThermalPropertyLink
+            GroundThermalPropertyLink_.to_etree(element, name_='GroundThermalPropertyLink', mapping_=mapping_)
+        if self.PlotVegetationProperties is not None:
+            PlotVegetationProperties_ = self.PlotVegetationProperties
+            PlotVegetationProperties_.to_etree(element, name_='PlotVegetationProperties', mapping_=mapping_)
+        if self.PlotAirProperties is not None:
+            PlotAirProperties_ = self.PlotAirProperties
+            PlotAirProperties_.to_etree(element, name_='PlotAirProperties', mapping_=mapping_)
+        if self.PlotWaterProperties is not None:
+            PlotWaterProperties_ = self.PlotWaterProperties
+            PlotWaterProperties_.to_etree(element, name_='PlotWaterProperties', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_Plot'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.hidden is not None and 'hidden' not in already_processed:
+            already_processed.add('hidden')
+            showIndent(outfile, level)
+            outfile.write('hidden=%d,\n' % (self.hidden,))
+        if self.repeatedOnBorder is not None and 'repeatedOnBorder' not in already_processed:
+            already_processed.add('repeatedOnBorder')
+            showIndent(outfile, level)
+            outfile.write('repeatedOnBorder=%d,\n' % (self.repeatedOnBorder,))
+        if self.type_ is not None and 'type_' not in already_processed:
+            already_processed.add('type_')
+            showIndent(outfile, level)
+            outfile.write('type_=%d,\n' % (self.type_,))
+        if self.form is not None and 'form' not in already_processed:
+            already_processed.add('form')
+            showIndent(outfile, level)
+            outfile.write('form=%d,\n' % (self.form,))
+        if self.isDisplayed is not None and 'isDisplayed' not in already_processed:
+            already_processed.add('isDisplayed')
+            showIndent(outfile, level)
+            outfile.write('isDisplayed=%d,\n' % (self.isDisplayed,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.Polygon2D is not None:
+            showIndent(outfile, level)
+            outfile.write('Polygon2D=model_._Polygon2D(\n')
+            self.Polygon2D.exportLiteral(outfile, level, name_='Polygon2D')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.Rectangle2D is not None:
+            showIndent(outfile, level)
+            outfile.write('Rectangle2D=model_._Rectangle2D(\n')
+            self.Rectangle2D.exportLiteral(outfile, level, name_='Rectangle2D')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.GroundOpticalPropertyLink is not None:
+            showIndent(outfile, level)
+            outfile.write('GroundOpticalPropertyLink=model_._GroundOpticalPropertyLink(\n')
+            self.GroundOpticalPropertyLink.exportLiteral(outfile, level, name_='GroundOpticalPropertyLink')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.GroundThermalPropertyLink is not None:
+            showIndent(outfile, level)
+            outfile.write('GroundThermalPropertyLink=model_._GroundThermalPropertyLink(\n')
+            self.GroundThermalPropertyLink.exportLiteral(outfile, level, name_='GroundThermalPropertyLink')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.PlotVegetationProperties is not None:
+            showIndent(outfile, level)
+            outfile.write('PlotVegetationProperties=model_._PlotVegetationProperties(\n')
+            self.PlotVegetationProperties.exportLiteral(outfile, level, name_='PlotVegetationProperties')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.PlotAirProperties is not None:
+            showIndent(outfile, level)
+            outfile.write('PlotAirProperties=model_._PlotAirProperties(\n')
+            self.PlotAirProperties.exportLiteral(outfile, level, name_='PlotAirProperties')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.PlotWaterProperties is not None:
+            showIndent(outfile, level)
+            outfile.write('PlotWaterProperties=model_._PlotWaterProperties(\n')
+            self.PlotWaterProperties.exportLiteral(outfile, level, name_='PlotWaterProperties')
+            showIndent(outfile, level)
+            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1801,6 +2203,37 @@ class _Polygon2D(GeneratedsSuper):
             eol_ = ''
         for Point2D_ in self.Point2D:
             Point2D_.export(outfile, level, namespaceprefix_, name_='Point2D', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_Polygon2D', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        for Point2D_ in self.Point2D:
+            Point2D_.to_etree(element, name_='Point2D', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_Polygon2D'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('Point2D=[\n')
+        level += 1
+        for Point2D_ in self.Point2D:
+            showIndent(outfile, level)
+            outfile.write('model_._Point2D(\n')
+            Point2D_.exportLiteral(outfile, level, name_='_Point2D')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1885,6 +2318,35 @@ class _Point2D(GeneratedsSuper):
             already_processed.add('x')
             outfile.write(' x="%s"' % self.gds_format_double(self.x, input_name='x'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_Point2D', fromsubclass_=False, pretty_print=True):
+        pass
+    def to_etree(self, parent_element=None, name_='_Point2D', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.y is not None:
+            element.set('y', self.gds_format_double(self.y))
+        if self.x is not None:
+            element.set('x', self.gds_format_double(self.x))
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_Point2D'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.y is not None and 'y' not in already_processed:
+            already_processed.add('y')
+            showIndent(outfile, level)
+            outfile.write('y=%e,\n' % (self.y,))
+        if self.x is not None and 'x' not in already_processed:
+            already_processed.add('x')
+            showIndent(outfile, level)
+            outfile.write('x=%e,\n' % (self.x,))
+    def exportLiteralChildren(self, outfile, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -1995,6 +2457,53 @@ class _Rectangle2D(GeneratedsSuper):
             already_processed.add('centreY')
             outfile.write(' centreY="%s"' % self.gds_format_double(self.centreY, input_name='centreY'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_Rectangle2D', fromsubclass_=False, pretty_print=True):
+        pass
+    def to_etree(self, parent_element=None, name_='_Rectangle2D', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.coteX is not None:
+            element.set('coteX', self.gds_format_double(self.coteX))
+        if self.coteY is not None:
+            element.set('coteY', self.gds_format_double(self.coteY))
+        if self.intrinsicRotation is not None:
+            element.set('intrinsicRotation', self.gds_format_double(self.intrinsicRotation))
+        if self.centreX is not None:
+            element.set('centreX', self.gds_format_double(self.centreX))
+        if self.centreY is not None:
+            element.set('centreY', self.gds_format_double(self.centreY))
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_Rectangle2D'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.coteX is not None and 'coteX' not in already_processed:
+            already_processed.add('coteX')
+            showIndent(outfile, level)
+            outfile.write('coteX=%e,\n' % (self.coteX,))
+        if self.coteY is not None and 'coteY' not in already_processed:
+            already_processed.add('coteY')
+            showIndent(outfile, level)
+            outfile.write('coteY=%e,\n' % (self.coteY,))
+        if self.intrinsicRotation is not None and 'intrinsicRotation' not in already_processed:
+            already_processed.add('intrinsicRotation')
+            showIndent(outfile, level)
+            outfile.write('intrinsicRotation=%e,\n' % (self.intrinsicRotation,))
+        if self.centreX is not None and 'centreX' not in already_processed:
+            already_processed.add('centreX')
+            showIndent(outfile, level)
+            outfile.write('centreX=%e,\n' % (self.centreX,))
+        if self.centreY is not None and 'centreY' not in already_processed:
+            already_processed.add('centreY')
+            showIndent(outfile, level)
+            outfile.write('centreY=%e,\n' % (self.centreY,))
+    def exportLiteralChildren(self, outfile, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -2118,6 +2627,41 @@ class _GroundOpticalPropertyLink(GeneratedsSuper):
             outfile.write(' type="%s"' % self.gds_format_integer(self.type_, input_name='type'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_GroundOpticalPropertyLink', fromsubclass_=False, pretty_print=True):
         pass
+    def to_etree(self, parent_element=None, name_='_GroundOpticalPropertyLink', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.indexFctPhase is not None:
+            element.set('indexFctPhase', self.gds_format_integer(self.indexFctPhase))
+        if self.ident is not None:
+            element.set('ident', self.gds_format_string(self.ident))
+        if self.type_ is not None:
+            element.set('type', self.gds_format_integer(self.type_))
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_GroundOpticalPropertyLink'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.indexFctPhase is not None and 'indexFctPhase' not in already_processed:
+            already_processed.add('indexFctPhase')
+            showIndent(outfile, level)
+            outfile.write('indexFctPhase=%d,\n' % (self.indexFctPhase,))
+        if self.ident is not None and 'ident' not in already_processed:
+            already_processed.add('ident')
+            showIndent(outfile, level)
+            outfile.write('ident="%s",\n' % (self.ident,))
+        if self.type_ is not None and 'type_' not in already_processed:
+            already_processed.add('type_')
+            showIndent(outfile, level)
+            outfile.write('type_=%d,\n' % (self.type_,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2208,6 +2752,35 @@ class _GroundThermalPropertyLink(GeneratedsSuper):
             already_processed.add('idTemperature')
             outfile.write(' idTemperature=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.idTemperature), input_name='idTemperature')), ))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_GroundThermalPropertyLink', fromsubclass_=False, pretty_print=True):
+        pass
+    def to_etree(self, parent_element=None, name_='_GroundThermalPropertyLink', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.indexTemperature is not None:
+            element.set('indexTemperature', self.gds_format_integer(self.indexTemperature))
+        if self.idTemperature is not None:
+            element.set('idTemperature', self.gds_format_string(self.idTemperature))
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_GroundThermalPropertyLink'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.indexTemperature is not None and 'indexTemperature' not in already_processed:
+            already_processed.add('indexTemperature')
+            showIndent(outfile, level)
+            outfile.write('indexTemperature=%d,\n' % (self.indexTemperature,))
+        if self.idTemperature is not None and 'idTemperature' not in already_processed:
+            already_processed.add('idTemperature')
+            showIndent(outfile, level)
+            outfile.write('idTemperature="%s",\n' % (self.idTemperature,))
+    def exportLiteralChildren(self, outfile, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -2354,6 +2927,103 @@ class _PlotVegetationProperties(GeneratedsSuper):
             self.VegetationOpticalPropertyLink.export(outfile, level, namespaceprefix_, name_='VegetationOpticalPropertyLink', pretty_print=pretty_print)
         if self.GroundThermalPropertyLink is not None:
             self.GroundThermalPropertyLink.export(outfile, level, namespaceprefix_, name_='GroundThermalPropertyLink', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_PlotVegetationProperties', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.verticalFillMode is not None:
+            element.set('verticalFillMode', self.gds_format_integer(self.verticalFillMode))
+        if self.trianglePlotRepresentation is not None:
+            element.set('trianglePlotRepresentation', self.gds_format_integer(self.trianglePlotRepresentation))
+        if self.densityDefinition is not None:
+            element.set('densityDefinition', self.gds_format_integer(self.densityDefinition))
+        if self.MeshPlotRepresentation is not None:
+            MeshPlotRepresentation_ = self.MeshPlotRepresentation
+            MeshPlotRepresentation_.to_etree(element, name_='MeshPlotRepresentation', mapping_=mapping_)
+        if self.VegetationGeometry is not None:
+            VegetationGeometry_ = self.VegetationGeometry
+            VegetationGeometry_.to_etree(element, name_='VegetationGeometry', mapping_=mapping_)
+        if self.VegetationFillGeometry is not None:
+            VegetationFillGeometry_ = self.VegetationFillGeometry
+            VegetationFillGeometry_.to_etree(element, name_='VegetationFillGeometry', mapping_=mapping_)
+        if self.LAIVegetation is not None:
+            LAIVegetation_ = self.LAIVegetation
+            LAIVegetation_.to_etree(element, name_='LAIVegetation', mapping_=mapping_)
+        if self.UFVegetation is not None:
+            UFVegetation_ = self.UFVegetation
+            UFVegetation_.to_etree(element, name_='UFVegetation', mapping_=mapping_)
+        if self.VegetationOpticalPropertyLink is not None:
+            VegetationOpticalPropertyLink_ = self.VegetationOpticalPropertyLink
+            VegetationOpticalPropertyLink_.to_etree(element, name_='VegetationOpticalPropertyLink', mapping_=mapping_)
+        if self.GroundThermalPropertyLink is not None:
+            GroundThermalPropertyLink_ = self.GroundThermalPropertyLink
+            GroundThermalPropertyLink_.to_etree(element, name_='GroundThermalPropertyLink', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_PlotVegetationProperties'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.verticalFillMode is not None and 'verticalFillMode' not in already_processed:
+            already_processed.add('verticalFillMode')
+            showIndent(outfile, level)
+            outfile.write('verticalFillMode=%d,\n' % (self.verticalFillMode,))
+        if self.trianglePlotRepresentation is not None and 'trianglePlotRepresentation' not in already_processed:
+            already_processed.add('trianglePlotRepresentation')
+            showIndent(outfile, level)
+            outfile.write('trianglePlotRepresentation=%d,\n' % (self.trianglePlotRepresentation,))
+        if self.densityDefinition is not None and 'densityDefinition' not in already_processed:
+            already_processed.add('densityDefinition')
+            showIndent(outfile, level)
+            outfile.write('densityDefinition=%d,\n' % (self.densityDefinition,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.MeshPlotRepresentation is not None:
+            showIndent(outfile, level)
+            outfile.write('MeshPlotRepresentation=model_._MeshPlotRepresentation(\n')
+            self.MeshPlotRepresentation.exportLiteral(outfile, level, name_='MeshPlotRepresentation')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.VegetationGeometry is not None:
+            showIndent(outfile, level)
+            outfile.write('VegetationGeometry=model_._VegetationGeometry(\n')
+            self.VegetationGeometry.exportLiteral(outfile, level, name_='VegetationGeometry')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.VegetationFillGeometry is not None:
+            showIndent(outfile, level)
+            outfile.write('VegetationFillGeometry=model_._VegetationFillGeometry(\n')
+            self.VegetationFillGeometry.exportLiteral(outfile, level, name_='VegetationFillGeometry')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.LAIVegetation is not None:
+            showIndent(outfile, level)
+            outfile.write('LAIVegetation=model_._LAIVegetation(\n')
+            self.LAIVegetation.exportLiteral(outfile, level, name_='LAIVegetation')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.UFVegetation is not None:
+            showIndent(outfile, level)
+            outfile.write('UFVegetation=model_._UFVegetation(\n')
+            self.UFVegetation.exportLiteral(outfile, level, name_='UFVegetation')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.VegetationOpticalPropertyLink is not None:
+            showIndent(outfile, level)
+            outfile.write('VegetationOpticalPropertyLink=model_._VegetationOpticalPropertyLink(\n')
+            self.VegetationOpticalPropertyLink.exportLiteral(outfile, level, name_='VegetationOpticalPropertyLink')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.GroundThermalPropertyLink is not None:
+            showIndent(outfile, level)
+            outfile.write('GroundThermalPropertyLink=model_._GroundThermalPropertyLink(\n')
+            self.GroundThermalPropertyLink.exportLiteral(outfile, level, name_='GroundThermalPropertyLink')
+            showIndent(outfile, level)
+            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2499,6 +3169,52 @@ class _MeshPlotRepresentation(GeneratedsSuper):
             self.NumberOfTriangleParameters.export(outfile, level, namespaceprefix_, name_='NumberOfTriangleParameters', pretty_print=pretty_print)
         if self.MeshLeafDimensionParameters is not None:
             self.MeshLeafDimensionParameters.export(outfile, level, namespaceprefix_, name_='MeshLeafDimensionParameters', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_MeshPlotRepresentation', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.distributionMode is not None:
+            element.set('distributionMode', self.gds_format_integer(self.distributionMode))
+        if self.leafDefinition is not None:
+            element.set('leafDefinition', self.gds_format_integer(self.leafDefinition))
+        if self.NumberOfTriangleParameters is not None:
+            NumberOfTriangleParameters_ = self.NumberOfTriangleParameters
+            NumberOfTriangleParameters_.to_etree(element, name_='NumberOfTriangleParameters', mapping_=mapping_)
+        if self.MeshLeafDimensionParameters is not None:
+            MeshLeafDimensionParameters_ = self.MeshLeafDimensionParameters
+            MeshLeafDimensionParameters_.to_etree(element, name_='MeshLeafDimensionParameters', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_MeshPlotRepresentation'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.distributionMode is not None and 'distributionMode' not in already_processed:
+            already_processed.add('distributionMode')
+            showIndent(outfile, level)
+            outfile.write('distributionMode=%d,\n' % (self.distributionMode,))
+        if self.leafDefinition is not None and 'leafDefinition' not in already_processed:
+            already_processed.add('leafDefinition')
+            showIndent(outfile, level)
+            outfile.write('leafDefinition=%d,\n' % (self.leafDefinition,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.NumberOfTriangleParameters is not None:
+            showIndent(outfile, level)
+            outfile.write('NumberOfTriangleParameters=model_._NumberOfTriangleParameters(\n')
+            self.NumberOfTriangleParameters.exportLiteral(outfile, level, name_='NumberOfTriangleParameters')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.MeshLeafDimensionParameters is not None:
+            showIndent(outfile, level)
+            outfile.write('MeshLeafDimensionParameters=model_._MeshLeafDimensionParameters(\n')
+            self.MeshLeafDimensionParameters.exportLiteral(outfile, level, name_='MeshLeafDimensionParameters')
+            showIndent(outfile, level)
+            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2595,6 +3311,29 @@ class _NumberOfTriangleParameters(GeneratedsSuper):
             outfile.write(' nbTriangles="%s"' % self.gds_format_integer(self.nbTriangles, input_name='nbTriangles'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_NumberOfTriangleParameters', fromsubclass_=False, pretty_print=True):
         pass
+    def to_etree(self, parent_element=None, name_='_NumberOfTriangleParameters', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.nbTriangles is not None:
+            element.set('nbTriangles', self.gds_format_integer(self.nbTriangles))
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_NumberOfTriangleParameters'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.nbTriangles is not None and 'nbTriangles' not in already_processed:
+            already_processed.add('nbTriangles')
+            showIndent(outfile, level)
+            outfile.write('nbTriangles=%d,\n' % (self.nbTriangles,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2674,6 +3413,29 @@ class _MeshLeafDimensionParameters(GeneratedsSuper):
             already_processed.add('meshLeafDimension')
             outfile.write(' meshLeafDimension="%s"' % self.gds_format_double(self.meshLeafDimension, input_name='meshLeafDimension'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_MeshLeafDimensionParameters', fromsubclass_=False, pretty_print=True):
+        pass
+    def to_etree(self, parent_element=None, name_='_MeshLeafDimensionParameters', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.meshLeafDimension is not None:
+            element.set('meshLeafDimension', self.gds_format_double(self.meshLeafDimension))
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_MeshLeafDimensionParameters'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.meshLeafDimension is not None and 'meshLeafDimension' not in already_processed:
+            already_processed.add('meshLeafDimension')
+            showIndent(outfile, level)
+            outfile.write('meshLeafDimension=%e,\n' % (self.meshLeafDimension,))
+    def exportLiteralChildren(self, outfile, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -2765,6 +3527,41 @@ class _VegetationGeometry(GeneratedsSuper):
             outfile.write(' stDev="%s"' % self.gds_format_double(self.stDev, input_name='stDev'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_VegetationGeometry', fromsubclass_=False, pretty_print=True):
         pass
+    def to_etree(self, parent_element=None, name_='_VegetationGeometry', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.height is not None:
+            element.set('height', self.gds_format_double(self.height))
+        if self.baseheight is not None:
+            element.set('baseheight', self.gds_format_double(self.baseheight))
+        if self.stDev is not None:
+            element.set('stDev', self.gds_format_double(self.stDev))
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_VegetationGeometry'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.height is not None and 'height' not in already_processed:
+            already_processed.add('height')
+            showIndent(outfile, level)
+            outfile.write('height=%e,\n' % (self.height,))
+        if self.baseheight is not None and 'baseheight' not in already_processed:
+            already_processed.add('baseheight')
+            showIndent(outfile, level)
+            outfile.write('baseheight=%e,\n' % (self.baseheight,))
+        if self.stDev is not None and 'stDev' not in already_processed:
+            already_processed.add('stDev')
+            showIndent(outfile, level)
+            outfile.write('stDev=%e,\n' % (self.stDev,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2854,6 +3651,29 @@ class _VegetationFillGeometry(GeneratedsSuper):
             outfile.write(' topHeight="%s"' % self.gds_format_double(self.topHeight, input_name='topHeight'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_VegetationFillGeometry', fromsubclass_=False, pretty_print=True):
         pass
+    def to_etree(self, parent_element=None, name_='_VegetationFillGeometry', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.topHeight is not None:
+            element.set('topHeight', self.gds_format_double(self.topHeight))
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_VegetationFillGeometry'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.topHeight is not None and 'topHeight' not in already_processed:
+            already_processed.add('topHeight')
+            showIndent(outfile, level)
+            outfile.write('topHeight=%e,\n' % (self.topHeight,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2929,6 +3749,29 @@ class _LAIVegetation(GeneratedsSuper):
             outfile.write(' LAI="%s"' % self.gds_format_double(self.LAI, input_name='LAI'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_LAIVegetation', fromsubclass_=False, pretty_print=True):
         pass
+    def to_etree(self, parent_element=None, name_='_LAIVegetation', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.LAI is not None:
+            element.set('LAI', self.gds_format_double(self.LAI))
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_LAIVegetation'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.LAI is not None and 'LAI' not in already_processed:
+            already_processed.add('LAI')
+            showIndent(outfile, level)
+            outfile.write('LAI=%e,\n' % (self.LAI,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3001,6 +3844,29 @@ class _UFVegetation(GeneratedsSuper):
             already_processed.add('UF')
             outfile.write(' UF="%s"' % self.gds_format_double(self.UF, input_name='UF'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_UFVegetation', fromsubclass_=False, pretty_print=True):
+        pass
+    def to_etree(self, parent_element=None, name_='_UFVegetation', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.UF is not None:
+            element.set('UF', self.gds_format_double(self.UF))
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_UFVegetation'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.UF is not None and 'UF' not in already_processed:
+            already_processed.add('UF')
+            showIndent(outfile, level)
+            outfile.write('UF=%e,\n' % (self.UF,))
+    def exportLiteralChildren(self, outfile, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -3088,6 +3954,35 @@ class _VegetationOpticalPropertyLink(GeneratedsSuper):
             already_processed.add('ident')
             outfile.write(' ident=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.ident), input_name='ident')), ))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_VegetationOpticalPropertyLink', fromsubclass_=False, pretty_print=True):
+        pass
+    def to_etree(self, parent_element=None, name_='_VegetationOpticalPropertyLink', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.indexFctPhase is not None:
+            element.set('indexFctPhase', self.gds_format_integer(self.indexFctPhase))
+        if self.ident is not None:
+            element.set('ident', self.gds_format_string(self.ident))
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_VegetationOpticalPropertyLink'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.indexFctPhase is not None and 'indexFctPhase' not in already_processed:
+            already_processed.add('indexFctPhase')
+            showIndent(outfile, level)
+            outfile.write('indexFctPhase=%d,\n' % (self.indexFctPhase,))
+        if self.ident is not None and 'ident' not in already_processed:
+            already_processed.add('ident')
+            showIndent(outfile, level)
+            outfile.write('ident="%s",\n' % (self.ident,))
+    def exportLiteralChildren(self, outfile, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -3208,6 +4103,75 @@ class _PlotAirProperties(GeneratedsSuper):
             AirOpticalProperties_.export(outfile, level, namespaceprefix_, name_='AirOpticalProperties', pretty_print=pretty_print)
         if self.GroundThermalPropertyLink is not None:
             self.GroundThermalPropertyLink.export(outfile, level, namespaceprefix_, name_='GroundThermalPropertyLink', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_PlotAirProperties', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.verticalFillMode is not None:
+            element.set('verticalFillMode', self.gds_format_integer(self.verticalFillMode))
+        if self.nbParticule is not None:
+            element.set('nbParticule', self.gds_format_integer(self.nbParticule))
+        if self.AirGeometry is not None:
+            AirGeometry_ = self.AirGeometry
+            AirGeometry_.to_etree(element, name_='AirGeometry', mapping_=mapping_)
+        if self.AirFillGeometry is not None:
+            AirFillGeometry_ = self.AirFillGeometry
+            AirFillGeometry_.to_etree(element, name_='AirFillGeometry', mapping_=mapping_)
+        for AirOpticalProperties_ in self.AirOpticalProperties:
+            AirOpticalProperties_.to_etree(element, name_='AirOpticalProperties', mapping_=mapping_)
+        if self.GroundThermalPropertyLink is not None:
+            GroundThermalPropertyLink_ = self.GroundThermalPropertyLink
+            GroundThermalPropertyLink_.to_etree(element, name_='GroundThermalPropertyLink', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_PlotAirProperties'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.verticalFillMode is not None and 'verticalFillMode' not in already_processed:
+            already_processed.add('verticalFillMode')
+            showIndent(outfile, level)
+            outfile.write('verticalFillMode=%d,\n' % (self.verticalFillMode,))
+        if self.nbParticule is not None and 'nbParticule' not in already_processed:
+            already_processed.add('nbParticule')
+            showIndent(outfile, level)
+            outfile.write('nbParticule=%d,\n' % (self.nbParticule,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.AirGeometry is not None:
+            showIndent(outfile, level)
+            outfile.write('AirGeometry=model_._AirGeometry(\n')
+            self.AirGeometry.exportLiteral(outfile, level, name_='AirGeometry')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.AirFillGeometry is not None:
+            showIndent(outfile, level)
+            outfile.write('AirFillGeometry=model_._AirFillGeometry(\n')
+            self.AirFillGeometry.exportLiteral(outfile, level, name_='AirFillGeometry')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        showIndent(outfile, level)
+        outfile.write('AirOpticalProperties=[\n')
+        level += 1
+        for AirOpticalProperties_ in self.AirOpticalProperties:
+            showIndent(outfile, level)
+            outfile.write('model_._AirOpticalProperties(\n')
+            AirOpticalProperties_.exportLiteral(outfile, level, name_='_AirOpticalProperties')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+        if self.GroundThermalPropertyLink is not None:
+            showIndent(outfile, level)
+            outfile.write('GroundThermalPropertyLink=model_._GroundThermalPropertyLink(\n')
+            self.GroundThermalPropertyLink.exportLiteral(outfile, level, name_='GroundThermalPropertyLink')
+            showIndent(outfile, level)
+            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3323,6 +4287,41 @@ class _AirGeometry(GeneratedsSuper):
             outfile.write(' stDev="%s"' % self.gds_format_double(self.stDev, input_name='stDev'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_AirGeometry', fromsubclass_=False, pretty_print=True):
         pass
+    def to_etree(self, parent_element=None, name_='_AirGeometry', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.height is not None:
+            element.set('height', self.gds_format_double(self.height))
+        if self.baseheight is not None:
+            element.set('baseheight', self.gds_format_double(self.baseheight))
+        if self.stDev is not None:
+            element.set('stDev', self.gds_format_double(self.stDev))
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_AirGeometry'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.height is not None and 'height' not in already_processed:
+            already_processed.add('height')
+            showIndent(outfile, level)
+            outfile.write('height=%e,\n' % (self.height,))
+        if self.baseheight is not None and 'baseheight' not in already_processed:
+            already_processed.add('baseheight')
+            showIndent(outfile, level)
+            outfile.write('baseheight=%e,\n' % (self.baseheight,))
+        if self.stDev is not None and 'stDev' not in already_processed:
+            already_processed.add('stDev')
+            showIndent(outfile, level)
+            outfile.write('stDev=%e,\n' % (self.stDev,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3412,6 +4411,29 @@ class _AirFillGeometry(GeneratedsSuper):
             outfile.write(' topHeight="%s"' % self.gds_format_double(self.topHeight, input_name='topHeight'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_AirFillGeometry', fromsubclass_=False, pretty_print=True):
         pass
+    def to_etree(self, parent_element=None, name_='_AirFillGeometry', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.topHeight is not None:
+            element.set('topHeight', self.gds_format_double(self.topHeight))
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_AirFillGeometry'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.topHeight is not None and 'topHeight' not in already_processed:
+            already_processed.add('topHeight')
+            showIndent(outfile, level)
+            outfile.write('topHeight=%e,\n' % (self.topHeight,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3496,6 +4518,37 @@ class _AirOpticalProperties(GeneratedsSuper):
             eol_ = ''
         if self.AirOpticalPropertyLink is not None:
             self.AirOpticalPropertyLink.export(outfile, level, namespaceprefix_, name_='AirOpticalPropertyLink', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_AirOpticalProperties', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.extinctionCoefficient is not None:
+            element.set('extinctionCoefficient', self.gds_format_double(self.extinctionCoefficient))
+        if self.AirOpticalPropertyLink is not None:
+            AirOpticalPropertyLink_ = self.AirOpticalPropertyLink
+            AirOpticalPropertyLink_.to_etree(element, name_='AirOpticalPropertyLink', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_AirOpticalProperties'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.extinctionCoefficient is not None and 'extinctionCoefficient' not in already_processed:
+            already_processed.add('extinctionCoefficient')
+            showIndent(outfile, level)
+            outfile.write('extinctionCoefficient=%e,\n' % (self.extinctionCoefficient,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.AirOpticalPropertyLink is not None:
+            showIndent(outfile, level)
+            outfile.write('AirOpticalPropertyLink=model_._AirOpticalPropertyLink(\n')
+            self.AirOpticalPropertyLink.exportLiteral(outfile, level, name_='AirOpticalPropertyLink')
+            showIndent(outfile, level)
+            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3584,6 +4637,35 @@ class _AirOpticalPropertyLink(GeneratedsSuper):
             already_processed.add('ident')
             outfile.write(' ident=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.ident), input_name='ident')), ))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_AirOpticalPropertyLink', fromsubclass_=False, pretty_print=True):
+        pass
+    def to_etree(self, parent_element=None, name_='_AirOpticalPropertyLink', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.indexFctPhase is not None:
+            element.set('indexFctPhase', self.gds_format_integer(self.indexFctPhase))
+        if self.ident is not None:
+            element.set('ident', self.gds_format_string(self.ident))
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_AirOpticalPropertyLink'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.indexFctPhase is not None and 'indexFctPhase' not in already_processed:
+            already_processed.add('indexFctPhase')
+            showIndent(outfile, level)
+            outfile.write('indexFctPhase=%d,\n' % (self.indexFctPhase,))
+        if self.ident is not None and 'ident' not in already_processed:
+            already_processed.add('ident')
+            showIndent(outfile, level)
+            outfile.write('ident="%s",\n' % (self.ident,))
+    def exportLiteralChildren(self, outfile, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -3703,6 +4785,69 @@ class _PlotWaterProperties(GeneratedsSuper):
             WaterOpticalProperties_.export(outfile, level, namespaceprefix_, name_='WaterOpticalProperties', pretty_print=pretty_print)
         if self.GroundThermalPropertyLink is not None:
             self.GroundThermalPropertyLink.export(outfile, level, namespaceprefix_, name_='GroundThermalPropertyLink', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_PlotWaterProperties', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.nbComponents is not None:
+            element.set('nbComponents', self.gds_format_integer(self.nbComponents))
+        if self.waterDepth is not None:
+            element.set('waterDepth', self.gds_format_double(self.waterDepth))
+        if self.waterHeight is not None:
+            element.set('waterHeight', self.gds_format_double(self.waterHeight))
+        if self.stDev is not None:
+            element.set('stDev', self.gds_format_double(self.stDev))
+        for WaterOpticalProperties_ in self.WaterOpticalProperties:
+            WaterOpticalProperties_.to_etree(element, name_='WaterOpticalProperties', mapping_=mapping_)
+        if self.GroundThermalPropertyLink is not None:
+            GroundThermalPropertyLink_ = self.GroundThermalPropertyLink
+            GroundThermalPropertyLink_.to_etree(element, name_='GroundThermalPropertyLink', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_PlotWaterProperties'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.nbComponents is not None and 'nbComponents' not in already_processed:
+            already_processed.add('nbComponents')
+            showIndent(outfile, level)
+            outfile.write('nbComponents=%d,\n' % (self.nbComponents,))
+        if self.waterDepth is not None and 'waterDepth' not in already_processed:
+            already_processed.add('waterDepth')
+            showIndent(outfile, level)
+            outfile.write('waterDepth=%e,\n' % (self.waterDepth,))
+        if self.waterHeight is not None and 'waterHeight' not in already_processed:
+            already_processed.add('waterHeight')
+            showIndent(outfile, level)
+            outfile.write('waterHeight=%e,\n' % (self.waterHeight,))
+        if self.stDev is not None and 'stDev' not in already_processed:
+            already_processed.add('stDev')
+            showIndent(outfile, level)
+            outfile.write('stDev=%e,\n' % (self.stDev,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('WaterOpticalProperties=[\n')
+        level += 1
+        for WaterOpticalProperties_ in self.WaterOpticalProperties:
+            showIndent(outfile, level)
+            outfile.write('model_._WaterOpticalProperties(\n')
+            WaterOpticalProperties_.exportLiteral(outfile, level, name_='_WaterOpticalProperties')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+        if self.GroundThermalPropertyLink is not None:
+            showIndent(outfile, level)
+            outfile.write('GroundThermalPropertyLink=model_._GroundThermalPropertyLink(\n')
+            self.GroundThermalPropertyLink.exportLiteral(outfile, level, name_='GroundThermalPropertyLink')
+            showIndent(outfile, level)
+            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3816,6 +4961,37 @@ class _WaterOpticalProperties(GeneratedsSuper):
             eol_ = ''
         if self.AirOpticalPropertyLink is not None:
             self.AirOpticalPropertyLink.export(outfile, level, namespaceprefix_, name_='AirOpticalPropertyLink', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_WaterOpticalProperties', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.extinctionCoefficient is not None:
+            element.set('extinctionCoefficient', self.gds_format_double(self.extinctionCoefficient))
+        if self.AirOpticalPropertyLink is not None:
+            AirOpticalPropertyLink_ = self.AirOpticalPropertyLink
+            AirOpticalPropertyLink_.to_etree(element, name_='AirOpticalPropertyLink', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[self] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_WaterOpticalProperties'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.extinctionCoefficient is not None and 'extinctionCoefficient' not in already_processed:
+            already_processed.add('extinctionCoefficient')
+            showIndent(outfile, level)
+            outfile.write('extinctionCoefficient=%e,\n' % (self.extinctionCoefficient,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.AirOpticalPropertyLink is not None:
+            showIndent(outfile, level)
+            outfile.write('AirOpticalPropertyLink=model_._AirOpticalPropertyLink(\n')
+            self.AirOpticalPropertyLink.exportLiteral(outfile, level, name_='AirOpticalPropertyLink')
+            showIndent(outfile, level)
+            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)

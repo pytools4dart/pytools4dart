@@ -27,7 +27,7 @@
 # Exemple du couplage de template + xsd
 # Pour la creation de l'interface python
 # utiliser generateDS.py en ligne de commande
-# python generateDS.py --always-export-default -o ~/git/pytools4dartMTD/pytools4dart/xsdschema/plots_gds.py ~/git/pytools4dartMTD/pytools4dart/xsdschema/plots.xsd
+# python generateDS.py --always-export-default --export "write literal etree" -o ~/git/pytools4dartMTD/pytools4dart/xsdschema/plots_gds.py ~/git/pytools4dartMTD/pytools4dart/xsdschema/plots.xsd
 # Peut-être pouvons nous trouver un moyen de les générer à la volé, i.e. à l'import de pytools4dart...
 # pour creer les template:
 # ptd.xmlwriters.dartxml.write_templates('templates')
@@ -37,6 +37,7 @@ import lxml.etree as etree
 from pytools4dart.xmlwriters.xmlhelpers import indent
 import pandas as pd
 import sys
+import os
 from StringIO import StringIO  # Python2
 # from io import StringIO  # Python3
 
@@ -137,15 +138,19 @@ def update_xsd(xsd_obj, troot):
     return ptd.plots_gds.parseString(etree.tostring(tree), silence=True)
 
 def export_xsd_to_string(xsd_obj):
-    old_stdout = sys.stdout
-    sys.stdout = mystdout = StringIO()
-    plots.export(sys.stdout, level=0)
-    sys.stdout = old_stdout
-    return mystdout.getvalue()
+    return etree.tostring(xsd_obj.to_etree(), pretty_print=True)
+    # old_stdout = sys.stdout
+    # sys.stdout = mystdout = StringIO()
+    # plots.export(sys.stdout, level=0)
+    # sys.stdout = old_stdout
+    # return mystdout.getvalue()
+
+
+
 
 def export_xsd_to_tree(xsd_obj):
-    rroot = etree.fromstring(export_xsd_to_string(xsd_obj))
-    indent(rroot)
+    rroot = xsd_obj.to_etree()
+    # indent(rroot)
     return etree.ElementTree(rroot)
 
 #####
@@ -160,10 +165,13 @@ plots = ptd.plots_gds.DartFile()
 plots = update_xsd(plots, troot)
 
 # ecriture du plots.xml
-export_xsd_to_tree(plots).write('~/plots.xml', encoding="UTF-8", xml_declaration=True)
+export_xsd_to_tree(plots).write(os.path.expanduser('~/plots.xml'),
+                                pretty_print=True,
+                                encoding="UTF-8",
+                                xml_declaration=True)
 
 # lecture d'un fichier plots.xml
-plots = ptd.plots_gds.parse('~/plots.xml', silence=True)
+plots = ptd.plots_gds.parse(os.path.expanduser('~/plots.xml'), silence=True)
 
 # ajout d'un plot par défaut
 plots.Plots.add_Plot(ptd.plots_gds._Plot())
@@ -181,8 +189,14 @@ plots.Plots.Plot[0].set_form(1)
 
 plots = update_xsd(plots, troot)
 
-export_xsd_to_tree(plots).write('~/plots1.xml', encoding="UTF-8", xml_declaration=True)
+# autre methode d'ecriture
+with open(os.path.expanduser('~/plots1.xml'), 'w') as f:
+    plots.export(f, level=0)
 
+export_xsd_to_tree(plots).write(os.path.expanduser('~/plots1.xml'),
+                                pretty_print=True,
+                                encoding="UTF-8",
+                                xml_declaration=True)
 
 
 # from xml.etree import etree as xmletree
