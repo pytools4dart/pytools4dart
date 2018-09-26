@@ -190,9 +190,12 @@ plots.Plots.Plot[0].set_form(1)
 plots = update_xsd(plots, troot)
 
 # autre methode d'ecriture
+# does not write encoding at the begining...
 with open(os.path.expanduser('~/plots1.xml'), 'w') as f:
     plots.export(f, level=0)
 
+# la méthode la plus sure mais peut-être plus longue
+# car conversion en etree au préalable
 export_xsd_to_tree(plots).write(os.path.expanduser('~/plots1.xml'),
                                 pretty_print=True,
                                 encoding="UTF-8",
