@@ -160,10 +160,12 @@ def export_xsd_to_tree(xsd_obj):
 # récupération  du template
 troot = get_template_root('plots')
 
-# creation d'un plots.xml par défaut CL
-plots = ptd.plots_gdsCL.DartFile(templateRootNode = troot)
-with open(os.path.expanduser('~/plotsCL.xml'), 'w') as f:
-    plots.export(f, level=0)
+# creation d'un plots.xml par défaut CL (actions template incluses)
+plotsObj = ptd.plots_gdsCL.DartFile()
+export_xsd_to_tree(plotsObj).write(os.path.expanduser('~/plotsCL.xml'),
+                                 pretty_print=True,
+                                 encoding="UTF-8",
+                                 xml_declaration=True)
 
 # # creation d'un plots.xml par défaut F.D
 # plots = ptd.plots_gds.DartFile()

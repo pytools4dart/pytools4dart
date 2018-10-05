@@ -30,8 +30,12 @@ try:
 except ImportError:
     from xml.etree import ElementTree as etree_
 
-import pytools4dart as ptd
 import pandas as pd
+from os.path import join as pjoin
+import re
+import zipfile
+
+from pytools4dart.settings import getdartenv
 
 Validate_simpletypes_ = True
 if sys.version_info.major == 2:
@@ -757,20 +761,51 @@ class DartFile(GeneratedsSuper):
     subclass = None
     superclass = None
 
-    def __init__(self, version='5.7.1', build_='0', Plots=None, templateRootNode=None):
+    def __init__(self, version='5.7.1', build_='0', Plots=None):
         self.original_tagname_ = None
         self.version = _cast(None, version)
         self.build_ = _cast(None, build_)
         self.Plots = Plots
-        if templateRootNode != None:
-            tree = self.exec_template(templateRootNode)
-            for child in tree.getroot().getchildren():
-                self.buildChildren(child,child.tag)
+        tree = self.exec_template()
+        for child in tree.getroot().getchildren():
+            self.buildChildren(child,child.tag)
+
+    def get_template(self):
+        """
+        Extract DART xml templates from DARTDocument.jar
+
+        Returns
+        -------
+            dict
+
+        """
+        dartenv = getdartenv()
+        jarfile = pjoin(dartenv['DART_HOME'], 'bin', 'DARTDocument.jar')
+
+        with zipfile.ZipFile(jarfile, "r") as j:
+            for s in j.namelist():
+                if (s == 'cesbio/dart/documents/plots/ressources/Template.xml'):
+                    template = j.read(s)
+        return template
+
+    def get_template_root(self):
+        template_string = self.get_template()
+        troot = etree_.fromstring(template_string)
+
+        # remove comments:
+        comments = troot.xpath('//comment()')
+        for c in comments:
+            p = c.getparent()
+            if p is not None:
+                p.remove(c)
+        return troot
+
 
     def export_to_string(self):
         return etree_.tostring(self.to_etree(), pretty_print=True)
 
-    def exec_template(self,troot_node):
+    def exec_template(self):
+        troot_node = self.get_template_root()
         xsd_string = self.export_to_string()
         rroot = etree_.fromstring(xsd_string)
         self.update_node(rroot, troot_node.getchildren()[0])
