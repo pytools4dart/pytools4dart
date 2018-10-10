@@ -52,6 +52,7 @@ def get_template_root():
 # Out[32]: False
 
 
+#Le resultat de cette partie fournit les infos sur les tests qu'il faudrait inclure dans l'instantiation et le build des différents classes des generateDS objects
 template_string = get_template()
 troot = etree.fromstring(template_string)
 #toto = troot.xpath('//comment()')
@@ -62,4 +63,6 @@ for test in tests:
     required_value = test.getparent().get('test').split("==")[1]
     p_value = test.getparent().getparent().get(name)
     eval = (p_value == required_value)
+
+
 

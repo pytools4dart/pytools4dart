@@ -815,7 +815,6 @@ class DartFile(GeneratedsSuper):
         #return etree_.tostring(tree, pretty_print=True)
         #return ptd.plots_gdsCL.parseString(etree_.tostring(tree), silence=True)
 
-
     def update_node(self, rnode, tnode):
         # temp = plots_temp_root
         rchildstags = [c.tag for c in rnode.getchildren()]
@@ -1053,7 +1052,12 @@ class _Plots(GeneratedsSuper):
     def set_ImportationFichierRaster(self, ImportationFichierRaster): self.ImportationFichierRaster = ImportationFichierRaster
     def get_Plot(self): return self.Plot
     def set_Plot(self, Plot): self.Plot = Plot
-    def add_Plot(self, value): self.Plot.append(value)
+    def add_Plot(self, dartFileObj, value):
+        self.Plot.append(value)
+        tplotsNode = dartFileObj.get_template_root().xpath('.//Plots')[0]
+        rplotsNode = dartFileObj.to_etree().xpath('.//Plots')[0]
+        dartFileObj.update_node(rplotsNode, tplotsNode)
+
     def insert_Plot_at(self, index, value): self.Plot.insert(index, value)
     def replace_Plot_at(self, index, value): self.Plot[index] = value
     def get_isVegetation(self): return self.isVegetation
@@ -1998,6 +2002,7 @@ class _Plot(GeneratedsSuper):
         self.PlotVegetationProperties = PlotVegetationProperties
         self.PlotAirProperties = PlotAirProperties
         self.PlotWaterProperties = PlotWaterProperties
+
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(

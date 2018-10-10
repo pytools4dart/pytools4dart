@@ -167,6 +167,11 @@ export_xsd_to_tree(plotsObj).write(os.path.expanduser('~/plotsCL.xml'),
                                  encoding="UTF-8",
                                  xml_declaration=True)
 
+plotsObj.Plots.add_Plot(plotsObj, ptd.plots_gdsCL._Plot())
+tplotsNode = plotsObj.get_template_root().xpath('.//Plots')[0]
+rplotsNode = plotsObj.to_etree().xpath('.//Plots')[0]
+plotsObj.update_node(rplotsNode, tplotsNode)
+
 # # creation d'un plots.xml par défaut F.D
 # plots = ptd.plots_gds.DartFile()
 # plots = update_xsd(plots, troot)
