@@ -2,25 +2,28 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Fri Oct 12 05:02:41 2018 by generateDS.py version 2.29.25.
+# Generated Fri Oct 12 10:30:10 2018 by generateDS.py version 2.29.25.
 # Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
 #
 # Command line options:
 #   ('--always-export-default', '')
 #   ('--export', 'write literal etree')
+#   ('-p', 'create')
 #   ('--post-setter', 'self = update_node(self,self.troot)')
+#   ('--pre-ctor', 'self.troot=get_gs_troot("plots","{classname}")')
+#   ('--post-ctor', 'self = update_node(self,self.troot)')
+#   ('--imports', 'from pytools4dart.xsdschema.utils import get_gs_troot, update_node')
 #   ('-o', '/home/boissieu/Scripts/pytools4dartMTD/pytools4dart/xsdschema/plots_gds.py')
 #
 # Command line arguments:
 #   /home/boissieu/Scripts/pytools4dartMTD/pytools4dart/xsdschema/plots.xsd
 #
 # Command line:
-#   generateDS.py --always-export-default --export="write literal etree" --post-setter="self = update_node(self,self.troot)" -o "/home/boissieu/Scripts/pytools4dartMTD/pytools4dart/xsdschema/plots_gds.py" /home/boissieu/Scripts/pytools4dartMTD/pytools4dart/xsdschema/plots.xsd
+#   generateDS.py --always-export-default --export="write literal etree" -p "create" --post-setter="self = update_node(self,self.troot)" --pre-ctor="self.troot=get_gs_troot("plots","{classname}")" --post-ctor="self = update_node(self,self.troot)" --imports="from pytools4dart.xsdschema.utils import get_gs_troot, update_node" -o "/home/boissieu/Scripts/pytools4dartMTD/pytools4dart/xsdschema/plots_gds.py" /home/boissieu/Scripts/pytools4dartMTD/pytools4dart/xsdschema/plots.xsd
 #
 # Current working directory (os.getcwd()):
 #   generateds
 #
-from pytools4dart.xsdschema.utils import get_gs_troot, update_node
 
 import sys
 import re as re_
@@ -31,6 +34,7 @@ try:
     from lxml import etree as etree_
 except ImportError:
     from xml.etree import ElementTree as etree_
+from pytools4dart.xsdschema.utils import get_gs_troot, update_node
 
 
 Validate_simpletypes_ = True
@@ -725,7 +729,7 @@ def _cast(typ, value):
 #
 
 
-class DartFile(GeneratedsSuper):
+class createDartFile(GeneratedsSuper):
     """Version of the plots.xml file. Depends of the version on DART
     itself. Version of the plots.xml file. Depends of the version on
     DART itself."""
@@ -733,39 +737,39 @@ class DartFile(GeneratedsSuper):
     superclass = None
     def __init__(self, version='5.7.1', build_='0', Plots=None):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', 'DartFile')
+        self.troot=get_gs_troot("plots","DartFile")
         self.attrib = ['version', 'build_']
         self.children = ['Plots']
         self.parent = None
         self.version = _cast(None, version)
         self.build_ = _cast(None, build_)
-        self.Plots = None
-        self.set_Plots(Plots)
+        self.Plots = Plots
         self = update_node(self,self.troot)
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, DartFile)
+                CurrentSubclassModule_, createDartFile)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if DartFile.subclass:
-            return DartFile.subclass(*args_, **kwargs_)
+        if createDartFile.subclass:
+            return createDartFile.subclass(*args_, **kwargs_)
         else:
-            return DartFile(*args_, **kwargs_)
+            return createDartFile(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_Plots(self): return self.Plots
-    def set_Plots(self, Plots):
-        self.Plots = Plots
-        if Plots is not None:
-            self.Plots.parent = self
+    def set_Plots(self, value):
+        if value is not None:
+            value.parent = self
+        self.Plots = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_version(self): return self.version
-    def set_version(self, version):
-        self.version = version
+    def set_version(self, value):
+        self.version = value
         self = update_node(self,self.troot)
     def get_build(self): return self.build_
-    def set_build(self, build_):
-        self.build_ = build_
+    def set_build(self, value):
+        self.build_ = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -864,14 +868,14 @@ class DartFile(GeneratedsSuper):
             self.build_ = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Plots':
-            obj_ = _Plots.factory()
+            obj_ = create_Plots.factory()
             obj_.build(child_)
             self.set_Plots(obj_)
             obj_.original_tagname_ = 'Plots'
-# end class DartFile
+# end class createDartFile
 
 
-class _Plots(GeneratedsSuper):
+class create_Plots(GeneratedsSuper):
     """Contains the description of the working environment for the
     Vegetation module. Contains also the list of the plots for the
     simulation and their optical(s) property(ies). Contains the
@@ -888,16 +892,14 @@ class _Plots(GeneratedsSuper):
     superclass = None
     def __init__(self, isVegetation=0, addExtraPlotsTextFile=0, ExtraPlotsTextFileDefinition=None, ImportationFichierRaster=None, Plot=None):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_Plots')
+        self.troot=get_gs_troot("plots","_Plots")
         self.attrib = ['isVegetation', 'addExtraPlotsTextFile']
         self.children = ['ExtraPlotsTextFileDefinition', 'ImportationFichierRaster', 'Plot']
         self.parent = None
         self.isVegetation = _cast(int, isVegetation)
         self.addExtraPlotsTextFile = _cast(int, addExtraPlotsTextFile)
-        self.ExtraPlotsTextFileDefinition = None
-        self.set_ExtraPlotsTextFileDefinition(ExtraPlotsTextFileDefinition)
-        self.ImportationFichierRaster = None
-        self.set_ImportationFichierRaster(ImportationFichierRaster)
+        self.ExtraPlotsTextFileDefinition = ExtraPlotsTextFileDefinition
+        self.ImportationFichierRaster = ImportationFichierRaster
         if Plot is None:
             self.Plot = []
         else:
@@ -906,31 +908,34 @@ class _Plots(GeneratedsSuper):
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _Plots)
+                CurrentSubclassModule_, create_Plots)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _Plots.subclass:
-            return _Plots.subclass(*args_, **kwargs_)
+        if create_Plots.subclass:
+            return create_Plots.subclass(*args_, **kwargs_)
         else:
-            return _Plots(*args_, **kwargs_)
+            return create_Plots(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_ExtraPlotsTextFileDefinition(self): return self.ExtraPlotsTextFileDefinition
-    def set_ExtraPlotsTextFileDefinition(self, ExtraPlotsTextFileDefinition):
-        self.ExtraPlotsTextFileDefinition = ExtraPlotsTextFileDefinition
-        if ExtraPlotsTextFileDefinition is not None:
-            self.ExtraPlotsTextFileDefinition.parent = self
+    def set_ExtraPlotsTextFileDefinition(self, value):
+        if value is not None:
+            value.parent = self
+        self.ExtraPlotsTextFileDefinition = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_ImportationFichierRaster(self): return self.ImportationFichierRaster
-    def set_ImportationFichierRaster(self, ImportationFichierRaster):
-        self.ImportationFichierRaster = ImportationFichierRaster
-        if ImportationFichierRaster is not None:
-            self.ImportationFichierRaster.parent = self
+    def set_ImportationFichierRaster(self, value):
+        if value is not None:
+            value.parent = self
+        self.ImportationFichierRaster = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_Plot(self): return self.Plot
-    def set_Plot(self, Plot):
-        self.Plot = Plot
-        if Plot is not None:
-            self.Plot.parent = self
+    def set_Plot(self, value):
+        if value is not None:
+            value.parent = self
+        self.Plot = value
+        if value is not None:
             self = update_node(self,self.troot)
     def add_Plot(self, value):
         value.parent = self
@@ -939,16 +944,18 @@ class _Plots(GeneratedsSuper):
     def insert_Plot_at(self, index, value):
         self.Plot.insert(index, value)
         value.parent = self
+        self = update_node(self,self.troot)
     def replace_Plot_at(self, index, value):
         value.parent = self
         self.Plot[index] = value
+        self = update_node(self,self.troot)
     def get_isVegetation(self): return self.isVegetation
-    def set_isVegetation(self, isVegetation):
-        self.isVegetation = isVegetation
+    def set_isVegetation(self, value):
+        self.isVegetation = value
         self = update_node(self,self.troot)
     def get_addExtraPlotsTextFile(self): return self.addExtraPlotsTextFile
-    def set_addExtraPlotsTextFile(self, addExtraPlotsTextFile):
-        self.addExtraPlotsTextFile = addExtraPlotsTextFile
+    def set_addExtraPlotsTextFile(self, value):
+        self.addExtraPlotsTextFile = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -1082,31 +1089,31 @@ class _Plots(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'ExtraPlotsTextFileDefinition':
-            obj_ = _ExtraPlotsTextFileDefinition.factory()
+            obj_ = create_ExtraPlotsTextFileDefinition.factory()
             obj_.build(child_)
             self.set_ExtraPlotsTextFileDefinition(obj_)
             obj_.original_tagname_ = 'ExtraPlotsTextFileDefinition'
         elif nodeName_ == 'ImportationFichierRaster':
-            obj_ = _ImportationFichierRaster.factory()
+            obj_ = create_ImportationFichierRaster.factory()
             obj_.build(child_)
             self.set_ImportationFichierRaster(obj_)
             obj_.original_tagname_ = 'ImportationFichierRaster'
         elif nodeName_ == 'Plot':
-            obj_ = _Plot.factory()
+            obj_ = create_Plot.factory()
             obj_.build(child_)
             self.add_Plot(obj_)
             obj_.original_tagname_ = 'Plot'
-# end class _Plots
+# end class create_Plots
 
 
-class _ExtraPlotsTextFileDefinition(GeneratedsSuper):
+class create_ExtraPlotsTextFileDefinition(GeneratedsSuper):
     """Extra plot file definition Extra plot file definition Path to extra
     plot file Path to extra plot file"""
     subclass = None
     superclass = None
     def __init__(self, extraPlotsFileName='plots.txt'):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_ExtraPlotsTextFileDefinition')
+        self.troot=get_gs_troot("plots","_ExtraPlotsTextFileDefinition")
         self.attrib = ['extraPlotsFileName']
         self.children = ['']
         self.parent = None
@@ -1115,17 +1122,17 @@ class _ExtraPlotsTextFileDefinition(GeneratedsSuper):
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _ExtraPlotsTextFileDefinition)
+                CurrentSubclassModule_, create_ExtraPlotsTextFileDefinition)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _ExtraPlotsTextFileDefinition.subclass:
-            return _ExtraPlotsTextFileDefinition.subclass(*args_, **kwargs_)
+        if create_ExtraPlotsTextFileDefinition.subclass:
+            return create_ExtraPlotsTextFileDefinition.subclass(*args_, **kwargs_)
         else:
-            return _ExtraPlotsTextFileDefinition(*args_, **kwargs_)
+            return create_ExtraPlotsTextFileDefinition(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_extraPlotsFileName(self): return self.extraPlotsFileName
-    def set_extraPlotsFileName(self, extraPlotsFileName):
-        self.extraPlotsFileName = extraPlotsFileName
+    def set_extraPlotsFileName(self, value):
+        self.extraPlotsFileName = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -1197,10 +1204,10 @@ class _ExtraPlotsTextFileDefinition(GeneratedsSuper):
             self.extraPlotsFileName = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class _ExtraPlotsTextFileDefinition
+# end class create_ExtraPlotsTextFileDefinition
 
 
-class _ImportationFichierRaster(GeneratedsSuper):
+class create_ImportationFichierRaster(GeneratedsSuper):
     """Contains the information of the input files for the Vegetation
     module. Contains the information of the input files for the
     Vegetation module."""
@@ -1208,37 +1215,37 @@ class _ImportationFichierRaster(GeneratedsSuper):
     superclass = None
     def __init__(self, VegetationProperties=None, RasterCOSInformation=None):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_ImportationFichierRaster')
+        self.troot=get_gs_troot("plots","_ImportationFichierRaster")
         self.attrib = ['']
         self.children = ['VegetationProperties', 'RasterCOSInformation']
         self.parent = None
-        self.VegetationProperties = None
-        self.set_VegetationProperties(VegetationProperties)
-        self.RasterCOSInformation = None
-        self.set_RasterCOSInformation(RasterCOSInformation)
+        self.VegetationProperties = VegetationProperties
+        self.RasterCOSInformation = RasterCOSInformation
         self = update_node(self,self.troot)
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _ImportationFichierRaster)
+                CurrentSubclassModule_, create_ImportationFichierRaster)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _ImportationFichierRaster.subclass:
-            return _ImportationFichierRaster.subclass(*args_, **kwargs_)
+        if create_ImportationFichierRaster.subclass:
+            return create_ImportationFichierRaster.subclass(*args_, **kwargs_)
         else:
-            return _ImportationFichierRaster(*args_, **kwargs_)
+            return create_ImportationFichierRaster(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_VegetationProperties(self): return self.VegetationProperties
-    def set_VegetationProperties(self, VegetationProperties):
-        self.VegetationProperties = VegetationProperties
-        if VegetationProperties is not None:
-            self.VegetationProperties.parent = self
+    def set_VegetationProperties(self, value):
+        if value is not None:
+            value.parent = self
+        self.VegetationProperties = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_RasterCOSInformation(self): return self.RasterCOSInformation
-    def set_RasterCOSInformation(self, RasterCOSInformation):
-        self.RasterCOSInformation = RasterCOSInformation
-        if RasterCOSInformation is not None:
-            self.RasterCOSInformation.parent = self
+    def set_RasterCOSInformation(self, value):
+        if value is not None:
+            value.parent = self
+        self.RasterCOSInformation = value
+        if value is not None:
             self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -1326,19 +1333,19 @@ class _ImportationFichierRaster(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'VegetationProperties':
-            obj_ = _VegetationProperties.factory()
+            obj_ = create_VegetationProperties.factory()
             obj_.build(child_)
             self.set_VegetationProperties(obj_)
             obj_.original_tagname_ = 'VegetationProperties'
         elif nodeName_ == 'RasterCOSInformation':
-            obj_ = _RasterCOSInformation.factory()
+            obj_ = create_RasterCOSInformation.factory()
             obj_.build(child_)
             self.set_RasterCOSInformation(obj_)
             obj_.original_tagname_ = 'RasterCOSInformation'
-# end class _ImportationFichierRaster
+# end class create_ImportationFichierRaster
 
 
-class _VegetationProperties(GeneratedsSuper):
+class create_VegetationProperties(GeneratedsSuper):
     """Properties of the raster image of the Vegetation module (name,
     number of lines/colunms, type of the pixel ...). Properties of
     the raster image of the Vegetation module (name, number of
@@ -1357,7 +1364,7 @@ class _VegetationProperties(GeneratedsSuper):
     superclass = None
     def __init__(self, selectSubZone=0, coverLandMapFileName='land_cover.mp#', coverLandMapDescFileName='Desc_CoverLandMap.txt', OverwritePlots=1, SelectSubZoneProperties=None):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_VegetationProperties')
+        self.troot=get_gs_troot("plots","_VegetationProperties")
         self.attrib = ['selectSubZone', 'coverLandMapFileName', 'coverLandMapDescFileName', 'OverwritePlots']
         self.children = ['SelectSubZoneProperties']
         self.parent = None
@@ -1365,41 +1372,41 @@ class _VegetationProperties(GeneratedsSuper):
         self.coverLandMapFileName = _cast(None, coverLandMapFileName)
         self.coverLandMapDescFileName = _cast(None, coverLandMapDescFileName)
         self.OverwritePlots = _cast(int, OverwritePlots)
-        self.SelectSubZoneProperties = None
-        self.set_SelectSubZoneProperties(SelectSubZoneProperties)
+        self.SelectSubZoneProperties = SelectSubZoneProperties
         self = update_node(self,self.troot)
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _VegetationProperties)
+                CurrentSubclassModule_, create_VegetationProperties)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _VegetationProperties.subclass:
-            return _VegetationProperties.subclass(*args_, **kwargs_)
+        if create_VegetationProperties.subclass:
+            return create_VegetationProperties.subclass(*args_, **kwargs_)
         else:
-            return _VegetationProperties(*args_, **kwargs_)
+            return create_VegetationProperties(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_SelectSubZoneProperties(self): return self.SelectSubZoneProperties
-    def set_SelectSubZoneProperties(self, SelectSubZoneProperties):
-        self.SelectSubZoneProperties = SelectSubZoneProperties
-        if SelectSubZoneProperties is not None:
-            self.SelectSubZoneProperties.parent = self
+    def set_SelectSubZoneProperties(self, value):
+        if value is not None:
+            value.parent = self
+        self.SelectSubZoneProperties = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_selectSubZone(self): return self.selectSubZone
-    def set_selectSubZone(self, selectSubZone):
-        self.selectSubZone = selectSubZone
+    def set_selectSubZone(self, value):
+        self.selectSubZone = value
         self = update_node(self,self.troot)
     def get_coverLandMapFileName(self): return self.coverLandMapFileName
-    def set_coverLandMapFileName(self, coverLandMapFileName):
-        self.coverLandMapFileName = coverLandMapFileName
+    def set_coverLandMapFileName(self, value):
+        self.coverLandMapFileName = value
         self = update_node(self,self.troot)
     def get_coverLandMapDescFileName(self): return self.coverLandMapDescFileName
-    def set_coverLandMapDescFileName(self, coverLandMapDescFileName):
-        self.coverLandMapDescFileName = coverLandMapDescFileName
+    def set_coverLandMapDescFileName(self, value):
+        self.coverLandMapDescFileName = value
         self = update_node(self,self.troot)
     def get_OverwritePlots(self): return self.OverwritePlots
-    def set_OverwritePlots(self, OverwritePlots):
-        self.OverwritePlots = OverwritePlots
+    def set_OverwritePlots(self, value):
+        self.OverwritePlots = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -1530,14 +1537,14 @@ class _VegetationProperties(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'SelectSubZoneProperties':
-            obj_ = _SelectSubZoneProperties.factory()
+            obj_ = create_SelectSubZoneProperties.factory()
             obj_.build(child_)
             self.set_SelectSubZoneProperties(obj_)
             obj_.original_tagname_ = 'SelectSubZoneProperties'
-# end class _VegetationProperties
+# end class create_VegetationProperties
 
 
-class _SelectSubZoneProperties(GeneratedsSuper):
+class create_SelectSubZoneProperties(GeneratedsSuper):
     """Properties of the sub zone. It's defined by a starting point and a
     number of lines/colunms. Properties of the sub zone. It's
     defined by a starting point and a number of lines/colunms.
@@ -1549,7 +1556,7 @@ class _SelectSubZoneProperties(GeneratedsSuper):
     superclass = None
     def __init__(self, lineNbSubZone=5, columnOfTopLeftPixel=0, columnNbSubZone=5, lineOfTopLeftPixel=0):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_SelectSubZoneProperties')
+        self.troot=get_gs_troot("plots","_SelectSubZoneProperties")
         self.attrib = ['lineNbSubZone', 'columnOfTopLeftPixel', 'columnNbSubZone', 'lineOfTopLeftPixel']
         self.children = ['']
         self.parent = None
@@ -1561,29 +1568,29 @@ class _SelectSubZoneProperties(GeneratedsSuper):
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _SelectSubZoneProperties)
+                CurrentSubclassModule_, create_SelectSubZoneProperties)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _SelectSubZoneProperties.subclass:
-            return _SelectSubZoneProperties.subclass(*args_, **kwargs_)
+        if create_SelectSubZoneProperties.subclass:
+            return create_SelectSubZoneProperties.subclass(*args_, **kwargs_)
         else:
-            return _SelectSubZoneProperties(*args_, **kwargs_)
+            return create_SelectSubZoneProperties(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_lineNbSubZone(self): return self.lineNbSubZone
-    def set_lineNbSubZone(self, lineNbSubZone):
-        self.lineNbSubZone = lineNbSubZone
+    def set_lineNbSubZone(self, value):
+        self.lineNbSubZone = value
         self = update_node(self,self.troot)
     def get_columnOfTopLeftPixel(self): return self.columnOfTopLeftPixel
-    def set_columnOfTopLeftPixel(self, columnOfTopLeftPixel):
-        self.columnOfTopLeftPixel = columnOfTopLeftPixel
+    def set_columnOfTopLeftPixel(self, value):
+        self.columnOfTopLeftPixel = value
         self = update_node(self,self.troot)
     def get_columnNbSubZone(self): return self.columnNbSubZone
-    def set_columnNbSubZone(self, columnNbSubZone):
-        self.columnNbSubZone = columnNbSubZone
+    def set_columnNbSubZone(self, value):
+        self.columnNbSubZone = value
         self = update_node(self,self.troot)
     def get_lineOfTopLeftPixel(self): return self.lineOfTopLeftPixel
-    def set_lineOfTopLeftPixel(self, lineOfTopLeftPixel):
-        self.lineOfTopLeftPixel = lineOfTopLeftPixel
+    def set_lineOfTopLeftPixel(self, value):
+        self.lineOfTopLeftPixel = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -1706,10 +1713,10 @@ class _SelectSubZoneProperties(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class _SelectSubZoneProperties
+# end class create_SelectSubZoneProperties
 
 
-class _RasterCOSInformation(GeneratedsSuper):
+class create_RasterCOSInformation(GeneratedsSuper):
     """Properties of the raster image of the Vegetation module (name,
     number of lines/colunms, type of the pixel ...). Properties of
     the raster image of the Vegetation module (name, number of
@@ -1725,7 +1732,7 @@ class _RasterCOSInformation(GeneratedsSuper):
     superclass = None
     def __init__(self, pixelSizeCol=1, nbColCOS=20, pixelSizeLi=1, pixelByteSizeCOS=1, nbLiCOS=20):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_RasterCOSInformation')
+        self.troot=get_gs_troot("plots","_RasterCOSInformation")
         self.attrib = ['pixelSizeCol', 'nbColCOS', 'pixelSizeLi', 'pixelByteSizeCOS', 'nbLiCOS']
         self.children = ['']
         self.parent = None
@@ -1738,33 +1745,33 @@ class _RasterCOSInformation(GeneratedsSuper):
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _RasterCOSInformation)
+                CurrentSubclassModule_, create_RasterCOSInformation)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _RasterCOSInformation.subclass:
-            return _RasterCOSInformation.subclass(*args_, **kwargs_)
+        if create_RasterCOSInformation.subclass:
+            return create_RasterCOSInformation.subclass(*args_, **kwargs_)
         else:
-            return _RasterCOSInformation(*args_, **kwargs_)
+            return create_RasterCOSInformation(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_pixelSizeCol(self): return self.pixelSizeCol
-    def set_pixelSizeCol(self, pixelSizeCol):
-        self.pixelSizeCol = pixelSizeCol
+    def set_pixelSizeCol(self, value):
+        self.pixelSizeCol = value
         self = update_node(self,self.troot)
     def get_nbColCOS(self): return self.nbColCOS
-    def set_nbColCOS(self, nbColCOS):
-        self.nbColCOS = nbColCOS
+    def set_nbColCOS(self, value):
+        self.nbColCOS = value
         self = update_node(self,self.troot)
     def get_pixelSizeLi(self): return self.pixelSizeLi
-    def set_pixelSizeLi(self, pixelSizeLi):
-        self.pixelSizeLi = pixelSizeLi
+    def set_pixelSizeLi(self, value):
+        self.pixelSizeLi = value
         self = update_node(self,self.troot)
     def get_pixelByteSizeCOS(self): return self.pixelByteSizeCOS
-    def set_pixelByteSizeCOS(self, pixelByteSizeCOS):
-        self.pixelByteSizeCOS = pixelByteSizeCOS
+    def set_pixelByteSizeCOS(self, value):
+        self.pixelByteSizeCOS = value
         self = update_node(self,self.troot)
     def get_nbLiCOS(self): return self.nbLiCOS
-    def set_nbLiCOS(self, nbLiCOS):
-        self.nbLiCOS = nbLiCOS
+    def set_nbLiCOS(self, value):
+        self.nbLiCOS = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -1903,10 +1910,10 @@ class _RasterCOSInformation(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class _RasterCOSInformation
+# end class create_RasterCOSInformation
 
 
-class _Plot(GeneratedsSuper):
+class create_Plot(GeneratedsSuper):
     """Representation of a DART plot. It's defined by its type, a geometric
     property and its optical(s) property(ies). The number of optical
     properties depends of the type of the plot. It can be formed of
@@ -1944,7 +1951,7 @@ class _Plot(GeneratedsSuper):
     superclass = None
     def __init__(self, hidden=0, repeatedOnBorder=1, type_=1, form=0, isDisplayed=1, Polygon2D=None, Rectangle2D=None, GroundOpticalPropertyLink=None, GroundThermalPropertyLink=None, PlotVegetationProperties=None, PlotAirProperties=None, PlotWaterProperties=None):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_Plot')
+        self.troot=get_gs_troot("plots","_Plot")
         self.attrib = ['hidden', 'repeatedOnBorder', 'type_', 'form', 'isDisplayed']
         self.children = ['Polygon2D', 'Rectangle2D', 'GroundOpticalPropertyLink', 'GroundThermalPropertyLink', 'PlotVegetationProperties', 'PlotAirProperties', 'PlotWaterProperties']
         self.parent = None
@@ -1953,93 +1960,93 @@ class _Plot(GeneratedsSuper):
         self.type_ = _cast(int, type_)
         self.form = _cast(int, form)
         self.isDisplayed = _cast(int, isDisplayed)
-        self.Polygon2D = None
-        self.set_Polygon2D(Polygon2D)
-        self.Rectangle2D = None
-        self.set_Rectangle2D(Rectangle2D)
-        self.GroundOpticalPropertyLink = None
-        self.set_GroundOpticalPropertyLink(GroundOpticalPropertyLink)
-        self.GroundThermalPropertyLink = None
-        self.set_GroundThermalPropertyLink(GroundThermalPropertyLink)
-        self.PlotVegetationProperties = None
-        self.set_PlotVegetationProperties(PlotVegetationProperties)
-        self.PlotAirProperties = None
-        self.set_PlotAirProperties(PlotAirProperties)
-        self.PlotWaterProperties = None
-        self.set_PlotWaterProperties(PlotWaterProperties)
+        self.Polygon2D = Polygon2D
+        self.Rectangle2D = Rectangle2D
+        self.GroundOpticalPropertyLink = GroundOpticalPropertyLink
+        self.GroundThermalPropertyLink = GroundThermalPropertyLink
+        self.PlotVegetationProperties = PlotVegetationProperties
+        self.PlotAirProperties = PlotAirProperties
+        self.PlotWaterProperties = PlotWaterProperties
         self = update_node(self,self.troot)
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _Plot)
+                CurrentSubclassModule_, create_Plot)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _Plot.subclass:
-            return _Plot.subclass(*args_, **kwargs_)
+        if create_Plot.subclass:
+            return create_Plot.subclass(*args_, **kwargs_)
         else:
-            return _Plot(*args_, **kwargs_)
+            return create_Plot(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_Polygon2D(self): return self.Polygon2D
-    def set_Polygon2D(self, Polygon2D):
-        self.Polygon2D = Polygon2D
-        if Polygon2D is not None:
-            self.Polygon2D.parent = self
+    def set_Polygon2D(self, value):
+        if value is not None:
+            value.parent = self
+        self.Polygon2D = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_Rectangle2D(self): return self.Rectangle2D
-    def set_Rectangle2D(self, Rectangle2D):
-        self.Rectangle2D = Rectangle2D
-        if Rectangle2D is not None:
-            self.Rectangle2D.parent = self
+    def set_Rectangle2D(self, value):
+        if value is not None:
+            value.parent = self
+        self.Rectangle2D = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_GroundOpticalPropertyLink(self): return self.GroundOpticalPropertyLink
-    def set_GroundOpticalPropertyLink(self, GroundOpticalPropertyLink):
-        self.GroundOpticalPropertyLink = GroundOpticalPropertyLink
-        if GroundOpticalPropertyLink is not None:
-            self.GroundOpticalPropertyLink.parent = self
+    def set_GroundOpticalPropertyLink(self, value):
+        if value is not None:
+            value.parent = self
+        self.GroundOpticalPropertyLink = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_GroundThermalPropertyLink(self): return self.GroundThermalPropertyLink
-    def set_GroundThermalPropertyLink(self, GroundThermalPropertyLink):
-        self.GroundThermalPropertyLink = GroundThermalPropertyLink
-        if GroundThermalPropertyLink is not None:
-            self.GroundThermalPropertyLink.parent = self
+    def set_GroundThermalPropertyLink(self, value):
+        if value is not None:
+            value.parent = self
+        self.GroundThermalPropertyLink = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_PlotVegetationProperties(self): return self.PlotVegetationProperties
-    def set_PlotVegetationProperties(self, PlotVegetationProperties):
-        self.PlotVegetationProperties = PlotVegetationProperties
-        if PlotVegetationProperties is not None:
-            self.PlotVegetationProperties.parent = self
+    def set_PlotVegetationProperties(self, value):
+        if value is not None:
+            value.parent = self
+        self.PlotVegetationProperties = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_PlotAirProperties(self): return self.PlotAirProperties
-    def set_PlotAirProperties(self, PlotAirProperties):
-        self.PlotAirProperties = PlotAirProperties
-        if PlotAirProperties is not None:
-            self.PlotAirProperties.parent = self
+    def set_PlotAirProperties(self, value):
+        if value is not None:
+            value.parent = self
+        self.PlotAirProperties = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_PlotWaterProperties(self): return self.PlotWaterProperties
-    def set_PlotWaterProperties(self, PlotWaterProperties):
-        self.PlotWaterProperties = PlotWaterProperties
-        if PlotWaterProperties is not None:
-            self.PlotWaterProperties.parent = self
+    def set_PlotWaterProperties(self, value):
+        if value is not None:
+            value.parent = self
+        self.PlotWaterProperties = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_hidden(self): return self.hidden
-    def set_hidden(self, hidden):
-        self.hidden = hidden
+    def set_hidden(self, value):
+        self.hidden = value
         self = update_node(self,self.troot)
     def get_repeatedOnBorder(self): return self.repeatedOnBorder
-    def set_repeatedOnBorder(self, repeatedOnBorder):
-        self.repeatedOnBorder = repeatedOnBorder
+    def set_repeatedOnBorder(self, value):
+        self.repeatedOnBorder = value
         self = update_node(self,self.troot)
     def get_type(self): return self.type_
-    def set_type(self, type_):
-        self.type_ = type_
+    def set_type(self, value):
+        self.type_ = value
         self = update_node(self,self.troot)
     def get_form(self): return self.form
-    def set_form(self, form):
-        self.form = form
+    def set_form(self, value):
+        self.form = value
         self = update_node(self,self.troot)
     def get_isDisplayed(self): return self.isDisplayed
-    def set_isDisplayed(self, isDisplayed):
-        self.isDisplayed = isDisplayed
+    def set_isDisplayed(self, value):
+        self.isDisplayed = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -2264,44 +2271,44 @@ class _Plot(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Polygon2D':
-            obj_ = _Polygon2D.factory()
+            obj_ = create_Polygon2D.factory()
             obj_.build(child_)
             self.set_Polygon2D(obj_)
             obj_.original_tagname_ = 'Polygon2D'
         elif nodeName_ == 'Rectangle2D':
-            obj_ = _Rectangle2D.factory()
+            obj_ = create_Rectangle2D.factory()
             obj_.build(child_)
             self.set_Rectangle2D(obj_)
             obj_.original_tagname_ = 'Rectangle2D'
         elif nodeName_ == 'GroundOpticalPropertyLink':
-            obj_ = _GroundOpticalPropertyLink.factory()
+            obj_ = create_GroundOpticalPropertyLink.factory()
             obj_.build(child_)
             self.set_GroundOpticalPropertyLink(obj_)
             obj_.original_tagname_ = 'GroundOpticalPropertyLink'
         elif nodeName_ == 'GroundThermalPropertyLink':
-            obj_ = _GroundThermalPropertyLink.factory()
+            obj_ = create_GroundThermalPropertyLink.factory()
             obj_.build(child_)
             self.set_GroundThermalPropertyLink(obj_)
             obj_.original_tagname_ = 'GroundThermalPropertyLink'
         elif nodeName_ == 'PlotVegetationProperties':
-            obj_ = _PlotVegetationProperties.factory()
+            obj_ = create_PlotVegetationProperties.factory()
             obj_.build(child_)
             self.set_PlotVegetationProperties(obj_)
             obj_.original_tagname_ = 'PlotVegetationProperties'
         elif nodeName_ == 'PlotAirProperties':
-            obj_ = _PlotAirProperties.factory()
+            obj_ = create_PlotAirProperties.factory()
             obj_.build(child_)
             self.set_PlotAirProperties(obj_)
             obj_.original_tagname_ = 'PlotAirProperties'
         elif nodeName_ == 'PlotWaterProperties':
-            obj_ = _PlotWaterProperties.factory()
+            obj_ = create_PlotWaterProperties.factory()
             obj_.build(child_)
             self.set_PlotWaterProperties(obj_)
             obj_.original_tagname_ = 'PlotWaterProperties'
-# end class _Plot
+# end class create_Plot
 
 
-class _Polygon2D(GeneratedsSuper):
+class create_Polygon2D(GeneratedsSuper):
     """Representation of a DART polygon. He's defined by his 4 corners,
     starting form the top left one, and turning anticlockwise.
     Representation of a DART polygon. He's defined by his 4 corners,
@@ -2310,7 +2317,7 @@ class _Polygon2D(GeneratedsSuper):
     superclass = None
     def __init__(self, Point2D=None):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_Polygon2D')
+        self.troot=get_gs_troot("plots","_Polygon2D")
         self.attrib = ['']
         self.children = ['Point2D']
         self.parent = None
@@ -2322,19 +2329,20 @@ class _Polygon2D(GeneratedsSuper):
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _Polygon2D)
+                CurrentSubclassModule_, create_Polygon2D)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _Polygon2D.subclass:
-            return _Polygon2D.subclass(*args_, **kwargs_)
+        if create_Polygon2D.subclass:
+            return create_Polygon2D.subclass(*args_, **kwargs_)
         else:
-            return _Polygon2D(*args_, **kwargs_)
+            return create_Polygon2D(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_Point2D(self): return self.Point2D
-    def set_Point2D(self, Point2D):
-        self.Point2D = Point2D
-        if Point2D is not None:
-            self.Point2D.parent = self
+    def set_Point2D(self, value):
+        if value is not None:
+            value.parent = self
+        self.Point2D = value
+        if value is not None:
             self = update_node(self,self.troot)
     def add_Point2D(self, value):
         value.parent = self
@@ -2343,9 +2351,11 @@ class _Polygon2D(GeneratedsSuper):
     def insert_Point2D_at(self, index, value):
         self.Point2D.insert(index, value)
         value.parent = self
+        self = update_node(self,self.troot)
     def replace_Point2D_at(self, index, value):
         value.parent = self
         self.Point2D[index] = value
+        self = update_node(self,self.troot)
     def hasContent_(self):
         if (
             self.Point2D
@@ -2425,14 +2435,14 @@ class _Polygon2D(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Point2D':
-            obj_ = _Point2D.factory()
+            obj_ = create_Point2D.factory()
             obj_.build(child_)
             self.add_Point2D(obj_)
             obj_.original_tagname_ = 'Point2D'
-# end class _Polygon2D
+# end class create_Polygon2D
 
 
-class _Point2D(GeneratedsSuper):
+class create_Point2D(GeneratedsSuper):
     """Optical properties for a DART soil phase function. Optical
     properties for a DART soil phase function. y coordinate of a
     corner of the quadrilateral that defines the plot. Points are
@@ -2446,7 +2456,7 @@ class _Point2D(GeneratedsSuper):
     superclass = None
     def __init__(self, y=0.00, x=0.00):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_Point2D')
+        self.troot=get_gs_troot("plots","_Point2D")
         self.attrib = ['y', 'x']
         self.children = ['']
         self.parent = None
@@ -2456,21 +2466,21 @@ class _Point2D(GeneratedsSuper):
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _Point2D)
+                CurrentSubclassModule_, create_Point2D)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _Point2D.subclass:
-            return _Point2D.subclass(*args_, **kwargs_)
+        if create_Point2D.subclass:
+            return create_Point2D.subclass(*args_, **kwargs_)
         else:
-            return _Point2D(*args_, **kwargs_)
+            return create_Point2D(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_y(self): return self.y
-    def set_y(self, y):
-        self.y = y
+    def set_y(self, value):
+        self.y = value
         self = update_node(self,self.troot)
     def get_x(self): return self.x
-    def set_x(self, x):
-        self.x = x
+    def set_x(self, value):
+        self.x = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -2561,10 +2571,10 @@ class _Point2D(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (x): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class _Point2D
+# end class create_Point2D
 
 
-class _Rectangle2D(GeneratedsSuper):
+class create_Rectangle2D(GeneratedsSuper):
     """Rectangle2D Rectangle2D Length along X axis (in meters) Length along
     X axis (in meters) Length along Y axis (in meters) Length along
     Y axis (in meters) Rotation around the plot center (in degrees,
@@ -2576,7 +2586,7 @@ class _Rectangle2D(GeneratedsSuper):
     superclass = None
     def __init__(self, coteX=10, coteY=10, intrinsicRotation=0, centreX=5, centreY=5):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_Rectangle2D')
+        self.troot=get_gs_troot("plots","_Rectangle2D")
         self.attrib = ['coteX', 'coteY', 'intrinsicRotation', 'centreX', 'centreY']
         self.children = ['']
         self.parent = None
@@ -2589,33 +2599,33 @@ class _Rectangle2D(GeneratedsSuper):
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _Rectangle2D)
+                CurrentSubclassModule_, create_Rectangle2D)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _Rectangle2D.subclass:
-            return _Rectangle2D.subclass(*args_, **kwargs_)
+        if create_Rectangle2D.subclass:
+            return create_Rectangle2D.subclass(*args_, **kwargs_)
         else:
-            return _Rectangle2D(*args_, **kwargs_)
+            return create_Rectangle2D(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_coteX(self): return self.coteX
-    def set_coteX(self, coteX):
-        self.coteX = coteX
+    def set_coteX(self, value):
+        self.coteX = value
         self = update_node(self,self.troot)
     def get_coteY(self): return self.coteY
-    def set_coteY(self, coteY):
-        self.coteY = coteY
+    def set_coteY(self, value):
+        self.coteY = value
         self = update_node(self,self.troot)
     def get_intrinsicRotation(self): return self.intrinsicRotation
-    def set_intrinsicRotation(self, intrinsicRotation):
-        self.intrinsicRotation = intrinsicRotation
+    def set_intrinsicRotation(self, value):
+        self.intrinsicRotation = value
         self = update_node(self,self.troot)
     def get_centreX(self): return self.centreX
-    def set_centreX(self, centreX):
-        self.centreX = centreX
+    def set_centreX(self, value):
+        self.centreX = value
         self = update_node(self,self.troot)
     def get_centreY(self): return self.centreY
-    def set_centreY(self, centreY):
-        self.centreY = centreY
+    def set_centreY(self, value):
+        self.centreY = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -2754,10 +2764,10 @@ class _Rectangle2D(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (centreY): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class _Rectangle2D
+# end class create_Rectangle2D
 
 
-class _GroundOpticalPropertyLink(GeneratedsSuper):
+class create_GroundOpticalPropertyLink(GeneratedsSuper):
     """Optical properties for a DART soil phase function (name, type and
     index). Optical properties for a DART soil phase function (name,
     type and index). Index of the DART phase function of the ground
@@ -2772,7 +2782,7 @@ class _GroundOpticalPropertyLink(GeneratedsSuper):
     superclass = None
     def __init__(self, indexFctPhase=0, ident='Lambertian_Phase_Function_1', type_=0):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_GroundOpticalPropertyLink')
+        self.troot=get_gs_troot("plots","_GroundOpticalPropertyLink")
         self.attrib = ['indexFctPhase', 'ident', 'type_']
         self.children = ['']
         self.parent = None
@@ -2783,25 +2793,25 @@ class _GroundOpticalPropertyLink(GeneratedsSuper):
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _GroundOpticalPropertyLink)
+                CurrentSubclassModule_, create_GroundOpticalPropertyLink)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _GroundOpticalPropertyLink.subclass:
-            return _GroundOpticalPropertyLink.subclass(*args_, **kwargs_)
+        if create_GroundOpticalPropertyLink.subclass:
+            return create_GroundOpticalPropertyLink.subclass(*args_, **kwargs_)
         else:
-            return _GroundOpticalPropertyLink(*args_, **kwargs_)
+            return create_GroundOpticalPropertyLink(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_indexFctPhase(self): return self.indexFctPhase
-    def set_indexFctPhase(self, indexFctPhase):
-        self.indexFctPhase = indexFctPhase
+    def set_indexFctPhase(self, value):
+        self.indexFctPhase = value
         self = update_node(self,self.troot)
     def get_ident(self): return self.ident
-    def set_ident(self, ident):
-        self.ident = ident
+    def set_ident(self, value):
+        self.ident = value
         self = update_node(self,self.troot)
     def get_type(self): return self.type_
-    def set_type(self, type_):
-        self.type_ = type_
+    def set_type(self, value):
+        self.type_ = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -2905,17 +2915,17 @@ class _GroundOpticalPropertyLink(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class _GroundOpticalPropertyLink
+# end class create_GroundOpticalPropertyLink
 
 
-class _GroundThermalPropertyLink(GeneratedsSuper):
+class create_GroundThermalPropertyLink(GeneratedsSuper):
     """GroundThermalPropertyLink GroundThermalPropertyLink indexTemperature
     indexTemperature Thermal Function ID Thermal Function ID"""
     subclass = None
     superclass = None
     def __init__(self, indexTemperature=0, idTemperature='ThermalFunction290_310'):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_GroundThermalPropertyLink')
+        self.troot=get_gs_troot("plots","_GroundThermalPropertyLink")
         self.attrib = ['indexTemperature', 'idTemperature']
         self.children = ['']
         self.parent = None
@@ -2925,21 +2935,21 @@ class _GroundThermalPropertyLink(GeneratedsSuper):
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _GroundThermalPropertyLink)
+                CurrentSubclassModule_, create_GroundThermalPropertyLink)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _GroundThermalPropertyLink.subclass:
-            return _GroundThermalPropertyLink.subclass(*args_, **kwargs_)
+        if create_GroundThermalPropertyLink.subclass:
+            return create_GroundThermalPropertyLink.subclass(*args_, **kwargs_)
         else:
-            return _GroundThermalPropertyLink(*args_, **kwargs_)
+            return create_GroundThermalPropertyLink(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_indexTemperature(self): return self.indexTemperature
-    def set_indexTemperature(self, indexTemperature):
-        self.indexTemperature = indexTemperature
+    def set_indexTemperature(self, value):
+        self.indexTemperature = value
         self = update_node(self,self.troot)
     def get_idTemperature(self): return self.idTemperature
-    def set_idTemperature(self, idTemperature):
-        self.idTemperature = idTemperature
+    def set_idTemperature(self, value):
+        self.idTemperature = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -3027,10 +3037,10 @@ class _GroundThermalPropertyLink(GeneratedsSuper):
             self.idTemperature = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class _GroundThermalPropertyLink
+# end class create_GroundThermalPropertyLink
 
 
-class _PlotVegetationProperties(GeneratedsSuper):
+class create_PlotVegetationProperties(GeneratedsSuper):
     """Caracteristics of a plot (height of its vegetation, LAI ...).
     Caracteristics of a plot (height of its vegetation, LAI ...).
     Fill everything in the defined area below a given altitude. Fill
@@ -3047,92 +3057,92 @@ class _PlotVegetationProperties(GeneratedsSuper):
     superclass = None
     def __init__(self, verticalFillMode=0, trianglePlotRepresentation=0, densityDefinition=0, MeshPlotRepresentation=None, VegetationGeometry=None, VegetationFillGeometry=None, LAIVegetation=None, UFVegetation=None, VegetationOpticalPropertyLink=None, GroundThermalPropertyLink=None):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_PlotVegetationProperties')
+        self.troot=get_gs_troot("plots","_PlotVegetationProperties")
         self.attrib = ['verticalFillMode', 'trianglePlotRepresentation', 'densityDefinition']
         self.children = ['MeshPlotRepresentation', 'VegetationGeometry', 'VegetationFillGeometry', 'LAIVegetation', 'UFVegetation', 'VegetationOpticalPropertyLink', 'GroundThermalPropertyLink']
         self.parent = None
         self.verticalFillMode = _cast(int, verticalFillMode)
         self.trianglePlotRepresentation = _cast(int, trianglePlotRepresentation)
         self.densityDefinition = _cast(int, densityDefinition)
-        self.MeshPlotRepresentation = None
-        self.set_MeshPlotRepresentation(MeshPlotRepresentation)
-        self.VegetationGeometry = None
-        self.set_VegetationGeometry(VegetationGeometry)
-        self.VegetationFillGeometry = None
-        self.set_VegetationFillGeometry(VegetationFillGeometry)
-        self.LAIVegetation = None
-        self.set_LAIVegetation(LAIVegetation)
-        self.UFVegetation = None
-        self.set_UFVegetation(UFVegetation)
-        self.VegetationOpticalPropertyLink = None
-        self.set_VegetationOpticalPropertyLink(VegetationOpticalPropertyLink)
-        self.GroundThermalPropertyLink = None
-        self.set_GroundThermalPropertyLink(GroundThermalPropertyLink)
+        self.MeshPlotRepresentation = MeshPlotRepresentation
+        self.VegetationGeometry = VegetationGeometry
+        self.VegetationFillGeometry = VegetationFillGeometry
+        self.LAIVegetation = LAIVegetation
+        self.UFVegetation = UFVegetation
+        self.VegetationOpticalPropertyLink = VegetationOpticalPropertyLink
+        self.GroundThermalPropertyLink = GroundThermalPropertyLink
         self = update_node(self,self.troot)
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _PlotVegetationProperties)
+                CurrentSubclassModule_, create_PlotVegetationProperties)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _PlotVegetationProperties.subclass:
-            return _PlotVegetationProperties.subclass(*args_, **kwargs_)
+        if create_PlotVegetationProperties.subclass:
+            return create_PlotVegetationProperties.subclass(*args_, **kwargs_)
         else:
-            return _PlotVegetationProperties(*args_, **kwargs_)
+            return create_PlotVegetationProperties(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_MeshPlotRepresentation(self): return self.MeshPlotRepresentation
-    def set_MeshPlotRepresentation(self, MeshPlotRepresentation):
-        self.MeshPlotRepresentation = MeshPlotRepresentation
-        if MeshPlotRepresentation is not None:
-            self.MeshPlotRepresentation.parent = self
+    def set_MeshPlotRepresentation(self, value):
+        if value is not None:
+            value.parent = self
+        self.MeshPlotRepresentation = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_VegetationGeometry(self): return self.VegetationGeometry
-    def set_VegetationGeometry(self, VegetationGeometry):
-        self.VegetationGeometry = VegetationGeometry
-        if VegetationGeometry is not None:
-            self.VegetationGeometry.parent = self
+    def set_VegetationGeometry(self, value):
+        if value is not None:
+            value.parent = self
+        self.VegetationGeometry = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_VegetationFillGeometry(self): return self.VegetationFillGeometry
-    def set_VegetationFillGeometry(self, VegetationFillGeometry):
-        self.VegetationFillGeometry = VegetationFillGeometry
-        if VegetationFillGeometry is not None:
-            self.VegetationFillGeometry.parent = self
+    def set_VegetationFillGeometry(self, value):
+        if value is not None:
+            value.parent = self
+        self.VegetationFillGeometry = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_LAIVegetation(self): return self.LAIVegetation
-    def set_LAIVegetation(self, LAIVegetation):
-        self.LAIVegetation = LAIVegetation
-        if LAIVegetation is not None:
-            self.LAIVegetation.parent = self
+    def set_LAIVegetation(self, value):
+        if value is not None:
+            value.parent = self
+        self.LAIVegetation = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_UFVegetation(self): return self.UFVegetation
-    def set_UFVegetation(self, UFVegetation):
-        self.UFVegetation = UFVegetation
-        if UFVegetation is not None:
-            self.UFVegetation.parent = self
+    def set_UFVegetation(self, value):
+        if value is not None:
+            value.parent = self
+        self.UFVegetation = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_VegetationOpticalPropertyLink(self): return self.VegetationOpticalPropertyLink
-    def set_VegetationOpticalPropertyLink(self, VegetationOpticalPropertyLink):
-        self.VegetationOpticalPropertyLink = VegetationOpticalPropertyLink
-        if VegetationOpticalPropertyLink is not None:
-            self.VegetationOpticalPropertyLink.parent = self
+    def set_VegetationOpticalPropertyLink(self, value):
+        if value is not None:
+            value.parent = self
+        self.VegetationOpticalPropertyLink = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_GroundThermalPropertyLink(self): return self.GroundThermalPropertyLink
-    def set_GroundThermalPropertyLink(self, GroundThermalPropertyLink):
-        self.GroundThermalPropertyLink = GroundThermalPropertyLink
-        if GroundThermalPropertyLink is not None:
-            self.GroundThermalPropertyLink.parent = self
+    def set_GroundThermalPropertyLink(self, value):
+        if value is not None:
+            value.parent = self
+        self.GroundThermalPropertyLink = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_verticalFillMode(self): return self.verticalFillMode
-    def set_verticalFillMode(self, verticalFillMode):
-        self.verticalFillMode = verticalFillMode
+    def set_verticalFillMode(self, value):
+        self.verticalFillMode = value
         self = update_node(self,self.troot)
     def get_trianglePlotRepresentation(self): return self.trianglePlotRepresentation
-    def set_trianglePlotRepresentation(self, trianglePlotRepresentation):
-        self.trianglePlotRepresentation = trianglePlotRepresentation
+    def set_trianglePlotRepresentation(self, value):
+        self.trianglePlotRepresentation = value
         self = update_node(self,self.troot)
     def get_densityDefinition(self): return self.densityDefinition
-    def set_densityDefinition(self, densityDefinition):
-        self.densityDefinition = densityDefinition
+    def set_densityDefinition(self, value):
+        self.densityDefinition = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -3325,44 +3335,44 @@ class _PlotVegetationProperties(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'MeshPlotRepresentation':
-            obj_ = _MeshPlotRepresentation.factory()
+            obj_ = create_MeshPlotRepresentation.factory()
             obj_.build(child_)
             self.set_MeshPlotRepresentation(obj_)
             obj_.original_tagname_ = 'MeshPlotRepresentation'
         elif nodeName_ == 'VegetationGeometry':
-            obj_ = _VegetationGeometry.factory()
+            obj_ = create_VegetationGeometry.factory()
             obj_.build(child_)
             self.set_VegetationGeometry(obj_)
             obj_.original_tagname_ = 'VegetationGeometry'
         elif nodeName_ == 'VegetationFillGeometry':
-            obj_ = _VegetationFillGeometry.factory()
+            obj_ = create_VegetationFillGeometry.factory()
             obj_.build(child_)
             self.set_VegetationFillGeometry(obj_)
             obj_.original_tagname_ = 'VegetationFillGeometry'
         elif nodeName_ == 'LAIVegetation':
-            obj_ = _LAIVegetation.factory()
+            obj_ = create_LAIVegetation.factory()
             obj_.build(child_)
             self.set_LAIVegetation(obj_)
             obj_.original_tagname_ = 'LAIVegetation'
         elif nodeName_ == 'UFVegetation':
-            obj_ = _UFVegetation.factory()
+            obj_ = create_UFVegetation.factory()
             obj_.build(child_)
             self.set_UFVegetation(obj_)
             obj_.original_tagname_ = 'UFVegetation'
         elif nodeName_ == 'VegetationOpticalPropertyLink':
-            obj_ = _VegetationOpticalPropertyLink.factory()
+            obj_ = create_VegetationOpticalPropertyLink.factory()
             obj_.build(child_)
             self.set_VegetationOpticalPropertyLink(obj_)
             obj_.original_tagname_ = 'VegetationOpticalPropertyLink'
         elif nodeName_ == 'GroundThermalPropertyLink':
-            obj_ = _GroundThermalPropertyLink.factory()
+            obj_ = create_GroundThermalPropertyLink.factory()
             obj_.build(child_)
             self.set_GroundThermalPropertyLink(obj_)
             obj_.original_tagname_ = 'GroundThermalPropertyLink'
-# end class _PlotVegetationProperties
+# end class create_PlotVegetationProperties
 
 
-class _MeshPlotRepresentation(GeneratedsSuper):
+class create_MeshPlotRepresentation(GeneratedsSuper):
     """Defines how the leaves are geometrically distributed in the crown.
     Defines how the leaves are geometrically distributed in the
     crown. Definition of the leaves geometry and numbers. Definition
@@ -3371,47 +3381,47 @@ class _MeshPlotRepresentation(GeneratedsSuper):
     superclass = None
     def __init__(self, distributionMode=0, leafDefinition=1, NumberOfTriangleParameters=None, MeshLeafDimensionParameters=None):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_MeshPlotRepresentation')
+        self.troot=get_gs_troot("plots","_MeshPlotRepresentation")
         self.attrib = ['distributionMode', 'leafDefinition']
         self.children = ['NumberOfTriangleParameters', 'MeshLeafDimensionParameters']
         self.parent = None
         self.distributionMode = _cast(int, distributionMode)
         self.leafDefinition = _cast(int, leafDefinition)
-        self.NumberOfTriangleParameters = None
-        self.set_NumberOfTriangleParameters(NumberOfTriangleParameters)
-        self.MeshLeafDimensionParameters = None
-        self.set_MeshLeafDimensionParameters(MeshLeafDimensionParameters)
+        self.NumberOfTriangleParameters = NumberOfTriangleParameters
+        self.MeshLeafDimensionParameters = MeshLeafDimensionParameters
         self = update_node(self,self.troot)
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _MeshPlotRepresentation)
+                CurrentSubclassModule_, create_MeshPlotRepresentation)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _MeshPlotRepresentation.subclass:
-            return _MeshPlotRepresentation.subclass(*args_, **kwargs_)
+        if create_MeshPlotRepresentation.subclass:
+            return create_MeshPlotRepresentation.subclass(*args_, **kwargs_)
         else:
-            return _MeshPlotRepresentation(*args_, **kwargs_)
+            return create_MeshPlotRepresentation(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_NumberOfTriangleParameters(self): return self.NumberOfTriangleParameters
-    def set_NumberOfTriangleParameters(self, NumberOfTriangleParameters):
-        self.NumberOfTriangleParameters = NumberOfTriangleParameters
-        if NumberOfTriangleParameters is not None:
-            self.NumberOfTriangleParameters.parent = self
+    def set_NumberOfTriangleParameters(self, value):
+        if value is not None:
+            value.parent = self
+        self.NumberOfTriangleParameters = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_MeshLeafDimensionParameters(self): return self.MeshLeafDimensionParameters
-    def set_MeshLeafDimensionParameters(self, MeshLeafDimensionParameters):
-        self.MeshLeafDimensionParameters = MeshLeafDimensionParameters
-        if MeshLeafDimensionParameters is not None:
-            self.MeshLeafDimensionParameters.parent = self
+    def set_MeshLeafDimensionParameters(self, value):
+        if value is not None:
+            value.parent = self
+        self.MeshLeafDimensionParameters = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_distributionMode(self): return self.distributionMode
-    def set_distributionMode(self, distributionMode):
-        self.distributionMode = distributionMode
+    def set_distributionMode(self, value):
+        self.distributionMode = value
         self = update_node(self,self.troot)
     def get_leafDefinition(self): return self.leafDefinition
-    def set_leafDefinition(self, leafDefinition):
-        self.leafDefinition = leafDefinition
+    def set_leafDefinition(self, value):
+        self.leafDefinition = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -3528,19 +3538,19 @@ class _MeshPlotRepresentation(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'NumberOfTriangleParameters':
-            obj_ = _NumberOfTriangleParameters.factory()
+            obj_ = create_NumberOfTriangleParameters.factory()
             obj_.build(child_)
             self.set_NumberOfTriangleParameters(obj_)
             obj_.original_tagname_ = 'NumberOfTriangleParameters'
         elif nodeName_ == 'MeshLeafDimensionParameters':
-            obj_ = _MeshLeafDimensionParameters.factory()
+            obj_ = create_MeshLeafDimensionParameters.factory()
             obj_.build(child_)
             self.set_MeshLeafDimensionParameters(obj_)
             obj_.original_tagname_ = 'MeshLeafDimensionParameters'
-# end class _MeshPlotRepresentation
+# end class create_MeshPlotRepresentation
 
 
-class _NumberOfTriangleParameters(GeneratedsSuper):
+class create_NumberOfTriangleParameters(GeneratedsSuper):
     """Fix the number of leaves/triangles of the plot. The leaf area will
     then be the total area of leaves in the plot divided by this
     number. The real effective number generated may vary due to
@@ -3553,7 +3563,7 @@ class _NumberOfTriangleParameters(GeneratedsSuper):
     superclass = None
     def __init__(self, nbTriangles=10000):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_NumberOfTriangleParameters')
+        self.troot=get_gs_troot("plots","_NumberOfTriangleParameters")
         self.attrib = ['nbTriangles']
         self.children = ['']
         self.parent = None
@@ -3562,17 +3572,17 @@ class _NumberOfTriangleParameters(GeneratedsSuper):
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _NumberOfTriangleParameters)
+                CurrentSubclassModule_, create_NumberOfTriangleParameters)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _NumberOfTriangleParameters.subclass:
-            return _NumberOfTriangleParameters.subclass(*args_, **kwargs_)
+        if create_NumberOfTriangleParameters.subclass:
+            return create_NumberOfTriangleParameters.subclass(*args_, **kwargs_)
         else:
-            return _NumberOfTriangleParameters(*args_, **kwargs_)
+            return create_NumberOfTriangleParameters(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_nbTriangles(self): return self.nbTriangles
-    def set_nbTriangles(self, nbTriangles):
-        self.nbTriangles = nbTriangles
+    def set_nbTriangles(self, value):
+        self.nbTriangles = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -3647,10 +3657,10 @@ class _NumberOfTriangleParameters(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class _NumberOfTriangleParameters
+# end class create_NumberOfTriangleParameters
 
 
-class _MeshLeafDimensionParameters(GeneratedsSuper):
+class create_MeshLeafDimensionParameters(GeneratedsSuper):
     """Area of each individual leaf/triangle. The number of
     leaves/triangles will then be the total area of leaves in the
     plot divided by this number. The real effective number generated
@@ -3663,7 +3673,7 @@ class _MeshLeafDimensionParameters(GeneratedsSuper):
     superclass = None
     def __init__(self, meshLeafDimension=0.003):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_MeshLeafDimensionParameters')
+        self.troot=get_gs_troot("plots","_MeshLeafDimensionParameters")
         self.attrib = ['meshLeafDimension']
         self.children = ['']
         self.parent = None
@@ -3672,17 +3682,17 @@ class _MeshLeafDimensionParameters(GeneratedsSuper):
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _MeshLeafDimensionParameters)
+                CurrentSubclassModule_, create_MeshLeafDimensionParameters)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _MeshLeafDimensionParameters.subclass:
-            return _MeshLeafDimensionParameters.subclass(*args_, **kwargs_)
+        if create_MeshLeafDimensionParameters.subclass:
+            return create_MeshLeafDimensionParameters.subclass(*args_, **kwargs_)
         else:
-            return _MeshLeafDimensionParameters(*args_, **kwargs_)
+            return create_MeshLeafDimensionParameters(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_meshLeafDimension(self): return self.meshLeafDimension
-    def set_meshLeafDimension(self, meshLeafDimension):
-        self.meshLeafDimension = meshLeafDimension
+    def set_meshLeafDimension(self, value):
+        self.meshLeafDimension = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -3757,10 +3767,10 @@ class _MeshLeafDimensionParameters(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (meshLeafDimension): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class _MeshLeafDimensionParameters
+# end class create_MeshLeafDimensionParameters
 
 
-class _VegetationGeometry(GeneratedsSuper):
+class create_VegetationGeometry(GeneratedsSuper):
     """Thickness of the vegetation layer Thickness of the vegetation layer
     Altitude in meter of the base of the vegetation above the ground
     of the plot. Altitude in meter of the base of the vegetation
@@ -3771,7 +3781,7 @@ class _VegetationGeometry(GeneratedsSuper):
     superclass = None
     def __init__(self, height=1.0, baseheight=0, stDev=0.0):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_VegetationGeometry')
+        self.troot=get_gs_troot("plots","_VegetationGeometry")
         self.attrib = ['height', 'baseheight', 'stDev']
         self.children = ['']
         self.parent = None
@@ -3782,25 +3792,25 @@ class _VegetationGeometry(GeneratedsSuper):
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _VegetationGeometry)
+                CurrentSubclassModule_, create_VegetationGeometry)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _VegetationGeometry.subclass:
-            return _VegetationGeometry.subclass(*args_, **kwargs_)
+        if create_VegetationGeometry.subclass:
+            return create_VegetationGeometry.subclass(*args_, **kwargs_)
         else:
-            return _VegetationGeometry(*args_, **kwargs_)
+            return create_VegetationGeometry(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_height(self): return self.height
-    def set_height(self, height):
-        self.height = height
+    def set_height(self, value):
+        self.height = value
         self = update_node(self,self.troot)
     def get_baseheight(self): return self.baseheight
-    def set_baseheight(self, baseheight):
-        self.baseheight = baseheight
+    def set_baseheight(self, value):
+        self.baseheight = value
         self = update_node(self,self.troot)
     def get_stDev(self): return self.stDev
-    def set_stDev(self, stDev):
-        self.stDev = stDev
+    def set_stDev(self, value):
+        self.stDev = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -3907,10 +3917,10 @@ class _VegetationGeometry(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (stDev): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class _VegetationGeometry
+# end class create_VegetationGeometry
 
 
-class _VegetationFillGeometry(GeneratedsSuper):
+class create_VegetationFillGeometry(GeneratedsSuper):
     """Altitude up to which the plot fill the scene, stating from the
     bottom of the scene Altitude up to which the plot fill the
     scene, stating from the bottom of the scene"""
@@ -3918,7 +3928,7 @@ class _VegetationFillGeometry(GeneratedsSuper):
     superclass = None
     def __init__(self, topHeight=1.0):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_VegetationFillGeometry')
+        self.troot=get_gs_troot("plots","_VegetationFillGeometry")
         self.attrib = ['topHeight']
         self.children = ['']
         self.parent = None
@@ -3927,17 +3937,17 @@ class _VegetationFillGeometry(GeneratedsSuper):
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _VegetationFillGeometry)
+                CurrentSubclassModule_, create_VegetationFillGeometry)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _VegetationFillGeometry.subclass:
-            return _VegetationFillGeometry.subclass(*args_, **kwargs_)
+        if create_VegetationFillGeometry.subclass:
+            return create_VegetationFillGeometry.subclass(*args_, **kwargs_)
         else:
-            return _VegetationFillGeometry(*args_, **kwargs_)
+            return create_VegetationFillGeometry(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_topHeight(self): return self.topHeight
-    def set_topHeight(self, topHeight):
-        self.topHeight = topHeight
+    def set_topHeight(self, value):
+        self.topHeight = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -4012,10 +4022,10 @@ class _VegetationFillGeometry(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (topHeight): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class _VegetationFillGeometry
+# end class create_VegetationFillGeometry
 
 
-class _LAIVegetation(GeneratedsSuper):
+class create_LAIVegetation(GeneratedsSuper):
     """Leaf Area Index: total leaf area in the plot divided by the scene
     area. Leaf Area Index: total leaf area in the plot divided by
     the scene area."""
@@ -4023,7 +4033,7 @@ class _LAIVegetation(GeneratedsSuper):
     superclass = None
     def __init__(self, LAI=1.0):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_LAIVegetation')
+        self.troot=get_gs_troot("plots","_LAIVegetation")
         self.attrib = ['LAI']
         self.children = ['']
         self.parent = None
@@ -4032,17 +4042,17 @@ class _LAIVegetation(GeneratedsSuper):
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _LAIVegetation)
+                CurrentSubclassModule_, create_LAIVegetation)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _LAIVegetation.subclass:
-            return _LAIVegetation.subclass(*args_, **kwargs_)
+        if create_LAIVegetation.subclass:
+            return create_LAIVegetation.subclass(*args_, **kwargs_)
         else:
-            return _LAIVegetation(*args_, **kwargs_)
+            return create_LAIVegetation(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_LAI(self): return self.LAI
-    def set_LAI(self, LAI):
-        self.LAI = LAI
+    def set_LAI(self, value):
+        self.LAI = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -4117,16 +4127,16 @@ class _LAIVegetation(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (LAI): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class _LAIVegetation
+# end class create_LAIVegetation
 
 
-class _UFVegetation(GeneratedsSuper):
+class create_UFVegetation(GeneratedsSuper):
     """Ul Ul"""
     subclass = None
     superclass = None
     def __init__(self, UF=1.0):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_UFVegetation')
+        self.troot=get_gs_troot("plots","_UFVegetation")
         self.attrib = ['UF']
         self.children = ['']
         self.parent = None
@@ -4135,17 +4145,17 @@ class _UFVegetation(GeneratedsSuper):
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _UFVegetation)
+                CurrentSubclassModule_, create_UFVegetation)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _UFVegetation.subclass:
-            return _UFVegetation.subclass(*args_, **kwargs_)
+        if create_UFVegetation.subclass:
+            return create_UFVegetation.subclass(*args_, **kwargs_)
         else:
-            return _UFVegetation(*args_, **kwargs_)
+            return create_UFVegetation(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_UF(self): return self.UF
-    def set_UF(self, UF):
-        self.UF = UF
+    def set_UF(self, value):
+        self.UF = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -4220,10 +4230,10 @@ class _UFVegetation(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (UF): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class _UFVegetation
+# end class create_UFVegetation
 
 
-class _VegetationOpticalPropertyLink(GeneratedsSuper):
+class create_VegetationOpticalPropertyLink(GeneratedsSuper):
     """Optical properties for a DART vegetation phase function (name, type
     and index). Optical properties for a DART vegetation phase
     function (name, type and index). Index of the DART phase
@@ -4237,7 +4247,7 @@ class _VegetationOpticalPropertyLink(GeneratedsSuper):
     superclass = None
     def __init__(self, indexFctPhase=0, ident='Turbid_Leaf_Deciduous_Phase_Function'):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_VegetationOpticalPropertyLink')
+        self.troot=get_gs_troot("plots","_VegetationOpticalPropertyLink")
         self.attrib = ['indexFctPhase', 'ident']
         self.children = ['']
         self.parent = None
@@ -4247,21 +4257,21 @@ class _VegetationOpticalPropertyLink(GeneratedsSuper):
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _VegetationOpticalPropertyLink)
+                CurrentSubclassModule_, create_VegetationOpticalPropertyLink)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _VegetationOpticalPropertyLink.subclass:
-            return _VegetationOpticalPropertyLink.subclass(*args_, **kwargs_)
+        if create_VegetationOpticalPropertyLink.subclass:
+            return create_VegetationOpticalPropertyLink.subclass(*args_, **kwargs_)
         else:
-            return _VegetationOpticalPropertyLink(*args_, **kwargs_)
+            return create_VegetationOpticalPropertyLink(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_indexFctPhase(self): return self.indexFctPhase
-    def set_indexFctPhase(self, indexFctPhase):
-        self.indexFctPhase = indexFctPhase
+    def set_indexFctPhase(self, value):
+        self.indexFctPhase = value
         self = update_node(self,self.troot)
     def get_ident(self): return self.ident
-    def set_ident(self, ident):
-        self.ident = ident
+    def set_ident(self, value):
+        self.ident = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -4349,10 +4359,10 @@ class _VegetationOpticalPropertyLink(GeneratedsSuper):
             self.ident = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class _VegetationOpticalPropertyLink
+# end class create_VegetationOpticalPropertyLink
 
 
-class _PlotAirProperties(GeneratedsSuper):
+class create_PlotAirProperties(GeneratedsSuper):
     """PlotAirProperties PlotAirProperties Fill everything in the defined
     area below a given altitude. Fill everything in the defined area
     below a given altitude. Number of gas/particles in the air plot.
@@ -4361,51 +4371,51 @@ class _PlotAirProperties(GeneratedsSuper):
     superclass = None
     def __init__(self, verticalFillMode=0, nbParticule=1, AirGeometry=None, AirFillGeometry=None, AirOpticalProperties=None, GroundThermalPropertyLink=None):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_PlotAirProperties')
+        self.troot=get_gs_troot("plots","_PlotAirProperties")
         self.attrib = ['verticalFillMode', 'nbParticule']
         self.children = ['AirGeometry', 'AirFillGeometry', 'AirOpticalProperties', 'GroundThermalPropertyLink']
         self.parent = None
         self.verticalFillMode = _cast(int, verticalFillMode)
         self.nbParticule = _cast(int, nbParticule)
-        self.AirGeometry = None
-        self.set_AirGeometry(AirGeometry)
-        self.AirFillGeometry = None
-        self.set_AirFillGeometry(AirFillGeometry)
+        self.AirGeometry = AirGeometry
+        self.AirFillGeometry = AirFillGeometry
         if AirOpticalProperties is None:
             self.AirOpticalProperties = []
         else:
             self.AirOpticalProperties = AirOpticalProperties
-        self.GroundThermalPropertyLink = None
-        self.set_GroundThermalPropertyLink(GroundThermalPropertyLink)
+        self.GroundThermalPropertyLink = GroundThermalPropertyLink
         self = update_node(self,self.troot)
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _PlotAirProperties)
+                CurrentSubclassModule_, create_PlotAirProperties)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _PlotAirProperties.subclass:
-            return _PlotAirProperties.subclass(*args_, **kwargs_)
+        if create_PlotAirProperties.subclass:
+            return create_PlotAirProperties.subclass(*args_, **kwargs_)
         else:
-            return _PlotAirProperties(*args_, **kwargs_)
+            return create_PlotAirProperties(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_AirGeometry(self): return self.AirGeometry
-    def set_AirGeometry(self, AirGeometry):
-        self.AirGeometry = AirGeometry
-        if AirGeometry is not None:
-            self.AirGeometry.parent = self
+    def set_AirGeometry(self, value):
+        if value is not None:
+            value.parent = self
+        self.AirGeometry = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_AirFillGeometry(self): return self.AirFillGeometry
-    def set_AirFillGeometry(self, AirFillGeometry):
-        self.AirFillGeometry = AirFillGeometry
-        if AirFillGeometry is not None:
-            self.AirFillGeometry.parent = self
+    def set_AirFillGeometry(self, value):
+        if value is not None:
+            value.parent = self
+        self.AirFillGeometry = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_AirOpticalProperties(self): return self.AirOpticalProperties
-    def set_AirOpticalProperties(self, AirOpticalProperties):
-        self.AirOpticalProperties = AirOpticalProperties
-        if AirOpticalProperties is not None:
-            self.AirOpticalProperties.parent = self
+    def set_AirOpticalProperties(self, value):
+        if value is not None:
+            value.parent = self
+        self.AirOpticalProperties = value
+        if value is not None:
             self = update_node(self,self.troot)
     def add_AirOpticalProperties(self, value):
         value.parent = self
@@ -4414,22 +4424,25 @@ class _PlotAirProperties(GeneratedsSuper):
     def insert_AirOpticalProperties_at(self, index, value):
         self.AirOpticalProperties.insert(index, value)
         value.parent = self
+        self = update_node(self,self.troot)
     def replace_AirOpticalProperties_at(self, index, value):
         value.parent = self
         self.AirOpticalProperties[index] = value
+        self = update_node(self,self.troot)
     def get_GroundThermalPropertyLink(self): return self.GroundThermalPropertyLink
-    def set_GroundThermalPropertyLink(self, GroundThermalPropertyLink):
-        self.GroundThermalPropertyLink = GroundThermalPropertyLink
-        if GroundThermalPropertyLink is not None:
-            self.GroundThermalPropertyLink.parent = self
+    def set_GroundThermalPropertyLink(self, value):
+        if value is not None:
+            value.parent = self
+        self.GroundThermalPropertyLink = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_verticalFillMode(self): return self.verticalFillMode
-    def set_verticalFillMode(self, verticalFillMode):
-        self.verticalFillMode = verticalFillMode
+    def set_verticalFillMode(self, value):
+        self.verticalFillMode = value
         self = update_node(self,self.troot)
     def get_nbParticule(self): return self.nbParticule
-    def set_nbParticule(self, nbParticule):
-        self.nbParticule = nbParticule
+    def set_nbParticule(self, value):
+        self.nbParticule = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -4575,29 +4588,29 @@ class _PlotAirProperties(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'AirGeometry':
-            obj_ = _AirGeometry.factory()
+            obj_ = create_AirGeometry.factory()
             obj_.build(child_)
             self.set_AirGeometry(obj_)
             obj_.original_tagname_ = 'AirGeometry'
         elif nodeName_ == 'AirFillGeometry':
-            obj_ = _AirFillGeometry.factory()
+            obj_ = create_AirFillGeometry.factory()
             obj_.build(child_)
             self.set_AirFillGeometry(obj_)
             obj_.original_tagname_ = 'AirFillGeometry'
         elif nodeName_ == 'AirOpticalProperties':
-            obj_ = _AirOpticalProperties.factory()
+            obj_ = create_AirOpticalProperties.factory()
             obj_.build(child_)
             self.add_AirOpticalProperties(obj_)
             obj_.original_tagname_ = 'AirOpticalProperties'
         elif nodeName_ == 'GroundThermalPropertyLink':
-            obj_ = _GroundThermalPropertyLink.factory()
+            obj_ = create_GroundThermalPropertyLink.factory()
             obj_.build(child_)
             self.set_GroundThermalPropertyLink(obj_)
             obj_.original_tagname_ = 'GroundThermalPropertyLink'
-# end class _PlotAirProperties
+# end class create_PlotAirProperties
 
 
-class _AirGeometry(GeneratedsSuper):
+class create_AirGeometry(GeneratedsSuper):
     """Thickness of the air layer Thickness of the air layer Altitude in
     meter of the base of the vegetation above the ground of the
     plot. Altitude in meter of the base of the vegetation above the
@@ -4607,7 +4620,7 @@ class _AirGeometry(GeneratedsSuper):
     superclass = None
     def __init__(self, height=1.0, baseheight=0, stDev=0.0):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_AirGeometry')
+        self.troot=get_gs_troot("plots","_AirGeometry")
         self.attrib = ['height', 'baseheight', 'stDev']
         self.children = ['']
         self.parent = None
@@ -4618,25 +4631,25 @@ class _AirGeometry(GeneratedsSuper):
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _AirGeometry)
+                CurrentSubclassModule_, create_AirGeometry)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _AirGeometry.subclass:
-            return _AirGeometry.subclass(*args_, **kwargs_)
+        if create_AirGeometry.subclass:
+            return create_AirGeometry.subclass(*args_, **kwargs_)
         else:
-            return _AirGeometry(*args_, **kwargs_)
+            return create_AirGeometry(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_height(self): return self.height
-    def set_height(self, height):
-        self.height = height
+    def set_height(self, value):
+        self.height = value
         self = update_node(self,self.troot)
     def get_baseheight(self): return self.baseheight
-    def set_baseheight(self, baseheight):
-        self.baseheight = baseheight
+    def set_baseheight(self, value):
+        self.baseheight = value
         self = update_node(self,self.troot)
     def get_stDev(self): return self.stDev
-    def set_stDev(self, stDev):
-        self.stDev = stDev
+    def set_stDev(self, value):
+        self.stDev = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -4743,10 +4756,10 @@ class _AirGeometry(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (stDev): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class _AirGeometry
+# end class create_AirGeometry
 
 
-class _AirFillGeometry(GeneratedsSuper):
+class create_AirFillGeometry(GeneratedsSuper):
     """Altitude up to which the plot fill the scene, stating from the
     bottom of the scene Altitude up to which the plot fill the
     scene, stating from the bottom of the scene"""
@@ -4754,7 +4767,7 @@ class _AirFillGeometry(GeneratedsSuper):
     superclass = None
     def __init__(self, topHeight=1.0):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_AirFillGeometry')
+        self.troot=get_gs_troot("plots","_AirFillGeometry")
         self.attrib = ['topHeight']
         self.children = ['']
         self.parent = None
@@ -4763,17 +4776,17 @@ class _AirFillGeometry(GeneratedsSuper):
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _AirFillGeometry)
+                CurrentSubclassModule_, create_AirFillGeometry)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _AirFillGeometry.subclass:
-            return _AirFillGeometry.subclass(*args_, **kwargs_)
+        if create_AirFillGeometry.subclass:
+            return create_AirFillGeometry.subclass(*args_, **kwargs_)
         else:
-            return _AirFillGeometry(*args_, **kwargs_)
+            return create_AirFillGeometry(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_topHeight(self): return self.topHeight
-    def set_topHeight(self, topHeight):
-        self.topHeight = topHeight
+    def set_topHeight(self, value):
+        self.topHeight = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -4848,10 +4861,10 @@ class _AirFillGeometry(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (topHeight): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class _AirFillGeometry
+# end class create_AirFillGeometry
 
 
-class _AirOpticalProperties(GeneratedsSuper):
+class create_AirOpticalProperties(GeneratedsSuper):
     """AirOpticalProperties AirOpticalProperties Particle Density (Number
     of particle per meter-cube) Particle Density (Number of particle
     per meter-cube)"""
@@ -4859,34 +4872,34 @@ class _AirOpticalProperties(GeneratedsSuper):
     superclass = None
     def __init__(self, extinctionCoefficient=5E-16, AirOpticalPropertyLink=None):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_AirOpticalProperties')
+        self.troot=get_gs_troot("plots","_AirOpticalProperties")
         self.attrib = ['extinctionCoefficient']
         self.children = ['AirOpticalPropertyLink']
         self.parent = None
         self.extinctionCoefficient = _cast(float, extinctionCoefficient)
-        self.AirOpticalPropertyLink = None
-        self.set_AirOpticalPropertyLink(AirOpticalPropertyLink)
+        self.AirOpticalPropertyLink = AirOpticalPropertyLink
         self = update_node(self,self.troot)
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _AirOpticalProperties)
+                CurrentSubclassModule_, create_AirOpticalProperties)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _AirOpticalProperties.subclass:
-            return _AirOpticalProperties.subclass(*args_, **kwargs_)
+        if create_AirOpticalProperties.subclass:
+            return create_AirOpticalProperties.subclass(*args_, **kwargs_)
         else:
-            return _AirOpticalProperties(*args_, **kwargs_)
+            return create_AirOpticalProperties(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_AirOpticalPropertyLink(self): return self.AirOpticalPropertyLink
-    def set_AirOpticalPropertyLink(self, AirOpticalPropertyLink):
-        self.AirOpticalPropertyLink = AirOpticalPropertyLink
-        if AirOpticalPropertyLink is not None:
-            self.AirOpticalPropertyLink.parent = self
+    def set_AirOpticalPropertyLink(self, value):
+        if value is not None:
+            value.parent = self
+        self.AirOpticalPropertyLink = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_extinctionCoefficient(self): return self.extinctionCoefficient
-    def set_extinctionCoefficient(self, extinctionCoefficient):
-        self.extinctionCoefficient = extinctionCoefficient
+    def set_extinctionCoefficient(self, value):
+        self.extinctionCoefficient = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -4975,14 +4988,14 @@ class _AirOpticalProperties(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (extinctionCoefficient): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'AirOpticalPropertyLink':
-            obj_ = _AirOpticalPropertyLink.factory()
+            obj_ = create_AirOpticalPropertyLink.factory()
             obj_.build(child_)
             self.set_AirOpticalPropertyLink(obj_)
             obj_.original_tagname_ = 'AirOpticalPropertyLink'
-# end class _AirOpticalProperties
+# end class create_AirOpticalProperties
 
 
-class _AirOpticalPropertyLink(GeneratedsSuper):
+class create_AirOpticalPropertyLink(GeneratedsSuper):
     """AirOpticalPropertyLink AirOpticalPropertyLink Index of the DART
     phase function of the ground of the plot. Index of the DART
     phase function of the ground of the plot. proportion of photons
@@ -4994,7 +5007,7 @@ class _AirOpticalPropertyLink(GeneratedsSuper):
     superclass = None
     def __init__(self, indexFctPhase=0, ident='Molecule'):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_AirOpticalPropertyLink')
+        self.troot=get_gs_troot("plots","_AirOpticalPropertyLink")
         self.attrib = ['indexFctPhase', 'ident']
         self.children = ['']
         self.parent = None
@@ -5004,21 +5017,21 @@ class _AirOpticalPropertyLink(GeneratedsSuper):
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _AirOpticalPropertyLink)
+                CurrentSubclassModule_, create_AirOpticalPropertyLink)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _AirOpticalPropertyLink.subclass:
-            return _AirOpticalPropertyLink.subclass(*args_, **kwargs_)
+        if create_AirOpticalPropertyLink.subclass:
+            return create_AirOpticalPropertyLink.subclass(*args_, **kwargs_)
         else:
-            return _AirOpticalPropertyLink(*args_, **kwargs_)
+            return create_AirOpticalPropertyLink(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_indexFctPhase(self): return self.indexFctPhase
-    def set_indexFctPhase(self, indexFctPhase):
-        self.indexFctPhase = indexFctPhase
+    def set_indexFctPhase(self, value):
+        self.indexFctPhase = value
         self = update_node(self,self.troot)
     def get_ident(self): return self.ident
-    def set_ident(self, ident):
-        self.ident = ident
+    def set_ident(self, value):
+        self.ident = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -5106,10 +5119,10 @@ class _AirOpticalPropertyLink(GeneratedsSuper):
             self.ident = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class _AirOpticalPropertyLink
+# end class create_AirOpticalPropertyLink
 
 
-class _PlotWaterProperties(GeneratedsSuper):
+class create_PlotWaterProperties(GeneratedsSuper):
     """Water properties Water properties Number of components of the water
     volume Number of components of the water volume Water depth
     Water depth Water height level Water height level stDev stDev"""
@@ -5117,7 +5130,7 @@ class _PlotWaterProperties(GeneratedsSuper):
     superclass = None
     def __init__(self, nbComponents=1, waterDepth=10.0, waterHeight=0.0, stDev=0.0, WaterOpticalProperties=None, GroundThermalPropertyLink=None):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_PlotWaterProperties')
+        self.troot=get_gs_troot("plots","_PlotWaterProperties")
         self.attrib = ['nbComponents', 'waterDepth', 'waterHeight', 'stDev']
         self.children = ['WaterOpticalProperties', 'GroundThermalPropertyLink']
         self.parent = None
@@ -5129,25 +5142,25 @@ class _PlotWaterProperties(GeneratedsSuper):
             self.WaterOpticalProperties = []
         else:
             self.WaterOpticalProperties = WaterOpticalProperties
-        self.GroundThermalPropertyLink = None
-        self.set_GroundThermalPropertyLink(GroundThermalPropertyLink)
+        self.GroundThermalPropertyLink = GroundThermalPropertyLink
         self = update_node(self,self.troot)
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _PlotWaterProperties)
+                CurrentSubclassModule_, create_PlotWaterProperties)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _PlotWaterProperties.subclass:
-            return _PlotWaterProperties.subclass(*args_, **kwargs_)
+        if create_PlotWaterProperties.subclass:
+            return create_PlotWaterProperties.subclass(*args_, **kwargs_)
         else:
-            return _PlotWaterProperties(*args_, **kwargs_)
+            return create_PlotWaterProperties(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_WaterOpticalProperties(self): return self.WaterOpticalProperties
-    def set_WaterOpticalProperties(self, WaterOpticalProperties):
-        self.WaterOpticalProperties = WaterOpticalProperties
-        if WaterOpticalProperties is not None:
-            self.WaterOpticalProperties.parent = self
+    def set_WaterOpticalProperties(self, value):
+        if value is not None:
+            value.parent = self
+        self.WaterOpticalProperties = value
+        if value is not None:
             self = update_node(self,self.troot)
     def add_WaterOpticalProperties(self, value):
         value.parent = self
@@ -5156,30 +5169,33 @@ class _PlotWaterProperties(GeneratedsSuper):
     def insert_WaterOpticalProperties_at(self, index, value):
         self.WaterOpticalProperties.insert(index, value)
         value.parent = self
+        self = update_node(self,self.troot)
     def replace_WaterOpticalProperties_at(self, index, value):
         value.parent = self
         self.WaterOpticalProperties[index] = value
+        self = update_node(self,self.troot)
     def get_GroundThermalPropertyLink(self): return self.GroundThermalPropertyLink
-    def set_GroundThermalPropertyLink(self, GroundThermalPropertyLink):
-        self.GroundThermalPropertyLink = GroundThermalPropertyLink
-        if GroundThermalPropertyLink is not None:
-            self.GroundThermalPropertyLink.parent = self
+    def set_GroundThermalPropertyLink(self, value):
+        if value is not None:
+            value.parent = self
+        self.GroundThermalPropertyLink = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_nbComponents(self): return self.nbComponents
-    def set_nbComponents(self, nbComponents):
-        self.nbComponents = nbComponents
+    def set_nbComponents(self, value):
+        self.nbComponents = value
         self = update_node(self,self.troot)
     def get_waterDepth(self): return self.waterDepth
-    def set_waterDepth(self, waterDepth):
-        self.waterDepth = waterDepth
+    def set_waterDepth(self, value):
+        self.waterDepth = value
         self = update_node(self,self.troot)
     def get_waterHeight(self): return self.waterHeight
-    def set_waterHeight(self, waterHeight):
-        self.waterHeight = waterHeight
+    def set_waterHeight(self, value):
+        self.waterHeight = value
         self = update_node(self,self.troot)
     def get_stDev(self): return self.stDev
-    def set_stDev(self, stDev):
-        self.stDev = stDev
+    def set_stDev(self, value):
+        self.stDev = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -5333,53 +5349,53 @@ class _PlotWaterProperties(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (stDev): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'WaterOpticalProperties':
-            obj_ = _WaterOpticalProperties.factory()
+            obj_ = create_WaterOpticalProperties.factory()
             obj_.build(child_)
             self.add_WaterOpticalProperties(obj_)
             obj_.original_tagname_ = 'WaterOpticalProperties'
         elif nodeName_ == 'GroundThermalPropertyLink':
-            obj_ = _GroundThermalPropertyLink.factory()
+            obj_ = create_GroundThermalPropertyLink.factory()
             obj_.build(child_)
             self.set_GroundThermalPropertyLink(obj_)
             obj_.original_tagname_ = 'GroundThermalPropertyLink'
-# end class _PlotWaterProperties
+# end class create_PlotWaterProperties
 
 
-class _WaterOpticalProperties(GeneratedsSuper):
+class create_WaterOpticalProperties(GeneratedsSuper):
     """Component properties Component properties Extinction coefficient
     Extinction coefficient"""
     subclass = None
     superclass = None
     def __init__(self, extinctionCoefficient=0.5, AirOpticalPropertyLink=None):
         self.original_tagname_ = None
-        self.troot = get_gs_troot('plots', '_WaterOpticalProperties')
+        self.troot=get_gs_troot("plots","_WaterOpticalProperties")
         self.attrib = ['extinctionCoefficient']
         self.children = ['AirOpticalPropertyLink']
         self.parent = None
         self.extinctionCoefficient = _cast(float, extinctionCoefficient)
-        self.AirOpticalPropertyLink = None
-        self.set_AirOpticalPropertyLink(AirOpticalPropertyLink)
+        self.AirOpticalPropertyLink = AirOpticalPropertyLink
         self = update_node(self,self.troot)
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, _WaterOpticalProperties)
+                CurrentSubclassModule_, create_WaterOpticalProperties)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if _WaterOpticalProperties.subclass:
-            return _WaterOpticalProperties.subclass(*args_, **kwargs_)
+        if create_WaterOpticalProperties.subclass:
+            return create_WaterOpticalProperties.subclass(*args_, **kwargs_)
         else:
-            return _WaterOpticalProperties(*args_, **kwargs_)
+            return create_WaterOpticalProperties(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_AirOpticalPropertyLink(self): return self.AirOpticalPropertyLink
-    def set_AirOpticalPropertyLink(self, AirOpticalPropertyLink):
-        self.AirOpticalPropertyLink = AirOpticalPropertyLink
-        if AirOpticalPropertyLink is not None:
-            self.AirOpticalPropertyLink.parent = self
+    def set_AirOpticalPropertyLink(self, value):
+        if value is not None:
+            value.parent = self
+        self.AirOpticalPropertyLink = value
+        if value is not None:
             self = update_node(self,self.troot)
     def get_extinctionCoefficient(self): return self.extinctionCoefficient
-    def set_extinctionCoefficient(self, extinctionCoefficient):
-        self.extinctionCoefficient = extinctionCoefficient
+    def set_extinctionCoefficient(self, value):
+        self.extinctionCoefficient = value
         self = update_node(self,self.troot)
     def hasContent_(self):
         if (
@@ -5468,11 +5484,11 @@ class _WaterOpticalProperties(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (extinctionCoefficient): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'AirOpticalPropertyLink':
-            obj_ = _AirOpticalPropertyLink.factory()
+            obj_ = create_AirOpticalPropertyLink.factory()
             obj_.build(child_)
             self.set_AirOpticalPropertyLink(obj_)
             obj_.original_tagname_ = 'AirOpticalPropertyLink'
-# end class _WaterOpticalProperties
+# end class create_WaterOpticalProperties
 
 
 GDSClassesMapping = {
@@ -5480,7 +5496,7 @@ GDSClassesMapping = {
 
 
 USAGE_TEXT = """
-Usage: python <Parser>.py [ -s ] <in_xml_file>
+Usage: python <createParser>.py [ -s ] <in_xml_file>
 """
 
 
@@ -5504,7 +5520,7 @@ def parse(inFileName, silence=False):
     rootTag, rootClass = get_root_tag(rootNode)
     if rootClass is None:
         rootTag = 'DartFile'
-        rootClass = DartFile
+        rootClass = createDartFile
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
@@ -5525,7 +5541,7 @@ def parseEtree(inFileName, silence=False):
     rootTag, rootClass = get_root_tag(rootNode)
     if rootClass is None:
         rootTag = 'DartFile'
-        rootClass = DartFile
+        rootClass = createDartFile
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
@@ -5556,7 +5572,7 @@ def parseString(inString, silence=False):
     rootTag, rootClass = get_root_tag(rootNode)
     if rootClass is None:
         rootTag = 'DartFile'
-        rootClass = DartFile
+        rootClass = createDartFile
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
@@ -5575,7 +5591,7 @@ def parseLiteral(inFileName, silence=False):
     rootTag, rootClass = get_root_tag(rootNode)
     if rootClass is None:
         rootTag = 'DartFile'
-        rootClass = DartFile
+        rootClass = createDartFile
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
@@ -5603,33 +5619,33 @@ if __name__ == '__main__':
 
 
 __all__ = [
-    "DartFile",
-    "_AirFillGeometry",
-    "_AirGeometry",
-    "_AirOpticalProperties",
-    "_AirOpticalPropertyLink",
-    "_ExtraPlotsTextFileDefinition",
-    "_GroundOpticalPropertyLink",
-    "_GroundThermalPropertyLink",
-    "_ImportationFichierRaster",
-    "_LAIVegetation",
-    "_MeshLeafDimensionParameters",
-    "_MeshPlotRepresentation",
-    "_NumberOfTriangleParameters",
-    "_Plot",
-    "_PlotAirProperties",
-    "_PlotVegetationProperties",
-    "_PlotWaterProperties",
-    "_Plots",
-    "_Point2D",
-    "_Polygon2D",
-    "_RasterCOSInformation",
-    "_Rectangle2D",
-    "_SelectSubZoneProperties",
-    "_UFVegetation",
-    "_VegetationFillGeometry",
-    "_VegetationGeometry",
-    "_VegetationOpticalPropertyLink",
-    "_VegetationProperties",
-    "_WaterOpticalProperties"
+    "createDartFile",
+    "create_AirFillGeometry",
+    "create_AirGeometry",
+    "create_AirOpticalProperties",
+    "create_AirOpticalPropertyLink",
+    "create_ExtraPlotsTextFileDefinition",
+    "create_GroundOpticalPropertyLink",
+    "create_GroundThermalPropertyLink",
+    "create_ImportationFichierRaster",
+    "create_LAIVegetation",
+    "create_MeshLeafDimensionParameters",
+    "create_MeshPlotRepresentation",
+    "create_NumberOfTriangleParameters",
+    "create_Plot",
+    "create_PlotAirProperties",
+    "create_PlotVegetationProperties",
+    "create_PlotWaterProperties",
+    "create_Plots",
+    "create_Point2D",
+    "create_Polygon2D",
+    "create_RasterCOSInformation",
+    "create_Rectangle2D",
+    "create_SelectSubZoneProperties",
+    "create_UFVegetation",
+    "create_VegetationFillGeometry",
+    "create_VegetationGeometry",
+    "create_VegetationOpticalPropertyLink",
+    "create_VegetationProperties",
+    "create_WaterOpticalProperties"
 ]
