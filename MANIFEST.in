@@ -1,3 +1,4 @@
 # include file
 include LICENSE
 include README.md
+include templates/plots.xml
