@@ -29,6 +29,6 @@ from simulation import simulation
 from helpers import voxreader, hstools, dbtools
 import run
 import xmlwriters
-from xsdschema import plots_gds
+from xsdschema import plots_gds, plots_gdsCL
 
 
