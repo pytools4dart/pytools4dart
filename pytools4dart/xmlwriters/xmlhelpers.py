@@ -32,6 +32,7 @@ import os
 import sys
 # import xmlschema
 from pytools4dart.settings import getdartversion
+import pytools4dart as ptd
 
 try:
     import xml.etree.cElementTree as etree
@@ -263,6 +264,7 @@ if __name__ == "__main__":
 
     </root>
     """
+
 
     #
     # class idee(object):

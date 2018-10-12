@@ -16,7 +16,7 @@ plots = ptd.plots_gds.createDartFile()
 # creation of 2 plots
 plots.Plots.add_Plot(ptd.plots_gds.create_Plot())
 plots.Plots.add_Plot(ptd.plots_gds.create_Plot())
-plots.Plots.Plot[0].set_form(1)
+plots.Plots.Plot[0].form = 1
 print(etree.tostring(plots.to_etree(), pretty_print=True))
 
 # WARNING: all is done by reference
@@ -24,8 +24,10 @@ print(etree.tostring(plots.to_etree(), pretty_print=True))
 # that is to say modifying one will modify the other one
 Plot = ptd.plots_gds.create_Plot()
 plots.Plots.add_Plot(Plot)
-plots.Plots.add_Plot(Plot)
-plots.Plots.Plot[2].set_form(1)
+plots.Plots.Plot.append(ptd.plots_gds.create_Plot())
+plots.Plots.Plot[2].form = 1
+plots.Plots.Plot[2].form = 1
+
 
 print(etree.tostring(plots.to_etree(), pretty_print=True))
 toc=timeit.default_timer()
