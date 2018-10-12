@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Fri Oct 12 15:36:42 2018 by generateDS.py version 2.29.25.
+# Generated Fri Oct 12 18:15:48 2018 by generateDS.py version 2.29.25.
 # Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
 #
 # Command line options:
@@ -474,6 +474,14 @@ CurrentSubclassModule_ = None
 # Support/utility functions.
 #
 
+def checkclass(value, cl):
+    if isinstance(value, list):
+        for v in value:
+            if not isinstance(v, cl):
+                raise ValueError("invalid class")
+    else:
+        if not isinstance(value, cl):
+            raise ValueError("invalid class")
 
 def showIndent(outfile, level, pretty_print=True):
     if pretty_print:
@@ -760,6 +768,7 @@ class createDartFile(GeneratedsSuper):
     def get_Plots(self): return self._Plots
     def set_Plots(self, value):
         if value is not None:
+            checkclass(value, create_Plots)
             value.parent = self
         self._Plots = value
         if value is not None:
@@ -775,6 +784,9 @@ class createDartFile(GeneratedsSuper):
         self._build_ = value
         self = update_node(self,self.troot)
     build_ = property(get_build, set_build)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
             self.Plots is not None
@@ -923,6 +935,7 @@ class create_Plots(GeneratedsSuper):
     def get_ExtraPlotsTextFileDefinition(self): return self._ExtraPlotsTextFileDefinition
     def set_ExtraPlotsTextFileDefinition(self, value):
         if value is not None:
+            checkclass(value, create_ExtraPlotsTextFileDefinition)
             value.parent = self
         self._ExtraPlotsTextFileDefinition = value
         if value is not None:
@@ -931,6 +944,7 @@ class create_Plots(GeneratedsSuper):
     def get_ImportationFichierRaster(self): return self._ImportationFichierRaster
     def set_ImportationFichierRaster(self, value):
         if value is not None:
+            checkclass(value, create_ImportationFichierRaster)
             value.parent = self
         self._ImportationFichierRaster = value
         if value is not None:
@@ -939,6 +953,7 @@ class create_Plots(GeneratedsSuper):
     def get_Plot(self): return self._Plot
     def set_Plot(self, value):
         if value is not None:
+            checkclass(value, create_Plot)
             value.parent = self
         self._Plot = value
         if value is not None:
@@ -966,6 +981,9 @@ class create_Plots(GeneratedsSuper):
         self._addExtraPlotsTextFile = value
         self = update_node(self,self.troot)
     addExtraPlotsTextFile = property(get_addExtraPlotsTextFile, set_addExtraPlotsTextFile)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
             self.ExtraPlotsTextFileDefinition is not None or
@@ -1144,6 +1162,9 @@ class create_ExtraPlotsTextFileDefinition(GeneratedsSuper):
         self._extraPlotsFileName = value
         self = update_node(self,self.troot)
     extraPlotsFileName = property(get_extraPlotsFileName, set_extraPlotsFileName)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
 
@@ -1246,6 +1267,7 @@ class create_ImportationFichierRaster(GeneratedsSuper):
     def get_VegetationProperties(self): return self._VegetationProperties
     def set_VegetationProperties(self, value):
         if value is not None:
+            checkclass(value, create_VegetationProperties)
             value.parent = self
         self._VegetationProperties = value
         if value is not None:
@@ -1254,11 +1276,15 @@ class create_ImportationFichierRaster(GeneratedsSuper):
     def get_RasterCOSInformation(self): return self._RasterCOSInformation
     def set_RasterCOSInformation(self, value):
         if value is not None:
+            checkclass(value, create_RasterCOSInformation)
             value.parent = self
         self._RasterCOSInformation = value
         if value is not None:
             self = update_node(self,self.troot)
     RasterCOSInformation = property(get_RasterCOSInformation, set_RasterCOSInformation)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
             self.VegetationProperties is not None or
@@ -1400,6 +1426,7 @@ class create_VegetationProperties(GeneratedsSuper):
     def get_SelectSubZoneProperties(self): return self._SelectSubZoneProperties
     def set_SelectSubZoneProperties(self, value):
         if value is not None:
+            checkclass(value, create_SelectSubZoneProperties)
             value.parent = self
         self._SelectSubZoneProperties = value
         if value is not None:
@@ -1425,6 +1452,9 @@ class create_VegetationProperties(GeneratedsSuper):
         self._OverwritePlots = value
         self = update_node(self,self.troot)
     OverwritePlots = property(get_OverwritePlots, set_OverwritePlots)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
             self.SelectSubZoneProperties is not None
@@ -1613,6 +1643,9 @@ class create_SelectSubZoneProperties(GeneratedsSuper):
         self._lineOfTopLeftPixel = value
         self = update_node(self,self.troot)
     lineOfTopLeftPixel = property(get_lineOfTopLeftPixel, set_lineOfTopLeftPixel)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
 
@@ -1799,6 +1832,9 @@ class create_RasterCOSInformation(GeneratedsSuper):
         self._nbLiCOS = value
         self = update_node(self,self.troot)
     nbLiCOS = property(get_nbLiCOS, set_nbLiCOS)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
 
@@ -2008,6 +2044,7 @@ class create_Plot(GeneratedsSuper):
     def get_Polygon2D(self): return self._Polygon2D
     def set_Polygon2D(self, value):
         if value is not None:
+            checkclass(value, create_Polygon2D)
             value.parent = self
         self._Polygon2D = value
         if value is not None:
@@ -2016,6 +2053,7 @@ class create_Plot(GeneratedsSuper):
     def get_Rectangle2D(self): return self._Rectangle2D
     def set_Rectangle2D(self, value):
         if value is not None:
+            checkclass(value, create_Rectangle2D)
             value.parent = self
         self._Rectangle2D = value
         if value is not None:
@@ -2024,6 +2062,7 @@ class create_Plot(GeneratedsSuper):
     def get_GroundOpticalPropertyLink(self): return self._GroundOpticalPropertyLink
     def set_GroundOpticalPropertyLink(self, value):
         if value is not None:
+            checkclass(value, create_GroundOpticalPropertyLink)
             value.parent = self
         self._GroundOpticalPropertyLink = value
         if value is not None:
@@ -2032,6 +2071,7 @@ class create_Plot(GeneratedsSuper):
     def get_GroundThermalPropertyLink(self): return self._GroundThermalPropertyLink
     def set_GroundThermalPropertyLink(self, value):
         if value is not None:
+            checkclass(value, create_GroundThermalPropertyLink)
             value.parent = self
         self._GroundThermalPropertyLink = value
         if value is not None:
@@ -2040,6 +2080,7 @@ class create_Plot(GeneratedsSuper):
     def get_PlotVegetationProperties(self): return self._PlotVegetationProperties
     def set_PlotVegetationProperties(self, value):
         if value is not None:
+            checkclass(value, create_PlotVegetationProperties)
             value.parent = self
         self._PlotVegetationProperties = value
         if value is not None:
@@ -2048,6 +2089,7 @@ class create_Plot(GeneratedsSuper):
     def get_PlotAirProperties(self): return self._PlotAirProperties
     def set_PlotAirProperties(self, value):
         if value is not None:
+            checkclass(value, create_PlotAirProperties)
             value.parent = self
         self._PlotAirProperties = value
         if value is not None:
@@ -2056,6 +2098,7 @@ class create_Plot(GeneratedsSuper):
     def get_PlotWaterProperties(self): return self._PlotWaterProperties
     def set_PlotWaterProperties(self, value):
         if value is not None:
+            checkclass(value, create_PlotWaterProperties)
             value.parent = self
         self._PlotWaterProperties = value
         if value is not None:
@@ -2086,6 +2129,9 @@ class create_Plot(GeneratedsSuper):
         self._isDisplayed = value
         self = update_node(self,self.troot)
     isDisplayed = property(get_isDisplayed, set_isDisplayed)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
             self.Polygon2D is not None or
@@ -2378,6 +2424,7 @@ class create_Polygon2D(GeneratedsSuper):
     def get_Point2D(self): return self._Point2D
     def set_Point2D(self, value):
         if value is not None:
+            checkclass(value, create_Point2D)
             value.parent = self
         self._Point2D = value
         if value is not None:
@@ -2395,6 +2442,9 @@ class create_Polygon2D(GeneratedsSuper):
         self.Point2D[index] = value
         self = update_node(self,self.troot)
     Point2D = property(get_Point2D, set_Point2D)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
             self.Point2D
@@ -2523,6 +2573,9 @@ class create_Point2D(GeneratedsSuper):
         self._x = value
         self = update_node(self,self.troot)
     x = property(get_x, set_x)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
 
@@ -2673,6 +2726,9 @@ class create_Rectangle2D(GeneratedsSuper):
         self._centreY = value
         self = update_node(self,self.troot)
     centreY = property(get_centreY, set_centreY)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
 
@@ -2862,6 +2918,9 @@ class create_GroundOpticalPropertyLink(GeneratedsSuper):
         self._type_ = value
         self = update_node(self,self.troot)
     type_ = property(get_type, set_type)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
 
@@ -3002,6 +3061,9 @@ class create_GroundThermalPropertyLink(GeneratedsSuper):
         self._idTemperature = value
         self = update_node(self,self.troot)
     idTemperature = property(get_idTemperature, set_idTemperature)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
 
@@ -3137,6 +3199,7 @@ class create_PlotVegetationProperties(GeneratedsSuper):
     def get_MeshPlotRepresentation(self): return self._MeshPlotRepresentation
     def set_MeshPlotRepresentation(self, value):
         if value is not None:
+            checkclass(value, create_MeshPlotRepresentation)
             value.parent = self
         self._MeshPlotRepresentation = value
         if value is not None:
@@ -3145,6 +3208,7 @@ class create_PlotVegetationProperties(GeneratedsSuper):
     def get_VegetationGeometry(self): return self._VegetationGeometry
     def set_VegetationGeometry(self, value):
         if value is not None:
+            checkclass(value, create_VegetationGeometry)
             value.parent = self
         self._VegetationGeometry = value
         if value is not None:
@@ -3153,6 +3217,7 @@ class create_PlotVegetationProperties(GeneratedsSuper):
     def get_VegetationFillGeometry(self): return self._VegetationFillGeometry
     def set_VegetationFillGeometry(self, value):
         if value is not None:
+            checkclass(value, create_VegetationFillGeometry)
             value.parent = self
         self._VegetationFillGeometry = value
         if value is not None:
@@ -3161,6 +3226,7 @@ class create_PlotVegetationProperties(GeneratedsSuper):
     def get_LAIVegetation(self): return self._LAIVegetation
     def set_LAIVegetation(self, value):
         if value is not None:
+            checkclass(value, create_LAIVegetation)
             value.parent = self
         self._LAIVegetation = value
         if value is not None:
@@ -3169,6 +3235,7 @@ class create_PlotVegetationProperties(GeneratedsSuper):
     def get_UFVegetation(self): return self._UFVegetation
     def set_UFVegetation(self, value):
         if value is not None:
+            checkclass(value, create_UFVegetation)
             value.parent = self
         self._UFVegetation = value
         if value is not None:
@@ -3177,6 +3244,7 @@ class create_PlotVegetationProperties(GeneratedsSuper):
     def get_VegetationOpticalPropertyLink(self): return self._VegetationOpticalPropertyLink
     def set_VegetationOpticalPropertyLink(self, value):
         if value is not None:
+            checkclass(value, create_VegetationOpticalPropertyLink)
             value.parent = self
         self._VegetationOpticalPropertyLink = value
         if value is not None:
@@ -3185,6 +3253,7 @@ class create_PlotVegetationProperties(GeneratedsSuper):
     def get_GroundThermalPropertyLink(self): return self._GroundThermalPropertyLink
     def set_GroundThermalPropertyLink(self, value):
         if value is not None:
+            checkclass(value, create_GroundThermalPropertyLink)
             value.parent = self
         self._GroundThermalPropertyLink = value
         if value is not None:
@@ -3205,6 +3274,9 @@ class create_PlotVegetationProperties(GeneratedsSuper):
         self._densityDefinition = value
         self = update_node(self,self.troot)
     densityDefinition = property(get_densityDefinition, set_densityDefinition)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
             self.MeshPlotRepresentation is not None or
@@ -3465,6 +3537,7 @@ class create_MeshPlotRepresentation(GeneratedsSuper):
     def get_NumberOfTriangleParameters(self): return self._NumberOfTriangleParameters
     def set_NumberOfTriangleParameters(self, value):
         if value is not None:
+            checkclass(value, create_NumberOfTriangleParameters)
             value.parent = self
         self._NumberOfTriangleParameters = value
         if value is not None:
@@ -3473,6 +3546,7 @@ class create_MeshPlotRepresentation(GeneratedsSuper):
     def get_MeshLeafDimensionParameters(self): return self._MeshLeafDimensionParameters
     def set_MeshLeafDimensionParameters(self, value):
         if value is not None:
+            checkclass(value, create_MeshLeafDimensionParameters)
             value.parent = self
         self._MeshLeafDimensionParameters = value
         if value is not None:
@@ -3488,6 +3562,9 @@ class create_MeshPlotRepresentation(GeneratedsSuper):
         self._leafDefinition = value
         self = update_node(self,self.troot)
     leafDefinition = property(get_leafDefinition, set_leafDefinition)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
             self.NumberOfTriangleParameters is not None or
@@ -3650,6 +3727,9 @@ class create_NumberOfTriangleParameters(GeneratedsSuper):
         self._nbTriangles = value
         self = update_node(self,self.troot)
     nbTriangles = property(get_nbTriangles, set_nbTriangles)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
 
@@ -3761,6 +3841,9 @@ class create_MeshLeafDimensionParameters(GeneratedsSuper):
         self._meshLeafDimension = value
         self = update_node(self,self.troot)
     meshLeafDimension = property(get_meshLeafDimension, set_meshLeafDimension)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
 
@@ -3882,6 +3965,9 @@ class create_VegetationGeometry(GeneratedsSuper):
         self._stDev = value
         self = update_node(self,self.troot)
     stDev = property(get_stDev, set_stDev)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
 
@@ -4020,6 +4106,9 @@ class create_VegetationFillGeometry(GeneratedsSuper):
         self._topHeight = value
         self = update_node(self,self.troot)
     topHeight = property(get_topHeight, set_topHeight)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
 
@@ -4126,6 +4215,9 @@ class create_LAIVegetation(GeneratedsSuper):
         self._LAI = value
         self = update_node(self,self.troot)
     LAI = property(get_LAI, set_LAI)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
 
@@ -4230,6 +4322,9 @@ class create_UFVegetation(GeneratedsSuper):
         self._UF = value
         self = update_node(self,self.troot)
     UF = property(get_UF, set_UF)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
 
@@ -4348,6 +4443,9 @@ class create_VegetationOpticalPropertyLink(GeneratedsSuper):
         self._ident = value
         self = update_node(self,self.troot)
     ident = property(get_ident, set_ident)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
 
@@ -4474,6 +4572,7 @@ class create_PlotAirProperties(GeneratedsSuper):
     def get_AirGeometry(self): return self._AirGeometry
     def set_AirGeometry(self, value):
         if value is not None:
+            checkclass(value, create_AirGeometry)
             value.parent = self
         self._AirGeometry = value
         if value is not None:
@@ -4482,6 +4581,7 @@ class create_PlotAirProperties(GeneratedsSuper):
     def get_AirFillGeometry(self): return self._AirFillGeometry
     def set_AirFillGeometry(self, value):
         if value is not None:
+            checkclass(value, create_AirFillGeometry)
             value.parent = self
         self._AirFillGeometry = value
         if value is not None:
@@ -4490,6 +4590,7 @@ class create_PlotAirProperties(GeneratedsSuper):
     def get_AirOpticalProperties(self): return self._AirOpticalProperties
     def set_AirOpticalProperties(self, value):
         if value is not None:
+            checkclass(value, create_AirOpticalProperties)
             value.parent = self
         self._AirOpticalProperties = value
         if value is not None:
@@ -4510,6 +4611,7 @@ class create_PlotAirProperties(GeneratedsSuper):
     def get_GroundThermalPropertyLink(self): return self._GroundThermalPropertyLink
     def set_GroundThermalPropertyLink(self, value):
         if value is not None:
+            checkclass(value, create_GroundThermalPropertyLink)
             value.parent = self
         self._GroundThermalPropertyLink = value
         if value is not None:
@@ -4525,6 +4627,9 @@ class create_PlotAirProperties(GeneratedsSuper):
         self._nbParticule = value
         self = update_node(self,self.troot)
     nbParticule = property(get_nbParticule, set_nbParticule)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
             self.AirGeometry is not None or
@@ -4735,6 +4840,9 @@ class create_AirGeometry(GeneratedsSuper):
         self._stDev = value
         self = update_node(self,self.troot)
     stDev = property(get_stDev, set_stDev)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
 
@@ -4873,6 +4981,9 @@ class create_AirFillGeometry(GeneratedsSuper):
         self._topHeight = value
         self = update_node(self,self.troot)
     topHeight = property(get_topHeight, set_topHeight)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
 
@@ -4978,6 +5089,7 @@ class create_AirOpticalProperties(GeneratedsSuper):
     def get_AirOpticalPropertyLink(self): return self._AirOpticalPropertyLink
     def set_AirOpticalPropertyLink(self, value):
         if value is not None:
+            checkclass(value, create_AirOpticalPropertyLink)
             value.parent = self
         self._AirOpticalPropertyLink = value
         if value is not None:
@@ -4988,6 +5100,9 @@ class create_AirOpticalProperties(GeneratedsSuper):
         self._extinctionCoefficient = value
         self = update_node(self,self.troot)
     extinctionCoefficient = property(get_extinctionCoefficient, set_extinctionCoefficient)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
             self.AirOpticalPropertyLink is not None
@@ -5122,6 +5237,9 @@ class create_AirOpticalPropertyLink(GeneratedsSuper):
         self._ident = value
         self = update_node(self,self.troot)
     ident = property(get_ident, set_ident)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
 
@@ -5247,6 +5365,7 @@ class create_PlotWaterProperties(GeneratedsSuper):
     def get_WaterOpticalProperties(self): return self._WaterOpticalProperties
     def set_WaterOpticalProperties(self, value):
         if value is not None:
+            checkclass(value, create_WaterOpticalProperties)
             value.parent = self
         self._WaterOpticalProperties = value
         if value is not None:
@@ -5267,6 +5386,7 @@ class create_PlotWaterProperties(GeneratedsSuper):
     def get_GroundThermalPropertyLink(self): return self._GroundThermalPropertyLink
     def set_GroundThermalPropertyLink(self, value):
         if value is not None:
+            checkclass(value, create_GroundThermalPropertyLink)
             value.parent = self
         self._GroundThermalPropertyLink = value
         if value is not None:
@@ -5292,6 +5412,9 @@ class create_PlotWaterProperties(GeneratedsSuper):
         self._stDev = value
         self = update_node(self,self.troot)
     stDev = property(get_stDev, set_stDev)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
             self.WaterOpticalProperties or
@@ -5484,6 +5607,7 @@ class create_WaterOpticalProperties(GeneratedsSuper):
     def get_AirOpticalPropertyLink(self): return self._AirOpticalPropertyLink
     def set_AirOpticalPropertyLink(self, value):
         if value is not None:
+            checkclass(value, create_AirOpticalPropertyLink)
             value.parent = self
         self._AirOpticalPropertyLink = value
         if value is not None:
@@ -5494,6 +5618,9 @@ class create_WaterOpticalProperties(GeneratedsSuper):
         self._extinctionCoefficient = value
         self = update_node(self,self.troot)
     extinctionCoefficient = property(get_extinctionCoefficient, set_extinctionCoefficient)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
             self.AirOpticalPropertyLink is not None

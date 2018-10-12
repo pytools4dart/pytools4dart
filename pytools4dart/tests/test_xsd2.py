@@ -24,10 +24,8 @@ print(etree.tostring(plots.to_etree(), pretty_print=True))
 # that is to say modifying one will modify the other one
 Plot = ptd.plots_gds.create_Plot()
 plots.Plots.add_Plot(Plot)
-plots.Plots.Plot.append(ptd.plots_gds.create_Plot())
+plots.Plots.add_Plot(Plot)
 plots.Plots.Plot[2].form = 1
-plots.Plots.Plot[2].form = 1
-
 
 print(etree.tostring(plots.to_etree(), pretty_print=True))
 toc=timeit.default_timer()

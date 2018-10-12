@@ -224,3 +224,4 @@ def get_gs_troot(module, xsdclass = 'DartFile'):
     #     'name']
     tnodename = xsdclass.replace('_','')
     return troot.xpath('//{}'.format(tnodename))[0]
+
