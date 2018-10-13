@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Fri Oct 12 18:15:48 2018 by generateDS.py version 2.29.25.
+# Generated Fri Oct 12 19:18:40 2018 by generateDS.py version 2.29.25.
 # Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
 #
 # Command line options:
@@ -954,7 +954,8 @@ class create_Plots(GeneratedsSuper):
     def set_Plot(self, value):
         if value is not None:
             checkclass(value, create_Plot)
-            value.parent = self
+            for v in value:
+                v.parent = self
         self._Plot = value
         if value is not None:
             self = update_node(self,self.troot)
@@ -2425,7 +2426,8 @@ class create_Polygon2D(GeneratedsSuper):
     def set_Point2D(self, value):
         if value is not None:
             checkclass(value, create_Point2D)
-            value.parent = self
+            for v in value:
+                v.parent = self
         self._Point2D = value
         if value is not None:
             self = update_node(self,self.troot)
@@ -4591,7 +4593,8 @@ class create_PlotAirProperties(GeneratedsSuper):
     def set_AirOpticalProperties(self, value):
         if value is not None:
             checkclass(value, create_AirOpticalProperties)
-            value.parent = self
+            for v in value:
+                v.parent = self
         self._AirOpticalProperties = value
         if value is not None:
             self = update_node(self,self.troot)
@@ -5366,7 +5369,8 @@ class create_PlotWaterProperties(GeneratedsSuper):
     def set_WaterOpticalProperties(self, value):
         if value is not None:
             checkclass(value, create_WaterOpticalProperties)
-            value.parent = self
+            for v in value:
+                v.parent = self
         self._WaterOpticalProperties = value
         if value is not None:
             self = update_node(self,self.troot)
