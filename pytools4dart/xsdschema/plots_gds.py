@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Sun Oct 14 17:31:06 2018 by generateDS.py version 2.29.25.
+# Generated Sun Oct 14 18:30:05 2018 by generateDS.py version 2.29.25.
 # Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
 #
 # Command line options:
@@ -10,7 +10,7 @@
 #   ('--always-export-default', '')
 #   ('--export', 'write literal etree')
 #   ('-p', 'create')
-#   ('--post-setter', 'update_node(self,self.troot)')
+#   ('--post-attrib-setter', 'update_node(self,self.troot)')
 #   ('--pre-ctor', 'self.troot=get_gs_troot("plots","{classname}")')
 #   ('--post-ctor', 'update_node(self,self.troot)')
 #   ('--imports', 'from pytools4dart.xsdschema.utils import get_gs_troot, update_node')
@@ -20,7 +20,7 @@
 #   /home/boissieu/Scripts/pytools4dartMTD/pytools4dart/xsdschema/plots.xsd
 #
 # Command line:
-#   generateDS.py -m --always-export-default --export="write literal etree" -p "create" --post-setter="update_node(self,self.troot)" --pre-ctor="self.troot=get_gs_troot("plots","{classname}")" --post-ctor="update_node(self,self.troot)" --imports="from pytools4dart.xsdschema.utils import get_gs_troot, update_node" -o "/home/boissieu/Scripts/pytools4dartMTD/pytools4dart/xsdschema/plots_gds.py" /home/boissieu/Scripts/pytools4dartMTD/pytools4dart/xsdschema/plots.xsd
+#   generateDS.py -m --always-export-default --export="write literal etree" -p "create" --post-attrib-setter="update_node(self,self.troot)" --pre-ctor="self.troot=get_gs_troot("plots","{classname}")" --post-ctor="update_node(self,self.troot)" --imports="from pytools4dart.xsdschema.utils import get_gs_troot, update_node" -o "/home/boissieu/Scripts/pytools4dartMTD/pytools4dart/xsdschema/plots_gds.py" /home/boissieu/Scripts/pytools4dartMTD/pytools4dart/xsdschema/plots.xsd
 #
 # Current working directory (os.getcwd()):
 #   generateds
@@ -955,8 +955,8 @@ class create_Plots(GeneratedsSuper):
         value.parent = self
         self._Plot.append(value)
     def insert_Plot_at(self, index, value):
-        self.Plot.insert(index, value)
         value.parent = self
+        self.Plot.insert(index, value)
     def replace_Plot_at(self, index, value):
         value.parent = self
         self.Plot[index] = value
@@ -2400,11 +2400,15 @@ class create_Polygon2D(GeneratedsSuper):
                 v.parent = self
         self._Point2D = value
     def add_Point2D(self, value):
+        if (value is not None) and (len(self._Point2D) == 4):
+            raise ValueError('Maximum length already reached.')
         value.parent = self
         self._Point2D.append(value)
     def insert_Point2D_at(self, index, value):
-        self.Point2D.insert(index, value)
+        if (value is not None) and (len(self._Point2D) == 4):
+            raise ValueError('Maximum length already reached.')
         value.parent = self
+        self.Point2D.insert(index, value)
     def replace_Point2D_at(self, index, value):
         value.parent = self
         self.Point2D[index] = value
@@ -4544,8 +4548,8 @@ class create_PlotAirProperties(GeneratedsSuper):
         value.parent = self
         self._AirOpticalProperties.append(value)
     def insert_AirOpticalProperties_at(self, index, value):
-        self.AirOpticalProperties.insert(index, value)
         value.parent = self
+        self.AirOpticalProperties.insert(index, value)
     def replace_AirOpticalProperties_at(self, index, value):
         value.parent = self
         self.AirOpticalProperties[index] = value
@@ -5312,8 +5316,8 @@ class create_PlotWaterProperties(GeneratedsSuper):
         value.parent = self
         self._WaterOpticalProperties.append(value)
     def insert_WaterOpticalProperties_at(self, index, value):
-        self.WaterOpticalProperties.insert(index, value)
         value.parent = self
+        self.WaterOpticalProperties.insert(index, value)
     def replace_WaterOpticalProperties_at(self, index, value):
         value.parent = self
         self.WaterOpticalProperties[index] = value

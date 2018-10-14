@@ -81,7 +81,7 @@ def update_node(rnode, tnode):
         if (tchild.tag == 'DartDocumentTemplateNode'):
             if any('test'==s for s in tchild.attrib.keys()):
                 test = tchild.attrib['test']
-                try:
+                try: # when created rnode may not have the parents necessary for test
                     test_res = eval_test(rnode, test)
                     if(test_res):
                         update_node(rnode, tchild)
@@ -104,7 +104,7 @@ def update_node(rnode, tnode):
                 tchild_args = ', '.join([mapName(k) + '=' + "'"+v+"'" for k, v in tchild.attrib.iteritems()])
                 new_rchild = eval('ptd.xsdschema.plots_gds.create_{}({})'.format(tchild.tag, tchild_args))
                 if isinstance(rchild_value, list):
-                    eval('rnode.{}.append(new_rchild)'.format(tchild.tag))
+                    eval('rnode.add_{}(new_rchild)'.format(tchild.tag))
                 else:
                     setattr(rnode, tchild.tag, new_rchild)
             else:
