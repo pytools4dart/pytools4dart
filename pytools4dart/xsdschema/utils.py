@@ -51,13 +51,32 @@ def get_template_root(module):
 #             for rchild in rchilds:
 #                 update_node(rchild, tchild)
 
+d = {}
+for k in ['ab','cd']:
+    d[k]=k
+
+
 def update_node(rnode, tnode):
-    # temp = plots_temp_root
-    rnodetree = rnode.to_etree()
-    rchildstags = [c.tag for c in rnodetree.getchildren()]
-    build_rnodetree = False
-    child_list = []
-    nodeName_list = []
+    """
+
+    Parameters
+    ----------
+    rnode: object created with interface
+    tnode: corresponding template node
+
+    Returns
+    -------
+        Nothing, rnode is updated by reference
+
+    """
+    empty_rchilds = {}
+    for k in rnode.children:
+        mk = mapName(k)
+        att = getattr(rnode, mk)
+        empty_rchilds[mapName(k)]= (att is None or
+                                    (isinstance(att, list) and
+                                     len(att) == 0))
+
     for tchild in tnode.getchildren():
         if (tchild.tag == 'DartDocumentTemplateNode'):
             if any('test'==s for s in tchild.attrib.keys()):
@@ -80,12 +99,14 @@ def update_node(rnode, tnode):
                 update_node(rnode, tchild)
         else:
 
-            if not tchild.tag in rchildstags:
-                # print(tchild.tag)
-                el = etree.Element(tchild.tag, tchild.attrib)
-                rnodetree.append(el)
-                child_list.append(el)
-                nodeName_list.append(tchild.tag)
+            rchild_value = getattr(rnode, tchild.tag)
+            if empty_rchilds[tchild.tag]:
+                tchild_args = ', '.join([mapName(k) + '=' + "'"+v+"'" for k, v in tchild.attrib.iteritems()])
+                new_rchild = eval('ptd.xsdschema.plots_gds.create_{}({})'.format(tchild.tag, tchild_args))
+                if isinstance(rchild_value, list):
+                    eval('rnode.{}.append(new_rchild)'.format(tchild.tag))
+                else:
+                    setattr(rnode, tchild.tag, new_rchild)
             else:
                 rchilds = getattr(rnode, tchild.tag)
                 if isinstance(rchilds, list):
@@ -93,11 +114,6 @@ def update_node(rnode, tnode):
                         update_node(rchild, tchild)
                 else:
                     update_node(rchilds, tchild)
-    # if build_rnodetree:
-    for child, nodeName_ in zip(child_list, nodeName_list):
-        rnode.buildChildren(child, rnodetree, nodeName_)
-    # print(etree.tostring(rnode.to_etree(), pretty_print=True))
-    # return(refnode)
 
 # def rreplace(s, old, new):
 #     li = s.rsplit(old, 1) #Split only once
@@ -139,6 +155,7 @@ def update_node(rnode, tnode):
 #     # print(' '.join(ptest))
 #     return eval(' '.join(ptest))
 
+# Name standardization, same as in generateDS.py
 NameTable = {
     'type': 'type_',
     'float': 'float_',

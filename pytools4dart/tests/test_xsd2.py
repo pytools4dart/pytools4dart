@@ -10,9 +10,13 @@ import os
 # creation d'un plots.xml par defaut
 tic=timeit.default_timer()
 plots = ptd.plots_gds.createDartFile()
+
+Plot = ptd.plots_gds.create_Plot()
+Plot.Polygon2D.Point2D[1].x=20
+Plot.copy()
 # update_node(plots, troot)
 # toc=timeit.default_timer()
-
+print(etree.tostring(plots.to_etree(), pretty_print=True))
 # creation of 2 plots
 plots.Plots.add_Plot(ptd.plots_gds.create_Plot())
 plots.Plots.add_Plot(ptd.plots_gds.create_Plot())
@@ -22,19 +26,35 @@ print(etree.tostring(plots.to_etree(), pretty_print=True))
 # WARNING: all is done by reference
 # Following example will add two plots completly connected
 # that is to say modifying one will modify the other one
+plots.Plots.Plot = []
 Plot = ptd.plots_gds.create_Plot()
 plots.Plots.add_Plot(Plot)
 plots.Plots.add_Plot(Plot)
-plots.Plots.Plot[2].form = 1
-
-print(etree.tostring(plots.to_etree(), pretty_print=True))
+plots.Plots.add_Plot(Plot.copy())
+plots.Plots.Plot[1].form = 1
 toc=timeit.default_timer()
 print(toc - tic)
+print(etree.tostring(plots.to_etree(), pretty_print=True))
+
+Plot = ptd.plots_gds.create_Plot()
+plots.Plots.Plot=[]
 tic=timeit.default_timer()
 for i in range(100):
-    plots.Plots.add_Plot(ptd.plots_gds.create_Plot())
+    plots.Plots.add_Plot(Plot.copy())
 toc=timeit.default_timer()
 print(toc - tic)
+
+## modification des coordonnées d'un Plots
+import numpy as np
+X, Y = np.meshgrid(range(10), range(10))
+I = [0, 1, 1, 0]
+J = [0, 0, 1, 1]
+for iplot, (x, y) in enumerate(zip(X.ravel(), Y.ravel())):
+    for ipoint, (ix, iy) in enumerate(zip(I, J)):
+        plots.Plots.Plot[iplot].Polygon2D.Point2D[ipoint].x = x + ix
+        plots.Plots.Plot[iplot].Polygon2D.Point2D[ipoint].y = y + iy
+
+
 
 ptd.xsdschema.utils.export_xsd_to_tree(plots).write(os.path.expanduser('~/plots1.xml'),
                                 pretty_print=True,
