@@ -51,18 +51,15 @@ def get_template_root(module):
 #             for rchild in rchilds:
 #                 update_node(rchild, tchild)
 
-d = {}
-for k in ['ab','cd']:
-    d[k]=k
 
-
-def update_node(rnode, tnode):
+def update_node(rnode, tnode, module):
     """
 
     Parameters
     ----------
     rnode: object created with interface
     tnode: corresponding template node
+    module:
 
     Returns
     -------
@@ -84,7 +81,7 @@ def update_node(rnode, tnode):
                 try: # when created rnode may not have the parents necessary for test
                     test_res = eval_test(rnode, test)
                     if(test_res):
-                        update_node(rnode, tchild)
+                        update_node(rnode, tchild, module)
                     else: # remove child if exist
                         setattr(rnode, tchild.getchildren()[0].tag, None)
                 except:
@@ -94,15 +91,15 @@ def update_node(rnode, tnode):
                     # TODO la gestion de l'attribut static='1'
                     if max(pd.to_numeric(tchild.attrib['min']),
                                        len(getattr(rnode, tchild.getchildren()[0].tag)))>0:
-                        update_node(rnode, tchild)
+                        update_node(rnode, tchild, module)
             else:
-                update_node(rnode, tchild)
+                update_node(rnode, tchild, module)
         else:
 
             rchild_value = getattr(rnode, tchild.tag)
             if empty_rchilds[tchild.tag]:
                 tchild_args = ', '.join([mapName(k) + '=' + "'"+v+"'" for k, v in tchild.attrib.iteritems()])
-                new_rchild = eval('ptd.xsdschema.plots_gds.create_{}({})'.format(tchild.tag, tchild_args))
+                new_rchild = eval('ptd.xsdschema.{}.create_{}({})'.format(module, tchild.tag, tchild_args))
                 if isinstance(rchild_value, list):
                     eval('rnode.add_{}(new_rchild)'.format(tchild.tag))
                 else:
@@ -111,9 +108,9 @@ def update_node(rnode, tnode):
                 rchilds = getattr(rnode, tchild.tag)
                 if isinstance(rchilds, list):
                     for rchild in rchilds:
-                        update_node(rchild, tchild)
+                        update_node(rchild, tchild, module)
                 else:
-                    update_node(rchilds, tchild)
+                    update_node(rchilds, tchild, module)
 
 # def rreplace(s, old, new):
 #     li = s.rsplit(old, 1) #Split only once
@@ -234,7 +231,7 @@ def get_xsd_root(module):
 def get_gs_troot(module, xsdclass = 'DartFile'):
     # troot = get_template_root(module)
     # xsdroot = get_xsd_root(module)
-    troot = etree.parse(os.path.join(ptd.__path__[0], 'templates', 'plots.xml'))
+    troot = etree.parse(os.path.join(ptd.__path__[0], 'templates', '{}.xml'.format(module)))
     # xsdroot = etree.parse('/home/boissieu/Scripts/pytools4dartMTD/pytools4dart/xsdschema/plots.xsd')
     # tnodename = xsdroot.xpath('//xsd:element[@type="{}" or @name="{}"]'.format(xsdclass,xsdclass),
     #               namespaces={'xsd': 'http://www.w3.org/2001/XMLSchema'})[0].attrib[

@@ -9,17 +9,17 @@ import os
 # troot = get_gs_troot('plots', 'DartFile')
 # creation d'un plots.xml par defaut
 tic=timeit.default_timer()
-plots = ptd.plots_gds.createDartFile()
-
-Plot = ptd.plots_gds.create_Plot()
+plots = ptd.plots.createDartFile()
+phase = ptd.phase.createDartFile()
+Plot = ptd.plots.create_Plot()
 Plot.Polygon2D.Point2D[1].x=20
 Plot.copy()
 # update_node(plots, troot)
 # toc=timeit.default_timer()
 print(etree.tostring(plots.to_etree(), pretty_print=True))
 # creation of 2 plots
-plots.Plots.add_Plot(ptd.plots_gds.create_Plot())
-plots.Plots.add_Plot(ptd.plots_gds.create_Plot())
+plots.Plots.add_Plot(ptd.plots.create_Plot())
+plots.Plots.add_Plot(ptd.plots.create_Plot())
 plots.Plots.Plot[0].form = 1
 print(etree.tostring(plots.to_etree(), pretty_print=True))
 
@@ -27,7 +27,7 @@ print(etree.tostring(plots.to_etree(), pretty_print=True))
 # Following example will add two plots completly connected
 # that is to say modifying one will modify the other one
 plots.Plots.Plot = []
-Plot = ptd.plots_gds.create_Plot()
+Plot = ptd.plots.create_Plot()
 plots.Plots.add_Plot(Plot)
 plots.Plots.add_Plot(Plot)
 plots.Plots.add_Plot(Plot.copy())
@@ -36,7 +36,7 @@ toc=timeit.default_timer()
 print(toc - tic)
 print(etree.tostring(plots.to_etree(), pretty_print=True))
 
-Plot = ptd.plots_gds.create_Plot()
+Plot = ptd.plots.create_Plot()
 plots.Plots.Plot=[]
 tic=timeit.default_timer()
 for i in range(100):
