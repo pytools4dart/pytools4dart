@@ -6,17 +6,20 @@ import pytools4dart as ptd
 from pytools4dart.xsdschema.utils import get_gs_troot, update_node
 import timeit
 import os
+
 # troot = get_gs_troot('plots', 'DartFile')
 # creation d'un plots.xml par defaut
 tic=timeit.default_timer()
 plots = ptd.plots.createDartFile()
-phase = ptd.phase.createDartFile()
+# load phase from simulation
+phase = ptd.phase.parse(os.path.join(ptd.settings.get_simu_input_path('use_case_3'),
+                                     'phase.xml'))
 Plot = ptd.plots.create_Plot()
 Plot.Polygon2D.Point2D[1].x=20
 Plot.copy()
 # update_node(plots, troot)
 # toc=timeit.default_timer()
-print(etree.tostring(plots.to_etree(), pretty_print=True))
+print(etree.tostring(phase.to_etree(), pretty_print=True))
 # creation of 2 plots
 plots.Plots.add_Plot(ptd.plots.create_Plot())
 plots.Plots.add_Plot(ptd.plots.create_Plot())
