@@ -89,8 +89,13 @@ def update_node(rnode, tnode, module):
             elif any('type' == s for s in tchild.attrib.keys()):
                 if tchild.attrib['type']=='list':
                     # TODO la gestion de l'attribut static='1'
-                    if max(pd.to_numeric(tchild.attrib['min']),
-                                       len(getattr(rnode, tchild.getchildren()[0].tag)))>0:
+                    list_len = len(getattr(rnode, tchild.getchildren()[0].tag))
+                    if ('min' in tchild.attrib.keys()):
+                        min_list_len =  pd.to_numeric(tchild.attrib['min'])
+                    else:# case attribute min does not exist
+                        min_list_len = 0
+
+                    if max(min_list_len, list_len)>0:
                         update_node(rnode, tchild, module)
             else:
                 update_node(rnode, tchild, module)
@@ -231,11 +236,12 @@ def get_xsd_root(module):
 def get_gs_troot(module, xsdclass = 'DartFile'):
     # troot = get_template_root(module)
     # xsdroot = get_xsd_root(module)
-    troot = etree.parse(os.path.join(ptd.__path__[0], 'templates', '{}.xml'.format(module)))
+    troot = etree.parse(os.path.join(ptd.__path__[0], 'templates', '{}.xml'.format(module)),
+                        parser = etree.XMLParser(remove_comments=True))
     # xsdroot = etree.parse('/home/boissieu/Scripts/pytools4dartMTD/pytools4dart/xsdschema/plots.xsd')
     # tnodename = xsdroot.xpath('//xsd:element[@type="{}" or @name="{}"]'.format(xsdclass,xsdclass),
     #               namespaces={'xsd': 'http://www.w3.org/2001/XMLSchema'})[0].attrib[
     #     'name']
-    tnodename = xsdclass.replace('_','')
+    tnodename = xsdclass.replace('_','',1)
     return troot.xpath('//{}'.format(tnodename))[0]
 
