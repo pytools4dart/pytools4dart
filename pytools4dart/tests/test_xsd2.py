@@ -9,6 +9,7 @@ import os
 
 # troot = get_gs_troot('plots', 'DartFile')
 # creation d'un plots.xml par defaut
+ptd.configure('/home/claudia/Softwares/DART/DART_5-7-1_v1061')
 tic=timeit.default_timer()
 plots = ptd.plots.createDartFile()
 # load phase from simulation
