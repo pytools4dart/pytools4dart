@@ -273,6 +273,70 @@ class simulation(object):
         """
         return get_simu_input_path(self.name)
 
+    def writeToXMLFromObj(self):
+        check = self.check_dependencies()
+
+        if check == True: # introduce exception treatment instead
+            xmlfile_names = ["phase", "coeff_diff", "atmosphere", "directions", "maket", "object_3d", "plots"]
+            objs = [self.phase_obj, self.coeff_diff_obj, self.atmosphere_obj, self.directions_obj, self.maket_obj, self.object_3d_obj, self.plots_obj]
+        else:
+            print("please correct dependencies problems before writing files")
+
+        for i,file_name in enumerate(xmlfile_names):
+            self.write_xml_file(file_name, objs[i])
+
+
+    def check_dependencies(self):
+        check1 = self.check_sp_bands()
+        check2 = self.check_plots_optical_props()
+        check3 = self.check_scene_optical_props()
+        check4 = self.check_object_3d_opt_props()
+        return(check1 and check2 and check3 and check4)
+
+
+    def check_sp_bands(self):
+        spbands_nb_phase = len(self.phase_obj.Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties)
+        spbands_nb_coeff_lamb = len(self.coeff_diff_obj.Coeff_diff.LambertianMultiFunctions.LambertianMulti.
+                                    lambertianNodeMultiplicativeFactorForLUT.lambertianMultiplicativeFactorForLUT)
+        spbands_nb_coeff_veg = len(self.coeff_diff_obj.Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti.
+                                    understoryNodeMultiplicativeFactorForLUT.understoryMultiplicativeFactorForLUT)
+
+        if spbands_nb_phase != spbands_nb_coeff_lamb or spbands_nb_phase != spbands_nb_coeff_veg: #we take phase as the reference
+            if spbands_nb_coeff_lamb < spbands_nb_phase:
+                nb_missing_spbands = spbands_nb_phase - spbands_nb_coeff_lamb
+                print("warning: ")
+                print("adding %d spectral bands with global multiplicative factor to each lambertian optical properties" % nb_missing_spbands)
+                for i in range (spbands_nb_phase - spbands_nb_coeff_lamb):
+                    self.add_lamb_multiplicative_factor_for_lut(self.coeff_diff_obj, type = "lambertian")
+            if spbands_nb_coeff_veg < spbands_nb_phase:
+                nb_mission_spbands = spbands_nb_phase - spbands_nb_coeff_veg
+                print("warning: ")
+                print("adding %d spectral bands with global multiplicative factor to each vegetation optical properties" % nb_mission_spbands)
+                for i in range (spbands_nb_phase - spbands_nb_coeff_lamb):
+                    self.add_lamb_multiplicative_factor_for_lut(self.coeff_diff_obj, type = "vegetation")
+
+        return True
+
+    def check_plots_optical_props(self):
+        print("check_plots_optical_props")
+        print ("warning example: opt_prop XX does not exist")
+
+    def check_scene_optical_props(self):
+        print("check_scene_optical_props")
+        print ("warning example: opt_prop XX does not exist")
+
+    def check_object_3d_opt_props(self):
+        print("check_object_3d_opt_props")
+        print ("warning example: opt_prop XX does not exist")
+
+
+    def write_xml_file(self, fname, obj):
+        xmlstr = etree.tostring(obj.to_etree(), pretty_print=True)
+        xml_file = open(self.getinputsimupath() + fname + "_new.xml", "w")
+        xml_file.write(xmlstr)
+        xml_file.close()
+
+
     #ToDo
     #refreshFromTables
     #def add_bands()
