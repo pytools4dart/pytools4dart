@@ -160,11 +160,12 @@ class simulation(object):
         self.xml_root_nodes_dict = {}
         for xml_file_path in xml_files_paths_list:
             fname = (xml_file_path.split('/')[len(xml_file_path.split('/')) - 1]).split('.xml')[0]
-            xml_files_paths_dict[fname] = xml_file_path
-            with open(xml_file_path, 'r') as f:
-                xml_string = f.read()
-                input_xm_lroot_node = etree.fromstring(xml_string)
-                self.xml_root_nodes_dict[fname] = input_xm_lroot_node
+            if fname != "triangleFile": #triangleFile is created by runners, it is not a normal input DART file, no template exists for this file
+                xml_files_paths_dict[fname] = xml_file_path
+                with open(xml_file_path, 'r') as f:
+                    xml_string = f.read()
+                    input_xm_lroot_node = etree.fromstring(xml_string)
+                    self.xml_root_nodes_dict[fname] = input_xm_lroot_node
 
         for fname, xsdobj in self.xsdobjs_dict.iteritems():
             xsdobj.build(self.xml_root_nodes_dict[fname])
@@ -501,7 +502,7 @@ class simulation(object):
             new_inputsimu_path = pjoin(new_simu_path, "input")
             xml_file_path = pjoin(new_inputsimu_path, fname + ".xml")
         else:
-            xml_file_path = pjoin(self.getinputsimupath(), fname + "_new.xml")
+            xml_file_path = pjoin(self.getinputsimupath(), fname + ".xml")
         xml_file = open(xml_file_path, "w")
         xml_file.write(xmlstr)
         xml_file.close()
@@ -514,6 +515,8 @@ class simulation(object):
         for sp_band in spbands_list:
             sp_int_props = ptd.phase.create_SpectralIntervalsProperties(meanLambda=sp_band[0], deltaLambda=sp_band[1])
             self.xsdobjs_dict["phase"].Phase.DartInputParameters.SpectralIntervals.add_SpectralIntervalsProperties(sp_int_props)
+            sp_irr_value = ptd.phase.create_SpectralIrradianceValue()
+            self.xsdobjs_dict["phase"].Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance.add_SpectralIrradianceValue(sp_irr_value)
 
 
     #ToDo
