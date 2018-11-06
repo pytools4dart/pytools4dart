@@ -81,48 +81,70 @@ plot_fields = ['x1', 'y1', 'x2', 'y2', 'x3', 'y3', 'x4', 'y4',
 class simulation(object):
     """Simulation object corresponding to a DART simulation.
     It allows for storing and editing parameters, and running simulation
+
+    xsdobjs_dict contains objects built according to XSD modules specification, access is given through a key which matches with XSDfile name
     """
 
     def __init__(self, name = None):
 
         self.name = name
 
-        self.plots_obj = PlotsRoot()
-        self.plots_obj.factory()
+        self.xsdobjs_dict = {}
 
-        self.phase_obj = PhaseRoot()
-        self.phase_obj.factory()
+        self.xsdobjs_dict["plots"] = PlotsRoot()
+        self.xsdobjs_dict["phase"] = PhaseRoot()
+        self.xsdobjs_dict["atmosphere"] = AtmosphereRoot()
+        self.xsdobjs_dict["coeff_diff"] = CoeffDiffRoot()
+        self.xsdobjs_dict["directions"] = DirectionsRoot()
+        self.xsdobjs_dict["object_3d"] = Object3dRoot()
+        self.xsdobjs_dict["maket"] = MaketRoot()
+        self.xsdobjs_dict["inversion"] = InversionRoot()
+        self.xsdobjs_dict["trees"] = TreesRoot()
+        self.xsdobjs_dict["water"] = WaterRoot()
+        self.xsdobjs_dict["urban"] = UrbanRoot()
 
-        self.atmosphere_obj = AtmosphereRoot()
-        self.atmosphere_obj.factory()
+        for fname, xsdobj in self.xsdobjs_dict.iteritems():
+            xsdobj.factory()
 
-        self.coeff_diff_obj = CoeffDiffRoot()
-        self.coeff_diff_obj.factory()
 
-        self.directions_obj = DirectionsRoot()
-        self.coeff_diff_obj.factory()
 
-        self.object_3d_obj = Object3dRoot()
-        self.object_3d_obj.factory()
 
-        self.maket_obj = MaketRoot()
-        self.maket_obj.factory()
-
-        self.inversion_obj =  InversionRoot()
-        self.inversion_obj.factory()
-
-        self.trees_obj = TreesRoot()
-        self.trees_obj.factory()
-
-        self.water_obj = WaterRoot()
-        self.water_obj.factory()
-
-        self.urban_obj = UrbanRoot()
-        self.urban_obj.factory()
+        # self.plots_obj = PlotsRoot()
+        # self.plots_obj.factory()
+        #
+        # self.phase_obj = PhaseRoot()
+        # self.phase_obj.factory()
+        #
+        # self.atmosphere_obj = AtmosphereRoot()
+        # self.atmosphere_obj.factory()
+        #
+        # self.coeff_diff_obj = CoeffDiffRoot()
+        # self.coeff_diff_obj.factory()
+        #
+        # self.directions_obj = DirectionsRoot()
+        # self.coeff_diff_obj.factory()
+        #
+        # self.object_3d_obj = Object3dRoot()
+        # self.object_3d_obj.factory()
+        #
+        # self.maket_obj = MaketRoot()
+        # self.maket_obj.factory()
+        #
+        # self.inversion_obj =  InversionRoot()
+        # self.inversion_obj.factory()
+        #
+        # self.trees_obj = TreesRoot()
+        # self.trees_obj.factory()
+        #
+        # self.water_obj = WaterRoot()
+        # self.water_obj.factory()
+        #
+        # self.urban_obj = UrbanRoot()
+        # self.urban_obj.factory()
 
         #get XMLRootNodes:
         if name != None and os.path.isdir(self.getsimupath()):
-            self.readFromXML()
+            self.read_from_xml()
 
         else:#init summary dataframes
             self.plots_table = pd.DataFrame(columns=plot_fields)
@@ -130,125 +152,137 @@ class simulation(object):
             self.optprops_table = {'lambertian': pd.DataFrame(columns=opt_props_fields),
                                    'vegetation': pd.DataFrame(columns=opt_props_fields)}
 
-    def readFromXML(self):
-        xmlFilesPathsList = glob.glob(self.getinputsimupath() + "/*.xml")
-        XMLFilesPathsDict = {}
-        self.xmlRootNodesDict = {}
-        for xmlFilePath in xmlFilesPathsList:
-            fname = (xmlFilePath.split('/')[len(xmlFilePath.split('/')) - 1]).split('.xml')[0]
-            XMLFilesPathsDict[fname] = xmlFilePath
-            with open(xmlFilePath, 'r') as f:
-                xmlString = f.read()
-                inputXMLrootNode = etree.fromstring(xmlString)
-                self.xmlRootNodesDict[fname] = inputXMLrootNode
+    def read_from_xml(self):
+        xml_files_paths_list = glob.glob(self.getinputsimupath() + "/*.xml")
+        xml_files_paths_dict = {}
+        self.xml_root_nodes_dict = {}
+        for xml_file_path in xml_files_paths_list:
+            fname = (xml_file_path.split('/')[len(xml_file_path.split('/')) - 1]).split('.xml')[0]
+            xml_files_paths_dict[fname] = xml_file_path
+            with open(xml_file_path, 'r') as f:
+                xml_string = f.read()
+                input_xm_lroot_node = etree.fromstring(xml_string)
+                self.xml_root_nodes_dict[fname] = input_xm_lroot_node
 
-        self.plots_obj.build(self.xmlRootNodesDict["plots"])
+        for fname, xsdobj in self.xsdobjs_dict.iteritems():
+            xsdobj.build(self.xml_root_nodes_dict[fname])
 
-        self.phase_obj.build(self.xmlRootNodesDict["phase"])
+        # self.plots_obj.build(self.xml_root_nodes_dict["plots"])
+        #
+        # self.phase_obj.build(self.xml_root_nodes_dict["phase"])
+        #
+        # self.atmosphere_obj.build(self.xml_root_nodes_dict["atmosphere"])
+        #
+        # self.coeff_diff_obj.build(self.xml_root_nodes_dict["coeff_diff"])
+        #
+        # self.directions_obj.build(self.xml_root_nodes_dict["directions"])
+        #
+        # self.object_3d_obj.build(self.xml_root_nodes_dict["object_3d"])
+        #
+        # self.maket_obj.build(self.xml_root_nodes_dict["maket"])
+        #
+        # self.inversion_obj.build(self.xml_root_nodes_dict["inversion"])
+        #
+        # self.trees_obj.build(self.xml_root_nodes_dict["trees"])
+        #
+        # self.water_obj.build(self.xml_root_nodes_dict["water"])
+        #
+        # self.urban_obj.build(self.xml_root_nodes_dict["urban"])
 
-        self.atmosphere_obj.build(self.xmlRootNodesDict["atmosphere"])
+        if self.xml_root_nodes_dict.has_key("LUT"):
+            # self.LUT_obj = LUTRoot()
+            # self.LUT_obj.factory()
+            # self.LUT_obj.build(self.xml_root_nodes_dict["LUT"])
+            self.xsdobjs_dict["LUT"] = LUTRoot()
+            self.xsdobjs_dict["LUT"].factory()
+            self.xsdobjs_dict["LUT"].build(self.xml_root_nodes_dict["LUT"])
 
-        self.coeff_diff_obj.build(self.xmlRootNodesDict["coeff_diff"])
+        if self.xml_root_nodes_dict.has_key("lut"):
+            # self.lut_obj = lutRoot()
+            # self.lut_obj.factory()
+            # self.lut_obj.build(self.xml_root_nodes_dict["lut"])
+            self.xsdobjs_dict["lut"] = lutRoot()
+            self.xsdobjs_dict["lut"].factory()
+            self.xsdobjs_dict["lut"].build(self.xml_root_nodes_dict["lut"])
 
-        self.directions_obj.build(self.xmlRootNodesDict["directions"])
+        if self.xml_root_nodes_dict.has_key("triangleFile"):
+            # self.triangleFile_obj = TriangleFileRoot()
+            # self.triangleFile_obj.factory()
+            # self.triangleFile_obj.build(self.xml_root_nodes_dict["triangleFile"])
+            self.xsdobjs_dict["triangleFile"] = TriangleFileRoot()
+            self.xsdobjs_dict["triangleFile"].factory()
+            self.xsdobjs_dict["triangleFile"].build(self.xml_root_nodes_dict["triangleFile"])
 
-        self.object_3d_obj.build(self.xmlRootNodesDict["object_3d"])
+        self.extract_tables_from_objs()
 
-        self.maket_obj.build(self.xmlRootNodesDict["maket"])
+    def extract_tables_from_objs(self):
+        self.extract_plots_table()
+        self.extract_sp_bands_table()
+        self.extract_opt_props_table()
 
-        self.inversion_obj.build(self.xmlRootNodesDict["inversion"])
-
-        self.trees_obj.build(self.xmlRootNodesDict["trees"])
-
-        self.water_obj.build(self.xmlRootNodesDict["water"])
-
-        self.urban_obj.build(self.xmlRootNodesDict["urban"])
-
-        if self.xmlRootNodesDict.has_key("LUT"):
-            self.LUT_obj = LUTRoot()
-            self.LUT_obj.factory()
-            self.LUT_obj.build(self.xmlRootNodesDict["LUT"])
-
-        if self.xmlRootNodesDict.has_key("lut"):
-            self.lut_obj = lutRoot()
-            self.lut_obj.factory()
-            self.lut_obj.build(self.xmlRootNodesDict["lut"])
-
-        if self.xmlRootNodesDict.has_key("triangleFile"):
-            self.triangleFile_obj = TriangleFileRoot()
-            self.triangleFile_obj.factory()
-            self.triangleFile_obj.build(self.xmlRootNodesDict["triangleFile"])
-
-        self.refreshFromObjs()
-
-    def refreshFromObjs(self):
-        self.refreshPlotsTable()
-        self.refreshSpBandsTable()
-        self.refreshOptPropsTable()
-
-    def refreshPlotsTable(self):
+    def extract_plots_table(self):
         self.plots_table = pd.DataFrame(columns=plot_fields)
-        plotsList = self.plots_obj.Plots.Plot
-        rowsToAdd = []
-        for plot in plotsList:
-            pointsList = plot.Polygon2D.Point2D
-            x1, y1 = pointsList[0].x, pointsList[0].y
-            x2, y2 = pointsList[1].x, pointsList[1].y
-            x3, y3 = pointsList[2].x, pointsList[2].y
-            x4, y4 = pointsList[3].x, pointsList[3].y
+        plots_list = self.plots_obj.Plots.Plot
+        rows_to_add = []
+        for plot in plots_list:
+            points_list = plot.Polygon2D.Point2D
+            x1, y1 = points_list[0].x, points_list[0].y
+            x2, y2 = points_list[1].x, points_list[1].y
+            x3, y3 = points_list[2].x, points_list[2].y
+            x4, y4 = points_list[3].x, points_list[3].y
 
             zmin, dz = plot.PlotVegetationProperties.VegetationGeometry.baseheight, plot.PlotVegetationProperties.VegetationGeometry.height
-            densityDefinition, density = plot.PlotVegetationProperties.densityDefinition, plot.PlotVegetationProperties.LAIVegetation.LAI
+            density_definition, density = plot.PlotVegetationProperties.densityDefinition, plot.PlotVegetationProperties.LAIVegetation.LAI
             opt_prop_name =  plot.PlotVegetationProperties.VegetationOpticalPropertyLink.ident
 
-            rowToAdd = [x1, y1, x2, y2, x3, y3, x4, y4, zmin, dz, densityDefinition, density, opt_prop_name]
-            rowsToAdd.append(rowToAdd)
+            row_to_add = [x1, y1, x2, y2, x3, y3, x4, y4, zmin, dz, density_definition, density, opt_prop_name]
+            rows_to_add.append(row_to_add)
 
-        df = pd.DataFrame(rowsToAdd, columns = plot_fields)
+        df = pd.DataFrame(rows_to_add, columns = plot_fields)
         self.plots_table = self.plots_table.append(df)
 
-    def refreshSpBandsTable(self):
+    def extract_sp_bands_table(self):
         self.spbands_table = pd.DataFrame(columns = spbands_fields)
-        spbandsList = self.phase_obj.Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties
+        spbands_list = self.phase_obj.Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties
 
-        rowsToAdd = []
-        for spInterval in spbandsList:
-            wvl, dl = spInterval.meanLambda, spInterval.deltaLambda
-            rowToAdd = [wvl, dl]
-            rowsToAdd.append(rowToAdd)
-        df = pd.DataFrame(rowsToAdd, columns = spbands_fields)
+        rows_to_add = []
+        for sp_interval in spbands_list:
+            wvl, dl = sp_interval.meanLambda, sp_interval.deltaLambda
+            row_to_add = [wvl, dl]
+            rows_to_add.append(row_to_add)
+        df = pd.DataFrame(rows_to_add, columns = spbands_fields)
         self.spbands_table = self.spbands_table.append(df)
 
-    def refreshOptPropsTable(self):
+    def extract_opt_props_table(self):
         self.optprops_table = {'lambertian': pd.DataFrame(columns=opt_props_fields),
                                'vegetation': pd.DataFrame(columns=opt_props_fields)}
         #lambertians
-        lambOptPropsList = self.coeff_diff_obj.Coeff_diff.LambertianMultiFunctions.LambertianMulti
-        rowsToAdd = []
-        for lambOptProp in lambOptPropsList:
+        lamb_opt_props_list = self.coeff_diff_obj.Coeff_diff.LambertianMultiFunctions.LambertianMulti
+        rows_to_add = []
+        for lamb_opt_prop in lamb_opt_props_list:
             type = "lambertian"
-            db_name =  lambOptProp.databaseName
-            op_prop_name_in_db = lambOptProp.ModelName
-            op_prop_name = lambOptProp.ident
-            specular = lambOptProp.useSpecular
-            rowToAdd = type, op_prop_name, db_name, op_prop_name_in_db, specular
-            rowsToAdd.append(rowToAdd)
-        df = pd.DataFrame(rowsToAdd, columns = opt_props_fields)
+            db_name =  lamb_opt_prop.databaseName
+            op_prop_name_in_db = lamb_opt_prop.ModelName
+            op_prop_name = lamb_opt_prop.ident
+            specular = lamb_opt_prop.useSpecular
+            row_to_add = type, op_prop_name, db_name, op_prop_name_in_db, specular
+            rows_to_add.append(row_to_add)
+        df = pd.DataFrame(rows_to_add, columns = opt_props_fields)
         self.optprops_table["lambertian"] = self.optprops_table["lambertian"].append(df)
 
         #vegetation
-        vegetationOptPropsList = self.coeff_diff_obj.Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti
-        rowsToAdd = []
-        for vegOptProp in vegetationOptPropsList:
+        vegetation_opt_props_list = self.coeff_diff_obj.Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti
+        rows_to_add = []
+        for veg_opt_prop in vegetation_opt_props_list:
             type = "vegetation"
-            db_name = vegOptProp.databaseName
-            op_prop_name_in_db = vegOptProp.ModelName
-            op_prop_name = vegOptProp.ident
-            specular = vegOptProp.useSpecular
+            db_name = veg_opt_prop.databaseName
+            op_prop_name_in_db = veg_opt_prop.ModelName
+            op_prop_name = veg_opt_prop.ident
+            specular = veg_opt_prop.useSpecular
             #LAD???
-            rowToAdd = type, op_prop_name, db_name, op_prop_name_in_db, specular
-            rowsToAdd.append(rowToAdd)
-        df = pd.DataFrame(rowsToAdd, columns=opt_props_fields)
+            row_to_add = type, op_prop_name, db_name, op_prop_name_in_db, specular
+            rows_to_add.append(row_to_add)
+        df = pd.DataFrame(rows_to_add, columns=opt_props_fields)
         self.optprops_table["vegetation"] = self.optprops_table["lambertian"].append(df)
 
     def getsimupath(self):
@@ -273,72 +307,200 @@ class simulation(object):
         """
         return get_simu_input_path(self.name)
 
-    def writeToXMLFromObj(self):
-        check = self.check_dependencies()
+    def writeToXMLFromObj(self, modified_simu_name = None):
+        check = self.check_module_dependencies()
 
         if check == True: # introduce exception treatment instead
-            xmlfile_names = ["phase", "coeff_diff", "atmosphere", "directions", "maket", "object_3d", "plots"]
-            objs = [self.phase_obj, self.coeff_diff_obj, self.atmosphere_obj, self.directions_obj, self.maket_obj, self.object_3d_obj, self.plots_obj]
+            if modified_simu_name != None:
+                new_simu_path = pjoin(self.getsimupath(), "..", modified_simu_name)
+                if not os.path.isdir(new_simu_path):
+                    os.mkdir(new_simu_path)
+                    new_inputsimu_path = pjoin(new_simu_path, "input")
+                    os.mkdir(new_inputsimu_path)
+                else:
+                    print("requested new simulation already exists, files won't be written!")
+                    return
+            #
+            # xmlfiles_dict = {
+            #     "phase": self.phase_obj,
+            #     "coeff_diff": self.coeff_diff_obj,
+            #     "atmosphere": self.atmosphere_obj,
+            #     "directions": self.directions_obj,
+            #     "maket": self.maket_obj,
+            #     "object_3d": self.object_3d_obj,
+            #     "plots": self.plots_obj
+            # }
+            for fname, xsdobj in self.xsdobjs_dict.iteritems():
+                self.write_xml_file(fname, xsdobj, modified_simu_name)
         else:
-            print("please correct dependencies problems before writing files")
+            print("please correct dependencies issues before writing files")
 
-        for i,file_name in enumerate(xmlfile_names):
-            self.write_xml_file(file_name, objs[i])
+    def check_module_dependencies(self):
+        """
+        Cross check XSD module dependencies:
 
+        * check optical properties names associated to scene objects (plots, soil, object3D, trees(To be done)) exist in optical/thermal properties lists (coeff_diff.xml file) (ToDo: check thermal properties)
+        * check that the number of number of parameters associated to optical properties for each spectral band is different to the number of spectral bands in phase.xml file
 
-    def check_dependencies(self):
+        if optical/thermal property associated to scene object is missing in the optical/thermal property list, a warning is printed, asking the user to fix this inconsistency.
+
+        if spectral band multiplicative factors are missing in coeff_diff.xml file with respect to the number of spectral bands in phase.xml file,
+        default multiplicative factors are introduced for each missing spectral band
+
+        :return: True if every checks are satisfied, False if one or several checks are not satisfied
+        """
+        print ("checking module dependencies")
         check1 = self.check_sp_bands()
         check2 = self.check_plots_optical_props()
         check3 = self.check_scene_optical_props()
         check4 = self.check_object_3d_opt_props()
         return(check1 and check2 and check3 and check4)
 
-
     def check_sp_bands(self):
-        spbands_nb_phase = len(self.phase_obj.Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties)
-        spbands_nb_coeff_lamb = len(self.coeff_diff_obj.Coeff_diff.LambertianMultiFunctions.LambertianMulti.
-                                    lambertianNodeMultiplicativeFactorForLUT.lambertianMultiplicativeFactorForLUT)
-        spbands_nb_coeff_veg = len(self.coeff_diff_obj.Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti.
-                                    understoryNodeMultiplicativeFactorForLUT.understoryMultiplicativeFactorForLUT)
+        """
+        check that the number of number of parameters associated to optical properties for each spectral band is different to the number of spectral bands in phase.xml file
 
-        if spbands_nb_phase != spbands_nb_coeff_lamb or spbands_nb_phase != spbands_nb_coeff_veg: #we take phase as the reference
+        if spectral band multiplicative factors are missing in coeff_diff XSD module with respect to the number of spectral bands in phase XSD module,
+        default multiplicative factors are introduced for each missing spectral band
+
+        :return: True if the number of spectral bands in phase XSD module is equal to the number of spectral bandds in each optical property given in coeff_diff XSD module
+                      (including if this has been corrected)
+                 False otherwise
+        """
+        check = False
+        spbands_nb_phase = len(self.phase_obj.Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties)
+        if len(self.coeff_diff_obj.Coeff_diff.LambertianMultiFunctions.LambertianMulti)>0:
+            spbands_nb_coeff_lamb = len(self.coeff_diff_obj.Coeff_diff.LambertianMultiFunctions.LambertianMulti[0].
+                                        lambertianNodeMultiplicativeFactorForLUT.lambertianMultiplicativeFactorForLUT)
+        else:
+            spbands_nb_coeff_lamb=0
+
+        if len(self.coeff_diff_obj.Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti) > 0:
+            spbands_nb_coeff_veg = len(self.coeff_diff_obj.Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].
+                                       understoryNodeMultiplicativeFactorForLUT.understoryMultiplicativeFactorForLUT)
+        else:
+            spbands_nb_coeff_veg = 0
+
+        #if needed, correct sp bands number phase and coeff_diff module inconsistency
+        if spbands_nb_phase != spbands_nb_coeff_lamb or spbands_nb_phase != spbands_nb_coeff_veg: #we take phase_obj as the reference
             if spbands_nb_coeff_lamb < spbands_nb_phase:
                 nb_missing_spbands = spbands_nb_phase - spbands_nb_coeff_lamb
                 print("warning: ")
                 print("adding %d spectral bands with global multiplicative factor to each lambertian optical properties" % nb_missing_spbands)
                 for i in range (spbands_nb_phase - spbands_nb_coeff_lamb):
-                    self.add_lamb_multiplicative_factor_for_lut(self.coeff_diff_obj, type = "lambertian")
+                    self.add_lamb_multiplicative_factor_for_lut()
+                check = True
             if spbands_nb_coeff_veg < spbands_nb_phase:
                 nb_mission_spbands = spbands_nb_phase - spbands_nb_coeff_veg
                 print("warning: ")
                 print("adding %d spectral bands with global multiplicative factor to each vegetation optical properties" % nb_mission_spbands)
                 for i in range (spbands_nb_phase - spbands_nb_coeff_lamb):
-                    self.add_lamb_multiplicative_factor_for_lut(self.coeff_diff_obj, type = "vegetation")
+                    self.add_veg_multiplicative_factor_for_lut()
+                check = True
+        else:
+            check = True
+        return check
 
-        return True
+    def add_lamb_multiplicative_factor_for_lut(self):
+        lambertian_opt_props_list = self.coeff_diff_obj.Coeff_diff.LambertianMultiFunctions.LambertianMulti
+        for lamb_opt_prop in lambertian_opt_props_list:
+            lamb_opt_prop.lambertianNodeMultiplicativeFactorForLUT.add_lambertianMultiplicativeFactorForLUT(ptd.coeff_diff.create_lambertianMultiplicativeFactorForLUT())
+
+    def add_veg_multiplicative_factor_for_lut(self):
+        veg_opt_props_list = self.coeff_diff_obj.Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti
+        for veg_opt_prop in veg_opt_props_list:
+            veg_opt_prop.understoryNodeMultiplicativeFactorForLUT.add_understoryMultiplicativeFactorForLUT(ptd.coeff_diff.create_understoryMultiplicativeFactorForLUT())
+
+    def get_vegoptprop_index(self, vegoptprop_name):
+        index = None
+        vegopt_props_list = self.coeff_diff_obj.Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti
+        for i,vegopt_prop in enumerate(vegopt_props_list):
+            if vegopt_prop.ident == vegoptprop_name:
+                index = i
+                return index
+        return index
+
+    def get_lamboptprop_index(self, lamboptprop_name):
+        index = None
+        lambopt_propsList = self.coeff_diff_obj.Coeff_diff.LambertianMultiFunctions.LambertianMulti
+        for i,lambOptProp in enumerate(lambopt_propsList):
+            if lambOptProp.ident == lamboptprop_name:
+                index = i
+                return index
+        return index
+
 
     def check_plots_optical_props(self):
-        print("check_plots_optical_props")
-        print ("warning example: opt_prop XX does not exist")
+        """
+        check if every optical poperty associated to plots exist in optical properties list (ToDo: thermal properties, ThermalPropertyLink, idTemperature, indexTemperature)
+        :return:
+        """
+        check = True
+        plots_list = self.plots_obj.Plots.Plot
+        for i,plot in enumerate(plots_list):
+            prop_name = plot.PlotVegetationProperties.VegetationOpticalPropertyLink.ident
+            print("plot %d: checking vegopt_prop %s" % (i,prop_name))
+            index = self.get_vegoptprop_index(prop_name)
+            if (index == None):
+                print("warning: opt_prop %s does not exist in vegetation Optical Properties List" % prop_name)
+                return False
+            else:
+                if plot.PlotVegetationProperties.VegetationOpticalPropertyLink.indexFctPhase != index:
+                    print("warning:  opt_prop %s index inconsistency, correcting index" % prop_name)
+                    plot.PlotVegetationProperties.VegetationOpticalPropertyLink.indexFctPhase = index
+        return check
 
     def check_scene_optical_props(self):
-        print("check_scene_optical_props")
-        print ("warning example: opt_prop XX does not exist")
+        check = True
+        lambopt_prop = self.maket_obj.Maket.Soil.OpticalPropertyLink
+        prop_name = lambopt_prop.ident
+        index = self.get_lamboptprop_index(prop_name)
+        if index == None:
+                print("warning: opt_prop %s does not exist in vegetation Optical Properties List" % prop_name)
+                return False
+        else:
+            if lambopt_prop.indexFctPhase != index:
+                print("warning:  opt_prop %s index inconsistency, correcting index" % prop_name)
+                lambopt_prop.indexFctPhase = index
+        return check
 
     def check_object_3d_opt_props(self):
-        print("check_object_3d_opt_props")
-        print ("warning example: opt_prop XX does not exist")
+        """
+        check if optical properties associated to all 3d objects groups exist in optical properties list (ToDo: thermal properties)
+        search of optical prop names is made through the etree corresponding to object3D XSD module, because the number of nodes is huge
+        this means that the index can not be corrected (choice to be done)
+        :return: True if every optical property associated to 3D ojects exist in optical properties list
+        """
+        check = True
+        lambopt_props_elements = self.object_3d_obj.to_etree().findall(".//OpticalPropertyLink")
+        for lambopt_props_element in lambopt_props_elements:
+            prop_name = lambopt_props_element.get("ident")
+            if (self.get_optprop_index(lambopt_props_element.get("ident")) == None):
+                print("warning: opt_prop %s does not exist in vegetation Optical Properties List" % lambopt_props_element.get("ident"))
+                return False
+        return check
 
 
-    def write_xml_file(self, fname, obj):
+    def write_xml_file(self, fname, obj, modified_simu_name = None):
         xmlstr = etree.tostring(obj.to_etree(), pretty_print=True)
-        xml_file = open(self.getinputsimupath() + fname + "_new.xml", "w")
+        if modified_simu_name != None:
+            new_simu_path = pjoin(self.getsimupath(), "..",modified_simu_name)
+            new_inputsimu_path = pjoin(new_simu_path, "input")
+            xml_file_path = pjoin(new_inputsimu_path, fname + ".xml")
+        else:
+            xml_file_path = pjoin(self.getinputsimupath(), fname + "_new.xml")
+        xml_file = open(xml_file_path, "w")
         xml_file.write(xmlstr)
         xml_file.close()
 
+    def add_sp_bands(self, spbands_list):
+        for sp_band in spbands_list:
+            sp_int_props = ptd.phase.create_SpectralIntervalsProperties(meanLambda=sp_band[0], deltaLambda=sp_band[1])
+            self.phase_obj.Phase.DartInputParameters.SpectralIntervals.add_SpectralIntervalsProperties(sp_int_props)
+
 
     #ToDo
-    #refreshFromTables
+    #refreshObjFromTables(auto=True) : aimed to be launched automatically after each Table Modification, or manually
     #def add_bands()
     #def add_multiplots()
     #add_sequence()
