@@ -146,11 +146,11 @@ class simulation(object):
         if name != None and os.path.isdir(self.getsimupath()):
             self.read_from_xml()
 
-        else:#init summary dataframes
-            self.plots_table = pd.DataFrame(columns=plot_fields)
-            self.spbands_table = pd.DataFrame(columns=spbands_fields)
-            self.optprops_table = {'lambertian': pd.DataFrame(columns=opt_props_fields),
-                                   'vegetation': pd.DataFrame(columns=opt_props_fields)}
+        # else:#init summary dataframes
+        #     self.plots_table = pd.DataFrame(columns=plot_fields)
+        #     self.spbands_table = pd.DataFrame(columns=spbands_fields)
+        #     self.optprops_table = {'lambertian': pd.DataFrame(columns=opt_props_fields),
+        #                            'vegetation': pd.DataFrame(columns=opt_props_fields)}
 
         self.runners = run.runners(self)
 
@@ -191,6 +191,8 @@ class simulation(object):
         # self.water_obj.build(self.xml_root_nodes_dict["water"])
         #
         # self.urban_obj.build(self.xml_root_nodes_dict["urban"])
+
+        #QUESTION:  Ces fichiers ne sont peut être pas à lire?????
 
         if self.xml_root_nodes_dict.has_key("LUT"):
             # self.LUT_obj = LUTRoot()
@@ -241,8 +243,7 @@ class simulation(object):
             row_to_add = [x1, y1, x2, y2, x3, y3, x4, y4, zmin, dz, density_definition, density, opt_prop_name]
             rows_to_add.append(row_to_add)
 
-        df = pd.DataFrame(rows_to_add, columns = plot_fields)
-        self.plots_table = self.plots_table.append(df)
+        self.plots_table = pd.DataFrame(rows_to_add, columns = plot_fields)
 
     def extract_sp_bands_table(self):
         self.spbands_table = pd.DataFrame(columns = spbands_fields)
@@ -253,8 +254,8 @@ class simulation(object):
             wvl, dl = sp_interval.meanLambda, sp_interval.deltaLambda
             row_to_add = [wvl, dl]
             rows_to_add.append(row_to_add)
-        df = pd.DataFrame(rows_to_add, columns = spbands_fields)
-        self.spbands_table = self.spbands_table.append(df)
+
+        self.spbands_table = pd.DataFrame(rows_to_add, columns = spbands_fields)
 
     def extract_opt_props_table(self):
         self.optprops_table = {'lambertian': pd.DataFrame(columns=opt_props_fields),
@@ -270,8 +271,7 @@ class simulation(object):
             specular = lamb_opt_prop.useSpecular
             row_to_add = type, op_prop_name, db_name, op_prop_name_in_db, specular
             rows_to_add.append(row_to_add)
-        df = pd.DataFrame(rows_to_add, columns = opt_props_fields)
-        self.optprops_table["lambertian"] = self.optprops_table["lambertian"].append(df)
+        self.optprops_table["lambertian"] = pd.DataFrame(rows_to_add, columns = opt_props_fields)
 
         #vegetation
         vegetation_opt_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti
@@ -285,8 +285,7 @@ class simulation(object):
             #LAD???
             row_to_add = type, op_prop_name, db_name, op_prop_name_in_db, specular
             rows_to_add.append(row_to_add)
-        df = pd.DataFrame(rows_to_add, columns=opt_props_fields)
-        self.optprops_table["vegetation"] = self.optprops_table["lambertian"].append(df)
+        self.optprops_table["vegetation"] = pd.DataFrame(rows_to_add, columns=opt_props_fields)
 
     def getsimupath(self):
         """
@@ -328,6 +327,27 @@ class simulation(object):
                 self.write_xml_file(fname, xsdobj, modified_simu_name)
         else:
             print("please correct dependencies issues before writing files")
+
+    def check_properties_indexes_through_tables(self):
+        self.extract_tables_from_objs()
+        self.get_opt_props() # dataFrame containing opt_props
+        self.get_thermal_props() # dataFrame containing thermal props
+        self.get_plots_opt_props() # dataFrame containing opt props associated to plots
+        self.get_plots_thermal_props() #dataFrame containing thermal props associated to plots
+        self.get_scene_opt_props()# dataFrame containing opt props associated to scene
+        self.get_scene_thermal_props() # dataFrame containing thermal props associated to scene
+        self.get_object3d_opt_props() #dataFrame containing opt props associated to 3D objects
+        self.get_object3d_thermal_props() #dataFrame containing thermal props associated to 3D objects
+
+
+    def get_plots_opt_props_names(self):
+        plots_opt_props_dict = {"nb": [], "opt_prop_names": []}
+        plots_list = self.xsdobjs_dict["plots"].Plots.Plot
+        for i, plot in enumerate(plots_list):
+            prop_name = plot.PlotVegetationProperties.VegetationOpticalPropertyLink.ident
+            plots_opt_props_dict["nb"].append(i)
+            plots_opt_props_dict["opt_prop_names"].append(prop_name)
+        return pd.DataFrame(plots_opt_props_dict)
 
     def check_module_dependencies(self):
         """
@@ -443,7 +463,7 @@ class simulation(object):
     def check_plots_optical_props(self):
         """
         check if every optical property associated to plots exist in optical properties list (ToDo: thermal properties, ThermalPropertyLink, idTemperature, indexTemperature)
-        :return:
+        :return: True if associated properties are found in properties lists, False if not
         """
         check = True
         plots_list = self.xsdobjs_dict["plots"].Plots.Plot
@@ -463,7 +483,7 @@ class simulation(object):
     def check_scene_optical_props(self):
         """
         check if optical property associated to soil exist in optical properties list (ToDo: thermal properties, ThermalPropertyLink, idTemperature, indexTemperature)
-        :return:
+        :return:True if associated properties are found in properties lists, False if not
         """
         check = True
         lambopt_prop = self.xsdobjs_dict["maket"].Maket.Soil.OpticalPropertyLink
@@ -483,7 +503,7 @@ class simulation(object):
         check if optical properties associated to all 3d objects groups exist in optical properties list (ToDo: thermal properties)
         search of optical prop names is made through the etree corresponding to object3D XSD module, because the number of levels having an associated optical property is huge
         this means that the index can not be corrected (choice to be done)
-        :return: True if every optical property associated to 3D ojects exist in optical properties list
+        :return: True if every property associated to 3D ojects exist in properties lists
         """
         check = True
         lambopt_props_elements = self.xsdobjs_dict["object_3d"].to_etree().findall(".//OpticalPropertyLink")
