@@ -17,19 +17,21 @@ simu.check_module_dependencies()
 
 simu.writeToXMLFromObj(modified_simu_name = "testWriteModifSimu")
 
-## CORRECTING DEPENDENCIES ISSUES:
-plots_list = simu.plots_obj.Plots.Plot
-for plot in plots_list:
-    if plot.PlotVegetationProperties.VegetationOpticalPropertyLink == "Toto_Phase_Function":
-        plot.PlotVegetationProperties.VegetationOpticalPropertyLink = "Turbid_Leaf_Deciduous_Phase_Function"
+simu.runners.full()
 
-simu.maket_obj.Maket.Soil.OpticalPropertyLink.ident = "Lamb_ro=1"
-#######################
-
-simu.check_module_dependencies()
-
-simu.writeToXMLFromObj()
-
-
+# ## CORRECTING DEPENDENCIES ISSUES:
+# plots_list = simu.plots_obj.Plots.Plot
+# for plot in plots_list:
+#     if plot.PlotVegetationProperties.VegetationOpticalPropertyLink == "Toto_Phase_Function":
+#         plot.PlotVegetationProperties.VegetationOpticalPropertyLink = "Turbid_Leaf_Deciduous_Phase_Function"
+#
+# simu.maket_obj.Maket.Soil.OpticalPropertyLink.ident = "Lamb_ro=1"
+# #######################
+#
+# simu.check_module_dependencies()
+#
+# simu.writeToXMLFromObj()
+#
+#
 
 print("stop")

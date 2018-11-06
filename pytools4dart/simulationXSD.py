@@ -152,6 +152,8 @@ class simulation(object):
             self.optprops_table = {'lambertian': pd.DataFrame(columns=opt_props_fields),
                                    'vegetation': pd.DataFrame(columns=opt_props_fields)}
 
+        self.runners = run.runners(self)
+
     def read_from_xml(self):
         xml_files_paths_list = glob.glob(self.getinputsimupath() + "/*.xml")
         xml_files_paths_dict = {}
@@ -222,7 +224,7 @@ class simulation(object):
 
     def extract_plots_table(self):
         self.plots_table = pd.DataFrame(columns=plot_fields)
-        plots_list = self.plots_obj.Plots.Plot
+        plots_list = self.xsdobjs_dict["plots"].Plots.Plot
         rows_to_add = []
         for plot in plots_list:
             points_list = plot.Polygon2D.Point2D
@@ -243,7 +245,7 @@ class simulation(object):
 
     def extract_sp_bands_table(self):
         self.spbands_table = pd.DataFrame(columns = spbands_fields)
-        spbands_list = self.phase_obj.Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties
+        spbands_list = self.xsdobjs_dict["phase"].Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties
 
         rows_to_add = []
         for sp_interval in spbands_list:
@@ -257,7 +259,7 @@ class simulation(object):
         self.optprops_table = {'lambertian': pd.DataFrame(columns=opt_props_fields),
                                'vegetation': pd.DataFrame(columns=opt_props_fields)}
         #lambertians
-        lamb_opt_props_list = self.coeff_diff_obj.Coeff_diff.LambertianMultiFunctions.LambertianMulti
+        lamb_opt_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.LambertianMultiFunctions.LambertianMulti
         rows_to_add = []
         for lamb_opt_prop in lamb_opt_props_list:
             type = "lambertian"
@@ -271,7 +273,7 @@ class simulation(object):
         self.optprops_table["lambertian"] = self.optprops_table["lambertian"].append(df)
 
         #vegetation
-        vegetation_opt_props_list = self.coeff_diff_obj.Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti
+        vegetation_opt_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti
         rows_to_add = []
         for veg_opt_prop in vegetation_opt_props_list:
             type = "vegetation"
@@ -320,16 +322,7 @@ class simulation(object):
                 else:
                     print("requested new simulation already exists, files won't be written!")
                     return
-            #
-            # xmlfiles_dict = {
-            #     "phase": self.phase_obj,
-            #     "coeff_diff": self.coeff_diff_obj,
-            #     "atmosphere": self.atmosphere_obj,
-            #     "directions": self.directions_obj,
-            #     "maket": self.maket_obj,
-            #     "object_3d": self.object_3d_obj,
-            #     "plots": self.plots_obj
-            # }
+
             for fname, xsdobj in self.xsdobjs_dict.iteritems():
                 self.write_xml_file(fname, xsdobj, modified_simu_name)
         else:
@@ -368,21 +361,21 @@ class simulation(object):
                  False otherwise
         """
         check = False
-        spbands_nb_phase = len(self.phase_obj.Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties)
-        if len(self.coeff_diff_obj.Coeff_diff.LambertianMultiFunctions.LambertianMulti)>0:
-            spbands_nb_coeff_lamb = len(self.coeff_diff_obj.Coeff_diff.LambertianMultiFunctions.LambertianMulti[0].
+        spbands_nb_phase = len(self.xsdobjs_dict["phase"].Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties)
+        if len(self.xsdobjs_dict["coeff_diff"].Coeff_diff.LambertianMultiFunctions.LambertianMulti)>0:
+            spbands_nb_coeff_lamb = len(self.xsdobjs_dict["coeff_diff"].Coeff_diff.LambertianMultiFunctions.LambertianMulti[0].
                                         lambertianNodeMultiplicativeFactorForLUT.lambertianMultiplicativeFactorForLUT)
         else:
             spbands_nb_coeff_lamb=0
 
-        if len(self.coeff_diff_obj.Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti) > 0:
-            spbands_nb_coeff_veg = len(self.coeff_diff_obj.Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].
+        if len(self.xsdobjs_dict["coeff_diff"].Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti) > 0:
+            spbands_nb_coeff_veg = len(self.xsdobjs_dict["coeff_diff"].Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].
                                        understoryNodeMultiplicativeFactorForLUT.understoryMultiplicativeFactorForLUT)
         else:
             spbands_nb_coeff_veg = 0
 
         #if needed, correct sp bands number phase and coeff_diff module inconsistency
-        if spbands_nb_phase != spbands_nb_coeff_lamb or spbands_nb_phase != spbands_nb_coeff_veg: #we take phase_obj as the reference
+        if spbands_nb_phase != spbands_nb_coeff_lamb or spbands_nb_phase != spbands_nb_coeff_veg: #we take xsdobjs_dict["phase"] as the reference
             if spbands_nb_coeff_lamb < spbands_nb_phase:
                 nb_missing_spbands = spbands_nb_phase - spbands_nb_coeff_lamb
                 print("warning: ")
@@ -402,18 +395,29 @@ class simulation(object):
         return check
 
     def add_lamb_multiplicative_factor_for_lut(self):
-        lambertian_opt_props_list = self.coeff_diff_obj.Coeff_diff.LambertianMultiFunctions.LambertianMulti
+        """
+        add a multiplicatif factor for each lambertian optical property in coeff_diff module
+        """
+        lambertian_opt_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.LambertianMultiFunctions.LambertianMulti
         for lamb_opt_prop in lambertian_opt_props_list:
             lamb_opt_prop.lambertianNodeMultiplicativeFactorForLUT.add_lambertianMultiplicativeFactorForLUT(ptd.coeff_diff.create_lambertianMultiplicativeFactorForLUT())
 
     def add_veg_multiplicative_factor_for_lut(self):
-        veg_opt_props_list = self.coeff_diff_obj.Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti
+        """
+        add a multiplicatif factor for each vegetation optical property in coeff_diff module
+        """
+        veg_opt_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti
         for veg_opt_prop in veg_opt_props_list:
             veg_opt_prop.understoryNodeMultiplicativeFactorForLUT.add_understoryMultiplicativeFactorForLUT(ptd.coeff_diff.create_understoryMultiplicativeFactorForLUT())
 
     def get_vegoptprop_index(self, vegoptprop_name):
+        """
+        search for vegetation property having ident attribute matching vegoptprop_name in coeff_diff object
+        :param vegoptprop_name:
+        :return: if found, index of vegetation property in the vegetation opt properties list, None if not found
+        """
         index = None
-        vegopt_props_list = self.coeff_diff_obj.Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti
+        vegopt_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti
         for i,vegopt_prop in enumerate(vegopt_props_list):
             if vegopt_prop.ident == vegoptprop_name:
                 index = i
@@ -421,8 +425,13 @@ class simulation(object):
         return index
 
     def get_lamboptprop_index(self, lamboptprop_name):
+        """
+        search for lambertian property having ident attribute matching lamboptprop_name in coeff_diff object
+        :param lamboptprop_name:
+        :return: if found , index of lambertian property in the vegetation opt properties list, None if not found
+        """
         index = None
-        lambopt_propsList = self.coeff_diff_obj.Coeff_diff.LambertianMultiFunctions.LambertianMulti
+        lambopt_propsList = self.xsdobjs_dict["coeff_diff"].Coeff_diff.LambertianMultiFunctions.LambertianMulti
         for i,lambOptProp in enumerate(lambopt_propsList):
             if lambOptProp.ident == lamboptprop_name:
                 index = i
@@ -432,11 +441,11 @@ class simulation(object):
 
     def check_plots_optical_props(self):
         """
-        check if every optical poperty associated to plots exist in optical properties list (ToDo: thermal properties, ThermalPropertyLink, idTemperature, indexTemperature)
+        check if every optical property associated to plots exist in optical properties list (ToDo: thermal properties, ThermalPropertyLink, idTemperature, indexTemperature)
         :return:
         """
         check = True
-        plots_list = self.plots_obj.Plots.Plot
+        plots_list = self.xsdobjs_dict["plots"].Plots.Plot
         for i,plot in enumerate(plots_list):
             prop_name = plot.PlotVegetationProperties.VegetationOpticalPropertyLink.ident
             print("plot %d: checking vegopt_prop %s" % (i,prop_name))
@@ -451,8 +460,12 @@ class simulation(object):
         return check
 
     def check_scene_optical_props(self):
+        """
+        check if optical property associated to soil exist in optical properties list (ToDo: thermal properties, ThermalPropertyLink, idTemperature, indexTemperature)
+        :return:
+        """
         check = True
-        lambopt_prop = self.maket_obj.Maket.Soil.OpticalPropertyLink
+        lambopt_prop = self.xsdobjs_dict["maket"].Maket.Soil.OpticalPropertyLink
         prop_name = lambopt_prop.ident
         index = self.get_lamboptprop_index(prop_name)
         if index == None:
@@ -467,12 +480,12 @@ class simulation(object):
     def check_object_3d_opt_props(self):
         """
         check if optical properties associated to all 3d objects groups exist in optical properties list (ToDo: thermal properties)
-        search of optical prop names is made through the etree corresponding to object3D XSD module, because the number of nodes is huge
+        search of optical prop names is made through the etree corresponding to object3D XSD module, because the number of levels having an associated optical property is huge
         this means that the index can not be corrected (choice to be done)
         :return: True if every optical property associated to 3D ojects exist in optical properties list
         """
         check = True
-        lambopt_props_elements = self.object_3d_obj.to_etree().findall(".//OpticalPropertyLink")
+        lambopt_props_elements = self.xsdobjs_dict["object_3d"].to_etree().findall(".//OpticalPropertyLink")
         for lambopt_props_element in lambopt_props_elements:
             prop_name = lambopt_props_element.get("ident")
             if (self.get_optprop_index(lambopt_props_element.get("ident")) == None):
@@ -493,10 +506,14 @@ class simulation(object):
         xml_file.write(xmlstr)
         xml_file.close()
 
+
+###################################################
+##### USER FRIENDLY FUNCTIONS ###################
+
     def add_sp_bands(self, spbands_list):
         for sp_band in spbands_list:
             sp_int_props = ptd.phase.create_SpectralIntervalsProperties(meanLambda=sp_band[0], deltaLambda=sp_band[1])
-            self.phase_obj.Phase.DartInputParameters.SpectralIntervals.add_SpectralIntervalsProperties(sp_int_props)
+            self.xsdobjs_dict["phase"].Phase.DartInputParameters.SpectralIntervals.add_SpectralIntervalsProperties(sp_int_props)
 
 
     #ToDo
