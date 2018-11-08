@@ -14,7 +14,11 @@ sp_band_list = [[0.7, 0.02],
 
 simu.add_sp_bands(sp_band_list)
 
-simu.check_module_dependencies()
+#simu.extract_plots_full_table() # included in check_properties_index_through_tables
+
+simu.check_properties_indexes_through_tables()
+
+simu.check_module_dependencies()  # attention!!! check_sp_bands ne marche pas!
 
 simu.writeToXMLFromObj(modified_simu_name = "test2plotsSimu_Plus3bands")
 
