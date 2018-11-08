@@ -906,6 +906,8 @@ class simulation(object):
         """
         return getsimupath(self.name)
 
+
+
     def get_sequence_db_path(self, sequence_name):
         """
         Path of sequence database
