@@ -107,8 +107,7 @@ class simulation(object):
         if name != None and os.path.isdir(self.getsimupath()):
             self.read_from_xml()
 
-
-        self.properties_dict = {"opt_props":self.get_opt_props(), "thermal_props": self.get_thermal_props()}
+        self.update_properties_dict()
 
         self.runners = run.runners(self)
 
@@ -133,25 +132,16 @@ class simulation(object):
         #QUESTION:  Ces fichiers qui suivent ne sont peut être pas à lire, surtout pas le fichier TriangleFile?????
 
         if "LUT" in self.xml_root_nodes_dict.keys():
-            # self.LUT_obj = LUTRoot()
-            # self.LUT_obj.factory()
-            # self.LUT_obj.build(self.xml_root_nodes_dict["LUT"])
             self.xsdobjs_dict["LUT"] = LUTRoot()
             self.xsdobjs_dict["LUT"].factory()
             self.xsdobjs_dict["LUT"].build(self.xml_root_nodes_dict["LUT"])
 
         if "lut" in self.xml_root_nodes_dict.keys():
-            # self.lut_obj = lutRoot()
-            # self.lut_obj.factory()
-            # self.lut_obj.build(self.xml_root_nodes_dict["lut"])
             self.xsdobjs_dict["lut"] = lutRoot()
             self.xsdobjs_dict["lut"].factory()
             self.xsdobjs_dict["lut"].build(self.xml_root_nodes_dict["lut"])
 
         if "triangleFile" in self.xml_root_nodes_dict.keys():
-            # self.triangleFile_obj = TriangleFileRoot()
-            # self.triangleFile_obj.factory()
-            # self.triangleFile_obj.build(self.xml_root_nodes_dict["triangleFile"])
             self.xsdobjs_dict["triangleFile"] = TriangleFileRoot()
             self.xsdobjs_dict["triangleFile"].factory()
             self.xsdobjs_dict["triangleFile"].build(self.xml_root_nodes_dict["triangleFile"])
@@ -519,6 +509,7 @@ class simulation(object):
     def extract_plots_full_table(self):
         """
         extract a DataFrame containing Plots information, directly from plots_obj (self.xdsobjs_dict["plots"])
+        for each plot, the fields defined in DART plots.txt file header are provided
         :return: DataFrame containing Plot fields
         """
         plots_table_header = ['PLT_NUMB', 'PLT_TYPE', 'PT_1_X', 'PT_1_Y', 'PT_2_X', 'PT_2_Y', 'PT_3_X', 'PT_3_Y', 'PT_4_X',
@@ -575,7 +566,7 @@ class simulation(object):
                 grd_therm_number = plot.GroundThermalPropertyLink.indexTemperature
                 grd_therm_name = plot.GroundThermalPropertyLink.idTemperature
 
-            if plt_type == 3: #fluid
+            if plt_type == 3: #fluid: assume only one single AirOpticalProperty exists, DART allows a list of them, only for this type of optical property
                 plot_opt_number = plot.PlotAirProperties.AirOpticalProperties[0].AirOpticalPropertyLink.indexFctPhase
                 plot_opt_name = plot.PlotAirProperties.AirOpticalProperties[0].AirOpticalPropertyLink.ident
                 plt_therm_number = plot.PlotAirProperties.GroundThermalPropertyLink.indexTemperature
@@ -644,10 +635,6 @@ class simulation(object):
         print ("checking module dependencies")
         check1 = self.check_sp_bands()
         check2 = self.check_properties_indexes_through_tables()
-        #check2 = self.check_plots_optical_props()
-        #check3 = self.check_scene_optical_props()
-        #check4 = self.check_object_3d_opt_props()
-        #return(check1 and check2 and check3 and check4)
         return (check1 and check2)
 
     def check_sp_bands(self):
@@ -890,6 +877,163 @@ class simulation(object):
             sp_irr_value = ptd.phase.create_SpectralIrradianceValue()
             self.xsdobjs_dict["phase"].Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance.add_SpectralIrradianceValue(sp_irr_value)
 
+    def update_properties_dict(self):
+        self.properties_dict = {"opt_props":self.get_opt_props(), "thermal_props": self.get_thermal_props()}
+
+    def create_opt_property(self, opt_prop_type, opt_prop_name):
+        if opt_prop_type == "vegetation":
+            understoryMulti = ptd.coeff_diff.create_UnderstoryMulti(ident = opt_prop_name)
+            self.xsdobjs_dict["coeff_diff"].Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti.add_UnderstoryMulti(understoryMulti)
+        if opt_prop_type == "fluid":
+            airFunction = ptd.coeff_diff.create_AirFunction(ident = opt_prop_name)
+            self.xsdobjs_dict["coeff_diff"].Coeff_diff.AirMultiFunctions.add_AirFuntion(airFunction)
+        if opt_prop_type == "lambertian":
+            lambertianMulti = ptd.coeff_diff.create_LambertianMulti(ident = opt_prop_name)
+            self.xsdobjs_dict["coeff_diff"].Coeff_diff..LambertianMultiFunctions.add_LambertianMulti(lambertianMulti)
+        if opt_prop_type == "hapke":
+            hapkeSpecMulti = ptd.coeff_diff.create_HapkeSpecularMulti(ident = opt_prop_name)
+            self.xsdobjs_dict["coeff_diff"].Coeff_diff.HapkeSpecularMultiFunctions.add_HapkeSpecularMulti(hapkeSpecMulti)
+        if opt_prop_type == "rpv":
+            rpv_Multi = ptd.coeff_diff.create_RPVMulti(ident = opt_prop_name)
+            self.xsdobjs_dict["coeff_diff"].Coeff_diff.RPVMultiFunctions.add_RPVMulti(rpvMulti)
+        self.update_properties_dict()
+
+    def create_th_property(self, th_prop_name):
+        ptd.coeff_diff.create_ThermalFunction(idTemperature=th_prop_name)
+        self.update_properties_dict()
+
+    def checkandcorrect_opt_prop_exists(self,opt_prop_type, opt_prop_name, createProps = False):
+        """
+        Check if opt_prop exists
+        If it doesn't exist, and createOptProps == True, creates the missing optical property
+        If it doesn't exist, and createOptProps == False, prints ERROR Message
+        :param opt_prop_type: type of optical property in ["vegetation", "fluid", "lambertian", "hapke", "rpv"]
+        :param opt_prop_name: name of optical property to be checked
+        :param createOptProps: boolean, if True, a missing optical property will be created
+        :return: index in the corresponding list, 999 if missing  : TOBE DONE
+        """
+        self.update_properties_dict()
+        check = True
+        opt_prop_list = self.properties_dict["opt_props"][opt_prop_type]
+        if len(opt_prop_list[opt_prop_list["prop_name" == opt_prop_name]])<0:
+            if createProps == True:
+                self.create_opt_property(opt_prop_type, opt_prop_name)
+            else:
+                print("ERROR: %s optical property %s does not exist, please FIX or set createOptProps to TRUE" % (
+                    opt_prop_type, opt_prop_name))
+                return 999
+        return
+
+    def checkandcorrect_th_prop_exists(self, th_prop_name, createProps = False):
+        """
+        Check if thermal_prop exists
+        If it doesn't exist, and createOptProps == True, creates the missing optical property
+        If it doesn't exist, and createOptProps == False, prints ERROR Message
+        :param th_prop_name: thermal property name
+        :param createOptProps: boolean, if True, a missing thermal property will be created
+        :return:index in the corresponding list, 999 if missing
+        """
+        self.update_properties_dict()
+        check = True
+        th_prop_list = self.properties_dict["th_props"]
+        if len(th_prop_list[th_prop_list["prop_name" == th_prop_name]])<0:
+            if createProps == True:
+                self.create_th_property(th_prop_name)
+            else:
+                print("ERROR: thermal property %s does not exist, please FIX or set createOptProps to TRUE" % (
+                    th_prop_name))
+                return False
+        return check
+
+
+    def add_multiplots(self, plots_list):
+        for plot_params in plots_list:
+            self.add_plot(plot_params)
+
+    def add_plot(self, plot_type, plot_form, plot_opt_prop_name = None, plot_therm_prop_name = None, grd_opt_prop_type = None, grd_opt_prop_name = None, grd_therm_prop_name = None, createProps = False):
+        """
+        Adds a plot in plots_obj (self.xsdsobjs_dict["plots"]), corresponding to the given parameters
+        :param plot_type: type of plot in ["ground","vegetation","veg_ground","fluid"]
+        :param plot_form: ["polygon", "rectangle"]
+        :param plot_opt_prop_name: name of vegetation optical property, can be None (if plot type = ground)
+        :param plot_therm_prop_name: name of plot_ground thermal property, can be None (if plot type = ground)
+        :param grd_opt_prop_type: ground optical property type in ["lambertian","hapke","rpv"]
+        :param grd_opt_prop_name: name of ground optical property name.  Can be None (if plot_type = vegetation or fluid)
+        :param grd_therm_prop_name: name of ground thermal property name. Can be None (if plot_type = vegetation or fluid)
+        :param createOptProps: optional. If True, missing optical/thermal properties should be created
+
+        :return True if plot could be added, False if not
+        """
+
+        grd_opt_prop_types_dict = {0: "lambertian", 2: "hapke", 4: "rpv"}
+        grd_opt_prop_types_inv_dict = {"lambertian": 0, "hapke": 2, "rpv": 4}
+        plot_types_dict = {0: "ground", 1: "vegetation", 2: "veg_ground", 3: "fluid"}
+        plot_types_inv_dict = {"ground": 0, "vegetation": 1, "veg_ground": 2, "fluid": 3}
+        plot_form_dict = {0: "polygon", 1: "rectangle"}
+        plot_form_inv_dict = {"polygon": 0, "rectangle": 1}
+
+        plt_type = plot_types_inv_dict[plot_type]
+        plt_form = plot_form_inv_dict[plot_form]
+        grd_optprop_type = grd_opt_prop_types_inv_dict[grd_opt_prop_type]
+
+        plt_vegetation_properties = None
+        plt_air_properties = None
+        plt_water_proerties = None
+        grd_opt_prop = None
+        grd_therm_prop = None
+
+
+        if plt_type in [1,2]:
+            plot_opt_prop_type = "vegetation"
+            plot_opt_prop_index = self.checkandcorrect_opt_prop_exists(plot_opt_prop_type, plot_opt_prop_name, createProps)
+            plot_th_prop_index = self.checkandcorrect_th_prop_exists(plot_therm_prop_name, createProps)
+            if plot_opt_prop_index!= 999 and plot_th_prop_index != 999:
+                plt_opt_prop = ptd.plots.create_VegetationOpticalPropertyLink(ident=plot_opt_prop_name, indexFctPhase=plot_opt_prop_index)
+                plt_therm_prop = ptd.plots.create_GroundThermalPropertyLink(idTemperature=plot_therm_prop_name, indexTemperature=plot_th_prop_index)
+                plt_vegetation_properties = ptd.plots.create_PlotVegetationProperties(
+                    VegetationOpticalPropertyLink=plt_opt_prop, GroundThermalPropertyLink=plt_therm_prop)
+
+            if plt_type ==2: #veg + ground
+                grd_opt_prop_index = self.checkandcorrect_opt_prop_exists(grd_opt_prop_type, grd_opt_prop_name, createProps)
+                grd_th_prop_index = self.checkandcorrect_th_prop_exists(grd_therm_prop_name, createProps)
+                if grd_opt_prop_index != 999 and grd_th_prop_index != 999:
+                    grd_opt_prop = ptd.plots.create_GroundOpticalPropertyLink(type_ = grd_optprop_type,ident = grd_opt_prop_name, indexFctPhase=grd_opt_prop_index)
+                    grd_therm_prop = ptd.plots.create_GroundThermalPropertyLink(idTemperature=grd_therm_prop_name, indexTemperature=grd_th_prop_index)
+
+            else: #either opt_prop or th_prop does not exist
+                return False
+        elif plot_type == 3:
+            plot_opt_prop_type = "fluid"
+            opt_prop_exists = self.checkandcorrect_opt_prop_exists(plot_opt_prop_type, plot_opt_prop_name,
+                                                                   createProps)
+            plot_opt_prop_index = self.checkandcorrect_opt_prop_exists(plot_opt_prop_type, plot_opt_prop_name,
+                                                                       createProps)
+            plot_th_prop_index = self.checkandcorrect_th_prop_exists(plot_therm_prop_name, createProps)
+            if plot_opt_prop_index != 999 and plot_th_prop_index != 999:
+                plt_opt_prop = ptd.plots.create_AirOpticalPropertyLink(ident=plot_opt_prop_name,
+                                                                              indexFctPhase=plot_opt_prop_index)
+                plt_air_properties = ptd.plots.create_AirOpticalProperties(AirOpticalPropertyLink=plt_opt_prop)
+
+        elif plot_type == 0: #ground
+            grd_opt_prop_index = self.checkandcorrect_opt_prop_exists(grd_opt_prop_type, grd_opt_prop_name, createProps)
+            grd_th_prop_index = self.checkandcorrect_th_prop_exists(grd_therm_prop_name, createProps)
+            if grd_opt_prop_index != 999 and grd_th_prop_index != 999:
+                grd_opt_prop = ptd.plots.create_GroundOpticalPropertyLink(type_=grd_optprop_type,
+                                                                          ident=grd_opt_prop_name,
+                                                                          indexFctPhase=grd_opt_prop_index)
+                grd_therm_prop = ptd.plots.create_GroundThermalPropertyLink(idTemperature=grd_therm_prop_name,
+                                                                            indexTemperature=grd_th_prop_index)
+
+        Plot = ptd.plots.create_Plot(plot_type=plt_type, plot_form = plt_form,
+                              PlotVegetationProperties= plt_vegetation_properties, PlotAirProperties=plt_air_properties,
+                              PlotWaterProperties=plt_water_proerties,
+                              GroundOpticalPropertyLink=grd_opt_prop, GroundThermalPropertyLink=grd_therm_prop)
+
+        self.xsdobjs_dict["plots"].Plots.add_Plot(Plot)
+
+        return True
+
+
 ###################################################
 ##### USER FRIENDLY FUNCTIONS ###################
 
@@ -923,8 +1067,6 @@ class simulation(object):
 
     #ToDo
     #refreshObjFromTables(auto=True) : aimed to be launched automatically after each Table Modification, or manually
-    #def add_bands()
     #def add_multiplots()
     #add_sequence()
     #add_optprop()
-    # def writeToXML(self):
