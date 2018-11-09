@@ -889,7 +889,7 @@ class simulation(object):
             self.xsdobjs_dict["coeff_diff"].Coeff_diff.AirMultiFunctions.add_AirFuntion(airFunction)
         if opt_prop_type == "lambertian":
             lambertianMulti = ptd.coeff_diff.create_LambertianMulti(ident = opt_prop_name)
-            self.xsdobjs_dict["coeff_diff"].Coeff_diff..LambertianMultiFunctions.add_LambertianMulti(lambertianMulti)
+            self.xsdobjs_dict["coeff_diff"].Coeff_diff.LambertianMultiFunctions.add_LambertianMulti(lambertianMulti)
         if opt_prop_type == "hapke":
             hapkeSpecMulti = ptd.coeff_diff.create_HapkeSpecularMulti(ident = opt_prop_name)
             self.xsdobjs_dict["coeff_diff"].Coeff_diff.HapkeSpecularMultiFunctions.add_HapkeSpecularMulti(hapkeSpecMulti)
@@ -899,7 +899,8 @@ class simulation(object):
         self.update_properties_dict()
 
     def create_th_property(self, th_prop_name):
-        ptd.coeff_diff.create_ThermalFunction(idTemperature=th_prop_name)
+        th_function = ptd.coeff_diff.create_ThermalFunction(idTemperature=th_prop_name)
+        self.xsdobjs_dict["coeff_diff"].Coeff_diff.Temperatures.add_ThermalFunction(th_function)
         self.update_properties_dict()
 
     def checkandcorrect_opt_prop_exists(self,opt_prop_type, opt_prop_name, createProps = False):
@@ -913,16 +914,21 @@ class simulation(object):
         :return: index in the corresponding list, 999 if missing  : TOBE DONE
         """
         self.update_properties_dict()
-        check = True
+        index = 999
         opt_prop_list = self.properties_dict["opt_props"][opt_prop_type]
-        if len(opt_prop_list[opt_prop_list["prop_name" == opt_prop_name]])<0:
+        if len(opt_prop_list[opt_prop_list["prop_name"] == opt_prop_name])<1: # if property does not exist
             if createProps == True:
                 self.create_opt_property(opt_prop_type, opt_prop_name)
+                self.update_properties_dict()
+                opt_prop_list = self.properties_dict["opt_props"][opt_prop_type]
+                index = opt_prop_list[opt_prop_list["prop_name"] == opt_prop_name].index.tolist()[0]# unicity of prop_name
             else:
                 print("ERROR: %s optical property %s does not exist, please FIX or set createOptProps to TRUE" % (
                     opt_prop_type, opt_prop_name))
-                return 999
-        return
+                return index
+        else: #property exists
+            index = opt_prop_list[opt_prop_list["prop_name"] == opt_prop_name].index
+        return index
 
     def checkandcorrect_th_prop_exists(self, th_prop_name, createProps = False):
         """
@@ -934,16 +940,21 @@ class simulation(object):
         :return:index in the corresponding list, 999 if missing
         """
         self.update_properties_dict()
-        check = True
-        th_prop_list = self.properties_dict["th_props"]
-        if len(th_prop_list[th_prop_list["prop_name" == th_prop_name]])<0:
+        index = 999
+        th_prop_list = self.properties_dict["thermal_props"]
+        if len(th_prop_list[th_prop_list["prop_name"] == th_prop_name])<1:# if property does not exist
             if createProps == True:
                 self.create_th_property(th_prop_name)
+                self.update_properties_dict()
+                th_prop_list = self.properties_dict["thermal_props"]
+                index = th_prop_list[th_prop_list["prop_name"] == th_prop_name].index.tolist()[0]#unicity of th_prop_name
             else:
                 print("ERROR: thermal property %s does not exist, please FIX or set createOptProps to TRUE" % (
                     th_prop_name))
-                return False
-        return check
+                return index
+        else: # property exists
+            index = th_prop_list[th_prop_list["prop_name"] == th_prop_name].index
+        return index
 
 
     def add_multiplots(self, plots_list):
@@ -1002,7 +1013,7 @@ class simulation(object):
 
             else: #either opt_prop or th_prop does not exist
                 return False
-        elif plot_type == 3:
+        elif plt_type == 3:
             plot_opt_prop_type = "fluid"
             opt_prop_exists = self.checkandcorrect_opt_prop_exists(plot_opt_prop_type, plot_opt_prop_name,
                                                                    createProps)
@@ -1014,7 +1025,7 @@ class simulation(object):
                                                                               indexFctPhase=plot_opt_prop_index)
                 plt_air_properties = ptd.plots.create_AirOpticalProperties(AirOpticalPropertyLink=plt_opt_prop)
 
-        elif plot_type == 0: #ground
+        elif plt_type == 0: #ground
             grd_opt_prop_index = self.checkandcorrect_opt_prop_exists(grd_opt_prop_type, grd_opt_prop_name, createProps)
             grd_th_prop_index = self.checkandcorrect_th_prop_exists(grd_therm_prop_name, createProps)
             if grd_opt_prop_index != 999 and grd_th_prop_index != 999:
@@ -1024,7 +1035,7 @@ class simulation(object):
                 grd_therm_prop = ptd.plots.create_GroundThermalPropertyLink(idTemperature=grd_therm_prop_name,
                                                                             indexTemperature=grd_th_prop_index)
 
-        Plot = ptd.plots.create_Plot(plot_type=plt_type, plot_form = plt_form,
+        Plot = ptd.plots.create_Plot(type_=plt_type, form = plt_form,
                               PlotVegetationProperties= plt_vegetation_properties, PlotAirProperties=plt_air_properties,
                               PlotWaterProperties=plt_water_proerties,
                               GroundOpticalPropertyLink=grd_opt_prop, GroundThermalPropertyLink=grd_therm_prop)
