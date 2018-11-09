@@ -247,6 +247,10 @@ class simulation(object):
         return get_simu_input_path(self.name)
 
     def writeToXMLFromObj(self, modified_simu_name = None):
+        """
+        Warning if modified_simu_name is None, initial simulation is overwritten
+        :param modified_simu_name: name of the new(modified) simulation
+        """
         check = self.check_module_dependencies()
 
         if check == True: # introduce exception treatment instead
@@ -263,7 +267,7 @@ class simulation(object):
             for fname, xsdobj in self.xsdobjs_dict.iteritems():
                 self.write_xml_file(fname, xsdobj, modified_simu_name)
         else:
-            print("please correct dependencies issues before writing files")
+            print("ERROR: please correct dependencies issues, no files written")
 
     def check_properties_indexes_through_tables(self):
         """
@@ -279,6 +283,15 @@ class simulation(object):
         # return check_plots and check_scene and check_object3d and check_trees
 
     def get_plots_dfs_by_opt_prop_type(self):
+        """
+        build a dictionnary of dataframes containing plots by optical property type:
+            vegetation: PLT_TYPE = vegetation or veg+ground (1,2)
+            fluid: PLT_TYPE = fluid (3)
+            lambertian: PLT_TYPE = ground or veg+ground (0,2) AND GRD_TYPE = lambertian(GRD_OPT_TYPE = 0)
+            hapke: PLT_TYPE = ground or veg+ground (0,2) AND GRD_TYPE = hapke(GRD_OPT_TYPE = 2)
+            rpv: PLT_TYPE = ground or veg+ground (0,2) AND GRD_TYPE = rpv(GRD_OPT_TYPE = 4)
+        :return: dictionnary containing a dataframe for each optical property type (key)
+        """
         plots_full_table = self.plots_full_table
 
         plots_by_opt_prop_type = {}  # dictionnary of full plot data frames splitted according to opt_prop_type (vegetation, turbid, lamb, hapke, rpv)
@@ -297,6 +310,13 @@ class simulation(object):
         return plots_by_opt_prop_type
 
     def get_plots_dfs_by_plot_type(self):
+        """
+        build a dictionnary of dataframes containing plots by plot_type
+        2 plot types:
+            veg_vegplusground_fluid leading to non empty columns PLT_OPT_NAME, PLT_OPT_NUMB, PLT_THERM_NAME, PLT_THERM_NUMB
+            ground leading to non empty columns GRD_OPT_TYPE, GRD_OPT_NAME, GRD_OPT_NUMB, GRD_THERM_NAME, GRD_THERM_NUMB
+        :return: dictionnary containing a dataframe for each plot type (key)
+        """
         plots_full_table = self.plots_full_table
 
         plots_by_plot_type = {}  # dictionnary of full plot data frames splitted according to opt_prop_type (vegetation, turbid, lamb, hapke, rpv)
@@ -431,129 +451,10 @@ class simulation(object):
         # check plots.txt indexes
 
         return check_plots_opt_props and check_plots_thermal_props
-        # #################check optical properties
-        # opt_props = self.properties_dict["opt_props"]
-        # plots_dfs_by_opt_prop_type = self.get_plots_dfs_by_opt_prop_type()
-        # cross_plots_opt_props_dict = {} # jointure of opt_props_dict and plots/ground optical properties
-        # for opt_prop_type in opt_props.keys():
-        #     if opt_prop_type in ["vegetation","fluid"]:
-        #         cross_plots_opt_props_dict[opt_prop_type] = pd.merge(opt_props[opt_prop_type], plots_dfs_by_opt_prop_type[opt_prop_type],
-        #                                                              left_on = ['names'],right_on=['PLT_OPT_NAME'])
-        #     else: #lambertian, hapke, rpv
-        #         cross_plots_opt_props_dict[opt_prop_type] = pd.merge(opt_props[opt_prop_type], plots_dfs_by_opt_prop_type[opt_prop_type],
-        #                                                              left_on=['names'], right_on=['GRD_OPT_NAME'])
-        # for opt_prop_type in opt_props.keys():
-        #     plots = plots_dfs_by_opt_prop_type[opt_prop_type]
-        #     cross_props = cross_plots_opt_props_dict[opt_prop_type]
-        #     if len(plots) > len(cross_props): # number of plots is greater than the number of retrieved optical properties (mission plot opt properties)
-        #         check = False
-        #         print("ERROR: missing %d %s optical properties:" % (len(plots) - len(cross_props), opt_prop_type))
-        #         if opt_prop_type in ["vegetation","fluid"]:
-        #             missing_props = plots[~(plots['PLT_OPT_NAME'].isin(cross_props['names']))]['PLT_OPT_NAME']
-        #             for missing_prop in missing_props:
-        #                 print("%s property %s is does not exist, please FIX" % (opt_prop_type,missing_prop))
-        #         else: #opt_prop_type in ["lambertian","hapke","rpv"]
-        #             missing_props = plots[~(plots['GRD_OPT_NAME'].isin(cross_props['names']))]['GRD_OPT_NAME']
-        #             for missing_prop in missing_props:
-        #                 print("%s property %s is does not exist, please FIX" % (opt_prop_type,missing_prop))
-        #     else: # if plots/ground properties do exist in properties list, check if indexes do match
-        #         if opt_prop_type in ["vegetation","fluid"]:
-        #             eq_serie = cross_props["indexes"].eq(cross_props["PLT_OPT_NUMB"])
-        #             if len(eq_serie[eq_serie == False]):
-        #                 print("ERROR: indexes inconsistency, TOBE CORRECTED")
-        #         else: # opt_prop_type in ["lambertian","hapke","rpv"]
-        #             eq_serie = cross_props["indexes"].eq(cross_props["GRD_OPT_NUMB"])
-        #             if len(eq_serie[eq_serie == False]):
-        #                 print("ERROR: indexes inconsistency, TOBE CORRECTED")
-        #
-        # #################END OF check optical properties
-        # #################check thermal properties
-        #
-        # thermal_props = self.properties_dict["thermal_props"]
-        # cross_plots_therm_props_dict = {}  # jointure of opt_props_dict and plots/ground optical properties
-        #
-        # plot_types = ["veg_vegplusground_fluid","ground"]
-        # plots_dfs_by_plot_type = self.get_plots_dfs_by_plot_type()
-        #
-        # cross_plots_therm_props_dict["veg_vegplusground_fluid"] = pd.merge(thermal_props, plots_dfs_by_plot_type["veg_vegplusground_fluid"],
-        #                                                        left_on=['names'], right_on=['PLT_THERM_NAME'])
-        # cross_plots_therm_props_dict["ground"] = pd.merge(thermal_props,plots_dfs_by_plot_type["ground"],
-        #                                                                    left_on=['names'],right_on=['GRD_THERM_NAME'])
-        # for plot_type in plot_types:
-        #     plots = plots_dfs_by_plot_type[plot_type]
-        #     cross_props = cross_plots_therm_props_dict[plot_type]
-        #     if len(plots) > len(cross_props):
-        #         check = False
-        #         print("ERROR: missing %d %s thermal properties:" % ( len(plots) - len(cross_props), plot_type ) )
-        #         if plot_type == "veg_vegplusground_fluid":
-        #             missing_props = plots[~(plots['PLT_OPT_NAME'].isin(cross_props['names']))]['PLT_OPT_NAME']
-        #             for missing_prop in missing_props:
-        #                 print("%s property %s is does not exist, please FIX" % (plot_type, missing_prop))
-        #         else:  # plot_type == "ground"
-        #             missing_props = plots[~(plots['GRD_OPT_NAME'].isin(cross_props['names']))]['GRD_OPT_NAME']
-        #             for missing_prop in missing_props:
-        #                 print("%s property %s is does not exist, please FIX" % (plot_type, missing_prop))
-        #     else:  # if plots/ground properties do exist in properties list, check if indexes do match
-        #         if plot_type == "veg_vegplusground_fluid":
-        #             eq_serie = cross_props["indexes"].eq(cross_props["PLT_OPT_NUMB"])
-        #             if len(eq_serie[eq_serie == False]):
-        #                 print("ERROR: indexes inconsistency, TOBE CORRECTED")
-        #         else:  # plot_type == "ground"
-        #             eq_serie = cross_props["indexes"].eq(cross_props["GRD_OPT_NUMB"])
-        #             if len(eq_serie[eq_serie == False]):
-        #                 print("ERROR: indexes inconsistency, TOBE CORRECTED")
-
-        # check plots.txt indexes
-
-    # def cross_check_plots_props(self):
-    #     """
-    #     Check plots optical/thermal properties consistency
-    #     If property does not exist, an Error message is printed, asking the user to fix
-    #     If property does exist but indexes correspondance is not ensured, this is corrected and a warning message is printed
-    #     ToDo if any plots.txt check if opt/thermal property indexes given in those files are present in properties lists, if not, just Warn the user an let her/him fix
-    #     :return: True if check is ok or if just indexes inconsistency is corrected, False in any other case.
-    #     """
-    #     check = True
-    #
-    #     #check plot optical properties
-    #     plots_opt_props = self.get_plots_opt_props()  # dataFrame containing opt props associated to plots
-    #     plots_thermal_props = self.get_plots_thermal_props()  # dataFrame containing thermal props associated to plots
-    #     opt_props = self.properties_dict["opt_props"]
-    #     thermal_props = self.properties_dict["thermal_props"]
-    #     cross_plots_opt_props = pd.merge(opt_props["vegetation"], plots_opt_props, on = ['opt_prop_names'])
-    #     if len(cross_plots_opt_props.index) != len(plots_opt_props):
-    #         missing_plots_opt_props = plots_opt_props[~(plots_opt_props['opt_prop_names'].isin(cross_plots_opt_props['opt_prop_names']))]
-    #         for opt_prop_name in missing_plots_opt_props['opt_prop_names']:
-    #             print("Error: optical property %s associated to plot does not exist in vegetation optical properties list. Please fix " % opt_prop_name)
-    #         check = False
-    #     else:
-    #         #check that indexes and ids are identical, if not, correct
-    #         eq_serie = cross_plots_opt_props["th_props.id"].eq(cross_plots_opt_props["plots_th_props.index"])
-    #         cross_plots_opt_props["index_eq"] = cross_plots_opt_props["th_props.id"].eq(cross_plots_opt_props["plots_th_props.index"])
-    #
-    #         if len(eq_serie[eq_serie == False]):
-    #             self.correct_plots_opt_props() # read cross_plots_opt_props[index_eq for index_eq = False] -> find correspondance, correct in Plots Object
-    #         print("Warning: Plots Opt Props Indexes inconsistency has been corrected")
-    #
-    #     #check plot thermal properties
-    #     cross_plots_th_props = pd.merge(thermal_props, plots_thermal_props, on=['th_prop_names'])
-    #     if len(cross_plots_th_props.index) != len(plots_thermal_props):
-    #         missing_plots_th_props = plots_thermal_props[
-    #             ~(plots_thermal_props['opt_prop_names'].isin(cross_plots_th_props['opt_prop_names']))]
-    #         for th_prop_name in missing_plots_th_props['opt_prop_names']:
-    #                 print("Error: optical property %s associated to plot does not exist in vegetation optical properties list" % th_prop_name)
-    #         check = False
-    #     else:
-    #         #check that indexes and ids are identical, if not, correct
-    #         eq_serie = cross_plots_th_props["th_props.id"].eq(cross_plots_th_props["plots_th_props.index"])
-    #         if len(eq_serie[eq_serie == False]):
-    #             self.correct_plots_th_props()  # read cross_plots_thermal_props[index_eq for index_eq = False] -> find correspondance, correct in Plots Object
-    #             print("Warning: Plots Thermal Props Indexes inconsistency has been corrected")
-    #
-    #     return check
 
     def get_thermal_props(self):
         """
+        Provides a DataFrame containing thermal properties names and indexes of thermal properties in coeff_diff module
         th_props.id: location of thermal property in the thermal properties list
         :return: DataFrame containing thermal properties names and indexes
         """
@@ -566,10 +467,10 @@ class simulation(object):
 
     def get_opt_props(self):
         """
-        veg_props.id: location of optical property in the vegetation optical properties list
-        lamb_props.id: location of optical property in the lambertian optical properties list
-        hapke_props.id: location of optical property in the hapke optical properties list
-        rpv_props.id: location of optical property in the rpv optical properties list
+        Builds a dictionnary of dataframes, containing optical properties in coeff_diff module, for each opt_property type
+        Optical property types are the output dictionnary keys
+        Each DataFrame corresponds to each optical property type
+        For each optical property, the index and the name in the corresponding opt prop type list are provided
         :return: dictionnary containing, for each optical prop type, a DataFrame containing optical properties names and indexes
         """
 
@@ -784,13 +685,12 @@ class simulation(object):
         else:
             spbands_nb_coeff_rpv=0
 
-        # #fluid opt properties # complicate CASE, possible list or AirMultifunctions, ignore for the moment
-        # if len(self.xsdobjs_dict["coeff_diff"].Coeff_diff.AirMultiFunctions.AirFunction)>0:
-        #     spbands_nb_coeff_air = len(self.xsdobjs_dict["coeff_diff"].Coeff_diff.AirMultiFunctions.AirFunction[0].
-        #                                 AirFunctionNodeMultiplicativeFactorForLUT.AirFunctionMultiplicativeFactorForLUT)
-        # else:
-        #     spbands_nb_coeff_air=0
-
+        #fluid_opt_properties
+        if len(self.xsdobjs_dict["coeff_diff"].Coeff_diff.AirMultiFunctions.AirFunction) > 0:
+            spbands_nb_coeff_air = len(self.xsdobjs_dict["coeff_diff"].Coeff_diff.AirMultiFunctions.AirFunction[0].
+                                       AirFunctionNodeMultiplicativeFactorForLut.AirFunctionMultiplicativeFactorForLut)
+        else:
+            spbands_nb_coeff_air = 0
 
         #understory opt properties
         if len(self.xsdobjs_dict["coeff_diff"].Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti) > 0:
@@ -825,13 +725,13 @@ class simulation(object):
                     self.add_rpv_multiplicative_factor_for_lut()
                 check = True
 
-            # if spbands_nb_coeff_air < spbands_nb_phase: # complicate CASE, possible list or AirMultifunctions, ignore for the moment
-            #     nb_missing_spbands = spbands_nb_phase - spbands_nb_coeff_air
-            #     print("warning: ")
-            #     print("adding %d spectral bands with global multiplicative factor to each air optical property" % nb_missing_spbands)
-            #     for i in range (spbands_nb_phase - spbands_nb_coeff_air):
-            #         self.add_air_multiplicative_factor_for_lut()
-            #     check = True
+            if spbands_nb_coeff_air < spbands_nb_phase: # complicate CASE, possible list or AirMultifunctions, ignore for the moment
+                nb_missing_spbands = spbands_nb_phase - spbands_nb_coeff_air
+                print("warning: ")
+                print("adding %d spectral bands with global multiplicative factor to each air optical property" % nb_missing_spbands)
+                for i in range (spbands_nb_phase - spbands_nb_coeff_air):
+                    self.add_air_multiplicative_factor_for_lut()
+                check = True
 
             if spbands_nb_coeff_veg < spbands_nb_phase:
                 nb_mission_spbands = spbands_nb_phase - spbands_nb_coeff_veg
@@ -860,14 +760,14 @@ class simulation(object):
         for rpv_opt_prop in rpv_opt_props_list:
             rpv_opt_prop.RPVNodeMultiplicativeFactorForLUT.add_RPVMultiplicativeFactorForLUT(ptd.coeff_diff.create_RPVMultiplicativeFactorForLUT())
 
-    # def add_air_multiplicative_factor_for_lut(self): # complicate CASE, possible list or AirMultifunctions, ignore for the moment
-    #     """
-    #     add a multiplicatif factor for each lambertian optical property in coeff_diff module
-    #     """
-    #     air_opt_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.AirMultiFunctions.AirFunction
-    #     for air_opt_prop in air_opt_props_list:
-    #         air_opt_prop.AirFunctionNodeMultiplicativeFactorForLUT.add_AirFunctionMultiplicativeFactorForLUT(ptd.coeff_diff.create_AirFunctionMultiplicativeFactorForLUT())
-    #
+    def add_air_multiplicative_factor_for_lut(self): # complicate CASE, possible list or AirMultifunctions, ignore for the moment
+        """
+        add a multiplicatif factor for each lambertian optical property in coeff_diff module
+        """
+        air_opt_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.AirMultiFunctions.AirFunction
+        for air_opt_prop in air_opt_props_list:
+            air_opt_prop.AirFunctionNodeMultiplicativeFactorForLut.add_AirFunctionMultiplicativeFactorForLut(ptd.coeff_diff.create_AirFunctionMultiplicativeFactorForLut())
+
 
     def add_lamb_multiplicative_factor_for_lut(self):
         """
@@ -982,15 +882,43 @@ class simulation(object):
         xml_file.close()
 
 
-###################################################
-##### USER FRIENDLY FUNCTIONS ###################
-
     def add_sp_bands(self, spbands_list):
+        #phase module modification
         for sp_band in spbands_list:
             sp_int_props = ptd.phase.create_SpectralIntervalsProperties(meanLambda=sp_band[0], deltaLambda=sp_band[1])
             self.xsdobjs_dict["phase"].Phase.DartInputParameters.SpectralIntervals.add_SpectralIntervalsProperties(sp_int_props)
             sp_irr_value = ptd.phase.create_SpectralIrradianceValue()
             self.xsdobjs_dict["phase"].Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance.add_SpectralIrradianceValue(sp_irr_value)
+
+###################################################
+##### USER FRIENDLY FUNCTIONS ###################
+
+    def add_sp_bands_uf(self, spbands_list):
+        #phase module modification
+        for sp_band in spbands_list:
+            sp_int_props = ptd.phase.create_SpectralIntervalsProperties(meanLambda=sp_band[0], deltaLambda=sp_band[1])
+            self.xsdobjs_dict["phase"].Phase.DartInputParameters.SpectralIntervals.add_SpectralIntervalsProperties(sp_int_props)
+            sp_irr_value = ptd.phase.create_SpectralIrradianceValue()
+            self.xsdobjs_dict["phase"].Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance.add_SpectralIrradianceValue(sp_irr_value)
+
+        #coeff module modification
+        lambertian_opt_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.LambertianMultiFunctions.LambertianMulti
+        hapke_opt_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.HapkeSpecularMultiFunctions.HapkeSpecularMulti
+        rpv_opt_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.RPVMultiFunctions.RPVMulti
+        veg_opt_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti
+        fluid_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.AirMultiFunctions.AirFunction
+
+        for i in range(len(spbands_list)):
+            if len(lambertian_opt_props_list) > 0:
+                self.add_lamb_multiplicative_factor_for_lut()
+            if len(hapke_opt_props_list) > 0:
+                self.add_hapke_multiplicative_factor_for_lut()
+            if len(rpv_opt_props_list) > 0:
+                self.add_rpv_multiplicative_factor_for_lut()
+            if len(veg_opt_props_list) > 0:
+                self.add_veg_multiplicative_factor_for_lut()
+            if len(fluid_props_list) > 0: # complicated case, several air properties allowed
+                self.add_air_multiplicative_factor_for_lut()
 
 
     #ToDo
