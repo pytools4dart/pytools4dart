@@ -880,44 +880,67 @@ class simulation(object):
     def update_properties_dict(self):
         self.properties_dict = {"opt_props":self.get_opt_props(), "thermal_props": self.get_thermal_props()}
 
-    def create_opt_property(self, opt_prop_type, opt_prop_name):
+    def add_opt_property(self, opt_prop_type, opt_prop_name):
         nb_sp_bands = self.spbands_table.shape[0]
-        if opt_prop_type == "vegetation":
-            understoryMulti = ptd.coeff_diff.create_UnderstoryMulti(ident = opt_prop_name)
-            for i in range(nb_sp_bands):
-                understoryMulti.understoryNodeMultiplicativeFactorForLUT.add_understoryMultiplicativeFactorForLUT(
-                    ptd.coeff_diff.create_understoryMultiplicativeFactorForLUT())
-            self.xsdobjs_dict["coeff_diff"].Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti.add_UnderstoryMulti(understoryMulti)
-        if opt_prop_type == "fluid":
-            airFunction = ptd.coeff_diff.create_AirFunction(ident = opt_prop_name)
-            for i in range(nb_sp_bands):
-                airFunction.airFunctionNodeMultiplicativeFactorForLUT.add_airFunctionMultiplicativeFactorForLUT(
-                    ptd.coeff_diff.create_AirFunctionMultiplicativeFactorForLut())
-            self.xsdobjs_dict["coeff_diff"].Coeff_diff.AirMultiFunctions.add_AirFuntion(airFunction)
-        if opt_prop_type == "lambertian":
-            lambertianMulti = ptd.coeff_diff.create_LambertianMulti(ident = opt_prop_name)
-            for i in range(nb_sp_bands):
-                lambertianMulti.lambertianNodeMultiplicativeFactorForLUT.add_lambertianMultiplicativeFactorForLUT(
-                    ptd.coeff_diff.create_lambertianMultiplicativeFactorForLUT())
-            self.xsdobjs_dict["coeff_diff"].Coeff_diff.LambertianMultiFunctions.add_LambertianMulti(lambertianMulti)
-        if opt_prop_type == "hapke":
-            hapkeSpecMulti = ptd.coeff_diff.create_HapkeSpecularMulti(ident = opt_prop_name)
-            for i in range(nb_sp_bands):
-                hapkeSpecMulti.hapkeNodeMultiplicativeFactorForLUT.add_hapkeMultiplicativeFactorForLUT(
-                    ptd.coeff_diff.create_hapkeMultiplicativeFactorForLUT())
-            self.xsdobjs_dict["coeff_diff"].Coeff_diff.HapkeSpecularMultiFunctions.add_HapkeSpecularMulti(hapkeSpecMulti)
-        if opt_prop_type == "rpv":
-            rpv_Multi = ptd.coeff_diff.create_RPVMulti(ident = opt_prop_name)
-            for i in range(nb_sp_bands):
-                rpv_Multi.RPVNodeMultiplicativeFactorForLUT.add_RPVMultiplicativeFactorForLUT(
-                    ptd.coeff_diff.create_RPVMultiplicativeFactorForLUT())
-            self.xsdobjs_dict["coeff_diff"].Coeff_diff.RPVMultiFunctions.add_RPVMulti(rpvMulti)
-        self.update_properties_dict()
+        if self.get_opt_prop_index(opt_prop_type, opt_prop_name) == 999: # if oprtical property does not exist, create
+            if opt_prop_type == "vegetation":
+                understoryMulti = ptd.coeff_diff.create_UnderstoryMulti(ident = opt_prop_name)
+                for i in range(nb_sp_bands):
+                    understoryMulti.understoryNodeMultiplicativeFactorForLUT.add_understoryMultiplicativeFactorForLUT(
+                        ptd.coeff_diff.create_understoryMultiplicativeFactorForLUT())
+                self.xsdobjs_dict["coeff_diff"].Coeff_diff.UnderstoryMultiFunctions.add_UnderstoryMulti(understoryMulti)
+            if opt_prop_type == "fluid":
+                airFunction = ptd.coeff_diff.create_AirFunction(ident = opt_prop_name)
+                for i in range(nb_sp_bands):
+                    airFunction.airFunctionNodeMultiplicativeFactorForLUT.add_airFunctionMultiplicativeFactorForLUT(
+                        ptd.coeff_diff.create_AirFunctionMultiplicativeFactorForLut())
+                self.xsdobjs_dict["coeff_diff"].Coeff_diff.AirMultiFunctions.add_AirFuntion(airFunction)
+            if opt_prop_type == "lambertian":
+                lambertianMulti = ptd.coeff_diff.create_LambertianMulti(ident = opt_prop_name)
+                for i in range(nb_sp_bands):
+                    lambertianMulti.lambertianNodeMultiplicativeFactorForLUT.add_lambertianMultiplicativeFactorForLUT(
+                        ptd.coeff_diff.create_lambertianMultiplicativeFactorForLUT())
+                self.xsdobjs_dict["coeff_diff"].Coeff_diff.LambertianMultiFunctions.add_LambertianMulti(lambertianMulti)
+            if opt_prop_type == "hapke":
+                hapkeSpecMulti = ptd.coeff_diff.create_HapkeSpecularMulti(ident = opt_prop_name)
+                for i in range(nb_sp_bands):
+                    hapkeSpecMulti.hapkeNodeMultiplicativeFactorForLUT.add_hapkeMultiplicativeFactorForLUT(
+                        ptd.coeff_diff.create_hapkeMultiplicativeFactorForLUT())
+                self.xsdobjs_dict["coeff_diff"].Coeff_diff.HapkeSpecularMultiFunctions.add_HapkeSpecularMulti(hapkeSpecMulti)
+            if opt_prop_type == "rpv":
+                rpvMulti = ptd.coeff_diff.create_RPVMulti(ident = opt_prop_name)
+                for i in range(nb_sp_bands):
+                    rpvMulti.RPVNodeMultiplicativeFactorForLUT.add_RPVMultiplicativeFactorForLUT(
+                        ptd.coeff_diff.create_RPVMultiplicativeFactorForLUT())
+                self.xsdobjs_dict["coeff_diff"].Coeff_diff.RPVMultiFunctions.add_RPVMulti(rpvMulti)
+            self.update_properties_dict()
+        else: # opt_property having name opt_prop_name already exists
+            print("ERROR: optical property of type %s named %s already exists, please change name" % (opt_prop_type, opt_prop_name))
 
-    def create_th_property(self, th_prop_name):
-        th_function = ptd.coeff_diff.create_ThermalFunction(idTemperature=th_prop_name)
-        self.xsdobjs_dict["coeff_diff"].Coeff_diff.Temperatures.add_ThermalFunction(th_function)
+
+    def add_th_property(self, th_prop_name):
+        if self.get_thermal_prop_index(th_prop_name) == 999:  # if thermal property does not exist, create
+            th_function = ptd.coeff_diff.create_ThermalFunction(idTemperature=th_prop_name)
+            self.xsdobjs_dict["coeff_diff"].Coeff_diff.Temperatures.add_ThermalFunction(th_function)
+            self.update_properties_dict()
+        else: # th_prop having name opt_prop_name already exists
+            print("ERROR: thermal property named %s already exists, please change name" % (th_prop_name))
+
+    def get_opt_prop_index(self, opt_prop_type, opt_prop_name):
         self.update_properties_dict()
+        index = 999
+        opt_prop_list = self.properties_dict["opt_props"][opt_prop_type]
+        if len(opt_prop_list[opt_prop_list["prop_name"] == opt_prop_name]) > 0: #property exists
+            index = opt_prop_list[opt_prop_list["prop_name"] == opt_prop_name].index.tolist()[0]
+        return index
+
+    def get_thermal_prop_index(self, th_prop_name):
+        self.update_properties_dict()
+        index = 999
+        th_prop_list = self.properties_dict["thermal_props"]
+        if len(th_prop_list[th_prop_list["prop_name"] == th_prop_name]) > 0: #property exists
+            index = th_prop_list[th_prop_list["prop_name"] == th_prop_name].index.tolist()[0]
+        return index
 
     def checkandcorrect_opt_prop_exists(self,opt_prop_type, opt_prop_name, createProps = False):
         """
@@ -934,7 +957,7 @@ class simulation(object):
         opt_prop_list = self.properties_dict["opt_props"][opt_prop_type]
         if len(opt_prop_list[opt_prop_list["prop_name"] == opt_prop_name])<1: # if property does not exist
             if createProps == True:
-                self.create_opt_property(opt_prop_type, opt_prop_name)
+                self.add_opt_property(opt_prop_type, opt_prop_name)
                 self.update_properties_dict()
                 opt_prop_list = self.properties_dict["opt_props"][opt_prop_type]
                 index = opt_prop_list[opt_prop_list["prop_name"] == opt_prop_name].index.tolist()[0]# unicity of prop_name
@@ -960,7 +983,7 @@ class simulation(object):
         th_prop_list = self.properties_dict["thermal_props"]
         if len(th_prop_list[th_prop_list["prop_name"] == th_prop_name])<1:# if property does not exist
             if createProps == True:
-                self.create_th_property(th_prop_name)
+                self.add_th_property(th_prop_name)
                 self.update_properties_dict()
                 th_prop_list = self.properties_dict["thermal_props"]
                 index = th_prop_list[th_prop_list["prop_name"] == th_prop_name].index.tolist()[0]#unicity of th_prop_name
