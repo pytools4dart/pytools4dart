@@ -881,20 +881,36 @@ class simulation(object):
         self.properties_dict = {"opt_props":self.get_opt_props(), "thermal_props": self.get_thermal_props()}
 
     def create_opt_property(self, opt_prop_type, opt_prop_name):
+        nb_sp_bands = self.spbands_table.shape[0]
         if opt_prop_type == "vegetation":
             understoryMulti = ptd.coeff_diff.create_UnderstoryMulti(ident = opt_prop_name)
+            for i in range(nb_sp_bands):
+                understoryMulti.understoryNodeMultiplicativeFactorForLUT.add_understoryMultiplicativeFactorForLUT(
+                    ptd.coeff_diff.create_understoryMultiplicativeFactorForLUT())
             self.xsdobjs_dict["coeff_diff"].Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti.add_UnderstoryMulti(understoryMulti)
         if opt_prop_type == "fluid":
             airFunction = ptd.coeff_diff.create_AirFunction(ident = opt_prop_name)
+            for i in range(nb_sp_bands):
+                airFunction.airFunctionNodeMultiplicativeFactorForLUT.add_airFunctionMultiplicativeFactorForLUT(
+                    ptd.coeff_diff.create_AirFunctionMultiplicativeFactorForLut())
             self.xsdobjs_dict["coeff_diff"].Coeff_diff.AirMultiFunctions.add_AirFuntion(airFunction)
         if opt_prop_type == "lambertian":
             lambertianMulti = ptd.coeff_diff.create_LambertianMulti(ident = opt_prop_name)
+            for i in range(nb_sp_bands):
+                lambertianMulti.lambertianNodeMultiplicativeFactorForLUT.add_lambertianMultiplicativeFactorForLUT(
+                    ptd.coeff_diff.create_lambertianMultiplicativeFactorForLUT())
             self.xsdobjs_dict["coeff_diff"].Coeff_diff.LambertianMultiFunctions.add_LambertianMulti(lambertianMulti)
         if opt_prop_type == "hapke":
             hapkeSpecMulti = ptd.coeff_diff.create_HapkeSpecularMulti(ident = opt_prop_name)
+            for i in range(nb_sp_bands):
+                hapkeSpecMulti.hapkeNodeMultiplicativeFactorForLUT.add_hapkeMultiplicativeFactorForLUT(
+                    ptd.coeff_diff.create_hapkeMultiplicativeFactorForLUT())
             self.xsdobjs_dict["coeff_diff"].Coeff_diff.HapkeSpecularMultiFunctions.add_HapkeSpecularMulti(hapkeSpecMulti)
         if opt_prop_type == "rpv":
             rpv_Multi = ptd.coeff_diff.create_RPVMulti(ident = opt_prop_name)
+            for i in range(nb_sp_bands):
+                rpv_Multi.RPVNodeMultiplicativeFactorForLUT.add_RPVMultiplicativeFactorForLUT(
+                    ptd.coeff_diff.create_RPVMultiplicativeFactorForLUT())
             self.xsdobjs_dict["coeff_diff"].Coeff_diff.RPVMultiFunctions.add_RPVMulti(rpvMulti)
         self.update_properties_dict()
 
@@ -983,9 +999,9 @@ class simulation(object):
         plot_form_dict = {0: "polygon", 1: "rectangle"}
         plot_form_inv_dict = {"polygon": 0, "rectangle": 1}
 
-        plt_type = plot_types_inv_dict[plot_type]
-        plt_form = plot_form_inv_dict[plot_form]
-        grd_optprop_type = grd_opt_prop_types_inv_dict[grd_opt_prop_type]
+        plt_type_num = plot_types_inv_dict[plot_type]
+        plt_form_num = plot_form_inv_dict[plot_form]
+        grd_optprop_type_num = grd_opt_prop_types_inv_dict[grd_opt_prop_type]
 
         plt_vegetation_properties = None
         plt_air_properties = None
@@ -993,8 +1009,7 @@ class simulation(object):
         grd_opt_prop = None
         grd_therm_prop = None
 
-
-        if plt_type in [1,2]:
+        if plt_type_num in [1,2]:
             plot_opt_prop_type = "vegetation"
             plot_opt_prop_index = self.checkandcorrect_opt_prop_exists(plot_opt_prop_type, plot_opt_prop_name, createProps)
             plot_th_prop_index = self.checkandcorrect_th_prop_exists(plot_therm_prop_name, createProps)
@@ -1003,17 +1018,9 @@ class simulation(object):
                 plt_therm_prop = ptd.plots.create_GroundThermalPropertyLink(idTemperature=plot_therm_prop_name, indexTemperature=plot_th_prop_index)
                 plt_vegetation_properties = ptd.plots.create_PlotVegetationProperties(
                     VegetationOpticalPropertyLink=plt_opt_prop, GroundThermalPropertyLink=plt_therm_prop)
-
-            if plt_type ==2: #veg + ground
-                grd_opt_prop_index = self.checkandcorrect_opt_prop_exists(grd_opt_prop_type, grd_opt_prop_name, createProps)
-                grd_th_prop_index = self.checkandcorrect_th_prop_exists(grd_therm_prop_name, createProps)
-                if grd_opt_prop_index != 999 and grd_th_prop_index != 999:
-                    grd_opt_prop = ptd.plots.create_GroundOpticalPropertyLink(type_ = grd_optprop_type,ident = grd_opt_prop_name, indexFctPhase=grd_opt_prop_index)
-                    grd_therm_prop = ptd.plots.create_GroundThermalPropertyLink(idTemperature=grd_therm_prop_name, indexTemperature=grd_th_prop_index)
-
             else: #either opt_prop or th_prop does not exist
                 return False
-        elif plt_type == 3:
+        elif plt_type_num == 3:
             plot_opt_prop_type = "fluid"
             opt_prop_exists = self.checkandcorrect_opt_prop_exists(plot_opt_prop_type, plot_opt_prop_name,
                                                                    createProps)
@@ -1024,18 +1031,21 @@ class simulation(object):
                 plt_opt_prop = ptd.plots.create_AirOpticalPropertyLink(ident=plot_opt_prop_name,
                                                                               indexFctPhase=plot_opt_prop_index)
                 plt_air_properties = ptd.plots.create_AirOpticalProperties(AirOpticalPropertyLink=plt_opt_prop)
+            else:  #either opt_prop or th_prop does not exist
+                return False
 
-        elif plt_type == 0: #ground
+        if plt_type_num in [0,2]: #ground or ground+veg
             grd_opt_prop_index = self.checkandcorrect_opt_prop_exists(grd_opt_prop_type, grd_opt_prop_name, createProps)
             grd_th_prop_index = self.checkandcorrect_th_prop_exists(grd_therm_prop_name, createProps)
             if grd_opt_prop_index != 999 and grd_th_prop_index != 999:
-                grd_opt_prop = ptd.plots.create_GroundOpticalPropertyLink(type_=grd_optprop_type,
+                grd_opt_prop = ptd.plots.create_GroundOpticalPropertyLink(type_=grd_optprop_type_num,
                                                                           ident=grd_opt_prop_name,
                                                                           indexFctPhase=grd_opt_prop_index)
                 grd_therm_prop = ptd.plots.create_GroundThermalPropertyLink(idTemperature=grd_therm_prop_name,
                                                                             indexTemperature=grd_th_prop_index)
 
-        Plot = ptd.plots.create_Plot(type_=plt_type, form = plt_form,
+
+        Plot = ptd.plots.create_Plot(type_=plt_type_num, form = plt_form_num,
                               PlotVegetationProperties= plt_vegetation_properties, PlotAirProperties=plt_air_properties,
                               PlotWaterProperties=plt_water_proerties,
                               GroundOpticalPropertyLink=grd_opt_prop, GroundThermalPropertyLink=grd_therm_prop)

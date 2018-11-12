@@ -31,7 +31,7 @@ simu.writeToXMLFromObj(modified_simu_name = "test2plotsSimu_Plus3bands")
 
 simu2 = simulation("test2plotsSimu_Plus3bands")
 
-simu2.runners.full() #---> OK
+#simu2.runners.full() #---> OK
 
 
 simu2.add_plot(plot_type="ground", plot_form="polygon", plot_opt_prop_name=None, plot_therm_prop_name=None,grd_opt_prop_type="lambertian",grd_opt_prop_name="lambertianprop1",grd_therm_prop_name="thermprop1",createProps=True)
@@ -41,6 +41,6 @@ simu2.writeToXMLFromObj(modified_simu_name= "test2plotsSimu_Plus3bands_Plus1plot
 
 simu3 = simulation("test2plotsSimu_Plus3bands_Plus1plot")
 
-simu3.runners.full()  # ---> OK
+simu3.runners.full()
 
 print("stop")
