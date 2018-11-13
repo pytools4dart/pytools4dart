@@ -25,7 +25,8 @@ simu.add_sp_bands_uf(sp_band_list) #phase and coeff_diff
 #simu.check_properties_indexes_through_tables()
 
 
-simu.check_module_dependencies()  #includes check_sp_bands and check_properties_indexes_through_tables
+check = simu.check_module_dependencies()  #includes check_sp_bands and check_properties_indexes_through_tables
+
 
 simu.writeToXMLFromObj(modified_simu_name = "test2plotsSimu_Plus3bands")
 
@@ -34,7 +35,7 @@ simu2 = simulation("test2plotsSimu_Plus3bands")
 #simu2.runners.full() #---> OK
 
 
-simu2.add_plot(plot_type="ground", plot_form="polygon", plot_opt_prop_name=None, plot_therm_prop_name=None,grd_opt_prop_type="lambertian",grd_opt_prop_name="lambertianprop1",grd_therm_prop_name="thermprop1",createProps=True)
+add_plot_ok = simu2.add_plot(plot_type="ground", plot_form="polygon", plot_opt_prop_name=None, plot_therm_prop_name=None,grd_opt_prop_type="lambertian",grd_opt_prop_name="lambertianprop1",grd_therm_prop_name="thermprop1",createProps=True)
 
 simu2.check_module_dependencies()
 
