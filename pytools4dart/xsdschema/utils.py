@@ -100,7 +100,6 @@ def update_node(rnode, tnode, module):
             else:
                 update_node(rnode, tchild, module)
         else:
-
             rchild_value = getattr(rnode, tchild.tag)
             if empty_rchilds[tchild.tag]:
                 tchild_args = ', '.join([mapName(k) + '=' + "'"+v+"'" for k, v in tchild.attrib.iteritems()])
@@ -109,6 +108,7 @@ def update_node(rnode, tnode, module):
                     eval('rnode.add_{}(new_rchild)'.format(tchild.tag))
                 else:
                     setattr(rnode, tchild.tag, new_rchild)
+                update_node(new_rchild,tchild,module) # TEST CL
             else:
                 rchilds = getattr(rnode, tchild.tag)
                 if isinstance(rchilds, list):

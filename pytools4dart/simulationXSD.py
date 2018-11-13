@@ -83,12 +83,14 @@ class simulation(object):
     It allows for storing and editing parameters, and running simulation
     xsdobjs_dict contains objects built according to XSD modules specification, access is given through a key which matches with XSDfile name
     """
-    def __init__(self, name = "test_newSimu_IHM"):
+    #def __init__(self, name = "test_newSimu_IHM"):
+    def __init__(self, name = None):
         """
         :param name: The name of the simulation
         """
         self.name = name
         self.xsdobjs_dict = {}
+        #this could be useful: new_rchild = eval('ptd.xsdschema.{}.create_{}({})'.format(module, tchild.tag, tchild_args))
         self.xsdobjs_dict["plots"] = PlotsRoot()
         self.xsdobjs_dict["phase"] = PhaseRoot()
         self.xsdobjs_dict["atmosphere"] = AtmosphereRoot()
@@ -1128,8 +1130,8 @@ class simulation(object):
 
 
     def add_multiplots(self, plots_list):
-        plots_fields = ["plot_type", "plot_form", "plot_opt_prop_name", "plot_therm_prop_name", "grd_opt_prop_type",
-                        "grd_opt_prop_name", "grd_therm_prop_name", "createProps"]
+        # plots_fields = ["plot_type", "plot_form", "plot_opt_prop_name", "plot_therm_prop_name", "grd_opt_prop_type",
+        #                 "grd_opt_prop_name", "grd_therm_prop_name", "createProps"]
         for plot_params in plots_list:
             self.add_plot(plot_type = plot_params[0] , plot_form = plot_params[1],
                      plot_opt_prop_name = plot_params[2], plot_therm_prop_name = plot_params[3],

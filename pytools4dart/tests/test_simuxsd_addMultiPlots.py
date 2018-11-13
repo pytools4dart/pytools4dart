@@ -1,6 +1,6 @@
 from pytools4dart.simulationXSD import simulation
 
-simu = simulation("test_newSimu_IHM")
+simu = simulation()
 
 #simu.add_opt_property("vegetation","vegprop1")
 
@@ -10,7 +10,7 @@ check = simu.add_plot(createProps = True)
 simu.check_module_dependencies()
 simu.writeToXMLFromObj(modified_simu_name= "test_newSimu_XSD")
 
-simu2 = simulation("test2plotsSimu_add1SinglePlot")
+simu2 = simulation("test_newSimu_XSD")
 
 simu2.runners.full()
 
@@ -31,10 +31,10 @@ plot_params_list = [
 simu.add_multiplots(plot_params_list)
 simu.check_module_dependencies()
 
-simu.writeToXMLFromObj(modified_simu_name= "test2plotsSimu_addMultiplots")
+simu.writeToXMLFromObj(modified_simu_name= "test_newSimu_XSD_addMultiplots")
 
-simu2 = simulation("test2plotsSimu_addMultiplots")
+simu3 = simulation("test_newSimu_XSD_addMultiplots")
 
-simu2.runners.full()
+simu3.runners.full()
 
 print("stop")
