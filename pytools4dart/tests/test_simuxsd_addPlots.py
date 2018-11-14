@@ -38,6 +38,9 @@ simu2.writeToXMLFromObj(modified_simu_name= "test_newSimu_Plus3bands_Plus1Plot")
 
 simu3 = simulation("test_newSimu_Plus3bands_Plus1Plot")
 
-simu3.runners.full()
+try:
+    simu3.runners.full()
+except(Exception):
+    print(Exception.message)
 
 print("stop")

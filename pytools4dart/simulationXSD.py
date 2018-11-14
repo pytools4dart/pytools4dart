@@ -517,15 +517,11 @@ class simulation(object):
         for each plot, the fields defined in DART plots.txt file header are provided
         :return: DataFrame containing Plot fields
         """
-        plots_table_header = ['PLT_NUMB', 'PLT_TYPE', 'PT_1_X', 'PT_1_Y', 'PT_2_X', 'PT_2_Y', 'PT_3_X', 'PT_3_Y', 'PT_4_X',
-                              'PT_4_Y',
-                              'GRD_OPT_TYPE', 'GRD_OPT_NUMB', 'GRD_OPT_NAME', 'GRD_THERM_NUMB', 'GRD_THERM_NAME',
-                              'PLT_OPT_NUMB', 'PLT_OPT_NAME', 'PLT_THERM_NUMB', 'PLT_THERM_NAME',
-                              'PLT_BTM_HEI','PLT_HEI_MEA', 'PLT_STD_DEV', 'VEG_DENSITY_DEF', 'VEG_LAI', 'VEG_UL']
-        plots_opt_props_dict = {}
-
-        for field in plots_table_header:
-            plots_opt_props_dict[field] = []
+        #
+        # plots_opt_props_dict = {}
+        #
+        # for field in plots_table_header:
+        #     plots_opt_props_dict[field] = []
 
         rows = []
 
@@ -547,45 +543,35 @@ class simulation(object):
             x3, y3 = points_list[2].x, points_list[2].y
             x4, y4 = points_list[3].x, points_list[3].y
 
+            if plt_type in [1,2,3]:
+                opt_prop_node_name = None
+                th_prop_node_name = None
+                geom_node_name = None
 
-            if plt_type in [1,2]: # vegetation or vegetation+ground
-                plt_opt_number = plot.PlotVegetationProperties.VegetationOpticalPropertyLink.indexFctPhase
-                plt_opt_name = plot.PlotVegetationProperties.VegetationOpticalPropertyLink.ident
-                plt_therm_number = plot.PlotVegetationProperties.GroundThermalPropertyLink.indexTemperature
-                plt_therm_name = plot.PlotVegetationProperties.GroundThermalPropertyLink.idTemperature
+                if plt_type in [1,2]: # vegetation or veg+grd
+                    opt_prop_node_name = "PlotVegetationProperties.VegetationOpticalPropertyLink"
+                    th_prop_node_name = "PlotVegetationProperties.GroundThermalPropertyLink"
+                    geom_node_name = "PlotVegetationProperties.VegetationGeometry"
+                elif plt_type == 3:
+                    opt_prop_node_name = "PlotAirProperties.AirOpticalProperties[0].AirOpticalPropertyLink"
+                    th_prop_node_name = "PlotAirProperties.GroundThermalPropertyLink"
+                    geom_node_name = "PlotAirProperties.AirGeometry"
 
-                plt_btm_hei, plt_hei_mea, plt_std_dev = plot.PlotVegetationProperties.VegetationGeometry.baseheight, \
-                                                        plot.PlotVegetationProperties.VegetationGeometry.height, \
-                                                        plot.PlotVegetationProperties.VegetationGeometry.stDev
+                plt_opt_number = eval('plot.{}.indexFctPhase'.format(opt_prop_node_name))
+                plt_opt_name = eval('plot.{}.ident'.format(opt_prop_node_name))
+                plt_therm_number = eval('plot.{}.indexTemperature'.format(th_prop_node_name))
+                plt_therm_name = eval('plot.{}.idTemperature'.format(th_prop_node_name))
 
-                veg_density_def = plot.PlotVegetationProperties.densityDefinition
-                if veg_density_def == 0:
-                    veg_lai = plot.PlotVegetationProperties.LAIVegetation.LAI
-                if veg_density_def == 1:
-                    veg_ul = plot.PlotVegetationProperties.UFVegetation.UF
+                plt_btm_hei, plt_hei_mea, plt_std_dev = eval('plot.{}.baseheight'.format(geom_node_name)),\
+                                                        eval('plot.{}.height'.format(geom_node_name)),\
+                                                        eval('plot.{}.stDev'.format(geom_node_name))
 
-            if plt_type in [0,2]:# ground or vegetation+ground
+            if plt_type in [0, 2]:  # ground or vegetation+ground
                 grd_opt_type = plot.GroundOpticalPropertyLink.type_
                 grd_opt_number = plot.GroundOpticalPropertyLink.indexFctPhase
                 grd_opt_name = plot.GroundOpticalPropertyLink.ident
                 grd_therm_number = plot.GroundThermalPropertyLink.indexTemperature
                 grd_therm_name = plot.GroundThermalPropertyLink.idTemperature
-
-            if plt_type == 3: #fluid: assume only one single AirOpticalProperty exists, DART allows a list of them, only for this type of optical property
-                plt_opt_number = plot.PlotAirProperties.AirOpticalProperties[0].AirOpticalPropertyLink.indexFctPhase
-                plt_opt_name = plot.PlotAirProperties.AirOpticalProperties[0].AirOpticalPropertyLink.ident
-                plt_therm_number = plot.PlotAirProperties.GroundThermalPropertyLink.indexTemperature
-                plt_therm_name = plot.PlotAirProperties.GroundThermalPropertyLink.idTemperature
-
-                plt_btm_hei, plt_hei_mea, plt_std_dev = plot.PlotAirProperties.AirGeometry.baseheight, \
-                                                        plot.PlotAirProperties.AirGeometry.height, \
-                                                        plot.PlotAirProperties.AirGeometry.stDev
-
-            # plots_table_header = ['PLT_NUMBER', 'PLT_TYPE', 'PT_1_X', 'PT_1_Y', 'PT_2_X', 'PT_2_Y', 'PT_3_X', 'PT_3_Y', 'PT_4_X',
-            #                       'PT_4_Y',
-            #                       'GRD_OPT_TYPE', 'GRD_OPT_NUMB', 'GRD_OPT_NAME', 'GRD_THERM_NUMB', 'GRD_THERM_NAME',
-            #                       'PLT_OPT_NUMB', 'PLT_OPT_NAME', 'PLT_THERM_NUMB', 'PLT_THERM_NAME',
-            #                       'PLT_BTM_HEI', 'PLT_HEI_MEA', 'PLT_STD_DEV', 'VEG_DENSITY_DEF', 'VEG_LAI', 'VEG_UL']
 
             row_to_add = [i, plt_type, x1, y1, x2, y2, x3, y3, x4, y4,
                           grd_opt_type, grd_opt_number, grd_opt_name, grd_therm_number, grd_therm_name,
@@ -593,6 +579,14 @@ class simulation(object):
                           plt_btm_hei, plt_hei_mea, plt_std_dev, veg_density_def, veg_lai, veg_ul]
 
             rows.append(row_to_add)
+
+
+        plots_table_header = ['PLT_NUMBER', 'PLT_TYPE', 'PT_1_X', 'PT_1_Y', 'PT_2_X', 'PT_2_Y', 'PT_3_X', 'PT_3_Y',
+                              'PT_4_X',
+                              'PT_4_Y',
+                              'GRD_OPT_TYPE', 'GRD_OPT_NUMB', 'GRD_OPT_NAME', 'GRD_THERM_NUMB', 'GRD_THERM_NAME',
+                              'PLT_OPT_NUMB', 'PLT_OPT_NAME', 'PLT_THERM_NUMB', 'PLT_THERM_NAME',
+                              'PLT_BTM_HEI', 'PLT_HEI_MEA', 'PLT_STD_DEV', 'VEG_DENSITY_DEF', 'VEG_LAI', 'VEG_UL']
 
         return pd.DataFrame(rows, columns=plots_table_header)
 
