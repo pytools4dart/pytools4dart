@@ -57,20 +57,21 @@ import helpers.dbtools as dbtools
 
 import pytools4dart as ptd
 
-from pytools4dart.xsdschema.plots import createDartFile as PlotsRoot
-from pytools4dart.xsdschema.phase import createDartFile as PhaseRoot
-from pytools4dart.xsdschema.atmosphere import createDartFile as AtmosphereRoot
-from pytools4dart.xsdschema.coeff_diff import createDartFile as CoeffDiffRoot
-from pytools4dart.xsdschema.directions import createDartFile as DirectionsRoot
-from pytools4dart.xsdschema.object_3d import createDartFile as Object3dRoot
-from pytools4dart.xsdschema.maket import createDartFile as MaketRoot
-from pytools4dart.xsdschema.inversion import createDartFile as InversionRoot
-from pytools4dart.xsdschema.LUT import createDartFile as LUTRoot
-from pytools4dart.xsdschema.lut import createDartFile as lutRoot
-from pytools4dart.xsdschema.trees import createDartFile as TreesRoot
-from pytools4dart.xsdschema.triangleFile import createDartFile as TriangleFileRoot
-from pytools4dart.xsdschema.water import createDartFile as WaterRoot
-from pytools4dart.xsdschema.urban import createDartFile as UrbanRoot
+from pytools4dart.xsdschema.plots import createDartFile
+from pytools4dart.xsdschema.phase import createDartFile
+from pytools4dart.xsdschema.atmosphere import createDartFile
+from pytools4dart.xsdschema.coeff_diff import createDartFile
+from pytools4dart.xsdschema.directions import createDartFile
+from pytools4dart.xsdschema.object_3d import createDartFile
+from pytools4dart.xsdschema.maket import createDartFile
+from pytools4dart.xsdschema.inversion import createDartFile
+from pytools4dart.xsdschema.LUT import createDartFile
+from pytools4dart.xsdschema.lut import createDartFile
+from pytools4dart.xsdschema.trees import createDartFile
+from pytools4dart.xsdschema.triangleFile import createDartFile
+from pytools4dart.xsdschema.water import createDartFile
+from pytools4dart.xsdschema.urban import createDartFile
+
 
 spbands_fields = ['wvl', 'fwhm']
 opt_props_fields = ['type', 'op_name', 'db_name', 'op_name_in_db', 'specular']
@@ -90,23 +91,12 @@ class simulation(object):
         """
         self.name = name
         self.xsdobjs_dict = {}
-        #this could be useful: new_rchild = eval('ptd.xsdschema.{}.create_{}({})'.format(module, tchild.tag, tchild_args))
-        self.xsdobjs_dict["plots"] = PlotsRoot()
-        self.xsdobjs_dict["phase"] = PhaseRoot()
-        self.xsdobjs_dict["atmosphere"] = AtmosphereRoot()
-        self.xsdobjs_dict["coeff_diff"] = CoeffDiffRoot()
-        self.xsdobjs_dict["directions"] = DirectionsRoot()
-        self.xsdobjs_dict["object_3d"] = Object3dRoot()
-        self.xsdobjs_dict["maket"] = MaketRoot()
-        self.xsdobjs_dict["inversion"] = InversionRoot()
-        self.xsdobjs_dict["trees"] = TreesRoot()
-        self.xsdobjs_dict["water"] = WaterRoot()
-        self.xsdobjs_dict["urban"] = UrbanRoot()
+
+        modulenames_list = self.get_file_names(pjoin(os.path.dirname(os.path.realpath(__file__)),"templates"))#["plots", "phase", "atmosphere", "coeff_diff", "directions", "object_3d","maket","inversion","trees","water","urban"]
+        for modname in modulenames_list:
+            self.xsdobjs_dict[modname] = eval('ptd.xsdschema.{}.createDartFile()'.format(modname))
         for xsdobj in self.xsdobjs_dict.values():
             xsdobj.factory()
-
-        # self.urban_obj = UrbanRoot()
-        # self.urban_obj.factory()
 
         #get XMLRootNodes:
         if name != None and os.path.isdir(self.getsimupath()):
@@ -117,6 +107,14 @@ class simulation(object):
         self.spbands_table = self.extract_sp_bands_table()
 
         self.runners = run.runners(self)
+
+    def get_file_names(self, dir_path):
+        xml_files_paths_list = glob.glob(pjoin(dir_path,"*.xml"))
+        fnames = []
+        for xml_file_path in xml_files_paths_list:
+            fname = (xml_file_path.split('/')[len(xml_file_path.split('/')) - 1]).split('.xml')[0]
+            fnames.append(fname)
+        return fnames
 
     def read_from_xml(self):
         xml_files_paths_list = glob.glob(self.getinputsimupath() + "/*.xml")
@@ -134,24 +132,22 @@ class simulation(object):
         for fname, xsdobj in self.xsdobjs_dict.iteritems():
             xsdobj.build(self.xml_root_nodes_dict[fname])
 
-        # version précédente, avec chaque objet nommé: self.plots_obj.build(self.xml_root_nodes_dict["plots"])
+        #Following files are not to be read as input files, they are created when running a sequence or by maket DART module
 
-        #QUESTION:  Ces fichiers qui suivent ne sont peut être pas à lire, surtout pas le fichier TriangleFile?????
-
-        if "LUT" in self.xml_root_nodes_dict.keys():
-            self.xsdobjs_dict["LUT"] = LUTRoot()
-            self.xsdobjs_dict["LUT"].factory()
-            self.xsdobjs_dict["LUT"].build(self.xml_root_nodes_dict["LUT"])
-
-        if "lut" in self.xml_root_nodes_dict.keys():
-            self.xsdobjs_dict["lut"] = lutRoot()
-            self.xsdobjs_dict["lut"].factory()
-            self.xsdobjs_dict["lut"].build(self.xml_root_nodes_dict["lut"])
-
-        if "triangleFile" in self.xml_root_nodes_dict.keys():
-            self.xsdobjs_dict["triangleFile"] = TriangleFileRoot()
-            self.xsdobjs_dict["triangleFile"].factory()
-            self.xsdobjs_dict["triangleFile"].build(self.xml_root_nodes_dict["triangleFile"])
+        # if "LUT" in self.xml_root_nodes_dict.keys():
+        #     self.xsdobjs_dict["LUT"] = LUTRoot()
+        #     self.xsdobjs_dict["LUT"].factory()
+        #     self.xsdobjs_dict["LUT"].build(self.xml_root_nodes_dict["LUT"])
+        #
+        # if "lut" in self.xml_root_nodes_dict.keys():
+        #     self.xsdobjs_dict["lut"] = lutRoot()
+        #     self.xsdobjs_dict["lut"].factory()
+        #     self.xsdobjs_dict["lut"].build(self.xml_root_nodes_dict["lut"])
+        #
+        # if "triangleFile" in self.xml_root_nodes_dict.keys():
+        #     self.xsdobjs_dict["triangleFile"] = TriangleFileRoot()
+        #     self.xsdobjs_dict["triangleFile"].factory()
+        #     self.xsdobjs_dict["triangleFile"].build(self.xml_root_nodes_dict["triangleFile"])
 
         self.extract_tables_from_objs()
 

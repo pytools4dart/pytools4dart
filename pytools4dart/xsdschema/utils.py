@@ -108,7 +108,7 @@ def update_node(rnode, tnode, module):
                     eval('rnode.add_{}(new_rchild)'.format(tchild.tag))
                 else:
                     setattr(rnode, tchild.tag, new_rchild)
-                update_node(new_rchild,tchild,module) # TEST CL
+                update_node(new_rchild,tchild,module) # TEST CL: redondance with create just before, but parent references do not exist when object is created
             else:
                 rchilds = getattr(rnode, tchild.tag)
                 if isinstance(rchilds, list):
