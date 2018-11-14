@@ -82,7 +82,10 @@ plot_fields = ['x1', 'y1', 'x2', 'y2', 'x3', 'y3', 'x4', 'y4',
 class simulation(object):
     """Simulation object corresponding to a DART simulation.
     It allows for storing and editing parameters, and running simulation
-    xsdobjs_dict contains objects built according to XSD modules specification, access is given through a key which matches with XSDfile name
+    xsdobjs_dict: contains objects built according to XSD modules specification, access is given through a key which matches with XSDfile name
+                if the simulation whose name can be given as parameter exists, xsdobjs_dic is populated with simulation XML files contents
+    properties_dict: dictionnary containing "opt_props" and "thermal_props" DataFrames, "opt_props" provides a DataFrame for each opt property type
+    spbands_table: DataFrame containing a list of [wvl, dl] couples
     """
     #def __init__(self, name = "test_newSimu_IHM"):
     def __init__(self, name = None):
@@ -90,25 +93,32 @@ class simulation(object):
         :param name: The name of the simulation
         """
         self.name = name
-        self.xsdobjs_dict = {}
 
-        modulenames_list = self.get_file_names(pjoin(os.path.dirname(os.path.realpath(__file__)),"templates"))#["plots", "phase", "atmosphere", "coeff_diff", "directions", "object_3d","maket","inversion","trees","water","urban"]
+        self.xsdobjs_dict = {} #xsdobjs_dict contains objects built according to XSD modules specification
+        modulenames_list = self.get_xmlfile_names(pjoin(os.path.dirname(os.path.realpath(__file__)), "templates"))#["plots", "phase", "atmosphere", "coeff_diff", "directions", "object_3d","maket","inversion","trees","water","urban"]
         for modname in modulenames_list:
             self.xsdobjs_dict[modname] = eval('ptd.xsdschema.{}.createDartFile()'.format(modname))
         for xsdobj in self.xsdobjs_dict.values():
             xsdobj.factory()
 
-        #get XMLRootNodes:
+        #if the simulation exists, populate xsdobjs_dict with simulation XML files contents
         if name != None and os.path.isdir(self.getsimupath()):
-            self.read_from_xml()
+            self.read_from_xmls()
 
-        self.update_properties_dict()
+        self.properties_dict = self.extract_properties_dict() # dictionnary containing "opt_props" and "thermal_props" DataFrames
 
-        self.spbands_table = self.extract_sp_bands_table()
+        self.spbands_table = self.extract_sp_bands_table() # DataFrame containing a list of [wvl, dl] couples
+
+        self.plots_full_table = self.extract_plots_full_table()
 
         self.runners = run.runners(self)
 
-    def get_file_names(self, dir_path):
+    def get_xmlfile_names(self, dir_path):
+        """
+        Provide file names (without xml extension) contained in the directory whose path is given in parameter
+        :param dir_path: directory paty
+        :return: list of file names
+        """
         xml_files_paths_list = glob.glob(pjoin(dir_path,"*.xml"))
         fnames = []
         for xml_file_path in xml_files_paths_list:
@@ -116,7 +126,11 @@ class simulation(object):
             fnames.append(fname)
         return fnames
 
-    def read_from_xml(self):
+    def read_from_xmls(self):
+        """
+        Populate XSD Objects contained in xsdobjs_dict according to DART XML input files contents
+        Update properties, sp_bands and plots tables after population of xsdobjs
+        """
         xml_files_paths_list = glob.glob(self.getinputsimupath() + "/*.xml")
         xml_files_paths_dict = {}
         self.xml_root_nodes_dict = {}
@@ -149,33 +163,21 @@ class simulation(object):
         #     self.xsdobjs_dict["triangleFile"].factory()
         #     self.xsdobjs_dict["triangleFile"].build(self.xml_root_nodes_dict["triangleFile"])
 
-        self.extract_tables_from_objs()
+        self.update_tables_from_objs()
+        self.update_properties_dict()
 
-    def extract_tables_from_objs(self):
+    def update_tables_from_objs(self):
+        """
+        Updates self.plots_full_table and self.spbands_table variables
+        """
         self.plots_full_table = self.extract_plots_full_table()
         self.spbands_table = self.extract_sp_bands_table()
 
-    # def extract_plots_table(self):
-    #     self.plots_table = pd.DataFrame(columns=plot_fields)
-    #     plots_list = self.xsdobjs_dict["plots"].Plots.Plot
-    #     rows_to_add = []
-    #     for plot in plots_list:
-    #         points_list = plot.Polygon2D.Point2D
-    #         x1, y1 = points_list[0].x, points_list[0].y
-    #         x2, y2 = points_list[1].x, points_list[1].y
-    #         x3, y3 = points_list[2].x, points_list[2].y
-    #         x4, y4 = points_list[3].x, points_list[3].y
-    #
-    #         zmin, dz = plot.PlotVegetationProperties.VegetationGeometry.baseheight, plot.PlotVegetationProperties.VegetationGeometry.height
-    #         density_definition, density = plot.PlotVegetationProperties.densityDefinition, plot.PlotVegetationProperties.LAIVegetation.LAI
-    #         opt_prop_name =  plot.PlotVegetationProperties.VegetationOpticalPropertyLink.ident
-    #
-    #         row_to_add = [x1, y1, x2, y2, x3, y3, x4, y4, zmin, dz, density_definition, density, opt_prop_name]
-    #         rows_to_add.append(row_to_add)
-    #
-    #     self.plots_table = pd.DataFrame(rows_to_add, columns = plot_fields)
-
     def extract_sp_bands_table(self):
+        """
+        Build a DataFrame contaning a list of [wvl,dl] pairs corresponding to spectral bands contained in Phase XSD Object
+        :return: DataFrame contaning a list of [wvl,dl] pairs
+        """
         spbands_list = self.xsdobjs_dict["phase"].Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties
 
         rows_to_add = []
@@ -185,35 +187,6 @@ class simulation(object):
 
         return pd.DataFrame(rows_to_add, columns = spbands_fields)
 
-    # def extract_opt_props_table(self):
-    #     self.optprops_table = {'lambertian': pd.DataFrame(columns=opt_props_fields),
-    #                            'vegetation': pd.DataFrame(columns=opt_props_fields)}
-    #     #lambertians
-    #     lamb_opt_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.LambertianMultiFunctions.LambertianMulti
-    #     rows_to_add = []
-    #     for lamb_opt_prop in lamb_opt_props_list:
-    #         type = "lambertian"
-    #         db_name =  lamb_opt_prop.databaseName
-    #         op_prop_name_in_db = lamb_opt_prop.ModelName
-    #         op_prop_name = lamb_opt_prop.ident
-    #         specular = lamb_opt_prop.useSpecular
-    #         row_to_add = type, op_prop_name, db_name, op_prop_name_in_db, specular
-    #         rows_to_add.append(row_to_add)
-    #     self.optprops_table["lambertian"] = pd.DataFrame(rows_to_add, columns = opt_props_fields)
-    #
-    #     #vegetation
-    #     vegetation_opt_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti
-    #     rows_to_add = []
-    #     for veg_opt_prop in vegetation_opt_props_list:
-    #         type = "vegetation"
-    #         db_name = veg_opt_prop.databaseName
-    #         op_prop_name_in_db = veg_opt_prop.ModelName
-    #         op_prop_name = veg_opt_prop.ident
-    #         specular = veg_opt_prop.useSpecular
-    #         #LAD???
-    #         row_to_add = type, op_prop_name, db_name, op_prop_name_in_db, specular
-    #         rows_to_add.append(row_to_add)
-    #     self.optprops_table["vegetation"] = pd.DataFrame(rows_to_add, columns=opt_props_fields)
 
     def getsimupath(self):
         """
@@ -242,7 +215,9 @@ class simulation(object):
 
     def writeToXMLFromObj(self, modified_simu_name = None):
         """
-        Warning if modified_simu_name is None, initial simulation is overwritten
+        Write XSD objects contents on DART XML input files in simulation input directory
+        Warning: if modified_simu_name is None, initial simulation input directory is overwritten
+        If new simulation name given as parameter already exists, directory id not overwritten and an ERROR message is printed
         :param modified_simu_name: name of the new(modified) simulation
         """
         check = self.check_module_dependencies()
@@ -265,10 +240,12 @@ class simulation(object):
 
     def check_properties_indexes_through_tables(self):
         """
-        Att: Dans le cas des fichiers plots.txt et trees.txt, on peut juste vérifier que le numéro de proprieté (optique/thermique) existe
+        Cross check properties of every mockup element (plots, scene, object3d, trees) with properties DataFrames.
+        Only plots cross check has been implemented, others are coming (Todo cross_check_plots_txt, cross_check_scene_props, cross_check_object3d_props, cross_check_trees_props)
+        Att: In the case of plots.txt et trees.txt, we can only check if the given property index does exist
         :return:
         """
-        self.extract_tables_from_objs()
+        self.update_tables_from_objs()
         check_plots = self.cross_check_plots_props()
         # check_scene = self.cross_check_scene_props(self.properties_dict)
         # check_object3d = self.cross_check_object3d_props(self.properties_dict)
@@ -438,13 +415,9 @@ class simulation(object):
         ToDo if any plots.txt check if opt/thermal property indexes given in those files are present in properties lists, if not, just Warn the user an let her/him fix
         :return: True if check is ok or if just indexes inconsistency is corrected, False in any other case.
         """
-
         check_plots_opt_props = self.check_plots_opt_props()
-
         check_plots_thermal_props = self.check_plots_thermal_props()
-
         # check plots.txt indexes
-
         return check_plots_opt_props and check_plots_thermal_props
 
     def get_thermal_props(self):
@@ -468,46 +441,43 @@ class simulation(object):
         For each optical property, the index and the name in the corresponding opt prop type list are provided
         :return: dictionnary containing, for each optical prop type, a DataFrame containing optical properties names and indexes
         """
-
-        veg_opt_props_dict = {"prop_index": [], "prop_name": []}
-        lamb_opt_props_dict = {"prop_index": [], "prop_name": []}
-        hapke_opt_props_dict = {"prop_index": [], "prop_name": []}
-        rpv_opt_props_dict = {"prop_index": [], "prop_name": []}
-        fluid_opt_props_dict = {"prop_index": [], "prop_name": []}
+        listnodes_paths = []
+        opt_props = {}
+        opt_props_DF_cols =  ["prop_index", "prop_name"]
 
         if len(self.xsdobjs_dict["coeff_diff"].Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti) > 0:
-            veg_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti
-            for i, veg_prop in enumerate(veg_props_list):
-                veg_opt_props_dict["prop_index"].append(i)
-                veg_opt_props_dict["prop_name"].append(veg_prop.ident)
+            listnodes_paths.append(["vegetation","UnderstoryMultiFunctions.UnderstoryMulti"])
+        else:
+            opt_props["vegetation"] = pd.DataFrame(columns = opt_props_DF_cols)
 
         if len(self.xsdobjs_dict["coeff_diff"].Coeff_diff.LambertianMultiFunctions.LambertianMulti) > 0:
-            lamb_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.LambertianMultiFunctions.LambertianMulti
-            for i,lamb_prop in enumerate(lamb_props_list):
-                lamb_opt_props_dict["prop_index"].append(i)
-                lamb_opt_props_dict["prop_name"].append(lamb_prop.ident)
+            listnodes_paths.append(["lambertian","LambertianMultiFunctions.LambertianMulti"])
+        else:
+            opt_props["lambertian"] = pd.DataFrame(columns = opt_props_DF_cols)
 
         if len(self.xsdobjs_dict["coeff_diff"].Coeff_diff.HapkeSpecularMultiFunctions.HapkeSpecularMulti) > 0:
-            hapke_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.HapkeSpecularMultiFunctions.HapkeSpecularMulti
-            for i, hapke_prop in enumerate(hapke_props_list):
-                hapke_opt_props_dict["prop_index"].append(i)
-                hapke_opt_props_dict["prop_name"].append(hapke_prop.ident)
+            listnodes_paths.append(["hapke","HapkeSpecularMultiFunctions.HapkeSpecularMulti"])
+        else:
+            opt_props["hapke"] = pd.DataFrame(columns=opt_props_DF_cols)
 
         if len(self.xsdobjs_dict["coeff_diff"].Coeff_diff.RPVMultiFunctions.RPVMulti) > 0:
-            rpv_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.RPVMultiFunctions.RPVMulti
-            for i, rpv_prop in enumerate(rpv_props_list):
-                rpv_opt_props_dict["prop_index"].append(i)
-                rpv_opt_props_dict["prop_name"].append(rpv_prop.ident)
+            listnodes_paths.append(["rpv","RPVMultiFunctions.RPVMulti"])
+        else:
+            opt_props["rpv"] = pd.DataFrame(columns=opt_props_DF_cols)
 
         if len(self.xsdobjs_dict["coeff_diff"].Coeff_diff.AirMultiFunctions.AirFunction) > 0:
-            fluid_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.AirMultiFunctions.AirFunction
-            for i, fluid_prop in enumerate(fluid_props_list):
-                fluid_opt_props_dict["prop_index"].append(i)
-                fluid_opt_props_dict["prop_name"].append(fluid_prop.ident)
+            listnodes_paths.append(["fluid","AirMultiFunctions.AirFunction"])
+        else:
+            opt_props["fluid"] = pd.DataFrame(columns=opt_props_DF_cols)
 
-        opt_props = {"vegetation": pd.DataFrame(veg_opt_props_dict, dtype='object'), "lambertian" : pd.DataFrame(lamb_opt_props_dict, dtype='object'),
-                     "hapke" : pd.DataFrame(hapke_opt_props_dict, dtype='object'), "rpv":pd.DataFrame(rpv_opt_props_dict, dtype='object'),
-                     "fluid" : pd.DataFrame(fluid_opt_props_dict, dtype='object')}
+        for listnode_path in listnodes_paths:
+            props_list = eval('self.xsdobjs_dict["coeff_diff"].Coeff_diff.{}'.format(listnode_path[1]))
+            prop_index_list = []
+            prop_name_list = []
+            for i, prop in enumerate(props_list):
+                prop_index_list.append(i)
+                prop_name_list.append(prop.ident)
+            opt_props[listnode_path[0]] = pd.DataFrame({"prop_index" : prop_index_list, "prop_name" : prop_name_list})
 
         return opt_props
 
@@ -589,31 +559,6 @@ class simulation(object):
                               'PLT_BTM_HEI', 'PLT_HEI_MEA', 'PLT_STD_DEV', 'VEG_DENSITY_DEF', 'VEG_LAI', 'VEG_UL']
 
         return pd.DataFrame(rows, columns=plots_table_header)
-
-    # def get_plots_opt_props(self):
-    #     """
-    #     plots_opt_props.index: indexFctPhase attribute of the (vegetation) optical property associated to the plot
-    #     :return:
-    #     """
-    #     plots_opt_props_dict = {"plots_opt_props.index": [], "opt_prop_names": []}
-    #     plots_list = self.xsdobjs_dict["plots"].Plots.Plot
-    #     for plot in plots_list:
-    #         plots_opt_props_dict["plots_opt_props.index"].append(plot.PlotVegetationProperties.VegetationOpticalPropertyLink.indexFctPhase)
-    #         plots_opt_props_dict["opt_prop_names"].append(plot.PlotVegetationProperties.VegetationOpticalPropertyLink.ident)
-    #     return pd.DataFrame(plots_opt_props_dict)
-    #
-    # def get_plots_thermal_props(self):
-    #     """
-    #     plots_th_props.index: indexTemperature attribute of the thermal property associated to the plot
-    #     :return:
-    #     """
-    #     plots_th_props_dict = {"indexes": [], "names": []}
-    #     plots_list = self.xsdobjs_dict["plots"].Plots.Plot
-    #     for plot in plots_list:
-    #         plots_th_props_dict["indexes"].append(plot.PlotVegetationProperties.GroundThermalPropertyLink.indexTemperature)
-    #         plots_th_props_dict["names"].append(plot.PlotVegetationProperties.GroundThermalPropertyLink.idTemperature)
-    #     return pd.DataFrame(plots_th_props_dict)
-
 
     def check_module_dependencies(self):
         """
@@ -975,9 +920,21 @@ class simulation(object):
             self.xsdobjs_dict["phase"].Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance.add_SpectralIrradianceValue(sp_irr_value)
 
     def update_properties_dict(self):
-        self.properties_dict = {"opt_props":self.get_opt_props(), "thermal_props": self.get_thermal_props()}
+        """
+        updates self.properties_dict variable
+        """
+        self.properties_dict = self.extract_properties_dict()
+
+    def extract_properties_dict(self):
+        return {"opt_props": self.get_opt_props(), "thermal_props": self.get_thermal_props()}
 
     def get_opt_prop_index(self, opt_prop_type, opt_prop_name):
+        """
+        gets index of optical property given as parameter, using opt_props DataFrame
+        :param opt_prop_type: optical proprety type in ["vegetation", "fluid", "lambertian", "hapke", "rpv"]
+        :param opt_prop_name: optical property name
+        :return: index on DataFrame corresponding to the opt_prop_type, 999 if property does not exist
+        """
         self.update_properties_dict()
         index = 999
         opt_prop_list = self.properties_dict["opt_props"][opt_prop_type]
@@ -988,6 +945,11 @@ class simulation(object):
         return index
 
     def get_thermal_prop_index(self, th_prop_name):
+        """
+        gets index of thermal property given as parameter, using thermal_props DataFrame
+        :param th_prop_name: thermal property name
+        :return: index on th_props DataFrame, 999 if property does not exist
+        """
         self.update_properties_dict()
         index = 999
         th_prop_list = self.properties_dict["thermal_props"]
