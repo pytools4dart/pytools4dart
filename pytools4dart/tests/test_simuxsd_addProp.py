@@ -17,7 +17,7 @@ simu.add_th_property("newthprop")
 simu.add_th_property("newthprop")
 
 
-simu.check_module_dependencies()  #includes check_sp_bands and check_properties_indexes_through_tables
+simu.check_module_dependencies()  #includes check_and_correct_sp_bands and check_properties_indexes_through_tables
 
 simu.writeToXMLFromObj(modified_simu_name = "test_newSimu_addProp")
 

@@ -15,13 +15,13 @@ sp_band_list = [[0.7, 0.02],
 
 simu.add_sp_bands(sp_band_list) #phase
 
-simu.check_sp_bands() # --> warnings and correction of coeff_diff
+simu.check_and_correct_sp_bands() # --> warnings and correction of coeff_diff
 
 simu.add_sp_bands_uf(sp_band_list) #phase and coeff_diff
 
-#simu.check_sp_bands() #no warning
+#simu.check_and_correct_sp_bands() #no warning
 
-check = simu.check_module_dependencies()  #includes check_sp_bands and check_properties_indexes_through_tables
+check = simu.check_module_dependencies()  #includes check_and_correct_sp_bands and check_properties_indexes_through_tables
 
 simu.writeToXMLFromObj(modified_simu_name = "test_newSimu_Plus3bands")
 
