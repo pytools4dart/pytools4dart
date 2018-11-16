@@ -103,7 +103,7 @@ class simulation(object):
             xsdobj.factory()
 
         #if the simulation exists, populate xsdobjs_dict with simulation XML files contents
-        if name != None and os.path.isdir(self.getsimupath()):
+        if name != None and os.path.isdir(self.getsimupath()): # if name != None and dir doesnt exist, create Dir?
             self.read_from_xmls()
 
         # summary tables:
@@ -612,7 +612,7 @@ class simulation(object):
 
         if min_coeff_spbands_nb < phase_spbands_nb: # if missing multiplicative factors
             print("WARNING: missing multiplicative factor for %s opt prop type" %  "lambertian")
-            check_lam =  self.add_lamb_multiplicative_factors_for_lut(phase_spbands_nb) #for each property, add missing sp_bands
+            check_lam =  self.add_lamb_multiplicative_factors_for_lut() #for each property, add missing sp_bands
         else:
             check_lam = True
 
@@ -626,7 +626,7 @@ class simulation(object):
 
         if min_coeff_spbands_nb < phase_spbands_nb: # if missing multiplicative factors
             print("WARNING: missing multiplicative factor for %s opt prop type. Correcting..." % "hapke")
-            check_hapke = self.add_hapke_multiplicative_factors_for_lut(phase_spbands_nb)
+            check_hapke = self.add_hapke_multiplicative_factors_for_lut()
         else:
             check_hapke = True
 
@@ -640,7 +640,7 @@ class simulation(object):
 
         if min_coeff_spbands_nb < phase_spbands_nb: # if missing multiplicative factors
             print("WARNING: missing multiplicative factor for %s opt prop type. Correcting... " % "rpv")
-            check_rpv = self.add_rpv_multiplicative_factors_for_lut(phase_spbands_nb)
+            check_rpv = self.add_rpv_multiplicative_factors_for_lut()
         else:
             check_rpv = True
 
@@ -654,7 +654,7 @@ class simulation(object):
 
         if min_coeff_spbands_nb < phase_spbands_nb: # if missing multiplicative factors
             print("WARNING: missing multiplicative factor for %s opt prop type. Correcting... " % "air")
-            check_air = self.add_air_multiplicative_factors_for_lut(phase_spbands_nb)
+            check_air = self.add_air_multiplicative_factors_for_lut()
         else:
             check_air = True
 
@@ -668,7 +668,7 @@ class simulation(object):
 
         if min_coeff_spbands_nb < phase_spbands_nb: # if missing multiplicative factors
             print("WARNING: missing multiplicative factor for %s opt prop type. Correcting... " % "vegetation")
-            check_veg = self.add_veg_multiplicative_factors_for_lut(phase_spbands_nb)
+            check_veg = self.add_veg_multiplicative_factors_for_lut()
         else:
             check_veg = True
 
@@ -727,28 +727,32 @@ class simulation(object):
             for veg_opt_prop in veg_opt_props_list:
                 coeff_sp_bands_nb = len(
                     veg_opt_prop.understoryNodeMultiplicativeFactorForLUT.understoryMultiplicativeFactorForLUT)
-                print('adding {} multiplicative factors'.format(phase_spbands_nb - coeff_sp_bands_nb))
-                for i in range(phase_spbands_nb - coeff_sp_bands_nb):
-                    veg_opt_prop.understoryNodeMultiplicativeFactorForLUT.add_understoryMultiplicativeFactorForLUT(ptd.coeff_diff.create_understoryMultiplicativeFactorForLUT())
+                if phase_spbands_nb - coeff_sp_bands_nb > 0:
+                    print('adding {} multiplicative factors'.format(phase_spbands_nb - coeff_sp_bands_nb))
+                    for i in range(phase_spbands_nb - coeff_sp_bands_nb):
+                        veg_opt_prop.understoryNodeMultiplicativeFactorForLUT.add_understoryMultiplicativeFactorForLUT(ptd.coeff_diff.create_understoryMultiplicativeFactorForLUT())
         except ValueError:
             print("ERROR: multiplicative factor add failed")
             add_ok = False
         return add_ok
 
-    def add_lamb_multiplicative_factors_for_lut(self, phase_spbands_nb):
+    def add_lamb_multiplicative_factors_for_lut(self):
         """
         add multiplicatif factors for each optical property in coeff_diff module to complete the number of phase sp_bands
-        :param phase_spbands_nb: number of spectral bands in phase module
         :return: True if add is ok, False if not
         """
+        phase_spbands_nb = len(
+            self.xsdobjs_dict["phase"].Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties) # nb of sp bands in phase module
+
         add_ok = True
         try:
             lambertian_opt_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.LambertianMultiFunctions.LambertianMulti
             for lamb_opt_prop in lambertian_opt_props_list:
                 coeff_sp_bands_nb = len(lamb_opt_prop.lambertianNodeMultiplicativeFactorForLUT.lambertianMultiplicativeFactorForLUT)
-                print('adding {} multiplicative factors'.format(phase_spbands_nb-coeff_sp_bands_nb))
-                for i in range(phase_spbands_nb - coeff_sp_bands_nb):
-                    lamb_opt_prop.lambertianNodeMultiplicativeFactorForLUT.add_lambertianMultiplicativeFactorForLUT(ptd.coeff_diff.create_lambertianMultiplicativeFactorForLUT())
+                if phase_spbands_nb - coeff_sp_bands_nb > 0:
+                    print('adding {} multiplicative factors'.format(phase_spbands_nb - coeff_sp_bands_nb))
+                    for i in range(phase_spbands_nb - coeff_sp_bands_nb):
+                        lamb_opt_prop.lambertianNodeMultiplicativeFactorForLUT.add_lambertianMultiplicativeFactorForLUT(ptd.coeff_diff.create_lambertianMultiplicativeFactorForLUT())
         except ValueError:
             print("ERROR: multiplicative factor add failed")
             add_ok = False
@@ -766,9 +770,10 @@ class simulation(object):
             for hapke_opt_prop in hapke_opt_props_list:
                 coeff_sp_bands_nb = len(
                     hapke_opt_prop.hapkeNodeMultiplicativeFactorForLUT.hapkeMultiplicativeFactorForLUT)
-                print('adding {} multiplicative factors'.format(phase_spbands_nb - coeff_sp_bands_nb))
-                for i in range(phase_spbands_nb - coeff_sp_bands_nb):
-                    hapke_opt_prop.hapkeNodeMultiplicativeFactorForLUT.add_hapkeMultiplicativeFactorForLUT(ptd.coeff_diff.create_hapkeMultiplicativeFactorForLUT())
+                if phase_spbands_nb - coeff_sp_bands_nb > 0:
+                    print('adding {} multiplicative factors'.format(phase_spbands_nb - coeff_sp_bands_nb))
+                    for i in range(phase_spbands_nb - coeff_sp_bands_nb):
+                        hapke_opt_prop.hapkeNodeMultiplicativeFactorForLUT.add_hapkeMultiplicativeFactorForLUT(ptd.coeff_diff.create_hapkeMultiplicativeFactorForLUT())
         except ValueError:
             print("ERROR: multiplicative factor add failed")
             add_ok = False
@@ -786,9 +791,10 @@ class simulation(object):
             for rpv_opt_prop in rpv_opt_props_list:
                 coeff_sp_bands_nb = len(
                     rpv_opt_prop.RPVNodeMultiplicativeFactorForLUT.RPVMultiplicativeFactorForLUT)
-                print('adding {} multiplicative factors'.format(phase_spbands_nb - coeff_sp_bands_nb))
-                for i in range(phase_spbands_nb - coeff_sp_bands_nb):
-                    rpv_opt_prop.RPVNodeMultiplicativeFactorForLUT.add_RPVMultiplicativeFactorForLUT(ptd.coeff_diff.create_RPVMultiplicativeFactorForLUT())
+                if phase_spbands_nb - coeff_sp_bands_nb > 0:
+                    print('adding {} multiplicative factors'.format(phase_spbands_nb - coeff_sp_bands_nb))
+                    for i in range(phase_spbands_nb - coeff_sp_bands_nb):
+                        rpv_opt_prop.RPVNodeMultiplicativeFactorForLUT.add_RPVMultiplicativeFactorForLUT(ptd.coeff_diff.create_RPVMultiplicativeFactorForLUT())
         except ValueError:
             print("ERROR: multiplicative factor add failed")
             add_ok = False
@@ -806,9 +812,10 @@ class simulation(object):
             for air_opt_prop in air_opt_props_list:
                 coeff_sp_bands_nb = len(
                     air_opt_prop.AirFunctionNodeMultiplicativeFactorForLut.AirFunctionMultiplicativeFactorForLut)
-                print('adding {} multiplicative factors'.format(phase_spbands_nb - coeff_sp_bands_nb))
-                for i in range(phase_spbands_nb - coeff_sp_bands_nb):
-                    air_opt_prop.AirFunctionNodeMultiplicativeFactorForLut.add_AirFunctionMultiplicativeFactorForLut(ptd.coeff_diff.create_AirFunctionMultiplicativeFactorForLut())
+                if phase_spbands_nb - coeff_sp_bands_nb > 0:
+                    print('adding {} multiplicative factors'.format(phase_spbands_nb - coeff_sp_bands_nb))
+                    for i in range(phase_spbands_nb - coeff_sp_bands_nb):
+                        air_opt_prop.AirFunctionNodeMultiplicativeFactorForLut.add_AirFunctionMultiplicativeFactorForLut(ptd.coeff_diff.create_AirFunctionMultiplicativeFactorForLut())
         except ValueError:
             print("ERROR: multiplicative factor add failed")
             add_ok = False
@@ -1231,11 +1238,13 @@ class simulation(object):
         :param spbands_list: list of spectral bands, each band containes [0]:mean_lambda and [1]: fwhm for lambda
         """
         #phase module modification
-        for sp_band in spbands_list:
-            sp_int_props = ptd.phase.create_SpectralIntervalsProperties(meanLambda=sp_band[0], deltaLambda=sp_band[1])
-            self.xsdobjs_dict["phase"].Phase.DartInputParameters.SpectralIntervals.add_SpectralIntervalsProperties(sp_int_props)
-            sp_irr_value = ptd.phase.create_SpectralIrradianceValue()
-            self.xsdobjs_dict["phase"].Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance.add_SpectralIrradianceValue(sp_irr_value)
+
+        self.add_sp_bands(spbands_list)
+        # for sp_band in spbands_list:
+        #     sp_int_props = ptd.phase.create_SpectralIntervalsProperties(meanLambda=sp_band[0], deltaLambda=sp_band[1])
+        #     self.xsdobjs_dict["phase"].Phase.DartInputParameters.SpectralIntervals.add_SpectralIntervalsProperties(sp_int_props)
+        #     sp_irr_value = ptd.phase.create_SpectralIrradianceValue()
+        #     self.xsdobjs_dict["phase"].Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance.add_SpectralIrradianceValue(sp_irr_value)
 
         #coeff module modification
         lambertian_opt_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.LambertianMultiFunctions.LambertianMulti
@@ -1244,17 +1253,18 @@ class simulation(object):
         veg_opt_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti
         fluid_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.AirMultiFunctions.AirFunction
 
-        for i in range(len(spbands_list)):
-            if len(lambertian_opt_props_list) > 0:
-                self.add_lamb_multiplicative_factor_for_lut()
-            if len(hapke_opt_props_list) > 0:
-                self.add_hapke_multiplicative_factor_for_lut()
-            if len(rpv_opt_props_list) > 0:
-                self.add_rpv_multiplicative_factor_for_lut()
-            if len(veg_opt_props_list) > 0:
-                self.add_veg_multiplicative_factor_for_lut()
-            if len(fluid_props_list) > 0: # complicated case, several air properties allowed
-                self.add_air_multiplicative_factor_for_lut()
+        #for i in range(len(spbands_list)):
+
+        if len(lambertian_opt_props_list) > 0:
+            self.add_lamb_multiplicative_factors_for_lut()
+        if len(hapke_opt_props_list) > 0:
+            self.add_hapke_multiplicative_factors_for_lut()
+        if len(rpv_opt_props_list) > 0:
+            self.add_rpv_multiplicative_factors_for_lut()
+        if len(veg_opt_props_list) > 0:
+            self.add_veg_multiplicative_factors_for_lut()
+        if len(fluid_props_list) > 0: # complicated case, several air properties allowed
+            self.add_air_multiplicative_factors_for_lut()
 
 
     #ToDo
