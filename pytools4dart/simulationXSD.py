@@ -249,7 +249,7 @@ class simulation(object):
             raise Exception("ERROR: please correct dependencies issues, no files written")
 
 
-    def check_properties_indexes(self):
+    def check_properties_indexes(self, createProps = False):
         """
         Cross check properties of every mockup element (plots, scene, object3d, trees) with properties DataFrames.
         Only plots cross check has been implemented, others are coming (Todo cross_check_plots_txt, cross_check_scene_props, cross_check_object3d_props, cross_check_trees_props)
@@ -259,9 +259,9 @@ class simulation(object):
         self.update_tables_from_objs()
         check_plots = self.check_plots_props()
         check_scene = self.check_scene_props()
-        # check_object3d = self.cross_check_object3d_props(self.properties_dict)
+        check_object3d = self.check_object_3d_props()
         # check_trees = self.cross_check_trees_props(self.properties_dict) # only if trees.txt is referenced
-        return check_plots and check_scene
+        return check_plots and check_scene and check_object3d
         # return check_plots and check_scene and check_object3d and check_trees
 
     def get_plots_dfs_by_opt_prop_type(self):
@@ -333,11 +333,11 @@ class simulation(object):
                 if opt_prop_type in ["vegetation","fluid"]:
                     missing_props = plots[~(plots['PLT_OPT_NAME'].isin(cross_props["prop_name"]))]['PLT_OPT_NAME']
                     for missing_prop in missing_props:
-                        print("%s property %s is does not exist, please FIX" % (opt_prop_type,missing_prop))
+                        print("%s property %s does not exist, please FIX" % (opt_prop_type,missing_prop))
                 else: #opt_prop_type in ["lambertian","hapke","rpv"]
                     missing_props = plots[~(plots['GRD_OPT_NAME'].isin(cross_props["prop_name"]))]['GRD_OPT_NAME']
                     for missing_prop in missing_props:
-                        print("%s property %s is does not exist, please FIX" % (opt_prop_type,missing_prop))
+                        print("%s property %s does not exist, please FIX" % (opt_prop_type,missing_prop))
 
             else: # if plots/ground properties DO exist in properties list, check if indexes match
                 if opt_prop_type in ["vegetation","fluid"]:
@@ -392,11 +392,11 @@ class simulation(object):
                 if plot_type == "veg_vegplusground_fluid":
                     missing_props = plots[~(plots['PLT_THERM_NAME'].isin(cross_props["prop_name"]))]['PLT_THERM_NAME']
                     for missing_prop in missing_props:
-                        print("%s property %s is does not exist, please FIX" % (plot_type, missing_prop))
+                        print("%s property %s does not exist, please FIX" % (plot_type, missing_prop))
                 else:  # plot_type == "ground"
                     missing_props = plots[~(plots['GRD_THERM_NAME'].isin(cross_props["prop_name"]))]['GRD_THERM_NAME']
                     for missing_prop in missing_props:
-                        print("%s property %s is does not exist, please FIX" % (plot_type, missing_prop))
+                        print("%s property %s does not exist, please FIX" % (plot_type, missing_prop))
             else:  # if plots/ground properties do exist in properties list, check if indexes match
                 if plot_type == "veg_vegplusground_fluid":
                     eq_serie = cross_props["prop_index"].eq(cross_props["PLT_THERM_NUMB"])
@@ -905,7 +905,7 @@ class simulation(object):
             add_ok = False
         return add_ok
 
-    def check_scene_props(self, createProps = False): # TO BE COMPLETED AND TESTED
+    def check_scene_props(self):
         """
         check if optical property associated to soil exist in optical properties list (ToDo: thermal properties, ThermalPropertyLink, idTemperature, indexTemperature)
         :return:True if associated properties are found in properties lists, False if not
@@ -915,14 +915,16 @@ class simulation(object):
         opt_prop = self.xsdobjs_dict["maket"].Maket.Soil.OpticalPropertyLink
         opt_prop_name = opt_prop.ident
         opt_prop_type = grd_opt_prop_types_dict[opt_prop.type_]
-        index_opt_prop = self.checkandcorrect_opt_prop_exists(opt_prop_type,opt_prop_name,createProps)
+        #index_opt_prop = self.checkandcorrect_opt_prop_exists(opt_prop_type,opt_prop_name,createProps)
+        index_opt_prop = self.get_opt_prop_index(opt_prop_type,opt_prop_name)
 
         th_prop = self.xsdobjs_dict["maket"].Maket.Soil.ThermalPropertyLink
         th_prop_name = th_prop.idTemperature
-        index_th_prop = self.checkandcorrect_th_prop_exists(th_prop_name, createProps)
+        #index_th_prop = self.checkandcorrect_th_prop_exists(th_prop_name, createProps)
+        index_th_prop = self.get_thermal_prop_index(th_prop_name)
 
         if index_opt_prop == None or index_th_prop == None:
-                print("ERROR: opt_prop %s or th_prop %s does not exist, please fix or set createProps = true" % (opt_prop_name,th_prop_name))
+                print("ERROR: opt_prop %s or th_prop %s does not exist, please fix" % (opt_prop_name,th_prop_name))
                 return False
         else:
             if opt_prop.indexFctPhase != index_opt_prop:
@@ -934,22 +936,60 @@ class simulation(object):
 
         return check
 
-    def check_object_3d_opt_props(self): # TO BE COMPLETED AND TESTED
+    def check_object_3d_props(self):
         """
         check if optical properties associated to all 3d objects groups exist in optical properties list (ToDo: thermal properties)
-        search of optical prop names is made through the etree corresponding to object3D XSD module, because the number of levels having an associated optical property is huge
+        search of optical prop names is made through the etree corresponding to object3D XSD modype, opt_prop_name, createProps)
+                ule, because the number of levels having an associated optical property is huge
         this means that the index can not be corrected (choice to be done)
         :return: True if every property associated to 3D ojects exist in properties lists
         """
         check = True
-        lambopt_props_elements = self.xsdobjs_dict["object_3d"].to_etree().findall(".//OpticalPropertyLink")
-        for lambopt_props_element in lambopt_props_elements:
-            prop_name = lambopt_props_element.get("ident")
-            if (self.get_optprop_index(lambopt_props_element.get("ident")) == None):
-                print("warning: opt_prop %s does not exist in vegetation Optical Properties List" % lambopt_props_element.get("ident"))
-                return False
-        return check
 
+        obj3dList = self.xsdobjs_dict["object_3d"].object_3d.ObjectList.Object
+        for obj3d in obj3dList:
+            groups = obj3d.Groups.Group
+            for group in groups:
+                opt_prop = group.GroupOpticalProperties.OpticalPropertyLink
+                opt_prop_type = opt_prop.type_
+                opt_prop_name = opt_prop.ident
+                #index_opt_prop = self.checkandcorrect_opt_prop_exists(opt_prop_tindex_opt_prop = self.get_opt_prop_index(opt_prop_type, opt_prop_name)
+                index_opt_prop = self.get_opt_prop_index(grd_opt_prop_types_dict[opt_prop_type], opt_prop_name)
+
+                th_prop = group.GroupOpticalProperties.ThermalPropertyLink
+                th_prop_name = th_prop.idTemperature
+                #index_th_prop = self.checkandcorrect_th_prop_exists(th_prop_name, createProps)
+                index_th_prop = self.get_thermal_prop_index(th_prop_name)
+
+                back_opt_prop = group.GroupOpticalProperties.BackFaceOpticalProperty.OpticalPropertyLink
+                back_opt_prop_type = back_opt_prop.type_
+                back_opt_prop_name = back_opt_prop.ident
+                #index_back_opt_prop = self.checkandcorrect_opt_prop_exists(back_opt_prop_type, back_opt_prop_name, createProps)
+                index_back_opt_prop = self.get_opt_prop_index(grd_opt_prop_types_dict[back_opt_prop_type], back_opt_prop_name)
+
+
+                back_th_prop = group.GroupOpticalProperties.BackFaceThermalProperty.ThermalPropertyLink
+                back_th_prop_name = back_th_prop.idTemperature
+                #index_back_th_prop = self.checkandcorrect_th_prop_exists(back_th_prop_name, createProps)
+                index_back_th_prop = self.get_thermal_prop_index(back_th_prop_name)
+
+                if index_opt_prop == None or index_th_prop == None or index_back_opt_prop == None or index_back_th_prop == None:
+                        print("ERROR: opt_prop %s or th_prop %s does not exist, please FIX" % (opt_prop_name,th_prop_name))
+                        return False
+                else:
+                    if opt_prop.indexFctPhase != index_opt_prop:
+                        print("warning:  opt_prop %s index inconsistency, correcting index" % opt_prop_name)
+                        opt_prop.indexFctPhase = index_opt_prop
+                    if th_prop.indexTemperature != index_th_prop:
+                        print("warning:  th_prop %s index inconsistency, correcting index" % th_prop_name)
+                        th_prop.indexTemperature = index_th_prop
+                    if back_opt_prop.indexFctPhase != index_back_opt_prop:
+                        print("warning:  opt_prop %s index inconsistency, correcting index" % back_opt_prop_name)
+                        opt_prop.indexFctPhase = index_back_opt_prop
+                    if back_th_prop.indexTemperature != index_back_th_prop:
+                        print("warning:  th_prop %s index inconsistency, correcting index" % back_th_prop_name)
+                        th_prop.indexTemperature = index_back_th_prop
+        return check
 
     def write_xml_file(self, fname, obj, modified_simu_name = None):
         xmlstr = etree.tostring(obj.to_etree(), pretty_print=True)
@@ -1020,6 +1060,7 @@ class simulation(object):
     def checkandcorrect_opt_prop_exists(self,opt_prop_type, opt_prop_name, createProps = False):
         """
         Check if opt_prop exists
+        This is used only in "user friendly" methods
         If it doesn't exist, and createOptProps == True, creates the missing optical property
         If it doesn't exist, and createOptProps == False, prints ERROR Message
         :param opt_prop_type: type of optical property in ["vegetation", "fluid", "lambertian", "hapke", "rpv"]

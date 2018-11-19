@@ -29,6 +29,6 @@ from simulation import simulation
 from helpers import voxreader, hstools, dbtools
 import run
 import xmlwriters
-from xsdschema import plots, plots_gdsCL, phase, coeff_diff
+from xsdschema import plots, plots_gdsCL, phase, coeff_diff, object_3d
 
 
