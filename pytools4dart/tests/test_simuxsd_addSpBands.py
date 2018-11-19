@@ -26,7 +26,7 @@ simu2.runners.full()
 
 simu.add_sp_bands_uf(sp_band_list) #phase and coeff_diff
 
-check = simu.check_module_dependencies()  #includes check_and_correct_sp_bands and check_properties_indexes_through_tables
+check = simu.check_module_dependencies()  #includes check_and_correct_sp_bands and check_properties_indexes
 
 if check:
     simu.writeToXMLFromObj(modified_simu_name = "test_newSimu_Plus3bands") # this includes check_module_dependencies, leave or let the user to check this before writting as shown in this exemple?

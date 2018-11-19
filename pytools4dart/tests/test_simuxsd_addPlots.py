@@ -21,7 +21,7 @@ simu.add_sp_bands_uf(sp_band_list) #phase and coeff_diff
 
 #simu.check_and_correct_sp_bands() #no warning
 
-check = simu.check_module_dependencies()  #includes check_and_correct_sp_bands and check_properties_indexes_through_tables
+check = simu.check_module_dependencies()  #includes check_and_correct_sp_bands and check_properties_indexes
 
 simu.writeToXMLFromObj(modified_simu_name = "test_newSimu_Plus3bands")
 
