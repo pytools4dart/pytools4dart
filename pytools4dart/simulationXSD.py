@@ -227,7 +227,8 @@ class simulation(object):
         """
         Write XSD objects contents on DART XML input files in simulation input directory
         Warning: if modified_simu_name is None, initial simulation input directory is overwritten
-        If new simulation name given as parameter already exists, directory id not overwritten and an ERROR message is printed
+        If new simulation name given as parameter already exists, directory is not overwritten and an Exception is raised
+        If module dependencies issues are detected, an Exception is raised
         :param modified_simu_name: name of the new(modified) simulation
         """
         check = self.check_module_dependencies()
@@ -240,8 +241,7 @@ class simulation(object):
                     new_inputsimu_path = pjoin(new_simu_path, "input")
                     os.mkdir(new_inputsimu_path)
                 else:
-                    print("requested new simulation already exists, files won't be written!")
-                    return
+                    raise Exception("ERROR: requested new simulation already exists, files won't be written!")
 
             for fname, xsdobj in self.xsdobjs_dict.iteritems():
                 self.write_xml_file(fname, xsdobj, modified_simu_name)

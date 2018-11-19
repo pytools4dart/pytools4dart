@@ -34,7 +34,7 @@ lam0 = 0.7
 
 sp_bands_list = []
 tic=timeit.default_timer()
-for i in range(100):
+for i in range(2000):
     sp_bands_list.append([lam0 + i*0.1 , 0.02] )
 
 simu.add_sp_bands_uf(sp_bands_list)
@@ -43,10 +43,10 @@ toc=timeit.default_timer()
 
 print('elapsed time2 = {} s'.format(toc - tic))
 
-simu.writeToXMLFromObj(modified_simu_name= "test_newSimu_Plus100SpBands")
+simu.writeToXMLFromObj(modified_simu_name= "test_newSimu_Plus2000SpBands")
 
 tic=timeit.default_timer()
-simu2 = simulation("test_newSimu_Plus100SpBands")
+simu2 = simulation("test_newSimu_Plus2000SpBands")
 toc=timeit.default_timer()
 print('reading time = {} s'.format(toc - tic))
 
