@@ -1133,6 +1133,34 @@ class simulation(object):
 
     #ToDo def getDefaultValue(self): find default value in XSD file for a given parameter
 
+    def get_default_opt_prop(self, opt_prop_type):
+        """
+        get default optical property (with default attributes) for the opt_prop_type given
+        :param opt_prop_type:
+        :return:
+        """
+        opt_prop = None
+        opt_props_list = grd_opt_prop_types_inv_dict.keys()
+        opt_props_list.append("vegetation")
+        opt_props_list.append("fluid")
+        if not (opt_prop_type in opt_props_list):
+            raise Exception("optical property type not valid")
+
+        if opt_prop_type == "vegetation":
+            opt_prop = ptd.coeff_diff.create_UnderstoryMulti()
+        if opt_prop_type == "lambertian":
+            opt_prop = ptd.coeff_diff.create_LambertianMulti()
+        if opt_prop_type == "hapke":
+            opt_prop = ptd.coeff_diff.create_HapkeSpecularMulti()
+        if opt_prop_type == "rpv":
+            opt_prop = ptd.coeff_diff.create_RPVMulti()
+        if opt_prop_type == "fluid":
+            opt_prop = ptd.coeff_diff.create_AirFunction()
+
+        return opt_prop
+
+    def get_default_th_prop(self):
+        return(ptd.coeff_diff.create_ThermalFunction())
 
 ###################################################
 ##### USER FRIENDLY FUNCTIONS ###################
@@ -1190,15 +1218,18 @@ class simulation(object):
 
             #if opt/thermal props are not given, default values are given
             if opt_prop_type==None and opt_prop_name == None:
-                opt_prop_type = "lambertian" #to be replaced by getDefaultValue()
-                opt_prop_name = "Lambertian_Phase_Function_1" #to be replaced by getDefaultValue()
+                opt_prop_type = "lambertian"
+                def_opt_prop = self.get_default_opt_prop(opt_prop_type)
+                opt_prop_name = def_opt_prop.ident
             if th_prop_name == None:
-                th_prop_name = "ThermalFunction290_310"
+                th_prop_name = self.get_default_th_prop().idTemperature
+
             if back_opt_prop_type==None and back_opt_prop_name == None:
-                back_opt_prop_type = "lambertian" #to be replaced by getDefaultValue()
-                back_opt_prop_name = "Lambertian_Phase_Function_1" #to be replaced by getDefaultValue()
+                back_opt_prop_type = "lambertian"
+                def_opt_prop = self.get_default_opt_prop(opt_prop_type)
+                back_opt_prop_name = def_opt_prop.ident
             if back_th_prop_name == None:
-                back_th_prop_name = "ThermalFunction290_310"
+                back_th_prop_name = self.get_default_th_prop().idTemperature
 
             opt_prop_index = self.checkandcorrect_opt_prop_exists(opt_prop_type, opt_prop_name,createProps)
             th_prop_index = self.checkandcorrect_th_prop_exists(th_prop_name, createProps)
@@ -1330,11 +1361,14 @@ class simulation(object):
         """
 
         if ( (plot_opt_prop_name == None or plot_therm_prop_name == None) and (grd_opt_prop_type == None or grd_opt_prop_name == None or grd_opt_prop_type == None)): # default case
-            default_vegProp = ptd.plots.create_VegetationOpticalPropertyLink()
-            default_grd_thProp = ptd.plots.create_GroundThermalPropertyLink()
+            # default_vegProp = ptd.plots.create_VegetationOpticalPropertyLink()
+            # default_grd_thProp = ptd.plots.create_GroundThermalPropertyLink()
+            # plot_type = "vegetation"
+            # plot_opt_prop_name = default_vegProp.ident
+            # plot_therm_prop_name = default_grd_thProp.idTemperature
             plot_type = "vegetation"
-            plot_opt_prop_name = default_vegProp.ident
-            plot_therm_prop_name = default_grd_thProp.idTemperature
+            plot_opt_prop_name = self.get_default_opt_prop(plot_type).ident
+            plot_therm_prop_name = self.get_default_th_prop().idTemperature
 
         plt_type_num = plot_types_inv_dict[plot_type]
         plt_form_num = plot_form_inv_dict[plot_form]
