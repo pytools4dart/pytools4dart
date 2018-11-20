@@ -1131,12 +1131,121 @@ class simulation(object):
         return index
 
 
+    #ToDo def getDefaultValue(self): find default value in XSD file for a given parameter
 
 
 ###################################################
 ##### USER FRIENDLY FUNCTIONS ###################
 
+    def add_3DOBJ(self, src_file_path, group_number = 1, group_names_list = None, opt_prop_types_list = None, opt_prop_names_list=None, th_prop_names_list=None, back_opt_prop_types_list = None, back_opt_prop_names_list = None, back_th_prop_names_list = None, createProps = False):
+        """
+        add 3D object with "double-faced" OBJ groups (non turbid groups, only surfacic groups: lambertian, hapke, rpv)
+        Mandatory: The length of properties list must match the number of groups given in OBJ file.
+        :param src_file_path: OBJ source file
+        :param group_number: number of OBJ groups
+        :param group_names_list: names of OBJ groups, one name per OBJ group
+        :param opt_prop_types_list: list of opt_properties_types (in [lambertian,hapke,rpv]), one single opt_property per OBJ group
+        :param opt_prop_names_list: list of opt_properties_names, one single opt_property per OBJ group
+        :param th_prop_names_list: list of thermal_properties_names, one single opt_property per OBJ group
+        :param back_opt_prop_types_list: list of back-face opt_properties_types (in [lambertian,hapke,rpv]), one single opt_property per OBJ group
+        :param back_opt_prop_names_list: list of back-face opt_properties_names, one single opt_property per OBJ group
+        :param back_th_prop_names_list: list of back-face thermal_properties_names, one single opt_property per OBJ group
+        :param createProps: False par default, True if the user decides to automatically create missing opt/thermal properties
+        Raise exceptions if len(some list) differs from the number of groups given
+        Raise exception if any opt/thermal property does not exist and createProps is set to False
+        :return:
+        """
+        obj = ptd.object_3d.create_Object()
+        obj.file_src = src_file_path
+        obj.hasGroups = 1
+        groups_list = obj.Groups
+
+        if group_names_list != None and len(group_names_list)!=group_number:
+            raise Exception("number of group_names and given group_number differ, please FIX")
+        if opt_prop_types_list != None and len(opt_prop_types_list)!=group_number:
+            raise Exception("number of opt_prop_types and given group_number differ, please FIX")
+        if opt_prop_names_list != None and len(opt_prop_names_list)!=group_number:
+            raise Exception("number of opt_prop_names and given group_number differ, please FIX")
+        if th_prop_names_list != None and len(th_prop_names_list)!=group_number:
+            raise Exception("number of th_prop_names and given group_number differ, please FIX")
+        if back_opt_prop_types_list != None and len(back_opt_prop_types_list)!=group_number:
+            raise Exception("number of back_opt_prop_types and given group_number differ, please FIX")
+        if back_opt_prop_names_list != None and len(back_opt_prop_names_list)!=group_number:
+            raise Exception("number of back_opt_prop_names and given group_number differ, please FIX")
+        if back_th_prop_names_list != None and len(back_th_prop_names_list)!=group_number:
+            raise Exception("number of back_th_prop_names and given group_number differ, please FIX")
+
+        for i in range(group_number):
+            if i>len(groups_list.Group)-1: # this is because when setting hasGroups = 1, one first group is automatically created
+                group = ptd.object_3d.create_Group(num=i+1, name=group_names_list[i])
+            else:
+                group = groups_list.Group[i]
+
+            opt_prop_type = opt_prop_types_list[i]
+            opt_prop_name = opt_prop_names_list[i]
+            th_prop_name = th_prop_names_list[i]
+            back_opt_prop_type = back_opt_prop_types_list[i]
+            back_opt_prop_name = back_opt_prop_names_list[i]
+            back_th_prop_name = back_th_prop_names_list[i]
+
+            #if opt/thermal props are not given, default values are given
+            if opt_prop_type==None and opt_prop_name == None:
+                opt_prop_type = "lambertian" #to be replaced by getDefaultValue()
+                opt_prop_name = "Lambertian_Phase_Function_1" #to be replaced by getDefaultValue()
+            if th_prop_name == None:
+                th_prop_name = "ThermalFunction290_310"
+            if back_opt_prop_type==None and back_opt_prop_name == None:
+                back_opt_prop_type = "lambertian" #to be replaced by getDefaultValue()
+                back_opt_prop_name = "Lambertian_Phase_Function_1" #to be replaced by getDefaultValue()
+            if back_th_prop_name == None:
+                back_th_prop_name = "ThermalFunction290_310"
+
+            opt_prop_index = self.checkandcorrect_opt_prop_exists(opt_prop_type, opt_prop_name,createProps)
+            th_prop_index = self.checkandcorrect_th_prop_exists(th_prop_name, createProps)
+            back_opt_prop_index = self.checkandcorrect_opt_prop_exists(back_opt_prop_type, back_opt_prop_name, createProps)
+            back_th_prop_index = self.checkandcorrect_th_prop_exists(back_th_prop_name, createProps)
+
+            if opt_prop_index != None and th_prop_index != None:
+                opt_prop = ptd.object_3d.create_OpticalPropertyLink(ident=opt_prop_name, indexFctPhase=opt_prop_index,
+                                                                    type_= grd_opt_prop_types_inv_dict[opt_prop_type])
+                th_prop = ptd.object_3d.create_ThermalPropertyLink(idTemperature=th_prop_name, indexTemperature=th_prop_index)
+            else:  # either opt_prop or th_prop does not exist
+                raise Exception("ERROR opt_prop or thermal prop does not exist, please FIX or set createProps = True")
+                return False
+
+            if back_opt_prop_index != None and back_th_prop_index != None:
+
+                back_opt_prop_link = ptd.object_3d.create_OpticalPropertyLink(ident=back_opt_prop_name, indexFctPhase=back_opt_prop_index,
+                                                                    type_=grd_opt_prop_types_inv_dict[back_opt_prop_type])
+                back_opt_prop = ptd.object_3d.create_BackFaceOpticalProperty(OpticalPropertyLink=back_opt_prop_link)
+
+                back_th_prop_link = ptd.object_3d.create_ThermalPropertyLink(idTemperature=back_th_prop_name,
+                                                                   indexTemperature=back_th_prop_index)
+                back_th_prop = ptd.object_3d.create_BackFaceThermalProperty(back_th_prop_link)
+
+            else:  # either opt_prop or th_prop does not exist
+                raise Exception("ERROR BACK FACE opt_prop or thermal prop does not exist, please FIX or set createProps = True")
+                return False
+
+            group.GroupOpticalProperties = ptd.object_3d.create_GroupOpticalProperties(OpticalPropertyLink= opt_prop,
+                                                                                       ThermalPropertyLink=th_prop,
+                                                                                       BackFaceOpticalProperty=back_opt_prop,
+                                                                                       BackFaceThermalProperty=back_th_prop)
+
+            if i > len(groups_list.Group) - 1:  # this is because when setting hasGroups = 1, one first group is automatically created
+                groups_list.add_Group(group)
+
+        self.xsdobjs_dict["object_3d"].object_3d.ObjectList.add_Object(obj)
+        return True
+
     def add_opt_property(self, opt_prop_type, opt_prop_name):
+        """
+        Add an optical property to coeff_diff XSD object
+        :param opt_prop_type: optical property type
+        :param opt_prop_name: optical property name
+        :return: True if add goes fine, False if not
+        Raise exception if opt property already exists
+        """
         self.extract_sp_bands_table()
         nb_sp_bands = self.spbands_table.shape[0]
         if self.get_opt_prop_index(opt_prop_type, opt_prop_name) == None: # if oprtical property does not exist, create
@@ -1172,17 +1281,24 @@ class simulation(object):
                 self.xsdobjs_dict["coeff_diff"].Coeff_diff.RPVMultiFunctions.add_RPVMulti(rpvMulti)
             self.update_properties_dict()
         else: # opt_property having name opt_prop_name already exists
-            print("ERROR: optical property of type %s named %s already exists, please change name" % (opt_prop_type, opt_prop_name))
+            #print("ERROR: optical property of type %s named %s already exists, please change name" % (opt_prop_type, opt_prop_name))
+            raise Exception("ERROR: optical property of type %s named %s already exists, please change name" % (opt_prop_type, opt_prop_name))
 
 
     def add_th_property(self, th_prop_name):
+        """
+        Add thermal property in coeff_diff XSD object
+        :param th_prop_name: thermal property name
+        :return: True if add goes fine, False if not
+        Raise exception if th property already exists
+        """
         if self.get_thermal_prop_index(th_prop_name) == None:  # if thermal property does not exist, create
             th_function = ptd.coeff_diff.create_ThermalFunction(idTemperature=th_prop_name)
             self.xsdobjs_dict["coeff_diff"].Coeff_diff.Temperatures.add_ThermalFunction(th_function)
             self.update_properties_dict()
         else: # th_prop having name opt_prop_name already exists
-            print("ERROR: thermal property named %s already exists, please change name" % (th_prop_name))
-
+            #print("ERROR: thermal property named %s already exists, please change name" % (th_prop_name))
+            raise Exception("ERROR: thermal property named %s already exists, please change name" % (th_prop_name))
 
     def add_multiplots(self, plots_list):
         # plots_fields = ["plot_type", "plot_form", "plot_opt_prop_name", "plot_therm_prop_name", "grd_opt_prop_type",
@@ -1210,6 +1326,7 @@ class simulation(object):
         if they are not given by user, default properties (comming from default DART property links) are taken (vegetation plot)
 
         :return True if plot could be added, False if not
+        Raise Exception if opt/th property does not exist and createProps is set to False
         """
 
         if ( (plot_opt_prop_name == None or plot_therm_prop_name == None) and (grd_opt_prop_type == None or grd_opt_prop_name == None or grd_opt_prop_type == None)): # default case
@@ -1267,7 +1384,7 @@ class simulation(object):
                 grd_therm_prop = ptd.plots.create_GroundThermalPropertyLink(idTemperature=grd_therm_prop_name,
                                                                             indexTemperature=grd_th_prop_index)
             else: # either opt_prop or th prop does not exist
-                print("ERROR opt_prop or thermal prop does not exist, please FIX or set createProps = True")
+                raise Exception("ERROR opt_prop or thermal prop does not exist, please FIX or set createProps = True")
                 return False
 
         try:
@@ -1278,7 +1395,7 @@ class simulation(object):
 
             self.xsdobjs_dict["plots"].Plots.add_Plot(Plot)
         except ValueError:
-            print("ERROR: create or add Plot failed")
+            raise Exception("ERROR: create or add Plot failed")
             return False
 
         return True
