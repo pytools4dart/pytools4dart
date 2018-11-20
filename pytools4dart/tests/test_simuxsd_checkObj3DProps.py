@@ -12,7 +12,8 @@ for group in groups_list:
     group.GroupOpticalProperties.OpticalPropertyLink.ident = "Lambertian_Phase_Function_1"
     group.GroupOpticalProperties.BackFaceOpticalProperty.OpticalPropertyLink.ident = "Lambertian_Phase_Function_1"
 simu.xsdobjs_dict["object_3d"].object_3d.ObjectList.add_Object(tree)
-#check =  simu.check_scene_props(createProps = True)
+
+#simu.writeToXMLFromObj(modified_simu_name= "test_simuXsd_objSansGroups")
 
 simu.writeToXMLFromObj(modified_simu_name= "test_simuXsd_checkObj3DProps")
 

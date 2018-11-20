@@ -594,6 +594,8 @@ class simulation(object):
         print ("checking module dependencies")
         check1 = self.check_and_correct_sp_bands()
         check2 = self.check_properties_indexes()
+        if (check1 and check2):
+            print("Module Dependencies OK")
         return (check1 and check2)
 
     def check_and_correct_sp_bands(self):
@@ -948,34 +950,61 @@ class simulation(object):
 
         obj3dList = self.xsdobjs_dict["object_3d"].object_3d.ObjectList.Object
         for obj3d in obj3dList:
-            groups = obj3d.Groups.Group
-            for group in groups:
-                opt_prop = group.GroupOpticalProperties.OpticalPropertyLink
+            if obj3d.hasGroups == 1: # are there groups?
+                groups = obj3d.Groups.Group
+                for group in groups:
+                    opt_prop = group.GroupOpticalProperties.OpticalPropertyLink
+                    opt_prop_type = opt_prop.type_
+                    opt_prop_name = opt_prop.ident
+                    #index_opt_prop = self.checkandcorrect_opt_prop_exists(opt_prop_tindex_opt_prop = self.get_opt_prop_index(opt_prop_type, opt_prop_name)
+                    index_opt_prop = self.get_opt_prop_index(grd_opt_prop_types_dict[opt_prop_type], opt_prop_name)
+
+                    th_prop = group.GroupOpticalProperties.ThermalPropertyLink
+                    th_prop_name = th_prop.idTemperature
+                    #index_th_prop = self.checkandcorrect_th_prop_exists(th_prop_name, createProps)
+                    index_th_prop = self.get_thermal_prop_index(th_prop_name)
+
+                    back_opt_prop = group.GroupOpticalProperties.BackFaceOpticalProperty.OpticalPropertyLink
+                    back_opt_prop_type = back_opt_prop.type_
+                    back_opt_prop_name = back_opt_prop.ident
+                    #index_back_opt_prop = self.checkandcorrect_opt_prop_exists(back_opt_prop_type, back_opt_prop_name, createProps)
+                    index_back_opt_prop = self.get_opt_prop_index(grd_opt_prop_types_dict[back_opt_prop_type], back_opt_prop_name)
+
+
+                    back_th_prop = group.GroupOpticalProperties.BackFaceThermalProperty.ThermalPropertyLink
+                    back_th_prop_name = back_th_prop.idTemperature
+                    #index_back_th_prop = self.checkandcorrect_th_prop_exists(back_th_prop_name, createProps)
+                    index_back_th_prop = self.get_thermal_prop_index(back_th_prop_name)
+
+                    if index_opt_prop == None or index_th_prop == None or index_back_opt_prop == None or index_back_th_prop == None:
+                            print("ERROR: opt_prop %s or th_prop %s does not exist, please FIX" % (opt_prop_name,th_prop_name))
+                            return False
+                    else:
+                        if opt_prop.indexFctPhase != index_opt_prop:
+                            print("warning:  opt_prop %s index inconsistency, correcting index" % opt_prop_name)
+                            opt_prop.indexFctPhase = index_opt_prop
+                        if th_prop.indexTemperature != index_th_prop:
+                            print("warning:  th_prop %s index inconsistency, correcting index" % th_prop_name)
+                            th_prop.indexTemperature = index_th_prop
+                        if back_opt_prop.indexFctPhase != index_back_opt_prop:
+                            print("warning:  opt_prop %s index inconsistency, correcting index" % back_opt_prop_name)
+                            opt_prop.indexFctPhase = index_back_opt_prop
+                        if back_th_prop.indexTemperature != index_back_th_prop:
+                            print("warning:  th_prop %s index inconsistency, correcting index" % back_th_prop_name)
+                            th_prop.indexTemperature = index_back_th_prop
+            else: # object without groups
+                opt_prop = obj3d.ObjectOpticalProperties.OpticalPropertyLink
                 opt_prop_type = opt_prop.type_
                 opt_prop_name = opt_prop.ident
-                #index_opt_prop = self.checkandcorrect_opt_prop_exists(opt_prop_tindex_opt_prop = self.get_opt_prop_index(opt_prop_type, opt_prop_name)
                 index_opt_prop = self.get_opt_prop_index(grd_opt_prop_types_dict[opt_prop_type], opt_prop_name)
 
-                th_prop = group.GroupOpticalProperties.ThermalPropertyLink
+                th_prop = obj3d.ObjectOpticalProperties.ThermalPropertyLink
                 th_prop_name = th_prop.idTemperature
-                #index_th_prop = self.checkandcorrect_th_prop_exists(th_prop_name, createProps)
                 index_th_prop = self.get_thermal_prop_index(th_prop_name)
 
-                back_opt_prop = group.GroupOpticalProperties.BackFaceOpticalProperty.OpticalPropertyLink
-                back_opt_prop_type = back_opt_prop.type_
-                back_opt_prop_name = back_opt_prop.ident
-                #index_back_opt_prop = self.checkandcorrect_opt_prop_exists(back_opt_prop_type, back_opt_prop_name, createProps)
-                index_back_opt_prop = self.get_opt_prop_index(grd_opt_prop_types_dict[back_opt_prop_type], back_opt_prop_name)
-
-
-                back_th_prop = group.GroupOpticalProperties.BackFaceThermalProperty.ThermalPropertyLink
-                back_th_prop_name = back_th_prop.idTemperature
-                #index_back_th_prop = self.checkandcorrect_th_prop_exists(back_th_prop_name, createProps)
-                index_back_th_prop = self.get_thermal_prop_index(back_th_prop_name)
-
-                if index_opt_prop == None or index_th_prop == None or index_back_opt_prop == None or index_back_th_prop == None:
-                        print("ERROR: opt_prop %s or th_prop %s does not exist, please FIX" % (opt_prop_name,th_prop_name))
-                        return False
+                if index_opt_prop == None or index_th_prop == None:
+                    print("ERROR: opt_prop %s or th_prop %s does not exist, please FIX" % (opt_prop_name, th_prop_name))
+                    return False
                 else:
                     if opt_prop.indexFctPhase != index_opt_prop:
                         print("warning:  opt_prop %s index inconsistency, correcting index" % opt_prop_name)
@@ -983,12 +1012,6 @@ class simulation(object):
                     if th_prop.indexTemperature != index_th_prop:
                         print("warning:  th_prop %s index inconsistency, correcting index" % th_prop_name)
                         th_prop.indexTemperature = index_th_prop
-                    if back_opt_prop.indexFctPhase != index_back_opt_prop:
-                        print("warning:  opt_prop %s index inconsistency, correcting index" % back_opt_prop_name)
-                        opt_prop.indexFctPhase = index_back_opt_prop
-                    if back_th_prop.indexTemperature != index_back_th_prop:
-                        print("warning:  th_prop %s index inconsistency, correcting index" % back_th_prop_name)
-                        th_prop.indexTemperature = index_back_th_prop
         return check
 
     def write_xml_file(self, fname, obj, modified_simu_name = None):
