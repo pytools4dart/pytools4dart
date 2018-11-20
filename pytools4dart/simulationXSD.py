@@ -223,6 +223,9 @@ class simulation(object):
     def getsimusdir(self):
         return pjoin(getdartdir(),"user_data","simulations")
 
+    def get_database_dir(self):
+        return pjoin(getdartdir(),"database")
+
     def writeToXMLFromObj(self, modified_simu_name = None):
         """
         Write XSD objects contents on DART XML input files in simulation input directory
@@ -260,9 +263,12 @@ class simulation(object):
         check_plots = self.check_plots_props()
         check_scene = self.check_scene_props()
         check_object3d = self.check_object_3d_props()
-        # check_trees = self.cross_check_trees_props(self.properties_dict) # only if trees.txt is referenced
-        return check_plots and check_scene and check_object3d
-        # return check_plots and check_scene and check_object3d and check_trees
+        if self.xsdobjs_dict["trees"].Trees.Trees_1 != None:
+            check_trees_txt_props = self.check_trees_txt_props()
+        else:
+            check_trees_txt_props = True  # has no impact on return value
+
+        return check_plots and check_scene and check_object3d and check_trees_txt_props
 
     def get_plots_dfs_by_opt_prop_type(self):
         """
@@ -422,6 +428,172 @@ class simulation(object):
                                 plot.GroundThermalPropertyLink.indexTemperature = prop_index
         return check
 
+    def read_dart_txt_file_with_header(self, file_path, sep_str):
+        """
+        read a dart txt file like with header mark "*"
+        :param file_path: file path
+        :return: a data frame with file contents and columns matching file header
+        """
+        if not "/" in file_path:
+            file_path = pjoin(self.get_database_dir(),file_path)
+
+        list = []
+        f = open(file_path, 'r')
+        l = f.readline()
+        while l[0] == "*": #skip file comments
+            l = f.readline()
+        header = l
+        for line in f:
+            if line != '\n':
+                list.append(line.split('\n')[0].split(sep_str))
+        f.close()
+        return pd.DataFrame.from_records(list, columns=header.split(sep_str))
+
+    def check_trees_txt_props(self): #TO BE TESTED
+        """
+        check if 1/species ID given in trees.txt file exist
+        and 2/ if opt/thermal properties associated to each specie do exist
+        :return: True if every thing is ok, False if not
+        """
+        self.update_properties_dict()
+        veg_opt_props = self.properties_dict["opt_props"]
+        check = True
+
+        file_path = self.xsdobjs_dict["trees"].Trees.Trees_1.sceneParametersFileName
+
+        trees_df = self.read_dart_txt_file_with_header(file_path, "\t")
+
+        species_ids = trees_df['SPECIES_ID'].drop_duplicates()
+
+        species_list = self.xsdobjs_dict["trees"].Trees.Trees_1.Specie
+
+        for specie_id in species_ids:
+            if int(specie_id) > len(species_list) - 1:
+                print("Error: specie_id %d does not exist in species list, please FIX" % specie_id)
+                return False
+
+        for i, specie in enumerate(species_list):
+            trunk_opt_prop_link = specie.OpticalPropertyLink
+            trunk_th_prop_link = specie.ThermalPropertyLink
+            crown_opt_prop_link = specie.CrownLevel.OpticalPropertyLink
+            crown_th_prop_link = specie.CrownLevel.ThermalPropertyLink
+            crown_veg_prop_link = specie.VegetationProperty.VegetationOpticalPropertyLink
+            crown_veg_th_link = specie.VegetationProperty.ThermalPropertyLink
+
+            trunk_opt_idx = self.get_opt_prop_index(grd_opt_prop_types_dict[trunk_th_prop_link.type_] ,trunk_opt_prop_link.ident)
+            trunk_th_idx = self.get_thermal_prop_index(trunk_th_prop_link.idTemperature)
+            crown_opt_idx = self.get_opt_prop_index(grd_opt_prop_types_dict[crown_opt_prop_link.type_] ,crown_opt_prop_link.ident)
+            crown_th_idx = self.get_thermal_prop_index(crown_th_prop_link.idTemperature)
+            crown_veg_opt_idx = self.get_opt_prop_index("vegetation" ,crown_veg_prop_link.ident)
+            crown_veg_th_idx = self.get_thermal_prop_index(crown_veg_th_link.idTemperature)
+
+            if trunk_opt_idx == None:
+                print("trunk_opt_prop_link for specie %d do not exist, please FIX" % i)
+                return False
+
+            if trunk_th_idx == None:
+                print("trunk_th_prop_link for specie %d do not exist, please FIX" % i)
+                return False
+
+            if crown_opt_idx == None:
+                print("crown_opt_prop_link for specie %d do not exist, please FIX" % i)
+                return False
+
+            if crown_th_idx == None:
+                print("crown_th_prop_link for specie %d do not exist, please FIX" % i)
+                return False
+
+            if crown_veg_opt_idx == None:
+                print("crown_veg_opt_idx for specie %d do not exist, please FIX" % i)
+                return False
+
+            if crown_veg_th_idx == None:
+                print("crown_veg_th_idx for specie %d do not exist, please FIX" % i)
+                return False
+
+    # <Trees isTrees="1" sceneModelCharacteristic="1">
+    #     <Trees_1 laiZone="0" sceneParametersFileName="trees.txt">
+    #         <Specie branchesAndTwigsSimulation="0" lai="4.00" numberOfTreesInWholeScene="12">
+    #             <OpticalPropertyLink ident="f0" indexFctPhase="0" type="0"/>
+    #             <ThermalPropertyLink
+    #                 idTemperature="ThermalFunction290_310" indexTemperature="0"/>
+    #             <CrownLevel distribution="0" laiConservation="1"
+    #                 relativeHeightVsCrownHeight="1.00"
+    #                 relativeTrunkDiameterWithinCrown="0.50" verticalWeightForUf="1.00">
+    #                 <OpticalPropertyLink ident="f0" indexFctPhase="0" type="0"/>
+    #                 <ThermalPropertyLink
+    #                     idTemperature="ThermalFunction290_310" indexTemperature="0"/>
+    #                 <VegetationProperty>
+    #                     <VegetationOpticalPropertyLink ident="f0" indexFctPhase="0"/>
+    #                     <ThermalPropertyLink
+    #                         idTemperature="ThermalFunction290_310" indexTemperature="0"/>
+    #                 </VegetationProperty>
+    #             </CrownLevel>
+    #         </Specie>
+        return check
+
+    def check_plots_txt_props(self):
+        """
+        check if optical/thermal properties indexes given in plots.txt exist in properties lists
+        WARNING: this method must not be called if self.xsdobjs_dict["plots"].Plots.addExtraPlotsTextFile != 1:
+        :return:
+        """
+        self.update_properties_dict()
+        opt_props = self.properties_dict["opt_props"]
+        th_props = self.properties_dict["thermal_props"]
+        check = True
+
+        file_path = self.xsdobjs_dict["plots"].Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName
+        # if not "/" in file_path:
+        #     file_path = pjoin(self.get_database_dir(),file_path)
+        #
+        # plots = []
+        # f = open(file_path, 'r')
+        # l = f.readline()
+        # while l[0] == "*": #skip file comments
+        #     l = f.readline()
+        # header = l
+        #
+        # for line in f:
+        #     if line != '\n':
+        #         plots.append(line.split('\n')[0].split(" "))
+        # f.close()
+        #
+        # plots_df = pd.DataFrame.from_records(plots, columns=header.split(" "))
+        plots_df = self.read_dart_txt_file_with_header(file_path, " ")
+
+        #GRD_OPT_TYPE GRD_OPT_NUMB GRD_THERM_NUMB PLT_OPT_NUMB PLT_THERM_NUMB
+        grd_opt_props = plots_df[['GRD_OPT_TYPE','GRD_OPT_NUMB']].drop_duplicates()
+        grd_therm_numbs = plots_df['GRD_THERM_NUMB'].drop_duplicates()
+        plt_opt_numbs = plots_df['PLT_OPT_NUMB'].drop_duplicates()
+        plt_therm_numbs = plots_df['PLT_THERM_NUMB'].drop_duplicates()
+        # for row in df.rows:
+        #     print row['c1'], row['c2']
+
+        for i, grd_opt_prop in grd_opt_props.iterrows():
+            opt_prop_type = grd_opt_prop_types_dict[int(grd_opt_prop['GRD_OPT_TYPE'])]
+            opt_prop_index = int(grd_opt_prop['GRD_OPT_NUMB'])
+            if len(opt_props[opt_prop_type]) < opt_prop_index + 1:
+                print("ERROR in %s file column GRD_OPT_NUMB: optical property index %d do not exist in properties list, please FIX" % (file_path, opt_prop_index))
+                check = False
+        for grd_therm_num in grd_therm_numbs:
+            th_prop_index = int(grd_therm_num)
+            if len(th_props) < th_prop_index + 1:
+                print("ERROR in %s file column GRD_THERM_NUMB: thermal property index %d do not exist in properties list, please FIX" % (file_path, th_prop_index))
+                check = False
+        for plt_opt_num in plt_opt_numbs:
+            opt_prop_type = "vegetation"
+            opt_prop_index = int(plt_opt_num)
+            if len(opt_props[opt_prop_type]) < opt_prop_index + 1:
+                print("ERROR in %s file column PLT_OPT_NUMB: optical property index %d do not exist in properties list, please FIX" % (file_path, opt_prop_index))
+                check = False
+        for plt_therm_num in plt_therm_numbs:
+            th_prop_index = int(plt_therm_num)
+            if len(th_props) < th_prop_index + 1:
+                print("ERROR in %s file column PLT_THERM_NUMB: thermal property index %d do not exist in properties list, please FIX" % (file_path, th_prop_index))
+                check = False
+        return check
+
     def check_plots_props(self):
         """
         Check plots optical/thermal properties consistency
@@ -432,8 +604,13 @@ class simulation(object):
         """
         check_plots_opt_props = self.check_plots_opt_props()
         check_plots_thermal_props = self.check_plots_thermal_props()
-        # check plots.txt indexes
-        return check_plots_opt_props and check_plots_thermal_props
+
+        if self.xsdobjs_dict["plots"].Plots.addExtraPlotsTextFile == 1:
+            check_plots_txt_props = self.check_plots_txt_props()
+        else:
+            check_plots_txt_props = True # has no impact on return value
+
+        return check_plots_opt_props and check_plots_thermal_props and check_plots_txt_props
 
     def get_thermal_props(self):
         """
@@ -579,7 +756,7 @@ class simulation(object):
         """
         Cross check XSD module dependencies:
 
-        * check optical properties names associated to scene objects (plots, soil, object3D, trees(To be done)) exist in optical/thermal properties lists (coeff_diff.xml file) (ToDo: check thermal properties)
+        * check optical properties names associated to scene objects (plots, soil, object3D, trees(To be done)) exist in optical/thermal properties lists (coeff_diff.xml file)
         * check if the number of spectral intervals associated to each optical property in coeff_diff
          is equal to the number of spectral bands in phase.xml file
 
@@ -596,6 +773,8 @@ class simulation(object):
         check2 = self.check_properties_indexes()
         if (check1 and check2):
             print("Module Dependencies OK")
+        else:
+            print("ERROR: There are Module Dependencies ISSUES")
         return (check1 and check2)
 
     def check_and_correct_sp_bands(self):
@@ -909,7 +1088,7 @@ class simulation(object):
 
     def check_scene_props(self):
         """
-        check if optical property associated to soil exist in optical properties list (ToDo: thermal properties, ThermalPropertyLink, idTemperature, indexTemperature)
+        check if optical property associated to soil exist in optical properties list
         :return:True if associated properties are found in properties lists, False if not
         """
         check = True
@@ -940,10 +1119,8 @@ class simulation(object):
 
     def check_object_3d_props(self):
         """
-        check if optical properties associated to all 3d objects groups exist in optical properties list (ToDo: thermal properties)
-        search of optical prop names is made through the etree corresponding to object3D XSD modype, opt_prop_name, createProps)
-                ule, because the number of levels having an associated optical property is huge
-        this means that the index can not be corrected (choice to be done)
+        check if optical/thermal properties associated to all 3d objects groups exist in optical properties list
+        if any optical/thermal proprerty does not exist, an Error message is displayed
         :return: True if every property associated to 3D ojects exist in properties lists
         """
         check = True
@@ -1129,9 +1306,6 @@ class simulation(object):
                     th_prop_name))
                 return index
         return index
-
-
-    #ToDo def getDefaultValue(self): find default value in XSD file for a given parameter
 
     def get_default_opt_prop(self, opt_prop_type):
         """
@@ -1470,6 +1644,4 @@ class simulation(object):
 
     #ToDo
     #refreshObjFromTables(auto=True) : aimed to be launched automatically after each Table Modification, or manually
-    #def add_multiplots()
     #add_sequence()
-    #add_optprop()
