@@ -251,6 +251,8 @@ class simulation(object):
         else:
             raise Exception("ERROR: please correct dependencies issues, no files written")
 
+    def is_tree_txt_file_considered(self):
+        return self.xsdobjs_dict["trees"].Trees.Trees_1 != None
 
     def check_properties_indexes(self, createProps = False):
         """
@@ -263,7 +265,7 @@ class simulation(object):
         check_plots = self.check_plots_props()
         check_scene = self.check_scene_props()
         check_object3d = self.check_object_3d_props()
-        if self.xsdobjs_dict["trees"].Trees.Trees_1 != None:
+        if self.is_tree_txt_file_considered():# if additional tree.txt like file is considered
             check_trees_txt_props = self.check_trees_txt_props()
         else:
             check_trees_txt_props = True  # has no impact on return value
@@ -455,7 +457,7 @@ class simulation(object):
         and 2/ if opt/thermal properties associated to each specie do exist
         :return: True if every thing is ok, False if not
         """
-        self.update_properties_dict()
+        #self.update_properties_dict()
         veg_opt_props = self.properties_dict["opt_props"]
         check = True
 
@@ -469,48 +471,57 @@ class simulation(object):
 
         for specie_id in species_ids:
             if int(specie_id) > len(species_list) - 1:
-                print("Error: specie_id %d does not exist in species list, please FIX" % specie_id)
-                return False
+                print("Warning: specie_id %d does not exist in species list, please FIX" % int(specie_id))
+                #return False # launch warning, but allow simulation to go on, as in DART
 
         for i, specie in enumerate(species_list):
             trunk_opt_prop_link = specie.OpticalPropertyLink
             trunk_th_prop_link = specie.ThermalPropertyLink
-            crown_opt_prop_link = specie.CrownLevel.OpticalPropertyLink
-            crown_th_prop_link = specie.CrownLevel.ThermalPropertyLink
-            crown_veg_prop_link = specie.VegetationProperty.VegetationOpticalPropertyLink
-            crown_veg_th_link = specie.VegetationProperty.ThermalPropertyLink
 
-            trunk_opt_idx = self.get_opt_prop_index(grd_opt_prop_types_dict[trunk_th_prop_link.type_] ,trunk_opt_prop_link.ident)
+            trunk_opt_idx = self.get_opt_prop_index(grd_opt_prop_types_dict[trunk_opt_prop_link.type_] ,trunk_opt_prop_link.ident)
             trunk_th_idx = self.get_thermal_prop_index(trunk_th_prop_link.idTemperature)
-            crown_opt_idx = self.get_opt_prop_index(grd_opt_prop_types_dict[crown_opt_prop_link.type_] ,crown_opt_prop_link.ident)
-            crown_th_idx = self.get_thermal_prop_index(crown_th_prop_link.idTemperature)
-            crown_veg_opt_idx = self.get_opt_prop_index("vegetation" ,crown_veg_prop_link.ident)
-            crown_veg_th_idx = self.get_thermal_prop_index(crown_veg_th_link.idTemperature)
 
             if trunk_opt_idx == None:
-                print("trunk_opt_prop_link for specie %d do not exist, please FIX" % i)
-                return False
+                print("trunk_opt_prop %s for specie %d do not exist, please FIX" % (trunk_opt_prop_link.ident, i) )
+                #return False
+                check = False
 
             if trunk_th_idx == None:
-                print("trunk_th_prop_link for specie %d do not exist, please FIX" % i)
-                return False
+                print("trunk_th_prop %s for specie %d do not exist, please FIX" % (trunk_th_prop_link.idTemperature, i) )
+                #return False
+                check = False
 
-            if crown_opt_idx == None:
-                print("crown_opt_prop_link for specie %d do not exist, please FIX" % i)
-                return False
+            crown_props_list = specie.CrownLevel
+            for j, crown_prop in enumerate(crown_props_list):
+                print("checking specie nb %d, crown level nb %d" % (i,j))
+                crown_opt_prop_link = crown_prop.OpticalPropertyLink
+                crown_th_prop_link = crown_prop.ThermalPropertyLink
+                crown_veg_prop_link = crown_prop.VegetationProperty.VegetationOpticalPropertyLink
+                crown_veg_th_link = crown_prop.VegetationProperty.ThermalPropertyLink
+                crown_opt_idx = self.get_opt_prop_index(grd_opt_prop_types_dict[crown_opt_prop_link.type_] ,crown_opt_prop_link.ident)
+                crown_th_idx = self.get_thermal_prop_index(crown_th_prop_link.idTemperature)
+                crown_veg_opt_idx = self.get_opt_prop_index("vegetation" ,crown_veg_prop_link.ident)
+                crown_veg_th_idx = self.get_thermal_prop_index(crown_veg_th_link.idTemperature)
 
-            if crown_th_idx == None:
-                print("crown_th_prop_link for specie %d do not exist, please FIX" % i)
-                return False
+                if crown_opt_idx == None:
+                    print("crown_opt_prop %s for specie %d do not exist, please FIX" % (crown_opt_prop_link.ident, i) )
+                    #return False
+                    check = False
 
-            if crown_veg_opt_idx == None:
-                print("crown_veg_opt_idx for specie %d do not exist, please FIX" % i)
-                return False
+                if crown_th_idx == None:
+                    print("crown_th_prop %s for specie %d do not exist, please FIX" % (crown_th_prop_link.idTemperature, i) )
+                    #return False
+                    check = False
 
-            if crown_veg_th_idx == None:
-                print("crown_veg_th_idx for specie %d do not exist, please FIX" % i)
-                return False
+                if crown_veg_opt_idx == None:
+                    print("crown_veg_opt %s for specie %d do not exist, please FIX" % (crown_veg_prop_link.ident, i) )
+                    #return False
+                    check = False
 
+                if crown_veg_th_idx == None:
+                    print("crown_veg_th %s for specie %d do not exist, please FIX" % (crown_veg_th_link.idTemperature,i) )
+                    #return False
+                    check = False
     # <Trees isTrees="1" sceneModelCharacteristic="1">
     #     <Trees_1 laiZone="0" sceneParametersFileName="trees.txt">
     #         <Specie branchesAndTwigsSimulation="0" lai="4.00" numberOfTreesInWholeScene="12">
@@ -594,6 +605,9 @@ class simulation(object):
                 check = False
         return check
 
+    def is_plots_txt_file_considered(self):
+        return self.xsdobjs_dict["plots"].Plots.addExtraPlotsTextFile == 1
+
     def check_plots_props(self):
         """
         Check plots optical/thermal properties consistency
@@ -605,7 +619,7 @@ class simulation(object):
         check_plots_opt_props = self.check_plots_opt_props()
         check_plots_thermal_props = self.check_plots_thermal_props()
 
-        if self.xsdobjs_dict["plots"].Plots.addExtraPlotsTextFile == 1:
+        if self.is_plots_txt_file_considered(): # if additional plots.txt like file is considered
             check_plots_txt_props = self.check_plots_txt_props()
         else:
             check_plots_txt_props = True # has no impact on return value
@@ -1525,7 +1539,7 @@ class simulation(object):
         :param grd_opt_prop_type: ground optical property type in ["lambertian","hapke","rpv"]
         :param grd_opt_prop_name: name of ground optical property name.  Can be None (if plot_type = vegetation or fluid)
         :param grd_therm_prop_name: name of ground thermal property name. Can be None (if plot_type = vegetation or fluid)
-        :param createOptProps: optional. If True, missing optical/thermal properties should be created
+        :param createOptProps: optional. If True, missing optical/thermal properties will be created
 
         either (plot_opt_prop_name and plot_therm_prop_name) or (grd_opt_prop_type and grd_opt_prop_name and grd_therm_prop_name) must be != None
         if they are not given by user, default properties (comming from default DART property links) are taken (vegetation plot)
@@ -1617,13 +1631,8 @@ class simulation(object):
         #phase module modification
 
         self.add_sp_bands(spbands_list)
-        # for sp_band in spbands_list:
-        #     sp_int_props = ptd.phase.create_SpectralIntervalsProperties(meanLambda=sp_band[0], deltaLambda=sp_band[1])
-        #     self.xsdobjs_dict["phase"].Phase.DartInputParameters.SpectralIntervals.add_SpectralIntervalsProperties(sp_int_props)
-        #     sp_irr_value = ptd.phase.create_SpectralIrradianceValue()
-        #     self.xsdobjs_dict["phase"].Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance.add_SpectralIrradianceValue(sp_irr_value)
 
-        #coeff module modification
+        #coeff_diff module modification
         lambertian_opt_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.LambertianMultiFunctions.LambertianMulti
         hapke_opt_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.HapkeSpecularMultiFunctions.HapkeSpecularMulti
         rpv_opt_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.RPVMultiFunctions.RPVMulti
@@ -1641,6 +1650,80 @@ class simulation(object):
         if len(fluid_props_list) > 0: # complicated case, several air properties allowed
             self.add_air_multipl_factors()
 
+    def add_treestxtfile_reference(self, src_file_path, species_list, createProps = False):
+        """
+        includes a trees.txt-like file reference to add lollypop trees in the simulation
+        the number of species requested in src_file MUST be the same than in species_list
+        species_list contains for each specie, a dictionnary structured as follows:
+        keys = ["opt_prop_name", "opt_prop_type","th_prop_name","crown_props"]
+        values_types = [string, string, string, pandas.dataframe]
+        crown_props is a pandas.dataframe structured as follows (each rows corredsponds to each crownLevel XML Element):
+        crown_props.columns = ["crown_opt_prop_type", "crown_opt_prop_name", "crown_th_prop_name"
+                                "crown_veg_opt_prop_name", "crown_veg_th_prop_name"]
+
+        :param src_file_path: file with lollypop-trees description, according to DART trees.txt structure
+        :param species_list: opt/thermal properties for all the species
+        :param createProps:  optional. If True, missing optical/thermal properties will be created
+        :return: None
+        """
+        self.xsdobjs_dict["trees"].Trees.isTrees = 1
+        self.xsdobjs_dict["trees"].Trees.Trees_1.sceneParametersFileName = src_file_path
+        for spec_nb in range(len(species_list)):
+            props = species_list[spec_nb]
+            opt_name = props["opt_prop_name"]
+            opt_type = props["opt_prop_type"]
+            th_name = props["th_prop_name"]
+
+            opt_prop_index = self.checkandcorrect_opt_prop_exists(opt_type, opt_name, createProps)
+            th_prop_index = self.checkandcorrect_th_prop_exists(th_name, createProps)
+
+            if opt_prop_index == None:
+                raise Exception('ERROR: opt_property %s does not exist, please FIX or set createProps=True' % opt_name)
+
+            if th_prop_index == None:
+                raise Exception('ERROR: th_property %s does not exist, please FIX or set createProps=True' % th_name)
+
+
+            if spec_nb > len(self.xsdobjs_dict["trees"].Trees.Trees_1.Specie) - 1:
+                specie = ptd.trees.create_Specie()
+            else:
+                specie = self.xsdobjs_dict["trees"].Trees.Trees_1.Specie[spec_nb]
+
+
+
+            specie.OpticalPropertyLink = ptd.trees.create_OpticalPropertyLink(type_=grd_opt_prop_types_inv_dict[opt_type], ident=opt_name)
+            specie.ThermalPropertyLink = ptd.trees.create_ThermalPropertyLink(idTemperature=th_name)
+            nb_of_crowns = props["crown_props"].shape[0]
+            for crown_nb in range(nb_of_crowns):
+                crown_props = props["crown_props"].iloc[crown_nb]
+                if (crown_nb > len(specie.CrownLevel) - 1):
+                    crown = ptd.trees.create_CrownLevel()
+                else:
+                    crown = specie.CrownLevel[crown_nb]
+
+                crown_opt_prop_index = self.checkandcorrect_opt_prop_exists(crown_props["crown_opt_prop_type"], crown_props["crown_opt_prop_name"], createProps)
+                crown_th_prop_index = self.checkandcorrect_th_prop_exists(crown_props["crown_th_prop_name"], createProps)
+                crown_veg_opt_prop_index = self.checkandcorrect_opt_prop_exists("vegetation", crown_props["crown_veg_opt_prop_name"], createProps)
+                crown_veg_th_prop_index = self.checkandcorrect_th_prop_exists(crown_props["crown_veg_th_prop_name"],createProps)
+
+                if crown_opt_prop_index == None:
+                    raise Exception('ERROR: opt_property %s does not exist, please FIX or set createProps=True' % crown_props["crown_opt_prop_name"])
+                if crown_th_prop_index == None:
+                    raise Exception('ERROR: th_property %s does not exist, please FIX or set createProps=True' % crown_props["crown_th_prop_name"])
+                if crown_veg_opt_prop_index == None:
+                    raise Exception('ERROR: opt_property %s does not exist, please FIX or set createProps=True' % crown_props["crown_veg_opt_prop_name"])
+                if crown_veg_th_prop_index == None:
+                    raise Exception('ERROR: th_property %s does not exist, please FIX or set createProps=True' % crown_props["crown_veg_th_prop_name"])
+
+                crown.OpticalPropertyLink = ptd.trees.create_OpticalPropertyLink(
+                    type_= grd_opt_prop_types_inv_dict[crown_props["crown_opt_prop_type"]],
+                    ident = crown_props["crown_opt_prop_name"])
+                crown.ThermalPropertyLink = ptd.trees.create_ThermalPropertyLink(idTemperature = crown_props["crown_th_prop_name"])
+                veg_opt_prop_link = ptd.trees.create_VegetationOpticalPropertyLink(ident = crown_props["crown_veg_opt_prop_name"])
+                veg_th_prop_link = ptd.trees.create_ThermalPropertyLink(idTemperature = crown_props["crown_veg_th_prop_name"])
+                crown.VegetationProperty = ptd.trees.create_VegetationProperty(
+                    VegetationOpticalPropertyLink=veg_opt_prop_link,
+                    ThermalPropertyLink=veg_th_prop_link)
 
     #ToDo
     #refreshObjFromTables(auto=True) : aimed to be launched automatically after each Table Modification, or manually
