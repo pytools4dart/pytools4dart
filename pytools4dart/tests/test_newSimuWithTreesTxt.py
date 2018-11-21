@@ -12,7 +12,7 @@ import pandas as pd
 
 simu = simulation()
 
-src_file_path = "trees_trafique_CL.txt" #in this file 2 species are requested
+src_file_path = "trees_trafique_CL2.txt" #in this file 2 species are requested
 species_list =[]
 crown_props = []
 crown_dfs_columns = ['crown_opt_prop_type', 'crown_opt_prop_name', 'crown_th_prop_name', 'crown_veg_opt_prop_name', 'crown_veg_th_prop_name']

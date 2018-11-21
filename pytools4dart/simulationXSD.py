@@ -257,7 +257,6 @@ class simulation(object):
     def check_properties_indexes(self, createProps = False):
         """
         Cross check properties of every mockup element (plots, scene, object3d, trees) with properties DataFrames.
-        Only plots cross check has been implemented, others are coming (Todo cross_check_plots_txt, cross_check_scene_props, cross_check_object3d_props, cross_check_trees_props)
         Att: In the case of plots.txt et trees.txt, we can only check if the given property index does exist
         :return:
         """
@@ -1666,6 +1665,13 @@ class simulation(object):
         :param createProps:  optional. If True, missing optical/thermal properties will be created
         :return: None
         """
+
+        trees_df = self.read_dart_txt_file_with_header(src_file_path, "\t")
+        species_ids = trees_df['SPECIES_ID'].drop_duplicates()
+        for specie_id in species_ids:
+            if int(specie_id) > len(species_list)-1:
+                raise Exception("specieID requested in {} file do not exist in species_list ".format(src_file_path))
+
         self.xsdobjs_dict["trees"].Trees.isTrees = 1
         self.xsdobjs_dict["trees"].Trees.Trees_1.sceneParametersFileName = src_file_path
         for spec_nb in range(len(species_list)):
@@ -1724,6 +1730,10 @@ class simulation(object):
                 crown.VegetationProperty = ptd.trees.create_VegetationProperty(
                     VegetationOpticalPropertyLink=veg_opt_prop_link,
                     ThermalPropertyLink=veg_th_prop_link)
+
+    def add_plotstxtfile_reference(self, src_file_path):
+        self.xsdobjs_dict["trees"].Trees.isTrees = 1
+        self.xsdobjs_dict["trees"].Trees.Trees_1.sceneParametersFileName = src_file_path
 
     #ToDo
     #refreshObjFromTables(auto=True) : aimed to be launched automatically after each Table Modification, or manually
