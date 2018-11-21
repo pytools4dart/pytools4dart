@@ -554,22 +554,7 @@ class simulation(object):
         check = True
 
         file_path = self.xsdobjs_dict["plots"].Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName
-        # if not "/" in file_path:
-        #     file_path = pjoin(self.get_database_dir(),file_path)
-        #
-        # plots = []
-        # f = open(file_path, 'r')
-        # l = f.readline()
-        # while l[0] == "*": #skip file comments
-        #     l = f.readline()
-        # header = l
-        #
-        # for line in f:
-        #     if line != '\n':
-        #         plots.append(line.split('\n')[0].split(" "))
-        # f.close()
-        #
-        # plots_df = pd.DataFrame.from_records(plots, columns=header.split(" "))
+
         plots_df = self.read_dart_txt_file_with_header(file_path, " ")
 
         #GRD_OPT_TYPE GRD_OPT_NUMB GRD_THERM_NUMB PLT_OPT_NUMB PLT_THERM_NUMB
@@ -1651,7 +1636,7 @@ class simulation(object):
 
     def add_treestxtfile_reference(self, src_file_path, species_list, createProps = False):
         """
-        includes a trees.txt-like file reference to add lollypop trees in the simulation
+        includes a trees.txt-like file reference to add lollypop trees to the simulation
         the number of species requested in src_file MUST be the same than in species_list
         species_list contains for each specie, a dictionnary structured as follows:
         keys = ["opt_prop_name", "opt_prop_type","th_prop_name","crown_props"]
@@ -1732,8 +1717,50 @@ class simulation(object):
                     ThermalPropertyLink=veg_th_prop_link)
 
     def add_plotstxtfile_reference(self, src_file_path):
-        self.xsdobjs_dict["trees"].Trees.isTrees = 1
-        self.xsdobjs_dict["trees"].Trees.Trees_1.sceneParametersFileName = src_file_path
+        """
+        includes a plots.txt-like file reference to add multiple plots to the simulation
+        checks if every opt/thermal property index does already exist in properties lists, if not, Exception is raised
+        It is let to user's responsibility to create appropriate opt/th properties if missing (index is the only property information given)
+        :param src_file_path: plots.txt-like file path
+        :return: None
+        """
+
+        self.update_properties_dict()
+        opt_props = self.properties_dict["opt_props"]
+        th_props = self.properties_dict["thermal_props"]
+
+        plots_df = self.read_dart_txt_file_with_header(src_file_path, " ")
+
+        #GRD_OPT_TYPE GRD_OPT_NUMB GRD_THERM_NUMB PLT_OPT_NUMB PLT_THERM_NUMB
+        grd_opt_props = plots_df[['GRD_OPT_TYPE','GRD_OPT_NUMB']].drop_duplicates()
+        grd_therm_numbs = plots_df['GRD_THERM_NUMB'].drop_duplicates()
+        plt_opt_numbs = plots_df['PLT_OPT_NUMB'].drop_duplicates()
+        plt_therm_numbs = plots_df['PLT_THERM_NUMB'].drop_duplicates()
+
+        for i, grd_opt_prop in grd_opt_props.iterrows():
+            opt_prop_type = grd_opt_prop_types_dict[int(grd_opt_prop['GRD_OPT_TYPE'])]
+            opt_prop_index = int(grd_opt_prop['GRD_OPT_NUMB'])
+            if len(opt_props[opt_prop_type]) < opt_prop_index + 1:
+                raise Exception("ERROR in %s file column GRD_OPT_NUMB: %s optical property index %d do not exist in properties list, please FIX" % (src_file_path, opt_prop_type, opt_prop_index))
+
+        for grd_therm_num in grd_therm_numbs:
+            th_prop_index = int(grd_therm_num)
+            if len(th_props) < th_prop_index + 1:
+                raise Exception("ERROR in %s file column GRD_THERM_NUMB: thermal property index %d do not exist in properties list, please FIX" % (src_file_path, th_prop_index))
+
+        for plt_opt_num in plt_opt_numbs:
+            opt_prop_type = "vegetation"
+            opt_prop_index = int(plt_opt_num)
+            if len(opt_props[opt_prop_type]) < opt_prop_index + 1:
+                raise Exception("ERROR in %s file column PLT_OPT_NUMB: %s optical property index %d do not exist in properties list, please FIX" % (src_file_path, opt_prop_type, opt_prop_index))
+
+        for plt_therm_num in plt_therm_numbs:
+            th_prop_index = int(plt_therm_num)
+            if len(th_props) < th_prop_index + 1:
+                raise Exception("ERROR in %s file column PLT_THERM_NUMB: thermal property index %d do not exist in properties list, please FIX" % (src_file_path, th_prop_index))
+
+        self.xsdobjs_dict["plots"].Plots.addExtraPlotsTextFile = 1
+        self.xsdobjs_dict["plots"].Plots.ExtraPlotsTextFileDefinition = ptd.plots.create_ExtraPlotsTextFileDefinition(extraPlotsFileName=src_file_path)
 
     #ToDo
     #refreshObjFromTables(auto=True) : aimed to be launched automatically after each Table Modification, or manually
