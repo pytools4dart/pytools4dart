@@ -671,18 +671,19 @@ class simulation(object):
 
         return opt_props
 
+    def get_corners_from_rectangle(self, center_x, center_y, side_x, side_y):
+        x1, y1 = center_x - side_x / 2.0, center_y - side_y / 2.0
+        x2, y2 = center_x + side_x / 2.0, center_y - side_y / 2.0
+        x3, y3 = center_x + side_x / 2.0, center_y + side_y / 2.0
+        x4, y4 = center_x - side_x / 2.0, center_y + side_y / 2.0
+        return x1, y1, x2, y2, x3, y3, x4, y4
+
     def extract_plots_full_table(self):
         """
         extract a DataFrame containing Plots information, directly from plots_obj (self.xdsobjs_dict["plots"])
         for each plot, the fields defined in DART plots.txt file header are provided
         :return: DataFrame containing Plot fields
         """
-        #
-        # plots_opt_props_dict = {}
-        #
-        # for field in plots_table_header:
-        #     plots_opt_props_dict[field] = []
-
         rows = []
 
         plots_list = self.xsdobjs_dict["plots"].Plots.Plot
@@ -697,11 +698,20 @@ class simulation(object):
             plt_type = plot.type_
 
             #if plot.form = "corners": else: calculate corners
-            points_list = plot.Polygon2D.Point2D
-            x1, y1 = points_list[0].x, points_list[0].y
-            x2, y2 = points_list[1].x, points_list[1].y
-            x3, y3 = points_list[2].x, points_list[2].y
-            x4, y4 = points_list[3].x, points_list[3].y
+            if plot.form == plot_form_inv_dict["polygon"]:
+                points_list = plot.Polygon2D.Point2D
+                x1, y1 = points_list[0].x, points_list[0].y
+                x2, y2 = points_list[1].x, points_list[1].y
+                x3, y3 = points_list[2].x, points_list[2].y
+                x4, y4 = points_list[3].x, points_list[3].y
+            elif plot.form == plot_form_inv_dict["rectangle"]:
+                center_x = plot.Rectangle2D.centreX
+                center_y = plot.Rectangle2D.centreY
+                side_x, side_y = plot.Rectangle2D.coteX, plot.Rectangle2D.coteY
+                intrinsicRotation = plot.Rectangle2D.intrinsicRotation #not used for the moment
+                x1, y1, x2, y2, x3, y3, x4, y4 = self.get_corners_from_rectangle(center_x, center_y, side_x, side_y)
+            else:
+                raise Exception("plot.form value {} not valid".format(plot.form))
 
             if plt_type in [1,2,3]:
                 opt_prop_node_name = None
