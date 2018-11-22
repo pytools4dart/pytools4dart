@@ -1791,3 +1791,5 @@ class simulation(object):
     #ToDo
     #refreshObjFromTables(auto=True) : aimed to be launched automatically after each Table Modification, or manually
     #add_sequence()
+
+

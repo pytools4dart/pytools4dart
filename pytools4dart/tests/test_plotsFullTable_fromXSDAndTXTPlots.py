@@ -12,6 +12,7 @@ simu.update_tables_from_objs()
 simu.writeToXMLFromObj("test2plotsSimu_PlusPlotsTxt")
 
 simu2 = simulation("test2plotsSimu_PlusPlotsTxt")
+
 simu2.runners.full()
 
 
