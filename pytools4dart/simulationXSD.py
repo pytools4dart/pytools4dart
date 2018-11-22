@@ -443,7 +443,7 @@ class simulation(object):
         l = f.readline()
         while l[0] == "*": #skip file comments
             l = f.readline()
-        header = l
+        header = l.split("\n")[0]
         for line in f:
             if line != '\n':
                 list.append(line.split('\n')[0].split(sep_str))
@@ -682,8 +682,12 @@ class simulation(object):
         """
         extract a DataFrame containing Plots information, directly from plots_obj (self.xdsobjs_dict["plots"])
         for each plot, the fields defined in DART plots.txt file header are provided
+        Additional column named "plot_source" indicates if the plot comes from XSD object or from plots.txt-like file
         :return: DataFrame containing Plot fields
         """
+
+        #extract XSDs objs plots:
+        plot_source = "XSD Plot"
         rows = []
 
         plots_list = self.xsdobjs_dict["plots"].Plots.Plot
@@ -697,7 +701,6 @@ class simulation(object):
 
             plt_type = plot.type_
 
-            #if plot.form = "corners": else: calculate corners
             if plot.form == plot_form_inv_dict["polygon"]:
                 points_list = plot.Polygon2D.Point2D
                 x1, y1 = points_list[0].x, points_list[0].y
@@ -743,7 +746,7 @@ class simulation(object):
                 grd_therm_number = plot.GroundThermalPropertyLink.indexTemperature
                 grd_therm_name = plot.GroundThermalPropertyLink.idTemperature
 
-            row_to_add = [i, plt_type, x1, y1, x2, y2, x3, y3, x4, y4,
+            row_to_add = [i, plot_source , plt_type, x1, y1, x2, y2, x3, y3, x4, y4,
                           grd_opt_type, grd_opt_number, grd_opt_name, grd_therm_number, grd_therm_name,
                           plt_opt_number, plt_opt_name, plt_therm_number, plt_therm_name,
                           plt_btm_hei, plt_hei_mea, plt_std_dev, veg_density_def, veg_lai, veg_ul]
@@ -751,14 +754,27 @@ class simulation(object):
             rows.append(row_to_add)
 
 
-        plots_table_header = ['PLT_NUMBER', 'PLT_TYPE', 'PT_1_X', 'PT_1_Y', 'PT_2_X', 'PT_2_Y', 'PT_3_X', 'PT_3_Y',
+        plots_table_header = ['PLT_NUMBER', 'PLOT_SOURCE', 'PLT_TYPE', 'PT_1_X', 'PT_1_Y', 'PT_2_X', 'PT_2_Y', 'PT_3_X', 'PT_3_Y',
                               'PT_4_X',
                               'PT_4_Y',
                               'GRD_OPT_TYPE', 'GRD_OPT_NUMB', 'GRD_OPT_NAME', 'GRD_THERM_NUMB', 'GRD_THERM_NAME',
                               'PLT_OPT_NUMB', 'PLT_OPT_NAME', 'PLT_THERM_NUMB', 'PLT_THERM_NAME',
                               'PLT_BTM_HEI', 'PLT_HEI_MEA', 'PLT_STD_DEV', 'VEG_DENSITY_DEF', 'VEG_LAI', 'VEG_UL']
 
-        return pd.DataFrame(rows, columns=plots_table_header)
+        plots_df = pd.DataFrame(rows, columns=plots_table_header)
+
+        if self.is_plots_txt_file_considered():
+            plotstxt_file_path = self.xsdobjs_dict["plots"].Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName
+            plotstxt_df = self.read_dart_txt_file_with_header(file_path=plotstxt_file_path, sep_str=" ")
+            plotstxt_df['PLOT_SOURCE'] = "TXT Plot"
+            sLength = len(plotstxt_df['PLT_TYPE'])
+
+            plt_num_col = dict(enumerate(range(sLength)))
+            plotstxt_df['PLT_NUMBER'] = plt_num_col
+
+            plots_df = pd.concat([plots_df,plotstxt_df], ignore_index = True, sort=False)
+
+        return plots_df
 
     def check_module_dependencies(self):
         """
