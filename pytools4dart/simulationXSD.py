@@ -603,12 +603,12 @@ class simulation(object):
         check_plots_opt_props = self.check_plots_opt_props()
         check_plots_thermal_props = self.check_plots_thermal_props()
 
-        if self.is_plots_txt_file_considered(): # if additional plots.txt like file is considered
-            check_plots_txt_props = self.check_plots_txt_props()
-        else:
-            check_plots_txt_props = True # has no impact on return value
+        # if self.is_plots_txt_file_considered(): # if additional plots.txt like file is considered
+        #     check_plots_txt_props = self.check_plots_txt_props()
+        # else:
+        #     check_plots_txt_props = True # has no impact on return value
 
-        return check_plots_opt_props and check_plots_thermal_props and check_plots_txt_props
+        return check_plots_opt_props and check_plots_thermal_props #and check_plots_txt_props
 
     def get_thermal_props(self):
         """
@@ -820,8 +820,9 @@ class simulation(object):
         if len(self.xsdobjs_dict["coeff_diff"].Coeff_diff.LambertianMultiFunctions.LambertianMulti)>0: # if opt_prop list is non empty
             lamb_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.LambertianMultiFunctions.LambertianMulti
             for lamb_prop in lamb_props_list:
-                coeff_lamb_spbands = len(lamb_prop.lambertianNodeMultiplicativeFactorForLUT.lambertianMultiplicativeFactorForLUT)
-                min_coeff_spbands_nb = min(min_coeff_spbands_nb,coeff_lamb_spbands)
+                if lamb_prop.useMultiplicativeFactorForLUT == 1:
+                    coeff_lamb_spbands = len(lamb_prop.lambertianNodeMultiplicativeFactorForLUT.lambertianMultiplicativeFactorForLUT)
+                    min_coeff_spbands_nb = min(min_coeff_spbands_nb,coeff_lamb_spbands)
 
         if min_coeff_spbands_nb < phase_spbands_nb: # if missing multiplicative factors
             print("WARNING: missing multiplicative factor for %s opt prop type" %  "lambertian")
@@ -834,8 +835,9 @@ class simulation(object):
         if len(self.xsdobjs_dict["coeff_diff"].Coeff_diff.HapkeSpecularMultiFunctions.HapkeSpecularMulti)>0:# if opt_prop list is non empty
             hapke_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.HapkeSpecularMultiFunctions.HapkeSpecularMulti
             for hapke_prop in hapke_props_list:
-                coeff_hapke_spbands = len(hapke_prop.hapkeNodeMultiplicativeFactorForLUT.hapkeMultiplicativeFactorForLUT)
-                min_coeff_spbands_nb = min(min_coeff_spbands_nb, coeff_hapke_spbands)
+                if hapke_prop.useMultiplicativeFactorForLUT == 1:
+                    coeff_hapke_spbands = len(hapke_prop.hapkeNodeMultiplicativeFactorForLUT.hapkeMultiplicativeFactorForLUT)
+                    min_coeff_spbands_nb = min(min_coeff_spbands_nb, coeff_hapke_spbands)
 
         if min_coeff_spbands_nb < phase_spbands_nb: # if missing multiplicative factors
             print("WARNING: missing multiplicative factor for %s opt prop type. Correcting..." % "hapke")
@@ -848,8 +850,9 @@ class simulation(object):
         if len(self.xsdobjs_dict["coeff_diff"].Coeff_diff.RPVMultiFunctions.RPVMulti)>0:# if opt_prop list is non empty
             rpv_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.RPVMultiFunctions.RPVMulti
             for rpv_prop in rpv_props_list:
-                coeff_rpv_spbands = len(rpv_prop.RPVNodeMultiplicativeFactorForLUT.RPVMultiplicativeFactorForLUT)
-                min_coeff_spbands_nb = min(min_coeff_spbands_nb, coeff_rpv_spbands)
+                if rpv_prop.useMultiplicativeFactorForLUT == 1:
+                    coeff_rpv_spbands = len(rpv_prop.RPVNodeMultiplicativeFactorForLUT.RPVMultiplicativeFactorForLUT)
+                    min_coeff_spbands_nb = min(min_coeff_spbands_nb, coeff_rpv_spbands)
 
         if min_coeff_spbands_nb < phase_spbands_nb: # if missing multiplicative factors
             print("WARNING: missing multiplicative factor for %s opt prop type. Correcting... " % "rpv")
@@ -862,8 +865,9 @@ class simulation(object):
         if len(self.xsdobjs_dict["coeff_diff"].Coeff_diff.AirMultiFunctions.AirFunction) > 0:# if opt_prop list is non empty
             air_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.AirMultiFunctions.AirFunction
             for air_prop in air_props_list:
-                coeff_air_spbands = len(air_prop.AirFunctionNodeMultiplicativeFactorForLut.AirFunctionMultiplicativeFactorForLut)
-                min_coeff_spbands_nb = min(min_coeff_spbands_nb, coeff_air_spbands)
+                if air_prop.useMultiplicativeFactorForLUT == 1:
+                    coeff_air_spbands = len(air_prop.AirFunctionNodeMultiplicativeFactorForLut.AirFunctionMultiplicativeFactorForLut)
+                    min_coeff_spbands_nb = min(min_coeff_spbands_nb, coeff_air_spbands)
 
         if min_coeff_spbands_nb < phase_spbands_nb: # if missing multiplicative factors
             print("WARNING: missing multiplicative factor for %s opt prop type. Correcting... " % "air")
@@ -876,8 +880,9 @@ class simulation(object):
         if len(self.xsdobjs_dict["coeff_diff"].Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti) > 0:# if opt_prop list is non empty
             veg_props_list = self.xsdobjs_dict["coeff_diff"].Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti
             for veg_prop in veg_props_list:
-                coeff_veg_spbands = len(veg_prop.understoryNodeMultiplicativeFactorForLUT.understoryMultiplicativeFactorForLUT)
-                min_coeff_spbands_nb = min(min_coeff_spbands_nb, coeff_veg_spbands)
+                if veg_prop.useMultiplicativeFactorForLUT == 1:
+                    coeff_veg_spbands = len(veg_prop.understoryNodeMultiplicativeFactorForLUT.understoryMultiplicativeFactorForLUT)
+                    min_coeff_spbands_nb = min(min_coeff_spbands_nb, coeff_veg_spbands)
 
         if min_coeff_spbands_nb < phase_spbands_nb: # if missing multiplicative factors
             print("WARNING: missing multiplicative factor for %s opt prop type. Correcting... " % "vegetation")
