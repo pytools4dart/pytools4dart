@@ -73,11 +73,7 @@ from pytools4dart.xsdschema.water import createDartFile
 from pytools4dart.xsdschema.urban import createDartFile
 
 
-# spbands_fields = ['wvl', 'fwhm']
-# opt_props_fields = ['type', 'op_name', 'db_name', 'op_name_in_db', 'specular']
-# plot_fields = ['x1', 'y1', 'x2', 'y2', 'x3', 'y3', 'x4', 'y4',
-#                'zmin', 'dz', 'density',
-#                'densitydef', 'op_name']
+spbands_fields = ['wvl', 'fwhm']
 
 grd_opt_prop_types_dict = {0: "lambertian", 2: "hapke", 4: "rpv"}
 grd_opt_prop_types_inv_dict = {"lambertian": 0, "hapke": 2, "rpv": 4}
