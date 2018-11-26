@@ -18,20 +18,20 @@ simu.add_sp_bands(sp_band_list) #phase
 #check =
 simu.check_and_correct_sp_bands() # --> warnings and correction of coeff_diff
 
-simu.writeToXMLFromObj(modified_simu_name = "test_newSimu_Plus3bands")
+simu.write(modified_simu_name ="test_newSimu_Plus3bands")
 
 simu2 = simulation("test_newSimu_Plus3bands")
 
-simu2.runners.full()
+simu2.run.full()
 
 simu.add_sp_bands_uf(sp_band_list) #phase and coeff_diff
 
 check = simu.check_module_dependencies()  #includes check_and_correct_sp_bands and check_properties_indexes
 
 if check:
-    simu.writeToXMLFromObj(modified_simu_name = "test_newSimu_Plus3bands") # this includes check_module_dependencies, leave or let the user to check this before writting as shown in this exemple?
+    simu.write(modified_simu_name ="test_newSimu_Plus3bands") # this includes check_module_dependencies, leave or let the user to check this before writting as shown in this exemple?
 
     simu2 = simulation("test_newSimu_Plus3bands")
-    simu2.runners.full()
+    simu2.run.full()
 
 print("stop")

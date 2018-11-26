@@ -11,9 +11,9 @@ import lxml.etree as etree
 print(etree.tostring(ptd.plots.create_Plot().to_etree(), pretty_print=True))
 simu.check_module_dependencies()  #includes check_and_correct_sp_bands and check_properties_indexes
 
-simu.writeToXMLFromObj(modified_simu_name = "test2plotsSimu_readAndWrite")
+simu.write(modified_simu_name ="test2plotsSimu_readAndWrite")
 
 simu2 = simulation("test2plotsSimu_readAndWrite")
-simu2.runners.full()
+simu2.run.full()
 
 print("stop")

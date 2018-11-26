@@ -23,7 +23,7 @@ simu.add_sp_bands_uf(sp_band_list) #phase and coeff_diff
 
 check = simu.check_module_dependencies()  #includes check_and_correct_sp_bands and check_properties_indexes
 
-simu.writeToXMLFromObj(modified_simu_name = "test_newSimu_Plus3bands")
+simu.write(modified_simu_name ="test_newSimu_Plus3bands")
 
 simu2 = simulation("test_newSimu_Plus3bands")
 
@@ -34,12 +34,12 @@ add_plot_ok = simu2.add_plot(plot_type="ground", plot_form="polygon", plot_opt_p
 
 simu2.check_module_dependencies()
 
-simu2.writeToXMLFromObj(modified_simu_name= "test_newSimu_Plus3bands_Plus1Plot")
+simu2.write(modified_simu_name="test_newSimu_Plus3bands_Plus1Plot")
 
 simu3 = simulation("test_newSimu_Plus3bands_Plus1Plot")
 
 try:
-    simu3.runners.full()
+    simu3.run.full()
 except(Exception):
     print(Exception.message)
 

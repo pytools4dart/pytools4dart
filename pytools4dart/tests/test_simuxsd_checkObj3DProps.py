@@ -29,13 +29,13 @@ simu.add_3DOBJ(src_file_path,group_number=len(group_names),group_names_list= gro
 #     group.GroupOpticalProperties.BackFaceOpticalProperty.OpticalPropertyLink.ident = "Lambertian_Phase_Function_1"
 # simu.xsdobjs_dict["object_3d"].object_3d.ObjectList.add_Object(tree)
 
-#simu.writeToXMLFromObj(modified_simu_name= "test_simuXsd_objSansGroups")
+#simu.write(modified_simu_name= "test_simuXsd_objSansGroups")
 
-simu.writeToXMLFromObj(modified_simu_name= "test_simuXsd_checkObj3DProps")
+simu.write(modified_simu_name="test_simuXsd_checkObj3DProps")
 
 simu2 = simulation("test_simuXsd_checkObj3DProps")
 
-simu2.runners.full()
+simu2.run.full()
 
 
 print("stop")

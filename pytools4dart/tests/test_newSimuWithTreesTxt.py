@@ -40,9 +40,9 @@ species_list.append(specie2_dict)
 
 simu.add_treestxtfile_reference(src_file_path=src_file_path, species_list=species_list, createProps= True)
 
-simu.writeToXMLFromObj(modified_simu_name = "test_newSimuWithTrees")
+simu.write(modified_simu_name ="test_newSimuWithTrees")
 
 simu2 = simulation("test_newSimuWithTrees")
-simu2.runners.full()
+simu2.run.full()
 
 print("stop")

@@ -73,12 +73,11 @@ from pytools4dart.xsdschema.water import createDartFile
 from pytools4dart.xsdschema.urban import createDartFile
 
 
-spbands_fields = ['wvl', 'fwhm']
-opt_props_fields = ['type', 'op_name', 'db_name', 'op_name_in_db', 'specular']
-plot_fields = ['x1', 'y1', 'x2', 'y2', 'x3', 'y3', 'x4', 'y4',
-               'zmin', 'dz', 'density',
-               'densitydef', 'op_name']
-#opt_prop_types = ["vegetation","fluid","lambertian","hapke","rpv"]
+# spbands_fields = ['wvl', 'fwhm']
+# opt_props_fields = ['type', 'op_name', 'db_name', 'op_name_in_db', 'specular']
+# plot_fields = ['x1', 'y1', 'x2', 'y2', 'x3', 'y3', 'x4', 'y4',
+#                'zmin', 'dz', 'density',
+#                'densitydef', 'op_name']
 
 grd_opt_prop_types_dict = {0: "lambertian", 2: "hapke", 4: "rpv"}
 grd_opt_prop_types_inv_dict = {"lambertian": 0, "hapke": 2, "rpv": 4}
@@ -93,7 +92,7 @@ class simulation(object):
     xsdobjs_dict: contains objects built according to XSD modules specification, access is given through a key which matches with XSDfile name
                 if the simulation whose name can be given as parameter exists, xsdobjs_dic is populated with simulation XML files contents
     properties_dict: dictionnary containing "opt_props" and "thermal_props" DataFrames, "opt_props" provides a DataFrame for each opt property type
-    spbands_table: DataFrame containing a list of [wvl, dl] couples
+    bands: DataFrame containing a list of [wvl, dl] couples
     """
     #def __init__(self, name = "test_newSimu_IHM"):
     def __init__(self, name = None):
@@ -111,17 +110,17 @@ class simulation(object):
 
         #if the simulation exists, populate xsdobjs_dict with simulation XML files contents
         if name != None and os.path.isdir(self.getsimupath()): # if name != None and dir doesnt exist, create Dir?
-            self.read_from_xmls()
+            self.load()
 
         # summary tables:
         self.properties_dict = self.extract_properties_dict() # dictionnary containing "opt_props" and "thermal_props" DataFrames
 
-        self.spbands_table = self.extract_sp_bands_table() # DataFrame containing a list of [wvl, dl] couples
+        self.bands = self.extract_sp_bands_table() # DataFrame containing a list of [wvl, dl] couples
 
-        self.plots_full_table = self.extract_plots_full_table() # DataFrame containing Plots fields according to DART Plot.txt header
+        self.plots = self.extract_plots_full_table() # DataFrame containing Plots fields according to DART Plot.txt header
 
         #runners:
-        self.runners = run.runners(self)
+        self.run = run.runners(self)
 
     def get_xmlfile_names(self, dir_path):
         """
@@ -136,14 +135,14 @@ class simulation(object):
             fnames.append(fname)
         return fnames
 
-    def read_from_xmls(self):
+    def load(self):
         """
         Populate XSD Objects contained in xsdobjs_dict according to DART XML input files contents
         Update properties, sp_bands and plots tables after population of xsdobjs
         """
         xml_files_paths_list = glob.glob(self.getinputsimupath() + "/*.xml")
         xml_files_paths_dict = {}
-        self.xml_root_nodes_dict = {}
+        xml_root_nodes_dict = {}
         for xml_file_path in xml_files_paths_list:
             fname = (xml_file_path.split('/')[len(xml_file_path.split('/')) - 1]).split('.xml')[0]
             if fname != "triangleFile" and fname != "log": #triangleFile ane log files are created by runners, it is not a normal input DART file, no template exists for this file
@@ -151,10 +150,10 @@ class simulation(object):
                 with open(xml_file_path, 'r') as f:
                     xml_string = f.read()
                     input_xm_lroot_node = etree.fromstring(xml_string)
-                    self.xml_root_nodes_dict[fname] = input_xm_lroot_node
+                    xml_root_nodes_dict[fname] = input_xm_lroot_node
 
         for fname, xsdobj in self.xsdobjs_dict.iteritems():
-            xsdobj.build(self.xml_root_nodes_dict[fname])
+            xsdobj.build(xml_root_nodes_dict[fname])
 
         #Following files are not to be read as input files, they are created when running a sequence or by maket DART module
 
@@ -180,8 +179,8 @@ class simulation(object):
         """
         Updates self.plots_full_table and self.spbands_table variables
         """
-        self.plots_full_table = self.extract_plots_full_table()
-        self.spbands_table = self.extract_sp_bands_table()
+        self.plots = self.extract_plots_full_table()
+        self.bands = self.extract_sp_bands_table()
 
     def extract_sp_bands_table(self):
         """
@@ -226,7 +225,7 @@ class simulation(object):
     def get_database_dir(self):
         return pjoin(getdartdir(),"database")
 
-    def writeToXMLFromObj(self, modified_simu_name = None):
+    def write(self, modified_simu_name = None, overwrite = False):
         """
         Write XSD objects contents on DART XML input files in simulation input directory
         Warning: if modified_simu_name is None, initial simulation input directory is overwritten
@@ -243,7 +242,7 @@ class simulation(object):
                     os.mkdir(new_simu_path)
                     new_inputsimu_path = pjoin(new_simu_path, "input")
                     os.mkdir(new_inputsimu_path)
-                else:
+                elif overwrite == False:
                     raise Exception("ERROR: requested new simulation already exists, files won't be written!")
 
             for fname, xsdobj in self.xsdobjs_dict.iteritems():
@@ -281,7 +280,7 @@ class simulation(object):
             rpv: PLT_TYPE = ground or veg+ground (0,2) AND GRD_TYPE = rpv(GRD_OPT_TYPE = 4)
         :return: dictionnary containing a dataframe for each optical property type (key)
         """
-        plots_full_table = self.plots_full_table
+        plots_full_table = self.plots
 
         plots_by_opt_prop_type = {}  # dictionnary of full plot data frames splitted according to opt_prop_type (vegetation, turbid, lamb, hapke, rpv)
         plots_by_opt_prop_type["vegetation"] = plots_full_table[
@@ -306,7 +305,7 @@ class simulation(object):
             ground leading to non empty columns GRD_OPT_TYPE, GRD_OPT_NAME, GRD_OPT_NUMB, GRD_THERM_NAME, GRD_THERM_NUMB
         :return: dictionnary containing a dataframe for each plot type (key)
         """
-        plots_full_table = self.plots_full_table
+        plots_full_table = self.plots
 
         plots_by_plot_type = {}  # dictionnary of full plot data frames splitted according to opt_prop_type (vegetation, turbid, lamb, hapke, rpv)
         plots_by_plot_type["veg_vegplusground_fluid"] = plots_full_table[
@@ -355,7 +354,7 @@ class simulation(object):
                             if eq_value == False:
                                 plot_number = cross_props["PLT_NUMB"]
                                 prop_index = cross_props[i]["prop_index"]
-                                self.plots_full_table.iloc[plot_number]["PLT_OPT_NUMB"] = prop_index
+                                self.plots.iloc[plot_number]["PLT_OPT_NUMB"] = prop_index
                                 plot = self.xsdobjs_dict["plots"].Plots.Plot[plot_number]
                                 if opt_prop_type == "vegetation":
                                     plot.PlotVegetationProperties.VegetationOpticalPropertyLink.indexFctPhase = prop_index
@@ -370,7 +369,7 @@ class simulation(object):
                             if eq_value == False:
                                 plot_number = cross_props["PLT_NUMB"]
                                 prop_index = cross_props[i]["prop_index"]
-                                self.plots_full_table.iloc[plot_number]["GRD_OPT_NUMB"] = prop_index  # correct index in Plots DataFrame
+                                self.plots.iloc[plot_number]["GRD_OPT_NUMB"] = prop_index  # correct index in Plots DataFrame
                                 #correct index in PlotsObject:
                                 plot = self.xsdobjs_dict["plots"].Plots.Plot[plot_number]
                                 plot.GroundOpticalPropertyLink.indexFctPhase = prop_index
@@ -413,7 +412,7 @@ class simulation(object):
                             if eq_value == False:
                                 plot_number = cross_props["PLT_NUMB"]
                                 prop_index = cross_props[i]["prop_index"]
-                                self.plots_full_table.iloc[plot_number]["PLT_THERM_NUMB"] = prop_index
+                                self.plots.iloc[plot_number]["PLT_THERM_NUMB"] = prop_index
                                 plot = self.xsdobjs_dict["plots"].Plots.Plot[plot_number]
                                 plot.PlotVegetationProperties.GroundThermalPropertyLink.indexTemperature = prop_index
                 else:  # plot_type == "ground"
@@ -424,7 +423,7 @@ class simulation(object):
                             if eq_value == False:
                                 plot_number = cross_props["PLT_NUMB"]
                                 prop_index = cross_props[i]["prop_index"]
-                                self.plots_full_table.iloc[plot_number]["GRD_THERM_NUMB"] = prop_index
+                                self.plots.iloc[plot_number]["GRD_THERM_NUMB"] = prop_index
                                 plot = self.xsdobjs_dict["plots"].Plots.Plot[plot_number]
                                 plot.GroundThermalPropertyLink.indexTemperature = prop_index
         return check
@@ -558,36 +557,51 @@ class simulation(object):
         plots_df = self.read_dart_txt_file_with_header(file_path, " ")
 
         #GRD_OPT_TYPE GRD_OPT_NUMB GRD_THERM_NUMB PLT_OPT_NUMB PLT_THERM_NUMB
-        grd_opt_props = plots_df[['GRD_OPT_TYPE','GRD_OPT_NUMB']].drop_duplicates()
-        grd_therm_numbs = plots_df['GRD_THERM_NUMB'].drop_duplicates()
-        plt_opt_numbs = plots_df['PLT_OPT_NUMB'].drop_duplicates()
-        plt_therm_numbs = plots_df['PLT_THERM_NUMB'].drop_duplicates()
-        # for row in df.rows:
-        #     print row['c1'], row['c2']
+        if 'GRD_OPT_TYPE' in plots_df.keys() and 'GRD_OPT_NUMB' in plots_df.keys():
+            grd_opt_props = plots_df[['GRD_OPT_TYPE','GRD_OPT_NUMB']].drop_duplicates()
+            for i, grd_opt_prop in grd_opt_props.iterrows():
+                opt_prop_type = grd_opt_prop_types_dict[int(grd_opt_prop['GRD_OPT_TYPE'])]
+                opt_prop_index = int(grd_opt_prop['GRD_OPT_NUMB'])
+                if len(opt_props[opt_prop_type]) < opt_prop_index + 1:
+                    print(
+                                "ERROR in %s file column GRD_OPT_NUMB: optical property index %d do not exist in properties list, please FIX" % (
+                        file_path, opt_prop_index))
+                    check = False
 
-        for i, grd_opt_prop in grd_opt_props.iterrows():
-            opt_prop_type = grd_opt_prop_types_dict[int(grd_opt_prop['GRD_OPT_TYPE'])]
-            opt_prop_index = int(grd_opt_prop['GRD_OPT_NUMB'])
-            if len(opt_props[opt_prop_type]) < opt_prop_index + 1:
-                print("ERROR in %s file column GRD_OPT_NUMB: optical property index %d do not exist in properties list, please FIX" % (file_path, opt_prop_index))
-                check = False
-        for grd_therm_num in grd_therm_numbs:
-            th_prop_index = int(grd_therm_num)
-            if len(th_props) < th_prop_index + 1:
-                print("ERROR in %s file column GRD_THERM_NUMB: thermal property index %d do not exist in properties list, please FIX" % (file_path, th_prop_index))
-                check = False
-        for plt_opt_num in plt_opt_numbs:
-            opt_prop_type = "vegetation"
-            opt_prop_index = int(plt_opt_num)
-            if len(opt_props[opt_prop_type]) < opt_prop_index + 1:
-                print("ERROR in %s file column PLT_OPT_NUMB: optical property index %d do not exist in properties list, please FIX" % (file_path, opt_prop_index))
-                check = False
-        for plt_therm_num in plt_therm_numbs:
-            th_prop_index = int(plt_therm_num)
-            if len(th_props) < th_prop_index + 1:
-                print("ERROR in %s file column PLT_THERM_NUMB: thermal property index %d do not exist in properties list, please FIX" % (file_path, th_prop_index))
-                check = False
+        if 'GRD_THERM_NUMB' in plots_df.keys():
+            grd_therm_numbs = plots_df['GRD_THERM_NUMB'].drop_duplicates()
+            for grd_therm_num in grd_therm_numbs:
+                th_prop_index = int(grd_therm_num)
+                if len(th_props) < th_prop_index + 1:
+                    print(
+                                "ERROR in %s file column GRD_THERM_NUMB: thermal property index %d do not exist in properties list, please FIX" % (
+                        file_path, th_prop_index))
+                    check = False
+
+        if 'PLT_OPT_NUMB' in plots_df.keys():
+            plt_opt_numbs = plots_df['PLT_OPT_NUMB'].drop_duplicates()
+            for plt_opt_num in plt_opt_numbs:
+                opt_prop_type = "vegetation"
+                opt_prop_index = int(plt_opt_num)
+                if len(opt_props[opt_prop_type]) < opt_prop_index + 1:
+                    print(
+                                "ERROR in %s file column PLT_OPT_NUMB: optical property index %d do not exist in properties list, please FIX" % (
+                        file_path, opt_prop_index))
+                    check = False
+
+        if 'PLT_THERM_NUMB' in plots_df.keys():
+            plt_therm_numbs = plots_df['PLT_THERM_NUMB'].drop_duplicates()
+            for plt_therm_num in plt_therm_numbs:
+                th_prop_index = int(plt_therm_num)
+                if len(th_props) < th_prop_index + 1:
+                    print(
+                                "ERROR in %s file column PLT_THERM_NUMB: thermal property index %d do not exist in properties list, please FIX" % (
+                        file_path, th_prop_index))
+                    check = False
+
         return check
+
+
 
     def is_plots_txt_file_considered(self):
         return self.xsdobjs_dict["plots"].Plots.addExtraPlotsTextFile == 1
@@ -603,12 +617,12 @@ class simulation(object):
         check_plots_opt_props = self.check_plots_opt_props()
         check_plots_thermal_props = self.check_plots_thermal_props()
 
-        # if self.is_plots_txt_file_considered(): # if additional plots.txt like file is considered
-        #     check_plots_txt_props = self.check_plots_txt_props()
-        # else:
-        #     check_plots_txt_props = True # has no impact on return value
+        if self.is_plots_txt_file_considered(): # if additional plots.txt like file is considered
+            check_plots_txt_props = self.check_plots_txt_props()
+        else:
+            check_plots_txt_props = True # has no impact on return value
 
-        return check_plots_opt_props and check_plots_thermal_props #and check_plots_txt_props
+        return check_plots_opt_props and check_plots_thermal_props and check_plots_txt_props
 
     def get_thermal_props(self):
         """
@@ -1481,7 +1495,7 @@ class simulation(object):
         Raise exception if opt property already exists
         """
         self.extract_sp_bands_table()
-        nb_sp_bands = self.spbands_table.shape[0]
+        nb_sp_bands = self.bands.shape[0]
         if self.get_opt_prop_index(opt_prop_type, opt_prop_name) == None: # if oprtical property does not exist, create
             if opt_prop_type == "vegetation":
                 understoryMulti = ptd.coeff_diff.create_UnderstoryMulti(ident = opt_prop_name)

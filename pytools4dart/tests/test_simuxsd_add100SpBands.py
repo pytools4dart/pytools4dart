@@ -43,7 +43,7 @@ toc=timeit.default_timer()
 
 print('elapsed time2 = {} s'.format(toc - tic))
 
-simu.writeToXMLFromObj(modified_simu_name= "test_newSimu_Plus2000SpBands")
+simu.write(modified_simu_name="test_newSimu_Plus2000SpBands")
 
 tic=timeit.default_timer()
 simu2 = simulation("test_newSimu_Plus2000SpBands")
@@ -51,7 +51,7 @@ toc=timeit.default_timer()
 print('reading time = {} s'.format(toc - tic))
 
 try:
-    simu2.runners.full()
+    simu2.run.full()
 except(Exception):
     print(Exception.message)
 

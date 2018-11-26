@@ -9,10 +9,10 @@ simu.add_plotstxtfile_reference(src_file_path=src_file_path)
 
 simu.update_tables_from_objs()
 
-simu.writeToXMLFromObj("test2plotsSimu_PlusPlotsTxt")
+simu.write("test2plotsSimu_PlusPlotsTxt")
 
 simu2 = simulation("test2plotsSimu_PlusPlotsTxt")
 
-simu2.runners.full()
+simu2.run.full()
 
 

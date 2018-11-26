@@ -8,11 +8,11 @@ simu = simulation()
 check = simu.add_plot(createProps = True)
 
 simu.check_module_dependencies()
-simu.writeToXMLFromObj(modified_simu_name= "test_newSimu_XSD")
+simu.write(modified_simu_name="test_newSimu_XSD")
 
 simu2 = simulation("test_newSimu_XSD")
 
-simu2.runners.full()
+simu2.run.full()
 
 # plots_fields = ["plot_type", "plot_form", "plot_opt_prop_name", "plot_therm_prop_name", "grd_opt_prop_type",
 #                 "grd_opt_prop_name", "grd_therm_prop_name", "createProps"]
@@ -31,10 +31,10 @@ plot_params_list = [
 simu.add_multiplots(plot_params_list)
 simu.check_module_dependencies()
 
-simu.writeToXMLFromObj(modified_simu_name= "test_newSimu_XSD_addMultiplots")
+simu.write(modified_simu_name="test_newSimu_XSD_addMultiplots")
 
 simu3 = simulation("test_newSimu_XSD_addMultiplots")
 
-simu3.runners.full()
+simu3.run.full()
 
 print("stop")

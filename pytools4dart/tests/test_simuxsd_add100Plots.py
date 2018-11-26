@@ -23,7 +23,7 @@ toc = timeit.default_timer()
 print('elapsed time2 = {}'.format(toc - tic))
 
 
-simu.writeToXMLFromObj(modified_simu_name= "test_newSimu_Plus100Plots")
+simu.write(modified_simu_name="test_newSimu_Plus100Plots")
 
 tic=timeit.default_timer()
 simu2 = simulation("test_newSimu_Plus100Plots")
@@ -31,7 +31,7 @@ toc=timeit.default_timer()
 print('elapsed time3 = {}'.format(toc - tic))
 
 try:
-    simu2.runners.full()
+    simu2.run.full()
 except(Exception):
     print(Exception.message)
 

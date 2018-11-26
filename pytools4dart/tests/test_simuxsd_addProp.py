@@ -19,11 +19,11 @@ simu.add_th_property("newthprop")
 
 simu.check_module_dependencies()  #includes check_and_correct_sp_bands and check_properties_indexes
 
-simu.writeToXMLFromObj(modified_simu_name = "test_newSimu_addProp")
+simu.write(modified_simu_name ="test_newSimu_addProp")
 
 simu2 = simulation("test_newSimu_addProp")
 
 
-simu2.runners.full()
+simu2.run.full()
 
 print("stop")
