@@ -607,7 +607,6 @@ class simulation(object):
         Check plots optical/thermal properties consistency
         If property does not exist, an Error message is printed, asking the user to fix
         If property does exist but indexes correspondance is not ensured, this is corrected and a warning message is printed
-        ToDo if any plots.txt check if opt/thermal property indexes given in those files are present in properties lists, if not, just Warn the user an let her/him fix
         :return: True if check is ok or if just indexes inconsistency is corrected, False in any other case.
         """
         check_plots_opt_props = self.check_plots_opt_props()
