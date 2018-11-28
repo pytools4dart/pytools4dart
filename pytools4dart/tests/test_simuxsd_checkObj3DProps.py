@@ -1,4 +1,4 @@
-from pytools4dart.simulationXSD import simulation
+from pytools4dart.simulation import simulation
 
 simu = simulation()
 
@@ -31,7 +31,7 @@ simu.add_3DOBJ(src_file_path,group_number=len(group_names),group_names_list= gro
 
 #simu.write(modified_simu_name= "test_simuXsd_objSansGroups")
 
-simu.write(modified_simu_name="test_simuXsd_checkObj3DProps")
+simu.write(modified_simu_name="test_simuXsd_checkObj3DProps", overwrite=True)
 
 simu2 = simulation("test_simuXsd_checkObj3DProps")
 

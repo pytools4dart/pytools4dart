@@ -2,7 +2,7 @@
 # ===============================================================================
 
 import pytools4dart as ptd
-from pytools4dart.simulationXSD import simulation
+from pytools4dart.simulation import simulation
 
 #simu = simulation("test2plotsSimu_defautOptProps")
 #simu = simulation("test2plotsSimu")
@@ -18,7 +18,7 @@ simu.add_sp_bands(sp_band_list) #phase
 #check =
 simu.check_and_correct_sp_bands() # --> warnings and correction of coeff_diff
 
-simu.write(modified_simu_name ="test_newSimu_Plus3bands")
+simu.write(modified_simu_name ="test_newSimu_Plus3bands", overwrite=True)
 
 simu2 = simulation("test_newSimu_Plus3bands")
 

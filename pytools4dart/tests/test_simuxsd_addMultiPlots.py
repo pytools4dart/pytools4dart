@@ -1,4 +1,4 @@
-from pytools4dart.simulationXSD import simulation
+from pytools4dart.simulation import simulation
 
 simu = simulation()
 
@@ -8,7 +8,7 @@ simu = simulation()
 check = simu.add_plot(createProps = True)
 
 simu.check_module_dependencies()
-simu.write(modified_simu_name="test_newSimu_XSD")
+simu.write(modified_simu_name="test_newSimu_XSD", overwrite=True)
 
 simu2 = simulation("test_newSimu_XSD")
 
@@ -31,7 +31,7 @@ plot_params_list = [
 simu.add_multiplots(plot_params_list)
 simu.check_module_dependencies()
 
-simu.write(modified_simu_name="test_newSimu_XSD_addMultiplots")
+simu.write(modified_simu_name="test_newSimu_XSD_addMultiplots", overwrite=True)
 
 simu3 = simulation("test_newSimu_XSD_addMultiplots")
 

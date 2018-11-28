@@ -1,5 +1,5 @@
 import pytools4dart as ptd
-from pytools4dart.simulationXSD import simulation
+from pytools4dart.simulation import simulation
 
 ptd.configure("/home/claudia/Softwares/DART/DART_5-7-1_v1061")
 

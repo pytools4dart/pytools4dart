@@ -4,7 +4,7 @@
 
 import timeit
 import pytools4dart as ptd
-from pytools4dart.simulationXSD import simulation
+from pytools4dart.simulation import simulation
 
 plots = ptd.plots.createDartFile()
 Plot = ptd.plots.create_Plot()
@@ -23,7 +23,7 @@ toc = timeit.default_timer()
 print('elapsed time2 = {}'.format(toc - tic))
 
 
-simu.write(modified_simu_name="test_newSimu_Plus100Plots")
+simu.write(modified_simu_name="test_newSimu_Plus100Plots", overwrite=True)
 
 tic=timeit.default_timer()
 simu2 = simulation("test_newSimu_Plus100Plots")

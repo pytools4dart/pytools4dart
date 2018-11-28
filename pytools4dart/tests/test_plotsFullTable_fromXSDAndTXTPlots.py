@@ -1,4 +1,4 @@
-from pytools4dart.simulationXSD import simulation
+from pytools4dart.simulation import simulation
 
 #simu = simulation("test_newSimuWithPlotsTxt")
 
@@ -9,7 +9,7 @@ simu.add_plotstxtfile_reference(src_file_path=src_file_path)
 
 simu.update_tables_from_objs()
 
-simu.write("test2plotsSimu_PlusPlotsTxt")
+simu.write("test2plotsSimu_PlusPlotsTxt", overwrite=True)
 
 simu2 = simulation("test2plotsSimu_PlusPlotsTxt")
 
