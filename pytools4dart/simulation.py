@@ -97,11 +97,11 @@ class simulation(object):
         """
         self.name = name
 
-        self.xds_core = {} #xsdobjs_dict contains objects built according to XSD modules specification
+        self.xsd_core = {} #xsdobjs_dict contains objects built according to XSD modules specification
         modulenames_list = self.get_xmlfile_names(pjoin(os.path.dirname(os.path.realpath(__file__)), "templates"))#["plots", "phase", "atmosphere", "coeff_diff", "directions", "object_3d","maket","inversion","trees","water","urban"]
         for modname in modulenames_list:
-            self.xds_core[modname] = eval('ptd.xsdschema.{}.createDartFile()'.format(modname))
-        for xsdobj in self.xds_core.values():
+            self.xsd_core[modname] = eval('ptd.xsdschema.{}.createDartFile()'.format(modname))
+        for xsdobj in self.xsd_core.values():
             xsdobj.factory()
 
         #if the simulation exists, populate xsdobjs_dict with simulation XML files contents
@@ -148,7 +148,7 @@ class simulation(object):
                     input_xm_lroot_node = etree.fromstring(xml_string)
                     xml_root_nodes_dict[fname] = input_xm_lroot_node
 
-        for fname, xsdobj in self.xds_core.iteritems():
+        for fname, xsdobj in self.xsd_core.iteritems():
             xsdobj.build(xml_root_nodes_dict[fname])
 
         #Following files are not to be read as input files, they are created when running a sequence or by maket DART module
@@ -183,7 +183,7 @@ class simulation(object):
         Build a DataFrame contaning a list of [wvl,dl] pairs corresponding to spectral bands contained in Phase XSD Object
         :return: DataFrame contaning a list of [wvl,dl] pairs
         """
-        spbands_list = self.xds_core["phase"].Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties
+        spbands_list = self.xsd_core["phase"].Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties
 
         rows_to_add = []
         for sp_interval in spbands_list:
@@ -241,13 +241,13 @@ class simulation(object):
                 elif overwrite == False:
                     raise Exception("ERROR: requested new simulation already exists, files won't be written!")
 
-            for fname, xsdobj in self.xds_core.iteritems():
+            for fname, xsdobj in self.xsd_core.iteritems():
                 self.write_xml_file(fname, xsdobj, modified_simu_name)
         else:
             raise Exception("ERROR: please correct dependencies issues, no files written")
 
     def is_tree_txt_file_considered(self):
-        return self.xds_core["trees"].Trees.Trees_1 != None
+        return self.xsd_core["trees"].Trees.Trees_1 != None
 
     def check_properties_indexes(self, createProps = False):
         """
@@ -351,7 +351,7 @@ class simulation(object):
                                 plot_number = cross_props["PLT_NUMB"]
                                 prop_index = cross_props[i]["prop_index"]
                                 self.plots.iloc[plot_number]["PLT_OPT_NUMB"] = prop_index
-                                plot = self.xds_core["plots"].Plots.Plot[plot_number]
+                                plot = self.xsd_core["plots"].Plots.Plot[plot_number]
                                 if opt_prop_type == "vegetation":
                                     plot.PlotVegetationProperties.VegetationOpticalPropertyLink.indexFctPhase = prop_index
                                 else: #if opt_prop_type == "fluid"
@@ -367,7 +367,7 @@ class simulation(object):
                                 prop_index = cross_props[i]["prop_index"]
                                 self.plots.iloc[plot_number]["GRD_OPT_NUMB"] = prop_index  # correct index in Plots DataFrame
                                 #correct index in PlotsObject:
-                                plot = self.xds_core["plots"].Plots.Plot[plot_number]
+                                plot = self.xsd_core["plots"].Plots.Plot[plot_number]
                                 plot.GroundOpticalPropertyLink.indexFctPhase = prop_index
         return check
 
@@ -409,7 +409,7 @@ class simulation(object):
                                 plot_number = cross_props["PLT_NUMB"]
                                 prop_index = cross_props[i]["prop_index"]
                                 self.plots.iloc[plot_number]["PLT_THERM_NUMB"] = prop_index
-                                plot = self.xds_core["plots"].Plots.Plot[plot_number]
+                                plot = self.xsd_core["plots"].Plots.Plot[plot_number]
                                 plot.PlotVegetationProperties.GroundThermalPropertyLink.indexTemperature = prop_index
                 else:  # plot_type == "ground"
                     eq_serie = cross_props["prop_index"].eq(cross_props["GRD_THERM_NUMB"])
@@ -420,7 +420,7 @@ class simulation(object):
                                 plot_number = cross_props["PLT_NUMB"]
                                 prop_index = cross_props[i]["prop_index"]
                                 self.plots.iloc[plot_number]["GRD_THERM_NUMB"] = prop_index
-                                plot = self.xds_core["plots"].Plots.Plot[plot_number]
+                                plot = self.xsd_core["plots"].Plots.Plot[plot_number]
                                 plot.GroundThermalPropertyLink.indexTemperature = prop_index
         return check
 
@@ -455,13 +455,13 @@ class simulation(object):
         veg_opt_props = self.properties_dict["opt_props"]
         check = True
 
-        file_path = self.xds_core["trees"].Trees.Trees_1.sceneParametersFileName
+        file_path = self.xsd_core["trees"].Trees.Trees_1.sceneParametersFileName
 
         trees_df = self.read_dart_txt_file_with_header(file_path, "\t")
 
         species_ids = trees_df['SPECIES_ID'].drop_duplicates()
 
-        species_list = self.xds_core["trees"].Trees.Trees_1.Specie
+        species_list = self.xsd_core["trees"].Trees.Trees_1.Specie
 
         for specie_id in species_ids:
             if int(specie_id) > len(species_list) - 1:
@@ -522,7 +522,7 @@ class simulation(object):
         th_props = self.properties_dict["thermal_props"]
         check = True
 
-        file_path = self.xds_core["plots"].Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName
+        file_path = self.xsd_core["plots"].Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName
 
         plots_df = self.read_dart_txt_file_with_header(file_path, " ")
 
@@ -574,7 +574,7 @@ class simulation(object):
 
 
     def is_plots_txt_file_considered(self):
-        return self.xds_core["plots"].Plots.addExtraPlotsTextFile == 1
+        return self.xsd_core["plots"].Plots.addExtraPlotsTextFile == 1
 
     def check_plots_props(self):
         """
@@ -600,7 +600,7 @@ class simulation(object):
         :return: DataFrame containing thermal properties names and indexes
         """
         thermal_props_dict = {"prop_index": [], "prop_name": []}
-        thermal_props_list = self.xds_core["coeff_diff"].Coeff_diff.Temperatures.ThermalFunction
+        thermal_props_list = self.xsd_core["coeff_diff"].Coeff_diff.Temperatures.ThermalFunction
         for i,th_prop in enumerate(thermal_props_list):
             thermal_props_dict["prop_index"].append(i)
             thermal_props_dict["prop_name"].append(th_prop.idTemperature)
@@ -618,27 +618,27 @@ class simulation(object):
         opt_props = {}
         opt_props_DF_cols =  ["prop_index", "prop_name"]
 
-        if len(self.xds_core["coeff_diff"].Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti) > 0:
+        if len(self.xsd_core["coeff_diff"].Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti) > 0:
             listnodes_paths.append(["vegetation","UnderstoryMultiFunctions.UnderstoryMulti"])
         else:
             opt_props["vegetation"] = pd.DataFrame(columns = opt_props_DF_cols)
 
-        if len(self.xds_core["coeff_diff"].Coeff_diff.LambertianMultiFunctions.LambertianMulti) > 0:
+        if len(self.xsd_core["coeff_diff"].Coeff_diff.LambertianMultiFunctions.LambertianMulti) > 0:
             listnodes_paths.append(["lambertian","LambertianMultiFunctions.LambertianMulti"])
         else:
             opt_props["lambertian"] = pd.DataFrame(columns = opt_props_DF_cols)
 
-        if len(self.xds_core["coeff_diff"].Coeff_diff.HapkeSpecularMultiFunctions.HapkeSpecularMulti) > 0:
+        if len(self.xsd_core["coeff_diff"].Coeff_diff.HapkeSpecularMultiFunctions.HapkeSpecularMulti) > 0:
             listnodes_paths.append(["hapke","HapkeSpecularMultiFunctions.HapkeSpecularMulti"])
         else:
             opt_props["hapke"] = pd.DataFrame(columns=opt_props_DF_cols)
 
-        if len(self.xds_core["coeff_diff"].Coeff_diff.RPVMultiFunctions.RPVMulti) > 0:
+        if len(self.xsd_core["coeff_diff"].Coeff_diff.RPVMultiFunctions.RPVMulti) > 0:
             listnodes_paths.append(["rpv","RPVMultiFunctions.RPVMulti"])
         else:
             opt_props["rpv"] = pd.DataFrame(columns=opt_props_DF_cols)
 
-        if len(self.xds_core["coeff_diff"].Coeff_diff.AirMultiFunctions.AirFunction) > 0:
+        if len(self.xsd_core["coeff_diff"].Coeff_diff.AirMultiFunctions.AirFunction) > 0:
             listnodes_paths.append(["fluid","AirMultiFunctions.AirFunction"])
         else:
             opt_props["fluid"] = pd.DataFrame(columns=opt_props_DF_cols)
@@ -673,7 +673,7 @@ class simulation(object):
         plot_source = "XSD Plot"
         rows = []
 
-        plots_list = self.xds_core["plots"].Plots.Plot
+        plots_list = self.xsd_core["plots"].Plots.Plot
         for i, plot in enumerate(plots_list):
             plt_btm_hei, plt_hei_mea, plt_std_dev = None, None, None
             veg_density_def, veg_lai, veg_ul = None, None, None
@@ -747,7 +747,7 @@ class simulation(object):
         plots_df = pd.DataFrame(rows, columns=plots_table_header)
 
         if self.is_plots_txt_file_considered():
-            plotstxt_file_path = self.xds_core["plots"].Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName
+            plotstxt_file_path = self.xsd_core["plots"].Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName
             plotstxt_df = self.read_dart_txt_file_with_header(file_path=plotstxt_file_path, sep_str=" ")
             plotstxt_df['PLOT_SOURCE'] = "TXT Plot"
             sLength = len(plotstxt_df['PLT_TYPE'])
@@ -799,7 +799,7 @@ class simulation(object):
 
         check = True
 
-        phase_spbands_nb = len(self.xds_core["phase"].Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties)
+        phase_spbands_nb = len(self.xsd_core["phase"].Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties)
 
         optproplists_xmlpaths_dict = self.get_opt_props_xmlpaths_dict()
         multfactors_xmlpaths_dict = self.get_multfacts_xmlpaths_dict()
@@ -873,13 +873,13 @@ class simulation(object):
         """
         check = True
         #opt_prop
-        opt_prop = self.xds_core["maket"].Maket.Soil.OpticalPropertyLink
+        opt_prop = self.xsd_core["maket"].Maket.Soil.OpticalPropertyLink
         opt_prop_name = opt_prop.ident
         opt_prop_type = grd_opt_prop_types_dict[opt_prop.type_]
         #index_opt_prop = self.checkandcorrect_opt_prop_exists(opt_prop_type,opt_prop_name,createProps)
         index_opt_prop = self.get_opt_prop_index(opt_prop_type,opt_prop_name)
 
-        th_prop = self.xds_core["maket"].Maket.Soil.ThermalPropertyLink
+        th_prop = self.xsd_core["maket"].Maket.Soil.ThermalPropertyLink
         th_prop_name = th_prop.idTemperature
         #index_th_prop = self.checkandcorrect_th_prop_exists(th_prop_name, createProps)
         index_th_prop = self.get_thermal_prop_index(th_prop_name)
@@ -905,7 +905,7 @@ class simulation(object):
         """
         check = True
 
-        obj3dList = self.xds_core["object_3d"].object_3d.ObjectList.Object
+        obj3dList = self.xsd_core["object_3d"].object_3d.ObjectList.Object
         for obj3d in obj3dList:
             if obj3d.hasGroups == 1: # are there groups?
                 groups = obj3d.Groups.Group
@@ -989,9 +989,9 @@ class simulation(object):
         #phase module modification
         for sp_band in spbands_list:
             sp_int_props = ptd.phase.create_SpectralIntervalsProperties(meanLambda=sp_band[0], deltaLambda=sp_band[1])
-            self.xds_core["phase"].Phase.DartInputParameters.SpectralIntervals.add_SpectralIntervalsProperties(sp_int_props)
+            self.xsd_core["phase"].Phase.DartInputParameters.SpectralIntervals.add_SpectralIntervalsProperties(sp_int_props)
             sp_irr_value = ptd.phase.create_SpectralIrradianceValue()
-            self.xds_core["phase"].Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance.add_SpectralIrradianceValue(sp_irr_value)
+            self.xsd_core["phase"].Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance.add_SpectralIrradianceValue(sp_irr_value)
 
     def update_properties_dict(self):
         """
@@ -1215,7 +1215,7 @@ class simulation(object):
             if i > len(groups_list.Group) - 1:  # this is because when setting hasGroups = 1, one first group is automatically created
                 groups_list.add_Group(group)
 
-        self.xds_core["object_3d"].object_3d.ObjectList.add_Object(obj)
+        self.xsd_core["object_3d"].object_3d.ObjectList.add_Object(obj)
         return True
 
     def add_opt_property(self, opt_prop_type, opt_prop_name):
@@ -1234,31 +1234,31 @@ class simulation(object):
                 for i in range(nb_sp_bands):
                     understoryMulti.understoryNodeMultiplicativeFactorForLUT.add_understoryMultiplicativeFactorForLUT(
                         ptd.coeff_diff.create_understoryMultiplicativeFactorForLUT())
-                self.xds_core["coeff_diff"].Coeff_diff.UnderstoryMultiFunctions.add_UnderstoryMulti(understoryMulti)
+                self.xsd_core["coeff_diff"].Coeff_diff.UnderstoryMultiFunctions.add_UnderstoryMulti(understoryMulti)
             elif opt_prop_type == "fluid":
                 airFunction = ptd.coeff_diff.create_AirFunction(ident = opt_prop_name)
                 for i in range(nb_sp_bands):
                     airFunction.airFunctionNodeMultiplicativeFactorForLUT.add_airFunctionMultiplicativeFactorForLUT(
                         ptd.coeff_diff.create_AirFunctionMultiplicativeFactorForLut())
-                self.xds_core["coeff_diff"].Coeff_diff.AirMultiFunctions.add_AirFuntion(airFunction)
+                self.xsd_core["coeff_diff"].Coeff_diff.AirMultiFunctions.add_AirFuntion(airFunction)
             elif opt_prop_type == "lambertian":
                 lambertianMulti = ptd.coeff_diff.create_LambertianMulti(ident = opt_prop_name)
                 for i in range(nb_sp_bands):
                     lambertianMulti.lambertianNodeMultiplicativeFactorForLUT.add_lambertianMultiplicativeFactorForLUT(
                         ptd.coeff_diff.create_lambertianMultiplicativeFactorForLUT())
-                self.xds_core["coeff_diff"].Coeff_diff.LambertianMultiFunctions.add_LambertianMulti(lambertianMulti)
+                self.xsd_core["coeff_diff"].Coeff_diff.LambertianMultiFunctions.add_LambertianMulti(lambertianMulti)
             elif opt_prop_type == "hapke":
                 hapkeSpecMulti = ptd.coeff_diff.create_HapkeSpecularMulti(ident = opt_prop_name)
                 for i in range(nb_sp_bands):
                     hapkeSpecMulti.hapkeNodeMultiplicativeFactorForLUT.add_hapkeMultiplicativeFactorForLUT(
                         ptd.coeff_diff.create_hapkeMultiplicativeFactorForLUT())
-                self.xds_core["coeff_diff"].Coeff_diff.HapkeSpecularMultiFunctions.add_HapkeSpecularMulti(hapkeSpecMulti)
+                self.xsd_core["coeff_diff"].Coeff_diff.HapkeSpecularMultiFunctions.add_HapkeSpecularMulti(hapkeSpecMulti)
             elif opt_prop_type == "rpv":
                 rpvMulti = ptd.coeff_diff.create_RPVMulti(ident = opt_prop_name)
                 for i in range(nb_sp_bands):
                     rpvMulti.RPVNodeMultiplicativeFactorForLUT.add_RPVMultiplicativeFactorForLUT(
                         ptd.coeff_diff.create_RPVMultiplicativeFactorForLUT())
-                self.xds_core["coeff_diff"].Coeff_diff.RPVMultiFunctions.add_RPVMulti(rpvMulti)
+                self.xsd_core["coeff_diff"].Coeff_diff.RPVMultiFunctions.add_RPVMulti(rpvMulti)
             self.update_properties_dict()
         else: # opt_property having name opt_prop_name already exists
             #print("ERROR: optical property of type %s named %s already exists, please change name" % (opt_prop_type, opt_prop_name))
@@ -1274,7 +1274,7 @@ class simulation(object):
         """
         if self.get_thermal_prop_index(th_prop_name) == None:  # if thermal property does not exist, create
             th_function = ptd.coeff_diff.create_ThermalFunction(idTemperature=th_prop_name)
-            self.xds_core["coeff_diff"].Coeff_diff.Temperatures.add_ThermalFunction(th_function)
+            self.xsd_core["coeff_diff"].Coeff_diff.Temperatures.add_ThermalFunction(th_function)
             self.update_properties_dict()
         else: # th_prop having name opt_prop_name already exists
             #print("ERROR: thermal property named %s already exists, please change name" % (th_prop_name))
@@ -1369,7 +1369,7 @@ class simulation(object):
                                   PlotWaterProperties=plt_water_proerties,
                                   GroundOpticalPropertyLink=grd_opt_prop, GroundThermalPropertyLink=grd_therm_prop)
 
-            self.xds_core["plots"].Plots.add_Plot(Plot)
+            self.xsd_core["plots"].Plots.add_Plot(Plot)
         except ValueError:
             raise Exception("ERROR: create or add Plot failed")
             return False
@@ -1411,8 +1411,8 @@ class simulation(object):
             if int(specie_id) > len(species_list)-1:
                 raise Exception("specieID requested in {} file do not exist in species_list ".format(src_file_path))
 
-        self.xds_core["trees"].Trees.isTrees = 1
-        self.xds_core["trees"].Trees.Trees_1.sceneParametersFileName = src_file_path
+        self.xsd_core["trees"].Trees.isTrees = 1
+        self.xsd_core["trees"].Trees.Trees_1.sceneParametersFileName = src_file_path
         for spec_nb in range(len(species_list)):
             props = species_list[spec_nb]
             opt_name = props["opt_prop_name"]
@@ -1429,10 +1429,10 @@ class simulation(object):
                 raise Exception('ERROR: th_property %s does not exist, please FIX or set createProps=True' % th_name)
 
 
-            if spec_nb > len(self.xds_core["trees"].Trees.Trees_1.Specie) - 1:
+            if spec_nb > len(self.xsd_core["trees"].Trees.Trees_1.Specie) - 1:
                 specie = ptd.trees.create_Specie()
             else:
-                specie = self.xds_core["trees"].Trees.Trees_1.Specie[spec_nb]
+                specie = self.xsd_core["trees"].Trees.Trees_1.Specie[spec_nb]
 
 
 
@@ -1513,8 +1513,8 @@ class simulation(object):
             if len(th_props) < th_prop_index + 1:
                 raise Exception("ERROR in %s file column PLT_THERM_NUMB: thermal property index %d do not exist in properties list, please FIX" % (src_file_path, th_prop_index))
 
-        self.xds_core["plots"].Plots.addExtraPlotsTextFile = 1
-        self.xds_core["plots"].Plots.ExtraPlotsTextFileDefinition = ptd.plots.create_ExtraPlotsTextFileDefinition(extraPlotsFileName=src_file_path)
+        self.xsd_core["plots"].Plots.addExtraPlotsTextFile = 1
+        self.xsd_core["plots"].Plots.ExtraPlotsTextFileDefinition = ptd.plots.create_ExtraPlotsTextFileDefinition(extraPlotsFileName=src_file_path)
 
     #ToDo
     #refreshObjFromTables(auto=True) : aimed to be launched automatically after each Table Modification, or manually
