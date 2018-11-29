@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<!-- ==================================================================== -->
+<!-- ==					                                 			   == -->
+<!-- ==		Template Exemple de fichier INVERSION					   == -->
+<!-- ==					                                 			   == -->
+<!-- ==================================================================== -->
+
+<DartDocumentTemplateNode version="1.0" type="header">
+	<DartFile version="5.7.1" build="0">
+		<DartInversion runInversion="0">
+			<DartDocumentTemplateNode test="parent.runInversion==1">
+				<InversionImages isMask="0">
+					<DartDocumentTemplateNode test="parent.isMask==1">
+						<MaskProperties dataMaskFile="mask.mp#"/>
+					</DartDocumentTemplateNode>
+					<DartDocumentTemplateNode type="list" min="1">
+						<ImageProperties dataFileName="image.mp#" multiplicativeFactor="1" spectralBandKey="0" ImageNumber="0">
+							<SunViewAngleProperties sunZenithalAngle="30" sunAzimuthalAngle="225" viewZenithalAngle="0" viewAzimuthalAngle="0"/>
+						</ImageProperties>
+					</DartDocumentTemplateNode>
+				</InversionImages>
+				<Inversion>
+					<InversionDatabase InversionDatabase="" InversionCoefficientModelName="0" databaseName="Lambertian.db" GroundSpectralModel=""/>
+					
+					<InversionInterpolation interpolationMethod="0" interpolationPoints="3"/>
+					
+					<InversionSimplexConvergence errorKind="0" errorValueConvergence="0.00017205" maxSimplexNumber="5" errorValueStop="0.01">
+						<DartDocumentTemplateNode test="parent.errorKind==2">
+							<ThresholdRelativeError errorValueThreshold="0.03" />
+						</DartDocumentTemplateNode>
+					</InversionSimplexConvergence>
+
+					<InversionParameters>
+						<DartDocumentTemplateNode type="list" min="1">
+							<freeParameters ParameterType="0" indexLUTEquivalent="">
+								<DartDocumentTemplateNode test="parent.ParameterType==1">
+									<freeParameterGlobalValue ParamValue="0.1"/>
+								</DartDocumentTemplateNode>
+								<DartDocumentTemplateNode test="parent.ParameterType==2">
+									<DartDocumentTemplateNode type="list" min="1">
+										<freeParameterValue ParamValue="0.1" ImageNumber_coef="0"/>
+									</DartDocumentTemplateNode>
+								</DartDocumentTemplateNode>
+								<DartDocumentTemplateNode test="parent.ParameterType==3">
+									<InversionSpectra databaseName="Lambertian.db" spectra=""/>
+								</DartDocumentTemplateNode>
+								<DartDocumentTemplateNode test="parent.ParameterType==4">
+									<InversionSpectra1 databaseName="Lambertian.db" spectra1=""/>
+								</DartDocumentTemplateNode>
+								<DartDocumentTemplateNode test="parent.ParameterType==5">
+									<InversionSpectra2 databaseName="Lambertian.db" spectra1="" spectra2="" />
+								</DartDocumentTemplateNode>
+								<DartDocumentTemplateNode test="parent.ParameterType==6">
+									<InversionSpectra3 databaseName="Lambertian.db" spectra1="" spectra2="" spectra3="" />
+								</DartDocumentTemplateNode>
+							</freeParameters>
+						</DartDocumentTemplateNode>
+					</InversionParameters>
+					<!-- 
+						<DartDocumentTemplateNode test="parent.processMode==0">
+							<Robustness nbValueByParameter="5" kindOfNoise="0" outputKind="0">
+								<DartDocumentTemplateNode test="parent.kindOfNoise==1 or parent.kindOfNoise==2">
+									<NoiseProperties noisePercentage="2.5" noiseNumber="10"/>
+								</DartDocumentTemplateNode>
+							</Robustness>
+						</DartDocumentTemplateNode> 
+					-->
+				</Inversion>
+			</DartDocumentTemplateNode>
+		</DartInversion>
+	</DartFile>
+</DartDocumentTemplateNode>

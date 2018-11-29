@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<!-- ==================================================================== -->
+<!-- ==					                                 			   == -->
+<!-- ==					Template Exemple de fichier TREES		   == -->
+<!-- ==					                                 			   == -->
+<!-- ==================================================================== -->
+
+<DartDocumentTemplateNode type="header" version="1.0">
+	<DartFile version="5.7.1" build="0">
+		<Trees sceneModelCharacteristic="1" isTrees="0">
+			<DartDocumentTemplateNode test="parent.sceneModelCharacteristic==1 and parent.isTrees==1">
+				<Trees_1 sceneParametersFileName="trees.txt" laiZone="0">
+					<DartDocumentTemplateNode test="parent.laiZone==1">
+						<LaiZoneProperties>
+							<!-- UpperLeft -->
+							<Point2D x="1.00" y="1.00"/>
+							<!-- LowerRight -->
+							<Point2D x="1.00" y="1.00"/>
+						</LaiZoneProperties>
+					</DartDocumentTemplateNode>
+					<DartDocumentTemplateNode type="list" min="1">
+						<Specie lai="4.00" branchesAndTwigsSimulation="0" numberOfTreesInWholeScene="12">
+							<OpticalPropertyLink type="0" indexFctPhase="0" ident="f0"/>
+							<ThermalPropertyLink indexTemperature="0" idTemperature="ThermalFunction290_310"/>
+							<DartDocumentTemplateNode type="list" min="1">
+								<CrownLevel laiConservation="1" relativeHeightVsCrownHeight="1.00" verticalWeightForUf="1.00" distribution="0" relativeTrunkDiameterWithinCrown="0.50">
+									<DartDocumentTemplateNode test="parent.distribution==1 or parent.distribution==3">
+										<LeavesDistribution alpha="0.10" beta="0.30" gamma="0.80" kappa="1.00"/>
+									</DartDocumentTemplateNode>
+									<DartDocumentTemplateNode test="parent.distribution==2 or parent.distribution==3">
+										<HolesDistribution a="0.00" b="1.00" percentageOfFullCells="0.70"/>
+									</DartDocumentTemplateNode>
+									<OpticalPropertyLink type="0" indexFctPhase="0" ident="f0"/>
+									<ThermalPropertyLink indexTemperature="0" idTemperature="ThermalFunction290_310"/>
+                					<DartDocumentTemplateNode test="parent.parent.parent.parent.sceneModelCharacteristic==1">
+                                        <VegetationProperty>
+                                            <VegetationOpticalPropertyLink indexFctPhase="0" ident="f0"/>
+                                            <ThermalPropertyLink indexTemperature="0" idTemperature="ThermalFunction290_310"/>
+                                        </VegetationProperty>
+                					</DartDocumentTemplateNode>
+								</CrownLevel>
+							</DartDocumentTemplateNode>
+							<DartDocumentTemplateNode test="parent.branchesAndTwigsSimulation==1">
+								<BranchesAndTwigs geometryFileName="branch.txt" twigAreaIndex="1" possibleBranchTwigMixing="0">
+									<OpticalPropertyLink type="0" indexFctPhase="0" ident="f0"/>
+									<ThermalPropertyLink indexTemperature="0" idTemperature="ThermalFunction290_310"/>
+									<VegetationOpticalPropertyLink indexFctPhase="0" ident="f0"/>
+								</BranchesAndTwigs>
+							</DartDocumentTemplateNode>
+						</Specie>
+					</DartDocumentTemplateNode>
+				</Trees_1>
+			</DartDocumentTemplateNode>
+			<DartDocumentTemplateNode test="parent.sceneModelCharacteristic==2 and parent.isTrees==1">
+				<Trees_2 treePositionFileName="Trees_position.txt" laiZone="0">
+					<DartDocumentTemplateNode test="parent.laiZone==1">
+						<LaiZoneProperties>
+							<!-- UpperLeft -->
+							<Point2D x="1.00" y="1.00"/>
+							<!-- LowerRight -->
+							<Point2D x="1.00" y="1.00"/>
+						</LaiZoneProperties>
+					</DartDocumentTemplateNode>
+					<DartDocumentTemplateNode type="list" min="1">
+						<Specie_2 numberOfTreesInWholeScene="12" lai="4.00" branchesAndTwigsSimulation="0">
+							<OpticalPropertyLink type="0" indexFctPhase="0" ident="f0"/>
+							<ThermalPropertyLink indexTemperature="0" idTemperature="ThermalFunction290_310"/>
+							<Trunk meanTrunkHeightBelowCrown="5.00" stDevMeanTrunkHeightBelowCrown="0.0" meanTrunkDiameterBelowCrown="0.30"	stDevMeanTrunkDiameterBelowCrown="0.0" trunkHeightWithinCrown="3.00"/>
+							<Crown crownShape="0" crownHeight="6.00" crownHeightStDev="0.0" instrinsicRotation="0.0" instrinsicRotationStDev="0.0">
+								<DartDocumentTemplateNode test="parent.crownShape==0">
+									<CrownEllipsoid firstAxis="4.00" firstAxisStDev="0.0" secondAxis="4.00" secondAxisStDev="0.0"/>
+								</DartDocumentTemplateNode>
+								<DartDocumentTemplateNode test="parent.crownShape==1">
+									<CrownEllipsoidComposed firstAxis="4.00" firstAxisStDev="0.0" secondAxis="4.00" secondAxisStDev="0.0"
+										intermediateHeight="2.00" intermediateHeightStDev="0.0"/>
+								</DartDocumentTemplateNode>
+								<DartDocumentTemplateNode test="parent.crownShape==2">
+									<CrownTruncatedCone baseRadius="4.00" baseRadiusStDev="0.0" topRadius="2.00" topRadiusStDev="0.0"/>
+								</DartDocumentTemplateNode>
+								<DartDocumentTemplateNode test="parent.crownShape==3">
+									<CrownTrapezoid baseLength="4.00" baseLengthStDev="0.0" baseWidth="4.00" baseWidthStDev="0.0" topLength="5.00"
+										topLengthStDev="0.0" topWidth="4.00" topWidthStDev="0.0"/>
+								</DartDocumentTemplateNode>
+								<DartDocumentTemplateNode test="parent.crownShape==5">
+									<CrownConeComp aMoy="4.00" stdDevAMoy="0.0" bMoy="3.00" stdDevBMoy="0.0" cMoy="3.00" stdDevCMoy="0.0"/>
+								</DartDocumentTemplateNode>
+							</Crown>
+							<DartDocumentTemplateNode type="list" min="1">
+								<CrownLevel laiConservation="1" relativeHeightVsCrownHeight="1.00" verticalWeightForUf="1.00" distribution="0" relativeTrunkDiameterWithinCrown="1.00">
+									<DartDocumentTemplateNode test="parent.distribution==1 or parent.distribution==3">
+										<LeavesDistribution alpha="0.10" beta="0.30" gamma="0.80" kappa="1.00"/>
+									</DartDocumentTemplateNode>
+									<DartDocumentTemplateNode test="parent.distribution==2 or parent.distribution==3">
+										<HolesDistribution a="0.00" b="1.00" percentageOfFullCells="0.70"/>
+									</DartDocumentTemplateNode>
+									<OpticalPropertyLink type="0" indexFctPhase="0" ident="f0"/>
+									<ThermalPropertyLink indexTemperature="0" idTemperature="ThermalFunction290_310"/>
+                					<DartDocumentTemplateNode test="parent.parent.parent.parent.sceneModelCharacteristic==2">
+                                        <VegetationProperty>
+                                            <VegetationOpticalPropertyLink indexFctPhase="0" ident="f0"/>
+                                            <ThermalPropertyLink indexTemperature="0" idTemperature="ThermalFunction290_310"/>
+                                        </VegetationProperty>
+                					</DartDocumentTemplateNode>
+								</CrownLevel>
+							</DartDocumentTemplateNode>
+							<DartDocumentTemplateNode test="parent.branchesAndTwigsSimulation==1">
+								<BranchesAndTwigs geometryFileName="branch.txt" twigAreaIndex="1" possibleBranchTwigMixing="0">
+									<OpticalPropertyLink type="0" indexFctPhase="0" ident="f0"/>
+									<ThermalPropertyLink indexTemperature="0" idTemperature="ThermalFunction290_310"/>
+									<VegetationOpticalPropertyLink indexFctPhase="0" ident="f0"/>
+								</BranchesAndTwigs>
+							</DartDocumentTemplateNode>
+						</Specie_2>
+					</DartDocumentTemplateNode>
+				</Trees_2>
+			</DartDocumentTemplateNode>
+			<DartDocumentTemplateNode test="parent.sceneModelCharacteristic==3 and parent.isTrees==1">
+				<Trees_3>
+					<DartDocumentTemplateNode type="list" min="1">
+						<Specie_3 numberOfTreesInWholeScene="12" spatialDistribution="0" probabilityOfTreesAtTheNodesOfTheGrid="0.90" lai="4.00" branchesAndTwigsSimulation="0" rawX="5.00" rawY="5.00" rayon="5.00">
+							<OpticalPropertyLink type="0" indexFctPhase="0" ident="f0"/>
+							<ThermalPropertyLink indexTemperature="0" idTemperature="ThermalFunction290_310"/>
+							<Trunk meanTrunkHeightBelowCrown="5.00" stDevMeanTrunkHeightBelowCrown="0.0" meanTrunkDiameterBelowCrown="0.40"	stDevMeanTrunkDiameterBelowCrown="0.0" trunkHeightWithinCrown="3.00"/>
+							<Crown crownShape="0" crownHeight="6.00" crownHeightStDev="0.0" instrinsicRotation="0.0" instrinsicRotationStDev="0.0">
+								<DartDocumentTemplateNode test="parent.crownShape==0">
+									<CrownEllipsoid firstAxis="4.00" firstAxisStDev="0.0" secondAxis="4.00" secondAxisStDev="0.0"/>
+								</DartDocumentTemplateNode>
+								
+								<DartDocumentTemplateNode test="parent.crownShape==1">
+									<CrownEllipsoidComposed firstAxis="4.00" firstAxisStDev="0.0" secondAxis="4.00" secondAxisStDev="0.0"
+										intermediateHeight="2.00" intermediateHeightStDev="0.0"/>
+								</DartDocumentTemplateNode>
+								
+								<DartDocumentTemplateNode test="parent.crownShape==2">
+									<CrownTruncatedCone baseRadius="4.00" baseRadiusStDev="0.0" topRadius="2.00" topRadiusStDev="0.0"/>
+								</DartDocumentTemplateNode>
+								
+								<DartDocumentTemplateNode test="parent.crownShape==3">
+									<CrownTrapezoid baseLength="4.00" baseLengthStDev="0.0" baseWidth="4.00" baseWidthStDev="0.0" topLength="5.00"
+										topLengthStDev="0.0" topWidth="4.00" topWidthStDev="0.0"/>
+								</DartDocumentTemplateNode>
+								
+								<DartDocumentTemplateNode test="parent.crownShape==5">
+									<CrownConeComp aMoy="4.00" stdDevAMoy="0.0" bMoy="3.00" stdDevBMoy="0.0" cMoy="3.00" stdDevCMoy="0.0"/>
+								</DartDocumentTemplateNode>
+								
+							</Crown>
+							
+							<DartDocumentTemplateNode test="parent.spatialDistribution==1">
+								<EllipsoidSubZone ellipseCenterX0="5.0" ellipseCenterY0="5.0" radiusXEllipseZoneTree="2.0" radiusYEllipseZoneTree="3.0"	/>
+							</DartDocumentTemplateNode>
+							<DartDocumentTemplateNode test="parent.spatialDistribution==2">
+								<Polygon2D>
+									<Point2D x="0.3" y="0.3"/>
+									<Point2D x="5.3" y="0.3"/>
+									<Point2D x="5.3" y="5.3"/>
+									<Point2D x="0.3" y="5.3"/>
+								</Polygon2D>
+							</DartDocumentTemplateNode>
+							
+							<DartDocumentTemplateNode type="list" min="1">
+								<CrownLevel laiConservation="1" relativeHeightVsCrownHeight="1.00" verticalWeightForUf="1.00" distribution="0" relativeTrunkDiameterWithinCrown="1.00">
+									<DartDocumentTemplateNode test="parent.distribution==1 or parent.distribution==3">
+										<LeavesDistribution alpha="0.10" beta="0.30" gamma="0.8" kappa="1.00"/>
+									</DartDocumentTemplateNode>
+									
+									<DartDocumentTemplateNode test="parent.distribution==2 or parent.distribution==3">
+										<HolesDistribution a="0.00" b="1.00" percentageOfFullCells="0.70"/>
+									</DartDocumentTemplateNode>
+									
+									<OpticalPropertyLink type="0" indexFctPhase="0" ident="f0"/>
+									<ThermalPropertyLink indexTemperature="0" idTemperature="ThermalFunction290_310"/>
+                					<DartDocumentTemplateNode test="parent.parent.parent.parent.sceneModelCharacteristic==3">
+                                        <VegetationProperty>
+                                            <VegetationOpticalPropertyLink indexFctPhase="0" ident="f0"/>
+                                            <ThermalPropertyLink indexTemperature="0" idTemperature="ThermalFunction290_310"/>
+                                        </VegetationProperty>
+                					</DartDocumentTemplateNode>
+								</CrownLevel>
+							</DartDocumentTemplateNode>
+							<DartDocumentTemplateNode test="parent.branchesAndTwigsSimulation==1">
+								<BranchesAndTwigs geometryFileName="branch.txt" twigAreaIndex="1" possibleBranchTwigMixing="0">
+									<OpticalPropertyLink type="0" indexFctPhase="0" ident="f0"/>
+									<ThermalPropertyLink indexTemperature="0" idTemperature="ThermalFunction290_310"/>
+									<VegetationOpticalPropertyLink indexFctPhase="0" ident="f0"/>
+								</BranchesAndTwigs>
+							</DartDocumentTemplateNode>
+						</Specie_3>
+					</DartDocumentTemplateNode>
+				</Trees_3>
+			</DartDocumentTemplateNode>
+			<DartDocumentTemplateNode test="parent.isTrees==1">
+		        <TreeGeneralOptions triangleTreeRepresentation="0">
+					<DartDocumentTemplateNode test="parent.triangleTreeRepresentation==1">
+						<MeshTreeRepresentation distributionMode="0" leafDefinition="1">
+							<DartDocumentTemplateNode test="parent.leafDefinition==0">
+								<NumberOfTriangleParameters nbTrianglesPerTree="10000"/>
+							</DartDocumentTemplateNode>
+							<DartDocumentTemplateNode test="parent.leafDefinition==1">
+								<MeshLeafDimensionParameters meshLeafDimension="0.003"/>
+							</DartDocumentTemplateNode>
+						</MeshTreeRepresentation>
+					</DartDocumentTemplateNode>
+				</TreeGeneralOptions>
+			</DartDocumentTemplateNode>
+		</Trees>
+	</DartFile>
+</DartDocumentTemplateNode>

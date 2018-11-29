@@ -1,0 +1,898 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="DARTXmlDoc.xsl" type="text/xsl"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<!-- Element racine -->
+	<xsd:annotation>
+		<xsd:appinfo>Fichier trees.xsd -- version 5.7.1</xsd:appinfo> 
+		<xsd:documentation xml:lang = "en"> trees</xsd:documentation> 
+		<xsd:documentation xml:lang = "fr"> trees</xsd:documentation>
+	</xsd:annotation>
+
+	<xsd:element name="DartFile">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+	<xsd:complexType>
+		<xsd:sequence>
+			<xsd:element name="Trees" type="_Trees" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="version" type="xsd:string" default="5.7.1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Version of the plots.xml file. Depends of the version on DART itself.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Version of the plots.xml file. Depends of the version on DART itself.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="build" type="xsd:string" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+	</xsd:element>
+
+	<xsd:complexType name="_Trees">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Trees</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Trees</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Trees_1" type="_Trees_1" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Trees_2" type="_Trees_2" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Trees_3" type="_Trees_3" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="TreeGeneralOptions" type="_TreeGeneralOptions" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="sceneModelCharacteristic" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Type of tree spatial distribution \n- Random location around the nodes of a user specified grid and dimensions "mean + standard deviation" specified by the user. \n- Exact location (x,y) specified by a text file and dimensions "mean + standard deviation" specified by the user. \n- Exact location (x,y) and exact dimensions specified by a text file</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Type of tree spatial distribution \n- Random location around the nodes of a user specified grid and dimensions "mean + standard deviation" specified by the user. \n- Exact location (x,y) specified by a text file and dimensions "mean + standard deviation" specified by the user. \n- Exact location (x,y) and exact dimensions specified by a text file</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="isTrees" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Presence of trees in the scene</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Presence of trees in the scene</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Trees_1">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Trees_1</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Trees_1</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="LaiZoneProperties" type="_LaiZoneProperties" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Specie" type="_Specie" minOccurs="1" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="laiZone" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> 1). \n\nKnowledge of the LAI of a sub-scene gives the uf values of the cells of the sub-scene, which in turn gives the uf values of the cells outside the sub-scene.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> 1). \n\nKnowledge of the LAI of a sub-scene gives the uf values of the cells of the sub-scene, which in turn gives the uf values of the cells outside the sub-scene.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="sceneParametersFileName" type="xsd:string" default="trees.txt">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Text files that gives all necessary tree information</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Text files that gives all necessary tree information</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_LaiZoneProperties">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> LaiZoneProperties</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> LaiZoneProperties</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Point2D" type="_Point2D" minOccurs="2" maxOccurs="2" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Point2D">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Point2D</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Point2D</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="y" type="xsd:double" default="1.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> y coordinate of a corner (upper left or lower right) of the rectangular sub-scene for which the LAI is given</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> y coordinate of a corner (upper left or lower right) of the rectangular sub-scene for which the LAI is given</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="x" type="xsd:double" default="1.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> x coordinate of a corner (upper left or lower right) of the rectangular sub-scene for which the LAI is given</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> x coordinate of a corner (upper left or lower right) of the rectangular sub-scene for which the LAI is given</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Specie">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Specie</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Specie</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="OpticalPropertyLink" type="_OpticalPropertyLink" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="ThermalPropertyLink" type="_ThermalPropertyLink" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="CrownLevel" type="_CrownLevel" minOccurs="1" maxOccurs="unbounded" />
+			<xsd:element name="BranchesAndTwigs" type="_BranchesAndTwigs" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="numberOfTreesInWholeScene" type="xsd:int" default="12">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Number of trees (of the species) in the whole scene. Other species can be added</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Number of trees (of the species) in the whole scene. Other species can be added</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="branchesAndTwigsSimulation" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Simulation of trees with branches and twigs</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Simulation of trees with branches and twigs</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="lai" type="xsd:double" default="4.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> LAI </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> LAI </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_OpticalPropertyLink">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> OpticalPropertyLink</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> OpticalPropertyLink</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="indexFctPhase" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Index of the DART phase function of the ground of the plot.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Index of the DART phase function of the ground of the plot.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="ident" type="xsd:string" default="f0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> proportion of photons intercepted along an incident direction that are scattered within a solid angle along a given direction</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> proportion of photons intercepted along an incident direction that are scattered within a solid angle along a given direction</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="type" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Type of phase function (lambertian, etc.)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Type of phase function (lambertian, etc.)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_ThermalPropertyLink">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> ThermalPropertyLink</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> ThermalPropertyLink</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="indexTemperature" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> indexTemperature</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> indexTemperature</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="idTemperature" type="xsd:string" default="ThermalFunction290_310">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Thermal Function ID</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Thermal Function ID</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_CrownLevel">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> CrownLevel</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> CrownLevel</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="LeavesDistribution" type="_LeavesDistribution" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="HolesDistribution" type="_HolesDistribution" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="OpticalPropertyLink" type="_OpticalPropertyLink" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="ThermalPropertyLink" type="_ThermalPropertyLink" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="VegetationProperty" type="_VegetationProperty" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="verticalWeightForUf" type="xsd:double" default="1.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> The profile of uf is defined by relative values. If vegetation biomass is defined by the lAI parameter, then correct uf values are obtained through the use of  a normalizing coefficient directly computed by the Scene Builder module</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> The profile of uf is defined by relative values. If vegetation biomass is defined by the lAI parameter, then correct uf values are obtained through the use of  a normalizing coefficient directly computed by the Scene Builder module</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="laiConservation" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Adding leaves or holes can modify LAI calculation. This option force calculation to conserve the LAI.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Adding leaves or holes can modify LAI calculation. This option force calculation to conserve the LAI.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="relativeHeightVsCrownHeight" type="xsd:double" default="1.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> the crown is built only up to the height of the crown top)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> the crown is built only up to the height of the crown top)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="distribution" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> This option allows the user to define, in this tree crown level, the horizontal distribution of empty (hole) cells and leaf cells</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> This option allows the user to define, in this tree crown level, the horizontal distribution of empty (hole) cells and leaf cells</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="relativeTrunkDiameterWithinCrown" type="xsd:double" default="0.50">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Trunk diameter in this tree crown level is equal to this factor multiplied by the specified below crown trunk diameter</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Trunk diameter in this tree crown level is equal to this factor multiplied by the specified below crown trunk diameter</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_LeavesDistribution">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> LeavesDistribution</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> LeavesDistribution</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="alpha" type="xsd:double" default="0.10">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> No leaf cells for cells at a distance smaller than "Alpha x local tree crown radius"</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> No leaf cells for cells at a distance smaller than "Alpha x local tree crown radius"</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="beta" type="xsd:double" default="0.30">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Maximal leaf density between "Beta x local tree crown radius" and "Gamma x local tree crown radius"</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Maximal leaf density between "Beta x local tree crown radius" and "Gamma x local tree crown radius"</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="kappa" type="xsd:double" default="1.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> No leaf cells for cells at a distance from tree crown axis larger than "Kappa x local tree crown radius"</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> No leaf cells for cells at a distance from tree crown axis larger than "Kappa x local tree crown radius"</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="gamma" type="xsd:double" default="0.80">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> gamma</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> gamma</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_HolesDistribution">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> HolesDistribution</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> HolesDistribution</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="a" type="xsd:double" default="0.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> All cells are empty at a distance less than "a x local tree crown radius"</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> All cells are empty at a distance less than "a x local tree crown radius"</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="percentageOfFullCells" type="xsd:double" default="0.70">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Proportion [0 1] of non empty cellls between the specified thresholds a and b</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Proportion [0 1] of non empty cellls between the specified thresholds a and b</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="b" type="xsd:double" default="1.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> All cells are empty at a distance larger than "b x local tree crown radius"</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> All cells are empty at a distance larger than "b x local tree crown radius"</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_VegetationProperty">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VegetationOpticalPropertyLink" type="_VegetationOpticalPropertyLink" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="ThermalPropertyLink" type="_ThermalPropertyLink" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="_VegetationOpticalPropertyLink">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Optical properties for a DART vegetation phase function (name, type and index).</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Optical properties for a DART vegetation phase function (name, type and index).</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="indexFctPhase" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Index of the DART phase function of the ground of the plot.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Index of the DART phase function of the ground of the plot.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="ident" type="xsd:string" default="f0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> proportion of photons intercepted along an incident direction that are scattered within a solid angle along a given direction</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> proportion of photons intercepted along an incident direction that are scattered within a solid angle along a given direction</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_BranchesAndTwigs">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> BranchesAndTwigs</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> BranchesAndTwigs</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="OpticalPropertyLink" type="_OpticalPropertyLink" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="ThermalPropertyLink" type="_ThermalPropertyLink" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="VegetationOpticalPropertyLink" type="_VegetationOpticalPropertyLink" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="possibleBranchTwigMixing" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Possibility that cells contain branches in addition to leaves and twigs</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Possibility that cells contain branches in addition to leaves and twigs</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="twigAreaIndex" type="xsd:double" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Twig Area Index (same as LAI, but applied to twigs instead of leaves)  </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Twig Area Index (same as LAI, but applied to twigs instead of leaves)  </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="geometryFileName" type="xsd:string" default="branch.txt">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Name of the file that stores the geometry of the branches</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Name of the file that stores the geometry of the branches</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Trees_2">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Trees_2</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Trees_2</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="LaiZoneProperties" type="_LaiZoneProperties" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Specie_2" type="_Specie_2" minOccurs="1" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="laiZone" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> 1). \n\nKnowledge of the LAI of a sub-scene gives the uf values of the cells of the sub-scene, which in turn gives the uf values of the cells outside the sub-scene. </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> 1). \n\nKnowledge of the LAI of a sub-scene gives the uf values of the cells of the sub-scene, which in turn gives the uf values of the cells outside the sub-scene. </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="treePositionFileName" type="xsd:string" default="Trees_position.txt">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Name of the file that stores the position of the trees. This file is created if it is specified as unavailable </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Name of the file that stores the position of the trees. This file is created if it is specified as unavailable </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Specie_2">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="OpticalPropertyLink" type="_OpticalPropertyLink" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="ThermalPropertyLink" type="_ThermalPropertyLink" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Trunk" type="_Trunk" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Crown" type="_Crown" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="CrownLevel" type="_CrownLevel" minOccurs="1" maxOccurs="unbounded" />
+			<xsd:element name="BranchesAndTwigs" type="_BranchesAndTwigs" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="numberOfTreesInWholeScene" type="xsd:int" default="12">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Number of trees (of the species) in the whole scene. Other species can be added</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Number of trees (of the species) in the whole scene. Other species can be added</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="branchesAndTwigsSimulation" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Simulation of trees with branches and twigs</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Simulation of trees with branches and twigs</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="lai" type="xsd:double" default="4.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> LAI </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> LAI </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Trunk">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Trunk</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Trunk</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="meanTrunkDiameterBelowCrown" type="xsd:double" default="0.30">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> 0 and within [mean - std dev ; mean + std dev]</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> 0 and within [mean - std dev ; mean + std dev]</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="stDevMeanTrunkHeightBelowCrown" type="xsd:double" default="0.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Standard deviation of the trunk height below the tree crown</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Standard deviation of the trunk height below the tree crown</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="meanTrunkHeightBelowCrown" type="xsd:double" default="5.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> 0 and within [mean - std dev ; mean + std dev]</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> 0 and within [mean - std dev ; mean + std dev]</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="stDevMeanTrunkDiameterBelowCrown" type="xsd:double" default="0.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Standard deviation of the trunk diameter below the tree crown</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Standard deviation of the trunk diameter below the tree crown</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="trunkHeightWithinCrown" type="xsd:double" default="3.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Trunk height within the tree crown </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Trunk height within the tree crown </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Crown">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Crown</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Crown</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CrownEllipsoid" type="_CrownEllipsoid" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="CrownEllipsoidComposed" type="_CrownEllipsoidComposed" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="CrownTruncatedCone" type="_CrownTruncatedCone" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="CrownTrapezoid" type="_CrownTrapezoid" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="CrownConeComp" type="_CrownConeComp" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="instrinsicRotation" type="xsd:double" default="0.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Intrinsic rotation of the crown, in degree.\nThe crown will rotate on itself around the Z axis (height), counter-clockwise.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Intrinsic rotation of the crown, in degree.\nThe crown will rotate on itself around the Z axis (height), counter-clockwise.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="crownShape" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Crown shape: ellipsoidal, etc.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Crown shape: ellipsoidal, etc.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="instrinsicRotationStDev" type="xsd:double" default="0.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Standard deviation of crown intrinsic rotation.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Standard deviation of crown intrinsic rotation.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="crownHeightStDev" type="xsd:double" default="0.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Standard deviation of crown height</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Standard deviation of crown height</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="crownHeight" type="xsd:double" default="6.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> 0 and within [mean - std dev ; mean + std dev]</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> 0 and within [mean - std dev ; mean + std dev]</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_CrownEllipsoid">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="firstAxis" type="xsd:double" default="4.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> The tree crown horizontal section is an ellipse</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> The tree crown horizontal section is an ellipse</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="secondAxisStDev" type="xsd:double" default="0.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="secondAxis" type="xsd:double" default="4.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> The tree crown horizontal section is an ellipse</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> The tree crown horizontal section is an ellipse</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="firstAxisStDev" type="xsd:double" default="0.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_CrownEllipsoidComposed">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="secondAxisStDev" type="xsd:double" default="0.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="secondAxis" type="xsd:double" default="4.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> The tree crown horizontal section is an ellipse</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> The tree crown horizontal section is an ellipse</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="firstAxis" type="xsd:double" default="4.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> The tree crown horizontal section is an ellipse</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> The tree crown horizontal section is an ellipse</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="intermediateHeightStDev" type="xsd:double" default="0.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="intermediateHeight" type="xsd:double" default="2.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> A compose tree crown is made of two half ellipsoids that meet at this intermediate height</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> A compose tree crown is made of two half ellipsoids that meet at this intermediate height</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="firstAxisStDev" type="xsd:double" default="0.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_CrownTruncatedCone">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="topRadiusStDev" type="xsd:double" default="0.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="topRadius" type="xsd:double" default="2.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> 0 and within [mean - std dev ; mean + std dev]</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> 0 and within [mean - std dev ; mean + std dev]</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="baseRadius" type="xsd:double" default="4.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> 0 and within [mean - std dev ; mean + std dev]</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> 0 and within [mean - std dev ; mean + std dev]</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="baseRadiusStDev" type="xsd:double" default="0.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_CrownTrapezoid">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="topWidthStDev" type="xsd:double" default="0.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="baseLengthStDev" type="xsd:double" default="0.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="baseLength" type="xsd:double" default="4.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> 0 and within [mean - std dev ; mean + std dev]</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> 0 and within [mean - std dev ; mean + std dev]</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="baseWidthStDev" type="xsd:double" default="0.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="topWidth" type="xsd:double" default="4.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> 0 and within [mean - std dev ; mean + std dev]</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> 0 and within [mean - std dev ; mean + std dev]</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="topLength" type="xsd:double" default="5.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> 0 and within [mean - std dev ; mean + std dev]</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> 0 and within [mean - std dev ; mean + std dev]</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="baseWidth" type="xsd:double" default="4.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> 0 and within [mean - std dev ; mean + std dev]</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> 0 and within [mean - std dev ; mean + std dev]</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="topLengthStDev" type="xsd:double" default="0.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_CrownConeComp">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="aMoy" type="xsd:double" default="4.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> 0 and within [mean - std dev ; mean + std dev]</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> 0 and within [mean - std dev ; mean + std dev]</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="cMoy" type="xsd:double" default="3.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> 0 and within [mean - std dev ; mean + std dev]</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> 0 and within [mean - std dev ; mean + std dev]</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="bMoy" type="xsd:double" default="3.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> 0 and within [mean - std dev ; mean + std dev]</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> 0 and within [mean - std dev ; mean + std dev]</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="stdDevBMoy" type="xsd:double" default="0.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="stdDevCMoy" type="xsd:double" default="0.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="stdDevAMoy" type="xsd:double" default="0.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Trees_3">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Trees_3</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Trees_3</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Specie_3" type="_Specie_3" minOccurs="1" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Specie_3">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Specie_3</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Specie_3</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="OpticalPropertyLink" type="_OpticalPropertyLink" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="ThermalPropertyLink" type="_ThermalPropertyLink" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Trunk" type="_Trunk" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Crown" type="_Crown" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="EllipsoidSubZone" type="_EllipsoidSubZone" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Polygon2D" type="_Polygon2D" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="CrownLevel" type="_CrownLevel" minOccurs="1" maxOccurs="unbounded" />
+			<xsd:element name="BranchesAndTwigs" type="_BranchesAndTwigs" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="lai" type="xsd:double" default="4.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> LAI </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> LAI </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="rawX" type="xsd:double" default="5.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Horizontal lines of the grid. Trees are located around the nodes of this grid</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Horizontal lines of the grid. Trees are located around the nodes of this grid</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="rawY" type="xsd:double" default="5.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Vertical lines of the grid. Trees are located around the nodes of this grid</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Vertical lines of the grid. Trees are located around the nodes of this grid</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="numberOfTreesInWholeScene" type="xsd:int" default="12">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Number of trees (of the species) in the whole scene. Other species can be added</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Number of trees (of the species) in the whole scene. Other species can be added</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="spatialDistribution" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> spatialDistribution</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> spatialDistribution</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="rayon" type="xsd:double" default="5.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Radius of the disks within which trees must be located. Disks are centred on the nodes of the specified grid.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Radius of the disks within which trees must be located. Disks are centred on the nodes of the specified grid.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="probabilityOfTreesAtTheNodesOfTheGrid" type="xsd:double" default="0.90">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Probability that trees are present around the nodes of the specified grid</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Probability that trees are present around the nodes of the specified grid</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="branchesAndTwigsSimulation" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Simulation of trees with branches and twigs</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Simulation of trees with branches and twigs</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_EllipsoidSubZone">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> EllipsoidSubZone</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> EllipsoidSubZone</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="radiusXEllipseZoneTree" type="xsd:double" default="2.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> X axis (radius) for ellipse</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> X axis (radius) for ellipse</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="ellipseCenterY0" type="xsd:double" default="5.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> y coordinate of the center of the elliptical zone</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> y coordinate of the center of the elliptical zone</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="radiusYEllipseZoneTree" type="xsd:double" default="3.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Y axis (radius) for ellipse</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Y axis (radius) for ellipse</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="ellipseCenterX0" type="xsd:double" default="5.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> x coordinate of the center of the elliptical zone</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> x coordinate of the center of the elliptical zone</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Polygon2D">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Representation of a DART polygon. It's defined by its 4 corners, starting form the top left one, and turning anticlockwise.</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Representation of a DART polygon. It's defined by its 4 corners, starting form the top left one, and turning anticlockwise.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Point2D" type="_Point2D" minOccurs="4" maxOccurs="4" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="_TreeGeneralOptions">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="MeshTreeRepresentation" type="_MeshTreeRepresentation" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="triangleTreeRepresentation" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> If checked, the tree's crowns will be represented as a cloud of triangles. Otherwise, they will be represented as a juxtaposition of turbid cells.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> If checked, the tree's crowns will be represented as a cloud of triangles. Otherwise, they will be represented as a juxtaposition of turbid cells.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_MeshTreeRepresentation">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="NumberOfTriangleParameters" type="_NumberOfTriangleParameters" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="MeshLeafDimensionParameters" type="_MeshLeafDimensionParameters" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="distributionMode" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Defines how the leaves are geometrically distributed in the crown.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Defines how the leaves are geometrically distributed in the crown.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="leafDefinition" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Definition of the leaves geometry and numbers.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Definition of the leaves geometry and numbers.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_NumberOfTriangleParameters">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="nbTrianglesPerTree" type="xsd:int" default="10000">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Fix the number of leaves/triangles per tree. The leaf area will then be the total area of leaves in the crown divided by this number. The real final number per tree generated may vary due to rounding and distribution errors.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Fix the number of leaves/triangles per tree. The leaf area will then be the total area of leaves in the crown divided by this number. The real final number per tree generated may vary due to rounding and distribution errors.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_MeshLeafDimensionParameters">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="meshLeafDimension" type="xsd:double" default="0.003">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Area of each individual leaf/triangle. The number of leaves/triangles will then be the total area of leaves in the crown divided by this number. The real final number per tree generated may vary due to rounding and distribution errors.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Area of each individual leaf/triangle. The number of leaves/triangles will then be the total area of leaves in the crown divided by this number. The real final number per tree generated may vary due to rounding and distribution errors.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+</xsd:schema>

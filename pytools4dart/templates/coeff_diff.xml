@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<!-- ==================================================================== -->
+<!-- ==                                                                == -->
+<!-- ==             Template Exemple de fichier COEFF_DIFF             == -->
+<!-- ==                                                                == -->
+<!-- ==================================================================== -->
+
+
+<DartDocumentTemplateNode type="header"
+	version="1.0">
+	<DartFile version="5.7.1" build="0">
+		<Coeff_diff fluorescenceProducts="0" fluorescenceFile="0">		
+			<DartDocumentTemplateNode test="parent.fluorescenceFile==1">
+				<FluorescenceProductsProperties fluorescenceFileName="yieldsPerTriangle.txt"/>				
+			</DartDocumentTemplateNode>
+			<LambertianMultiFunctions>
+				<DartDocumentTemplateNode type="list" min="1">
+					<LambertianMulti ident="Lambertian_Phase_Function_1" databaseName="Lambertian_vegetation.db" ModelName="reflect_equal_1_trans_equal_0_0"
+						roStDev="0.000" useMultiplicativeFactorForLUT="1" useSpecular="0" >
+						<DartDocumentTemplateNode test="parent.useSpecular==1">
+						<SpecularData specularDatabaseName="Specular.db" specularModelName="basic" useRefraction="0" specularRadianceDistribution="0"/>
+						</DartDocumentTemplateNode>
+						<ProspectExternalModule useProspectExternalModule="0" isFluorescent="0">
+							<DartDocumentTemplateNode test="parent.useProspectExternalModule==1 or parent.isFluorescent==1">
+								<ProspectExternParameters inputProspectFile="Prospect_Fluspect/Prospect_6D_2015.txt" N="1.8" Cab="30" Car="10." CBrown="0.0" Cw="0.012" Cm="0.01" anthocyanin="0"/>
+							</DartDocumentTemplateNode>
+							<DartDocumentTemplateNode test="parent.isFluorescent==1">
+								<FluorescenceYields forceYields="0">
+									<DartDocumentTemplateNode test="parent.forceYields==1">
+										<Yields yieldPSI="0.002" yieldPSII="0.01"/>
+									</DartDocumentTemplateNode>
+								</FluorescenceYields>
+							</DartDocumentTemplateNode>
+							<DartDocumentTemplateNode test="parent.isFluorescent==1">							
+								<WindProfileEta useBioClimaticWeighting="0">
+									<DartDocumentTemplateNode test="parent.useBioClimaticWeighting==1">
+										<BioClimaticWeighting profileFilePath="profileEta.bin" linkedOpticalProperty="0">	
+											<DartDocumentTemplateNode test="parent.linkedOpticalProperty==1">									
+												<OpticalPropertyLink type="0" indexFctPhase="0" ident="linkedOpticalProperty"/>
+											</DartDocumentTemplateNode>
+										</BioClimaticWeighting>
+									</DartDocumentTemplateNode>
+								</WindProfileEta>
+							</DartDocumentTemplateNode>
+						</ProspectExternalModule>
+						<DartDocumentTemplateNode test="parent.useMultiplicativeFactorForLUT==1">
+							<lambertianNodeMultiplicativeFactorForLUT useSameFactorForAllBands="1" reflectanceFactor="1" directTransmittanceFactor="1" diffuseTransmittanceFactor="1" specularIntensityFactor="1" useSameOpticalFactorMatrixForAllBands="0">
+								<DartDocumentTemplateNode type="list" min="1" static="1">
+									<lambertianMultiplicativeFactorForLUT reflectanceFactor="1" directTransmittanceFactor="1" diffuseTransmittanceFactor="1" specularIntensityFactor="1" useOpticalFactorMatrix="0">
+                                        <DartDocumentTemplateNode test="parent.useOpticalFactorMatrix==1 and parent.parent.useSameOpticalFactorMatrixForAllBands==0">
+                                            <opticalFactorMatrix opticalFactorMatrixFile="choose" duplicateFirstMatrixLayer="0" />
+                                        </DartDocumentTemplateNode>
+                                    </lambertianMultiplicativeFactorForLUT>
+                                </DartDocumentTemplateNode>
+                                <DartDocumentTemplateNode test="parent.useSameOpticalFactorMatrixForAllBands==1">
+                                    <opticalFactorMatrix opticalFactorMatrixFile="choose" duplicateFirstMatrixLayer="0" />
+                                </DartDocumentTemplateNode>
+							</lambertianNodeMultiplicativeFactorForLUT>
+						</DartDocumentTemplateNode>
+					</LambertianMulti>
+				</DartDocumentTemplateNode>
+			</LambertianMultiFunctions>
+			<HapkeSpecularMultiFunctions>
+				<DartDocumentTemplateNode type="list">
+					<HapkeSpecularMulti ident="Hapke_Phase_Function_1" databaseName="Hapke.db" ModelName="all_equal_to_one" useMultiplicativeFactorForLUT="1" transmittanceDatabaseName="Lambertian_vegetation.db" transmittanceModelName="reflect_equal_1_trans_equal_1_1" useExternalModule="0" useSpecular="0" >
+						<DartDocumentTemplateNode test="parent.useSpecular==1">
+						<SpecularData specularDatabaseName="Specular.db" specularModelName="basic" useRefraction="0" specularRadianceDistribution="0"/>
+						</DartDocumentTemplateNode>
+						<DartDocumentTemplateNode test="parent.useExternalModule==1">
+							<HapkeExternalModules>
+								<DartDocumentTemplateNode type="list" min="1">
+									<HapkeExternalModule hapkeInputFile="hapke_input.txt" soilSpecFlag="0" choiceOfHapkeModel="New" />
+								</DartDocumentTemplateNode>
+							</HapkeExternalModules>
+						</DartDocumentTemplateNode>
+						<DartDocumentTemplateNode test="parent.useMultiplicativeFactorForLUT==1">
+							<hapkeNodeMultiplicativeFactorForLUT useSameFactorForAllBands="1" directTransmittanceFactor="0" diffuseTransmittanceFactor="0" specularIntensityFactor="1" hapkeParameterW="1.0" hapkeParameterC1="1.0" hapkeParameterC2="1.0" hapkeParameterC3="1.0" hapkeParameterC4="1.0" hapkeParameterH1="1.0" hapkeParameterH2="1.0" useSameOpticalFactorMatrixForAllBands="0">
+								<DartDocumentTemplateNode type="list" min="1" static="1">
+									<hapkeMultiplicativeFactorForLUT directTransmittanceFactor="0" diffuseTransmittanceFactor="0" specularIntensityFactor="1" hapkeParameterW="1.0" hapkeParameterC1="1.0" hapkeParameterC2="1.0" hapkeParameterC3="1.0" hapkeParameterC4="1.0" hapkeParameterH1="1.0" hapkeParameterH2="1.0" useOpticalFactorMatrix="0">
+                                        <DartDocumentTemplateNode test="parent.useOpticalFactorMatrix==1">
+                                            <opticalFactorMatrix opticalFactorMatrixFile="choose" duplicateFirstMatrixLayer="0" />
+                                        </DartDocumentTemplateNode>
+                                    </hapkeMultiplicativeFactorForLUT>
+								</DartDocumentTemplateNode>
+                                <DartDocumentTemplateNode test="parent.useSameOpticalFactorMatrixForAllBands==1">
+                                    <opticalFactorMatrix opticalFactorMatrixFile="choose" duplicateFirstMatrixLayer="0" />
+                                </DartDocumentTemplateNode>
+							</hapkeNodeMultiplicativeFactorForLUT>
+						</DartDocumentTemplateNode>
+					</HapkeSpecularMulti>
+				</DartDocumentTemplateNode>
+			</HapkeSpecularMultiFunctions>
+			<RPVMultiFunctions>
+				<DartDocumentTemplateNode type="list">
+					<RPVMulti ident="RPV_Phase_Function_1" databaseName="RPV.db" ModelName="basic" useMultiplicativeFactorForLUT="1" useSpecular="0" transmittanceDatabaseName="Lambertian_vegetation.db" transmittanceModelName="reflect_equal_1_trans_equal_0_0" >
+						<DartDocumentTemplateNode test="parent.useSpecular==1">
+						<SpecularData specularDatabaseName="Specular.db" specularModelName="basic" useRefraction="0" specularRadianceDistribution="0"/>
+						</DartDocumentTemplateNode>
+						<DartDocumentTemplateNode test="parent.useMultiplicativeFactorForLUT==1">
+							<RPVNodeMultiplicativeFactorForLUT useSameFactorForAllBands="1" rhoZero_RPVMultiplicativeFactor="0.70" k_RPVMultiplicativeFactor="0.95" g_RPVMultiplicativeFactor="0.1" h_RPVMultiplicativeFactor="0.7"
+										directTransmittanceFactor="1" diffuseTransmittanceFactor="1" specularIntensityFactor="1" useSameOpticalFactorMatrixForAllBands="0">
+								<DartDocumentTemplateNode type="list" min="1" static="1">
+									<RPVMultiplicativeFactorForLUT rhoZero_RPVMultiplicativeFactor="0.70" k_RPVMultiplicativeFactor="0.95" g_RPVMultiplicativeFactor="0.1" h_RPVMultiplicativeFactor="0.7"
+										directTransmittanceFactor="1" diffuseTransmittanceFactor="1" specularIntensityFactor="1" useOpticalFactorMatrix="0">
+                                        <DartDocumentTemplateNode test="parent.useOpticalFactorMatrix==1">
+                                            <opticalFactorMatrix opticalFactorMatrixFile="choose" duplicateFirstMatrixLayer="0" />
+                                        </DartDocumentTemplateNode>
+                                    </RPVMultiplicativeFactorForLUT>
+								</DartDocumentTemplateNode>
+                                <DartDocumentTemplateNode test="parent.useSameOpticalFactorMatrixForAllBands==1">
+                                    <opticalFactorMatrix opticalFactorMatrixFile="choose" duplicateFirstMatrixLayer="0" />
+                                </DartDocumentTemplateNode>
+							</RPVNodeMultiplicativeFactorForLUT>
+						</DartDocumentTemplateNode>
+					</RPVMulti>
+				</DartDocumentTemplateNode>
+			</RPVMultiFunctions>
+			<UnderstoryMultiFunctions outputLADFile="0" integrationStepOnTheta="1" integrationStepOnPhi="10">
+				<DartDocumentTemplateNode type="list">
+					<UnderstoryMulti ident="Turbid_Leaf_Deciduous_Phase_Function" databaseName="Vegetation.db" ModelName="leaf_deciduous"
+						lad="1" dimFoliar="0.01" useOpticalFactorMatrix="0" useMultiplicativeFactorForLUT="1" useSpecular="0">
+						<DartDocumentTemplateNode test="parent.useSpecular==1">
+						<SpecularData specularDatabaseName="Roughness.db" specularModelName="basic" />
+						</DartDocumentTemplateNode>
+						<DartDocumentTemplateNode test="parent.lad==8">
+							<Ellipsoidal ala="0.000" />
+						</DartDocumentTemplateNode>
+						<DartDocumentTemplateNode test="parent.lad==9">
+							<Elliptical thetam="0.000" epsilon="0.000" />
+						</DartDocumentTemplateNode>
+						<DartDocumentTemplateNode test="parent.lad==10">
+							<UserDefined fileName="LADFile.txt"/>
+						</DartDocumentTemplateNode>
+						<DartDocumentTemplateNode test="parent.lad==11">
+							<Manual LAD_m="1" LAD_b0="45" LAD_b1="0" LAD_b2="90" />
+						</DartDocumentTemplateNode>
+						<DartDocumentTemplateNode test="parent.lad==12">
+							<BoundedUniform nbAla="1" nthAla="1" />
+						</DartDocumentTemplateNode>
+						<DirectionalClumpingIndexProperties omegaMin="1" omegaMax="0" clumpinga="0" clumpingb="0" />
+						<ProspectExternalModule useProspectExternalModule="0" isFluorescent="0">
+							<DartDocumentTemplateNode test="parent.useProspectExternalModule==1 or parent.isFluorescent==1">
+								<ProspectExternParameters inputProspectFile="Prospect_Fluspect/Prospect_6D_2015.txt" N="1.8" Cab="30" Car="10." CBrown="0.0" Cw="0.012" Cm="0.01" anthocyanin="0"/>
+							</DartDocumentTemplateNode>
+							<DartDocumentTemplateNode test="parent.isFluorescent==1">
+								<FluorescenceYields forceYields="0">
+									<DartDocumentTemplateNode test="parent.forceYields==1">
+										<Yields yieldPSI="0.002" yieldPSII="0.01"/>
+									</DartDocumentTemplateNode>
+								</FluorescenceYields>
+							</DartDocumentTemplateNode>
+							<DartDocumentTemplateNode test="parent.isFluorescent==1">							
+								<WindProfileEta useBioClimaticWeighting="0">
+									<DartDocumentTemplateNode test="parent.useBioClimaticWeighting==1">
+										<BioClimaticWeighting profileFilePath="profileEta.bin" linkedOpticalProperty="0">	
+											<DartDocumentTemplateNode test="parent.linkedOpticalProperty==1">									
+												<OpticalPropertyLink type="0" indexFctPhase="0" ident="linkedOpticalProperty"/>
+											</DartDocumentTemplateNode>
+										</BioClimaticWeighting>
+									</DartDocumentTemplateNode>
+								</WindProfileEta>
+							</DartDocumentTemplateNode>
+						</ProspectExternalModule>
+						<DartDocumentTemplateNode test="parent.useMultiplicativeFactorForLUT==1">
+							<understoryNodeMultiplicativeFactorForLUT useSameFactorForAllBands="1" adaxialReflectanceFactor="1" abaxialReflectanceFactor="1" LeafTransmittanceFactor="1" useSameOpticalFactorMatrixForAllBands="0">
+								<DartDocumentTemplateNode type="list" min="1" static="1">
+									<understoryMultiplicativeFactorForLUT adaxialReflectanceFactor="1" abaxialReflectanceFactor="1" LeafTransmittanceFactor="1" useOpticalFactorMatrix="0">
+                                        <DartDocumentTemplateNode test="parent.useOpticalFactorMatrix==1">
+                                            <opticalFactorMatrix opticalFactorMatrixFile="choose" duplicateFirstMatrixLayer="0" />
+                                        </DartDocumentTemplateNode>
+                                    </understoryMultiplicativeFactorForLUT>
+								</DartDocumentTemplateNode>
+                                <DartDocumentTemplateNode test="parent.useSameOpticalFactorMatrixForAllBands==1">
+                                    <opticalFactorMatrix opticalFactorMatrixFile="choose" duplicateFirstMatrixLayer="0" />
+                                </DartDocumentTemplateNode>
+							</understoryNodeMultiplicativeFactorForLUT>
+						</DartDocumentTemplateNode>
+					</UnderstoryMulti>
+				</DartDocumentTemplateNode>
+			</UnderstoryMultiFunctions>
+			<AirMultiFunctions>
+				<DartDocumentTemplateNode type="list">
+					<AirFunction ident="Molecule" databaseName="Fluid.db" ModelName="rayleigh_gas" useMultiplicativeFactorForLUT="1">			
+						<DartDocumentTemplateNode test="parent.useMultiplicativeFactorForLUT==1">
+							<AirFunctionNodeMultiplicativeFactorForLut useSameFactorForAllBands="1" sigma="1.0" albedo="1.0" multiplicativeFactor1="1.0" multiplicativeFactor2="1.0" multiplicativeFactor3="1.0" useSameOpticalFactorMatrixForAllBands="0">
+								<DartDocumentTemplateNode type="list" min="1" static="1">
+									<AirFunctionMultiplicativeFactorForLut sigma="1.0" albedo="1.0" multiplicativeFactor1="1.0" multiplicativeFactor2="1.0" multiplicativeFactor3="1.0" useOpticalFactorMatrix="0">
+                                        <DartDocumentTemplateNode test="parent.useOpticalFactorMatrix==1">
+                                            <opticalFactorMatrix opticalFactorMatrixFile="choose" duplicateFirstMatrixLayer="0" />
+                                        </DartDocumentTemplateNode>
+                                    </AirFunctionMultiplicativeFactorForLut>
+								</DartDocumentTemplateNode>
+                                <DartDocumentTemplateNode test="parent.useSameOpticalFactorMatrixForAllBands==1">
+                                    <opticalFactorMatrix opticalFactorMatrixFile="choose" duplicateFirstMatrixLayer="0" />
+                                </DartDocumentTemplateNode>
+							</AirFunctionNodeMultiplicativeFactorForLut>
+						</DartDocumentTemplateNode>
+					</AirFunction>
+				</DartDocumentTemplateNode>
+			</AirMultiFunctions>
+			<Temperatures>
+				<DartDocumentTemplateNode type="list" min="1">
+					<ThermalFunction override3DMatrix="0" deltaT="20.0" meanT="300.0" idTemperature="ThermalFunction290_310"  useOpticalFactorMatrix="0" singleTemperatureSurface="1">
+                        <DartDocumentTemplateNode test="parent.useOpticalFactorMatrix==1">
+                            <opticalFactorMatrix opticalFactorMatrixFile="choose" duplicateFirstMatrixLayer="0" />
+                        </DartDocumentTemplateNode>
+                    </ThermalFunction>
+				</DartDocumentTemplateNode>
+			</Temperatures>
+		</Coeff_diff>
+	</DartFile>
+</DartDocumentTemplateNode>

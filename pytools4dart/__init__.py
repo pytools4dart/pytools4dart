@@ -25,9 +25,10 @@
 
 from _version import __version__
 from settings import configure,getdartenv,darttools,getdartversion,getsimupath,checkdartdir,getdartdir
-from simulation import simulation
+from simulationWhispers import simulation
 from helpers import voxreader, hstools, dbtools
 import run
 import xmlwriters
+from xsdschema import plots, plots_gdsCL, phase, coeff_diff, object_3d, trees
 
 

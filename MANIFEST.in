@@ -1,3 +1,4 @@
 # include file
 include LICENSE
 include README.md
+include pytools4dart/templates/plots.xml

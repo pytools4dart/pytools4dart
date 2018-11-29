@@ -1,0 +1,964 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="DARTXmlDoc.xsl" type="text/xsl"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<!-- Element racine -->
+	<xsd:annotation>
+		<xsd:appinfo>Fichier atmosphere.xsd -- version 5.7.1</xsd:appinfo> 
+		<xsd:documentation xml:lang = "en"> atmosphere</xsd:documentation> 
+		<xsd:documentation xml:lang = "fr"> atmosphere</xsd:documentation>
+	</xsd:annotation>
+
+	<xsd:element name="DartFile">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+	<xsd:complexType>
+		<xsd:sequence>
+			<xsd:element name="Atmosphere" type="_Atmosphere" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="version" type="xsd:string" default="5.7.1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Version of the plots.xml file. Depends of the version on DART itself.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Version of the plots.xml file. Depends of the version on DART itself.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="build" type="xsd:string" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+	</xsd:element>
+
+	<xsd:complexType name="_Atmosphere">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Atmosphere</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Atmosphere</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Aerosol" type="_Aerosol" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="IsAtmosphere" type="_IsAtmosphere" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="isRadiativeTransfertInBottomAtmosphereDefined" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Radiative transfer is simulated within the air of the lower atmosphere (i.e., the earth landscape is within the lower atmosphere)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Radiative transfer is simulated within the air of the lower atmosphere (i.e., the earth landscape is within the lower atmosphere)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Aerosol">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="AerosolProperties" type="_AerosolProperties" minOccurs="1" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="_AerosolProperties">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="aerosolsModelName" type="xsd:string" default="USSTD76_RURALV23">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Aerosol model</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Aerosol model</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="aerosolCumulativeModelName" type="xsd:string" default="RURALV23">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Aerosol cumulative model</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Aerosol cumulative model</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="hgParametersModelName" type="xsd:string" default="RURALV23">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Henyey Greenstein parameters model</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Henyey Greenstein parameters model</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="databaseName" type="xsd:string" default="dart_atmosphere.db">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Reflectance database        </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Reflectance database        </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="aerosolOptDepthFactor" type="xsd:double" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Aerosol optical depth of the database will be multiplied by these factor at every wavelength</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Aerosol optical depth of the database will be multiplied by these factor at every wavelength</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_IsAtmosphere">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> IsAtmosphere</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> IsAtmosphere</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="isRadiativeTransfertInBottomAtmosphere" type="_isRadiativeTransfertInBottomAtmosphere" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="AtmosphericOpticalProperty" type="_AtmosphericOpticalProperty" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="TemperatureFile" type="_TemperatureFile" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="AtmosphericOpticalPropertyModel" type="_AtmosphericOpticalPropertyModel" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="AtmosphereIterations" type="_AtmosphereIterations" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="AtmosphereGeometry" type="_AtmosphereGeometry" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="typeOfAtmosphere" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Choice of an atmosphere spectral database or user defined mono-spectral parameters for the atmosphere</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Choice of an atmosphere spectral database or user defined mono-spectral parameters for the atmosphere</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_isRadiativeTransfertInBottomAtmosphere">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> isRadiativeTransfertInBottomAtmosphere</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> isRadiativeTransfertInBottomAtmosphere</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="writeTemperatureFile" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Output file name input/extrapolateAtmTemperatureVertical1D.txt                  </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Output file name input/extrapolateAtmTemperatureVertical1D.txt                  </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="BA_altitude" type="xsd:double" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Altitude of the atmosphere up to which will be included in the BA level.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Altitude of the atmosphere up to which will be included in the BA level.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_AtmosphericOpticalProperty">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="aerosolOpticalDepth" type="xsd:double" default="0.202">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> It corresponds to aerosol scattering and absorbing processes</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> It corresponds to aerosol scattering and absorbing processes</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="g2" type="xsd:double" default="0.4">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> g2</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> g2</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="g1" type="xsd:double" default="0.790">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> g1</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> g1</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="aerosolScaleFactor" type="xsd:double" default="1000">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Aerosol density is proportional to  exp[-z/Ha] at altitude z</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Aerosol density is proportional to  exp[-z/Ha] at altitude z</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="pointMilieu" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Mid point correction for first order scattering</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Mid point correction for first order scattering</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="gasScaleFactor" type="xsd:double" default="8400">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Gas density is proportional to exp[-z/Hg] at altitude z</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Gas density is proportional to exp[-z/Hg] at altitude z</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="courbureTerre" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Plane parallel / spherical atmosphere</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Plane parallel / spherical atmosphere</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="gasOpticalDepth" type="xsd:double" default="0.049">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Optical depth associated to gas scattering only, without absorption</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Optical depth associated to gas scattering only, without absorption</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="a_HG" type="xsd:double" default="0.95">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Multiplicative factor of the Henyey Greenstein phase function</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Multiplicative factor of the Henyey Greenstein phase function</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="aerosolAlbedo" type="xsd:double" default="0.947">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Single scattering albedo. \n1 if no absorption by aerosols.\n0 if no scattering by aerosols </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Single scattering albedo. \n1 if no absorption by aerosols.\n0 if no scattering by aerosols </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="transmittanceOfGases" type="xsd:double" default="0.750">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Transmittance ([0  1]) of an atmosphere made of 100% absorbing gas only</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Transmittance ([0  1]) of an atmosphere made of 100% absorbing gas only</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_TemperatureFile">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="atmosphereTemperatureFileName" type="xsd:string" default="atmosphereTemperature.txt">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> File containing temperature vertical profile; example : \n *number of layers* 2 \n0 300\n80 220\n File necessary only in mode T or T+R</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> File containing temperature vertical profile; example : \n *number of layers* 2 \n0 300\n80 220\n File necessary only in mode T or T+R</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_AtmosphericOpticalPropertyModel">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Atmospheric model</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Atmospheric model</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ignoredGas" type="_ignoredGas" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="OtherGasesScale" type="_OtherGasesScale" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="WaterAmount" type="_WaterAmount" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="tempParameters" type="_tempParameters" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="precipitableWaterAmountCkeckbox" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Define water vapour amount                         </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Define water vapour amount                         </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="databaseName" type="xsd:string" default="dart_atmosphere.db">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Atmospheric database name</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Atmospheric database name</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="correctionBandModel" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Band model correction</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Band model correction</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="temperatureModelName" type="xsd:string" default="USSTD76">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Gas temperature model</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Gas temperature model</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="redefTemperature" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Redefine temperature profile up to 10km</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Redefine temperature profile up to 10km</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="gasModelName" type="xsd:string" default="USSTD76">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Gas model</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Gas model</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="gasGroup" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Same model for gas parameters </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Same model for gas parameters </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="gasCumulativeModelName" type="xsd:string" default="USSTD76">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Gas cumulative model</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Gas cumulative model</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="ignoreGasForExtrapolation" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Gas -- Ignore gas for atmosphere extrapolation</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Gas -- Ignore gas for atmosphere extrapolation</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="co2MixRate" type="xsd:double" default="365.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> CO2 mixing rate</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> CO2 mixing rate</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="scaleOtherGases" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Manually define the amount of other gases</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Manually define the amount of other gases</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_ignoredGas">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Ignored gas</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Ignored gas</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="fillH2O" type="_fillH2O" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="CO2" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> CO2</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> CO2</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="CO" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> CO</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> CO</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="NO" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> NO</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> NO</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="HNO3" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> HNO3</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> HNO3</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="H2O" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> H2O</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> H2O</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="SO2" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> SO2</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> SO2</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="CH4" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> CH4</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> CH4</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="NH3" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> NH3</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> NH3</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="N2O" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> N2O</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> N2O</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="N2" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> N2</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> N2</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="O3" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> O3</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> O3</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="O2" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> O2</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> O2</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="NO2" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> NO2</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> NO2</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_fillH2O">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Fill in defined water vapor profile</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Fill in defined water vapor profile</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="h2oDef" type="_h2oDef" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="ifFillH2O" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Define water vapor parameters at a point</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Define water vapor parameters at a point</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_h2oDef">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Parameters</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Parameters</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="pressure" type="xsd:double" default="1013">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Pressure</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Pressure</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="altitude" type="xsd:double" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Altitude</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Altitude</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="rh" type="xsd:double" default="40">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Relative humidity</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Relative humidity</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="dist" type="xsd:double" default="160">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Distance to calculate reference cross-section</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Distance to calculate reference cross-section</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="temp" type="xsd:double" default="273.15">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Temperature</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Temperature</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_OtherGasesScale">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Multiplicative factors for other gases' amounts</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Multiplicative factors for other gases' amounts</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="n2MulFactor" type="xsd:double" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> N2</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> N2</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="ch4MulFactor" type="xsd:double" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> CH4</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> CH4</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="coMulFactor" type="xsd:double" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> CO</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> CO</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="noMulFactor" type="xsd:double" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> NO</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> NO</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="n2oMulFactor" type="xsd:double" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> N2O</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> N2O</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="o3MulFactor" type="xsd:double" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> O3</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> O3</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="so2MulFactor" type="xsd:double" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> SO2</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> SO2</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="scatMulFactor" type="xsd:double" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Scattering Gases</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Scattering Gases</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="hno3MulFactor" type="xsd:double" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> HNO3</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> HNO3</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="no2MulFactor" type="xsd:double" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> NO2</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> NO2</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="othersMulFactor" type="xsd:double" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Others</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Others</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="nh3MulFactor" type="xsd:double" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> NH3</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> NH3</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="o2MulFactor" type="xsd:double" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> O2</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> O2</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_WaterAmount">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="M_factor" type="_M_factor" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Amount_g_per_cm2" type="_Amount_g_per_cm2" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Amount_atm_cm" type="_Amount_atm_cm" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Density_atm_cm_per_km_altitude" type="_Density_atm_cm_per_km_altitude" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Density_RH_temp_altitude" type="_Density_RH_temp_altitude" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="defWaterAmount" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Definition</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Definition</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_M_factor">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Multiplicative factor</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Multiplicative factor</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="mulFactorH2O" type="xsd:double" default="1.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Multiplicative factor             </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Multiplicative factor             </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Amount_g_per_cm2">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Total amount in g/cm2 </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Total amount in g/cm2 </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="g_per_cm2" type="xsd:double" default="1.41">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Amount               </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Amount               </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Amount_atm_cm">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Total amount in atm-cm </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Total amount in atm-cm </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="atm_cm" type="xsd:double" default="1762.3">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Amount</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Amount</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Density_atm_cm_per_km_altitude">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Density in atm-cm/km </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Density in atm-cm/km </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="altitude" type="xsd:double" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Altitude</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Altitude</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="atm_cm_per_km" type="xsd:double" default="734.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Density </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Density </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Density_RH_temp_altitude">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Density in realtive humidity</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Density in realtive humidity</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="altitude" type="xsd:double" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Altitude</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Altitude</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="rh" type="xsd:double" default="50.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Relative humidity</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Relative humidity</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="temp" type="xsd:double" default="288.15">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Temperature</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Temperature</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_tempParameters">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Temperature at the defined altitude</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Temperature at the defined altitude</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="altitude" type="xsd:double" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Altitude</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Altitude</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="temp" type="xsd:double" default="288.15">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Temperature</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Temperature</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_AtmosphereIterations">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="AtmosphereTransfertFunctions" type="_AtmosphereTransfertFunctions" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="AtmosphereProducts" type="_AtmosphereProducts" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="AtmosphereComponents" type="_AtmosphereComponents" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="AtmosphereExpertModeZone" type="_AtmosphereExpertModeZone" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="_AtmosphereTransfertFunctions">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ComputedTransferFunctions" type="_ComputedTransferFunctions" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="ImportedTransferFunctions" type="_ImportedTransferFunctions" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="inputOutputTransfertFunctions" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Transfer functions file as input (no recomputation)/output</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Transfer functions file as input (no recomputation)/output</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_ComputedTransferFunctions">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="writeTransferFunctions" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Write the computed transfer functions in a file that can be later reused by DART. See option just above.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Write the computed transfer functions in a file that can be later reused by DART. See option just above.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_ImportedTransferFunctions">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="transferFunctionsFile" type="xsd:string" default="atmosphereTransferFunctions.binary">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> (Relative) file path to the precomputed transfer functions. This file can be generated by DART in "on the fly" mode.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> (Relative) file path to the precomputed transfer functions. This file can be generated by DART in "on the fly" mode.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_AtmosphereProducts">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Atmosphere products</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Atmosphere products</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="atmosphereRadiance_BOA_avantCouplage" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> atmosphere radiance BOA before coupling</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> atmosphere radiance BOA before coupling</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="atmosphereRadiance_BOA_apresCouplage" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> atmosphere radiance BOA after coupling</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> atmosphere radiance BOA after coupling</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="ordreUnAtmos" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Order 1 for atmosphere</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Order 1 for atmosphere</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="atmosphereBRF_TOA" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> atmosphere BRF TOA</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> atmosphere BRF TOA</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_AtmosphereComponents">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Atmosphere fluxes used to irradiate BOA scene and compute BOA products are defined here</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Atmosphere fluxes used to irradiate BOA scene and compute BOA products are defined here</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="upwardingFluxes" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> 1) None: TOA, Sensor and BOA irradiance irradiance has no component from Earth surface. \n2) Diffuse: TOA, Sensor and BOA irradiance has 1 component due to the Earth surface: \n -Earth scene reflected/emitted radiation that is scattered by the atmosphere. \n3) Direct: TOA, Sensor and BOA irradiance has 1 component due to the Earth surface: \n -Earth scene reflected/emitted radiation that is directly transmitted by the atmosphere, without absorption and scattering. \n4) Total: TOA, Sensor and BOA irradiance has 2 component due to the Earth surface: \n -Earth scene reflected/emitted radiation that is scattered by the atmosphere.  \n -Earth scene reflected/emitted radiation that is directly transmitted by the atmosphere, without absorption and scattering. </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> 1) None: TOA, Sensor and BOA irradiance irradiance has no component from Earth surface. \n2) Diffuse: TOA, Sensor and BOA irradiance has 1 component due to the Earth surface: \n -Earth scene reflected/emitted radiation that is scattered by the atmosphere. \n3) Direct: TOA, Sensor and BOA irradiance has 1 component due to the Earth surface: \n -Earth scene reflected/emitted radiation that is directly transmitted by the atmosphere, without absorption and scattering. \n4) Total: TOA, Sensor and BOA irradiance has 2 component due to the Earth surface: \n -Earth scene reflected/emitted radiation that is scattered by the atmosphere.  \n -Earth scene reflected/emitted radiation that is directly transmitted by the atmosphere, without absorption and scattering. </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="downwardingFluxes" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> 1) Total: TOA, Sensor and BOA irradiance has 2 components due to downward sun radiation: \n  -Sun radiation that is directly transmitted by the atmosphere , without absorption and scattering. \n  - Direct sun radiation that is scattered by the atmosphere. \n  There can be also atmosphere thermal emission and Earth scene reflected/emitted radiation that is possibly scattered and/or directly transmitted by the atmosphere. \n2) Diffuse: TOA, Sensor and BOA irradiance has 1 components due to downward sun radiation: \n  - Direct sun radiation that is scattered by the atmosphere. \n  There can be also atmosphere thermal emission and Earth scene reflected/emitted radiation that is possibly scattered and/or directly transmitted by the atmosphere.  \n3) Direct:TOA, Sensor and BOA irradiance has 1 components due to downward sun radiation: \n  -Sun radiation that is directly transmitted by the atmosphere , without absorption and scattering. \n  There can be also Earth scene reflected/emitted radiation that is possibly scattered and/or directly transmitted by the atmosphere.  </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> 1) Total: TOA, Sensor and BOA irradiance has 2 components due to downward sun radiation: \n  -Sun radiation that is directly transmitted by the atmosphere , without absorption and scattering. \n  - Direct sun radiation that is scattered by the atmosphere. \n  There can be also atmosphere thermal emission and Earth scene reflected/emitted radiation that is possibly scattered and/or directly transmitted by the atmosphere. \n2) Diffuse: TOA, Sensor and BOA irradiance has 1 components due to downward sun radiation: \n  - Direct sun radiation that is scattered by the atmosphere. \n  There can be also atmosphere thermal emission and Earth scene reflected/emitted radiation that is possibly scattered and/or directly transmitted by the atmosphere.  \n3) Direct:TOA, Sensor and BOA irradiance has 1 components due to downward sun radiation: \n  -Sun radiation that is directly transmitted by the atmosphere , without absorption and scattering. \n  There can be also Earth scene reflected/emitted radiation that is possibly scattered and/or directly transmitted by the atmosphere.  </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_AtmosphereExpertModeZone">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="threshold_Atmos_scattering" type="xsd:double" default="0.0001">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Scattering threshold for irradiation and for transfer function                          </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Scattering threshold for irradiation and for transfer function                          </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="number_iterationMax" type="xsd:int" default="100">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Maximum scattering iteration number</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Maximum scattering iteration number</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="extrapol_atmos" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Extrapolation over the 3 last iterations at BOA, TOA and Sensor level for illumination computation</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Extrapolation over the 3 last iterations at BOA, TOA and Sensor level for illumination computation</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_AtmosphereGeometry">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> AtmosphereGeometry</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> AtmosphereGeometry</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="discretisationAtmosAuto" type="_discretisationAtmosAuto" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="MidAtmosphere" type="_MidAtmosphere" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="UpperAtmosphere" type="_UpperAtmosphere" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="minimumNumberOfDivisions" type="xsd:int" default="4">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Number of integration division for aerosol phase function</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Number of integration division for aerosol phase function</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="discretisationAtmos" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> If "Automatic", the layers number depends on total optical depth of the first spectral band</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> If "Automatic", the layers number depends on total optical depth of the first spectral band</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="heightOfSensor" type="xsd:double" default="3000">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> With the -atmosphere RT + sensor- options, the Sensor layer altitude is used to compute atmosphere upward transmittance and path radiance from the Earth scene to the sensor. </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> With the -atmosphere RT + sensor- options, the Sensor layer altitude is used to compute atmosphere upward transmittance and path radiance from the Earth scene to the sensor. </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_discretisationAtmosAuto">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="epsilon_atmos" type="xsd:double" default="0.003">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Theoretical relative error on TOA reflectance to be found, resulting of atmosphere discretisation</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Theoretical relative error on TOA reflectance to be found, resulting of atmosphere discretisation</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="xAI" type="xsd:double" default="400.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Dimension in x of the MA cells\nAdvice: Smaller cell dimensions and layer depth increase accuracy and computation time\n Better and faster results if the number of BA cells is a multiple of the number of MA cells (on x and y)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Dimension in x of the MA cells\nAdvice: Smaller cell dimensions and layer depth increase accuracy and computation time\n Better and faster results if the number of BA cells is a multiple of the number of MA cells (on x and y)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="gamma_atmos" type="xsd:double" default="0.95">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> percentage of MA contribution on BOA reflectance (for backscattering)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> percentage of MA contribution on BOA reflectance (for backscattering)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="yAI" type="xsd:double" default="400.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Dimension in y of the MA cells\nAdvice: Smaller cell dimensions and layer depth increase accuracy and computation time\n Better and faster results if the number of BA cells is a multiple of the number of MA cells (on x and y)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Dimension in y of the MA cells\nAdvice: Smaller cell dimensions and layer depth increase accuracy and computation time\n Better and faster results if the number of BA cells is a multiple of the number of MA cells (on x and y)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_MidAtmosphere">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CellDimensions" type="_CellDimensions" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Height" type="_Height" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="_CellDimensions">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="xAI" type="xsd:double" default="100.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Dimension in x of the MA cells\nAdvice: Smaller cell dimensions and layer depth increase accuracy and computation time\n Better and faster results if the number of BA cells is a multiple of the number of MA cells (on x and y)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Dimension in x of the MA cells\nAdvice: Smaller cell dimensions and layer depth increase accuracy and computation time\n Better and faster results if the number of BA cells is a multiple of the number of MA cells (on x and y)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="yAI" type="xsd:double" default="100.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Dimension in y of the MA cells\nAdvice: Smaller cell dimensions and layer depth increase accuracy and computation time\n Better and faster results if the number of BA cells is a multiple of the number of MA cells (on x and y)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Dimension in y of the MA cells\nAdvice: Smaller cell dimensions and layer depth increase accuracy and computation time\n Better and faster results if the number of BA cells is a multiple of the number of MA cells (on x and y)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="zAI" type="xsd:double" default="500.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Dimension in z of the MA cells\nAdvice: Smaller cell dimensions and layer depth increase accuracy and computation time</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Dimension in z of the MA cells\nAdvice: Smaller cell dimensions and layer depth increase accuracy and computation time</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Height">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="hCFAI" type="xsd:double" default="4000.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Number of MA layers </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Number of MA layers </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_UpperAtmosphere">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Layer" type="_Layer" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="hCFHA" type="xsd:double" default="80000.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> smaller computer times.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> smaller computer times.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Layer">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="zHA" type="xsd:double" default="2000.0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> smaller computer times.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> smaller computer times.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+</xsd:schema>

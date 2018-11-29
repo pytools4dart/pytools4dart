@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="DARTXmlDoc.xsl" type="text/xsl"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<!-- Element racine -->
+	<xsd:annotation>
+		<xsd:appinfo>Fichier water.xsd -- version 5.7.1</xsd:appinfo> 
+		<xsd:documentation xml:lang = "en"> water</xsd:documentation> 
+		<xsd:documentation xml:lang = "fr"> water</xsd:documentation>
+	</xsd:annotation>
+
+	<xsd:element name="DartFile">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+	<xsd:complexType>
+		<xsd:sequence>
+			<xsd:element name="Water" type="_Water" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="version" type="xsd:string" default="5.7.1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Version of the plots.xml file. Depends of the version on DART itself.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Version of the plots.xml file. Depends of the version on DART itself.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="build" type="xsd:string" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+	</xsd:element>
+
+	<xsd:complexType name="_Water">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Water</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Water</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Lakes" type="_Lakes" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Rivers" type="_Rivers" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="waterPriorityOnTrees" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Water "scratches/replaces" trees </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Water "scratches/replaces" trees </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="waterPriorityOnPlots" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Water "scratches/replaces" plots </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Water "scratches/replaces" plots </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Lakes">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Lakes</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Lakes</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Lake" type="_Lake" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Lake">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Lake</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Lake</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Ellipse2D" type="_Ellipse2D" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="OpticalPropertyLink" type="_OpticalPropertyLink" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="ThermalPropertyLink" type="_ThermalPropertyLink" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="hidden" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> If you select this option, this lake are not use in all DART modules, \n it's useful if you want conserve lake properties backup without delete this for tests</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> If you select this option, this lake are not use in all DART modules, \n it's useful if you want conserve lake properties backup without delete this for tests</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="isDisplayed" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Objects's positions are taken from the position file.\nDesactivate this option if you experience some slowdown.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Objects's positions are taken from the position file.\nDesactivate this option if you experience some slowdown.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Ellipse2D">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Ellipse2D</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Ellipse2D</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Point2D" type="_Point2D" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="HalfAxes" type="_HalfAxes" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Point2D">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Point2D</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Point2D</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="y" type="xsd:double" default="30.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> y coordinate of the center of the ellipse that simulates the lake</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> y coordinate of the center of the ellipse that simulates the lake</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="x" type="xsd:double" default="10.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> x coordinate of the center of the ellipse that simulates the lake</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> x coordinate of the center of the ellipse that simulates the lake</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_HalfAxes">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> HalfAxes</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> HalfAxes</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="y" type="xsd:double" default="7.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Length (m) along y of the half axis of the ellipse that simulates the lake</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Length (m) along y of the half axis of the ellipse that simulates the lake</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="x" type="xsd:double" default="9.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Length (m) along x of the half axis of the ellipse that simulates the lake</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Length (m) along x of the half axis of the ellipse that simulates the lake</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_OpticalPropertyLink">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> OpticalPropertyLink</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> OpticalPropertyLink</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="indexFctPhase" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Index of the DART phase function of the ground of the plot.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Index of the DART phase function of the ground of the plot.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="ident" type="xsd:string" default="f0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> proportion of photons intercepted along an incident direction that are scattered within a solid angle along a given direction</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> proportion of photons intercepted along an incident direction that are scattered within a solid angle along a given direction</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="type" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Type of phase function (lambertian, etc.). Water is an opaque surface. </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Type of phase function (lambertian, etc.). Water is an opaque surface. </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_ThermalPropertyLink">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> ThermalPropertyLink</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> ThermalPropertyLink</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="indexTemperature" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> indexTemperature</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> indexTemperature</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="idTemperature" type="xsd:string" default="ThermalFunction290_310">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Thermal Function ID</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Thermal Function ID</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Rivers">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Rivers</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Rivers</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="River" type="_River" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="_River">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> River</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> River</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Path2D" type="_Path2D" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="OpticalPropertyLink" type="_OpticalPropertyLink" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="ThermalPropertyLink" type="_ThermalPropertyLink" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="hidden" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> If you select this option, this river are not use in all DART modules, \n it's useful if you want conserve river properties backup without delete this for tests</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> If you select this option, this river are not use in all DART modules, \n it's useful if you want conserve river properties backup without delete this for tests</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="isDisplayed" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Objects's positions are taken from the position file.\nDesactivate this option if you experience some slowdown.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Objects's positions are taken from the position file.\nDesactivate this option if you experience some slowdown.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Path2D">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Path2D</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Path2D</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Point2D" type="_Point2D" minOccurs="2" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="width" type="xsd:double" default="1.50">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> interpolation).</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> interpolation).</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+</xsd:schema>
