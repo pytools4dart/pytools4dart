@@ -85,7 +85,7 @@ plot_form_inv_dict = {"polygon": 0, "rectangle": 1}
 class simulation(object):
     """Simulation object corresponding to a DART simulation.
     It allows for storing and editing parameters, and running simulation
-    xsdobjs_dict: contains objects built according to XSD modules specification, access is given through a key which matches with XSDfile name
+    xsd_core: contains objects built according to XSD modules specification, access is given through a key which matches with XSDfile name
                 if the simulation whose name can be given as parameter exists, xsdobjs_dic is populated with simulation XML files contents
     properties_dict: dictionnary containing "opt_props" and "thermal_props" DataFrames, "opt_props" provides a DataFrame for each opt property type
     bands: DataFrame containing a list of [wvl, dl] couples
@@ -97,14 +97,14 @@ class simulation(object):
         """
         self.name = name
 
-        self.xsd_core = {} #xsdobjs_dict contains objects built according to XSD modules specification
+        self.xsd_core = {} #xsd_core contains objects built according to XSD modules specification
         modulenames_list = self.get_xmlfile_names(pjoin(os.path.dirname(os.path.realpath(__file__)), "templates"))#["plots", "phase", "atmosphere", "coeff_diff", "directions", "object_3d","maket","inversion","trees","water","urban"]
         for modname in modulenames_list:
             self.xsd_core[modname] = eval('ptd.xsdschema.{}.createDartFile()'.format(modname))
         for xsdobj in self.xsd_core.values():
             xsdobj.factory()
 
-        #if the simulation exists, populate xsdobjs_dict with simulation XML files contents
+        #if the simulation exists, populate xsd_core with simulation XML files contents
         if name != None and os.path.isdir(self.getsimupath()): # if name != None and dir doesnt exist, create Dir?
             self.load()
 
@@ -133,7 +133,7 @@ class simulation(object):
 
     def load(self):
         """
-        Populate XSD Objects contained in xsdobjs_dict according to DART XML input files contents
+        Populate XSD Objects contained in xsd_core according to DART XML input files contents
         Update properties, sp_bands and plots tables after population of xsdobjs
         """
         xml_files_paths_list = glob.glob(self.getinputsimupath() + "/*.xml")
@@ -154,19 +154,19 @@ class simulation(object):
         #Following files are not to be read as input files, they are created when running a sequence or by maket DART module
 
         # if "LUT" in self.xml_root_nodes_dict.keys():
-        #     self.xsdobjs_dict["LUT"] = LUTRoot()
-        #     self.xsdobjs_dict["LUT"].factory()
-        #     self.xsdobjs_dict["LUT"].build(self.xml_root_nodes_dict["LUT"])
+        #     self.xsd_core["LUT"] = LUTRoot()
+        #     self.xsd_core["LUT"].factory()
+        #     self.xsd_core["LUT"].build(self.xml_root_nodes_dict["LUT"])
         #
         # if "lut" in self.xml_root_nodes_dict.keys():
-        #     self.xsdobjs_dict["lut"] = lutRoot()
-        #     self.xsdobjs_dict["lut"].factory()
-        #     self.xsdobjs_dict["lut"].build(self.xml_root_nodes_dict["lut"])
+        #     self.xsd_core["lut"] = lutRoot()
+        #     self.xsd_core["lut"].factory()
+        #     self.xsd_core["lut"].build(self.xml_root_nodes_dict["lut"])
         #
         # if "triangleFile" in self.xml_root_nodes_dict.keys():
-        #     self.xsdobjs_dict["triangleFile"] = TriangleFileRoot()
-        #     self.xsdobjs_dict["triangleFile"].factory()
-        #     self.xsdobjs_dict["triangleFile"].build(self.xml_root_nodes_dict["triangleFile"])
+        #     self.xsd_core["triangleFile"] = TriangleFileRoot()
+        #     self.xsd_core["triangleFile"].factory()
+        #     self.xsd_core["triangleFile"].build(self.xml_root_nodes_dict["triangleFile"])
 
         self.update_tables_from_objs()
         self.update_properties_dict()
@@ -514,7 +514,7 @@ class simulation(object):
     def check_plots_txt_props(self):
         """
         check if optical/thermal properties indexes given in plots.txt exist in properties lists
-        WARNING: this method must not be called if self.xsdobjs_dict["plots"].Plots.addExtraPlotsTextFile != 1:
+        WARNING: this method must not be called if self.xsd_core["plots"].Plots.addExtraPlotsTextFile != 1:
         :return:
         """
         self.update_properties_dict()
@@ -644,7 +644,7 @@ class simulation(object):
             opt_props["fluid"] = pd.DataFrame(columns=opt_props_DF_cols)
 
         for listnode_path in listnodes_paths:
-            props_list = eval('self.xsdobjs_dict["coeff_diff"].Coeff_diff.{}'.format(listnode_path[1]))
+            props_list = eval('self.xsd_core["coeff_diff"].Coeff_diff.{}'.format(listnode_path[1]))
             prop_index_list = []
             prop_name_list = []
             for i, prop in enumerate(props_list):
@@ -806,7 +806,7 @@ class simulation(object):
 
         opt_prop_types = ["vegetation", "fluid", "lambertian", "hapke", "rpv"]
         for opt_prop_type in opt_prop_types:
-            opt_props_list = eval( 'self.xsdobjs_dict["coeff_diff"].Coeff_diff.{}'.format(optproplists_xmlpaths_dict[opt_prop_type]) )
+            opt_props_list = eval( 'self.xsd_core["coeff_diff"].Coeff_diff.{}'.format(optproplists_xmlpaths_dict[opt_prop_type]) )
             for opt_prop in opt_props_list:
                 if opt_prop.useMultiplicativeFactorForLUT == 1:
                     coeff_spbands_nb = eval( 'len(opt_prop.{})'.format(multfactors_xmlpaths_dict[opt_prop_type]) )

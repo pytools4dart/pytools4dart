@@ -2,7 +2,7 @@ from pytools4dart.simulation import simulation
 
 simu = simulation()
 
-simu.xsdobjs_dict["maket"].Maket.Soil.OpticalPropertyLink.ident = "totoOptProp"
+simu.xsd_core["maket"].Maket.Soil.OpticalPropertyLink.ident = "totoOptProp"
 
 check =  simu.check_scene_props()
 
