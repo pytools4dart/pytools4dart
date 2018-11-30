@@ -5,9 +5,9 @@ simu = simulation()
 #simu.add_opt_property("vegetation","vegprop1")
 
 # simu.add_opt_property("lambertian","Lambertian_Phase_Function_1")
-check = simu.add_plot(createProps = True)
+check = simu.add.add_plot(createProps = True)
 
-simu.check_module_dependencies()
+simu.checker.check_module_dependencies()
 simu.write(modified_simu_name="test_newSimu_XSD", overwrite=True)
 
 simu2 = simulation("test_newSimu_XSD")
@@ -28,8 +28,8 @@ plot_params_list = [
 #     for param in plot_params_list:
 #         plots_dict[field] = param[i]
 
-simu.add_multiplots(plot_params_list)
-simu.check_module_dependencies()
+simu.add.add_multiplots(plot_params_list)
+simu.checker.check_module_dependencies()
 
 simu.write(modified_simu_name="test_newSimu_XSD_addMultiplots", overwrite=True)
 

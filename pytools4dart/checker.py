@@ -29,7 +29,7 @@ This module contains the class "Checker".
 
 import pandas as pd
 
-from pytools4dart.simulation import grd_opt_prop_types_dict
+from pytools4dart.helpers.constants import *
 
 class Checker(object):
 
@@ -53,7 +53,7 @@ class Checker(object):
                     False if one or several checks are not satisfied
         """
         print ("checking module dependencies")
-        check1 = self.check_and_correct_sp_bands()
+        check1 = self.simu.add.check_and_correct_sp_bands()
         check2 = self.check_properties_indexes()
         if (check1 and check2):
             print("Module Dependencies OK")
@@ -402,7 +402,7 @@ class Checker(object):
                 crown_opt_prop_link = crown_prop.OpticalPropertyLink
                 crown_th_prop_link = crown_prop.ThermalPropertyLink
                 crown_veg_prop_link = crown_prop.VegetationProperty.VegetationOpticalPropertyLink
-                crown_veg_th_link = crown_prop.Vegeget_opt_prop_intationProperty.ThermalPropertyLink
+                crown_veg_th_link = crown_prop.VegetationProperty.ThermalPropertyLink
                 crown_opt_idx = self.simu.get_opt_prop_index(grd_opt_prop_types_dict[crown_opt_prop_link.type_] ,crown_opt_prop_link.ident)
                 crown_th_idx = self.simu.get_thermal_prop_index(crown_th_prop_link.idTemperature)
                 crown_veg_opt_idx = self.simu.get_opt_prop_index("vegetation" ,crown_veg_prop_link.ident)

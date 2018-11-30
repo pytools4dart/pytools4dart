@@ -38,7 +38,7 @@ specie2_dict = {
 species_list.append(specie1_dict)
 species_list.append(specie2_dict)
 
-simu.add_treestxtfile_reference(src_file_path=src_file_path, species_list=species_list, createProps= True)
+simu.add.add_treestxtfile_reference(src_file_path=src_file_path, species_list=species_list, createProps= True)
 
 simu.write(modified_simu_name ="test_newSimuWithTrees", overwrite=True)
 

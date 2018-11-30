@@ -15,13 +15,13 @@ sp_band_list = [[0.7, 0.02],
 
 simu.add_sp_bands(sp_band_list) #phase
 
-simu.check_and_correct_sp_bands() # --> warnings and correction of coeff_diff
+simu.add.check_and_correct_sp_bands() # --> warnings and correction of coeff_diff
 
-simu.add_sp_bands_uf(sp_band_list) #phase and coeff_diff
+simu.add.add_sp_bands_uf(sp_band_list) #phase and coeff_diff
 
 #simu.check_and_correct_sp_bands() #no warning
 
-check = simu.check_module_dependencies()  #includes check_and_correct_sp_bands and check_properties_indexes
+check = simu.checker.check_module_dependencies()  #includes check_and_correct_sp_bands and check_properties_indexes
 
 simu.write(modified_simu_name ="test_newSimu_Plus3bands", overwrite=True)
 
@@ -30,9 +30,9 @@ simu2 = simulation("test_newSimu_Plus3bands")
 #simu2.runners.full() #---> OK
 
 
-add_plot_ok = simu2.add_plot(plot_type="ground", plot_form="polygon", plot_opt_prop_name=None, plot_therm_prop_name=None,grd_opt_prop_type="lambertian",grd_opt_prop_name="lambertianprop1",grd_therm_prop_name="thermprop1",createProps=True)
+add_plot_ok = simu2.add.add_plot(plot_type="ground", plot_form="polygon", plot_opt_prop_name=None, plot_therm_prop_name=None,grd_opt_prop_type="lambertian",grd_opt_prop_name="lambertianprop1",grd_therm_prop_name="thermprop1",createProps=True)
 
-simu2.check_module_dependencies()
+simu2.checker.check_module_dependencies()
 
 simu2.write(modified_simu_name="test_newSimu_Plus3bands_Plus1Plot", overwrite=True)
 

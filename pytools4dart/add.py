@@ -29,7 +29,7 @@ This module contains the class "Adds".
 
 import pytools4dart as ptd
 
-from pytools4dart.simulation import plot_types_inv_dict, plot_form_inv_dict, grd_opt_prop_types_inv_dict, grd_opt_prop_types_dict
+from pytools4dart.helpers.constants import *
 
 
 class Add(object):
@@ -256,9 +256,9 @@ class Add(object):
             elif opt_prop_type == "fluid":
                 airFunction = ptd.coeff_diff.create_AirFunction(ident = opt_prop_name)
                 for i in range(nb_sp_bands):
-                    airFunction.airFunctionNodeMultiplicativeFactorForLUT.add_airFunctionMultiplicativeFactorForLUT(
+                    airFunction.AirFunctionNodeMultiplicativeFactorForLut.add_airFunctionMultiplicativeFactorForLUT(
                         ptd.coeff_diff.create_AirFunctionMultiplicativeFactorForLut())
-                self.simu.core.xsdobjs["coeff_diff"].Coeff_diff.AirMultiFunctions.add_AirFuntion(airFunction)
+                self.simu.core.xsdobjs["coeff_diff"].Coeff_diff.AirMultiFunctions.add_AirFunction(airFunction)
             elif opt_prop_type == "lambertian":
                 lambertianMulti = ptd.coeff_diff.create_LambertianMulti(ident = opt_prop_name)
                 for i in range(nb_sp_bands):

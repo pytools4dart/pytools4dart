@@ -32,7 +32,9 @@ import lxml.etree as etree
 import pandas as pd
 from os.path import join as pjoin
 
-from pytools4dart.simulation import spbands_fields, plot_form_inv_dict
+import pytools4dart as ptd
+
+from pytools4dart.helpers.constants import *
 
 from pytools4dart.xsdschema.plots import createDartFile
 from pytools4dart.xsdschema.phase import createDartFile
@@ -63,7 +65,7 @@ class Core(object):
         if simu.name != None and os.path.isdir(self.simu.getsimupath()): # if name != None and dir doesnt exist, create Dir?
             self.load()
 
-        self.update()
+        #self.update()
 
     def update(self):
         self.simu.scene.properties = self.extract_properties_dict()  # dictionnary containing "opt_props" and "thermal_props" DataFrames
@@ -229,7 +231,7 @@ class Core(object):
         """
         updates self.properties_dict variable
         """
-        self.properties = self.extract_properties_dict()
+        self.simu.scene.properties = self.extract_properties_dict()
 
     def extract_properties_dict(self):
         return {"opt_props": self.get_opt_props(), "thermal_props": self.get_thermal_props()}
@@ -285,7 +287,7 @@ class Core(object):
             opt_props["fluid"] = pd.DataFrame(columns=opt_props_DF_cols)
 
         for listnode_path in listnodes_paths:
-            props_list = eval('self.xsd_core["coeff_diff"].Coeff_diff.{}'.format(listnode_path[1]))
+            props_list = eval('self.xsdobjs["coeff_diff"].Coeff_diff.{}'.format(listnode_path[1]))
             prop_index_list = []
             prop_name_list = []
             for i, prop in enumerate(props_list):

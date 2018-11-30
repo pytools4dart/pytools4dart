@@ -18,7 +18,7 @@ print('elapsed time 1 = {}'.format(toc - tic))
 simu = simulation()
 tic=timeit.default_timer()
 for i in range(100):
-    simu.add_plot(createProps = True)
+    simu.add.add_plot(createProps = True)
 toc = timeit.default_timer()
 print('elapsed time2 = {}'.format(toc - tic))
 
