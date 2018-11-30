@@ -65,8 +65,6 @@ class Core(object):
         if simu.name != None and os.path.isdir(self.simu.getsimupath()): # if name != None and dir doesnt exist, create Dir?
             self.load()
 
-        #self.update()
-
     def update(self):
         self.simu.scene.properties = self.extract_properties_dict()  # dictionnary containing "opt_props" and "thermal_props" DataFrames
         self.simu.scene.plots = self.extract_plots_full_table()  # DataFrame containing Plots fields according to DART Plot.txt header*

@@ -24,7 +24,7 @@
 #
 # ===============================================================================
 """
-This module contains the class "simulationXSD".
+This module contains the class "simulation".
 This class corresponds to the python object version of DART configuration XML files contents, according to XSDs schemes provided
 
 The aim of this module is to provide
@@ -235,22 +235,13 @@ class simulation(object):
         :return:
         """
         opt_prop = None
-        opt_props_list = grd_opt_prop_types_inv_dict.keys()
-        opt_props_list.append("vegetation")
-        opt_props_list.append("fluid")
-        if not (opt_prop_type in opt_props_list):
+
+        opt_props_list = self.get_opt_props_xmlpaths_dict
+        opt_prop_types = opt_props_list.keys()
+        if not (opt_prop_type in opt_prop_types):
             raise Exception("optical property type not valid")
 
-        if opt_prop_type == "vegetation":
-            opt_prop = ptd.coeff_diff.create_UnderstoryMulti()
-        if opt_prop_type == "lambertian":
-            opt_prop = ptd.coeff_diff.create_LambertianMulti()
-        if opt_prop_type == "hapke":
-            opt_prop = ptd.coeff_diff.create_HapkeSpecularMulti()
-        if opt_prop_type == "rpv":
-            opt_prop = ptd.coeff_diff.create_RPVMulti()
-        if opt_prop_type == "fluid":
-            opt_prop = ptd.coeff_diff.create_AirFunction()
+        opt_prop = eval('ptd.coeff_diff.create_{}()'.format( opt_props_list[opt_prop_type].split(".")[1] ))
 
         return opt_prop
 

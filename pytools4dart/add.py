@@ -247,41 +247,25 @@ class Add(object):
         self.simu.core.extract_sp_bands_table()
         nb_sp_bands = self.simu.bands.shape[0]
         if self.simu.get_opt_prop_index(opt_prop_type, opt_prop_name) == None: # if oprtical property does not exist, create
-            if opt_prop_type == "vegetation":
-                understoryMulti = ptd.coeff_diff.create_UnderstoryMulti(ident = opt_prop_name)
-                for i in range(nb_sp_bands):
-                    understoryMulti.understoryNodeMultiplicativeFactorForLUT.add_understoryMultiplicativeFactorForLUT(
-                        ptd.coeff_diff.create_understoryMultiplicativeFactorForLUT())
-                self.simu.core.xsdobjs["coeff_diff"].Coeff_diff.UnderstoryMultiFunctions.add_UnderstoryMulti(understoryMulti)
-            elif opt_prop_type == "fluid":
-                airFunction = ptd.coeff_diff.create_AirFunction(ident = opt_prop_name)
-                for i in range(nb_sp_bands):
-                    airFunction.AirFunctionNodeMultiplicativeFactorForLut.add_airFunctionMultiplicativeFactorForLUT(
-                        ptd.coeff_diff.create_AirFunctionMultiplicativeFactorForLut())
-                self.simu.core.xsdobjs["coeff_diff"].Coeff_diff.AirMultiFunctions.add_AirFunction(airFunction)
-            elif opt_prop_type == "lambertian":
-                lambertianMulti = ptd.coeff_diff.create_LambertianMulti(ident = opt_prop_name)
-                for i in range(nb_sp_bands):
-                    lambertianMulti.lambertianNodeMultiplicativeFactorForLUT.add_lambertianMultiplicativeFactorForLUT(
-                        ptd.coeff_diff.create_lambertianMultiplicativeFactorForLUT())
-                self.simu.core.xsdobjs["coeff_diff"].Coeff_diff.LambertianMultiFunctions.add_LambertianMulti(lambertianMulti)
-            elif opt_prop_type == "hapke":
-                hapkeSpecMulti = ptd.coeff_diff.create_HapkeSpecularMulti(ident = opt_prop_name)
-                for i in range(nb_sp_bands):
-                    hapkeSpecMulti.hapkeNodeMultiplicativeFactorForLUT.add_hapkeMultiplicativeFactorForLUT(
-                        ptd.coeff_diff.create_hapkeMultiplicativeFactorForLUT())
-                self.simu.core.xsdobjs["coeff_diff"].Coeff_diff.HapkeSpecularMultiFunctions.add_HapkeSpecularMulti(hapkeSpecMulti)
-            elif opt_prop_type == "rpv":
-                rpvMulti = ptd.coeff_diff.create_RPVMulti(ident = opt_prop_name)
-                for i in range(nb_sp_bands):
-                    rpvMulti.RPVNodeMultiplicativeFactorForLUT.add_RPVMultiplicativeFactorForLUT(
-                        ptd.coeff_diff.create_RPVMultiplicativeFactorForLUT())
-                self.simu.core.xsdobjs["coeff_diff"].Coeff_diff.RPVMultiFunctions.add_RPVMulti(rpvMulti)
+            #optproplists_xmlpaths_dict[opt_prop_type])
+            optproplists_xmlpaths_dict = self.simu.get_opt_props_xmlpaths_dict()
+            multfactors_xmlpaths_dict = self.simu.get_multfacts_xmlpaths_dict()
+
+            optproplist_xmlpath = optproplists_xmlpaths_dict[opt_prop_type]
+            multfactor_xmlpath = multfactors_xmlpaths_dict[opt_prop_type]
+
+            prop = eval('ptd.coeff_diff.create_{}(ident = opt_prop_name)'.format(optproplist_xmlpath.split(".")[1]))
+            for i in range(nb_sp_bands):
+                eval('prop.{}.add_{}(ptd.coeff_diff.create_{}())'.format(multfactor_xmlpath.split(".")[0],
+                                                                     multfactor_xmlpath.split(".")[1],
+                                                                       multfactor_xmlpath.split(".")[1]))
+            eval('self.simu.core.xsdobjs["coeff_diff"].Coeff_diff.{}.add_{}(prop)'.format(optproplist_xmlpath.split(".")[0],
+                                                                                          optproplist_xmlpath.split(".")[1]))
+
             self.simu.core.update_properties_dict()
         else: # opt_property having name opt_prop_name already exists
             #print("ERROR: optical property of type %s named %s already exists, please change name" % (opt_prop_type, opt_prop_name))
             raise Exception("ERROR: optical property of type %s named %s already exists, please change name" % (opt_prop_type, opt_prop_name))
-
 
     def add_th_property(self, th_prop_name):
         """
