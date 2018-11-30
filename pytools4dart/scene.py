@@ -36,16 +36,48 @@ class Scene(object):
         self.plots = pd.DataFrame()
         self.trees = pd.DataFrame()
         self.obj3d = pd.DataFrame()
-        dimensions = []
-        resolution = []
+        self.update_dims()
+        # self.scene_dimensions = [self.simu.core.xsdobjs["maket"].Maket.Scene.SceneDimensions.x, self.simu.core.xsdobjs["maket"].Maket.Scene.SceneDimensions.y]
+        # self.cell_dimensions = [self.simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions.x, self.simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions.z]
 
     def update_xsdobjs(self):
-        print("ToBe Done")
+        print("ToBe Done: update des objets à partir des tables")
+
+    def update_dims(self):
+        self.update_scene_dims()
+        self.update_cell_dims()
+
+    def update_scene_dims(self):
+        self.scene_dimensions = [self.simu.core.xsdobjs["maket"].Maket.Scene.SceneDimensions.x,
+                                 self.simu.core.xsdobjs["maket"].Maket.Scene.SceneDimensions.y]
+
+    def update_cell_dims(self):
+        self.cell_dimensions = [self.simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions.x,
+                                self.simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions.z]
 
     def update_properties_dict(self):
         """
         updates self.properties_dict variable
         """
         self.properties = self.extract_properties_dict()
+
+    def set_scene_dims(self, scene_dims):
+        x = scene_dims[0]
+        y = scene_dims[1]
+
+        self.simu.core.xsdobjs["maket"].Maket.Scene.SceneDimensions.x = x
+        self.simu.core.xsdobjs["maket"].Maket.Scene.SceneDimensions.y = y
+
+        self.update_scene_dims()
+
+
+    def set_cell_dims(self, cell_dims):
+        x = cell_dims[0]
+        z = cell_dims[1]
+
+        self.simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions.x = x
+        self.simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions.z = z
+
+        self.update_cell_dims()
 
 

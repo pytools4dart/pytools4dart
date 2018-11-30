@@ -63,6 +63,8 @@ from pytools4dart.core import Core
 from pytools4dart.scene import Scene
 from pytools4dart.checker import Checker
 from pytools4dart.add import Add
+from pytools4dart.acquisition import Acquisition
+from pytools4dart.source import Source
 
 class simulation(object):
     """Simulation object corresponding to a DART simulation.
@@ -82,17 +84,17 @@ class simulation(object):
 
         self.scene = Scene(self)
 
+        self.acquisition = Acquisition(self)
+
+        self.source = Source(self)
+
         self.checker = Checker(self)
 
-        self.core.update()
-
-        self.bands = self.core.extract_sp_bands_table() # DataFrame containing a list of [wvl, dl] couples
-        #ToDo self.acquisition = Acquisition(self), avec Acquisition = sensor, virtual dirs, bands
-        #ToDo self.source = Source(self) , avec Source = energySourcePosition
-
-        #runners:
         self.run = run.runners(self)
+
         self.add = Add(self)
+
+        self.core.update()
 
     def getsimupath(self):
         """
