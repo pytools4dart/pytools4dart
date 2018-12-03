@@ -29,6 +29,6 @@ from simulationWhispers import simulation
 from helpers import voxreader, hstools, dbtools
 import run
 import xmlwriters
-from xsdschema import plots, plots_gdsCL, phase, coeff_diff, object_3d, trees, directions
+from core_ui import plots, plots_gdsCL, phase, coeff_diff, object_3d, trees, directions, inversion, atmosphere, maket, urban, water
 
 

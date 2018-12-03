@@ -13,14 +13,14 @@
 #   ('--post-attrib-setter', 'update_node(self,self.troot,"trees")')
 #   ('--pre-ctor', 'self.troot=get_gs_troot("trees","{classname}")')
 #   ('--post-ctor', 'update_node(self,self.troot,"trees")')
-#   ('--imports', 'from pytools4dart.xsdschema.utils import get_gs_troot, update_node')
+#   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node')
 #   ('-o', '/home/claudia/tmp/trees.py')
 #
 # Command line arguments:
-#   /home/claudia/DEV/pytools4dartMTD/pytools4dart/xsdschema/trees.xsd
+#   /home/claudia/DEV/pytools4dartMTD/pytools4dart/core_ui/trees.xsd
 #
 # Command line:
-#   /home/claudia/DEV/pytools4dartMTD/venv/bin/generateDS.py -m --always-export-default --export="write literal etree" -p "create" --post-attrib-setter="update_node(self,self.troot,"trees")" --pre-ctor="self.troot=get_gs_troot("trees","{classname}")" --post-ctor="update_node(self,self.troot,"trees")" --imports="from pytools4dart.xsdschema.utils import get_gs_troot, update_node" -o "/home/claudia/tmp/trees.py" /home/claudia/DEV/pytools4dartMTD/pytools4dart/xsdschema/trees.xsd
+#   /home/claudia/DEV/pytools4dartMTD/venv/bin/generateDS.py -m --always-export-default --export="write literal etree" -p "create" --post-attrib-setter="update_node(self,self.troot,"trees")" --pre-ctor="self.troot=get_gs_troot("trees","{classname}")" --post-ctor="update_node(self,self.troot,"trees")" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node" -o "/home/claudia/tmp/trees.py" /home/claudia/DEV/pytools4dartMTD/pytools4dart/core_ui/trees.xsd
 #
 # Current working directory (os.getcwd()):
 #   generateds
@@ -35,7 +35,7 @@ try:
     from lxml import etree as etree_
 except ImportError:
     from xml.etree import ElementTree as etree_
-from pytools4dart.xsdschema.utils import get_gs_troot, update_node
+from pytools4dart.core_ui.utils import get_gs_troot, update_node
 
 
 Validate_simpletypes_ = True

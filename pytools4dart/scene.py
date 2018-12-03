@@ -44,14 +44,14 @@ class Scene(object):
         print("ToBe Done: update des objets à partir des tables")
 
     def update_dims(self):
-        self.update_scene_dims()
-        self.update_cell_dims()
+        self.update_scene_size()
+        self.update_cell_size()
 
-    def update_scene_dims(self):
+    def update_scene_size(self):
         self.scene_dimensions = [self.simu.core.xsdobjs["maket"].Maket.Scene.SceneDimensions.x,
                                  self.simu.core.xsdobjs["maket"].Maket.Scene.SceneDimensions.y]
 
-    def update_cell_dims(self):
+    def update_cell_size(self):
         self.cell_dimensions = [self.simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions.x,
                                 self.simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions.z]
 
@@ -59,25 +59,25 @@ class Scene(object):
         """
         updates self.properties_dict variable
         """
-        self.properties = self.extract_properties_dict()
+        self.properties = self.simu.core.extract_properties_dict()
 
-    def set_scene_dims(self, scene_dims):
-        x = scene_dims[0]
-        y = scene_dims[1]
+    def set_scene_dims(self, scene_size):
+        x = scene_size[0]
+        y = scene_size[1]
 
         self.simu.core.xsdobjs["maket"].Maket.Scene.SceneDimensions.x = x
         self.simu.core.xsdobjs["maket"].Maket.Scene.SceneDimensions.y = y
 
-        self.update_scene_dims()
+        self.update_scene_size()
 
 
-    def set_cell_dims(self, cell_dims):
-        x = cell_dims[0]
-        z = cell_dims[1]
+    def set_cell_dims(self, cell_size):
+        x = cell_size[0]
+        z = cell_size[1]
 
         self.simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions.x = x
         self.simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions.z = z
 
-        self.update_cell_dims()
+        self.update_cell_size()
 
 

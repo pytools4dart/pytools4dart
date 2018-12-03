@@ -37,7 +37,7 @@ tic=timeit.default_timer()
 for i in range(2000):
     sp_bands_list.append([lam0 + i*0.1 , 0.02] )
 
-simu.add.add_sp_bands_uf(sp_bands_list)
+simu.add.sp_bands_uf(sp_bands_list)
 
 toc=timeit.default_timer()
 

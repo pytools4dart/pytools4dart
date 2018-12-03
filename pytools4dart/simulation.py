@@ -132,7 +132,7 @@ class simulation(object):
         If module dependencies issues are detected, an Exception is raised
         :param modified_simu_name: name of the new(modified) simulation
         """
-        check = self.checker.check_module_dependencies()
+        check = self.checker.module_dependencies()
 
         if check == True:
             if modified_simu_name != None:
@@ -236,7 +236,7 @@ class simulation(object):
         """
         opt_prop = None
 
-        opt_props_list = self.get_opt_props_xmlpaths_dict
+        opt_props_list = self.get_opt_props_xmlpaths_dict()
         opt_prop_types = opt_props_list.keys()
         if not (opt_prop_type in opt_prop_types):
             raise Exception("optical property type not valid")

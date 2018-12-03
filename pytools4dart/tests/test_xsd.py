@@ -27,7 +27,7 @@
 # Exemple du couplage de template + xsd
 # Pour la creation de l'interface python
 # utiliser generateDS.py en ligne de commande
-# python generateDS.py --always-export-default --export "write literal etree" -o ~/git/pytools4dartMTD/pytools4dart/xsdschema/plots_gds.py ~/git/pytools4dartMTD/pytools4dart/xsdschema/plots.xsd
+# python generateDS.py --always-export-default --export "write literal etree" -o ~/git/pytools4dartMTD/pytools4dart/core_ui/plots_gds.py ~/git/pytools4dartMTD/pytools4dart/core_ui/plots.xsd
 # Peut-être pouvons nous trouver un moyen de les générer à la volé, i.e. à l'import de pytools4dart...
 # pour creer les template:
 # ptd.xmlwriters.dartxml.write_templates('templates')

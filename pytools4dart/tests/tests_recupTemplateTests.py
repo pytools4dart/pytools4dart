@@ -39,7 +39,7 @@ def get_template_root():
     return troot
 
 # Tests avec parser
-#  schema = etree.XMLSchema(file=open("/home/claudia/DEV/pytools4dartMTD/pytools4dart/xsdschema/plots.xsd","r"))
+#  schema = etree.XMLSchema(file=open("/home/claudia/DEV/pytools4dartMTD/pytools4dart/core_ui/plots.xsd","r"))
 # parser = etree.XMLParser(schema = schema)
 # tree = etree.parse("/home/claudia/plots1.xml", parser)
 # XMLSyntaxError: Element 'ImportationFichierRaster': This element is not expected. Expected is ( ExtraPlotsTextFileDefinition ). (line 0)

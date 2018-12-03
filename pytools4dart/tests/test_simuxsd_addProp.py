@@ -8,16 +8,16 @@ from pytools4dart.simulation import simulation
 #simu = simulation("test2plotsSimu")
 simu = simulation()
 
-simu.add.add_opt_property("lambertian","newlambprop")
-simu.add.add_opt_property("vegetation","newprop")
-simu.add.add_opt_property("lambertian","newprop")
-#simu.add_opt_property("vegetation","newprop")
+simu.add.opt_property("lambertian", "newlambprop")
+simu.add.opt_property("vegetation", "newprop")
+simu.add.opt_property("lambertian", "newprop")
+#simu.opt_property("vegetation","newprop")
 
-simu.add.add_th_property("newthprop")
-#simu.add_th_property("newthprop")
+simu.add.th_property("newthprop")
+#simu.th_property("newthprop")
 
 
-simu.checker.check_module_dependencies()  #includes check_and_correct_sp_bands and check_properties_indexes
+simu.checker.module_dependencies()  #includes check_and_correct_sp_bands and properties_indexes
 
 simu.write(modified_simu_name ="test_newSimu_addProp", overwrite=True)
 

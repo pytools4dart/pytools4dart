@@ -24,12 +24,12 @@ simu2 = simulation("test_newSimu_Plus3bands")
 
 simu2.run.full()
 
-simu.add.add_sp_bands_uf(sp_band_list) #phase and coeff_diff
+simu.add.sp_bands_uf(sp_band_list) #phase and coeff_diff
 
-check = simu.checker.check_module_dependencies()  #includes check_and_correct_sp_bands and check_properties_indexes
+check = simu.checker.module_dependencies()  #includes check_and_correct_sp_bands and properties_indexes
 
 if check:
-    simu.write(modified_simu_name ="test_newSimu_Plus3bands", overwrite=True) # this includes check_module_dependencies, leave or let the user to check this before writting as shown in this exemple?
+    simu.write(modified_simu_name ="test_newSimu_Plus3bands", overwrite=True) # this includes module_dependencies, leave or let the user to check this before writting as shown in this exemple?
 
     simu2 = simulation("test_newSimu_Plus3bands")
     simu2.run.full()

@@ -10,17 +10,17 @@
 #   ('--always-export-default', '')
 #   ('--export', 'write literal etree')
 #   ('-p', 'create')
-#   ('--post-attrib-setter', 'update_node(self,self.troot,"LUT")')
-#   ('--pre-ctor', 'self.troot=get_gs_troot("LUT","{classname}")')
-#   ('--post-ctor', 'update_node(self,self.troot,"LUT")')
-#   ('--imports', 'from pytools4dart.xsdschema.utils import get_gs_troot, update_node')
-#   ('-o', '/home/claudia/tmp/LUT.py')
+#   ('--post-attrib-setter', 'update_node(self,self.troot,"lut")')
+#   ('--pre-ctor', 'self.troot=get_gs_troot("lut","{classname}")')
+#   ('--post-ctor', 'update_node(self,self.troot,"lut")')
+#   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node')
+#   ('-o', '/home/claudia/tmp/lut.py')
 #
 # Command line arguments:
-#   /home/claudia/DEV/pytools4dartMTD/pytools4dart/xsdschema/LUT.xsd
+#   /home/claudia/DEV/pytools4dartMTD/pytools4dart/core_ui/lut.xsd
 #
 # Command line:
-#   /home/claudia/DEV/pytools4dartMTD/venv/bin/generateDS.py -m --always-export-default --export="write literal etree" -p "create" --post-attrib-setter="update_node(self,self.troot,"LUT")" --pre-ctor="self.troot=get_gs_troot("LUT","{classname}")" --post-ctor="update_node(self,self.troot,"LUT")" --imports="from pytools4dart.xsdschema.utils import get_gs_troot, update_node" -o "/home/claudia/tmp/LUT.py" /home/claudia/DEV/pytools4dartMTD/pytools4dart/xsdschema/LUT.xsd
+#   /home/claudia/DEV/pytools4dartMTD/venv/bin/generateDS.py -m --always-export-default --export="write literal etree" -p "create" --post-attrib-setter="update_node(self,self.troot,"lut")" --pre-ctor="self.troot=get_gs_troot("lut","{classname}")" --post-ctor="update_node(self,self.troot,"lut")" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node" -o "/home/claudia/tmp/lut.py" /home/claudia/DEV/pytools4dartMTD/pytools4dart/core_ui/lut.xsd
 #
 # Current working directory (os.getcwd()):
 #   generateds
@@ -35,7 +35,7 @@ try:
     from lxml import etree as etree_
 except ImportError:
     from xml.etree import ElementTree as etree_
-from pytools4dart.xsdschema.utils import get_gs_troot, update_node
+from pytools4dart.core_ui.utils import get_gs_troot, update_node
 
 
 Validate_simpletypes_ = True
@@ -743,13 +743,13 @@ class createDartFile(GeneratedsSuper):
     superclass = None
     def __init__(self, version=None, DartLUT=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("LUT","DartFile")
+        self.troot=get_gs_troot("lut","DartFile")
         self.attrib = ['version']
         self.children = ['DartLUT']
         self.parent = None
         self._version = _cast(None, version)
         self._DartLUT = DartLUT
-        update_node(self,self.troot,"LUT")
+        update_node(self,self.troot,"lut")
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -771,7 +771,7 @@ class createDartFile(GeneratedsSuper):
     def get_version(self): return self._version
     def set_version(self, value):
         self._version = value
-        update_node(self,self.troot,"LUT")
+        update_node(self,self.troot,"lut")
     version = property(get_version, set_version)
     def copy(self):
         obj_ = self.factory()
@@ -872,7 +872,7 @@ class create_DartLUT(GeneratedsSuper):
     superclass = None
     def __init__(self, baseSimulationName=None, dataFormat=None, isLambdaSequence=None, modelBRDFNumberCoefficient=None, sequenceName=None, simulationNumber=None, DataFile=None, SpectralIntervals=None, StaticLUTReflectanceParameters=None, StaticLUTCoefficientParameters=None, FreeParametersLUTReflectance=None, FreeParametersLUTCoefficient=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("LUT","_DartLUT")
+        self.troot=get_gs_troot("lut","_DartLUT")
         self.attrib = ['baseSimulationName', 'dataFormat', 'isLambdaSequence', 'modelBRDFNumberCoefficient', 'sequenceName', 'simulationNumber']
         self.children = ['DataFile', 'SpectralIntervals', 'StaticLUTReflectanceParameters', 'StaticLUTCoefficientParameters', 'FreeParametersLUTReflectance', 'FreeParametersLUTCoefficient']
         self.parent = None
@@ -888,7 +888,7 @@ class create_DartLUT(GeneratedsSuper):
         self._StaticLUTCoefficientParameters = StaticLUTCoefficientParameters
         self._FreeParametersLUTReflectance = FreeParametersLUTReflectance
         self._FreeParametersLUTCoefficient = FreeParametersLUTCoefficient
-        update_node(self,self.troot,"LUT")
+        update_node(self,self.troot,"lut")
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -945,32 +945,32 @@ class create_DartLUT(GeneratedsSuper):
     def get_baseSimulationName(self): return self._baseSimulationName
     def set_baseSimulationName(self, value):
         self._baseSimulationName = value
-        update_node(self,self.troot,"LUT")
+        update_node(self,self.troot,"lut")
     baseSimulationName = property(get_baseSimulationName, set_baseSimulationName)
     def get_dataFormat(self): return self._dataFormat
     def set_dataFormat(self, value):
         self._dataFormat = value
-        update_node(self,self.troot,"LUT")
+        update_node(self,self.troot,"lut")
     dataFormat = property(get_dataFormat, set_dataFormat)
     def get_isLambdaSequence(self): return self._isLambdaSequence
     def set_isLambdaSequence(self, value):
         self._isLambdaSequence = value
-        update_node(self,self.troot,"LUT")
+        update_node(self,self.troot,"lut")
     isLambdaSequence = property(get_isLambdaSequence, set_isLambdaSequence)
     def get_modelBRDFNumberCoefficient(self): return self._modelBRDFNumberCoefficient
     def set_modelBRDFNumberCoefficient(self, value):
         self._modelBRDFNumberCoefficient = value
-        update_node(self,self.troot,"LUT")
+        update_node(self,self.troot,"lut")
     modelBRDFNumberCoefficient = property(get_modelBRDFNumberCoefficient, set_modelBRDFNumberCoefficient)
     def get_sequenceName(self): return self._sequenceName
     def set_sequenceName(self, value):
         self._sequenceName = value
-        update_node(self,self.troot,"LUT")
+        update_node(self,self.troot,"lut")
     sequenceName = property(get_sequenceName, set_sequenceName)
     def get_simulationNumber(self): return self._simulationNumber
     def set_simulationNumber(self, value):
         self._simulationNumber = value
-        update_node(self,self.troot,"LUT")
+        update_node(self,self.troot,"lut")
     simulationNumber = property(get_simulationNumber, set_simulationNumber)
     def copy(self):
         obj_ = self.factory()
@@ -1230,7 +1230,7 @@ class create_DataFile(GeneratedsSuper):
     superclass = None
     def __init__(self, Property=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("LUT","_DataFile")
+        self.troot=get_gs_troot("lut","_DataFile")
         self.attrib = ['']
         self.children = ['Property']
         self.parent = None
@@ -1238,7 +1238,7 @@ class create_DataFile(GeneratedsSuper):
             self._Property = []
         else:
             self._Property = Property
-        update_node(self,self.troot,"LUT")
+        update_node(self,self.troot,"lut")
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1362,12 +1362,12 @@ class create_Property(GeneratedsSuper):
     superclass = None
     def __init__(self, name=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("LUT","_Property")
+        self.troot=get_gs_troot("lut","_Property")
         self.attrib = ['name']
         self.children = []
         self.parent = None
         self._name = _cast(None, name)
-        update_node(self,self.troot,"LUT")
+        update_node(self,self.troot,"lut")
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1382,7 +1382,7 @@ class create_Property(GeneratedsSuper):
     def get_name(self): return self._name
     def set_name(self, value):
         self._name = value
-        update_node(self,self.troot,"LUT")
+        update_node(self,self.troot,"lut")
     name = property(get_name, set_name)
     def copy(self):
         obj_ = self.factory()
@@ -1465,7 +1465,7 @@ class create_SpectralIntervals(GeneratedsSuper):
     superclass = None
     def __init__(self, SpectralIntervalsProperties=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("LUT","_SpectralIntervals")
+        self.troot=get_gs_troot("lut","_SpectralIntervals")
         self.attrib = ['']
         self.children = ['SpectralIntervalsProperties']
         self.parent = None
@@ -1473,7 +1473,7 @@ class create_SpectralIntervals(GeneratedsSuper):
             self._SpectralIntervalsProperties = []
         else:
             self._SpectralIntervalsProperties = SpectralIntervalsProperties
-        update_node(self,self.troot,"LUT")
+        update_node(self,self.troot,"lut")
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1597,7 +1597,7 @@ class create_StaticLUTReflectanceParameters(GeneratedsSuper):
     superclass = None
     def __init__(self, Property=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("LUT","_StaticLUTReflectanceParameters")
+        self.troot=get_gs_troot("lut","_StaticLUTReflectanceParameters")
         self.attrib = ['']
         self.children = ['Property']
         self.parent = None
@@ -1605,7 +1605,7 @@ class create_StaticLUTReflectanceParameters(GeneratedsSuper):
             self._Property = []
         else:
             self._Property = Property
-        update_node(self,self.troot,"LUT")
+        update_node(self,self.troot,"lut")
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1729,7 +1729,7 @@ class create_StaticLUTCoefficientParameters(GeneratedsSuper):
     superclass = None
     def __init__(self, Property=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("LUT","_StaticLUTCoefficientParameters")
+        self.troot=get_gs_troot("lut","_StaticLUTCoefficientParameters")
         self.attrib = ['']
         self.children = ['Property']
         self.parent = None
@@ -1737,7 +1737,7 @@ class create_StaticLUTCoefficientParameters(GeneratedsSuper):
             self._Property = []
         else:
             self._Property = Property
-        update_node(self,self.troot,"LUT")
+        update_node(self,self.troot,"lut")
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1861,7 +1861,7 @@ class create_FreeParametersLUTReflectance(GeneratedsSuper):
     superclass = None
     def __init__(self, LUTReflectanceProperty=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("LUT","_FreeParametersLUTReflectance")
+        self.troot=get_gs_troot("lut","_FreeParametersLUTReflectance")
         self.attrib = ['']
         self.children = ['LUTReflectanceProperty']
         self.parent = None
@@ -1869,7 +1869,7 @@ class create_FreeParametersLUTReflectance(GeneratedsSuper):
             self._LUTReflectanceProperty = []
         else:
             self._LUTReflectanceProperty = LUTReflectanceProperty
-        update_node(self,self.troot,"LUT")
+        update_node(self,self.troot,"lut")
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1993,7 +1993,7 @@ class create_LUTProperty(GeneratedsSuper):
     superclass = None
     def __init__(self, indexLUTEquivalent=None, name=None, numeroBandeSpectrale=None, spectral=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("LUT","_LUTProperty")
+        self.troot=get_gs_troot("lut","_LUTProperty")
         self.attrib = ['indexLUTEquivalent', 'name', 'numeroBandeSpectrale', 'spectral']
         self.children = []
         self.parent = None
@@ -2001,7 +2001,7 @@ class create_LUTProperty(GeneratedsSuper):
         self._name = _cast(None, name)
         self._numeroBandeSpectrale = _cast(int, numeroBandeSpectrale)
         self._spectral = _cast(None, spectral)
-        update_node(self,self.troot,"LUT")
+        update_node(self,self.troot,"lut")
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2016,22 +2016,22 @@ class create_LUTProperty(GeneratedsSuper):
     def get_indexLUTEquivalent(self): return self._indexLUTEquivalent
     def set_indexLUTEquivalent(self, value):
         self._indexLUTEquivalent = value
-        update_node(self,self.troot,"LUT")
+        update_node(self,self.troot,"lut")
     indexLUTEquivalent = property(get_indexLUTEquivalent, set_indexLUTEquivalent)
     def get_name(self): return self._name
     def set_name(self, value):
         self._name = value
-        update_node(self,self.troot,"LUT")
+        update_node(self,self.troot,"lut")
     name = property(get_name, set_name)
     def get_numeroBandeSpectrale(self): return self._numeroBandeSpectrale
     def set_numeroBandeSpectrale(self, value):
         self._numeroBandeSpectrale = value
-        update_node(self,self.troot,"LUT")
+        update_node(self,self.troot,"lut")
     numeroBandeSpectrale = property(get_numeroBandeSpectrale, set_numeroBandeSpectrale)
     def get_spectral(self): return self._spectral
     def set_spectral(self, value):
         self._spectral = value
-        update_node(self,self.troot,"LUT")
+        update_node(self,self.troot,"lut")
     spectral = property(get_spectral, set_spectral)
     def copy(self):
         obj_ = self.factory()
@@ -2159,7 +2159,7 @@ class create_FreeParametersLUTCoefficient(GeneratedsSuper):
     superclass = None
     def __init__(self, LUTCoefficientProperty=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("LUT","_FreeParametersLUTCoefficient")
+        self.troot=get_gs_troot("lut","_FreeParametersLUTCoefficient")
         self.attrib = ['']
         self.children = ['LUTCoefficientProperty']
         self.parent = None
@@ -2167,7 +2167,7 @@ class create_FreeParametersLUTCoefficient(GeneratedsSuper):
             self._LUTCoefficientProperty = []
         else:
             self._LUTCoefficientProperty = LUTCoefficientProperty
-        update_node(self,self.troot,"LUT")
+        update_node(self,self.troot,"lut")
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2291,14 +2291,14 @@ class createSpectralIntervalsPropertiesType(GeneratedsSuper):
     superclass = None
     def __init__(self, lambdaMax=None, lambdaMin=None, spectralBandKey=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("LUT","SpectralIntervalsPropertiesType")
+        self.troot=get_gs_troot("lut","SpectralIntervalsPropertiesType")
         self.attrib = ['lambdaMax', 'lambdaMin', 'spectralBandKey']
         self.children = []
         self.parent = None
         self._lambdaMax = _cast(float, lambdaMax)
         self._lambdaMin = _cast(float, lambdaMin)
         self._spectralBandKey = _cast(int, spectralBandKey)
-        update_node(self,self.troot,"LUT")
+        update_node(self,self.troot,"lut")
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2313,17 +2313,17 @@ class createSpectralIntervalsPropertiesType(GeneratedsSuper):
     def get_lambdaMax(self): return self._lambdaMax
     def set_lambdaMax(self, value):
         self._lambdaMax = value
-        update_node(self,self.troot,"LUT")
+        update_node(self,self.troot,"lut")
     lambdaMax = property(get_lambdaMax, set_lambdaMax)
     def get_lambdaMin(self): return self._lambdaMin
     def set_lambdaMin(self, value):
         self._lambdaMin = value
-        update_node(self,self.troot,"LUT")
+        update_node(self,self.troot,"lut")
     lambdaMin = property(get_lambdaMin, set_lambdaMin)
     def get_spectralBandKey(self): return self._spectralBandKey
     def set_spectralBandKey(self, value):
         self._spectralBandKey = value
-        update_node(self,self.troot,"LUT")
+        update_node(self,self.troot,"lut")
     spectralBandKey = property(get_spectralBandKey, set_spectralBandKey)
     def copy(self):
         obj_ = self.factory()
@@ -2542,8 +2542,8 @@ def parseLiteral(inFileName, silence=False):
     # Enable Python to collect the space used by the DOM.
     doc = None
     if not silence:
-        sys.stdout.write('#from LUT import *\n\n')
-        sys.stdout.write('import LUT as model_\n\n')
+        sys.stdout.write('#from lut import *\n\n')
+        sys.stdout.write('import lut as model_\n\n')
         sys.stdout.write('rootObj = model_.rootClass(\n')
         rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
         sys.stdout.write(')\n')

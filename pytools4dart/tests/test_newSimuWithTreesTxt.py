@@ -6,7 +6,7 @@ from pytools4dart.simulation import simulation
 import pandas as pd
 
 #simu = simulation("test_simuWithTreesFile_IHM")
-#simu.check_module_dependencies()  #includes check_and_correct_sp_bands and check_properties_indexes
+#simu.module_dependencies()  #includes check_and_correct_sp_bands and properties_indexes
 
 
 
@@ -38,7 +38,7 @@ specie2_dict = {
 species_list.append(specie1_dict)
 species_list.append(specie2_dict)
 
-simu.add.add_treestxtfile_reference(src_file_path=src_file_path, species_list=species_list, createProps= True)
+simu.add.treestxtfile_reference(src_file_path=src_file_path, species_list=species_list, createProps= True)
 
 simu.write(modified_simu_name ="test_newSimuWithTrees", overwrite=True)
 

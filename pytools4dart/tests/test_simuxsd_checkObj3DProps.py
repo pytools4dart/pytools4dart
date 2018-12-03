@@ -12,7 +12,7 @@ back_opt_prop_types =["lambertian","rpv"]
 back_opt_prop_names =["lamb1", "rpv1"]
 back_th_prop_names = ["th1", "th2"]
 
-simu.add.add_3DOBJ(src_file_path,group_number=len(group_names),group_names_list= group_names, opt_prop_types_list = opt_prop_types,
+simu.add.obj3D(src_file_path, group_number=len(group_names), group_names_list= group_names, opt_prop_types_list = opt_prop_types,
                opt_prop_names_list = opt_prop_names, th_prop_names_list = th_prop_names,
                back_opt_prop_types_list= back_opt_prop_types,
                back_opt_prop_names_list = back_opt_prop_names, back_th_prop_names_list = back_th_prop_names, createProps=True)

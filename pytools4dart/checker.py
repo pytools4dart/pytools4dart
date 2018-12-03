@@ -36,7 +36,7 @@ class Checker(object):
     def __init__(self, simu):
         self.simu = simu
 
-    def check_module_dependencies(self):
+    def module_dependencies(self):
         """
         Cross check XSD module dependencies:
 
@@ -54,7 +54,7 @@ class Checker(object):
         """
         print ("checking module dependencies")
         check1 = self.simu.add.check_and_correct_sp_bands()
-        check2 = self.check_properties_indexes()
+        check2 = self.properties_indexes()
         if (check1 and check2):
             print("Module Dependencies OK")
         else:
@@ -65,36 +65,36 @@ class Checker(object):
         return self.simu.core.xsdobjs["trees"].Trees.Trees_1 != None
 
 
-    def check_properties_indexes(self, createProps = False):
+    def properties_indexes(self, createProps = False):
         """
         Cross check properties of every mockup element (plots, scene, object3d, trees) with properties DataFrames.
         Att: In the case of plots.txt et trees.txt, we can only check if the given property index does exist
         :return:
         """
         self.simu.core.update()
-        check_plots = self.check_plots_props()
-        check_scene = self.check_scene_props()
-        check_object3d = self.check_object_3d_props()
+        check_plots = self.plots_props()
+        check_scene = self.scene_props()
+        check_object3d = self.object_3d_props()
         if self.is_tree_txt_file_considered():# if additional tree.txt like file is considered
-            check_trees_txt_props = self.check_trees_txt_props()
+            check_trees_txt_props = self.trees_txt_props()
         else:
             check_trees_txt_props = True  # has no impact on return value
 
         return check_plots and check_scene and check_object3d and check_trees_txt_props
 
 
-    def check_plots_props(self):
+    def plots_props(self):
         """
         Check plots optical/thermal properties consistency
         If property does not exist, an Error message is printed, asking the user to fix
         If property does exist but indexes correspondance is not ensured, this is corrected and a warning message is printed
         :return: True if check is ok or if just indexes inconsistency is corrected, False in any other case.
         """
-        check_plots_opt_props = self.check_plots_opt_props()
-        check_plots_thermal_props = self.check_plots_thermal_props()
+        check_plots_opt_props = self.plots_opt_props()
+        check_plots_thermal_props = self.plots_thermal_props()
 
         if self.simu.is_plots_txt_file_considered(): # if additional plots.txt like file is considered
-            check_plots_txt_props = self.check_plots_txt_props()
+            check_plots_txt_props = self.plots_txt_props()
         else:
             check_plots_txt_props = True # has no impact on return value
 
@@ -144,7 +144,7 @@ class Checker(object):
 
         return plots_by_plot_type
 
-    def check_plots_opt_props(self):
+    def plots_opt_props(self):
         check = True
         opt_props = self.simu.scene.properties["opt_props"]
         plots_dfs_by_opt_prop_type = self.get_plots_dfs_by_opt_prop_type()
@@ -205,7 +205,7 @@ class Checker(object):
                                 plot.GroundOpticalPropertyLink.indexFctPhase = prop_index
         return check
 
-    def check_plots_thermal_props(self):
+    def plots_thermal_props(self):
 
         check = True
 
@@ -258,7 +258,7 @@ class Checker(object):
                                 plot.GroundThermalPropertyLink.indexTemperature = prop_index
         return check
 
-    def check_scene_props(self):
+    def scene_props(self):
         """
         check if optical property associated to soil exist in optical properties list
         :return:True if associated properties are found in properties lists, False if not
@@ -289,7 +289,7 @@ class Checker(object):
 
         return check
 
-    def check_object_3d_props(self):
+    def object_3d_props(self):
         """
         check if optical/thermal properties associated to all 3d objects groups exist in optical properties list
         if any optical/thermal proprerty does not exist, an Error message is displayed
@@ -359,7 +359,7 @@ class Checker(object):
                         th_prop.indexTemperature = index_th_prop
         return check
 
-    def check_trees_txt_props(self):
+    def trees_txt_props(self):
         """
         check if 1/species ID given in trees.txt file exist
         and 2/ if opt/thermal properties associated to each specie do exist
@@ -425,7 +425,7 @@ class Checker(object):
                     check = False
         return check
 
-    def check_plots_txt_props(self):
+    def plots_txt_props(self):
         """
         check if optical/thermal properties indexes given in plots.txt exist in properties lists
         WARNING: this method must not be called if self.xsd_core["plots"].Plots.addExtraPlotsTextFile != 1:

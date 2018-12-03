@@ -103,7 +103,7 @@ def update_node(rnode, tnode, module):
             rchild_value = getattr(rnode, tchild.tag)
             if empty_rchilds[tchild.tag]:
                 tchild_args = ', '.join([mapName(k) + '=' + "'"+v+"'" for k, v in tchild.attrib.iteritems()])
-                new_rchild = eval('ptd.xsdschema.{}.create_{}({})'.format(module, tchild.tag, tchild_args))
+                new_rchild = eval('ptd.core_ui.{}.create_{}({})'.format(module, tchild.tag, tchild_args))
                 if isinstance(rchild_value, list):
                     eval('rnode.add_{}(new_rchild)'.format(tchild.tag))
                 else:
@@ -238,7 +238,7 @@ def get_gs_troot(module, xsdclass = 'DartFile'):
     # xsdroot = get_xsd_root(module)
     troot = etree.parse(os.path.join(ptd.__path__[0], 'templates', '{}.xml'.format(module)),
                         parser = etree.XMLParser(remove_comments=True))
-    # xsdroot = etree.parse('/home/boissieu/Scripts/pytools4dartMTD/pytools4dart/xsdschema/plots.xsd')
+    # xsdroot = etree.parse('/home/boissieu/Scripts/pytools4dartMTD/pytools4dart/core_ui/plots.xsd')
     # tnodename = xsdroot.xpath('//xsd:element[@type="{}" or @name="{}"]'.format(xsdclass,xsdclass),
     #               namespaces={'xsd': 'http://www.w3.org/2001/XMLSchema'})[0].attrib[
     #     'name']

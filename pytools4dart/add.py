@@ -66,7 +66,7 @@ class Add(object):
                     if coeff_spbands_nb < phase_spbands_nb:
                         print('adding {} multiplicative factors to opt property {}'.format(phase_spbands_nb - coeff_spbands_nb , opt_prop.ident))
                     for i in range( phase_spbands_nb - coeff_spbands_nb):
-                        check = check and self.add_multipl_factor(opt_props_list, opt_prop_type)
+                        check = check and self.multipl_factor(opt_props_list, opt_prop_type)
 
         return check
 
@@ -86,7 +86,7 @@ class Add(object):
         if index == None:
             if createProps == True:
                 print("creating {} optical property named {}".format(opt_prop_type, opt_prop_name))
-                self.add_opt_property(opt_prop_type, opt_prop_name)
+                self.opt_property(opt_prop_type, opt_prop_name)
                 self.simu.core.update_properties_dict()
                 opt_prop_list = self.simu.scene.properties["opt_props"][opt_prop_type]
                 index = opt_prop_list[opt_prop_list["prop_name"] == opt_prop_name].index.tolist()[0]# unicity of prop_name
@@ -110,7 +110,7 @@ class Add(object):
         if index == None:
             if createProps == True:
                 print("creating thermal property named {}".format(th_prop_name))
-                self.add_th_property(th_prop_name)
+                self.th_property(th_prop_name)
                 self.simu.core.update_properties_dict()
                 th_prop_list = self.simu.scene.properties["thermal_props"]
                 index = th_prop_list[th_prop_list["prop_name"] == th_prop_name].index.tolist()[0]#unicity of th_prop_name
@@ -120,7 +120,7 @@ class Add(object):
                 return index
         return index
 
-    def add_multipl_factor(self, opt_props_list, opt_prop_type):
+    def multipl_factor(self, opt_props_list, opt_prop_type):
         multfactpath = self.simu.get_multfacts_xmlpaths_dict()[opt_prop_type]
 
         try:
@@ -134,7 +134,7 @@ class Add(object):
             print("ERROR: multiplicative factor add failed")
             return False
 
-    def add_3DOBJ(self, src_file_path, group_number = 1, group_names_list = None, opt_prop_types_list = None, opt_prop_names_list=None, th_prop_names_list=None, back_opt_prop_types_list = None, back_opt_prop_names_list = None, back_th_prop_names_list = None, createProps = False):
+    def obj3D(self, src_file_path, group_number = 1, group_names_list = None, opt_prop_types_list = None, opt_prop_names_list=None, th_prop_names_list=None, back_opt_prop_types_list = None, back_opt_prop_names_list = None, back_th_prop_names_list = None, createProps = False):
         """
         add 3D object with "double-faced" OBJ groups (non turbid groups, only surfacic groups: lambertian, hapke, rpv)
         Mandatory: The length of properties list must match the number of groups given in OBJ file.
@@ -236,7 +236,7 @@ class Add(object):
         self.simu.core.xsdobjs["object_3d"].object_3d.ObjectList.add_Object(obj)
         return True
 
-    def add_opt_property(self, opt_prop_type, opt_prop_name):
+    def opt_property(self, opt_prop_type, opt_prop_name):
         """
         Add an optical property to coeff_diff XSD object
         :param opt_prop_type: optical property type
@@ -267,7 +267,7 @@ class Add(object):
             #print("ERROR: optical property of type %s named %s already exists, please change name" % (opt_prop_type, opt_prop_name))
             raise Exception("ERROR: optical property of type %s named %s already exists, please change name" % (opt_prop_type, opt_prop_name))
 
-    def add_th_property(self, th_prop_name):
+    def th_property(self, th_prop_name):
         """
         Add thermal property in coeff_diff XSD object
         :param th_prop_name: thermal property name
@@ -282,17 +282,17 @@ class Add(object):
             #print("ERROR: thermal property named %s already exists, please change name" % (th_prop_name))
             raise Exception("ERROR: thermal property named %s already exists, please change name" % (th_prop_name))
 
-    def add_multiplots(self, plots_list):
+    def multiplots(self, plots_list):
         # plots_fields = ["plot_type", "plot_form", "plot_opt_prop_name", "plot_therm_prop_name", "grd_opt_prop_type",
         #                 "grd_opt_prop_name", "grd_therm_prop_name", "createProps"]
         for plot_params in plots_list:
-            self.add_plot(plot_type = plot_params[0] , plot_form = plot_params[1],
-                     plot_opt_prop_name = plot_params[2], plot_therm_prop_name = plot_params[3],
-                     grd_opt_prop_type = plot_params[4], grd_opt_prop_name = plot_params[5],
-                     grd_therm_prop_name = plot_params[6], createProps = plot_params[7]
-                     )
+            self.plot(plot_type = plot_params[0], plot_form = plot_params[1],
+                      plot_opt_prop_name = plot_params[2], plot_therm_prop_name = plot_params[3],
+                      grd_opt_prop_type = plot_params[4], grd_opt_prop_name = plot_params[5],
+                      grd_therm_prop_name = plot_params[6], createProps = plot_params[7]
+                      )
 
-    def add_plot(self, plot_type = "vegetation", plot_form = "polygon", plot_opt_prop_name = None, plot_therm_prop_name = None, grd_opt_prop_type = None, grd_opt_prop_name = None, grd_therm_prop_name = None, createProps = False):
+    def plot(self, plot_type ="vegetation", plot_form ="polygon", plot_opt_prop_name = None, plot_therm_prop_name = None, grd_opt_prop_type = None, grd_opt_prop_name = None, grd_therm_prop_name = None, createProps = False):
         """
         Adds a plot in plots_obj (self.xsdsobjs_dict["plots"]), corresponding to the given parameters
         :param plot_type: type of plot in ["ground","vegetation","veg_ground","fluid"]
@@ -378,7 +378,7 @@ class Add(object):
 
         return True
 
-    def add_sp_bands_uf(self, spbands_list):
+    def sp_bands_uf(self, spbands_list):
         """
         add spectral bands, manages phase and coeff_diff modules interactions
         no check of sp_bands unicity is made (as in DART interface)
@@ -390,7 +390,7 @@ class Add(object):
         #coeff_diff module modification
         self.check_and_correct_sp_bands()
 
-    def add_treestxtfile_reference(self, src_file_path, species_list, createProps = False):
+    def treestxtfile_reference(self, src_file_path, species_list, createProps = False):
         """
         includes a trees.txt-like file reference to add lollypop trees to the simulation
         the number of species requested in src_file MUST be the same than in species_list
@@ -472,7 +472,7 @@ class Add(object):
                     VegetationOpticalPropertyLink=veg_opt_prop_link,
                     ThermalPropertyLink=veg_th_prop_link)
 
-    def add_plotstxtfile_reference(self, src_file_path):
+    def plotstxtfile_reference(self, src_file_path):
         """
         includes a plots.txt-like file reference to add multiple plots to the simulation
         checks if every opt/thermal property index does already exist in properties lists, if not, Exception is raised

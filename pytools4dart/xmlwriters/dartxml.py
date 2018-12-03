@@ -87,7 +87,7 @@ def get_templates():
     return templates
 
 def write_schemas(directory):
-    # directory = 'xsdschema'
+    # directory = 'core_ui'
     xmlschemas = get_schemas()
     for k, v in xmlschemas.iteritems():
         filename=pjoin(directory, k+'.xsd')

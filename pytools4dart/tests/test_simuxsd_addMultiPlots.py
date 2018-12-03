@@ -2,12 +2,12 @@ from pytools4dart.simulation import simulation
 
 simu = simulation()
 
-#simu.add_opt_property("vegetation","vegprop1")
+#simu.opt_property("vegetation","vegprop1")
 
-# simu.add_opt_property("lambertian","Lambertian_Phase_Function_1")
-check = simu.add.add_plot(createProps = True)
+# simu.opt_property("lambertian","Lambertian_Phase_Function_1")
+check = simu.add.plot(createProps = True)
 
-simu.checker.check_module_dependencies()
+simu.checker.module_dependencies()
 simu.write(modified_simu_name="test_newSimu_XSD", overwrite=True)
 
 simu2 = simulation("test_newSimu_XSD")
@@ -28,8 +28,8 @@ plot_params_list = [
 #     for param in plot_params_list:
 #         plots_dict[field] = param[i]
 
-simu.add.add_multiplots(plot_params_list)
-simu.checker.check_module_dependencies()
+simu.add.multiplots(plot_params_list)
+simu.checker.module_dependencies()
 
 simu.write(modified_simu_name="test_newSimu_XSD_addMultiplots", overwrite=True)
 

@@ -36,20 +36,20 @@ import pytools4dart as ptd
 
 from pytools4dart.helpers.constants import *
 
-from pytools4dart.xsdschema.plots import createDartFile
-from pytools4dart.xsdschema.phase import createDartFile
-from pytools4dart.xsdschema.atmosphere import createDartFile
-from pytools4dart.xsdschema.coeff_diff import createDartFile
-from pytools4dart.xsdschema.directions import createDartFile
-from pytools4dart.xsdschema.object_3d import createDartFile
-from pytools4dart.xsdschema.maket import createDartFile
-from pytools4dart.xsdschema.inversion import createDartFile
-from pytools4dart.xsdschema.LUT import createDartFile
-from pytools4dart.xsdschema.lut import createDartFile
-from pytools4dart.xsdschema.trees import createDartFile
-from pytools4dart.xsdschema.triangleFile import createDartFile
-from pytools4dart.xsdschema.water import createDartFile
-from pytools4dart.xsdschema.urban import createDartFile
+from pytools4dart.core_ui.plots import createDartFile
+from pytools4dart.core_ui.phase import createDartFile
+from pytools4dart.core_ui.atmosphere import createDartFile
+from pytools4dart.core_ui.coeff_diff import createDartFile
+from pytools4dart.core_ui.directions import createDartFile
+from pytools4dart.core_ui.object_3d import createDartFile
+from pytools4dart.core_ui.maket import createDartFile
+from pytools4dart.core_ui.inversion import createDartFile
+from pytools4dart.core_ui.LUT import createDartFile
+from pytools4dart.core_ui.lut import createDartFile
+from pytools4dart.core_ui.trees import createDartFile
+from pytools4dart.core_ui.triangleFile import createDartFile
+from pytools4dart.core_ui.water import createDartFile
+from pytools4dart.core_ui.urban import createDartFile
 
 class Core(object):
     def __init__(self, simu):
@@ -57,7 +57,7 @@ class Core(object):
         self.xsdobjs = {}
         modulenames_list = self.get_xmlfile_names(pjoin(os.path.dirname(os.path.realpath(__file__)), "templates"))#["plots", "phase", "atmosphere", "coeff_diff", "directions", "object_3d","maket","inversion","trees","water","urban"]
         for modname in modulenames_list:
-            self.xsdobjs[modname] = eval('ptd.xsdschema.{}.createDartFile()'.format(modname))
+            self.xsdobjs[modname] = eval('ptd.core_ui.{}.createDartFile()'.format(modname))
         for xsdobj in self.xsdobjs.values():
             xsdobj.factory()
 
@@ -90,20 +90,10 @@ class Core(object):
         Populate XSD Objects contained in xsd_core according to DART XML input files contents
         Update properties, sp_bands and plots tables after population of xsdobjs
         """
-        xml_files_paths_list = glob.glob(self.simu.getinputsimupath() + "/*.xml")
-        xml_files_paths_dict = {}
-        xml_root_nodes_dict = {}
-        for xml_file_path in xml_files_paths_list:
-            fname = (xml_file_path.split('/')[len(xml_file_path.split('/')) - 1]).split('.xml')[0]
-            if fname != "triangleFile" and fname != "log": #triangleFile ane log files are created by runners, it is not a normal input DART file, no template exists for this file
-                xml_files_paths_dict[fname] = xml_file_path
-                with open(xml_file_path, 'r') as f:
-                    xml_string = f.read()
-                    input_xm_lroot_node = etree.fromstring(xml_string)
-                    xml_root_nodes_dict[fname] = input_xm_lroot_node
-
-        for fname, xsdobj in self.xsdobjs.iteritems():
-            xsdobj.build(xml_root_nodes_dict[fname])
+        modulenames_list = self.get_xmlfile_names(pjoin(os.path.dirname(os.path.realpath(__file__)), "templates"))
+        for modulename in modulenames_list:
+            filepath = pjoin(self.simu.getinputsimupath(), modulename+'.xml')
+            eval('ptd.{}.parse("{}",silence=True)'.format(modulename, filepath))
 
     def get_corners_from_rectangle(self, center_x, center_y, side_x, side_y):
         x1, y1 = center_x - side_x / 2.0, center_y - side_y / 2.0

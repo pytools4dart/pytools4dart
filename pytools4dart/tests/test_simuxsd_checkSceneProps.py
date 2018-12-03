@@ -4,7 +4,7 @@ simu = simulation()
 
 simu.core.xsdobjs["maket"].Maket.Soil.OpticalPropertyLink.ident = "totoOptProp"
 
-check =  simu.checker.check_scene_props()
+check =  simu.checker.scene_props()
 
 simu.write(modified_simu_name="test_simuXsd_checkSceneProps", overwrite=True)
 

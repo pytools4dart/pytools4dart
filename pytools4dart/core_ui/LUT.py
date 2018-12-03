@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Wed Oct 31 15:06:23 2018 by generateDS.py version 2.29.25.
+# Generated Wed Oct 31 15:06:24 2018 by generateDS.py version 2.29.25.
 # Python 2.7.15rc1 (default, Apr 15 2018, 21:51:34)  [GCC 7.3.0]
 #
 # Command line options:
@@ -10,17 +10,17 @@
 #   ('--always-export-default', '')
 #   ('--export', 'write literal etree')
 #   ('-p', 'create')
-#   ('--post-attrib-setter', 'update_node(self,self.troot,"water")')
-#   ('--pre-ctor', 'self.troot=get_gs_troot("water","{classname}")')
-#   ('--post-ctor', 'update_node(self,self.troot,"water")')
-#   ('--imports', 'from pytools4dart.xsdschema.utils import get_gs_troot, update_node')
-#   ('-o', '/home/claudia/tmp/water.py')
+#   ('--post-attrib-setter', 'update_node(self,self.troot,"LUT")')
+#   ('--pre-ctor', 'self.troot=get_gs_troot("LUT","{classname}")')
+#   ('--post-ctor', 'update_node(self,self.troot,"LUT")')
+#   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node')
+#   ('-o', '/home/claudia/tmp/LUT.py')
 #
 # Command line arguments:
-#   /home/claudia/DEV/pytools4dartMTD/pytools4dart/xsdschema/water.xsd
+#   /home/claudia/DEV/pytools4dartMTD/pytools4dart/core_ui/LUT.xsd
 #
 # Command line:
-#   /home/claudia/DEV/pytools4dartMTD/venv/bin/generateDS.py -m --always-export-default --export="write literal etree" -p "create" --post-attrib-setter="update_node(self,self.troot,"water")" --pre-ctor="self.troot=get_gs_troot("water","{classname}")" --post-ctor="update_node(self,self.troot,"water")" --imports="from pytools4dart.xsdschema.utils import get_gs_troot, update_node" -o "/home/claudia/tmp/water.py" /home/claudia/DEV/pytools4dartMTD/pytools4dart/xsdschema/water.xsd
+#   /home/claudia/DEV/pytools4dartMTD/venv/bin/generateDS.py -m --always-export-default --export="write literal etree" -p "create" --post-attrib-setter="update_node(self,self.troot,"LUT")" --pre-ctor="self.troot=get_gs_troot("LUT","{classname}")" --post-ctor="update_node(self,self.troot,"LUT")" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node" -o "/home/claudia/tmp/LUT.py" /home/claudia/DEV/pytools4dartMTD/pytools4dart/core_ui/LUT.xsd
 #
 # Current working directory (os.getcwd()):
 #   generateds
@@ -35,7 +35,7 @@ try:
     from lxml import etree as etree_
 except ImportError:
     from xml.etree import ElementTree as etree_
-from pytools4dart.xsdschema.utils import get_gs_troot, update_node
+from pytools4dart.core_ui.utils import get_gs_troot, update_node
 
 
 Validate_simpletypes_ = True
@@ -739,21 +739,17 @@ def _cast(typ, value):
 
 
 class createDartFile(GeneratedsSuper):
-    """Version of the plots.xml file. Depends of the version on DART
-    itself. Version of the plots.xml file. Depends of the version on
-    DART itself."""
     subclass = None
     superclass = None
-    def __init__(self, version='5.7.1', build_='0', Water=None):
+    def __init__(self, version=None, DartLUT=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("water","DartFile")
-        self.attrib = ['version', 'build_']
-        self.children = ['Water']
+        self.troot=get_gs_troot("LUT","DartFile")
+        self.attrib = ['version']
+        self.children = ['DartLUT']
         self.parent = None
         self._version = _cast(None, version)
-        self._build_ = _cast(None, build_)
-        self._Water = Water
-        update_node(self,self.troot,"water")
+        self._DartLUT = DartLUT
+        update_node(self,self.troot,"LUT")
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -765,29 +761,24 @@ class createDartFile(GeneratedsSuper):
         else:
             return createDartFile(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_Water(self): return self._Water
-    def set_Water(self, value):
+    def get_DartLUT(self): return self._DartLUT
+    def set_DartLUT(self, value):
         if value is not None:
-            checkclass(value, create_Water)
+            checkclass(value, create_DartLUT)
             value.parent = self
-        self._Water = value
-    Water = property(get_Water, set_Water)
+        self._DartLUT = value
+    DartLUT = property(get_DartLUT, set_DartLUT)
     def get_version(self): return self._version
     def set_version(self, value):
         self._version = value
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,"LUT")
     version = property(get_version, set_version)
-    def get_build(self): return self._build_
-    def set_build(self, value):
-        self._build_ = value
-        update_node(self,self.troot,"water")
-    build_ = property(get_build, set_build)
     def copy(self):
         obj_ = self.factory()
         return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
-            self.Water is not None
+            self.DartLUT is not None
         ):
             return True
         else:
@@ -817,16 +808,13 @@ class createDartFile(GeneratedsSuper):
         if self.version is not None and 'version' not in already_processed:
             already_processed.add('version')
             outfile.write(' version=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.version), input_name='version')), ))
-        if self.build_ is not None and 'build_' not in already_processed:
-            already_processed.add('build_')
-            outfile.write(' build=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.build_), input_name='build')), ))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='DartFile', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.Water is not None:
-            self.Water.export(outfile, level, namespaceprefix_, name_='Water', pretty_print=pretty_print)
+        if self.DartLUT is not None:
+            self.DartLUT.export(outfile, level, namespaceprefix_, name_='DartLUT', pretty_print=pretty_print)
     def to_etree(self, parent_element=None, name_='DartFile', mapping_=None):
         if parent_element is None:
             element = etree_.Element('{}' + name_)
@@ -834,11 +822,9 @@ class createDartFile(GeneratedsSuper):
             element = etree_.SubElement(parent_element, '{}' + name_)
         if self.version is not None:
             element.set('version', self.gds_format_string(self.version))
-        if self.build_ is not None:
-            element.set('build', self.gds_format_string(self.build_))
-        if self.Water is not None:
-            Water_ = self.Water
-            Water_.to_etree(element, name_='Water', mapping_=mapping_)
+        if self.DartLUT is not None:
+            DartLUT_ = self.DartLUT
+            DartLUT_.to_etree(element, name_='DartLUT', mapping_=mapping_)
         if mapping_ is not None:
             mapping_[id(self)] = element
         return element
@@ -853,15 +839,11 @@ class createDartFile(GeneratedsSuper):
             already_processed.add('version')
             showIndent(outfile, level)
             outfile.write('version="%s",\n' % (self.version,))
-        if self.build_ is not None and 'build_' not in already_processed:
-            already_processed.add('build_')
-            showIndent(outfile, level)
-            outfile.write('build_="%s",\n' % (self.build_,))
     def exportLiteralChildren(self, outfile, level, name_):
-        if self.Water is not None:
+        if self.DartLUT is not None:
             showIndent(outfile, level)
-            outfile.write('Water=model_._Water(\n')
-            self.Water.exportLiteral(outfile, level, name_='Water')
+            outfile.write('DartLUT=model_._DartLUT(\n')
+            self.DartLUT.exportLiteral(outfile, level, name_='DartLUT')
             showIndent(outfile, level)
             outfile.write('),\n')
     def build(self, node):
@@ -876,84 +858,137 @@ class createDartFile(GeneratedsSuper):
         if value is not None and 'version' not in already_processed:
             already_processed.add('version')
             self.version = value
-        value = find_attr_value_('build', node)
-        if value is not None and 'build' not in already_processed:
-            already_processed.add('build')
-            self.build_ = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'Water':
-            obj_ = create_Water.factory()
+        if nodeName_ == 'DartLUT':
+            obj_ = create_DartLUT.factory()
             obj_.build(child_)
-            self.set_Water(obj_)
-            obj_.original_tagname_ = 'Water'
+            self.set_DartLUT(obj_)
+            obj_.original_tagname_ = 'DartLUT'
 # end class createDartFile
 
 
-class create_Water(GeneratedsSuper):
-    """Water Water Water "scratches/replaces" trees Water
-    "scratches/replaces" trees Water "scratches/replaces" plots
-    Water "scratches/replaces" plots"""
+class create_DartLUT(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, waterPriorityOnTrees=0, waterPriorityOnPlots=0, Lakes=None, Rivers=None):
+    def __init__(self, baseSimulationName=None, dataFormat=None, isLambdaSequence=None, modelBRDFNumberCoefficient=None, sequenceName=None, simulationNumber=None, DataFile=None, SpectralIntervals=None, StaticLUTReflectanceParameters=None, StaticLUTCoefficientParameters=None, FreeParametersLUTReflectance=None, FreeParametersLUTCoefficient=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("water","_Water")
-        self.attrib = ['waterPriorityOnTrees', 'waterPriorityOnPlots']
-        self.children = ['Lakes', 'Rivers']
+        self.troot=get_gs_troot("LUT","_DartLUT")
+        self.attrib = ['baseSimulationName', 'dataFormat', 'isLambdaSequence', 'modelBRDFNumberCoefficient', 'sequenceName', 'simulationNumber']
+        self.children = ['DataFile', 'SpectralIntervals', 'StaticLUTReflectanceParameters', 'StaticLUTCoefficientParameters', 'FreeParametersLUTReflectance', 'FreeParametersLUTCoefficient']
         self.parent = None
-        self._waterPriorityOnTrees = _cast(int, waterPriorityOnTrees)
-        self._waterPriorityOnPlots = _cast(int, waterPriorityOnPlots)
-        self._Lakes = Lakes
-        self._Rivers = Rivers
-        update_node(self,self.troot,"water")
+        self._baseSimulationName = _cast(None, baseSimulationName)
+        self._dataFormat = _cast(None, dataFormat)
+        self._isLambdaSequence = _cast(int, isLambdaSequence)
+        self._modelBRDFNumberCoefficient = _cast(int, modelBRDFNumberCoefficient)
+        self._sequenceName = _cast(None, sequenceName)
+        self._simulationNumber = _cast(int, simulationNumber)
+        self._DataFile = DataFile
+        self._SpectralIntervals = SpectralIntervals
+        self._StaticLUTReflectanceParameters = StaticLUTReflectanceParameters
+        self._StaticLUTCoefficientParameters = StaticLUTCoefficientParameters
+        self._FreeParametersLUTReflectance = FreeParametersLUTReflectance
+        self._FreeParametersLUTCoefficient = FreeParametersLUTCoefficient
+        update_node(self,self.troot,"LUT")
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, create_Water)
+                CurrentSubclassModule_, create_DartLUT)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if create_Water.subclass:
-            return create_Water.subclass(*args_, **kwargs_)
+        if create_DartLUT.subclass:
+            return create_DartLUT.subclass(*args_, **kwargs_)
         else:
-            return create_Water(*args_, **kwargs_)
+            return create_DartLUT(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_Lakes(self): return self._Lakes
-    def set_Lakes(self, value):
+    def get_DataFile(self): return self._DataFile
+    def set_DataFile(self, value):
         if value is not None:
-            checkclass(value, create_Lakes)
+            checkclass(value, create_DataFile)
             value.parent = self
-        self._Lakes = value
-    Lakes = property(get_Lakes, set_Lakes)
-    def get_Rivers(self): return self._Rivers
-    def set_Rivers(self, value):
+        self._DataFile = value
+    DataFile = property(get_DataFile, set_DataFile)
+    def get_SpectralIntervals(self): return self._SpectralIntervals
+    def set_SpectralIntervals(self, value):
         if value is not None:
-            checkclass(value, create_Rivers)
+            checkclass(value, create_SpectralIntervals)
             value.parent = self
-        self._Rivers = value
-    Rivers = property(get_Rivers, set_Rivers)
-    def get_waterPriorityOnTrees(self): return self._waterPriorityOnTrees
-    def set_waterPriorityOnTrees(self, value):
-        self._waterPriorityOnTrees = value
-        update_node(self,self.troot,"water")
-    waterPriorityOnTrees = property(get_waterPriorityOnTrees, set_waterPriorityOnTrees)
-    def get_waterPriorityOnPlots(self): return self._waterPriorityOnPlots
-    def set_waterPriorityOnPlots(self, value):
-        self._waterPriorityOnPlots = value
-        update_node(self,self.troot,"water")
-    waterPriorityOnPlots = property(get_waterPriorityOnPlots, set_waterPriorityOnPlots)
+        self._SpectralIntervals = value
+    SpectralIntervals = property(get_SpectralIntervals, set_SpectralIntervals)
+    def get_StaticLUTReflectanceParameters(self): return self._StaticLUTReflectanceParameters
+    def set_StaticLUTReflectanceParameters(self, value):
+        if value is not None:
+            checkclass(value, create_StaticLUTReflectanceParameters)
+            value.parent = self
+        self._StaticLUTReflectanceParameters = value
+    StaticLUTReflectanceParameters = property(get_StaticLUTReflectanceParameters, set_StaticLUTReflectanceParameters)
+    def get_StaticLUTCoefficientParameters(self): return self._StaticLUTCoefficientParameters
+    def set_StaticLUTCoefficientParameters(self, value):
+        if value is not None:
+            checkclass(value, create_StaticLUTCoefficientParameters)
+            value.parent = self
+        self._StaticLUTCoefficientParameters = value
+    StaticLUTCoefficientParameters = property(get_StaticLUTCoefficientParameters, set_StaticLUTCoefficientParameters)
+    def get_FreeParametersLUTReflectance(self): return self._FreeParametersLUTReflectance
+    def set_FreeParametersLUTReflectance(self, value):
+        if value is not None:
+            checkclass(value, create_FreeParametersLUTReflectance)
+            value.parent = self
+        self._FreeParametersLUTReflectance = value
+    FreeParametersLUTReflectance = property(get_FreeParametersLUTReflectance, set_FreeParametersLUTReflectance)
+    def get_FreeParametersLUTCoefficient(self): return self._FreeParametersLUTCoefficient
+    def set_FreeParametersLUTCoefficient(self, value):
+        if value is not None:
+            checkclass(value, create_FreeParametersLUTCoefficient)
+            value.parent = self
+        self._FreeParametersLUTCoefficient = value
+    FreeParametersLUTCoefficient = property(get_FreeParametersLUTCoefficient, set_FreeParametersLUTCoefficient)
+    def get_baseSimulationName(self): return self._baseSimulationName
+    def set_baseSimulationName(self, value):
+        self._baseSimulationName = value
+        update_node(self,self.troot,"LUT")
+    baseSimulationName = property(get_baseSimulationName, set_baseSimulationName)
+    def get_dataFormat(self): return self._dataFormat
+    def set_dataFormat(self, value):
+        self._dataFormat = value
+        update_node(self,self.troot,"LUT")
+    dataFormat = property(get_dataFormat, set_dataFormat)
+    def get_isLambdaSequence(self): return self._isLambdaSequence
+    def set_isLambdaSequence(self, value):
+        self._isLambdaSequence = value
+        update_node(self,self.troot,"LUT")
+    isLambdaSequence = property(get_isLambdaSequence, set_isLambdaSequence)
+    def get_modelBRDFNumberCoefficient(self): return self._modelBRDFNumberCoefficient
+    def set_modelBRDFNumberCoefficient(self, value):
+        self._modelBRDFNumberCoefficient = value
+        update_node(self,self.troot,"LUT")
+    modelBRDFNumberCoefficient = property(get_modelBRDFNumberCoefficient, set_modelBRDFNumberCoefficient)
+    def get_sequenceName(self): return self._sequenceName
+    def set_sequenceName(self, value):
+        self._sequenceName = value
+        update_node(self,self.troot,"LUT")
+    sequenceName = property(get_sequenceName, set_sequenceName)
+    def get_simulationNumber(self): return self._simulationNumber
+    def set_simulationNumber(self, value):
+        self._simulationNumber = value
+        update_node(self,self.troot,"LUT")
+    simulationNumber = property(get_simulationNumber, set_simulationNumber)
     def copy(self):
         obj_ = self.factory()
         return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
-            self.Lakes is not None or
-            self.Rivers is not None
+            self.DataFile is not None or
+            self.SpectralIntervals is not None or
+            self.StaticLUTReflectanceParameters is not None or
+            self.StaticLUTCoefficientParameters is not None or
+            self.FreeParametersLUTReflectance is not None or
+            self.FreeParametersLUTCoefficient is not None
         ):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', name_='_Water', namespacedef_='', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_Water')
+    def export(self, outfile, level, namespaceprefix_='', name_='_DartLUT', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_DartLUT')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
@@ -965,74 +1000,154 @@ class create_Water(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_Water')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_DartLUT')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_Water', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_DartLUT', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_Water'):
-        if self.waterPriorityOnTrees is not None and 'waterPriorityOnTrees' not in already_processed:
-            already_processed.add('waterPriorityOnTrees')
-            outfile.write(' waterPriorityOnTrees="%s"' % self.gds_format_integer(self.waterPriorityOnTrees, input_name='waterPriorityOnTrees'))
-        if self.waterPriorityOnPlots is not None and 'waterPriorityOnPlots' not in already_processed:
-            already_processed.add('waterPriorityOnPlots')
-            outfile.write(' waterPriorityOnPlots="%s"' % self.gds_format_integer(self.waterPriorityOnPlots, input_name='waterPriorityOnPlots'))
-    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_Water', fromsubclass_=False, pretty_print=True):
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_DartLUT'):
+        if self.baseSimulationName is not None and 'baseSimulationName' not in already_processed:
+            already_processed.add('baseSimulationName')
+            outfile.write(' baseSimulationName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.baseSimulationName), input_name='baseSimulationName')), ))
+        if self.dataFormat is not None and 'dataFormat' not in already_processed:
+            already_processed.add('dataFormat')
+            outfile.write(' dataFormat=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.dataFormat), input_name='dataFormat')), ))
+        if self.isLambdaSequence is not None and 'isLambdaSequence' not in already_processed:
+            already_processed.add('isLambdaSequence')
+            outfile.write(' isLambdaSequence="%s"' % self.gds_format_integer(self.isLambdaSequence, input_name='isLambdaSequence'))
+        if self.modelBRDFNumberCoefficient is not None and 'modelBRDFNumberCoefficient' not in already_processed:
+            already_processed.add('modelBRDFNumberCoefficient')
+            outfile.write(' modelBRDFNumberCoefficient="%s"' % self.gds_format_integer(self.modelBRDFNumberCoefficient, input_name='modelBRDFNumberCoefficient'))
+        if self.sequenceName is not None and 'sequenceName' not in already_processed:
+            already_processed.add('sequenceName')
+            outfile.write(' sequenceName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.sequenceName), input_name='sequenceName')), ))
+        if self.simulationNumber is not None and 'simulationNumber' not in already_processed:
+            already_processed.add('simulationNumber')
+            outfile.write(' simulationNumber="%s"' % self.gds_format_integer(self.simulationNumber, input_name='simulationNumber'))
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_DartLUT', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.Lakes is not None:
-            self.Lakes.export(outfile, level, namespaceprefix_, name_='Lakes', pretty_print=pretty_print)
-        if self.Rivers is not None:
-            self.Rivers.export(outfile, level, namespaceprefix_, name_='Rivers', pretty_print=pretty_print)
-    def to_etree(self, parent_element=None, name_='_Water', mapping_=None):
+        if self.DataFile is not None:
+            self.DataFile.export(outfile, level, namespaceprefix_, name_='DataFile', pretty_print=pretty_print)
+        if self.SpectralIntervals is not None:
+            self.SpectralIntervals.export(outfile, level, namespaceprefix_, name_='SpectralIntervals', pretty_print=pretty_print)
+        if self.StaticLUTReflectanceParameters is not None:
+            self.StaticLUTReflectanceParameters.export(outfile, level, namespaceprefix_, name_='StaticLUTReflectanceParameters', pretty_print=pretty_print)
+        if self.StaticLUTCoefficientParameters is not None:
+            self.StaticLUTCoefficientParameters.export(outfile, level, namespaceprefix_, name_='StaticLUTCoefficientParameters', pretty_print=pretty_print)
+        if self.FreeParametersLUTReflectance is not None:
+            self.FreeParametersLUTReflectance.export(outfile, level, namespaceprefix_, name_='FreeParametersLUTReflectance', pretty_print=pretty_print)
+        if self.FreeParametersLUTCoefficient is not None:
+            self.FreeParametersLUTCoefficient.export(outfile, level, namespaceprefix_, name_='FreeParametersLUTCoefficient', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_DartLUT', mapping_=None):
         if parent_element is None:
             element = etree_.Element('{}' + name_)
         else:
             element = etree_.SubElement(parent_element, '{}' + name_)
-        if self.waterPriorityOnTrees is not None:
-            element.set('waterPriorityOnTrees', self.gds_format_integer(self.waterPriorityOnTrees))
-        if self.waterPriorityOnPlots is not None:
-            element.set('waterPriorityOnPlots', self.gds_format_integer(self.waterPriorityOnPlots))
-        if self.Lakes is not None:
-            Lakes_ = self.Lakes
-            Lakes_.to_etree(element, name_='Lakes', mapping_=mapping_)
-        if self.Rivers is not None:
-            Rivers_ = self.Rivers
-            Rivers_.to_etree(element, name_='Rivers', mapping_=mapping_)
+        if self.baseSimulationName is not None:
+            element.set('baseSimulationName', self.gds_format_string(self.baseSimulationName))
+        if self.dataFormat is not None:
+            element.set('dataFormat', self.gds_format_string(self.dataFormat))
+        if self.isLambdaSequence is not None:
+            element.set('isLambdaSequence', self.gds_format_integer(self.isLambdaSequence))
+        if self.modelBRDFNumberCoefficient is not None:
+            element.set('modelBRDFNumberCoefficient', self.gds_format_integer(self.modelBRDFNumberCoefficient))
+        if self.sequenceName is not None:
+            element.set('sequenceName', self.gds_format_string(self.sequenceName))
+        if self.simulationNumber is not None:
+            element.set('simulationNumber', self.gds_format_integer(self.simulationNumber))
+        if self.DataFile is not None:
+            DataFile_ = self.DataFile
+            DataFile_.to_etree(element, name_='DataFile', mapping_=mapping_)
+        if self.SpectralIntervals is not None:
+            SpectralIntervals_ = self.SpectralIntervals
+            SpectralIntervals_.to_etree(element, name_='SpectralIntervals', mapping_=mapping_)
+        if self.StaticLUTReflectanceParameters is not None:
+            StaticLUTReflectanceParameters_ = self.StaticLUTReflectanceParameters
+            StaticLUTReflectanceParameters_.to_etree(element, name_='StaticLUTReflectanceParameters', mapping_=mapping_)
+        if self.StaticLUTCoefficientParameters is not None:
+            StaticLUTCoefficientParameters_ = self.StaticLUTCoefficientParameters
+            StaticLUTCoefficientParameters_.to_etree(element, name_='StaticLUTCoefficientParameters', mapping_=mapping_)
+        if self.FreeParametersLUTReflectance is not None:
+            FreeParametersLUTReflectance_ = self.FreeParametersLUTReflectance
+            FreeParametersLUTReflectance_.to_etree(element, name_='FreeParametersLUTReflectance', mapping_=mapping_)
+        if self.FreeParametersLUTCoefficient is not None:
+            FreeParametersLUTCoefficient_ = self.FreeParametersLUTCoefficient
+            FreeParametersLUTCoefficient_.to_etree(element, name_='FreeParametersLUTCoefficient', mapping_=mapping_)
         if mapping_ is not None:
             mapping_[id(self)] = element
         return element
-    def exportLiteral(self, outfile, level, name_='_Water'):
+    def exportLiteral(self, outfile, level, name_='_DartLUT'):
         level += 1
         already_processed = set()
         self.exportLiteralAttributes(outfile, level, already_processed, name_)
         if self.hasContent_():
             self.exportLiteralChildren(outfile, level, name_)
     def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.waterPriorityOnTrees is not None and 'waterPriorityOnTrees' not in already_processed:
-            already_processed.add('waterPriorityOnTrees')
+        if self.baseSimulationName is not None and 'baseSimulationName' not in already_processed:
+            already_processed.add('baseSimulationName')
             showIndent(outfile, level)
-            outfile.write('waterPriorityOnTrees=%d,\n' % (self.waterPriorityOnTrees,))
-        if self.waterPriorityOnPlots is not None and 'waterPriorityOnPlots' not in already_processed:
-            already_processed.add('waterPriorityOnPlots')
+            outfile.write('baseSimulationName="%s",\n' % (self.baseSimulationName,))
+        if self.dataFormat is not None and 'dataFormat' not in already_processed:
+            already_processed.add('dataFormat')
             showIndent(outfile, level)
-            outfile.write('waterPriorityOnPlots=%d,\n' % (self.waterPriorityOnPlots,))
+            outfile.write('dataFormat="%s",\n' % (self.dataFormat,))
+        if self.isLambdaSequence is not None and 'isLambdaSequence' not in already_processed:
+            already_processed.add('isLambdaSequence')
+            showIndent(outfile, level)
+            outfile.write('isLambdaSequence=%d,\n' % (self.isLambdaSequence,))
+        if self.modelBRDFNumberCoefficient is not None and 'modelBRDFNumberCoefficient' not in already_processed:
+            already_processed.add('modelBRDFNumberCoefficient')
+            showIndent(outfile, level)
+            outfile.write('modelBRDFNumberCoefficient=%d,\n' % (self.modelBRDFNumberCoefficient,))
+        if self.sequenceName is not None and 'sequenceName' not in already_processed:
+            already_processed.add('sequenceName')
+            showIndent(outfile, level)
+            outfile.write('sequenceName="%s",\n' % (self.sequenceName,))
+        if self.simulationNumber is not None and 'simulationNumber' not in already_processed:
+            already_processed.add('simulationNumber')
+            showIndent(outfile, level)
+            outfile.write('simulationNumber=%d,\n' % (self.simulationNumber,))
     def exportLiteralChildren(self, outfile, level, name_):
-        if self.Lakes is not None:
+        if self.DataFile is not None:
             showIndent(outfile, level)
-            outfile.write('Lakes=model_._Lakes(\n')
-            self.Lakes.exportLiteral(outfile, level, name_='Lakes')
+            outfile.write('DataFile=model_._DataFile(\n')
+            self.DataFile.exportLiteral(outfile, level, name_='DataFile')
             showIndent(outfile, level)
             outfile.write('),\n')
-        if self.Rivers is not None:
+        if self.SpectralIntervals is not None:
             showIndent(outfile, level)
-            outfile.write('Rivers=model_._Rivers(\n')
-            self.Rivers.exportLiteral(outfile, level, name_='Rivers')
+            outfile.write('SpectralIntervals=model_._SpectralIntervals(\n')
+            self.SpectralIntervals.exportLiteral(outfile, level, name_='SpectralIntervals')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.StaticLUTReflectanceParameters is not None:
+            showIndent(outfile, level)
+            outfile.write('StaticLUTReflectanceParameters=model_._StaticLUTReflectanceParameters(\n')
+            self.StaticLUTReflectanceParameters.exportLiteral(outfile, level, name_='StaticLUTReflectanceParameters')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.StaticLUTCoefficientParameters is not None:
+            showIndent(outfile, level)
+            outfile.write('StaticLUTCoefficientParameters=model_._StaticLUTCoefficientParameters(\n')
+            self.StaticLUTCoefficientParameters.exportLiteral(outfile, level, name_='StaticLUTCoefficientParameters')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.FreeParametersLUTReflectance is not None:
+            showIndent(outfile, level)
+            outfile.write('FreeParametersLUTReflectance=model_._FreeParametersLUTReflectance(\n')
+            self.FreeParametersLUTReflectance.exportLiteral(outfile, level, name_='FreeParametersLUTReflectance')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.FreeParametersLUTCoefficient is not None:
+            showIndent(outfile, level)
+            outfile.write('FreeParametersLUTCoefficient=model_._FreeParametersLUTCoefficient(\n')
+            self.FreeParametersLUTCoefficient.exportLiteral(outfile, level, name_='FreeParametersLUTCoefficient')
             showIndent(outfile, level)
             outfile.write('),\n')
     def build(self, node):
@@ -1043,89 +1158,127 @@ class create_Water(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
         return self
     def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('waterPriorityOnTrees', node)
-        if value is not None and 'waterPriorityOnTrees' not in already_processed:
-            already_processed.add('waterPriorityOnTrees')
+        value = find_attr_value_('baseSimulationName', node)
+        if value is not None and 'baseSimulationName' not in already_processed:
+            already_processed.add('baseSimulationName')
+            self.baseSimulationName = value
+        value = find_attr_value_('dataFormat', node)
+        if value is not None and 'dataFormat' not in already_processed:
+            already_processed.add('dataFormat')
+            self.dataFormat = value
+        value = find_attr_value_('isLambdaSequence', node)
+        if value is not None and 'isLambdaSequence' not in already_processed:
+            already_processed.add('isLambdaSequence')
             try:
-                self.waterPriorityOnTrees = int(value)
+                self.isLambdaSequence = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-        value = find_attr_value_('waterPriorityOnPlots', node)
-        if value is not None and 'waterPriorityOnPlots' not in already_processed:
-            already_processed.add('waterPriorityOnPlots')
+        value = find_attr_value_('modelBRDFNumberCoefficient', node)
+        if value is not None and 'modelBRDFNumberCoefficient' not in already_processed:
+            already_processed.add('modelBRDFNumberCoefficient')
             try:
-                self.waterPriorityOnPlots = int(value)
+                self.modelBRDFNumberCoefficient = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('sequenceName', node)
+        if value is not None and 'sequenceName' not in already_processed:
+            already_processed.add('sequenceName')
+            self.sequenceName = value
+        value = find_attr_value_('simulationNumber', node)
+        if value is not None and 'simulationNumber' not in already_processed:
+            already_processed.add('simulationNumber')
+            try:
+                self.simulationNumber = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'Lakes':
-            obj_ = create_Lakes.factory()
+        if nodeName_ == 'DataFile':
+            obj_ = create_DataFile.factory()
             obj_.build(child_)
-            self.set_Lakes(obj_)
-            obj_.original_tagname_ = 'Lakes'
-        elif nodeName_ == 'Rivers':
-            obj_ = create_Rivers.factory()
+            self.set_DataFile(obj_)
+            obj_.original_tagname_ = 'DataFile'
+        elif nodeName_ == 'SpectralIntervals':
+            obj_ = create_SpectralIntervals.factory()
             obj_.build(child_)
-            self.set_Rivers(obj_)
-            obj_.original_tagname_ = 'Rivers'
-# end class create_Water
+            self.set_SpectralIntervals(obj_)
+            obj_.original_tagname_ = 'SpectralIntervals'
+        elif nodeName_ == 'StaticLUTReflectanceParameters':
+            obj_ = create_StaticLUTReflectanceParameters.factory()
+            obj_.build(child_)
+            self.set_StaticLUTReflectanceParameters(obj_)
+            obj_.original_tagname_ = 'StaticLUTReflectanceParameters'
+        elif nodeName_ == 'StaticLUTCoefficientParameters':
+            obj_ = create_StaticLUTCoefficientParameters.factory()
+            obj_.build(child_)
+            self.set_StaticLUTCoefficientParameters(obj_)
+            obj_.original_tagname_ = 'StaticLUTCoefficientParameters'
+        elif nodeName_ == 'FreeParametersLUTReflectance':
+            obj_ = create_FreeParametersLUTReflectance.factory()
+            obj_.build(child_)
+            self.set_FreeParametersLUTReflectance(obj_)
+            obj_.original_tagname_ = 'FreeParametersLUTReflectance'
+        elif nodeName_ == 'FreeParametersLUTCoefficient':
+            obj_ = create_FreeParametersLUTCoefficient.factory()
+            obj_.build(child_)
+            self.set_FreeParametersLUTCoefficient(obj_)
+            obj_.original_tagname_ = 'FreeParametersLUTCoefficient'
+# end class create_DartLUT
 
 
-class create_Lakes(GeneratedsSuper):
-    """Lakes Lakes"""
+class create_DataFile(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, Lake=None):
+    def __init__(self, Property=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("water","_Lakes")
+        self.troot=get_gs_troot("LUT","_DataFile")
         self.attrib = ['']
-        self.children = ['Lake']
+        self.children = ['Property']
         self.parent = None
-        if Lake is None:
-            self._Lake = []
+        if Property is None:
+            self._Property = []
         else:
-            self._Lake = Lake
-        update_node(self,self.troot,"water")
+            self._Property = Property
+        update_node(self,self.troot,"LUT")
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, create_Lakes)
+                CurrentSubclassModule_, create_DataFile)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if create_Lakes.subclass:
-            return create_Lakes.subclass(*args_, **kwargs_)
+        if create_DataFile.subclass:
+            return create_DataFile.subclass(*args_, **kwargs_)
         else:
-            return create_Lakes(*args_, **kwargs_)
+            return create_DataFile(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_Lake(self): return self._Lake
-    def set_Lake(self, value):
+    def get_Property(self): return self._Property
+    def set_Property(self, value):
         if value is not None:
-            checkclass(value, create_Lake)
+            checkclass(value, create_Property)
             for v in value:
                 v.parent = self
-        self._Lake = value
-    def add_Lake(self, value):
+        self._Property = value
+    def add_Property(self, value):
         value.parent = self
-        self._Lake.append(value)
-    def insert_Lake_at(self, index, value):
+        self._Property.append(value)
+    def insert_Property_at(self, index, value):
         value.parent = self
-        self.Lake.insert(index, value)
-    def replace_Lake_at(self, index, value):
+        self.Property.insert(index, value)
+    def replace_Property_at(self, index, value):
         value.parent = self
-        self.Lake[index] = value
-    Lake = property(get_Lake, set_Lake)
+        self.Property[index] = value
+    Property = property(get_Property, set_Property)
     def copy(self):
         obj_ = self.factory()
         return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
-            self.Lake
+            self.Property
         ):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', name_='_Lakes', namespacedef_='', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_Lakes')
+    def export(self, outfile, level, namespaceprefix_='', name_='_DataFile', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_DataFile')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
@@ -1137,34 +1290,34 @@ class create_Lakes(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_Lakes')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_DataFile')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_Lakes', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_DataFile', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_Lakes'):
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_DataFile'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_Lakes', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_DataFile', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        for Lake_ in self.Lake:
-            Lake_.export(outfile, level, namespaceprefix_, name_='Lake', pretty_print=pretty_print)
-    def to_etree(self, parent_element=None, name_='_Lakes', mapping_=None):
+        for Property_ in self.Property:
+            Property_.export(outfile, level, namespaceprefix_, name_='Property', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_DataFile', mapping_=None):
         if parent_element is None:
             element = etree_.Element('{}' + name_)
         else:
             element = etree_.SubElement(parent_element, '{}' + name_)
-        for Lake_ in self.Lake:
-            Lake_.to_etree(element, name_='Lake', mapping_=mapping_)
+        for Property_ in self.Property:
+            Property_.to_etree(element, name_='Property', mapping_=mapping_)
         if mapping_ is not None:
             mapping_[id(self)] = element
         return element
-    def exportLiteral(self, outfile, level, name_='_Lakes'):
+    def exportLiteral(self, outfile, level, name_='_DataFile'):
         level += 1
         already_processed = set()
         self.exportLiteralAttributes(outfile, level, already_processed, name_)
@@ -1174,12 +1327,12 @@ class create_Lakes(GeneratedsSuper):
         pass
     def exportLiteralChildren(self, outfile, level, name_):
         showIndent(outfile, level)
-        outfile.write('Lake=[\n')
+        outfile.write('Property=[\n')
         level += 1
-        for Lake_ in self.Lake:
+        for Property_ in self.Property:
             showIndent(outfile, level)
-            outfile.write('model_._Lake(\n')
-            Lake_.exportLiteral(outfile, level, name_='_Lake')
+            outfile.write('model_._Property(\n')
+            Property_.exportLiteral(outfile, level, name_='_Property')
             showIndent(outfile, level)
             outfile.write('),\n')
         level -= 1
@@ -1188,7 +1341,7 @@ class create_Lakes(GeneratedsSuper):
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
-        self.Lake = []
+        self.Property = []
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
             self.buildChildren(child, node, nodeName_)
@@ -1196,94 +1349,53 @@ class create_Lakes(GeneratedsSuper):
     def buildAttributes(self, node, attrs, already_processed):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'Lake':
-            obj_ = create_Lake.factory()
+        if nodeName_ == 'Property':
+            obj_ = create_Property.factory()
             obj_.build(child_)
-            self.add_Lake(obj_)
-            obj_.original_tagname_ = 'Lake'
-# end class create_Lakes
+            self.add_Property(obj_)
+            obj_.original_tagname_ = 'Property'
+# end class create_DataFile
 
 
-class create_Lake(GeneratedsSuper):
-    """Lake Lake If you select this option, this lake are not use in all
-    DART modules, \n it's useful if you want conserve lake
-    properties backup without delete this for tests If you select
-    this option, this lake are not use in all DART modules, \n it's
-    useful if you want conserve lake properties backup without
-    delete this for tests Objects's positions are taken from the
-    position file.\nDesactivate this option if you experience some
-    slowdown. Objects's positions are taken from the position
-    file.\nDesactivate this option if you experience some slowdown."""
+class create_Property(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, hidden=0, isDisplayed=1, Ellipse2D=None, OpticalPropertyLink=None, ThermalPropertyLink=None):
+    def __init__(self, name=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("water","_Lake")
-        self.attrib = ['hidden', 'isDisplayed']
-        self.children = ['Ellipse2D', 'OpticalPropertyLink', 'ThermalPropertyLink']
+        self.troot=get_gs_troot("LUT","_Property")
+        self.attrib = ['name']
+        self.children = []
         self.parent = None
-        self._hidden = _cast(int, hidden)
-        self._isDisplayed = _cast(int, isDisplayed)
-        self._Ellipse2D = Ellipse2D
-        self._OpticalPropertyLink = OpticalPropertyLink
-        self._ThermalPropertyLink = ThermalPropertyLink
-        update_node(self,self.troot,"water")
+        self._name = _cast(None, name)
+        update_node(self,self.troot,"LUT")
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, create_Lake)
+                CurrentSubclassModule_, create_Property)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if create_Lake.subclass:
-            return create_Lake.subclass(*args_, **kwargs_)
+        if create_Property.subclass:
+            return create_Property.subclass(*args_, **kwargs_)
         else:
-            return create_Lake(*args_, **kwargs_)
+            return create_Property(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_Ellipse2D(self): return self._Ellipse2D
-    def set_Ellipse2D(self, value):
-        if value is not None:
-            checkclass(value, create_Ellipse2D)
-            value.parent = self
-        self._Ellipse2D = value
-    Ellipse2D = property(get_Ellipse2D, set_Ellipse2D)
-    def get_OpticalPropertyLink(self): return self._OpticalPropertyLink
-    def set_OpticalPropertyLink(self, value):
-        if value is not None:
-            checkclass(value, create_OpticalPropertyLink)
-            value.parent = self
-        self._OpticalPropertyLink = value
-    OpticalPropertyLink = property(get_OpticalPropertyLink, set_OpticalPropertyLink)
-    def get_ThermalPropertyLink(self): return self._ThermalPropertyLink
-    def set_ThermalPropertyLink(self, value):
-        if value is not None:
-            checkclass(value, create_ThermalPropertyLink)
-            value.parent = self
-        self._ThermalPropertyLink = value
-    ThermalPropertyLink = property(get_ThermalPropertyLink, set_ThermalPropertyLink)
-    def get_hidden(self): return self._hidden
-    def set_hidden(self, value):
-        self._hidden = value
-        update_node(self,self.troot,"water")
-    hidden = property(get_hidden, set_hidden)
-    def get_isDisplayed(self): return self._isDisplayed
-    def set_isDisplayed(self, value):
-        self._isDisplayed = value
-        update_node(self,self.troot,"water")
-    isDisplayed = property(get_isDisplayed, set_isDisplayed)
+    def get_name(self): return self._name
+    def set_name(self, value):
+        self._name = value
+        update_node(self,self.troot,"LUT")
+    name = property(get_name, set_name)
     def copy(self):
         obj_ = self.factory()
         return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
-            self.Ellipse2D is not None or
-            self.OpticalPropertyLink is not None or
-            self.ThermalPropertyLink is not None
+
         ):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', name_='_Lake', namespacedef_='', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_Lake')
+    def export(self, outfile, level, namespaceprefix_='', name_='_Property', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_Property')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
@@ -1295,87 +1407,42 @@ class create_Lake(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_Lake')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_Property')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_Lake', pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_Property', pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_Lake'):
-        if self.hidden is not None and 'hidden' not in already_processed:
-            already_processed.add('hidden')
-            outfile.write(' hidden="%s"' % self.gds_format_integer(self.hidden, input_name='hidden'))
-        if self.isDisplayed is not None and 'isDisplayed' not in already_processed:
-            already_processed.add('isDisplayed')
-            outfile.write(' isDisplayed="%s"' % self.gds_format_integer(self.isDisplayed, input_name='isDisplayed'))
-    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_Lake', fromsubclass_=False, pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.Ellipse2D is not None:
-            self.Ellipse2D.export(outfile, level, namespaceprefix_, name_='Ellipse2D', pretty_print=pretty_print)
-        if self.OpticalPropertyLink is not None:
-            self.OpticalPropertyLink.export(outfile, level, namespaceprefix_, name_='OpticalPropertyLink', pretty_print=pretty_print)
-        if self.ThermalPropertyLink is not None:
-            self.ThermalPropertyLink.export(outfile, level, namespaceprefix_, name_='ThermalPropertyLink', pretty_print=pretty_print)
-    def to_etree(self, parent_element=None, name_='_Lake', mapping_=None):
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_Property'):
+        if self.name is not None and 'name' not in already_processed:
+            already_processed.add('name')
+            outfile.write(' name=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.name), input_name='name')), ))
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_Property', fromsubclass_=False, pretty_print=True):
+        pass
+    def to_etree(self, parent_element=None, name_='_Property', mapping_=None):
         if parent_element is None:
             element = etree_.Element('{}' + name_)
         else:
             element = etree_.SubElement(parent_element, '{}' + name_)
-        if self.hidden is not None:
-            element.set('hidden', self.gds_format_integer(self.hidden))
-        if self.isDisplayed is not None:
-            element.set('isDisplayed', self.gds_format_integer(self.isDisplayed))
-        if self.Ellipse2D is not None:
-            Ellipse2D_ = self.Ellipse2D
-            Ellipse2D_.to_etree(element, name_='Ellipse2D', mapping_=mapping_)
-        if self.OpticalPropertyLink is not None:
-            OpticalPropertyLink_ = self.OpticalPropertyLink
-            OpticalPropertyLink_.to_etree(element, name_='OpticalPropertyLink', mapping_=mapping_)
-        if self.ThermalPropertyLink is not None:
-            ThermalPropertyLink_ = self.ThermalPropertyLink
-            ThermalPropertyLink_.to_etree(element, name_='ThermalPropertyLink', mapping_=mapping_)
+        if self.name is not None:
+            element.set('name', self.gds_format_string(self.name))
         if mapping_ is not None:
             mapping_[id(self)] = element
         return element
-    def exportLiteral(self, outfile, level, name_='_Lake'):
+    def exportLiteral(self, outfile, level, name_='_Property'):
         level += 1
         already_processed = set()
         self.exportLiteralAttributes(outfile, level, already_processed, name_)
         if self.hasContent_():
             self.exportLiteralChildren(outfile, level, name_)
     def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.hidden is not None and 'hidden' not in already_processed:
-            already_processed.add('hidden')
+        if self.name is not None and 'name' not in already_processed:
+            already_processed.add('name')
             showIndent(outfile, level)
-            outfile.write('hidden=%d,\n' % (self.hidden,))
-        if self.isDisplayed is not None and 'isDisplayed' not in already_processed:
-            already_processed.add('isDisplayed')
-            showIndent(outfile, level)
-            outfile.write('isDisplayed=%d,\n' % (self.isDisplayed,))
+            outfile.write('name="%s",\n' % (self.name,))
     def exportLiteralChildren(self, outfile, level, name_):
-        if self.Ellipse2D is not None:
-            showIndent(outfile, level)
-            outfile.write('Ellipse2D=model_._Ellipse2D(\n')
-            self.Ellipse2D.exportLiteral(outfile, level, name_='Ellipse2D')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.OpticalPropertyLink is not None:
-            showIndent(outfile, level)
-            outfile.write('OpticalPropertyLink=model_._OpticalPropertyLink(\n')
-            self.OpticalPropertyLink.exportLiteral(outfile, level, name_='OpticalPropertyLink')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.ThermalPropertyLink is not None:
-            showIndent(outfile, level)
-            outfile.write('ThermalPropertyLink=model_._ThermalPropertyLink(\n')
-            self.ThermalPropertyLink.exportLiteral(outfile, level, name_='ThermalPropertyLink')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1384,783 +1451,69 @@ class create_Lake(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
         return self
     def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('hidden', node)
-        if value is not None and 'hidden' not in already_processed:
-            already_processed.add('hidden')
-            try:
-                self.hidden = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-        value = find_attr_value_('isDisplayed', node)
-        if value is not None and 'isDisplayed' not in already_processed:
-            already_processed.add('isDisplayed')
-            try:
-                self.isDisplayed = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('name', node)
+        if value is not None and 'name' not in already_processed:
+            already_processed.add('name')
+            self.name = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'Ellipse2D':
-            obj_ = create_Ellipse2D.factory()
-            obj_.build(child_)
-            self.set_Ellipse2D(obj_)
-            obj_.original_tagname_ = 'Ellipse2D'
-        elif nodeName_ == 'OpticalPropertyLink':
-            obj_ = create_OpticalPropertyLink.factory()
-            obj_.build(child_)
-            self.set_OpticalPropertyLink(obj_)
-            obj_.original_tagname_ = 'OpticalPropertyLink'
-        elif nodeName_ == 'ThermalPropertyLink':
-            obj_ = create_ThermalPropertyLink.factory()
-            obj_.build(child_)
-            self.set_ThermalPropertyLink(obj_)
-            obj_.original_tagname_ = 'ThermalPropertyLink'
-# end class create_Lake
+        pass
+# end class create_Property
 
 
-class create_Ellipse2D(GeneratedsSuper):
-    """Ellipse2D Ellipse2D"""
+class create_SpectralIntervals(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, Point2D=None, HalfAxes=None):
+    def __init__(self, SpectralIntervalsProperties=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("water","_Ellipse2D")
+        self.troot=get_gs_troot("LUT","_SpectralIntervals")
         self.attrib = ['']
-        self.children = ['Point2D', 'HalfAxes']
+        self.children = ['SpectralIntervalsProperties']
         self.parent = None
-        self._Point2D = Point2D
-        self._HalfAxes = HalfAxes
-        update_node(self,self.troot,"water")
+        if SpectralIntervalsProperties is None:
+            self._SpectralIntervalsProperties = []
+        else:
+            self._SpectralIntervalsProperties = SpectralIntervalsProperties
+        update_node(self,self.troot,"LUT")
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, create_Ellipse2D)
+                CurrentSubclassModule_, create_SpectralIntervals)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if create_Ellipse2D.subclass:
-            return create_Ellipse2D.subclass(*args_, **kwargs_)
+        if create_SpectralIntervals.subclass:
+            return create_SpectralIntervals.subclass(*args_, **kwargs_)
         else:
-            return create_Ellipse2D(*args_, **kwargs_)
+            return create_SpectralIntervals(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_Point2D(self): return self._Point2D
-    def set_Point2D(self, value):
+    def get_SpectralIntervalsProperties(self): return self._SpectralIntervalsProperties
+    def set_SpectralIntervalsProperties(self, value):
         if value is not None:
-            checkclass(value, create_Point2D)
-            value.parent = self
-        self._Point2D = value
-    Point2D = property(get_Point2D, set_Point2D)
-    def get_HalfAxes(self): return self._HalfAxes
-    def set_HalfAxes(self, value):
-        if value is not None:
-            checkclass(value, create_HalfAxes)
-            value.parent = self
-        self._HalfAxes = value
-    HalfAxes = property(get_HalfAxes, set_HalfAxes)
-    def copy(self):
-        obj_ = self.factory()
-        return(obj_.build(self.to_etree()))
-    def hasContent_(self):
-        if (
-            self.Point2D is not None or
-            self.HalfAxes is not None
-        ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespaceprefix_='', name_='_Ellipse2D', namespacedef_='', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_Ellipse2D')
-        if imported_ns_def_ is not None:
-            namespacedef_ = imported_ns_def_
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.original_tagname_ is not None:
-            name_ = self.original_tagname_
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_Ellipse2D')
-        if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_Ellipse2D', pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_Ellipse2D'):
-        pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_Ellipse2D', fromsubclass_=False, pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.Point2D is not None:
-            self.Point2D.export(outfile, level, namespaceprefix_, name_='Point2D', pretty_print=pretty_print)
-        if self.HalfAxes is not None:
-            self.HalfAxes.export(outfile, level, namespaceprefix_, name_='HalfAxes', pretty_print=pretty_print)
-    def to_etree(self, parent_element=None, name_='_Ellipse2D', mapping_=None):
-        if parent_element is None:
-            element = etree_.Element('{}' + name_)
-        else:
-            element = etree_.SubElement(parent_element, '{}' + name_)
-        if self.Point2D is not None:
-            Point2D_ = self.Point2D
-            Point2D_.to_etree(element, name_='Point2D', mapping_=mapping_)
-        if self.HalfAxes is not None:
-            HalfAxes_ = self.HalfAxes
-            HalfAxes_.to_etree(element, name_='HalfAxes', mapping_=mapping_)
-        if mapping_ is not None:
-            mapping_[id(self)] = element
-        return element
-    def exportLiteral(self, outfile, level, name_='_Ellipse2D'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Point2D is not None:
-            showIndent(outfile, level)
-            outfile.write('Point2D=model_._Point2D(\n')
-            self.Point2D.exportLiteral(outfile, level, name_='Point2D')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.HalfAxes is not None:
-            showIndent(outfile, level)
-            outfile.write('HalfAxes=model_._HalfAxes(\n')
-            self.HalfAxes.exportLiteral(outfile, level, name_='HalfAxes')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-    def build(self, node):
-        already_processed = set()
-        self.buildAttributes(node, node.attrib, already_processed)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_)
-        return self
-    def buildAttributes(self, node, attrs, already_processed):
-        pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'Point2D':
-            obj_ = create_Point2D.factory()
-            obj_.build(child_)
-            self.set_Point2D(obj_)
-            obj_.original_tagname_ = 'Point2D'
-        elif nodeName_ == 'HalfAxes':
-            obj_ = create_HalfAxes.factory()
-            obj_.build(child_)
-            self.set_HalfAxes(obj_)
-            obj_.original_tagname_ = 'HalfAxes'
-# end class create_Ellipse2D
-
-
-class create_Point2D(GeneratedsSuper):
-    """Point2D Point2D y coordinate of the center of the ellipse that
-    simulates the lake y coordinate of the center of the ellipse
-    that simulates the lake x coordinate of the center of the
-    ellipse that simulates the lake x coordinate of the center of
-    the ellipse that simulates the lake"""
-    subclass = None
-    superclass = None
-    def __init__(self, y=30.00, x=10.00):
-        self.original_tagname_ = None
-        self.troot=get_gs_troot("water","_Point2D")
-        self.attrib = ['y', 'x']
-        self.children = []
-        self.parent = None
-        self._y = _cast(float, y)
-        self._x = _cast(float, x)
-        update_node(self,self.troot,"water")
-    def factory(*args_, **kwargs_):
-        if CurrentSubclassModule_ is not None:
-            subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, create_Point2D)
-            if subclass is not None:
-                return subclass(*args_, **kwargs_)
-        if create_Point2D.subclass:
-            return create_Point2D.subclass(*args_, **kwargs_)
-        else:
-            return create_Point2D(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_y(self): return self._y
-    def set_y(self, value):
-        self._y = value
-        update_node(self,self.troot,"water")
-    y = property(get_y, set_y)
-    def get_x(self): return self._x
-    def set_x(self, value):
-        self._x = value
-        update_node(self,self.troot,"water")
-    x = property(get_x, set_x)
-    def copy(self):
-        obj_ = self.factory()
-        return(obj_.build(self.to_etree()))
-    def hasContent_(self):
-        if (
-
-        ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespaceprefix_='', name_='_Point2D', namespacedef_='', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_Point2D')
-        if imported_ns_def_ is not None:
-            namespacedef_ = imported_ns_def_
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.original_tagname_ is not None:
-            name_ = self.original_tagname_
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_Point2D')
-        if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_Point2D', pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_Point2D'):
-        if self.y is not None and 'y' not in already_processed:
-            already_processed.add('y')
-            outfile.write(' y="%s"' % self.gds_format_double(self.y, input_name='y'))
-        if self.x is not None and 'x' not in already_processed:
-            already_processed.add('x')
-            outfile.write(' x="%s"' % self.gds_format_double(self.x, input_name='x'))
-    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_Point2D', fromsubclass_=False, pretty_print=True):
-        pass
-    def to_etree(self, parent_element=None, name_='_Point2D', mapping_=None):
-        if parent_element is None:
-            element = etree_.Element('{}' + name_)
-        else:
-            element = etree_.SubElement(parent_element, '{}' + name_)
-        if self.y is not None:
-            element.set('y', self.gds_format_double(self.y))
-        if self.x is not None:
-            element.set('x', self.gds_format_double(self.x))
-        if mapping_ is not None:
-            mapping_[id(self)] = element
-        return element
-    def exportLiteral(self, outfile, level, name_='_Point2D'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.y is not None and 'y' not in already_processed:
-            already_processed.add('y')
-            showIndent(outfile, level)
-            outfile.write('y=%e,\n' % (self.y,))
-        if self.x is not None and 'x' not in already_processed:
-            already_processed.add('x')
-            showIndent(outfile, level)
-            outfile.write('x=%e,\n' % (self.x,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        pass
-    def build(self, node):
-        already_processed = set()
-        self.buildAttributes(node, node.attrib, already_processed)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_)
-        return self
-    def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('y', node)
-        if value is not None and 'y' not in already_processed:
-            already_processed.add('y')
-            try:
-                self.y = float(value)
-            except ValueError as exp:
-                raise ValueError('Bad float/double attribute (y): %s' % exp)
-        value = find_attr_value_('x', node)
-        if value is not None and 'x' not in already_processed:
-            already_processed.add('x')
-            try:
-                self.x = float(value)
-            except ValueError as exp:
-                raise ValueError('Bad float/double attribute (x): %s' % exp)
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        pass
-# end class create_Point2D
-
-
-class create_HalfAxes(GeneratedsSuper):
-    """HalfAxes HalfAxes Length (m) along y of the half axis of the ellipse
-    that simulates the lake Length (m) along y of the half axis of
-    the ellipse that simulates the lake Length (m) along x of the
-    half axis of the ellipse that simulates the lake Length (m)
-    along x of the half axis of the ellipse that simulates the lake"""
-    subclass = None
-    superclass = None
-    def __init__(self, y=7.00, x=9.00):
-        self.original_tagname_ = None
-        self.troot=get_gs_troot("water","_HalfAxes")
-        self.attrib = ['y', 'x']
-        self.children = []
-        self.parent = None
-        self._y = _cast(float, y)
-        self._x = _cast(float, x)
-        update_node(self,self.troot,"water")
-    def factory(*args_, **kwargs_):
-        if CurrentSubclassModule_ is not None:
-            subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, create_HalfAxes)
-            if subclass is not None:
-                return subclass(*args_, **kwargs_)
-        if create_HalfAxes.subclass:
-            return create_HalfAxes.subclass(*args_, **kwargs_)
-        else:
-            return create_HalfAxes(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_y(self): return self._y
-    def set_y(self, value):
-        self._y = value
-        update_node(self,self.troot,"water")
-    y = property(get_y, set_y)
-    def get_x(self): return self._x
-    def set_x(self, value):
-        self._x = value
-        update_node(self,self.troot,"water")
-    x = property(get_x, set_x)
-    def copy(self):
-        obj_ = self.factory()
-        return(obj_.build(self.to_etree()))
-    def hasContent_(self):
-        if (
-
-        ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespaceprefix_='', name_='_HalfAxes', namespacedef_='', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_HalfAxes')
-        if imported_ns_def_ is not None:
-            namespacedef_ = imported_ns_def_
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.original_tagname_ is not None:
-            name_ = self.original_tagname_
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_HalfAxes')
-        if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_HalfAxes', pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_HalfAxes'):
-        if self.y is not None and 'y' not in already_processed:
-            already_processed.add('y')
-            outfile.write(' y="%s"' % self.gds_format_double(self.y, input_name='y'))
-        if self.x is not None and 'x' not in already_processed:
-            already_processed.add('x')
-            outfile.write(' x="%s"' % self.gds_format_double(self.x, input_name='x'))
-    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_HalfAxes', fromsubclass_=False, pretty_print=True):
-        pass
-    def to_etree(self, parent_element=None, name_='_HalfAxes', mapping_=None):
-        if parent_element is None:
-            element = etree_.Element('{}' + name_)
-        else:
-            element = etree_.SubElement(parent_element, '{}' + name_)
-        if self.y is not None:
-            element.set('y', self.gds_format_double(self.y))
-        if self.x is not None:
-            element.set('x', self.gds_format_double(self.x))
-        if mapping_ is not None:
-            mapping_[id(self)] = element
-        return element
-    def exportLiteral(self, outfile, level, name_='_HalfAxes'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.y is not None and 'y' not in already_processed:
-            already_processed.add('y')
-            showIndent(outfile, level)
-            outfile.write('y=%e,\n' % (self.y,))
-        if self.x is not None and 'x' not in already_processed:
-            already_processed.add('x')
-            showIndent(outfile, level)
-            outfile.write('x=%e,\n' % (self.x,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        pass
-    def build(self, node):
-        already_processed = set()
-        self.buildAttributes(node, node.attrib, already_processed)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_)
-        return self
-    def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('y', node)
-        if value is not None and 'y' not in already_processed:
-            already_processed.add('y')
-            try:
-                self.y = float(value)
-            except ValueError as exp:
-                raise ValueError('Bad float/double attribute (y): %s' % exp)
-        value = find_attr_value_('x', node)
-        if value is not None and 'x' not in already_processed:
-            already_processed.add('x')
-            try:
-                self.x = float(value)
-            except ValueError as exp:
-                raise ValueError('Bad float/double attribute (x): %s' % exp)
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        pass
-# end class create_HalfAxes
-
-
-class create_OpticalPropertyLink(GeneratedsSuper):
-    """OpticalPropertyLink OpticalPropertyLink Index of the DART phase
-    function of the ground of the plot. Index of the DART phase
-    function of the ground of the plot. proportion of photons
-    intercepted along an incident direction that are scattered
-    within a solid angle along a given direction proportion of
-    photons intercepted along an incident direction that are
-    scattered within a solid angle along a given direction Type of
-    phase function (lambertian, etc.). Water is an opaque surface.
-    Type of phase function (lambertian, etc.). Water is an opaque
-    surface."""
-    subclass = None
-    superclass = None
-    def __init__(self, indexFctPhase=0, ident='f0', type_=0):
-        self.original_tagname_ = None
-        self.troot=get_gs_troot("water","_OpticalPropertyLink")
-        self.attrib = ['indexFctPhase', 'ident', 'type_']
-        self.children = []
-        self.parent = None
-        self._indexFctPhase = _cast(int, indexFctPhase)
-        self._ident = _cast(None, ident)
-        self._type_ = _cast(int, type_)
-        update_node(self,self.troot,"water")
-    def factory(*args_, **kwargs_):
-        if CurrentSubclassModule_ is not None:
-            subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, create_OpticalPropertyLink)
-            if subclass is not None:
-                return subclass(*args_, **kwargs_)
-        if create_OpticalPropertyLink.subclass:
-            return create_OpticalPropertyLink.subclass(*args_, **kwargs_)
-        else:
-            return create_OpticalPropertyLink(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_indexFctPhase(self): return self._indexFctPhase
-    def set_indexFctPhase(self, value):
-        self._indexFctPhase = value
-        update_node(self,self.troot,"water")
-    indexFctPhase = property(get_indexFctPhase, set_indexFctPhase)
-    def get_ident(self): return self._ident
-    def set_ident(self, value):
-        self._ident = value
-        update_node(self,self.troot,"water")
-    ident = property(get_ident, set_ident)
-    def get_type(self): return self._type_
-    def set_type(self, value):
-        self._type_ = value
-        update_node(self,self.troot,"water")
-    type_ = property(get_type, set_type)
-    def copy(self):
-        obj_ = self.factory()
-        return(obj_.build(self.to_etree()))
-    def hasContent_(self):
-        if (
-
-        ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespaceprefix_='', name_='_OpticalPropertyLink', namespacedef_='', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_OpticalPropertyLink')
-        if imported_ns_def_ is not None:
-            namespacedef_ = imported_ns_def_
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.original_tagname_ is not None:
-            name_ = self.original_tagname_
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_OpticalPropertyLink')
-        if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_OpticalPropertyLink', pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_OpticalPropertyLink'):
-        if self.indexFctPhase is not None and 'indexFctPhase' not in already_processed:
-            already_processed.add('indexFctPhase')
-            outfile.write(' indexFctPhase="%s"' % self.gds_format_integer(self.indexFctPhase, input_name='indexFctPhase'))
-        if self.ident is not None and 'ident' not in already_processed:
-            already_processed.add('ident')
-            outfile.write(' ident=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.ident), input_name='ident')), ))
-        if self.type_ is not None and 'type_' not in already_processed:
-            already_processed.add('type_')
-            outfile.write(' type="%s"' % self.gds_format_integer(self.type_, input_name='type'))
-    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_OpticalPropertyLink', fromsubclass_=False, pretty_print=True):
-        pass
-    def to_etree(self, parent_element=None, name_='_OpticalPropertyLink', mapping_=None):
-        if parent_element is None:
-            element = etree_.Element('{}' + name_)
-        else:
-            element = etree_.SubElement(parent_element, '{}' + name_)
-        if self.indexFctPhase is not None:
-            element.set('indexFctPhase', self.gds_format_integer(self.indexFctPhase))
-        if self.ident is not None:
-            element.set('ident', self.gds_format_string(self.ident))
-        if self.type_ is not None:
-            element.set('type', self.gds_format_integer(self.type_))
-        if mapping_ is not None:
-            mapping_[id(self)] = element
-        return element
-    def exportLiteral(self, outfile, level, name_='_OpticalPropertyLink'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.indexFctPhase is not None and 'indexFctPhase' not in already_processed:
-            already_processed.add('indexFctPhase')
-            showIndent(outfile, level)
-            outfile.write('indexFctPhase=%d,\n' % (self.indexFctPhase,))
-        if self.ident is not None and 'ident' not in already_processed:
-            already_processed.add('ident')
-            showIndent(outfile, level)
-            outfile.write('ident="%s",\n' % (self.ident,))
-        if self.type_ is not None and 'type_' not in already_processed:
-            already_processed.add('type_')
-            showIndent(outfile, level)
-            outfile.write('type_=%d,\n' % (self.type_,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        pass
-    def build(self, node):
-        already_processed = set()
-        self.buildAttributes(node, node.attrib, already_processed)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_)
-        return self
-    def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('indexFctPhase', node)
-        if value is not None and 'indexFctPhase' not in already_processed:
-            already_processed.add('indexFctPhase')
-            try:
-                self.indexFctPhase = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-        value = find_attr_value_('ident', node)
-        if value is not None and 'ident' not in already_processed:
-            already_processed.add('ident')
-            self.ident = value
-        value = find_attr_value_('type', node)
-        if value is not None and 'type' not in already_processed:
-            already_processed.add('type')
-            try:
-                self.type_ = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        pass
-# end class create_OpticalPropertyLink
-
-
-class create_ThermalPropertyLink(GeneratedsSuper):
-    """ThermalPropertyLink ThermalPropertyLink indexTemperature
-    indexTemperature Thermal Function ID Thermal Function ID"""
-    subclass = None
-    superclass = None
-    def __init__(self, indexTemperature=0, idTemperature='ThermalFunction290_310'):
-        self.original_tagname_ = None
-        self.troot=get_gs_troot("water","_ThermalPropertyLink")
-        self.attrib = ['indexTemperature', 'idTemperature']
-        self.children = []
-        self.parent = None
-        self._indexTemperature = _cast(int, indexTemperature)
-        self._idTemperature = _cast(None, idTemperature)
-        update_node(self,self.troot,"water")
-    def factory(*args_, **kwargs_):
-        if CurrentSubclassModule_ is not None:
-            subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, create_ThermalPropertyLink)
-            if subclass is not None:
-                return subclass(*args_, **kwargs_)
-        if create_ThermalPropertyLink.subclass:
-            return create_ThermalPropertyLink.subclass(*args_, **kwargs_)
-        else:
-            return create_ThermalPropertyLink(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_indexTemperature(self): return self._indexTemperature
-    def set_indexTemperature(self, value):
-        self._indexTemperature = value
-        update_node(self,self.troot,"water")
-    indexTemperature = property(get_indexTemperature, set_indexTemperature)
-    def get_idTemperature(self): return self._idTemperature
-    def set_idTemperature(self, value):
-        self._idTemperature = value
-        update_node(self,self.troot,"water")
-    idTemperature = property(get_idTemperature, set_idTemperature)
-    def copy(self):
-        obj_ = self.factory()
-        return(obj_.build(self.to_etree()))
-    def hasContent_(self):
-        if (
-
-        ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespaceprefix_='', name_='_ThermalPropertyLink', namespacedef_='', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_ThermalPropertyLink')
-        if imported_ns_def_ is not None:
-            namespacedef_ = imported_ns_def_
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.original_tagname_ is not None:
-            name_ = self.original_tagname_
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_ThermalPropertyLink')
-        if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_ThermalPropertyLink', pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_ThermalPropertyLink'):
-        if self.indexTemperature is not None and 'indexTemperature' not in already_processed:
-            already_processed.add('indexTemperature')
-            outfile.write(' indexTemperature="%s"' % self.gds_format_integer(self.indexTemperature, input_name='indexTemperature'))
-        if self.idTemperature is not None and 'idTemperature' not in already_processed:
-            already_processed.add('idTemperature')
-            outfile.write(' idTemperature=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.idTemperature), input_name='idTemperature')), ))
-    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_ThermalPropertyLink', fromsubclass_=False, pretty_print=True):
-        pass
-    def to_etree(self, parent_element=None, name_='_ThermalPropertyLink', mapping_=None):
-        if parent_element is None:
-            element = etree_.Element('{}' + name_)
-        else:
-            element = etree_.SubElement(parent_element, '{}' + name_)
-        if self.indexTemperature is not None:
-            element.set('indexTemperature', self.gds_format_integer(self.indexTemperature))
-        if self.idTemperature is not None:
-            element.set('idTemperature', self.gds_format_string(self.idTemperature))
-        if mapping_ is not None:
-            mapping_[id(self)] = element
-        return element
-    def exportLiteral(self, outfile, level, name_='_ThermalPropertyLink'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.indexTemperature is not None and 'indexTemperature' not in already_processed:
-            already_processed.add('indexTemperature')
-            showIndent(outfile, level)
-            outfile.write('indexTemperature=%d,\n' % (self.indexTemperature,))
-        if self.idTemperature is not None and 'idTemperature' not in already_processed:
-            already_processed.add('idTemperature')
-            showIndent(outfile, level)
-            outfile.write('idTemperature="%s",\n' % (self.idTemperature,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        pass
-    def build(self, node):
-        already_processed = set()
-        self.buildAttributes(node, node.attrib, already_processed)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_)
-        return self
-    def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('indexTemperature', node)
-        if value is not None and 'indexTemperature' not in already_processed:
-            already_processed.add('indexTemperature')
-            try:
-                self.indexTemperature = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-        value = find_attr_value_('idTemperature', node)
-        if value is not None and 'idTemperature' not in already_processed:
-            already_processed.add('idTemperature')
-            self.idTemperature = value
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        pass
-# end class create_ThermalPropertyLink
-
-
-class create_Rivers(GeneratedsSuper):
-    """Rivers Rivers"""
-    subclass = None
-    superclass = None
-    def __init__(self, River=None):
-        self.original_tagname_ = None
-        self.troot=get_gs_troot("water","_Rivers")
-        self.attrib = ['']
-        self.children = ['River']
-        self.parent = None
-        if River is None:
-            self._River = []
-        else:
-            self._River = River
-        update_node(self,self.troot,"water")
-    def factory(*args_, **kwargs_):
-        if CurrentSubclassModule_ is not None:
-            subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, create_Rivers)
-            if subclass is not None:
-                return subclass(*args_, **kwargs_)
-        if create_Rivers.subclass:
-            return create_Rivers.subclass(*args_, **kwargs_)
-        else:
-            return create_Rivers(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_River(self): return self._River
-    def set_River(self, value):
-        if value is not None:
-            checkclass(value, create_River)
+            checkclass(value, createSpectralIntervalsPropertiesType)
             for v in value:
                 v.parent = self
-        self._River = value
-    def add_River(self, value):
+        self._SpectralIntervalsProperties = value
+    def add_SpectralIntervalsProperties(self, value):
         value.parent = self
-        self._River.append(value)
-    def insert_River_at(self, index, value):
+        self._SpectralIntervalsProperties.append(value)
+    def insert_SpectralIntervalsProperties_at(self, index, value):
         value.parent = self
-        self.River.insert(index, value)
-    def replace_River_at(self, index, value):
+        self.SpectralIntervalsProperties.insert(index, value)
+    def replace_SpectralIntervalsProperties_at(self, index, value):
         value.parent = self
-        self.River[index] = value
-    River = property(get_River, set_River)
+        self.SpectralIntervalsProperties[index] = value
+    SpectralIntervalsProperties = property(get_SpectralIntervalsProperties, set_SpectralIntervalsProperties)
     def copy(self):
         obj_ = self.factory()
         return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
-            self.River
+            self.SpectralIntervalsProperties
         ):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', name_='_Rivers', namespacedef_='', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_Rivers')
+    def export(self, outfile, level, namespaceprefix_='', name_='_SpectralIntervals', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_SpectralIntervals')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
@@ -2172,34 +1525,34 @@ class create_Rivers(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_Rivers')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_SpectralIntervals')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_Rivers', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_SpectralIntervals', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_Rivers'):
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_SpectralIntervals'):
         pass
-    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_Rivers', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_SpectralIntervals', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        for River_ in self.River:
-            River_.export(outfile, level, namespaceprefix_, name_='River', pretty_print=pretty_print)
-    def to_etree(self, parent_element=None, name_='_Rivers', mapping_=None):
+        for SpectralIntervalsProperties_ in self.SpectralIntervalsProperties:
+            SpectralIntervalsProperties_.export(outfile, level, namespaceprefix_, name_='SpectralIntervalsProperties', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_SpectralIntervals', mapping_=None):
         if parent_element is None:
             element = etree_.Element('{}' + name_)
         else:
             element = etree_.SubElement(parent_element, '{}' + name_)
-        for River_ in self.River:
-            River_.to_etree(element, name_='River', mapping_=mapping_)
+        for SpectralIntervalsProperties_ in self.SpectralIntervalsProperties:
+            SpectralIntervalsProperties_.to_etree(element, name_='SpectralIntervalsProperties', mapping_=mapping_)
         if mapping_ is not None:
             mapping_[id(self)] = element
         return element
-    def exportLiteral(self, outfile, level, name_='_Rivers'):
+    def exportLiteral(self, outfile, level, name_='_SpectralIntervals'):
         level += 1
         already_processed = set()
         self.exportLiteralAttributes(outfile, level, already_processed, name_)
@@ -2209,12 +1562,12 @@ class create_Rivers(GeneratedsSuper):
         pass
     def exportLiteralChildren(self, outfile, level, name_):
         showIndent(outfile, level)
-        outfile.write('River=[\n')
+        outfile.write('SpectralIntervalsProperties=[\n')
         level += 1
-        for River_ in self.River:
+        for SpectralIntervalsProperties_ in self.SpectralIntervalsProperties:
             showIndent(outfile, level)
-            outfile.write('model_._River(\n')
-            River_.exportLiteral(outfile, level, name_='_River')
+            outfile.write('model_.SpectralIntervalsPropertiesType(\n')
+            SpectralIntervalsProperties_.exportLiteral(outfile, level, name_='SpectralIntervalsPropertiesType')
             showIndent(outfile, level)
             outfile.write('),\n')
         level -= 1
@@ -2223,7 +1576,7 @@ class create_Rivers(GeneratedsSuper):
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
-        self.River = []
+        self.SpectralIntervalsProperties = []
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
             self.buildChildren(child, node, nodeName_)
@@ -2231,288 +1584,68 @@ class create_Rivers(GeneratedsSuper):
     def buildAttributes(self, node, attrs, already_processed):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'River':
-            obj_ = create_River.factory()
+        if nodeName_ == 'SpectralIntervalsProperties':
+            obj_ = createSpectralIntervalsPropertiesType.factory()
             obj_.build(child_)
-            self.add_River(obj_)
-            obj_.original_tagname_ = 'River'
-# end class create_Rivers
+            self.add_SpectralIntervalsProperties(obj_)
+            obj_.original_tagname_ = 'SpectralIntervalsProperties'
+# end class create_SpectralIntervals
 
 
-class create_River(GeneratedsSuper):
-    """River River If you select this option, this river are not use in all
-    DART modules, \n it's useful if you want conserve river
-    properties backup without delete this for tests If you select
-    this option, this river are not use in all DART modules, \n it's
-    useful if you want conserve river properties backup without
-    delete this for tests Objects's positions are taken from the
-    position file.\nDesactivate this option if you experience some
-    slowdown. Objects's positions are taken from the position
-    file.\nDesactivate this option if you experience some slowdown."""
+class create_StaticLUTReflectanceParameters(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, hidden=0, isDisplayed=1, Path2D=None, OpticalPropertyLink=None, ThermalPropertyLink=None):
+    def __init__(self, Property=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("water","_River")
-        self.attrib = ['hidden', 'isDisplayed']
-        self.children = ['Path2D', 'OpticalPropertyLink', 'ThermalPropertyLink']
+        self.troot=get_gs_troot("LUT","_StaticLUTReflectanceParameters")
+        self.attrib = ['']
+        self.children = ['Property']
         self.parent = None
-        self._hidden = _cast(int, hidden)
-        self._isDisplayed = _cast(int, isDisplayed)
-        self._Path2D = Path2D
-        self._OpticalPropertyLink = OpticalPropertyLink
-        self._ThermalPropertyLink = ThermalPropertyLink
-        update_node(self,self.troot,"water")
+        if Property is None:
+            self._Property = []
+        else:
+            self._Property = Property
+        update_node(self,self.troot,"LUT")
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, create_River)
+                CurrentSubclassModule_, create_StaticLUTReflectanceParameters)
             if subclass is not None:
                 return subclass(*args_, **kwargs_)
-        if create_River.subclass:
-            return create_River.subclass(*args_, **kwargs_)
+        if create_StaticLUTReflectanceParameters.subclass:
+            return create_StaticLUTReflectanceParameters.subclass(*args_, **kwargs_)
         else:
-            return create_River(*args_, **kwargs_)
+            return create_StaticLUTReflectanceParameters(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_Path2D(self): return self._Path2D
-    def set_Path2D(self, value):
+    def get_Property(self): return self._Property
+    def set_Property(self, value):
         if value is not None:
-            checkclass(value, create_Path2D)
-            value.parent = self
-        self._Path2D = value
-    Path2D = property(get_Path2D, set_Path2D)
-    def get_OpticalPropertyLink(self): return self._OpticalPropertyLink
-    def set_OpticalPropertyLink(self, value):
-        if value is not None:
-            checkclass(value, create_OpticalPropertyLink)
-            value.parent = self
-        self._OpticalPropertyLink = value
-    OpticalPropertyLink = property(get_OpticalPropertyLink, set_OpticalPropertyLink)
-    def get_ThermalPropertyLink(self): return self._ThermalPropertyLink
-    def set_ThermalPropertyLink(self, value):
-        if value is not None:
-            checkclass(value, create_ThermalPropertyLink)
-            value.parent = self
-        self._ThermalPropertyLink = value
-    ThermalPropertyLink = property(get_ThermalPropertyLink, set_ThermalPropertyLink)
-    def get_hidden(self): return self._hidden
-    def set_hidden(self, value):
-        self._hidden = value
-        update_node(self,self.troot,"water")
-    hidden = property(get_hidden, set_hidden)
-    def get_isDisplayed(self): return self._isDisplayed
-    def set_isDisplayed(self, value):
-        self._isDisplayed = value
-        update_node(self,self.troot,"water")
-    isDisplayed = property(get_isDisplayed, set_isDisplayed)
-    def copy(self):
-        obj_ = self.factory()
-        return(obj_.build(self.to_etree()))
-    def hasContent_(self):
-        if (
-            self.Path2D is not None or
-            self.OpticalPropertyLink is not None or
-            self.ThermalPropertyLink is not None
-        ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespaceprefix_='', name_='_River', namespacedef_='', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_River')
-        if imported_ns_def_ is not None:
-            namespacedef_ = imported_ns_def_
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.original_tagname_ is not None:
-            name_ = self.original_tagname_
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_River')
-        if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_River', pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_River'):
-        if self.hidden is not None and 'hidden' not in already_processed:
-            already_processed.add('hidden')
-            outfile.write(' hidden="%s"' % self.gds_format_integer(self.hidden, input_name='hidden'))
-        if self.isDisplayed is not None and 'isDisplayed' not in already_processed:
-            already_processed.add('isDisplayed')
-            outfile.write(' isDisplayed="%s"' % self.gds_format_integer(self.isDisplayed, input_name='isDisplayed'))
-    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_River', fromsubclass_=False, pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.Path2D is not None:
-            self.Path2D.export(outfile, level, namespaceprefix_, name_='Path2D', pretty_print=pretty_print)
-        if self.OpticalPropertyLink is not None:
-            self.OpticalPropertyLink.export(outfile, level, namespaceprefix_, name_='OpticalPropertyLink', pretty_print=pretty_print)
-        if self.ThermalPropertyLink is not None:
-            self.ThermalPropertyLink.export(outfile, level, namespaceprefix_, name_='ThermalPropertyLink', pretty_print=pretty_print)
-    def to_etree(self, parent_element=None, name_='_River', mapping_=None):
-        if parent_element is None:
-            element = etree_.Element('{}' + name_)
-        else:
-            element = etree_.SubElement(parent_element, '{}' + name_)
-        if self.hidden is not None:
-            element.set('hidden', self.gds_format_integer(self.hidden))
-        if self.isDisplayed is not None:
-            element.set('isDisplayed', self.gds_format_integer(self.isDisplayed))
-        if self.Path2D is not None:
-            Path2D_ = self.Path2D
-            Path2D_.to_etree(element, name_='Path2D', mapping_=mapping_)
-        if self.OpticalPropertyLink is not None:
-            OpticalPropertyLink_ = self.OpticalPropertyLink
-            OpticalPropertyLink_.to_etree(element, name_='OpticalPropertyLink', mapping_=mapping_)
-        if self.ThermalPropertyLink is not None:
-            ThermalPropertyLink_ = self.ThermalPropertyLink
-            ThermalPropertyLink_.to_etree(element, name_='ThermalPropertyLink', mapping_=mapping_)
-        if mapping_ is not None:
-            mapping_[id(self)] = element
-        return element
-    def exportLiteral(self, outfile, level, name_='_River'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.hidden is not None and 'hidden' not in already_processed:
-            already_processed.add('hidden')
-            showIndent(outfile, level)
-            outfile.write('hidden=%d,\n' % (self.hidden,))
-        if self.isDisplayed is not None and 'isDisplayed' not in already_processed:
-            already_processed.add('isDisplayed')
-            showIndent(outfile, level)
-            outfile.write('isDisplayed=%d,\n' % (self.isDisplayed,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Path2D is not None:
-            showIndent(outfile, level)
-            outfile.write('Path2D=model_._Path2D(\n')
-            self.Path2D.exportLiteral(outfile, level, name_='Path2D')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.OpticalPropertyLink is not None:
-            showIndent(outfile, level)
-            outfile.write('OpticalPropertyLink=model_._OpticalPropertyLink(\n')
-            self.OpticalPropertyLink.exportLiteral(outfile, level, name_='OpticalPropertyLink')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.ThermalPropertyLink is not None:
-            showIndent(outfile, level)
-            outfile.write('ThermalPropertyLink=model_._ThermalPropertyLink(\n')
-            self.ThermalPropertyLink.exportLiteral(outfile, level, name_='ThermalPropertyLink')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-    def build(self, node):
-        already_processed = set()
-        self.buildAttributes(node, node.attrib, already_processed)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_)
-        return self
-    def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('hidden', node)
-        if value is not None and 'hidden' not in already_processed:
-            already_processed.add('hidden')
-            try:
-                self.hidden = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-        value = find_attr_value_('isDisplayed', node)
-        if value is not None and 'isDisplayed' not in already_processed:
-            already_processed.add('isDisplayed')
-            try:
-                self.isDisplayed = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'Path2D':
-            obj_ = create_Path2D.factory()
-            obj_.build(child_)
-            self.set_Path2D(obj_)
-            obj_.original_tagname_ = 'Path2D'
-        elif nodeName_ == 'OpticalPropertyLink':
-            obj_ = create_OpticalPropertyLink.factory()
-            obj_.build(child_)
-            self.set_OpticalPropertyLink(obj_)
-            obj_.original_tagname_ = 'OpticalPropertyLink'
-        elif nodeName_ == 'ThermalPropertyLink':
-            obj_ = create_ThermalPropertyLink.factory()
-            obj_.build(child_)
-            self.set_ThermalPropertyLink(obj_)
-            obj_.original_tagname_ = 'ThermalPropertyLink'
-# end class create_River
-
-
-class create_Path2D(GeneratedsSuper):
-    """Path2D Path2D interpolation). interpolation)."""
-    subclass = None
-    superclass = None
-    def __init__(self, width=1.50, Point2D=None):
-        self.original_tagname_ = None
-        self.troot=get_gs_troot("water","_Path2D")
-        self.attrib = ['width']
-        self.children = ['Point2D']
-        self.parent = None
-        self._width = _cast(float, width)
-        if Point2D is None:
-            self._Point2D = []
-        else:
-            self._Point2D = Point2D
-        update_node(self,self.troot,"water")
-    def factory(*args_, **kwargs_):
-        if CurrentSubclassModule_ is not None:
-            subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, create_Path2D)
-            if subclass is not None:
-                return subclass(*args_, **kwargs_)
-        if create_Path2D.subclass:
-            return create_Path2D.subclass(*args_, **kwargs_)
-        else:
-            return create_Path2D(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_Point2D(self): return self._Point2D
-    def set_Point2D(self, value):
-        if value is not None:
-            checkclass(value, create_Point2D)
+            checkclass(value, create_Property)
             for v in value:
                 v.parent = self
-        self._Point2D = value
-    def add_Point2D(self, value):
+        self._Property = value
+    def add_Property(self, value):
         value.parent = self
-        self._Point2D.append(value)
-    def insert_Point2D_at(self, index, value):
+        self._Property.append(value)
+    def insert_Property_at(self, index, value):
         value.parent = self
-        self.Point2D.insert(index, value)
-    def replace_Point2D_at(self, index, value):
+        self.Property.insert(index, value)
+    def replace_Property_at(self, index, value):
         value.parent = self
-        self.Point2D[index] = value
-    Point2D = property(get_Point2D, set_Point2D)
-    def get_width(self): return self._width
-    def set_width(self, value):
-        self._width = value
-        update_node(self,self.troot,"water")
-    width = property(get_width, set_width)
+        self.Property[index] = value
+    Property = property(get_Property, set_Property)
     def copy(self):
         obj_ = self.factory()
         return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
-            self.Point2D
+            self.Property
         ):
             return True
         else:
             return False
-    def export(self, outfile, level, namespaceprefix_='', name_='_Path2D', namespacedef_='', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_Path2D')
+    def export(self, outfile, level, namespaceprefix_='', name_='_StaticLUTReflectanceParameters', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_StaticLUTReflectanceParameters')
         if imported_ns_def_ is not None:
             namespacedef_ = imported_ns_def_
         if pretty_print:
@@ -2524,56 +1657,49 @@ class create_Path2D(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_Path2D')
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_StaticLUTReflectanceParameters')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_Path2D', pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_StaticLUTReflectanceParameters', pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
             outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_Path2D'):
-        if self.width is not None and 'width' not in already_processed:
-            already_processed.add('width')
-            outfile.write(' width="%s"' % self.gds_format_double(self.width, input_name='width'))
-    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_Path2D', fromsubclass_=False, pretty_print=True):
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_StaticLUTReflectanceParameters'):
+        pass
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_StaticLUTReflectanceParameters', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        for Point2D_ in self.Point2D:
-            Point2D_.export(outfile, level, namespaceprefix_, name_='Point2D', pretty_print=pretty_print)
-    def to_etree(self, parent_element=None, name_='_Path2D', mapping_=None):
+        for Property_ in self.Property:
+            Property_.export(outfile, level, namespaceprefix_, name_='Property', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_StaticLUTReflectanceParameters', mapping_=None):
         if parent_element is None:
             element = etree_.Element('{}' + name_)
         else:
             element = etree_.SubElement(parent_element, '{}' + name_)
-        if self.width is not None:
-            element.set('width', self.gds_format_double(self.width))
-        for Point2D_ in self.Point2D:
-            Point2D_.to_etree(element, name_='Point2D', mapping_=mapping_)
+        for Property_ in self.Property:
+            Property_.to_etree(element, name_='Property', mapping_=mapping_)
         if mapping_ is not None:
             mapping_[id(self)] = element
         return element
-    def exportLiteral(self, outfile, level, name_='_Path2D'):
+    def exportLiteral(self, outfile, level, name_='_StaticLUTReflectanceParameters'):
         level += 1
         already_processed = set()
         self.exportLiteralAttributes(outfile, level, already_processed, name_)
         if self.hasContent_():
             self.exportLiteralChildren(outfile, level, name_)
     def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.width is not None and 'width' not in already_processed:
-            already_processed.add('width')
-            showIndent(outfile, level)
-            outfile.write('width=%e,\n' % (self.width,))
+        pass
     def exportLiteralChildren(self, outfile, level, name_):
         showIndent(outfile, level)
-        outfile.write('Point2D=[\n')
+        outfile.write('Property=[\n')
         level += 1
-        for Point2D_ in self.Point2D:
+        for Property_ in self.Property:
             showIndent(outfile, level)
-            outfile.write('model_._Point2D(\n')
-            Point2D_.exportLiteral(outfile, level, name_='_Point2D')
+            outfile.write('model_._Property(\n')
+            Property_.exportLiteral(outfile, level, name_='_Property')
             showIndent(outfile, level)
             outfile.write('),\n')
         level -= 1
@@ -2582,26 +1708,732 @@ class create_Path2D(GeneratedsSuper):
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
-        self.Point2D = []
+        self.Property = []
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
             self.buildChildren(child, node, nodeName_)
         return self
     def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('width', node)
-        if value is not None and 'width' not in already_processed:
-            already_processed.add('width')
-            try:
-                self.width = float(value)
-            except ValueError as exp:
-                raise ValueError('Bad float/double attribute (width): %s' % exp)
+        pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'Point2D':
-            obj_ = create_Point2D.factory()
+        if nodeName_ == 'Property':
+            obj_ = create_Property.factory()
             obj_.build(child_)
-            self.add_Point2D(obj_)
-            obj_.original_tagname_ = 'Point2D'
-# end class create_Path2D
+            self.add_Property(obj_)
+            obj_.original_tagname_ = 'Property'
+# end class create_StaticLUTReflectanceParameters
+
+
+class create_StaticLUTCoefficientParameters(GeneratedsSuper):
+    subclass = None
+    superclass = None
+    def __init__(self, Property=None):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot("LUT","_StaticLUTCoefficientParameters")
+        self.attrib = ['']
+        self.children = ['Property']
+        self.parent = None
+        if Property is None:
+            self._Property = []
+        else:
+            self._Property = Property
+        update_node(self,self.troot,"LUT")
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, create_StaticLUTCoefficientParameters)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if create_StaticLUTCoefficientParameters.subclass:
+            return create_StaticLUTCoefficientParameters.subclass(*args_, **kwargs_)
+        else:
+            return create_StaticLUTCoefficientParameters(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_Property(self): return self._Property
+    def set_Property(self, value):
+        if value is not None:
+            checkclass(value, create_Property)
+            for v in value:
+                v.parent = self
+        self._Property = value
+    def add_Property(self, value):
+        value.parent = self
+        self._Property.append(value)
+    def insert_Property_at(self, index, value):
+        value.parent = self
+        self.Property.insert(index, value)
+    def replace_Property_at(self, index, value):
+        value.parent = self
+        self.Property[index] = value
+    Property = property(get_Property, set_Property)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+            self.Property
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='_StaticLUTCoefficientParameters', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_StaticLUTCoefficientParameters')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_StaticLUTCoefficientParameters')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_StaticLUTCoefficientParameters', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_StaticLUTCoefficientParameters'):
+        pass
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_StaticLUTCoefficientParameters', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for Property_ in self.Property:
+            Property_.export(outfile, level, namespaceprefix_, name_='Property', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_StaticLUTCoefficientParameters', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        for Property_ in self.Property:
+            Property_.to_etree(element, name_='Property', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_StaticLUTCoefficientParameters'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('Property=[\n')
+        level += 1
+        for Property_ in self.Property:
+            showIndent(outfile, level)
+            outfile.write('model_._Property(\n')
+            Property_.exportLiteral(outfile, level, name_='_Property')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        self.Property = []
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'Property':
+            obj_ = create_Property.factory()
+            obj_.build(child_)
+            self.add_Property(obj_)
+            obj_.original_tagname_ = 'Property'
+# end class create_StaticLUTCoefficientParameters
+
+
+class create_FreeParametersLUTReflectance(GeneratedsSuper):
+    subclass = None
+    superclass = None
+    def __init__(self, LUTReflectanceProperty=None):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot("LUT","_FreeParametersLUTReflectance")
+        self.attrib = ['']
+        self.children = ['LUTReflectanceProperty']
+        self.parent = None
+        if LUTReflectanceProperty is None:
+            self._LUTReflectanceProperty = []
+        else:
+            self._LUTReflectanceProperty = LUTReflectanceProperty
+        update_node(self,self.troot,"LUT")
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, create_FreeParametersLUTReflectance)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if create_FreeParametersLUTReflectance.subclass:
+            return create_FreeParametersLUTReflectance.subclass(*args_, **kwargs_)
+        else:
+            return create_FreeParametersLUTReflectance(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_LUTReflectanceProperty(self): return self._LUTReflectanceProperty
+    def set_LUTReflectanceProperty(self, value):
+        if value is not None:
+            checkclass(value, create_LUTProperty)
+            for v in value:
+                v.parent = self
+        self._LUTReflectanceProperty = value
+    def add_LUTReflectanceProperty(self, value):
+        value.parent = self
+        self._LUTReflectanceProperty.append(value)
+    def insert_LUTReflectanceProperty_at(self, index, value):
+        value.parent = self
+        self.LUTReflectanceProperty.insert(index, value)
+    def replace_LUTReflectanceProperty_at(self, index, value):
+        value.parent = self
+        self.LUTReflectanceProperty[index] = value
+    LUTReflectanceProperty = property(get_LUTReflectanceProperty, set_LUTReflectanceProperty)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+            self.LUTReflectanceProperty
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='_FreeParametersLUTReflectance', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_FreeParametersLUTReflectance')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_FreeParametersLUTReflectance')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_FreeParametersLUTReflectance', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_FreeParametersLUTReflectance'):
+        pass
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_FreeParametersLUTReflectance', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for LUTReflectanceProperty_ in self.LUTReflectanceProperty:
+            LUTReflectanceProperty_.export(outfile, level, namespaceprefix_, name_='LUTReflectanceProperty', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_FreeParametersLUTReflectance', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        for LUTReflectanceProperty_ in self.LUTReflectanceProperty:
+            LUTReflectanceProperty_.to_etree(element, name_='LUTReflectanceProperty', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_FreeParametersLUTReflectance'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('LUTReflectanceProperty=[\n')
+        level += 1
+        for LUTReflectanceProperty_ in self.LUTReflectanceProperty:
+            showIndent(outfile, level)
+            outfile.write('model_._LUTProperty(\n')
+            LUTReflectanceProperty_.exportLiteral(outfile, level, name_='_LUTProperty')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        self.LUTReflectanceProperty = []
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'LUTReflectanceProperty':
+            obj_ = create_LUTProperty.factory()
+            obj_.build(child_)
+            self.add_LUTReflectanceProperty(obj_)
+            obj_.original_tagname_ = 'LUTReflectanceProperty'
+# end class create_FreeParametersLUTReflectance
+
+
+class create_LUTProperty(GeneratedsSuper):
+    subclass = None
+    superclass = None
+    def __init__(self, indexLUTEquivalent=None, name=None, numeroBandeSpectrale=None, spectral=None):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot("LUT","_LUTProperty")
+        self.attrib = ['indexLUTEquivalent', 'name', 'numeroBandeSpectrale', 'spectral']
+        self.children = []
+        self.parent = None
+        self._indexLUTEquivalent = _cast(int, indexLUTEquivalent)
+        self._name = _cast(None, name)
+        self._numeroBandeSpectrale = _cast(int, numeroBandeSpectrale)
+        self._spectral = _cast(None, spectral)
+        update_node(self,self.troot,"LUT")
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, create_LUTProperty)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if create_LUTProperty.subclass:
+            return create_LUTProperty.subclass(*args_, **kwargs_)
+        else:
+            return create_LUTProperty(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_indexLUTEquivalent(self): return self._indexLUTEquivalent
+    def set_indexLUTEquivalent(self, value):
+        self._indexLUTEquivalent = value
+        update_node(self,self.troot,"LUT")
+    indexLUTEquivalent = property(get_indexLUTEquivalent, set_indexLUTEquivalent)
+    def get_name(self): return self._name
+    def set_name(self, value):
+        self._name = value
+        update_node(self,self.troot,"LUT")
+    name = property(get_name, set_name)
+    def get_numeroBandeSpectrale(self): return self._numeroBandeSpectrale
+    def set_numeroBandeSpectrale(self, value):
+        self._numeroBandeSpectrale = value
+        update_node(self,self.troot,"LUT")
+    numeroBandeSpectrale = property(get_numeroBandeSpectrale, set_numeroBandeSpectrale)
+    def get_spectral(self): return self._spectral
+    def set_spectral(self, value):
+        self._spectral = value
+        update_node(self,self.troot,"LUT")
+    spectral = property(get_spectral, set_spectral)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='_LUTProperty', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_LUTProperty')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_LUTProperty')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_LUTProperty', pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_LUTProperty'):
+        if self.indexLUTEquivalent is not None and 'indexLUTEquivalent' not in already_processed:
+            already_processed.add('indexLUTEquivalent')
+            outfile.write(' indexLUTEquivalent="%s"' % self.gds_format_integer(self.indexLUTEquivalent, input_name='indexLUTEquivalent'))
+        if self.name is not None and 'name' not in already_processed:
+            already_processed.add('name')
+            outfile.write(' name=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.name), input_name='name')), ))
+        if self.numeroBandeSpectrale is not None and 'numeroBandeSpectrale' not in already_processed:
+            already_processed.add('numeroBandeSpectrale')
+            outfile.write(' numeroBandeSpectrale="%s"' % self.gds_format_integer(self.numeroBandeSpectrale, input_name='numeroBandeSpectrale'))
+        if self.spectral is not None and 'spectral' not in already_processed:
+            already_processed.add('spectral')
+            outfile.write(' spectral=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.spectral), input_name='spectral')), ))
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_LUTProperty', fromsubclass_=False, pretty_print=True):
+        pass
+    def to_etree(self, parent_element=None, name_='_LUTProperty', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.indexLUTEquivalent is not None:
+            element.set('indexLUTEquivalent', self.gds_format_integer(self.indexLUTEquivalent))
+        if self.name is not None:
+            element.set('name', self.gds_format_string(self.name))
+        if self.numeroBandeSpectrale is not None:
+            element.set('numeroBandeSpectrale', self.gds_format_integer(self.numeroBandeSpectrale))
+        if self.spectral is not None:
+            element.set('spectral', self.gds_format_string(self.spectral))
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_LUTProperty'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.indexLUTEquivalent is not None and 'indexLUTEquivalent' not in already_processed:
+            already_processed.add('indexLUTEquivalent')
+            showIndent(outfile, level)
+            outfile.write('indexLUTEquivalent=%d,\n' % (self.indexLUTEquivalent,))
+        if self.name is not None and 'name' not in already_processed:
+            already_processed.add('name')
+            showIndent(outfile, level)
+            outfile.write('name="%s",\n' % (self.name,))
+        if self.numeroBandeSpectrale is not None and 'numeroBandeSpectrale' not in already_processed:
+            already_processed.add('numeroBandeSpectrale')
+            showIndent(outfile, level)
+            outfile.write('numeroBandeSpectrale=%d,\n' % (self.numeroBandeSpectrale,))
+        if self.spectral is not None and 'spectral' not in already_processed:
+            already_processed.add('spectral')
+            showIndent(outfile, level)
+            outfile.write('spectral="%s",\n' % (self.spectral,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('indexLUTEquivalent', node)
+        if value is not None and 'indexLUTEquivalent' not in already_processed:
+            already_processed.add('indexLUTEquivalent')
+            try:
+                self.indexLUTEquivalent = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('name', node)
+        if value is not None and 'name' not in already_processed:
+            already_processed.add('name')
+            self.name = value
+        value = find_attr_value_('numeroBandeSpectrale', node)
+        if value is not None and 'numeroBandeSpectrale' not in already_processed:
+            already_processed.add('numeroBandeSpectrale')
+            try:
+                self.numeroBandeSpectrale = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('spectral', node)
+        if value is not None and 'spectral' not in already_processed:
+            already_processed.add('spectral')
+            self.spectral = value
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+# end class create_LUTProperty
+
+
+class create_FreeParametersLUTCoefficient(GeneratedsSuper):
+    subclass = None
+    superclass = None
+    def __init__(self, LUTCoefficientProperty=None):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot("LUT","_FreeParametersLUTCoefficient")
+        self.attrib = ['']
+        self.children = ['LUTCoefficientProperty']
+        self.parent = None
+        if LUTCoefficientProperty is None:
+            self._LUTCoefficientProperty = []
+        else:
+            self._LUTCoefficientProperty = LUTCoefficientProperty
+        update_node(self,self.troot,"LUT")
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, create_FreeParametersLUTCoefficient)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if create_FreeParametersLUTCoefficient.subclass:
+            return create_FreeParametersLUTCoefficient.subclass(*args_, **kwargs_)
+        else:
+            return create_FreeParametersLUTCoefficient(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_LUTCoefficientProperty(self): return self._LUTCoefficientProperty
+    def set_LUTCoefficientProperty(self, value):
+        if value is not None:
+            checkclass(value, create_LUTProperty)
+            for v in value:
+                v.parent = self
+        self._LUTCoefficientProperty = value
+    def add_LUTCoefficientProperty(self, value):
+        value.parent = self
+        self._LUTCoefficientProperty.append(value)
+    def insert_LUTCoefficientProperty_at(self, index, value):
+        value.parent = self
+        self.LUTCoefficientProperty.insert(index, value)
+    def replace_LUTCoefficientProperty_at(self, index, value):
+        value.parent = self
+        self.LUTCoefficientProperty[index] = value
+    LUTCoefficientProperty = property(get_LUTCoefficientProperty, set_LUTCoefficientProperty)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+            self.LUTCoefficientProperty
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='_FreeParametersLUTCoefficient', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_FreeParametersLUTCoefficient')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_FreeParametersLUTCoefficient')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_FreeParametersLUTCoefficient', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_FreeParametersLUTCoefficient'):
+        pass
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_FreeParametersLUTCoefficient', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for LUTCoefficientProperty_ in self.LUTCoefficientProperty:
+            LUTCoefficientProperty_.export(outfile, level, namespaceprefix_, name_='LUTCoefficientProperty', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_FreeParametersLUTCoefficient', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        for LUTCoefficientProperty_ in self.LUTCoefficientProperty:
+            LUTCoefficientProperty_.to_etree(element, name_='LUTCoefficientProperty', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_FreeParametersLUTCoefficient'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('LUTCoefficientProperty=[\n')
+        level += 1
+        for LUTCoefficientProperty_ in self.LUTCoefficientProperty:
+            showIndent(outfile, level)
+            outfile.write('model_._LUTProperty(\n')
+            LUTCoefficientProperty_.exportLiteral(outfile, level, name_='_LUTProperty')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        self.LUTCoefficientProperty = []
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'LUTCoefficientProperty':
+            obj_ = create_LUTProperty.factory()
+            obj_.build(child_)
+            self.add_LUTCoefficientProperty(obj_)
+            obj_.original_tagname_ = 'LUTCoefficientProperty'
+# end class create_FreeParametersLUTCoefficient
+
+
+class createSpectralIntervalsPropertiesType(GeneratedsSuper):
+    subclass = None
+    superclass = None
+    def __init__(self, lambdaMax=None, lambdaMin=None, spectralBandKey=None):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot("LUT","SpectralIntervalsPropertiesType")
+        self.attrib = ['lambdaMax', 'lambdaMin', 'spectralBandKey']
+        self.children = []
+        self.parent = None
+        self._lambdaMax = _cast(float, lambdaMax)
+        self._lambdaMin = _cast(float, lambdaMin)
+        self._spectralBandKey = _cast(int, spectralBandKey)
+        update_node(self,self.troot,"LUT")
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, createSpectralIntervalsPropertiesType)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if createSpectralIntervalsPropertiesType.subclass:
+            return createSpectralIntervalsPropertiesType.subclass(*args_, **kwargs_)
+        else:
+            return createSpectralIntervalsPropertiesType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_lambdaMax(self): return self._lambdaMax
+    def set_lambdaMax(self, value):
+        self._lambdaMax = value
+        update_node(self,self.troot,"LUT")
+    lambdaMax = property(get_lambdaMax, set_lambdaMax)
+    def get_lambdaMin(self): return self._lambdaMin
+    def set_lambdaMin(self, value):
+        self._lambdaMin = value
+        update_node(self,self.troot,"LUT")
+    lambdaMin = property(get_lambdaMin, set_lambdaMin)
+    def get_spectralBandKey(self): return self._spectralBandKey
+    def set_spectralBandKey(self, value):
+        self._spectralBandKey = value
+        update_node(self,self.troot,"LUT")
+    spectralBandKey = property(get_spectralBandKey, set_spectralBandKey)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='SpectralIntervalsPropertiesType', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('SpectralIntervalsPropertiesType')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='SpectralIntervalsPropertiesType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='SpectralIntervalsPropertiesType', pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='SpectralIntervalsPropertiesType'):
+        if self.lambdaMax is not None and 'lambdaMax' not in already_processed:
+            already_processed.add('lambdaMax')
+            outfile.write(' lambdaMax="%s"' % self.gds_format_double(self.lambdaMax, input_name='lambdaMax'))
+        if self.lambdaMin is not None and 'lambdaMin' not in already_processed:
+            already_processed.add('lambdaMin')
+            outfile.write(' lambdaMin="%s"' % self.gds_format_double(self.lambdaMin, input_name='lambdaMin'))
+        if self.spectralBandKey is not None and 'spectralBandKey' not in already_processed:
+            already_processed.add('spectralBandKey')
+            outfile.write(' spectralBandKey="%s"' % self.gds_format_integer(self.spectralBandKey, input_name='spectralBandKey'))
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='SpectralIntervalsPropertiesType', fromsubclass_=False, pretty_print=True):
+        pass
+    def to_etree(self, parent_element=None, name_='SpectralIntervalsPropertiesType', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.lambdaMax is not None:
+            element.set('lambdaMax', self.gds_format_double(self.lambdaMax))
+        if self.lambdaMin is not None:
+            element.set('lambdaMin', self.gds_format_double(self.lambdaMin))
+        if self.spectralBandKey is not None:
+            element.set('spectralBandKey', self.gds_format_integer(self.spectralBandKey))
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='SpectralIntervalsPropertiesType'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.lambdaMax is not None and 'lambdaMax' not in already_processed:
+            already_processed.add('lambdaMax')
+            showIndent(outfile, level)
+            outfile.write('lambdaMax=%e,\n' % (self.lambdaMax,))
+        if self.lambdaMin is not None and 'lambdaMin' not in already_processed:
+            already_processed.add('lambdaMin')
+            showIndent(outfile, level)
+            outfile.write('lambdaMin=%e,\n' % (self.lambdaMin,))
+        if self.spectralBandKey is not None and 'spectralBandKey' not in already_processed:
+            already_processed.add('spectralBandKey')
+            showIndent(outfile, level)
+            outfile.write('spectralBandKey=%d,\n' % (self.spectralBandKey,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('lambdaMax', node)
+        if value is not None and 'lambdaMax' not in already_processed:
+            already_processed.add('lambdaMax')
+            try:
+                self.lambdaMax = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (lambdaMax): %s' % exp)
+        value = find_attr_value_('lambdaMin', node)
+        if value is not None and 'lambdaMin' not in already_processed:
+            already_processed.add('lambdaMin')
+            try:
+                self.lambdaMin = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (lambdaMin): %s' % exp)
+        value = find_attr_value_('spectralBandKey', node)
+        if value is not None and 'spectralBandKey' not in already_processed:
+            already_processed.add('spectralBandKey')
+            try:
+                self.spectralBandKey = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+# end class createSpectralIntervalsPropertiesType
 
 
 GDSClassesMapping = {
@@ -2710,8 +2542,8 @@ def parseLiteral(inFileName, silence=False):
     # Enable Python to collect the space used by the DOM.
     doc = None
     if not silence:
-        sys.stdout.write('#from water import *\n\n')
-        sys.stdout.write('import water as model_\n\n')
+        sys.stdout.write('#from LUT import *\n\n')
+        sys.stdout.write('import LUT as model_\n\n')
         sys.stdout.write('rootObj = model_.rootClass(\n')
         rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
         sys.stdout.write(')\n')
@@ -2733,15 +2565,14 @@ if __name__ == '__main__':
 
 __all__ = [
     "createDartFile",
-    "create_Ellipse2D",
-    "create_HalfAxes",
-    "create_Lake",
-    "create_Lakes",
-    "create_OpticalPropertyLink",
-    "create_Path2D",
-    "create_Point2D",
-    "create_River",
-    "create_Rivers",
-    "create_ThermalPropertyLink",
-    "create_Water"
+    "createSpectralIntervalsPropertiesType",
+    "create_DartLUT",
+    "create_DataFile",
+    "create_FreeParametersLUTCoefficient",
+    "create_FreeParametersLUTReflectance",
+    "create_LUTProperty",
+    "create_Property",
+    "create_SpectralIntervals",
+    "create_StaticLUTCoefficientParameters",
+    "create_StaticLUTReflectanceParameters"
 ]

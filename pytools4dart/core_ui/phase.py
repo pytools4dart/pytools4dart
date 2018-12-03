@@ -13,14 +13,14 @@
 #   ('--post-attrib-setter', 'update_node(self,self.troot,"phase")')
 #   ('--pre-ctor', 'self.troot=get_gs_troot("phase","{classname}")')
 #   ('--post-ctor', 'update_node(self,self.troot,"phase")')
-#   ('--imports', 'from pytools4dart.xsdschema.utils import get_gs_troot, update_node')
-#   ('-o', '/home/boissieu/Scripts/pytools4dartMTD/pytools4dart/xsdschema/phase.py')
+#   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node')
+#   ('-o', '/home/boissieu/Scripts/pytools4dartMTD/pytools4dart/core_ui/phase.py')
 #
 # Command line arguments:
-#   /home/boissieu/Scripts/pytools4dartMTD/pytools4dart/xsdschema/phase.xsd
+#   /home/boissieu/Scripts/pytools4dartMTD/pytools4dart/core_ui/phase.xsd
 #
 # Command line:
-#   generateDS.py -m --always-export-default --export="write literal etree" -p "create" --post-attrib-setter="update_node(self,self.troot,"phase")" --pre-ctor="self.troot=get_gs_troot("phase","{classname}")" --post-ctor="update_node(self,self.troot,"phase")" --imports="from pytools4dart.xsdschema.utils import get_gs_troot, update_node" -o "/home/boissieu/Scripts/pytools4dartMTD/pytools4dart/xsdschema/phase.py" /home/boissieu/Scripts/pytools4dartMTD/pytools4dart/xsdschema/phase.xsd
+#   generateDS.py -m --always-export-default --export="write literal etree" -p "create" --post-attrib-setter="update_node(self,self.troot,"phase")" --pre-ctor="self.troot=get_gs_troot("phase","{classname}")" --post-ctor="update_node(self,self.troot,"phase")" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node" -o "/home/boissieu/Scripts/pytools4dartMTD/pytools4dart/core_ui/phase.py" /home/boissieu/Scripts/pytools4dartMTD/pytools4dart/core_ui/phase.xsd
 #
 # Current working directory (os.getcwd()):
 #   generateds
@@ -35,7 +35,7 @@ try:
     from lxml import etree as etree_
 except ImportError:
     from xml.etree import ElementTree as etree_
-from pytools4dart.xsdschema.utils import get_gs_troot, update_node
+from pytools4dart.core_ui.utils import get_gs_troot, update_node
 
 
 Validate_simpletypes_ = True
