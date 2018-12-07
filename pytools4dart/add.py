@@ -265,6 +265,8 @@ class Add(object):
                 groups_list.add_Group(group)
 
         self.simu.core.xsdobjs["object_3d"].object_3d.ObjectList.add_Object(obj)
+
+        self.simu.update.lock_core = True
         return True
 
     def opt_property(self, opt_prop_type, opt_prop_name):
@@ -293,9 +295,10 @@ class Add(object):
             eval('self.simu.core.xsdobjs["coeff_diff"].Coeff_diff.{}.add_{}(prop)'.format(optproplist_xmlpath.split(".")[0],
                                                                                           optproplist_xmlpath.split(".")[1]))
 
-            self.simu.core.update_properties_dict()
+            #self.simu.core.update_properties_dict()
+            self.simu.update.lock_core = True #update locks management
+
         else: # opt_property having name opt_prop_name already exists
-            #print("ERROR: optical property of type %s named %s already exists, please change name" % (opt_prop_type, opt_prop_name))
             raise Exception("ERROR: optical property of type %s named %s already exists, please change name" % (opt_prop_type, opt_prop_name))
 
     def th_property(self, th_prop_name):
@@ -308,9 +311,11 @@ class Add(object):
         if self.simu.get_thermal_prop_index(th_prop_name) == None:  # if thermal property does not exist, create
             th_function = ptd.coeff_diff.create_ThermalFunction(idTemperature=th_prop_name)
             self.simu.core.xsdobjs["coeff_diff"].Coeff_diff.Temperatures.add_ThermalFunction(th_function)
-            self.simu.core.update_properties_dict()
+
+            #self.simu.core.update_properties_dict()
+            self.simu.update.lock_core = True #update locks management
+
         else: # th_prop having name opt_prop_name already exists
-            #print("ERROR: thermal property named %s already exists, please change name" % (th_prop_name))
             raise Exception("ERROR: thermal property named %s already exists, please change name" % (th_prop_name))
 
     def multiplots(self, plots_list):
@@ -327,6 +332,8 @@ class Add(object):
                       grd_opt_prop_type = plot_params[4], grd_opt_prop_name = plot_params[5],
                       grd_therm_prop_name = plot_params[6], createProps = plot_params[7]
                       )
+
+        self.simu.update.lock_core = True  # update locks management
 
     def plot(self, plot_type ="vegetation", plot_form ="polygon", volume_info = None, plot_opt_prop_name = None, plot_therm_prop_name = None, grd_opt_prop_type = None, grd_opt_prop_name = None, grd_therm_prop_name = None, createProps = False):
         """
@@ -450,6 +457,7 @@ class Add(object):
         except ValueError:
             raise Exception("ERROR: create or add Plot failed")
 
+        self.simu.update.lock_core = True  # update locks management
         return True
 
     def sp_bands_uf(self, spbands_list):
@@ -463,6 +471,8 @@ class Add(object):
 
         #coeff_diff module modification
         self.check_and_correct_sp_bands()
+
+        self.simu.update.lock_core = True  # update locks management
 
     def treestxtfile_reference(self, src_file_path, species_list, createProps = False):
         """
@@ -546,6 +556,8 @@ class Add(object):
                     VegetationOpticalPropertyLink=veg_opt_prop_link,
                     ThermalPropertyLink=veg_th_prop_link)
 
+        self.simu.update.lock_core = True  # update locks management
+
     def plotstxtfile_reference(self, src_file_path):
         """
         includes a plots.txt-like file reference to add multiple plots to the simulation
@@ -591,6 +603,9 @@ class Add(object):
 
         self.simu.core.xsdobjs["plots"].Plots.addExtraPlotsTextFile = 1
         self.simu.core.xsdobjs["plots"].Plots.ExtraPlotsTextFileDefinition = ptd.plots.create_ExtraPlotsTextFileDefinition(extraPlotsFileName=src_file_path)
+
+        self.simu.update.lock_core = True  # update locks management
+
 
 
 

@@ -58,3 +58,10 @@ class Acquisition(object):
     def update_xsdobjs(self):
         print("ToBe Done: update des objets à partir des tables")
         #update bands
+
+    def add_spband_in_DF(self):
+        """
+        TODo : add a spectral band in bands DF, independently from core spectral intervals
+        :return:
+        """
+        self.simu.update.lock_tabs = True

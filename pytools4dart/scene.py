@@ -44,13 +44,15 @@ class Scene(object):
         # self.cell_dimensions = [self.simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions.x, self.simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions.z]
 
     def update_xsdobjs(self):
-        print("ToBe Done: update des objets à partir des tables")
         self.update_plots_obj()
         self.update_properties_obj()
         #self.update_trees() this summary table is not yet available
         #self.update_obj3d  this summary table is not yet available
 
     def update_plots_obj(self):
+        """
+        populates core plots according to scene.plots dataframe contents
+        """
         # plots_table_header = ['PLT_NUMBER', 'PLOT_SOURCE', 'PLT_TYPE', 'PT_1_X', 'PT_1_Y', 'PT_2_X', 'PT_2_Y', 'PT_3_X',
         #                       'PT_3_Y',
         #                       'PT_4_X',
@@ -69,6 +71,9 @@ class Scene(object):
                                createProps=True)
 
     def update_properties_obj(self):
+        """
+        populates core optical/thermal properties according to scene.properties dataframe (new) contents
+        """
         th_props_df = self.properties["thermal_props"]
         opt_props_dict = self.properties["opt_props"]
 
@@ -127,5 +132,19 @@ class Scene(object):
         self.simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions.z = z
 
         self.update_cell_size()
+
+    def add_plot_in_DF(self):
+        """
+        TODo : add a row in plots DF, independently from core plots
+        :return:
+        """
+        self.simu.update.lock_tabs = True
+
+    def add_property_in_DF(self):
+        """
+        TODo : add a row in plots DF, independently from core plots
+        :return:
+        """
+        self.simu.update.lock_tabs = True
 
 

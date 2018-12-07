@@ -39,5 +39,5 @@ class Update(object):
 
     def core(self): # update core from tables
         self.simu.scene.update_xsdobjs()
-        self.simu.acquisition.update_xdsobjs()
+        self.simu.acquisition.update_xsdobjs()
         self.lock_core = False
