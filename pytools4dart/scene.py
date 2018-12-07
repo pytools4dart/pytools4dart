@@ -30,6 +30,7 @@ This module contains the class "Scene".
 import pandas as pd
 import pytools4dart as ptd
 from pytools4dart.helpers import constants
+from pytools4dart.add import Poly_corners, Polygone_plot_vol_info
 
 class Scene(object):
     def __init__(self, simu):
@@ -60,11 +61,12 @@ class Scene(object):
 
         plots_header = constants.plots_table_header
         for plot in self.plots.iterrows():
-            plot_obj = ptd.plots.create_Plot()
-            self.simu.add.plot(plot_type = plot['PLT_TYPE'], )
-
-    # (self, plot_type
-    #  ="vegetation", plot_form ="polygon", plot_opt_prop_name = None, plot_therm_prop_name = None, grd_opt_prop_type = None, grd_opt_prop_name = None, grd_therm_prop_name = None, createProps = False):
+            polygon_corners = Poly_corners(x1 = plot['PT_1_X'], y1 = plot['PT_1_Y'], x2 = plot['PT_2_X'], y2 = plot['PT_2_Y'],
+                                           x3 = plot['PT_3_X'], y3 = plot['PT_3_Y'], x4 = plot['PT_4_X'], y4 = plot['PT_4_Y'])
+            vol_info = Polygone_plot_vol_info(poly_corners=polygon_corners, btm_hei= plot['PLT_BTM_HEI'] , hei_mea=plot['PLT_HEI_MEA'], std_dev=plot['PLT_STD_DEV'])
+            self.simu.add.plot(plot_type = plot['PLT_TYPE'], volume_info=vol_info, plot_opt_prop_name = plot['PLT_OPT_NAME'], plot_therm_prop_name=plot['PLT_THERM_NAME'],
+                               grd_opt_prop_type = plot['GRD_OPT_TYPE'], grd_opt_prop_name = plot['GRD_OPT_NAME'], grd_therm_prop_name = plot['GRD_THERM_NAME'],
+                               createProps=True)
 
     def update_properties_obj(self):
         th_props_df = self.properties["thermal_props"]
