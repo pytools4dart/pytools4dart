@@ -65,6 +65,7 @@ from pytools4dart.checker import Checker
 from pytools4dart.add import Add
 from pytools4dart.acquisition import Acquisition
 from pytools4dart.source import Source
+from pytools4dart.update import Update
 
 class simulation(object):
     """Simulation object corresponding to a DART simulation.
@@ -93,6 +94,8 @@ class simulation(object):
         self.run = run.runners(self)
 
         self.add = Add(self)
+
+        self.update = Update(self)
 
         self.core.update()
 

@@ -1,7 +1,8 @@
+# -*- coding: utf-8 -*-
 # ===============================================================================
 # PROGRAMMERS:
 #
-# Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>
+# Claudia Lavalley <claudia.lavalley@cirad.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
 #
@@ -22,13 +23,21 @@
 #
 #
 # ===============================================================================
+"""
+This module contains the class "Core".
+"""
 
-from _version import __version__
-from settings import configure,getdartenv,darttools,getdartversion,getsimupath,checkdartdir,getdartdir
-from simulation import simulation
-from helpers import voxreader, hstools, dbtools
-import run
-import xmlwriters
-from core_ui import plots, plots_gdsCL, phase, coeff_diff, object_3d, trees, directions, inversion, atmosphere, maket, urban, water
+class Update(object):
+    def __init__(self, simu):
+        self.simu = simu
+        self.lock_tabs = False
+        self.lock_core = False
 
+    def tables(self): # update tables from core
+        self.simu.core.update()
+        self.lock_tabs = False
 
+    def core(self): # update core from tables
+        self.simu.scene.update_xsdobjs()
+        self.simu.acquisition.update_xdsobjs()
+        self.lock_core = False

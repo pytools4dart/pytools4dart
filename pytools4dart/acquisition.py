@@ -2,7 +2,7 @@
 # ===============================================================================
 # PROGRAMMERS:
 #
-# Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>, Claudia Lavalley <claudia.lavalley@cirad.fr>
+# Claudia Lavalley <claudia.lavalley@cirad.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
 #
@@ -54,3 +54,7 @@ class Acquisition(object):
         dir = ptd.directions.create_AddedDirections(ZenithAzimuth = ptd.directions.create_ZenithAzimuth(directionAzimuthalAngle= dirAzimuthZenith[0], directionZenithalAngle=dirAzimuthZenith[1]))
         self.simu.core.xsdobjs["directions"].Directions.add_AddedDirections(dir)
         self.update_virtualDirections()
+
+    def update_xsdobjs(self):
+        print("ToBe Done: update des objets à partir des tables")
+        #update bands

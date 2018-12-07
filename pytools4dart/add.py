@@ -2,7 +2,7 @@
 # ===============================================================================
 # PROGRAMMERS:
 #
-# Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>, Claudia Lavalley <claudia.lavalley@cirad.fr>
+# Claudia Lavalley <claudia.lavalley@cirad.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
 #
@@ -31,6 +31,37 @@ import pytools4dart as ptd
 
 from pytools4dart.helpers.constants import *
 
+class Rectangle_dims(object):
+    def __init__(self, center_x = 5.0, center_y=5.0, side_x=10.0, side_y=10.0):
+        self.center_x = center_x
+        self.center_y = center_y
+        self.side_x = side_x
+        self.side_y = side_y
+
+class Rectangle_plot_vol_info(object):
+    def __init__(self, rect_dims, btm_hei = 0.0, hei_mea = 1.0, std_dev = 0.0):
+        self.rect_dims = rect_dims
+        self.btm_hei = btm_hei
+        self.hei_mea = hei_mea
+        self.std_dev = std_dev
+
+class Polygone_plot_vol_info(object):
+    def __init__(self, poly_corners, btm_hei = 0.0, hei_mea = 1.0, std_dev = 0.0):
+        self.corners = poly_corners
+        self.btm_hei = btm_hei
+        self.hei_mea = hei_mea
+        self.std_dev = std_dev
+
+class Poly_corners(object):
+    def __init__(self, x1 = 0.0, y1= 0.0, x2=10.0, y2=0.0, x3=10.0, y3=10.0, x4=0.0, y4=10.0):
+        self.x1 = x1
+        self.y1 = y1
+        self.x2 = x2
+        self.y2 = y2
+        self.x3 = x3
+        self.y3 = y3
+        self.x4 = x4
+        self.y4 = y4
 
 class Add(object):
 
@@ -283,6 +314,11 @@ class Add(object):
             raise Exception("ERROR: thermal property named %s already exists, please change name" % (th_prop_name))
 
     def multiplots(self, plots_list):
+        """
+        Add several plots.  Warning: For the moment, this method does not allow to specify the volume of the plot: corners and height
+        :param plots_list: list of plots parameters, considered fields are ["plot_type", "plot_form", "plot_opt_prop_name", "plot_therm_prop_name", "grd_opt_prop_type",
+                         "grd_opt_prop_name", "grd_therm_prop_name", "createProps"]
+        """
         # plots_fields = ["plot_type", "plot_form", "plot_opt_prop_name", "plot_therm_prop_name", "grd_opt_prop_type",
         #                 "grd_opt_prop_name", "grd_therm_prop_name", "createProps"]
         for plot_params in plots_list:
@@ -292,11 +328,12 @@ class Add(object):
                       grd_therm_prop_name = plot_params[6], createProps = plot_params[7]
                       )
 
-    def plot(self, plot_type ="vegetation", plot_form ="polygon", plot_opt_prop_name = None, plot_therm_prop_name = None, grd_opt_prop_type = None, grd_opt_prop_name = None, grd_therm_prop_name = None, createProps = False):
+    def plot(self, plot_type ="vegetation", plot_form ="polygon", volume_info = None, plot_opt_prop_name = None, plot_therm_prop_name = None, grd_opt_prop_type = None, grd_opt_prop_name = None, grd_therm_prop_name = None, createProps = False):
         """
         Adds a plot in plots_obj (self.xsdsobjs_dict["plots"]), corresponding to the given parameters
         :param plot_type: type of plot in ["ground","vegetation","veg_ground","fluid"]
         :param plot_form: ["polygon", "rectangle"]
+        :param volume_info: plot Corners and height information, corresponding to attributes of Volume_info and Corners classes contained in this file
         :param plot_opt_prop_name: name of vegetation optical property, can be None (if plot type = ground)
         :param plot_therm_prop_name: name of plot_ground thermal property, can be None (if plot type = ground)
         :param grd_opt_prop_type: ground optical property type in ["lambertian","hapke","rpv"]
@@ -311,10 +348,21 @@ class Add(object):
         Raise Exception if opt/th property does not exist and createProps is set to False
         """
 
+        if volume_info != None:
+            if plot_type == "ground":
+                raise Exception("ground plot_type is not compatible with volume information, volume_information won't be considered")
+            if (plot_form == "polygon" and not isinstance(volume_info, Polygone_plot_vol_info)) or (plot_form == "rectangle" and not isinstance(volume_info, Rectangle_plot_vol_info)):
+                raise Exception("mismatch between plot_form and volume_info parameteres")
+
         if ( (plot_opt_prop_name == None or plot_therm_prop_name == None) and (grd_opt_prop_type == None or grd_opt_prop_name == None or grd_opt_prop_type == None)): # default case
             plot_type = "vegetation"
             plot_opt_prop_name = self.simu.get_default_opt_prop(plot_type).ident
             plot_therm_prop_name = self.simu.get_default_th_prop().idTemperature
+
+        if plot_type in ["vegetation", "veg_ground and","fluid"] and plot_opt_prop_name == None:
+            raise Exception("no plot optical property name given for volume plot")
+        if plot_type == "ground" and grd_opt_prop_name == None:
+            raise Exception("no ground optical property name given for ground plot ")
 
         plt_type_num = plot_types_inv_dict[plot_type]
         plt_form_num = plot_form_inv_dict[plot_form]
@@ -371,10 +419,36 @@ class Add(object):
                                   PlotWaterProperties=plt_water_proerties,
                                   GroundOpticalPropertyLink=grd_opt_prop, GroundThermalPropertyLink=grd_therm_prop)
 
+            if volume_info != None and plot_type != "ground": # only plot_type in ["vegetation", "veg/ground"; "fluid"] supose volume information
+                if plot_form == "polygon":
+                    if volume_info.corners != None:
+                        points_list = Plot.Polygon2D.Point2D
+                        points_list[0].x = volume_info.corners.x1
+                        points_list[0].y = volume_info.corners.y1
+                        points_list[1].x = volume_info.corners.x2
+                        points_list[1].y = volume_info.corners.y2
+                        points_list[2].x = volume_info.corners.x3
+                        points_list[2].y = volume_info.corners.y3
+                        points_list[3].x = volume_info.corners.x4
+                        points_list[3].y = volume_info.corners.y4
+                elif plot_form == "rectangle":
+                    if volume_info.rect_dims != None:
+                        Plot.Rectangle2D.centreX = volume_info.rect_dims.center_x
+                        Plot.Rectangle2D.centreY = volume_info.rect_dims.center_y
+                        Plot.Rectangle2D.coteX = volume_info.rect_dims.side_x
+                        Plot.Rectangle2D.coteY = volume_info.rect_dims.side_y
+
+                if volume_info.btm_hei != None and volume_info.hei_mea !=None and volume_info.std_dev != None:
+                    geom_node = Plot.PlotVegetationProperties.VegetationGeometry #plt_type_num in [1,2] vegetation or veg/ground
+                    if plt_type_num == 3: #fluid
+                        geom_node = Plot.PlotAirProperties.AirGeometry
+                    geom_node.baseheight = volume_info.btm_hei
+                    geom_node.height = volume_info.hei_mea
+                    geom_node.stDev = volume_info.std_dev
+
             self.simu.core.xsdobjs["plots"].Plots.add_Plot(Plot)
         except ValueError:
             raise Exception("ERROR: create or add Plot failed")
-            return False
 
         return True
 

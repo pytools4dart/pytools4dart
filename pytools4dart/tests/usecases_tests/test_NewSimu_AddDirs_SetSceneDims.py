@@ -4,9 +4,9 @@ from pytools4dart.simulation import simulation
 
 simu = simulation()
 
-simu.scene.set_scene_dims([30, 30])
+simu.scene.set_scene_size([30, 30])
 
-simu.scene.set_cell_dims([0.5,0.5])
+simu.scene.set_cell_size([0.5, 0.5])
 
 simu.acquisition.add_virtual_direction([30.0, 30.0])
 
