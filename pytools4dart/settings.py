@@ -35,6 +35,7 @@ import platform
 import subprocess
 import glob
 import zipfile
+import pytools4dart as ptd
 
 def default_dartdir():
     '''
@@ -104,6 +105,14 @@ def configure(dartdir=None):
         print('\n pytools4dart configured with:\nDART = ' + dartdir)
     else:
         print('Please (re)configure.')
+
+    try:
+        print('\n\tBuilding pytools4dart core...')
+        build_core()
+        print('\npytools4dart configured: please restart python.')
+    except:
+        raise ValueError('\nCould not manage to configure pytools4dart. Please contact support.')
+
 
 
 def getdartenv(dartdir=None, verbose=False):
@@ -335,3 +344,47 @@ def getdartversion(dartdir=None):
     version = version.replace('-','.')
 
     return version, releasedate, build
+
+def build_core(directory=None):
+    if not directory:
+        directory = ptd.__path__[0]
+
+    templatesDpath = os.path.join(directory,'templates')
+    xsdDpath = os.path.join(directory, 'xsdschemas')
+
+    # remove templates and xsdschemas directory
+    if os.path.exists(templatesDpath):
+        for s in os.listdir(templatesDpath):
+            os.remove(os.path.join(templatesDpath, s))
+        os.rmdir(templatesDpath)
+    if os.path.exists(xsdDpath):
+        for s in os.listdir(xsdDpath):
+            os.remove(os.path.join(xsdDpath, s))
+        os.rmdir(xsdDpath)
+
+    try:
+        os.mkdir(templatesDpath)
+    except:
+        print("Directory ", templatesDpath, " already exists")
+
+    try:
+        os.mkdir(xsdDpath)
+    except:
+        print("Directory ", xsdDpath, " already exists")
+
+    ptd.xmlwriters.dartxml.write_templates(templatesDpath)
+    ptd.xmlwriters.dartxml.write_schemas(xsdDpath)
+
+    xsdnames = [s.split('.xsd')[0] for s in os.listdir(xsdDpath) if s.endswith('.xsd')]
+
+    for xsdname in xsdnames:
+        cmd = ' '.join(['generateDS.py -m -f --always-export-default --export="write literal etree"',
+                        '-p "create" --post-attrib-setter="update_node(self,self.troot,\'{xsdname}\')"',
+                        '--pre-ctor="self.troot=get_gs_troot(\'{xsdname}\',\'{{classname}}\')"',
+                        '--post-ctor="update_node(self,self.troot,\'{xsdname}\')"',
+                        '--imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node"',
+                        '-o "{pypath}"',
+                        '{xsdpath}']).format(xsdname = xsdname,
+                                                 pypath = os.path.join(directory, "core_ui", xsdname+'.py'),
+                                                 xsdpath = os.path.join(directory, "xsdschemas", xsdname+'.xsd'))
+        subprocess.call(cmd, shell=True)
