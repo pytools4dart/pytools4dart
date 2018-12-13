@@ -101,29 +101,29 @@ class Add(object):
 
         return check
 
-    def checkandcorrect_opt_prop_exists(self,opt_prop_type, opt_prop_name, createProps = False):
+    def checkandcorrect_opt_prop_exists(self, type, name, create = False):
         """
         Check if opt_prop exists
         This is used only in "user friendly" methods
         If it doesn't exist, and createOptProps == True, creates the missing optical property
         If it doesn't exist, and createOptProps == False, prints ERROR Message
-        :param opt_prop_type: type of optical property in ["vegetation", "fluid", "lambertian", "hapke", "rpv"]
-        :param opt_prop_name: name of optical property to be checked
-        :param createOptProps: boolean, if True, a missing optical property will be created
+        :param type: type of optical property in ["vegetation", "fluid", "lambertian", "hapke", "rpv"]
+        :param name: name of optical property to be checked
+        :param create: boolean, if True, a missing optical property will be created
         :return: index in the corresponding list, None if missing  : TOBE DONE
         """
         self.simu.core.update_properties_dict()
-        index = self.simu.get_opt_prop_index(opt_prop_type,opt_prop_name)
+        index = self.simu.get_opt_prop_index(type,name)
         if index == None:
-            if createProps == True:
-                print("creating {} optical property named {}".format(opt_prop_type, opt_prop_name))
-                self.opt_property(opt_prop_type, opt_prop_name)
+            if create == True:
+                print("creating {} optical property named {}".format(type, name))
+                self.opt_property(type, name)
                 self.simu.core.update_properties_dict()
-                opt_prop_list = self.simu.scene.properties["opt_props"][opt_prop_type]
-                index = opt_prop_list[opt_prop_list["prop_name"] == opt_prop_name].index.tolist()[0]# unicity of prop_name
+                opt_prop_list = self.simu.scene.properties["opt_props"][type]
+                index = opt_prop_list[opt_prop_list["prop_name"] == name].index.tolist()[0]# unicity of prop_name
             else:
                 print("ERROR: %s optical property %s does not exist, please FIX or set createOptProps to TRUE" % (
-                    opt_prop_type, opt_prop_name))
+                    type, name))
                 return index
         return index
 
@@ -269,54 +269,291 @@ class Add(object):
         self.simu.update.lock_core = True
         return True
 
-    def opt_property(self, opt_prop_type, opt_prop_name):
+    # def optical_property(self, optprop,verbose=False):
+    #     """adds and optical property to the simulation
+    #
+    #     Parameters
+    #     ----------
+    #     optprop : dict
+    #         with the following elements:
+    #                 - type : 'lambertian' or 'vegetation'
+    #                 - op_name: string for name
+    #                 - db_name: string to database
+    #                 - op_name_in_db: name of opt in database
+    #
+    #             if lambertian :
+    #                 - specular : 0 or 1, 1 if UseSpecular
+    #             if vegetation :
+    #                 - lad : leaf angle distribution :
+    #                     - 0: Uniform
+    #                     - 1: Spherical
+    #                     - 3: Planophil
+    #
+    #         prospect properties can be added with key 'prospect'.
+    #         It must be a dictionary with elements
+    #
+    #
+    #     Examples
+    #     --------
+    #     .. code-block:: python
+    #
+    #         import pytools4dart as ptd
+    #         simu=ptd.simulation('lambertian')
+    #
+    #         simu.add_optical_property({
+    #             'type':'lambertian',
+    #             'op_name':'Lambertian_Phase_Function_1',
+    #             'db_name':'Lambertian_vegetation.db',
+    #             'op_name_in_db':'reflect_equal_1_trans_equal_0_0',
+    #             'specular': 0})
+    #
+    #         simu.add_optical_property({
+    #             'type':'vegetation',
+    #             'op_name':'Turbid_Leaf_Deciduous_Phase_Function',
+    #             'db_name':'Vegetation.db',
+    #             'op_name_in_db':'leaf_deciduous',
+    #             'lad': 1})
+    #
+    #         simu.add_optical_property({
+    #             'type':'vegetation',
+    #             'op_name':'op_prospect',
+    #             'db_name':'prospect.db',
+    #             'op_name_in_db':'',
+    #             'lad': 1,
+    #             'prospect':{'CBrown': '0.0', 'Cab': '30', 'Car': '12',
+    #                        'Cm': '0.01', 'Cw': '0.012', 'N': '1.8',
+    #                        'anthocyanin': '0'}})
+    #
+    #
+    #     """
+    #     # TODO : think about : do we want optprops as an object?
+    #     # TODO : Managing Thermal properties?
+    #     # TODO : Add Error catching!
+    #
+    #
+    #     #check if requested model and db exist, although it could be created a posteriori with prospect
+    #     try:
+    #         dbmodels_names = dbtools.get_models(optprop['db_name'])['name'].values.tolist()
+    #         optprop_name_in_db = optprop['op_name_in_db']
+    #         if not (optprop_name_in_db in dbmodels_names):
+    #             warnings.warn("model '{0}' not found in {1}".format(optprop['op_name_in_db'],
+    #                                                                 optprop['db_name']))
+    #     except Exception as e:
+    #         warnings.warn(str(e))
+    #
+    #
+    #
+    #     self._registerchange('coeff_diff')
+    #     if optprop['type'] == 'lambertian':
+    #         if optprop['op_name'] in self.optprops['lambertians']:
+    #             raise ValueError('Optical property name already used: ' + optprop['op_name'])
+    #         else:
+    #             self.optprops['lambertians'].append({k:v for k,v in optprop.iteritems() if k != 'type'})
+    #             self._set_index_props()
+    #     elif optprop['type'] == 'vegetation':
+    #         if optprop['op_name'] in self.optprops['vegetations']:
+    #             raise ValueError('Optical property name already used: ' + optprop['op_name'])
+    #         else:
+    #             self.optprops['vegetations'].append({k:v for k,v in optprop.iteritems() if k != 'type'})
+    #             self._set_index_props()
+    #     else:
+    #         print 'Non recognized optical property type. Returning'
+    #         return
+    #
+    #     if verbose:
+    #         print('Optical property added.')
+    #
+    #     return
+
+
+    def optical_property(self, type='lambertian', replace=False, **kwargs):
         """
-        Add an optical property to coeff_diff XSD object
-        :param opt_prop_type: optical property type
-        :param opt_prop_name: optical property name
-        :return: True if add goes fine, False if not
-        Raise exception if opt property already exists
+        Add a new optical property to core.coeff_diff
+
+        Parameters
+        ----------
+        type: str
+            optical property type.
+        replace: bool
+            replace the optical property if already exist under same 'ident'.
+        kwargs:
+            see Notes below.
+
+        Returns
+        -------
+            optical property object reference
+
+        Notes
+        -----
+        Possible types are: Lambertian, Hapke, RPV, Understory, AirFunction
+        The main keys are:
+            ModelName: model name in database
+            databaseName: path to database
+            ident: model name called in simulation, e.g. in plots.
+
+        Available arguments and default value are
+            - Lambertian:
+                ModelName='reflect_equal_1_trans_equal_0_0',
+                databaseName='Lambertian_vegetation.db',
+                useMultiplicativeFactorForLUT=1,
+                ident='Lambertian_Phase_Function_1',
+                useSpecular=0,
+                roStDev=0.000,
+
+            - Hapke:
+                ModelName = 'all_equal_to_one',
+                useExternalModule = 0,
+                transmittanceDatabaseName = 'Lambertian_vegetation.db',
+                useSpecular = 0,
+                ident = 'Hapke_Phase_Function_1',
+                transmittanceModelName = 'reflect_equal_1_trans_equal_1_1',
+                databaseName = 'Hapke.db',
+                useMultiplicativeFactorForLUT = 1,
+
+            - RPV:
+                ModelName = 'basic',
+                transmittanceModelName = 'reflect_equal_1_trans_equal_0_0',
+                databaseName = 'RPV.db',
+                useMultiplicativeFactorForLUT = 1,
+                transmittanceDatabaseName = 'Lambertian_vegetation.db',
+                ident = 'RPV_Phase_Function_1',
+                useSpecular = 0
+
+            - Understory:
+                ident='Turbid_Leaf_Deciduous_Phase_Function',
+                hasDifferentModelForBottom=0,
+                dimFoliar=0.01,
+                thermalHotSpotFactor=0.1,
+                lad=1,
+                useOpticalFactorMatrix=0,
+
+                # with UnderstoryMultiModel options:
+
+                ModelName='leaf_deciduous'
+                useSpecular=0
+                databaseName='Lambertian_vegetation.db'
+                useMultiplicativeFactorForLUT=1
+
+            - AirFunction:
+                ident = 'Molecule',
+                ModelName = 'rayleigh_gas',
+                databaseName = 'Fluid.db',
+                useMultiplicativeFactorForLUT = 1,
         """
+
+        # TODO replace opt_property by optical_property and kwargs
+
+        # children are not available because they can generate conflict (not tested however):
+        # Lambertian
+        #     SpecularData = None,
+        #     ProspectExternalModule = None,
+        #     lambertianNodeMultiplicativeFactorForLUT = None
+        # Hapke
+        #     SpecularData = None,
+        #     HapkeExternalModules = None,
+        #     hapkeNodeMultiplicativeFactorForLUT = None
+        # RPV
+        #     SpecularData = None,
+        #     RPVNodeMultiplicativeFactorForLUT = None
+        # Understory
+        #     UnderstoryMultiModel = None,
+        #     UnderstoryMultiTopModel = None,
+        #     UnderstoryMultiBottomModel = None,
+        #     Ellipsoidal = None,
+        #     Elliptical = None,
+        #     UserDefined = None,
+        #     Manual = None,
+        #     BoundedUniform = None,
+        #     DirectionalClumpingIndexProperties = None
+        # UnderstoryMultiModel
+        #     SpecularData = None
+        #     ProspectExternalModule = None
+        #     understoryNodeMultiplicativeFactorForLUT = None
+        # AirFunction
+        #     AirFunctionNodeMultiplicativeFactorForLut = None
+        dartnode = ptd.xmlwriters.dartxml.get_labels(pat='{type}MultiplicativeFactorForLUT$'.format(type=type),case=False)['dartnode'].iloc[0]
+
         self.simu.core.extract_sp_bands_table()
         nb_sp_bands = self.simu.bands.shape[0]
-        if self.simu.get_opt_prop_index(opt_prop_type, opt_prop_name) == None: # if oprtical property does not exist, create
-            #optproplists_xmlpaths_dict[opt_prop_type])
-            optproplists_xmlpaths_dict = self.simu.get_opt_props_xmlpaths_dict()
-            multfactors_xmlpaths_dict = self.simu.get_multfacts_xmlpaths_dict()
 
-            optproplist_xmlpath = optproplists_xmlpaths_dict[opt_prop_type]
-            multfactor_xmlpath = multfactors_xmlpaths_dict[opt_prop_type]
+        # create optical property with specified arguments
+        if type.lower() == "understory":
+            module, fun, multi, model, node, factor = dartnode.split('.')
+            tmp = ptd.coeff_diff.create_UnderstoryMulti()
+            propargnames = [tmp.attrib, tmp.children]
+            propargs = {k: v for k, v in kwargs.iteritems() if k in propargnames}
+            modelargs = { k:v for k,v in kwargs.iteritems() if k not in propargnames}
+            model = eval('ptd.coeff_diff.create_{model}(**modelargs)'.format(model=model)) # optproplist_xmlpath.split(".")[1]
+            propargs['UnderstoryMultiModel']=model
+            prop = eval('ptd.coeff_diff.create_{multi}(**propargs)'.format(multi=multi)) # optproplist_xmlpath.split(".")[1]
+        else:
+            module, fun, multi, node, factor = dartnode.split('.')
+            model = None
+            prop = eval('ptd.coeff_diff.create_{multi}(**kwargs)'.format(multi=multi)) # optproplist_xmlpath.split(".")[1]
 
-            prop = eval('ptd.coeff_diff.create_{}(ident = opt_prop_name)'.format(optproplist_xmlpath.split(".")[1]))
-            for i in range(nb_sp_bands):
-                eval('prop.{}.add_{}(ptd.coeff_diff.create_{}())'.format(multfactor_xmlpath.split(".")[0],
-                                                                     multfactor_xmlpath.split(".")[1],
-                                                                       multfactor_xmlpath.split(".")[1]))
-            eval('self.simu.core.xsdobjs["coeff_diff"].Coeff_diff.{}.add_{}(prop)'.format(optproplist_xmlpath.split(".")[0],
-                                                                                          optproplist_xmlpath.split(".")[1]))
+        # check if already exists
+        index = self.simu.get_opt_prop_index(type, prop.ident)
+        if not index: # new
+            eval('self.simu.core.xsdobjs["coeff_diff"].{fun}.add_{multi}(prop)'.format(
+                fun='.'.join(filter(None, [module, fun])), multi=multi))
+        else:
+            if replace:
+                eval('self.simu.core.xsdobjs["coeff_diff"].{fun}.replace_{multi}({index}, prop)'.format(
+                    fun='.'.join(filter(None, [module, fun])), multi=multi, index=index))
+            else:
+                raise Exception("ERROR: optical property of type %s named %s already exists, please change name" % (
+                    type, prop.ident))
+
+        # update multiplicative factors
+        useMultiplicativeFactorForLUT = eval("{multi}.useMultiplicativeFactorForLUT".format(
+            multi='.'.join(filter(None, ['prop', model]))))
+
+        if useMultiplicativeFactorForLUT:
+            for i in range(nb_sp_bands-1): # one is set by default
+                eval('prop.{node}.add_{factor}(ptd.coeff_diff.create_{factor}())'.format(
+                    node='.'.join(filter(None, [model, node])), factor=factor))
 
             #self.simu.core.update_properties_dict()
-            self.simu.update.lock_core = True #update locks management
+        self.simu.update.lock_core = True #update locks management
+        return(prop)
 
-        else: # opt_property having name opt_prop_name already exists
-            raise Exception("ERROR: optical property of type %s named %s already exists, please change name" % (opt_prop_type, opt_prop_name))
 
-    def th_property(self, th_prop_name):
+    def thermal_property(self, replace=False, **kwargs):
         """
-        Add thermal property in coeff_diff XSD object
-        :param th_prop_name: thermal property name
-        :return: True if add goes fine, False if not
-        Raise exception if th property already exists
+        Add a new thermal property to core.coeff_diff
+
+        Parameters
+        ----------
+        kwargs: dict
+        accepted arguments with default value:
+            meanT=300.0,
+            idTemperature='ThermalFunction290_310',
+            deltaT=20.0,
+            useOpticalFactorMatrix=0,
+            override3DMatrix=0,
+            singleTemperatureSurface=1,
+            opticalFactorMatrix=None
+        Returns
+        -------
+            thermal property object reference
+
         """
-        if self.simu.get_thermal_prop_index(th_prop_name) == None:  # if thermal property does not exist, create
-            th_function = ptd.coeff_diff.create_ThermalFunction(idTemperature=th_prop_name)
-            self.simu.core.xsdobjs["coeff_diff"].Coeff_diff.Temperatures.add_ThermalFunction(th_function)
+        # TODO replace th_property by thermal_property and kwargs
+        prop = ptd.coeff_diff.create_ThermalFunction(**kwargs)
+        index = self.simu.get_thermal_prop_index(prop.idTemperature)
+        if not index:  # if thermal property does not exist, create
+            self.simu.core.xsdobjs["coeff_diff"].Coeff_diff.Temperatures.add_ThermalFunction(prop)
+        else:
+            if replace:
+                self.simu.core.xsdobjs["coeff_diff"].Coeff_diff.Temperatures.replace_ThermalFunction(index, prop)
+            else:
+                raise Exception("ERROR: thermal property named %s already exists, please change name" % (prop.idTemperature))
 
-            #self.simu.core.update_properties_dict()
-            self.simu.update.lock_core = True #update locks management
 
-        else: # th_prop having name opt_prop_name already exists
-            raise Exception("ERROR: thermal property named %s already exists, please change name" % (th_prop_name))
+
+        #self.simu.core.update_properties_dict()
+        self.simu.update.lock_core = True #update locks management
+
 
     def multiplots(self, plots_list):
         """
