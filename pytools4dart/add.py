@@ -2,7 +2,9 @@
 # ===============================================================================
 # PROGRAMMERS:
 #
+#
 # Claudia Lavalley <claudia.lavalley@cirad.fr>
+# Florian de Boissieu
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
 #
@@ -101,23 +103,23 @@ class Add(object):
 
         return check
 
-    def checkandcorrect_opt_prop_exists(self, type, name, create = False):
+    def checkandcorrect_opt_prop_exists(self, type, ident, create = False):
         """
         Check if opt_prop exists
         This is used only in "user friendly" methods
         If it doesn't exist, and createOptProps == True, creates the missing optical property
         If it doesn't exist, and createOptProps == False, prints ERROR Message
         :param type: type of optical property in ["vegetation", "fluid", "lambertian", "hapke", "rpv"]
-        :param name: name of optical property to be checked
+        :param ident: name of optical property to be checked
         :param create: boolean, if True, a missing optical property will be created
         :return: index in the corresponding list, None if missing  : TOBE DONE
         """
         self.simu.core.update_properties_dict()
-        index = self.simu.get_opt_prop_index(type,name)
+        index = self.simu.get_opt_prop_index(type, ident)
         if index == None:
             if create == True:
-                print("creating {} optical property named {}".format(type, name))
-                self.opt_property(type, name)
+                print("creating {} optical property named {}".format(type, ident))
+                self.optical_property(type, ident=ident)
                 self.simu.core.update_properties_dict()
                 opt_prop_list = self.simu.scene.properties["opt_props"][type]
                 index = opt_prop_list[opt_prop_list["prop_name"] == name].index.tolist()[0]# unicity of prop_name
@@ -165,7 +167,24 @@ class Add(object):
             print("ERROR: multiplicative factor add failed")
             return False
 
+    # obj3D:
+    #     objectDEMMode=0,
+    #     name='Object',
+    #     isDisplayed=1,
+    #     hasGroups=0,
+    #     num=0,
+    #     file_src='exemple.wrl',
+    #     objectColor='125 0 125',
+    #     hidden=0,
+    #     repeatedOnBorder=1,
+    #     GeometricProperties=None,
+    #     ObjectOpticalProperties=None,
+    #     ObjectTypeProperties=None,
+    #     Groups=None
+
     def obj3D(self, src_file_path, group_number = 1, group_names_list = None, opt_prop_types_list = None, opt_prop_names_list=None, th_prop_names_list=None, back_opt_prop_types_list = None, back_opt_prop_names_list = None, back_th_prop_names_list = None, createProps = False):
+
+
         """
         add 3D object with "double-faced" OBJ groups (non turbid groups, only surfacic groups: lambertian, hapke, rpv)
         Mandatory: The length of properties list must match the number of groups given in OBJ file.
@@ -524,15 +543,19 @@ class Add(object):
 
         Parameters
         ----------
+        replace: bool
+            replace the thermal property if already exist under same 'ident'.
+
         kwargs: dict
-        accepted arguments with default value:
-            meanT=300.0,
-            idTemperature='ThermalFunction290_310',
-            deltaT=20.0,
-            useOpticalFactorMatrix=0,
-            override3DMatrix=0,
-            singleTemperatureSurface=1,
-            opticalFactorMatrix=None
+            accepted arguments with default value:
+                meanT=300.0,
+                idTemperature='ThermalFunction290_310',
+                deltaT=20.0,
+                useOpticalFactorMatrix=0,
+                override3DMatrix=0,
+                singleTemperatureSurface=1,
+                opticalFactorMatrix=None
+
         Returns
         -------
             thermal property object reference
