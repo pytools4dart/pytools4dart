@@ -379,12 +379,14 @@ def build_core(directory=None):
 
     for xsdname in xsdnames:
         cmd = ' '.join(['generateDS.py -m -f --always-export-default --export="write literal etree"',
+                        '-u "{user_methods}"',
                         '-p "create" --post-attrib-setter="update_node(self,self.troot,\'{xsdname}\')"',
                         '--pre-ctor="self.troot=get_gs_troot(\'{xsdname}\',\'{{classname}}\')"',
                         '--post-ctor="update_node(self,self.troot,\'{xsdname}\')"',
                         '--imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node"',
                         '-o "{pypath}"',
-                        '{xsdpath}']).format(xsdname = xsdname,
+                        '{xsdpath}']).format(user_methods = 'pytools4dart.core_ui.user_methods',
+                                                xsdname = xsdname,
                                                  pypath = os.path.join(directory, "core_ui", xsdname+'.py'),
                                                  xsdpath = os.path.join(directory, "xsdschemas", xsdname+'.xsd'))
         subprocess.call(cmd, shell=True)
