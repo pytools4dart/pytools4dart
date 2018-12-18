@@ -27,7 +27,7 @@
 This module contains the class "Core".
 """
 
-import os, glob
+import os, glob, re
 import lxml.etree as etree
 import pandas as pd
 from os.path import join as pjoin
@@ -285,3 +285,24 @@ class Core(object):
 
         return opt_props
 
+    def get_optical_properties(self):
+        # PB with Understory top/bottom?
+
+        dartnodes = ptd.xmlwriters.dartxml.get_labels('Coeff_diff\.\w+\.\w+\.ident$')['dartnode']
+
+        prop_type = []
+        prop_index = []
+        prop_ident = []
+        for dn in dartnodes:
+            # dn = dartnodes.iloc[0]
+            head, function, multi, _=dn.split('.')
+            ptype = re.sub('Multi', '', multi)
+            if function in self.xsdobjs["coeff_diff"].Coeff_diff.children:
+                prop_list = eval('self.xsdobjs["coeff_diff"].Coeff_diff.{function}.{multi}'.format(function=function, multi=multi))
+                for i, prop in enumerate(prop_list):
+                    prop_type.append(ptype)
+                    prop_index.append(i)
+                    prop_ident.append(prop.ident)
+
+        opt_props = pd.DataFrame(dict(type = prop_type, index = prop_index, ident = prop_ident))
+        return opt_props
