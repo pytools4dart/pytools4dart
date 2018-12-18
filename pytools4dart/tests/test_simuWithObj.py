@@ -25,9 +25,9 @@ simu.add.optical_property(type='lambertian',
                           ident = 'bark_spruce')
 
 simu.add.optical_property(type='lambertian',
-                          ModelName='grass_rye',
+                          ModelName='leaf_deciduous',
                           databaseName='Lambertian_vegetation.db',
-                          ident = 'grass_rye')
+                          ident = 'leaf_deciduous')
 
 simu.add.optical_property(type='lambertian',
                           ModelName='loam_gravelly_brown_dark_clean_smooth',
@@ -38,7 +38,7 @@ simu.add.optical_property(type='lambertian',
 simu.add.sp_bands_uf([[0.485, 0.07],
                       [0.555, 0.07],
                       [0.655, 0.07]])
-merisier_op = pd.DataFrame(dict(group = ['TrunkAndBranches', 'Leaves'], ident=['bark_spruce', 'grass_rye'], indexFctPhase = [1, 2]))
+merisier_op = pd.DataFrame(dict(group = ['TrunkAndBranches', 'Leaves'], ident=['bark_spruce', 'leaf_deciduous'], indexFctPhase = [1, 2]))
 merisier_op.set_index('group', inplace=True)
 for i, g in enumerate(merisier.Groups.Group):
     gop = g.GroupOpticalProperties
@@ -52,9 +52,9 @@ for i, g in enumerate(merisier.Groups.Group):
 
 simu.name = 'test_simuWithObj'
 
-simu.write()
+simu.write(overwrite=True)
 
 simu.run.full()
 simu.run.colorCompositeBands(red=3, green=2, blue=1, iteration='X', outdir='rgb')
-
+# see rgb images in test_simuWithObj/output/rgb
 
