@@ -311,17 +311,8 @@ class Checker(object):
                     th_prop_name = th_prop.idTemperature
                     index_th_prop = self.simu.get_thermal_prop_index(th_prop_name)
 
-                    back_opt_prop = group.GroupOpticalProperties.BackFaceOpticalProperty.OpticalPropertyLink
-                    back_opt_prop_type = back_opt_prop.type_
-                    back_opt_prop_name = back_opt_prop.ident
-                    index_back_opt_prop = self.simu.get_opt_prop_index(grd_opt_prop_types_dict[back_opt_prop_type], back_opt_prop_name)
-
-
-                    back_th_prop = group.GroupOpticalProperties.BackFaceThermalProperty.ThermalPropertyLink
-                    back_th_prop_name = back_th_prop.idTemperature
-                    index_back_th_prop = self.simu.get_thermal_prop_index(back_th_prop_name)
-
-                    if index_opt_prop == None or index_th_prop == None or index_back_opt_prop == None or index_back_th_prop == None:
+                    # error for front face
+                    if index_opt_prop == None or index_th_prop == None:
                             print("ERROR: opt_prop %s or th_prop %s does not exist, please FIX" % (opt_prop_name,th_prop_name))
                             return False
                     else:
@@ -331,12 +322,30 @@ class Checker(object):
                         if th_prop.indexTemperature != index_th_prop:
                             print("warning:  th_prop %s index inconsistency, correcting index" % th_prop_name)
                             th_prop.indexTemperature = index_th_prop
-                        if back_opt_prop.indexFctPhase != index_back_opt_prop:
-                            print("warning:  opt_prop %s index inconsistency, correcting index" % back_opt_prop_name)
-                            opt_prop.indexFctPhase = index_back_opt_prop
-                        if back_th_prop.indexTemperature != index_back_th_prop:
-                            print("warning:  th_prop %s index inconsistency, correcting index" % back_th_prop_name)
-                            th_prop.indexTemperature = index_back_th_prop
+
+                    if group.GroupOpticalProperties.doubleFace == 1:
+                        back_opt_prop = group.GroupOpticalProperties.BackFaceOpticalProperty.OpticalPropertyLink
+                        back_opt_prop_type = back_opt_prop.type_
+                        back_opt_prop_name = back_opt_prop.ident
+                        index_back_opt_prop = self.simu.get_opt_prop_index(grd_opt_prop_types_dict[back_opt_prop_type], back_opt_prop_name)
+
+
+                        back_th_prop = group.GroupOpticalProperties.BackFaceThermalProperty.ThermalPropertyLink
+                        back_th_prop_name = back_th_prop.idTemperature
+                        index_back_th_prop = self.simu.get_thermal_prop_index(back_th_prop_name)
+
+                        if index_back_opt_prop == None or index_back_th_prop == None:
+                            print("ERROR: opt_prop %s or th_prop %s does not exist, please FIX" % (
+                            opt_prop_name, th_prop_name))
+                            return False
+                        else:
+                            if back_opt_prop.indexFctPhase != index_back_opt_prop:
+                                print("warning:  opt_prop %s index inconsistency, correcting index" % back_opt_prop_name)
+                                opt_prop.indexFctPhase = index_back_opt_prop
+                            if back_th_prop.indexTemperature != index_back_th_prop:
+                                print("warning:  th_prop %s index inconsistency, correcting index" % back_th_prop_name)
+                                th_prop.indexTemperature = index_back_th_prop
+
             else: # object without groups
                 opt_prop = obj3d.ObjectOpticalProperties.OpticalPropertyLink
                 opt_prop_type = opt_prop.type_
