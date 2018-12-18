@@ -30,6 +30,7 @@ This module contains the class "Adds".
 """
 
 import pytools4dart as ptd
+import re
 
 from pytools4dart.helpers.constants import *
 
@@ -122,10 +123,10 @@ class Add(object):
                 self.optical_property(type, ident=ident)
                 self.simu.core.update_properties_dict()
                 opt_prop_list = self.simu.scene.properties["opt_props"][type]
-                index = opt_prop_list[opt_prop_list["prop_name"] == name].index.tolist()[0]# unicity of prop_name
+                index = opt_prop_list[opt_prop_list["prop_name"] == ident].index.tolist()[0]# unicity of prop_name
             else:
                 print("ERROR: %s optical property %s does not exist, please FIX or set createOptProps to TRUE" % (
-                    type, name))
+                    type, ident))
                 return index
         return index
 
@@ -167,11 +168,11 @@ class Add(object):
             print("ERROR: multiplicative factor add failed")
             return False
 
-    # obj3D:
+    # object_3d:
     #     objectDEMMode=0,
     #     name='Object',
     #     isDisplayed=1,
-    #     hasGroups=0,
+    #     hasGroups=0, # taken from file
     #     num=0,
     #     file_src='exemple.wrl',
     #     objectColor='125 0 125',
@@ -182,208 +183,185 @@ class Add(object):
     #     ObjectTypeProperties=None,
     #     Groups=None
 
-    def obj3D(self, src_file_path, group_number = 1, group_names_list = None, opt_prop_types_list = None, opt_prop_names_list=None, th_prop_names_list=None, back_opt_prop_types_list = None, back_opt_prop_names_list = None, back_th_prop_names_list = None, createProps = False):
+    # GeometricProperties
+    #     xpos, ypos, zpos
 
+    def object_3d(self, file_src, xpos=2., ypos=2., zpos=0., xscale=1., yscale=1., zscale=1.):
+        """
+
+        Parameters
+        ----------
+        file_src: str
+            path to obj file
+        xpos, ypos, zpos: float
+            coordinates of the position of the object
+        xscale, yscale, zscale: float
+            scaling factors applied to object
+
+        Returns
+        -------
+            object of class create_Object
+
+        Notes
+        -----
+        Numerotation of groups is fixed with java HashMap method into DART.
+        This should change in the future for an alphabetic order, but until then
+        numerotation should be fixed manually based on a trial in DART.
 
         """
-        add 3D object with "double-faced" OBJ groups (non turbid groups, only surfacic groups: lambertian, hapke, rpv)
-        Mandatory: The length of properties list must match the number of groups given in OBJ file.
-        :param src_file_path: OBJ source file
-        :param group_number: number of OBJ groups
-        :param group_names_list: names of OBJ groups, one name per OBJ group
-        :param opt_prop_types_list: list of opt_properties_types (in [lambertian,hapke,rpv]), one single opt_property per OBJ group
-        :param opt_prop_names_list: list of opt_properties_names, one single opt_property per OBJ group
-        :param th_prop_names_list: list of thermal_properties_names, one single opt_property per OBJ group
-        :param back_opt_prop_types_list: list of back-face opt_properties_types (in [lambertian,hapke,rpv]), one single opt_property per OBJ group
-        :param back_opt_prop_names_list: list of back-face opt_properties_names, one single opt_property per OBJ group
-        :param back_th_prop_names_list: list of back-face thermal_properties_names, one single opt_property per OBJ group
-        :param createProps: False par default, True if the user decides to automatically create missing opt/thermal properties
-        Raise exceptions if len(some list) differs from the number of groups given
-        Raise exception if any opt/thermal property does not exist and createProps is set to False
-        :return:
-        """
-        obj = ptd.object_3d.create_Object()
-        obj.file_src = src_file_path
-        obj.hasGroups = 1
-        groups_list = obj.Groups
 
-        if group_names_list != None and len(group_names_list)!=group_number:
-            raise Exception("number of group_names and given group_number differ, please FIX")
-        if opt_prop_types_list != None and len(opt_prop_types_list)!=group_number:
-            raise Exception("number of opt_prop_types and given group_number differ, please FIX")
-        if opt_prop_names_list != None and len(opt_prop_names_list)!=group_number:
-            raise Exception("number of opt_prop_names and given group_number differ, please FIX")
-        if th_prop_names_list != None and len(th_prop_names_list)!=group_number:
-            raise Exception("number of th_prop_names and given group_number differ, please FIX")
-        if back_opt_prop_types_list != None and len(back_opt_prop_types_list)!=group_number:
-            raise Exception("number of back_opt_prop_types and given group_number differ, please FIX")
-        if back_opt_prop_names_list != None and len(back_opt_prop_names_list)!=group_number:
-            raise Exception("number of back_opt_prop_names and given group_number differ, please FIX")
-        if back_th_prop_names_list != None and len(back_th_prop_names_list)!=group_number:
-            raise Exception("number of back_th_prop_names and given group_number differ, please FIX")
 
-        for i in range(group_number):
-            if i>len(groups_list.Group)-1: # this is because when setting hasGroups = 1, one first group is automatically created
-                group = ptd.object_3d.create_Group(num=i+1, name=group_names_list[i])
-            else:
-                group = groups_list.Group[i]
+        # op_type = "lambertian", op_ident=None, th_ident=None,
+        # bop_type="lambertian", bop_ident=None,bth_ident = None, doubleFace = 0, createProps = False):
 
-            opt_prop_type = opt_prop_types_list[i]
-            opt_prop_name = opt_prop_names_list[i]
-            th_prop_name = th_prop_names_list[i]
-            back_opt_prop_type = back_opt_prop_types_list[i]
-            back_opt_prop_name = back_opt_prop_names_list[i]
-            back_th_prop_name = back_th_prop_names_list[i]
+        #
+        # """
+        # add 3D object with "double-faced" OBJ groups (non turbid groups, only surfacic groups: lambertian, hapke, rpv)
+        # Mandatory: The length of properties list must match the number of groups given in OBJ file.
+        # :param file_src: OBJ source file
+        # :param gnames: group names
+        # :param op_type: list of opt_properties_types (in [lambertian,hapke,rpv]), one single opt_property per OBJ group
+        # :param op_ident: list of opt_properties_names, one single opt_property per OBJ group
+        # :param th_ident: list of thermal_properties_names, one single opt_property per OBJ group
+        # :param bop_type: list of back-face opt_properties_types (in [lambertian,hapke,rpv]), one single opt_property per OBJ group
+        # :param bop_ident: list of back-face opt_properties_names, one single opt_property per OBJ group
+        # :param bth_ident: list of back-face thermal_properties_names, one single opt_property per OBJ group
+        # :param createProps: False par default, True if the user decides to automatically create missing opt/thermal properties
+        # Raise exceptions if len(some list) differs from the number of groups given
+        # Raise exception if any opt/thermal property does not exist and createProps is set to False
+        # :return:
+        # """
 
-            #if opt/thermal props are not given, default values are given
-            if opt_prop_type==None and opt_prop_name == None:
-                opt_prop_type = "lambertian"
-                def_opt_prop = self.simu.get_default_opt_prop(opt_prop_type)
-                opt_prop_name = def_opt_prop.ident
-            if th_prop_name == None:
-                th_prop_name = self.simu.get_default_th_prop().idTemperature
+        obj = ptd.OBJtools.read(file_src)
 
-            if back_opt_prop_type==None and back_opt_prop_name == None:
-                back_opt_prop_type = "lambertian"
-                def_opt_prop = self.simu.get_default_opt_prop(opt_prop_type)
-                back_opt_prop_name = def_opt_prop.ident
-            if back_th_prop_name == None:
-                back_th_prop_name = self.simu.get_default_th_prop().idTemperature
+        gnames = ptd.OBJtools.get_gnames(obj)
+        xdim, ydim, zdim = ptd.OBJtools.get_dims(obj)
+        # import pandas as pd
 
-            opt_prop_index = self.checkandcorrect_opt_prop_exists(opt_prop_type, opt_prop_name,createProps)
-            th_prop_index = self.checkandcorrect_th_prop_exists(th_prop_name, createProps)
-            back_opt_prop_index = self.checkandcorrect_opt_prop_exists(back_opt_prop_type, back_opt_prop_name, createProps)
-            back_th_prop_index = self.checkandcorrect_th_prop_exists(back_th_prop_name, createProps)
+        # number of groups
+        gnum = len(gnames) # number of groups
 
-            if opt_prop_index != None and th_prop_index != None:
-                opt_prop = ptd.object_3d.create_OpticalPropertyLink(ident=opt_prop_name, indexFctPhase=opt_prop_index,
-                                                                    type_= grd_opt_prop_types_inv_dict[opt_prop_type])
-                th_prop = ptd.object_3d.create_ThermalPropertyLink(idTemperature=th_prop_name, indexTemperature=th_prop_index)
-            else:  # either opt_prop or th_prop does not exist
-                raise Exception("ERROR opt_prop or thermal prop does not exist, please FIX or set createProps = True")
+        GeometricProperties = ptd.object_3d.create_GeometricProperties(
+            PositionProperties=ptd.object_3d.create_PositionProperties(xpos=xpos, ypos=ypos, zpos=zpos),
+            Dimension3D=ptd.object_3d.create_Dimension3D(xdim=xdim, ydim=ydim, zdim=zdim),
+            ScaleProperties=ptd.object_3d.create_ScaleProperties(xscale=xscale, yscale=yscale, zscale=zscale)
+        )
 
-            if back_opt_prop_index != None and back_th_prop_index != None:
+        if len(gnames)==0:
+            hasGroups = 0
+        else:
+            hasGroups=1
+            groups=list()
+            for gindex, gname in enumerate(gnames):
+                groups.append(ptd.object_3d.create_Group(num=gindex+1, name=gname))
+        Groups = ptd.object_3d.create_Groups(Group=groups)
+        obj = ptd.object_3d.create_Object(file_src=file_src, hasGroups=hasGroups,
+                                          GeometricProperties=GeometricProperties, Groups=Groups)
+        # # if opt/thermal props are not given, default values are given
+        # if op_ident == None:
+        #     op_ident = self.simu.get_default_opt_prop(op_type).ident
+        # if th_ident == None:
+        #     th_ident = self.simu.get_default_th_prop().idTemperature
+        # op_index = self.checkandcorrect_opt_prop_exists(op_type, op_ident, createProps)
+        # th_index = self.checkandcorrect_th_prop_exists(th_ident, createProps)
+        #
+        # if op_index == None or th_index == None:
+        #     raise Exception("ERROR opt_prop or thermal prop does not exist, please FIX or set createProps = True")
+        #
+        # propdf=pd.DataFrame(dict(gname = gnames, op_type = op_type, op_ident=op_ident,
+        #                   bop_type = bop_type, bop_ident=bop_ident,
+        #                   th_ident=th_ident, bth_ident=bth_ident, doubleFace=doubleFace))
 
-                back_opt_prop_link = ptd.object_3d.create_OpticalPropertyLink(ident=back_opt_prop_name, indexFctPhase=back_opt_prop_index,
-                                                                    type_=grd_opt_prop_types_inv_dict[back_opt_prop_type])
-                back_opt_prop = ptd.object_3d.create_BackFaceOpticalProperty(OpticalPropertyLink=back_opt_prop_link)
+        # opt_prop = ptd.object_3d.create_OpticalPropertyLink(ident=op_ident, indexFctPhase=op_index,
+        #                                                     type=0) # type=grd_op_types_inv_dict[op_type]
+        # th_prop = ptd.object_3d.create_ThermalPropertyLink(idTemperature=th_ident, indexTemperature=th_index)
+        #
+        # oop = ptd.object_3d.create_ObjectOpticalProperties(sameOPObject=1, doubleFace=doubleFace, )
 
-                back_th_prop_link = ptd.object_3d.create_ThermalPropertyLink(idTemperature=back_th_prop_name,
-                                                                   indexTemperature=back_th_prop_index)
-                back_th_prop = ptd.object_3d.create_BackFaceThermalProperty(back_th_prop_link)
 
-            else:  # either opt_prop or th_prop does not exist
-                raise Exception("ERROR BACK FACE opt_prop or thermal prop does not exist, please FIX or set createProps = True")
+                # op_type = x.op_type
+                # op_ident = x.op_ident
+                # bop_type = x.bop_type
+                # bop_ident = x.bop_ident
+                # th_ident = x.th_ident
+                # bth_ident = x.bth_ident
+                # doubleFace = x.doubleFace
 
-            group.GroupOpticalProperties = ptd.object_3d.create_GroupOpticalProperties(OpticalPropertyLink= opt_prop,
-                                                                                       ThermalPropertyLink=th_prop,
-                                                                                       BackFaceOpticalProperty=back_opt_prop,
-                                                                                       BackFaceThermalProperty=back_th_prop)
+                #
+                # opt_prop = ptd.object_3d.create_OpticalPropertyLink(ident=op_ident, indexFctPhase=op_index,
+                #                                                     type_=grd_op_types_inv_dict[op_type])
+                # th_prop = ptd.object_3d.create_ThermalPropertyLink(idTemperature=th_ident, indexTemperature=th_index)
+                #
+                # # back properties
+                # if doubleFace == 1:
+                #     if bop_ident == None:
+                #         bop_ident = self.simu.get_default_opt_prop(op_type).ident
+                #     if bth_ident == None:
+                #         bth_ident = self.simu.get_default_th_prop().idTemperature
+                #     bop_index = self.checkandcorrect_opt_prop_exists(bop_type, bop_ident, createProps)
+                #     bth_index = self.checkandcorrect_th_prop_exists(bth_ident, createProps)
+                #
+                #     if bop_index == None or bth_index == None:
+                #         raise Exception("ERROR opt_prop or thermal prop does not exist, please FIX or set createProps = True")
+                #
+                #
+                #
+                #
+                #     back_opt_prop_link = ptd.object_3d.create_OpticalPropertyLink(ident=bop_indent, indexFctPhase=bop_index,
+                #                                                         type_=grd_op_types_inv_dict[bop_type])
+                #     back_opt_prop = ptd.object_3d.create_BackFaceOpticalProperty(OpticalPropertyLink=back_opt_prop_link)
+                #
+                #     back_th_prop_link = ptd.object_3d.create_ThermalPropertyLink(idTemperature=bth_ident,
+                #                                                        indexTemperature=bth_index)
+                #     back_th_prop = ptd.object_3d.create_BackFaceThermalProperty(back_th_prop_link)
+                #
+                # else:
+                #     back_opt_prop = None
+                #     back_th_prop = None
+                #
+                # gop = ptd.object_3d.create_GroupOpticalProperties(OpticalPropertyLink= opt_prop,
+                #                                                   ThermalPropertyLink=th_prop,
+                #                                                   BackFaceOpticalProperty=back_opt_prop,
+                #                                                   BackFaceThermalProperty=back_th_prop)
+                #
+                # group = ptd.object_3d.create_Group(num=gindex, name=gname, GroupOpticalProperties=gop)
+                #
+                # groups.append(group)
 
-            if i > len(groups_list.Group) - 1:  # this is because when setting hasGroups = 1, one first group is automatically created
-                groups_list.add_Group(group)
+            # if i > len(groups_list.Group) - 1:  # this is because when setting hasGroups = 1, one first group is automatically created
+            #     groups.add_Group(group)
+            # if gnames != None and len(gnames)!=gnum:
+            #     raise Exception("number of group_names and given group_number differ, please FIX")
+            #
+            # if op_types != None and len(op_types)!=gnum:
+            #     raise Exception("number of opt_prop_types and given group_number differ, please FIX")
+            #
+            # if op_ident != None and len(op_ident)!=gnum:
+            #     raise Exception("number of opt_prop_names and given group_number differ, please FIX")
+            #
+            # if th_ident != None and len(th_ident)!=gnum:
+            #     raise Exception("number of th_prop_names and given group_number differ, please FIX")
+            #
+            # if bop_types != None and len(bop_types)!=gnum:
+            #     raise Exception("number of back_opt_prop_types and given group_number differ, please FIX")
+            #
+            # if bop_ident != None and len(bop_ident)!=gnum:
+            #     raise Exception("number of back_opt_prop_names and given group_number differ, please FIX")
+            #
+            # if bth_ident != None and len(bth_ident)!=gnum:
+            #     raise Exception("number of back_th_prop_names and given group_number differ, please FIX")
+
+            # op_type = op_types[i]
+            # op_ident = op_ident[i]
+            # th_prop_name = th_prop_names_list[i]
+            # back_op_type = back_op_types[i]
+            # back_opt_prop_name = back_op_ident[i]
+            # back_th_prop_name = back_th_prop_names_list[i]
 
         self.simu.core.xsdobjs["object_3d"].object_3d.ObjectList.add_Object(obj)
 
         self.simu.update.lock_core = True
-        return True
-
-    # def optical_property(self, optprop,verbose=False):
-    #     """adds and optical property to the simulation
-    #
-    #     Parameters
-    #     ----------
-    #     optprop : dict
-    #         with the following elements:
-    #                 - type : 'lambertian' or 'vegetation'
-    #                 - op_name: string for name
-    #                 - db_name: string to database
-    #                 - op_name_in_db: name of opt in database
-    #
-    #             if lambertian :
-    #                 - specular : 0 or 1, 1 if UseSpecular
-    #             if vegetation :
-    #                 - lad : leaf angle distribution :
-    #                     - 0: Uniform
-    #                     - 1: Spherical
-    #                     - 3: Planophil
-    #
-    #         prospect properties can be added with key 'prospect'.
-    #         It must be a dictionary with elements
-    #
-    #
-    #     Examples
-    #     --------
-    #     .. code-block:: python
-    #
-    #         import pytools4dart as ptd
-    #         simu=ptd.simulation('lambertian')
-    #
-    #         simu.add_optical_property({
-    #             'type':'lambertian',
-    #             'op_name':'Lambertian_Phase_Function_1',
-    #             'db_name':'Lambertian_vegetation.db',
-    #             'op_name_in_db':'reflect_equal_1_trans_equal_0_0',
-    #             'specular': 0})
-    #
-    #         simu.add_optical_property({
-    #             'type':'vegetation',
-    #             'op_name':'Turbid_Leaf_Deciduous_Phase_Function',
-    #             'db_name':'Vegetation.db',
-    #             'op_name_in_db':'leaf_deciduous',
-    #             'lad': 1})
-    #
-    #         simu.add_optical_property({
-    #             'type':'vegetation',
-    #             'op_name':'op_prospect',
-    #             'db_name':'prospect.db',
-    #             'op_name_in_db':'',
-    #             'lad': 1,
-    #             'prospect':{'CBrown': '0.0', 'Cab': '30', 'Car': '12',
-    #                        'Cm': '0.01', 'Cw': '0.012', 'N': '1.8',
-    #                        'anthocyanin': '0'}})
-    #
-    #
-    #     """
-    #     # TODO : think about : do we want optprops as an object?
-    #     # TODO : Managing Thermal properties?
-    #     # TODO : Add Error catching!
-    #
-    #
-    #     #check if requested model and db exist, although it could be created a posteriori with prospect
-    #     try:
-    #         dbmodels_names = dbtools.get_models(optprop['db_name'])['name'].values.tolist()
-    #         optprop_name_in_db = optprop['op_name_in_db']
-    #         if not (optprop_name_in_db in dbmodels_names):
-    #             warnings.warn("model '{0}' not found in {1}".format(optprop['op_name_in_db'],
-    #                                                                 optprop['db_name']))
-    #     except Exception as e:
-    #         warnings.warn(str(e))
-    #
-    #
-    #
-    #     self._registerchange('coeff_diff')
-    #     if optprop['type'] == 'lambertian':
-    #         if optprop['op_name'] in self.optprops['lambertians']:
-    #             raise ValueError('Optical property name already used: ' + optprop['op_name'])
-    #         else:
-    #             self.optprops['lambertians'].append({k:v for k,v in optprop.iteritems() if k != 'type'})
-    #             self._set_index_props()
-    #     elif optprop['type'] == 'vegetation':
-    #         if optprop['op_name'] in self.optprops['vegetations']:
-    #             raise ValueError('Optical property name already used: ' + optprop['op_name'])
-    #         else:
-    #             self.optprops['vegetations'].append({k:v for k,v in optprop.iteritems() if k != 'type'})
-    #             self._set_index_props()
-    #     else:
-    #         print 'Non recognized optical property type. Returning'
-    #         return
-    #
-    #     if verbose:
-    #         print('Optical property added.')
-    #
-    #     return
-
+        return obj
 
     def optical_property(self, type='lambertian', replace=False, **kwargs):
         """
@@ -517,7 +495,7 @@ class Add(object):
                 fun='.'.join(filter(None, [module, fun])), multi=multi))
         else:
             if replace:
-                eval('self.simu.core.xsdobjs["coeff_diff"].{fun}.replace_{multi}({index}, prop)'.format(
+                eval('self.simu.core.xsdobjs["coeff_diff"].{fun}.replace_{multi}_at({index}, prop)'.format(
                     fun='.'.join(filter(None, [module, fun])), multi=multi, index=index))
             else:
                 raise Exception("ERROR: optical property of type %s named %s already exists, please change name" % (
