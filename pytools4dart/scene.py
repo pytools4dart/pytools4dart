@@ -80,7 +80,7 @@ class Scene(object):
         for (i, th_prop) in th_props_df.iterrows():
             index = self.simu.get_thermal_prop_index(th_prop["prop_name"])
             if index == None: # if thermal property does not exists, add
-                self.simu.add.th_property(th_prop["prop_name"])
+                self.simu.add.thermal_property(idTemperature = th_prop["prop_name"])
             else: # if thermal property exists but invalid index
                 if index != th_prop["prop_index"]:
                     print("WARNING: invalid prop_index, to be corrected ")
@@ -90,7 +90,7 @@ class Scene(object):
             for (i, opt_prop) in opt_props_df.iterrows():
                 index = self.simu.get_opt_prop_index(opt_prop_type,opt_prop["prop_name"])
                 if index == None:  # if optical property does not exists, add
-                    self.simu.add.opt_property(opt_prop_type, opt_prop["prop_name"])
+                    self.simu.add.optical_property(opt_prop_type, ident=opt_prop["prop_name"])
                 else:
                     if index != opt_prop["prop_index"]:
                         print("WARNING: invalid prop_index, to be corrected ")
