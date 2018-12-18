@@ -264,6 +264,10 @@ class simulation(object):
         self.core.update_properties_dict()
         index = None
         opt_prop_list = self.scene.properties["opt_props"][type.lower()]
+        # For future ue of simu.core.get_optical_properties()
+        # df = self.scene.properties["opt_props"]
+        # opt_prop_list = df[df.type.str.contains(type, case=False) & (df.ident==name)]
+
 
         if opt_prop_list.shape[0] > 0:
             if len(opt_prop_list[opt_prop_list["prop_name"] == name]) > 0: #property exists
