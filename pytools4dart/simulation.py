@@ -127,19 +127,22 @@ class simulation(object):
     def get_database_dir(self):
         return pjoin(getdartdir(),"database")
 
-    def write(self, modified_simu_name = None, overwrite = False):
+    def write(self, name = None, overwrite = False):
         """
         Write XSD objects contents on DART XML input files in simulation input directory
-        Warning: if modified_simu_name is None, initial simulation input directory is overwritten
+        Warning: if name is None, initial simulation input directory is overwritten
         If new simulation name given as parameter already exists, directory is not overwritten and an Exception is raised
         If module dependencies issues are detected, an Exception is raised
-        :param modified_simu_name: name of the new(modified) simulation
+        :param name: name of the new(modified) simulation. If None
         """
         check = self.checker.module_dependencies()
 
+        if not name:
+            name = self.name
+
         if check == True:
-            if modified_simu_name != None:
-                new_simu_path = pjoin(self.getsimusdir(), modified_simu_name)
+            if name != None:
+                new_simu_path = pjoin(self.getsimusdir(), name)
                 if not os.path.isdir(new_simu_path):
                     os.mkdir(new_simu_path)
                     new_inputsimu_path = pjoin(new_simu_path, "input")
@@ -148,7 +151,7 @@ class simulation(object):
                     raise Exception("ERROR: requested new simulation already exists, files won't be written!")
 
             for fname, xsdobj in self.core.xsdobjs.iteritems():
-                self.write_xml_file(fname, xsdobj, modified_simu_name)
+                self.write_xml_file(fname, xsdobj, name)
         else:
             raise Exception("ERROR: please correct dependencies issues, no files written")
 
@@ -205,10 +208,10 @@ class simulation(object):
         opt_props_xmlpaths_dict["rpv"] = "RPVMultiFunctions.RPVMulti"
         return opt_props_xmlpaths_dict
 
-    def write_xml_file(self, fname, obj, modified_simu_name = None):
+    def write_xml_file(self, fname, obj, name = None):
         xmlstr = etree.tostring(obj.to_etree(), pretty_print=True)
-        if modified_simu_name != None:
-            new_simu_path = pjoin(self.getsimusdir(),modified_simu_name)
+        if name != None:
+            new_simu_path = pjoin(self.getsimusdir(),name)
             new_inputsimu_path = pjoin(new_simu_path, "input")
             xml_file_path = pjoin(new_inputsimu_path, fname + ".xml")
         else:
@@ -251,20 +254,20 @@ class simulation(object):
     def get_default_th_prop(self):
         return(ptd.coeff_diff.create_ThermalFunction())
 
-    def get_opt_prop_index(self, opt_prop_type, opt_prop_name):
+    def get_opt_prop_index(self, type, name):
         """
         gets index of optical property given as parameter, using opt_props DataFrame
-        :param opt_prop_type: optical proprety type in ["vegetation", "fluid", "lambertian", "hapke", "rpv"]
-        :param opt_prop_name: optical property name
-        :return: index on DataFrame corresponding to the opt_prop_type, None if property does not exist
+        :param type: optical proprety type in ["vegetation", "fluid", "lambertian", "hapke", "rpv"]
+        :param name: optical property name
+        :return: index on DataFrame corresponding to the type, None if property does not exist
         """
         self.core.update_properties_dict()
         index = None
-        opt_prop_list = self.scene.properties["opt_props"][opt_prop_type]
+        opt_prop_list = self.scene.properties["opt_props"][type.lower()]
 
         if opt_prop_list.shape[0] > 0:
-            if len(opt_prop_list[opt_prop_list["prop_name"] == opt_prop_name]) > 0: #property exists
-                index = opt_prop_list[opt_prop_list["prop_name"] == opt_prop_name].index.tolist()[0]
+            if len(opt_prop_list[opt_prop_list["prop_name"] == name]) > 0: #property exists
+                index = opt_prop_list[opt_prop_list["prop_name"] == name].index.tolist()[0]
         return index
 
     def get_thermal_prop_index(self, th_prop_name):
