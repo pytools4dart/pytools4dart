@@ -60,10 +60,9 @@ class DartXml(object):
         return
 
 def write_templates(directory):
-    directory = 'templates'
-    xml_templates = ptd.xmlwriters.dartxml.get_templates()
+    xml_templates = get_templates()
     for k, v in xml_templates.iteritems():
-        filename=pjoin('/home/boissieu/git/pytools4dartMTD',directory, k+'.xml')
+        filename=pjoin(os.path.abspath(directory), k+'.xml')
         with open(filename, 'w') as f:
             f.write(v)
 
@@ -87,13 +86,19 @@ def get_templates():
     return templates
 
 def write_schemas(directory):
-    # directory = 'core_ui'
+    """
+    Extract DART xsd files and writes them in input directory
+
+    Parameters
+    ----------
+    directory: str
+        Path to write pytools4dart core directory (typically 'pytools4dart/xsdschemas')
+    """
     xmlschemas = get_schemas()
     for k, v in xmlschemas.iteritems():
-        filename=pjoin(directory, k+'.xsd')
+        filename=pjoin(os.path.abspath(directory), k+'.xsd')
         with open(filename, 'w') as f:
             f.write(v)
-
 
 
 def get_schemas():
@@ -115,12 +120,19 @@ def get_schemas():
     return schemas
 
 
-def get_labels():
+def get_labels(pat=None, case=False, regex=False, column='dartnode'):
     """
     Extract DART labels and corresponding nodes from DARTIHMSimulationEditor.jar
     Parameters
     ----------
-    dartdir
+    pat: str
+        Character sequence or regular expression.
+
+    case: str
+        If True, case sensitive.
+
+    column: str
+        Column name to apply pattern filtering: 'labels' or 'dartnode'.
 
     Returns
     -------
@@ -141,6 +153,9 @@ def get_labels():
     labelsdf = pd.DataFrame(
         [regex.findall(line)[0] for line in labels if len(regex.findall(line))],
     columns = ['dartnode', 'label'])
+
+    if pat is not None:
+        labelsdf = labelsdf[labelsdf[column].str.contains(pat, case, regex=regex)]
 
     labelsdf = labelsdf[['label', 'dartnode']]
 
