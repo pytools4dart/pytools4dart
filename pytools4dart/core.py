@@ -55,7 +55,7 @@ class Core(object):
     def __init__(self, simu):
         self.simu = simu
         self.xsdobjs = {}
-        modulenames_list = self.get_xmlfile_names(pjoin(os.path.dirname(os.path.realpath(__file__)), "templates"))#["plots", "phase", "atmosphere", "coeff_diff", "directions", "object_3d","maket","inversion","trees","water","urban"]
+        modulenames_list = self.get_xmlfile_names(pjoin(ptd.__path__[0], "templates"))#["plots", "phase", "atmosphere", "coeff_diff", "directions", "object_3d","maket","inversion","trees","water","urban"]
         for modname in modulenames_list:
             self.xsdobjs[modname] = eval('ptd.core_ui.{}.createDartFile()'.format(modname))
         for xsdobj in self.xsdobjs.values():
@@ -90,7 +90,7 @@ class Core(object):
         Populate XSD Objects contained in xsd_core according to DART XML input files contents
         Update properties, sp_bands and plots tables after population of xsdobjs
         """
-        modulenames_list = self.get_xmlfile_names(pjoin(os.path.dirname(os.path.realpath(__file__)), "templates"))
+        modulenames_list = self.get_xmlfile_names(pjoin(ptd.__path__[0], "templates"))
         for modulename in modulenames_list:
             filepath = pjoin(self.simu.getinputsimupath(), modulename+'.xml')
             eval('ptd.{}.parse("{}",silence=True)'.format(modulename, filepath))
