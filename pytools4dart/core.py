@@ -55,15 +55,17 @@ class Core(object):
     def __init__(self, simu):
         self.simu = simu
         self.xsdobjs = {}
-        modulenames_list = self.get_xmlfile_names(pjoin(ptd.__path__[0], "templates"))#["plots", "phase", "atmosphere", "coeff_diff", "directions", "object_3d","maket","inversion","trees","water","urban"]
-        for modname in modulenames_list:
-            self.xsdobjs[modname] = eval('ptd.core_ui.{}.createDartFile()'.format(modname))
-        for xsdobj in self.xsdobjs.values():
-            xsdobj.factory()
-
-        #if the simulation exists, populate xsd_core with simulation XML files contents
         if simu.name != None and os.path.isdir(self.simu.getsimupath()): # if name != None and dir doesnt exist, create Dir?
             self.load()
+        else:
+            modulenames_list = self.get_xmlfile_names(pjoin(ptd.__path__[0], "templates"))#["plots", "phase", "atmosphere", "coeff_diff", "directions", "object_3d","maket","inversion","trees","water","urban"]
+            for modname in modulenames_list:
+                self.xsdobjs[modname] = eval('ptd.core_ui.{}.createDartFile()'.format(modname))
+        # for xsdobj in self.xsdobjs.values():
+        #     xsdobj.factory()
+
+        #if the simulation exists, populate xsd_core with simulation XML files contents
+
 
     def update(self):
         self.simu.scene.properties = self.extract_properties_dict()  # dictionnary containing "opt_props" and "thermal_props" DataFrames
@@ -93,7 +95,7 @@ class Core(object):
         modulenames_list = self.get_xmlfile_names(pjoin(ptd.__path__[0], "templates"))
         for modulename in modulenames_list:
             filepath = pjoin(self.simu.getinputsimupath(), modulename+'.xml')
-            eval('ptd.{}.parse("{}",silence=True)'.format(modulename, filepath))
+            self.xsdobjs[modulename] = eval('ptd.{}.parse("{}",silence=True)'.format(modulename, filepath))
 
     def get_corners_from_rectangle(self, center_x, center_y, side_x, side_y):
         x1, y1 = center_x - side_x / 2.0, center_y - side_y / 2.0
