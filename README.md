@@ -179,6 +179,10 @@ import pytools4dart
 pytools4dart.configure('specific_path_to_DART')
 ```
 
+*Warning: at the moment his configuration must be made from pytools4dart 
+directory itself, otherwise it might lead to an error of type:* 
+`ImportError: No module named user_methods` 
+
 ## Features
 At the moment only part of DART simulator features are supported:
 - create 'flux' simulation
