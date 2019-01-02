@@ -140,7 +140,7 @@ def getdartenv(dartdir=None, verbose=False):
 
     # Look for config.ini
     with open(pjoin(dartdir, 'config.ini')) as f:
-        dartrcpath = f.read()
+        dartrcpath = f.read().rstrip()
 
     # set environmental variables
     if platform.system() == "Windows":
