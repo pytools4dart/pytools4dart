@@ -107,7 +107,7 @@ To suppress the environment, suppress the directory `venv` after desactivating i
 
 
 ### GIS packages
-Some required like GDAL and geopandas are needded in some features, like stacking bands to an ENVI file or
+Some packages like GDAL and geopandas are needded in some features, like stacking bands to an ENVI file or
 intersecting voxelized scene with shapefile. These are not in `requirements.txt` due to Windows compatibility issues. 
 Therefore they should be installed separately as well as there dependencies.
 
@@ -166,6 +166,16 @@ that can be installed from command line with:
 pip install -r requirements.txt
 ```
 
+### generateDS
+`generateDS` is necessary for generating DART core python interface.
+The version available on PyPI was not sufficient for our needs,
+thus it has been updated on a fork. It can be downloaded from
+[here](https://gitlab.irstea.fr/florian.deboissieu/generateds) and
+installed from the unzipped directory with command line:
+```
+python setup.py install
+```
+
 ## Install
 Installation can be done from the `pytools4dartMTD` directory:
 
@@ -175,13 +185,9 @@ python setup.py install
 
 DART paths have to be configured with method `configure` :
 ```
-import pytools4dart
-pytools4dart.configure('specific_path_to_DART')
+import pytools4dart as ptd
+ptd.configure('specific_path_to_DART')
 ```
-
-*Warning: at the moment his configuration must be made from pytools4dart 
-directory itself, otherwise it might lead to an error of type:* 
-`ImportError: No module named user_methods` 
 
 ## Features
 At the moment only part of DART simulator features are supported:
