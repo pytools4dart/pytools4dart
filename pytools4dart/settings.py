@@ -376,7 +376,10 @@ def build_core(directory=None):
     ptd.xmlwriters.dartxml.write_schemas(xsdDpath)
 
     xsdnames = [s.split('.xsd')[0] for s in os.listdir(xsdDpath) if s.endswith('.xsd')]
-
+    
+    # change to pytools4dart site-package directory: necessary for user_methods
+    cwd = os.getcwd()
+    os.chdir(directory)
     for xsdname in xsdnames:
         cmd = ' '.join(['generateDS.py -m -f --always-export-default --export="write literal etree"',
                         '-u "{user_methods}"',
@@ -385,8 +388,10 @@ def build_core(directory=None):
                         '--post-ctor="update_node(self,self.troot,\'{xsdname}\')"',
                         '--imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node"',
                         '-o "{pypath}"',
-                        '{xsdpath}']).format(user_methods = 'pytools4dart.core_ui.user_methods',
+                        '{xsdpath}']).format(user_methods = 'core_ui.user_methods',
                                                 xsdname = xsdname,
                                                  pypath = os.path.join(directory, "core_ui", xsdname+'.py'),
                                                  xsdpath = os.path.join(directory, "xsdschemas", xsdname+'.xsd'))
         subprocess.call(cmd, shell=True)
+    
+    os.chdir(cwd) # get back to original directory
