@@ -2,28 +2,30 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Wed Oct 31 15:06:24 2018 by generateDS.py version 2.29.25.
-# Python 2.7.15rc1 (default, Apr 15 2018, 21:51:34)  [GCC 7.3.0]
+# Generated Wed Jan  2 18:30:48 2019 by generateDS.py version 2.29.25.
+# Python 2.7.15rc1 (default, Nov 12 2018, 14:31:15)  [GCC 7.3.0]
 #
 # Command line options:
 #   ('-m', '')
+#   ('-f', '')
 #   ('--always-export-default', '')
 #   ('--export', 'write literal etree')
+#   ('-u', 'pytools4dart.core_ui.user_methods')
 #   ('-p', 'create')
-#   ('--post-attrib-setter', 'update_node(self,self.troot,"inversion")')
-#   ('--pre-ctor', 'self.troot=get_gs_troot("inversion","{classname}")')
-#   ('--post-ctor', 'update_node(self,self.troot,"inversion")')
+#   ('--post-attrib-setter', "update_node(self,self.troot,'inversion')")
+#   ('--pre-ctor', "self.troot=get_gs_troot('inversion','{classname}')")
+#   ('--post-ctor', "update_node(self,self.troot,'inversion')")
 #   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node')
-#   ('-o', '/home/claudia/tmp/inversion.py')
+#   ('-o', 'pytools4dart/core_ui/inversion.py')
 #
 # Command line arguments:
-#   /home/claudia/DEV/pytools4dartMTD/pytools4dart/core_ui/inversion.xsd
+#   pytools4dart/xsdschemas/inversion.xsd
 #
 # Command line:
-#   /home/claudia/DEV/pytools4dartMTD/venv/bin/generateDS.py -m --always-export-default --export="write literal etree" -p "create" --post-attrib-setter="update_node(self,self.troot,"inversion")" --pre-ctor="self.troot=get_gs_troot("inversion","{classname}")" --post-ctor="update_node(self,self.troot,"inversion")" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node" -o "/home/claudia/tmp/inversion.py" /home/claudia/DEV/pytools4dartMTD/pytools4dart/core_ui/inversion.xsd
+#   /home/boissieu/git/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "pytools4dart.core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'inversion')" --pre-ctor="self.troot=get_gs_troot('inversion','{classname}')" --post-ctor="update_node(self,self.troot,'inversion')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node" -o "pytools4dart/core_ui/inversion.py" pytools4dart/xsdschemas/inversion.xsd
 #
 # Current working directory (os.getcwd()):
-#   generateds
+#   pytools4dartMTD
 #
 
 import sys
@@ -742,18 +744,23 @@ class createDartFile(GeneratedsSuper):
     """Version of the plots.xml file. Depends of the version on DART
     itself. Version of the plots.xml file. Depends of the version on
     DART itself."""
+    member_data_items_ = [
+        MemberSpec_('version', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('build_', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('DartInversion', '_DartInversion', 0, 0, {u'maxOccurs': u'1', u'type': u'_DartInversion', u'name': u'DartInversion', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
-    def __init__(self, version='5.7.1', build_='0', DartInversion=None):
+    def __init__(self, version='5.7.4', build_='0', DartInversion=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("inversion","DartFile")
+        self.troot=get_gs_troot('inversion','DartFile')
         self.attrib = ['version', 'build_']
         self.children = ['DartInversion']
         self.parent = None
         self._version = _cast(None, version)
         self._build_ = _cast(None, build_)
         self._DartInversion = DartInversion
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -775,12 +782,12 @@ class createDartFile(GeneratedsSuper):
     def get_version(self): return self._version
     def set_version(self, value):
         self._version = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     version = property(get_version, set_version)
     def get_build(self): return self._build_
     def set_build(self, value):
         self._build_ = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     build_ = property(get_build, set_build)
     def copy(self):
         obj_ = self.factory()
@@ -886,24 +893,31 @@ class createDartFile(GeneratedsSuper):
             obj_.build(child_)
             self.set_DartInversion(obj_)
             obj_.original_tagname_ = 'DartInversion'
-# end class createDartFile
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class createDartFile
 
 
 class create_DartInversion(GeneratedsSuper):
     """Inversion : Input Parameters Inversion : Input Parameters Run
     Inversion Run Inversion"""
+    member_data_items_ = [
+        MemberSpec_('runInversion', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('InversionImages', '_InversionImages', 0, 0, {u'maxOccurs': u'1', u'type': u'_InversionImages', u'name': u'InversionImages', u'minOccurs': u'1'}, None),
+        MemberSpec_('Inversion', '_Inversion', 0, 0, {u'maxOccurs': u'1', u'type': u'_Inversion', u'name': u'Inversion', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, runInversion=0, InversionImages=None, Inversion=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("inversion","_DartInversion")
+        self.troot=get_gs_troot('inversion','_DartInversion')
         self.attrib = ['runInversion']
         self.children = ['InversionImages', 'Inversion']
         self.parent = None
         self._runInversion = _cast(int, runInversion)
         self._InversionImages = InversionImages
         self._Inversion = Inversion
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -932,7 +946,7 @@ class create_DartInversion(GeneratedsSuper):
     def get_runInversion(self): return self._runInversion
     def set_runInversion(self, value):
         self._runInversion = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     runInversion = property(get_runInversion, set_runInversion)
     def copy(self):
         obj_ = self.factory()
@@ -1045,16 +1059,23 @@ class create_DartInversion(GeneratedsSuper):
             obj_.build(child_)
             self.set_Inversion(obj_)
             obj_.original_tagname_ = 'Inversion'
-# end class create_DartInversion
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_DartInversion
 
 
 class create_InversionImages(GeneratedsSuper):
     """Is mask Is mask"""
+    member_data_items_ = [
+        MemberSpec_('isMask', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('MaskProperties', '_MaskProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_MaskProperties', u'name': u'MaskProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('ImageProperties', '_ImageProperties', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_ImageProperties', u'name': u'ImageProperties', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, isMask=0, MaskProperties=None, ImageProperties=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("inversion","_InversionImages")
+        self.troot=get_gs_troot('inversion','_InversionImages')
         self.attrib = ['isMask']
         self.children = ['MaskProperties', 'ImageProperties']
         self.parent = None
@@ -1064,7 +1085,7 @@ class create_InversionImages(GeneratedsSuper):
             self._ImageProperties = []
         else:
             self._ImageProperties = ImageProperties
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1103,7 +1124,7 @@ class create_InversionImages(GeneratedsSuper):
     def get_isMask(self): return self._isMask
     def set_isMask(self, value):
         self._isMask = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     isMask = property(get_isMask, set_isMask)
     def copy(self):
         obj_ = self.factory()
@@ -1222,21 +1243,26 @@ class create_InversionImages(GeneratedsSuper):
             obj_.build(child_)
             self.add_ImageProperties(obj_)
             obj_.original_tagname_ = 'ImageProperties'
-# end class create_InversionImages
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_InversionImages
 
 
 class create_MaskProperties(GeneratedsSuper):
     """Mask properties Mask properties Data mask file Data mask file"""
+    member_data_items_ = [
+        MemberSpec_('dataMaskFile', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, dataMaskFile='mask.mp#'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("inversion","_MaskProperties")
+        self.troot=get_gs_troot('inversion','_MaskProperties')
         self.attrib = ['dataMaskFile']
         self.children = []
         self.parent = None
         self._dataMaskFile = _cast(None, dataMaskFile)
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1251,7 +1277,7 @@ class create_MaskProperties(GeneratedsSuper):
     def get_dataMaskFile(self): return self._dataMaskFile
     def set_dataMaskFile(self, value):
         self._dataMaskFile = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     dataMaskFile = property(get_dataMaskFile, set_dataMaskFile)
     def copy(self):
         obj_ = self.factory()
@@ -1326,7 +1352,9 @@ class create_MaskProperties(GeneratedsSuper):
             self.dataMaskFile = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_MaskProperties
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_MaskProperties
 
 
 class create_ImageProperties(GeneratedsSuper):
@@ -1334,11 +1362,18 @@ class create_ImageProperties(GeneratedsSuper):
     file name Data file name Multiplicative factor Multiplicative
     factor Spectral band number for this image Spectral band number
     for this image"""
+    member_data_items_ = [
+        MemberSpec_('ImageNumber', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('dataFileName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('multiplicativeFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('spectralBandKey', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('SunViewAngleProperties', '_SunViewAngleProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_SunViewAngleProperties', u'name': u'SunViewAngleProperties', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, ImageNumber=0, dataFileName='image.mp#', multiplicativeFactor=1, spectralBandKey='0', SunViewAngleProperties=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("inversion","_ImageProperties")
+        self.troot=get_gs_troot('inversion','_ImageProperties')
         self.attrib = ['ImageNumber', 'dataFileName', 'multiplicativeFactor', 'spectralBandKey']
         self.children = ['SunViewAngleProperties']
         self.parent = None
@@ -1347,7 +1382,7 @@ class create_ImageProperties(GeneratedsSuper):
         self._multiplicativeFactor = _cast(float, multiplicativeFactor)
         self._spectralBandKey = _cast(None, spectralBandKey)
         self._SunViewAngleProperties = SunViewAngleProperties
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1369,22 +1404,22 @@ class create_ImageProperties(GeneratedsSuper):
     def get_ImageNumber(self): return self._ImageNumber
     def set_ImageNumber(self, value):
         self._ImageNumber = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     ImageNumber = property(get_ImageNumber, set_ImageNumber)
     def get_dataFileName(self): return self._dataFileName
     def set_dataFileName(self, value):
         self._dataFileName = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     dataFileName = property(get_dataFileName, set_dataFileName)
     def get_multiplicativeFactor(self): return self._multiplicativeFactor
     def set_multiplicativeFactor(self, value):
         self._multiplicativeFactor = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     multiplicativeFactor = property(get_multiplicativeFactor, set_multiplicativeFactor)
     def get_spectralBandKey(self): return self._spectralBandKey
     def set_spectralBandKey(self, value):
         self._spectralBandKey = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     spectralBandKey = property(get_spectralBandKey, set_spectralBandKey)
     def copy(self):
         obj_ = self.factory()
@@ -1522,7 +1557,9 @@ class create_ImageProperties(GeneratedsSuper):
             obj_.build(child_)
             self.set_SunViewAngleProperties(obj_)
             obj_.original_tagname_ = 'SunViewAngleProperties'
-# end class create_ImageProperties
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ImageProperties
 
 
 class create_SunViewAngleProperties(GeneratedsSuper):
@@ -1530,11 +1567,17 @@ class create_SunViewAngleProperties(GeneratedsSuper):
     angle View zenith angle View azimuth angle View azimuth angle
     Sun zenith angle Sun zenith angle Sun azimuth angle Sun azimuth
     angle"""
+    member_data_items_ = [
+        MemberSpec_('viewZenithalAngle', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('viewAzimuthalAngle', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('sunZenithalAngle', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('sunAzimuthalAngle', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, viewZenithalAngle=0, viewAzimuthalAngle=0, sunZenithalAngle=30, sunAzimuthalAngle=225):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("inversion","_SunViewAngleProperties")
+        self.troot=get_gs_troot('inversion','_SunViewAngleProperties')
         self.attrib = ['viewZenithalAngle', 'viewAzimuthalAngle', 'sunZenithalAngle', 'sunAzimuthalAngle']
         self.children = []
         self.parent = None
@@ -1542,7 +1585,7 @@ class create_SunViewAngleProperties(GeneratedsSuper):
         self._viewAzimuthalAngle = _cast(float, viewAzimuthalAngle)
         self._sunZenithalAngle = _cast(float, sunZenithalAngle)
         self._sunAzimuthalAngle = _cast(float, sunAzimuthalAngle)
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1557,22 +1600,22 @@ class create_SunViewAngleProperties(GeneratedsSuper):
     def get_viewZenithalAngle(self): return self._viewZenithalAngle
     def set_viewZenithalAngle(self, value):
         self._viewZenithalAngle = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     viewZenithalAngle = property(get_viewZenithalAngle, set_viewZenithalAngle)
     def get_viewAzimuthalAngle(self): return self._viewAzimuthalAngle
     def set_viewAzimuthalAngle(self, value):
         self._viewAzimuthalAngle = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     viewAzimuthalAngle = property(get_viewAzimuthalAngle, set_viewAzimuthalAngle)
     def get_sunZenithalAngle(self): return self._sunZenithalAngle
     def set_sunZenithalAngle(self, value):
         self._sunZenithalAngle = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     sunZenithalAngle = property(get_sunZenithalAngle, set_sunZenithalAngle)
     def get_sunAzimuthalAngle(self): return self._sunAzimuthalAngle
     def set_sunAzimuthalAngle(self, value):
         self._sunAzimuthalAngle = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     sunAzimuthalAngle = property(get_sunAzimuthalAngle, set_sunAzimuthalAngle)
     def copy(self):
         obj_ = self.factory()
@@ -1698,16 +1741,24 @@ class create_SunViewAngleProperties(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (sunAzimuthalAngle): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_SunViewAngleProperties
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_SunViewAngleProperties
 
 
 class create_Inversion(GeneratedsSuper):
     """Inversion Inversion"""
+    member_data_items_ = [
+        MemberSpec_('InversionDatabase', '_InversionDatabase', 0, 0, {u'maxOccurs': u'1', u'type': u'_InversionDatabase', u'name': u'InversionDatabase', u'minOccurs': u'1'}, None),
+        MemberSpec_('InversionInterpolation', '_InversionInterpolation', 0, 0, {u'maxOccurs': u'1', u'type': u'_InversionInterpolation', u'name': u'InversionInterpolation', u'minOccurs': u'1'}, None),
+        MemberSpec_('InversionSimplexConvergence', '_InversionSimplexConvergence', 0, 0, {u'maxOccurs': u'1', u'type': u'_InversionSimplexConvergence', u'name': u'InversionSimplexConvergence', u'minOccurs': u'1'}, None),
+        MemberSpec_('InversionParameters', '_InversionParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_InversionParameters', u'name': u'InversionParameters', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, InversionDatabase=None, InversionInterpolation=None, InversionSimplexConvergence=None, InversionParameters=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("inversion","_Inversion")
+        self.troot=get_gs_troot('inversion','_Inversion')
         self.attrib = ['']
         self.children = ['InversionDatabase', 'InversionInterpolation', 'InversionSimplexConvergence', 'InversionParameters']
         self.parent = None
@@ -1715,7 +1766,7 @@ class create_Inversion(GeneratedsSuper):
         self._InversionInterpolation = InversionInterpolation
         self._InversionSimplexConvergence = InversionSimplexConvergence
         self._InversionParameters = InversionParameters
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1887,7 +1938,9 @@ class create_Inversion(GeneratedsSuper):
             obj_.build(child_)
             self.set_InversionParameters(obj_)
             obj_.original_tagname_ = 'InversionParameters'
-# end class create_Inversion
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Inversion
 
 
 class create_InversionDatabase(GeneratedsSuper):
@@ -1896,11 +1949,17 @@ class create_InversionDatabase(GeneratedsSuper):
     was used for creating the database (LUT) Inversion database
     Inversion database Reflectance database Reflectance database
     Analytic reflectance model Analytic reflectance model"""
+    member_data_items_ = [
+        MemberSpec_('GroundSpectralModel', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('InversionDatabase', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('databaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('InversionCoefficientModelName', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, GroundSpectralModel='', InversionDatabase='', databaseName='Lambertian.db', InversionCoefficientModelName='0'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("inversion","_InversionDatabase")
+        self.troot=get_gs_troot('inversion','_InversionDatabase')
         self.attrib = ['GroundSpectralModel', 'InversionDatabase', 'databaseName', 'InversionCoefficientModelName']
         self.children = []
         self.parent = None
@@ -1908,7 +1967,7 @@ class create_InversionDatabase(GeneratedsSuper):
         self._InversionDatabase = _cast(None, InversionDatabase)
         self._databaseName = _cast(None, databaseName)
         self._InversionCoefficientModelName = _cast(None, InversionCoefficientModelName)
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1923,22 +1982,22 @@ class create_InversionDatabase(GeneratedsSuper):
     def get_GroundSpectralModel(self): return self._GroundSpectralModel
     def set_GroundSpectralModel(self, value):
         self._GroundSpectralModel = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     GroundSpectralModel = property(get_GroundSpectralModel, set_GroundSpectralModel)
     def get_InversionDatabase(self): return self._InversionDatabase
     def set_InversionDatabase(self, value):
         self._InversionDatabase = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     InversionDatabase = property(get_InversionDatabase, set_InversionDatabase)
     def get_databaseName(self): return self._databaseName
     def set_databaseName(self, value):
         self._databaseName = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     databaseName = property(get_databaseName, set_databaseName)
     def get_InversionCoefficientModelName(self): return self._InversionCoefficientModelName
     def set_InversionCoefficientModelName(self, value):
         self._InversionCoefficientModelName = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     InversionCoefficientModelName = property(get_InversionCoefficientModelName, set_InversionCoefficientModelName)
     def copy(self):
         obj_ = self.factory()
@@ -2052,7 +2111,9 @@ class create_InversionDatabase(GeneratedsSuper):
             self.InversionCoefficientModelName = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_InversionDatabase
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_InversionDatabase
 
 
 class create_InversionInterpolation(GeneratedsSuper):
@@ -2060,17 +2121,21 @@ class create_InversionInterpolation(GeneratedsSuper):
     calculated (interpolated). Number of interpolations points on
     each side of the point that is calculated (interpolated).
     Interpolation method Interpolation method"""
+    member_data_items_ = [
+        MemberSpec_('interpolationPoints', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('interpolationMethod', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, interpolationPoints=3, interpolationMethod=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("inversion","_InversionInterpolation")
+        self.troot=get_gs_troot('inversion','_InversionInterpolation')
         self.attrib = ['interpolationPoints', 'interpolationMethod']
         self.children = []
         self.parent = None
         self._interpolationPoints = _cast(int, interpolationPoints)
         self._interpolationMethod = _cast(int, interpolationMethod)
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2085,12 +2150,12 @@ class create_InversionInterpolation(GeneratedsSuper):
     def get_interpolationPoints(self): return self._interpolationPoints
     def set_interpolationPoints(self, value):
         self._interpolationPoints = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     interpolationPoints = property(get_interpolationPoints, set_interpolationPoints)
     def get_interpolationMethod(self): return self._interpolationMethod
     def set_interpolationMethod(self, value):
         self._interpolationMethod = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     interpolationMethod = property(get_interpolationMethod, set_interpolationMethod)
     def copy(self):
         obj_ = self.factory()
@@ -2184,7 +2249,9 @@ class create_InversionInterpolation(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_InversionInterpolation
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_InversionInterpolation
 
 
 class create_InversionSimplexConvergence(GeneratedsSuper):
@@ -2220,11 +2287,18 @@ class create_InversionSimplexConvergence(GeneratedsSuper):
     simplex relative error threshold is not reached) Maximum number
     of simplexes (if simplex relative error threshold is not
     reached)"""
+    member_data_items_ = [
+        MemberSpec_('errorKind', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('errorValueConvergence', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('errorValueStop', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('maxSimplexNumber', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ThresholdRelativeError', '_ThresholdRelativeError', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThresholdRelativeError', u'name': u'ThresholdRelativeError', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, errorKind=0, errorValueConvergence=0.00017205, errorValueStop=0.01, maxSimplexNumber=5, ThresholdRelativeError=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("inversion","_InversionSimplexConvergence")
+        self.troot=get_gs_troot('inversion','_InversionSimplexConvergence')
         self.attrib = ['errorKind', 'errorValueConvergence', 'errorValueStop', 'maxSimplexNumber']
         self.children = ['ThresholdRelativeError']
         self.parent = None
@@ -2233,7 +2307,7 @@ class create_InversionSimplexConvergence(GeneratedsSuper):
         self._errorValueStop = _cast(float, errorValueStop)
         self._maxSimplexNumber = _cast(int, maxSimplexNumber)
         self._ThresholdRelativeError = ThresholdRelativeError
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2255,22 +2329,22 @@ class create_InversionSimplexConvergence(GeneratedsSuper):
     def get_errorKind(self): return self._errorKind
     def set_errorKind(self, value):
         self._errorKind = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     errorKind = property(get_errorKind, set_errorKind)
     def get_errorValueConvergence(self): return self._errorValueConvergence
     def set_errorValueConvergence(self, value):
         self._errorValueConvergence = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     errorValueConvergence = property(get_errorValueConvergence, set_errorValueConvergence)
     def get_errorValueStop(self): return self._errorValueStop
     def set_errorValueStop(self, value):
         self._errorValueStop = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     errorValueStop = property(get_errorValueStop, set_errorValueStop)
     def get_maxSimplexNumber(self): return self._maxSimplexNumber
     def set_maxSimplexNumber(self, value):
         self._maxSimplexNumber = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     maxSimplexNumber = property(get_maxSimplexNumber, set_maxSimplexNumber)
     def copy(self):
         obj_ = self.factory()
@@ -2414,21 +2488,26 @@ class create_InversionSimplexConvergence(GeneratedsSuper):
             obj_.build(child_)
             self.set_ThresholdRelativeError(obj_)
             obj_.original_tagname_ = 'ThresholdRelativeError'
-# end class create_InversionSimplexConvergence
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_InversionSimplexConvergence
 
 
 class create_ThresholdRelativeError(GeneratedsSuper):
     """Threshold value Threshold value"""
+    member_data_items_ = [
+        MemberSpec_('errorValueThreshold', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, errorValueThreshold=0.03):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("inversion","_ThresholdRelativeError")
+        self.troot=get_gs_troot('inversion','_ThresholdRelativeError')
         self.attrib = ['errorValueThreshold']
         self.children = []
         self.parent = None
         self._errorValueThreshold = _cast(float, errorValueThreshold)
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2443,7 +2522,7 @@ class create_ThresholdRelativeError(GeneratedsSuper):
     def get_errorValueThreshold(self): return self._errorValueThreshold
     def set_errorValueThreshold(self, value):
         self._errorValueThreshold = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     errorValueThreshold = property(get_errorValueThreshold, set_errorValueThreshold)
     def copy(self):
         obj_ = self.factory()
@@ -2521,16 +2600,21 @@ class create_ThresholdRelativeError(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (errorValueThreshold): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_ThresholdRelativeError
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ThresholdRelativeError
 
 
 class create_InversionParameters(GeneratedsSuper):
     """Inversion parameters Inversion parameters"""
+    member_data_items_ = [
+        MemberSpec_('freeParameters', '_freeParameters', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_freeParameters', u'name': u'freeParameters', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, freeParameters=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("inversion","_InversionParameters")
+        self.troot=get_gs_troot('inversion','_InversionParameters')
         self.attrib = ['']
         self.children = ['freeParameters']
         self.parent = None
@@ -2538,7 +2622,7 @@ class create_InversionParameters(GeneratedsSuper):
             self._freeParameters = []
         else:
             self._freeParameters = freeParameters
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2654,7 +2738,9 @@ class create_InversionParameters(GeneratedsSuper):
             obj_.build(child_)
             self.add_freeParameters(obj_)
             obj_.original_tagname_ = 'freeParameters'
-# end class create_InversionParameters
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_InversionParameters
 
 
 class create_freeParameters(GeneratedsSuper):
@@ -2665,11 +2751,21 @@ class create_freeParameters(GeneratedsSuper):
     first free parameter. This index have to be specified for giving
     equivalence between inversion parameters and LUT free
     parameters. The index 0 means to the first free parameter."""
+    member_data_items_ = [
+        MemberSpec_('ParameterType', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('indexLUTEquivalent', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('freeParameterGlobalValue', '_freeParameterGlobalValue', 0, 0, {u'maxOccurs': u'1', u'type': u'_freeParameterGlobalValue', u'name': u'freeParameterGlobalValue', u'minOccurs': u'1'}, None),
+        MemberSpec_('freeParameterValue', '_freeParameterValue', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_freeParameterValue', u'name': u'freeParameterValue', u'minOccurs': u'1'}, None),
+        MemberSpec_('InversionSpectra', '_InversionSpectra', 0, 0, {u'maxOccurs': u'1', u'type': u'_InversionSpectra', u'name': u'InversionSpectra', u'minOccurs': u'1'}, None),
+        MemberSpec_('InversionSpectra1', '_InversionSpectra1', 0, 0, {u'maxOccurs': u'1', u'type': u'_InversionSpectra1', u'name': u'InversionSpectra1', u'minOccurs': u'1'}, None),
+        MemberSpec_('InversionSpectra2', '_InversionSpectra2', 0, 0, {u'maxOccurs': u'1', u'type': u'_InversionSpectra2', u'name': u'InversionSpectra2', u'minOccurs': u'1'}, None),
+        MemberSpec_('InversionSpectra3', '_InversionSpectra3', 0, 0, {u'maxOccurs': u'1', u'type': u'_InversionSpectra3', u'name': u'InversionSpectra3', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, ParameterType=0, indexLUTEquivalent='', freeParameterGlobalValue=None, freeParameterValue=None, InversionSpectra=None, InversionSpectra1=None, InversionSpectra2=None, InversionSpectra3=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("inversion","_freeParameters")
+        self.troot=get_gs_troot('inversion','_freeParameters')
         self.attrib = ['ParameterType', 'indexLUTEquivalent']
         self.children = ['freeParameterGlobalValue', 'freeParameterValue', 'InversionSpectra', 'InversionSpectra1', 'InversionSpectra2', 'InversionSpectra3']
         self.parent = None
@@ -2684,7 +2780,7 @@ class create_freeParameters(GeneratedsSuper):
         self._InversionSpectra1 = InversionSpectra1
         self._InversionSpectra2 = InversionSpectra2
         self._InversionSpectra3 = InversionSpectra3
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2751,12 +2847,12 @@ class create_freeParameters(GeneratedsSuper):
     def get_ParameterType(self): return self._ParameterType
     def set_ParameterType(self, value):
         self._ParameterType = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     ParameterType = property(get_ParameterType, set_ParameterType)
     def get_indexLUTEquivalent(self): return self._indexLUTEquivalent
     def set_indexLUTEquivalent(self, value):
         self._indexLUTEquivalent = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     indexLUTEquivalent = property(get_indexLUTEquivalent, set_indexLUTEquivalent)
     def copy(self):
         obj_ = self.factory()
@@ -2956,22 +3052,27 @@ class create_freeParameters(GeneratedsSuper):
             obj_.build(child_)
             self.set_InversionSpectra3(obj_)
             obj_.original_tagname_ = 'InversionSpectra3'
-# end class create_freeParameters
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_freeParameters
 
 
 class create_freeParameterGlobalValue(GeneratedsSuper):
     """freeParameterGlobalValue freeParameterGlobalValue Value of the
     parameter Value of the parameter"""
+    member_data_items_ = [
+        MemberSpec_('ParamValue', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, ParamValue=0.1):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("inversion","_freeParameterGlobalValue")
+        self.troot=get_gs_troot('inversion','_freeParameterGlobalValue')
         self.attrib = ['ParamValue']
         self.children = []
         self.parent = None
         self._ParamValue = _cast(float, ParamValue)
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2986,7 +3087,7 @@ class create_freeParameterGlobalValue(GeneratedsSuper):
     def get_ParamValue(self): return self._ParamValue
     def set_ParamValue(self, value):
         self._ParamValue = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     ParamValue = property(get_ParamValue, set_ParamValue)
     def copy(self):
         obj_ = self.factory()
@@ -3064,23 +3165,29 @@ class create_freeParameterGlobalValue(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (ParamValue): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_freeParameterGlobalValue
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_freeParameterGlobalValue
 
 
 class create_freeParameterValue(GeneratedsSuper):
     """Free parameter value Free parameter value Value of the parameter
     Value of the parameter Image number Image number"""
+    member_data_items_ = [
+        MemberSpec_('ParamValue', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ImageNumber_coef', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, ParamValue=0.1, ImageNumber_coef=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("inversion","_freeParameterValue")
+        self.troot=get_gs_troot('inversion','_freeParameterValue')
         self.attrib = ['ParamValue', 'ImageNumber_coef']
         self.children = []
         self.parent = None
         self._ParamValue = _cast(float, ParamValue)
         self._ImageNumber_coef = _cast(float, ImageNumber_coef)
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3095,12 +3202,12 @@ class create_freeParameterValue(GeneratedsSuper):
     def get_ParamValue(self): return self._ParamValue
     def set_ParamValue(self, value):
         self._ParamValue = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     ParamValue = property(get_ParamValue, set_ParamValue)
     def get_ImageNumber_coef(self): return self._ImageNumber_coef
     def set_ImageNumber_coef(self, value):
         self._ImageNumber_coef = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     ImageNumber_coef = property(get_ImageNumber_coef, set_ImageNumber_coef)
     def copy(self):
         obj_ = self.factory()
@@ -3194,23 +3301,29 @@ class create_freeParameterValue(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (ImageNumber_coef): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_freeParameterValue
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_freeParameterValue
 
 
 class create_InversionSpectra(GeneratedsSuper):
     """Ground spectra Ground spectra Spectra Spectra Reflectance database
     Reflectance database"""
+    member_data_items_ = [
+        MemberSpec_('spectra', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('databaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, spectra='', databaseName='Lambertian.db'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("inversion","_InversionSpectra")
+        self.troot=get_gs_troot('inversion','_InversionSpectra')
         self.attrib = ['spectra', 'databaseName']
         self.children = []
         self.parent = None
         self._spectra = _cast(None, spectra)
         self._databaseName = _cast(None, databaseName)
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3225,12 +3338,12 @@ class create_InversionSpectra(GeneratedsSuper):
     def get_spectra(self): return self._spectra
     def set_spectra(self, value):
         self._spectra = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     spectra = property(get_spectra, set_spectra)
     def get_databaseName(self): return self._databaseName
     def set_databaseName(self, value):
         self._databaseName = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     databaseName = property(get_databaseName, set_databaseName)
     def copy(self):
         obj_ = self.factory()
@@ -3318,23 +3431,29 @@ class create_InversionSpectra(GeneratedsSuper):
             self.databaseName = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_InversionSpectra
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_InversionSpectra
 
 
 class create_InversionSpectra1(GeneratedsSuper):
     """Ground 1 spectra Ground 1 spectra Spectra 1 Spectra 1 Reflectance
     database Reflectance database"""
+    member_data_items_ = [
+        MemberSpec_('spectra1', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('databaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, spectra1='', databaseName='Lambertian.db'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("inversion","_InversionSpectra1")
+        self.troot=get_gs_troot('inversion','_InversionSpectra1')
         self.attrib = ['spectra1', 'databaseName']
         self.children = []
         self.parent = None
         self._spectra1 = _cast(None, spectra1)
         self._databaseName = _cast(None, databaseName)
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3349,12 +3468,12 @@ class create_InversionSpectra1(GeneratedsSuper):
     def get_spectra1(self): return self._spectra1
     def set_spectra1(self, value):
         self._spectra1 = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     spectra1 = property(get_spectra1, set_spectra1)
     def get_databaseName(self): return self._databaseName
     def set_databaseName(self, value):
         self._databaseName = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     databaseName = property(get_databaseName, set_databaseName)
     def copy(self):
         obj_ = self.factory()
@@ -3442,24 +3561,31 @@ class create_InversionSpectra1(GeneratedsSuper):
             self.databaseName = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_InversionSpectra1
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_InversionSpectra1
 
 
 class create_InversionSpectra2(GeneratedsSuper):
     """Ground 1 spectra Ground 1 spectra Reflectance database Reflectance
     database Spectra 1 Spectra 1 Spectra 2 Spectra 2"""
+    member_data_items_ = [
+        MemberSpec_('databaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('spectra1', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('spectra2', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, databaseName='Lambertian.db', spectra1='', spectra2=''):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("inversion","_InversionSpectra2")
+        self.troot=get_gs_troot('inversion','_InversionSpectra2')
         self.attrib = ['databaseName', 'spectra1', 'spectra2']
         self.children = []
         self.parent = None
         self._databaseName = _cast(None, databaseName)
         self._spectra1 = _cast(None, spectra1)
         self._spectra2 = _cast(None, spectra2)
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3474,17 +3600,17 @@ class create_InversionSpectra2(GeneratedsSuper):
     def get_databaseName(self): return self._databaseName
     def set_databaseName(self, value):
         self._databaseName = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     databaseName = property(get_databaseName, set_databaseName)
     def get_spectra1(self): return self._spectra1
     def set_spectra1(self, value):
         self._spectra1 = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     spectra1 = property(get_spectra1, set_spectra1)
     def get_spectra2(self): return self._spectra2
     def set_spectra2(self, value):
         self._spectra2 = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     spectra2 = property(get_spectra2, set_spectra2)
     def copy(self):
         obj_ = self.factory()
@@ -3585,18 +3711,26 @@ class create_InversionSpectra2(GeneratedsSuper):
             self.spectra2 = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_InversionSpectra2
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_InversionSpectra2
 
 
 class create_InversionSpectra3(GeneratedsSuper):
     """Ground 1 spectra Ground 1 spectra Reflectance database Reflectance
     database Spectra 1 Spectra 1 Spectra 2 Spectra 2 Spectra 3
     Spectra 3"""
+    member_data_items_ = [
+        MemberSpec_('databaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('spectra1', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('spectra2', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('spectra3', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, databaseName='Lambertian.db', spectra1='', spectra2='', spectra3=''):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("inversion","_InversionSpectra3")
+        self.troot=get_gs_troot('inversion','_InversionSpectra3')
         self.attrib = ['databaseName', 'spectra1', 'spectra2', 'spectra3']
         self.children = []
         self.parent = None
@@ -3604,7 +3738,7 @@ class create_InversionSpectra3(GeneratedsSuper):
         self._spectra1 = _cast(None, spectra1)
         self._spectra2 = _cast(None, spectra2)
         self._spectra3 = _cast(None, spectra3)
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3619,22 +3753,22 @@ class create_InversionSpectra3(GeneratedsSuper):
     def get_databaseName(self): return self._databaseName
     def set_databaseName(self, value):
         self._databaseName = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     databaseName = property(get_databaseName, set_databaseName)
     def get_spectra1(self): return self._spectra1
     def set_spectra1(self, value):
         self._spectra1 = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     spectra1 = property(get_spectra1, set_spectra1)
     def get_spectra2(self): return self._spectra2
     def set_spectra2(self, value):
         self._spectra2 = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     spectra2 = property(get_spectra2, set_spectra2)
     def get_spectra3(self): return self._spectra3
     def set_spectra3(self, value):
         self._spectra3 = value
-        update_node(self,self.troot,"inversion")
+        update_node(self,self.troot,'inversion')
     spectra3 = property(get_spectra3, set_spectra3)
     def copy(self):
         obj_ = self.factory()
@@ -3748,7 +3882,9 @@ class create_InversionSpectra3(GeneratedsSuper):
             self.spectra3 = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_InversionSpectra3
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_InversionSpectra3
 
 
 GDSClassesMapping = {

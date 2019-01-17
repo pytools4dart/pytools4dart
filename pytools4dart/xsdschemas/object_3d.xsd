@@ -3,7 +3,7 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<!-- Element racine -->
 	<xsd:annotation>
-		<xsd:appinfo>Fichier object_3d.xsd -- version 5.7.1</xsd:appinfo> 
+		<xsd:appinfo>Fichier object_3d.xsd -- version 5.7.4</xsd:appinfo> 
 		<xsd:documentation xml:lang = "en"> </xsd:documentation> 
 		<xsd:documentation xml:lang = "fr"> object_3d</xsd:documentation>
 	</xsd:annotation>
@@ -17,7 +17,7 @@
 		<xsd:sequence>
 			<xsd:element name="object_3d" type="_object_3d" minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
-		<xsd:attribute name="version" type="xsd:string" default="5.7.1">
+		<xsd:attribute name="version" type="xsd:string" default="5.7.4">
 			<xsd:annotation>
 				<xsd:documentation xml:lang = "en" source="attribut"> Version of the plots.xml file. Depends of the version on DART itself.</xsd:documentation> 
 				<xsd:documentation xml:lang = "fr" source="attribut"> Version of the plots.xml file. Depends of the version on DART itself.</xsd:documentation>
@@ -42,6 +42,12 @@
 			<xsd:element name="ObjectList" type="_ObjectList" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="ObjectFields" type="_ObjectFields" minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
+		<xsd:attribute name="generateTriangleFileXML" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Generate 3d objects triangles file as an XML file.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Generate 3d objects triangles file as an XML file.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
 	</xsd:complexType>
 
 	<xsd:complexType name="_Types">
@@ -176,8 +182,8 @@
 		</xsd:attribute>
 		<xsd:attribute name="num" type="xsd:int" default="0">
 			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Identifier designing this object in this object's internal 3D representation.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Identifier designing this object in this object's internal 3D representation.</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 		<xsd:attribute name="file_src" type="xsd:string" default="exemple.wrl">
@@ -194,8 +200,8 @@
 		</xsd:attribute>
 		<xsd:attribute name="hidden" type="xsd:int" default="0">
 			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> If you select this option, this object 3d are not use in all DART modules, \n it's useful if you want conserve object 3d properties backup without delete this for testsobject_3d.ObjectList.Object.num                  </xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> If you select this option, this object 3d are not use in all DART modules, \n it's useful if you want conserve object 3d properties backup without delete this for testsobject_3d.ObjectList.Object.num                  </xsd:documentation>
+				<xsd:documentation xml:lang = "en" source="attribut"> If you select this option, this object 3d are not use in all DART modules, \n it's useful if you want conserve object 3d properties backup without delete this for tests</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> If you select this option, this object 3d are not use in all DART modules, \n it's useful if you want conserve object 3d properties backup without delete this for tests</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 		<xsd:attribute name="repeatedOnBorder" type="xsd:int" default="1">
@@ -669,8 +675,8 @@
 		</xsd:sequence>
 		<xsd:attribute name="num" type="xsd:int" default="1">
 			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Identifier designing this element in this object's internal 3D representation.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Identifier designing this element in this object's internal 3D representation.</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 		<xsd:attribute name="name" type="xsd:string" default="Group">
@@ -693,8 +699,8 @@
 		</xsd:attribute>
 		<xsd:attribute name="hidden" type="xsd:int" default="0">
 			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Hidden object/groups</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Hidden object/groups</xsd:documentation>
+				<xsd:documentation xml:lang = "en" source="attribut"> If you select this option, this group are not use in all DART modules, \n it's useful if you want conserve group properties backup without delete this for tests</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> If you select this option, this group are not use in all DART modules, \n it's useful if you want conserve group properties backup without delete this for tests</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 		<xsd:attribute name="isLAICalc" type="xsd:int" default="0">

@@ -2,28 +2,30 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Wed Oct 31 15:06:23 2018 by generateDS.py version 2.29.25.
-# Python 2.7.15rc1 (default, Apr 15 2018, 21:51:34)  [GCC 7.3.0]
+# Generated Wed Jan  2 18:30:50 2019 by generateDS.py version 2.29.25.
+# Python 2.7.15rc1 (default, Nov 12 2018, 14:31:15)  [GCC 7.3.0]
 #
 # Command line options:
 #   ('-m', '')
+#   ('-f', '')
 #   ('--always-export-default', '')
 #   ('--export', 'write literal etree')
+#   ('-u', 'pytools4dart.core_ui.user_methods')
 #   ('-p', 'create')
-#   ('--post-attrib-setter', 'update_node(self,self.troot,"water")')
-#   ('--pre-ctor', 'self.troot=get_gs_troot("water","{classname}")')
-#   ('--post-ctor', 'update_node(self,self.troot,"water")')
+#   ('--post-attrib-setter', "update_node(self,self.troot,'water')")
+#   ('--pre-ctor', "self.troot=get_gs_troot('water','{classname}')")
+#   ('--post-ctor', "update_node(self,self.troot,'water')")
 #   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node')
-#   ('-o', '/home/claudia/tmp/water.py')
+#   ('-o', 'pytools4dart/core_ui/water.py')
 #
 # Command line arguments:
-#   /home/claudia/DEV/pytools4dartMTD/pytools4dart/core_ui/water.xsd
+#   pytools4dart/xsdschemas/water.xsd
 #
 # Command line:
-#   /home/claudia/DEV/pytools4dartMTD/venv/bin/generateDS.py -m --always-export-default --export="write literal etree" -p "create" --post-attrib-setter="update_node(self,self.troot,"water")" --pre-ctor="self.troot=get_gs_troot("water","{classname}")" --post-ctor="update_node(self,self.troot,"water")" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node" -o "/home/claudia/tmp/water.py" /home/claudia/DEV/pytools4dartMTD/pytools4dart/core_ui/water.xsd
+#   /home/boissieu/git/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "pytools4dart.core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'water')" --pre-ctor="self.troot=get_gs_troot('water','{classname}')" --post-ctor="update_node(self,self.troot,'water')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node" -o "pytools4dart/core_ui/water.py" pytools4dart/xsdschemas/water.xsd
 #
 # Current working directory (os.getcwd()):
-#   generateds
+#   pytools4dartMTD
 #
 
 import sys
@@ -742,18 +744,23 @@ class createDartFile(GeneratedsSuper):
     """Version of the plots.xml file. Depends of the version on DART
     itself. Version of the plots.xml file. Depends of the version on
     DART itself."""
+    member_data_items_ = [
+        MemberSpec_('version', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('build_', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Water', '_Water', 0, 0, {u'maxOccurs': u'1', u'type': u'_Water', u'name': u'Water', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
-    def __init__(self, version='5.7.1', build_='0', Water=None):
+    def __init__(self, version='5.7.4', build_='0', Water=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("water","DartFile")
+        self.troot=get_gs_troot('water','DartFile')
         self.attrib = ['version', 'build_']
         self.children = ['Water']
         self.parent = None
         self._version = _cast(None, version)
         self._build_ = _cast(None, build_)
         self._Water = Water
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -775,12 +782,12 @@ class createDartFile(GeneratedsSuper):
     def get_version(self): return self._version
     def set_version(self, value):
         self._version = value
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     version = property(get_version, set_version)
     def get_build(self): return self._build_
     def set_build(self, value):
         self._build_ = value
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     build_ = property(get_build, set_build)
     def copy(self):
         obj_ = self.factory()
@@ -886,18 +893,26 @@ class createDartFile(GeneratedsSuper):
             obj_.build(child_)
             self.set_Water(obj_)
             obj_.original_tagname_ = 'Water'
-# end class createDartFile
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class createDartFile
 
 
 class create_Water(GeneratedsSuper):
     """Water Water Water "scratches/replaces" trees Water
     "scratches/replaces" trees Water "scratches/replaces" plots
     Water "scratches/replaces" plots"""
+    member_data_items_ = [
+        MemberSpec_('waterPriorityOnTrees', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('waterPriorityOnPlots', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Lakes', '_Lakes', 0, 0, {u'maxOccurs': u'1', u'type': u'_Lakes', u'name': u'Lakes', u'minOccurs': u'1'}, None),
+        MemberSpec_('Rivers', '_Rivers', 0, 0, {u'maxOccurs': u'1', u'type': u'_Rivers', u'name': u'Rivers', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, waterPriorityOnTrees=0, waterPriorityOnPlots=0, Lakes=None, Rivers=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("water","_Water")
+        self.troot=get_gs_troot('water','_Water')
         self.attrib = ['waterPriorityOnTrees', 'waterPriorityOnPlots']
         self.children = ['Lakes', 'Rivers']
         self.parent = None
@@ -905,7 +920,7 @@ class create_Water(GeneratedsSuper):
         self._waterPriorityOnPlots = _cast(int, waterPriorityOnPlots)
         self._Lakes = Lakes
         self._Rivers = Rivers
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -934,12 +949,12 @@ class create_Water(GeneratedsSuper):
     def get_waterPriorityOnTrees(self): return self._waterPriorityOnTrees
     def set_waterPriorityOnTrees(self, value):
         self._waterPriorityOnTrees = value
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     waterPriorityOnTrees = property(get_waterPriorityOnTrees, set_waterPriorityOnTrees)
     def get_waterPriorityOnPlots(self): return self._waterPriorityOnPlots
     def set_waterPriorityOnPlots(self, value):
         self._waterPriorityOnPlots = value
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     waterPriorityOnPlots = property(get_waterPriorityOnPlots, set_waterPriorityOnPlots)
     def copy(self):
         obj_ = self.factory()
@@ -1068,16 +1083,21 @@ class create_Water(GeneratedsSuper):
             obj_.build(child_)
             self.set_Rivers(obj_)
             obj_.original_tagname_ = 'Rivers'
-# end class create_Water
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Water
 
 
 class create_Lakes(GeneratedsSuper):
     """Lakes Lakes"""
+    member_data_items_ = [
+        MemberSpec_('Lake', '_Lake', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_Lake', u'name': u'Lake', u'minOccurs': u'0'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, Lake=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("water","_Lakes")
+        self.troot=get_gs_troot('water','_Lakes')
         self.attrib = ['']
         self.children = ['Lake']
         self.parent = None
@@ -1085,7 +1105,7 @@ class create_Lakes(GeneratedsSuper):
             self._Lake = []
         else:
             self._Lake = Lake
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1201,7 +1221,9 @@ class create_Lakes(GeneratedsSuper):
             obj_.build(child_)
             self.add_Lake(obj_)
             obj_.original_tagname_ = 'Lake'
-# end class create_Lakes
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Lakes
 
 
 class create_Lake(GeneratedsSuper):
@@ -1214,11 +1236,18 @@ class create_Lake(GeneratedsSuper):
     position file.\nDesactivate this option if you experience some
     slowdown. Objects's positions are taken from the position
     file.\nDesactivate this option if you experience some slowdown."""
+    member_data_items_ = [
+        MemberSpec_('hidden', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('isDisplayed', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Ellipse2D', '_Ellipse2D', 0, 0, {u'maxOccurs': u'1', u'type': u'_Ellipse2D', u'name': u'Ellipse2D', u'minOccurs': u'1'}, None),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, hidden=0, isDisplayed=1, Ellipse2D=None, OpticalPropertyLink=None, ThermalPropertyLink=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("water","_Lake")
+        self.troot=get_gs_troot('water','_Lake')
         self.attrib = ['hidden', 'isDisplayed']
         self.children = ['Ellipse2D', 'OpticalPropertyLink', 'ThermalPropertyLink']
         self.parent = None
@@ -1227,7 +1256,7 @@ class create_Lake(GeneratedsSuper):
         self._Ellipse2D = Ellipse2D
         self._OpticalPropertyLink = OpticalPropertyLink
         self._ThermalPropertyLink = ThermalPropertyLink
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1263,12 +1292,12 @@ class create_Lake(GeneratedsSuper):
     def get_hidden(self): return self._hidden
     def set_hidden(self, value):
         self._hidden = value
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     hidden = property(get_hidden, set_hidden)
     def get_isDisplayed(self): return self._isDisplayed
     def set_isDisplayed(self, value):
         self._isDisplayed = value
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     isDisplayed = property(get_isDisplayed, set_isDisplayed)
     def copy(self):
         obj_ = self.factory()
@@ -1414,22 +1443,28 @@ class create_Lake(GeneratedsSuper):
             obj_.build(child_)
             self.set_ThermalPropertyLink(obj_)
             obj_.original_tagname_ = 'ThermalPropertyLink'
-# end class create_Lake
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Lake
 
 
 class create_Ellipse2D(GeneratedsSuper):
     """Ellipse2D Ellipse2D"""
+    member_data_items_ = [
+        MemberSpec_('Point2D', '_Point2D', 0, 0, {u'maxOccurs': u'1', u'type': u'_Point2D', u'name': u'Point2D', u'minOccurs': u'1'}, None),
+        MemberSpec_('HalfAxes', '_HalfAxes', 0, 0, {u'maxOccurs': u'1', u'type': u'_HalfAxes', u'name': u'HalfAxes', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, Point2D=None, HalfAxes=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("water","_Ellipse2D")
+        self.troot=get_gs_troot('water','_Ellipse2D')
         self.attrib = ['']
         self.children = ['Point2D', 'HalfAxes']
         self.parent = None
         self._Point2D = Point2D
         self._HalfAxes = HalfAxes
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1553,7 +1588,9 @@ class create_Ellipse2D(GeneratedsSuper):
             obj_.build(child_)
             self.set_HalfAxes(obj_)
             obj_.original_tagname_ = 'HalfAxes'
-# end class create_Ellipse2D
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Ellipse2D
 
 
 class create_Point2D(GeneratedsSuper):
@@ -1562,17 +1599,21 @@ class create_Point2D(GeneratedsSuper):
     that simulates the lake x coordinate of the center of the
     ellipse that simulates the lake x coordinate of the center of
     the ellipse that simulates the lake"""
+    member_data_items_ = [
+        MemberSpec_('y', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('x', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, y=30.00, x=10.00):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("water","_Point2D")
+        self.troot=get_gs_troot('water','_Point2D')
         self.attrib = ['y', 'x']
         self.children = []
         self.parent = None
         self._y = _cast(float, y)
         self._x = _cast(float, x)
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1587,12 +1628,12 @@ class create_Point2D(GeneratedsSuper):
     def get_y(self): return self._y
     def set_y(self, value):
         self._y = value
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     y = property(get_y, set_y)
     def get_x(self): return self._x
     def set_x(self, value):
         self._x = value
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     x = property(get_x, set_x)
     def copy(self):
         obj_ = self.factory()
@@ -1686,7 +1727,9 @@ class create_Point2D(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (x): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_Point2D
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Point2D
 
 
 class create_HalfAxes(GeneratedsSuper):
@@ -1695,17 +1738,21 @@ class create_HalfAxes(GeneratedsSuper):
     the ellipse that simulates the lake Length (m) along x of the
     half axis of the ellipse that simulates the lake Length (m)
     along x of the half axis of the ellipse that simulates the lake"""
+    member_data_items_ = [
+        MemberSpec_('y', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('x', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, y=7.00, x=9.00):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("water","_HalfAxes")
+        self.troot=get_gs_troot('water','_HalfAxes')
         self.attrib = ['y', 'x']
         self.children = []
         self.parent = None
         self._y = _cast(float, y)
         self._x = _cast(float, x)
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1720,12 +1767,12 @@ class create_HalfAxes(GeneratedsSuper):
     def get_y(self): return self._y
     def set_y(self, value):
         self._y = value
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     y = property(get_y, set_y)
     def get_x(self): return self._x
     def set_x(self, value):
         self._x = value
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     x = property(get_x, set_x)
     def copy(self):
         obj_ = self.factory()
@@ -1819,7 +1866,9 @@ class create_HalfAxes(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (x): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_HalfAxes
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_HalfAxes
 
 
 class create_OpticalPropertyLink(GeneratedsSuper):
@@ -1833,18 +1882,23 @@ class create_OpticalPropertyLink(GeneratedsSuper):
     phase function (lambertian, etc.). Water is an opaque surface.
     Type of phase function (lambertian, etc.). Water is an opaque
     surface."""
+    member_data_items_ = [
+        MemberSpec_('indexFctPhase', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ident', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('type_', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, indexFctPhase=0, ident='f0', type_=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("water","_OpticalPropertyLink")
+        self.troot=get_gs_troot('water','_OpticalPropertyLink')
         self.attrib = ['indexFctPhase', 'ident', 'type_']
         self.children = []
         self.parent = None
         self._indexFctPhase = _cast(int, indexFctPhase)
         self._ident = _cast(None, ident)
         self._type_ = _cast(int, type_)
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1859,17 +1913,17 @@ class create_OpticalPropertyLink(GeneratedsSuper):
     def get_indexFctPhase(self): return self._indexFctPhase
     def set_indexFctPhase(self, value):
         self._indexFctPhase = value
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     indexFctPhase = property(get_indexFctPhase, set_indexFctPhase)
     def get_ident(self): return self._ident
     def set_ident(self, value):
         self._ident = value
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     ident = property(get_ident, set_ident)
     def get_type(self): return self._type_
     def set_type(self, value):
         self._type_ = value
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     type_ = property(get_type, set_type)
     def copy(self):
         obj_ = self.factory()
@@ -1976,23 +2030,29 @@ class create_OpticalPropertyLink(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_OpticalPropertyLink
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_OpticalPropertyLink
 
 
 class create_ThermalPropertyLink(GeneratedsSuper):
     """ThermalPropertyLink ThermalPropertyLink indexTemperature
     indexTemperature Thermal Function ID Thermal Function ID"""
+    member_data_items_ = [
+        MemberSpec_('indexTemperature', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('idTemperature', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, indexTemperature=0, idTemperature='ThermalFunction290_310'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("water","_ThermalPropertyLink")
+        self.troot=get_gs_troot('water','_ThermalPropertyLink')
         self.attrib = ['indexTemperature', 'idTemperature']
         self.children = []
         self.parent = None
         self._indexTemperature = _cast(int, indexTemperature)
         self._idTemperature = _cast(None, idTemperature)
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2007,12 +2067,12 @@ class create_ThermalPropertyLink(GeneratedsSuper):
     def get_indexTemperature(self): return self._indexTemperature
     def set_indexTemperature(self, value):
         self._indexTemperature = value
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     indexTemperature = property(get_indexTemperature, set_indexTemperature)
     def get_idTemperature(self): return self._idTemperature
     def set_idTemperature(self, value):
         self._idTemperature = value
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     idTemperature = property(get_idTemperature, set_idTemperature)
     def copy(self):
         obj_ = self.factory()
@@ -2103,16 +2163,21 @@ class create_ThermalPropertyLink(GeneratedsSuper):
             self.idTemperature = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_ThermalPropertyLink
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ThermalPropertyLink
 
 
 class create_Rivers(GeneratedsSuper):
     """Rivers Rivers"""
+    member_data_items_ = [
+        MemberSpec_('River', '_River', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_River', u'name': u'River', u'minOccurs': u'0'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, River=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("water","_Rivers")
+        self.troot=get_gs_troot('water','_Rivers')
         self.attrib = ['']
         self.children = ['River']
         self.parent = None
@@ -2120,7 +2185,7 @@ class create_Rivers(GeneratedsSuper):
             self._River = []
         else:
             self._River = River
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2236,7 +2301,9 @@ class create_Rivers(GeneratedsSuper):
             obj_.build(child_)
             self.add_River(obj_)
             obj_.original_tagname_ = 'River'
-# end class create_Rivers
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Rivers
 
 
 class create_River(GeneratedsSuper):
@@ -2249,11 +2316,18 @@ class create_River(GeneratedsSuper):
     position file.\nDesactivate this option if you experience some
     slowdown. Objects's positions are taken from the position
     file.\nDesactivate this option if you experience some slowdown."""
+    member_data_items_ = [
+        MemberSpec_('hidden', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('isDisplayed', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Path2D', '_Path2D', 0, 0, {u'maxOccurs': u'1', u'type': u'_Path2D', u'name': u'Path2D', u'minOccurs': u'1'}, None),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, hidden=0, isDisplayed=1, Path2D=None, OpticalPropertyLink=None, ThermalPropertyLink=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("water","_River")
+        self.troot=get_gs_troot('water','_River')
         self.attrib = ['hidden', 'isDisplayed']
         self.children = ['Path2D', 'OpticalPropertyLink', 'ThermalPropertyLink']
         self.parent = None
@@ -2262,7 +2336,7 @@ class create_River(GeneratedsSuper):
         self._Path2D = Path2D
         self._OpticalPropertyLink = OpticalPropertyLink
         self._ThermalPropertyLink = ThermalPropertyLink
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2298,12 +2372,12 @@ class create_River(GeneratedsSuper):
     def get_hidden(self): return self._hidden
     def set_hidden(self, value):
         self._hidden = value
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     hidden = property(get_hidden, set_hidden)
     def get_isDisplayed(self): return self._isDisplayed
     def set_isDisplayed(self, value):
         self._isDisplayed = value
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     isDisplayed = property(get_isDisplayed, set_isDisplayed)
     def copy(self):
         obj_ = self.factory()
@@ -2449,16 +2523,22 @@ class create_River(GeneratedsSuper):
             obj_.build(child_)
             self.set_ThermalPropertyLink(obj_)
             obj_.original_tagname_ = 'ThermalPropertyLink'
-# end class create_River
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_River
 
 
 class create_Path2D(GeneratedsSuper):
     """Path2D Path2D interpolation). interpolation)."""
+    member_data_items_ = [
+        MemberSpec_('width', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Point2D', '_Point2D', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_Point2D', u'name': u'Point2D', u'minOccurs': u'2'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, width=1.50, Point2D=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("water","_Path2D")
+        self.troot=get_gs_troot('water','_Path2D')
         self.attrib = ['width']
         self.children = ['Point2D']
         self.parent = None
@@ -2467,7 +2547,7 @@ class create_Path2D(GeneratedsSuper):
             self._Point2D = []
         else:
             self._Point2D = Point2D
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2499,7 +2579,7 @@ class create_Path2D(GeneratedsSuper):
     def get_width(self): return self._width
     def set_width(self, value):
         self._width = value
-        update_node(self,self.troot,"water")
+        update_node(self,self.troot,'water')
     width = property(get_width, set_width)
     def copy(self):
         obj_ = self.factory()
@@ -2601,7 +2681,9 @@ class create_Path2D(GeneratedsSuper):
             obj_.build(child_)
             self.add_Point2D(obj_)
             obj_.original_tagname_ = 'Point2D'
-# end class create_Path2D
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Path2D
 
 
 GDSClassesMapping = {

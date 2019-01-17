@@ -3,7 +3,7 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<!-- Element racine -->
 	<xsd:annotation>
-		<xsd:appinfo>Fichier phase.xsd -- version 5.7.1</xsd:appinfo> 
+		<xsd:appinfo>Fichier phase.xsd -- version 5.7.4</xsd:appinfo> 
 		<xsd:documentation xml:lang = "en"> phase</xsd:documentation> 
 		<xsd:documentation xml:lang = "fr"> phase</xsd:documentation>
 	</xsd:annotation>
@@ -17,7 +17,7 @@
 		<xsd:sequence>
 			<xsd:element name="Phase" type="_Phase" minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
-		<xsd:attribute name="version" type="xsd:string" default="5.7.1">
+		<xsd:attribute name="version" type="xsd:string" default="5.7.4">
 			<xsd:annotation>
 				<xsd:documentation xml:lang = "en" source="attribut"> Version of the plots.xml file. Depends of the version on DART itself.</xsd:documentation> 
 				<xsd:documentation xml:lang = "fr" source="attribut"> Version of the plots.xml file. Depends of the version on DART itself.</xsd:documentation>
@@ -121,7 +121,7 @@
 				<xsd:documentation xml:lang = "fr" source="attribut"> DART will apply multi-threading to accelarate processing. \n It is implemented in illumination, scattering and atmosphere transfer function calculation. </xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
-		<xsd:attribute name="albedoThreshold" type="xsd:double" default="1E-7">
+		<xsd:attribute name="albedoThreshold" type="xsd:double" default="1E-3">
 			<xsd:annotation>
 				<xsd:documentation xml:lang = "en" source="attribut"> The DART run stops if the variation of scene albedo between consecutive iterations is less than the threshold</xsd:documentation> 
 				<xsd:documentation xml:lang = "fr" source="attribut"> The DART run stops if the variation of scene albedo between consecutive iterations is less than the threshold</xsd:documentation>
@@ -173,12 +173,6 @@
 			<xsd:annotation>
 				<xsd:documentation xml:lang = "en" source="attribut"> Use external python script with DART processing</xsd:documentation> 
 				<xsd:documentation xml:lang = "fr" source="attribut"> Use external python script with DART processing</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="extrapolationMethod" type="xsd:int" default="0">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> In order to provide faster results, DART can extrapolate on the N last iterations. The more iterations are used, the more precise usually the results are.</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> In order to provide faster results, DART can extrapolate on the N last iterations. The more iterations are used, the more precise usually the results are.</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 		<xsd:attribute name="subFaceBarycenterSubdivision" type="xsd:int" default="1">
@@ -413,7 +407,7 @@
 		</xsd:annotation>
 		<xsd:sequence>
 		</xsd:sequence>
-		<xsd:attribute name="numberOfIteration" type="xsd:int" default="5">
+		<xsd:attribute name="numberOfIteration" type="xsd:int" default="20">
 			<xsd:annotation>
 				<xsd:documentation xml:lang = "en" source="attribut"> Usually 3-4 in the visible and 4-5 in the near infrared. A minimum of 3 iterations is necessary for completing the extrapolation</xsd:documentation> 
 				<xsd:documentation xml:lang = "fr" source="attribut"> Usually 3-4 in the visible and 4-5 in the near infrared. A minimum of 3 iterations is necessary for completing the extrapolation</xsd:documentation>
@@ -507,55 +501,16 @@
 			<xsd:documentation xml:lang = "fr"> nodeIlluminationMode</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="DiscreteIllumination" type="_DiscreteIllumination" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="irradianceDatabaseNode" type="_irradianceDatabaseNode" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="BandIrradianceFileNode" type="_BandIrradianceFileNode" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="illumination" type="_illumination" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="ftiImportation" type="_ftiImportation" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="SpectralIrradiance" type="_SpectralIrradiance" minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
-		<xsd:attribute name="illuminationMode" type="xsd:int" default="0">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Scenes can be totally (normal mode) or partly (discrete illumination) illuminated. Fluorescence emssion can be simulated, after a previous DART run illuminated the scene.</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Scenes can be totally (normal mode) or partly (discrete illumination) illuminated. Fluorescence emssion can be simulated, after a previous DART run illuminated the scene.</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
 		<xsd:attribute name="irradianceMode" type="xsd:int" default="0">
 			<xsd:annotation>
 				<xsd:documentation xml:lang = "en" source="attribut"> - "TOA: Irradiance spectra": Atmosphere radiative transfer gives BOA irradiance.    </xsd:documentation> 
 				<xsd:documentation xml:lang = "fr" source="attribut"> - "TOA: Irradiance spectra": Atmosphere radiative transfer gives BOA irradiance.    </xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-	</xsd:complexType>
-
-	<xsd:complexType name="_DiscreteIllumination">
-		<xsd:annotation>
-			<xsd:documentation xml:lang = "en"> DiscreteIllumination</xsd:documentation> 
-			<xsd:documentation xml:lang = "fr"> DiscreteIllumination</xsd:documentation>
-		</xsd:annotation>
-		<xsd:sequence>
-		</xsd:sequence>
-		<xsd:attribute name="sizeX" type="xsd:double" default="0.2">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> sizeX</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> sizeX</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="sizeY" type="xsd:double" default="0.3">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> sizeY</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> sizeY</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="centerX" type="xsd:double" default="10.0">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Coordinates of the center of the rectangle that is illuminated in the dicrete illumination mode.</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Coordinates of the center of the rectangle that is illuminated in the dicrete illumination mode.</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="centerY" type="xsd:double" default="10.0">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> centerY</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> centerY</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 	</xsd:complexType>
@@ -611,6 +566,21 @@
 			<xsd:annotation>
 				<xsd:documentation xml:lang = "en" source="attribut"> Reflectance, and by extension emissivity, will be ponderated across the full bandwidth using the inversion of the Plank law of the provided temperature. </xsd:documentation> 
 				<xsd:documentation xml:lang = "fr" source="attribut"> Reflectance, and by extension emissivity, will be ponderated across the full bandwidth using the inversion of the Plank law of the provided temperature. </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_BandIrradianceFileNode">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="bandIrradianceFile" type="xsd:string" default="sunIrradiance.txt">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Text file containing lines of |wavelength sunRadiationValue SKYL|.\nThe data is expected to be sorted by ascending wavelength.\nSKYL is ignored and radiation are treated as being TOA in Analytical or Radiative Transfer Atmospheres.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Text file containing lines of |wavelength sunRadiationValue SKYL|.\nThe data is expected to be sorted by ascending wavelength.\nSKYL is ignored and radiation are treated as being TOA in Analytical or Radiative Transfer Atmospheres.</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 	</xsd:complexType>
@@ -1659,37 +1629,6 @@
 		</xsd:attribute>
 	</xsd:complexType>
 
-	<xsd:complexType name="_overrideBandIrradiance">
-		<xsd:annotation>
-			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
-			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
-		</xsd:annotation>
-		<xsd:sequence>
-			<xsd:element name="bandIrradianceFileNode" type="_bandIrradianceFileNode" minOccurs="1" maxOccurs="1" />
-		</xsd:sequence>
-		<xsd:attribute name="isOverrideBandIrradiance" type="xsd:int" default="0">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-	</xsd:complexType>
-
-	<xsd:complexType name="_bandIrradianceFileNode">
-		<xsd:annotation>
-			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
-			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
-		</xsd:annotation>
-		<xsd:sequence>
-		</xsd:sequence>
-		<xsd:attribute name="bandIrradianceFile" type="xsd:string" default="bandIrradianceFile.txt">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-	</xsd:complexType>
-
 	<xsd:complexType name="_DartProduct">
 		<xsd:annotation>
 			<xsd:documentation xml:lang = "en"> DartProduct</xsd:documentation> 
@@ -1707,16 +1646,24 @@
 			<xsd:documentation xml:lang = "fr"> dartModuleProducts</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="BrfProductsProperties" type="_BrfProductsProperties" minOccurs="1" maxOccurs="1" />
-			<xsd:element name="lidarProductsProperties" type="_lidarProductsProperties" minOccurs="1" maxOccurs="1" />
-			<xsd:element name="Order1Options" type="_Order1Options" minOccurs="1" maxOccurs="1" />
-			<xsd:element name="ImageBinaryProducts" type="_ImageBinaryProducts" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="CommonProducts" type="_CommonProducts" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="FluxTrackingModeProducts" type="_FluxTrackingModeProducts" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="LidarModeProducts" type="_LidarModeProducts" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="_CommonProducts">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
 			<xsd:element name="radiativeBudgetProperties" type="_radiativeBudgetProperties" minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
-		<xsd:attribute name="lidarProducts" type="xsd:int" default="0">
+		<xsd:attribute name="polarizationProducts" type="xsd:int" default="0">
 			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> LIDAR products</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> LIDAR products</xsd:documentation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Specifies if the polarization is taken into account in the radiative transfer or not. \n The state of polarization of a wave is described by the 4 components of the Stokes Vector. \n Not polarized for the sun illumination, the light can be polarized by a physical phenomenon (specular reflection, rayleigh scattering).          </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Specifies if the polarization is taken into account in the radiative transfer or not. \n The state of polarization of a wave is described by the 4 components of the Stokes Vector. \n Not polarized for the sun illumination, the light can be polarized by a physical phenomenon (specular reflection, rayleigh scattering).          </xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 		<xsd:attribute name="radiativeBudgetProducts" type="xsd:int" default="0">
@@ -1725,24 +1672,248 @@
 				<xsd:documentation xml:lang = "fr" source="attribut"> 3D and 1D distribution of radiation that is incident, intercepted, absorbed and scattered, for each non empty cell.</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
-		<xsd:attribute name="lidarImageProducts" type="xsd:int" default="0">
+	</xsd:complexType>
+
+	<xsd:complexType name="_radiativeBudgetProperties">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> radiativeBudgetProperties</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> radiativeBudgetProperties</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Components" type="_Components" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="budget2DParType" type="xsd:int" default="0">
 			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Options specific to the LIDAR Image option.</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Options specific to the LIDAR Image option.</xsd:documentation>
+				<xsd:documentation xml:lang = "en" source="attribut"> 2D images of fINTR, fABSR, fSCAR per column per iteration and per type</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> 2D images of fINTR, fABSR, fSCAR per column per iteration and per type</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
-		<xsd:attribute name="polarizationProducts" type="xsd:int" default="0">
+		<xsd:attribute name="fIRfARfSRfINTR1DProducts" type="xsd:int" default="1">
 			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Specifies if the polarization is taken into account in the radiative transfer or not. \n The state of polarization of a wave is described by the 4 components of the Stokes Vector. \n Not polarized for the sun illumination, the light can be polarized by a physical phenomenon (specular reflection, rayleigh scattering).          </xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Specifies if the polarization is taken into account in the radiative transfer or not. \n The state of polarization of a wave is described by the 4 components of the Stokes Vector. \n Not polarized for the sun illumination, the light can be polarized by a physical phenomenon (specular reflection, rayleigh scattering).          </xsd:documentation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Vertical profiles of fractions of incident (fINCR), intercepted (fINTR), absorbed (fABSR) and scattered (fSCAR) radiation</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Vertical profiles of fractions of incident (fINCR), intercepted (fINTR), absorbed (fABSR) and scattered (fSCAR) radiation</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
-		<xsd:attribute name="order1Products" type="xsd:int" default="0">
+		<xsd:attribute name="budget3DParType" type="xsd:int" default="0">
 			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Create a Order1 directory which contains first order scattering products (BRF/BTF, radiative budget)</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Create a Order1 directory which contains first order scattering products (BRF/BTF, radiative budget)</xsd:documentation>
+				<xsd:documentation xml:lang = "en" source="attribut"> 3D fINTR, fABSR, fSCAR per iteration and per type of triangle</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> 3D fINTR, fABSR, fSCAR per iteration and per type of triangle</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
+		<xsd:attribute name="fIRfARfSRfINTR3DProducts" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Horizontal sections xy, for each horizontal layer and each iteration, of fractions of incident (fINCR), intercepted (fINTR), absorbed (fABSR) and scattered (fSCAR) radiation</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Horizontal sections xy, for each horizontal layer and each iteration, of fractions of incident (fINCR), intercepted (fINTR), absorbed (fABSR) and scattered (fSCAR) radiation</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="extrapolation" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Extrapolation of radiation products</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Extrapolation of radiation products</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="fIRfARfSRfINTR2DProducts" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Images fINTR, fABSR, fSCAR per column per iteration                          </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Images fINTR, fABSR, fSCAR per column per iteration                          </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="budgetUnitModeR" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> W </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> W </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="budget3DParSurface" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> fINTR, fABSR, fSCAR total per individual triangle and per iteration.\nCan be displayed in the Surface Radiative Budget viewer, in the viewer tools.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> fINTR, fABSR, fSCAR total per individual triangle and per iteration.\nCan be displayed in the Surface Radiative Budget viewer, in the viewer tools.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="binaryFormat" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Output the large radiative budgets (3D or per individual triangles) to binary files instead of text files. Improves significatively the performance during the writing of these files.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Output the large radiative budgets (3D or per individual triangles) to binary files instead of text files. Improves significatively the performance during the writing of these files.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="budgetTotalParType" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> fINTR, fABSR, fSCAR total per type of triangle and per iteration</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> fINTR, fABSR, fSCAR total per type of triangle and per iteration</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_Components">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CellComponents" type="_CellComponents" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="ElementComponents" type="_ElementComponents" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="_CellComponents">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="bottomEntry" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Energy entering the cell through the bottom face (-Z)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Energy entering the cell through the bottom face (-Z)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="scattered" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Energy scattered by elements within the cell</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Energy scattered by elements within the cell</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="emitted" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Energy emitted by elements within the cell</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Energy emitted by elements within the cell</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="leftEntry" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Energy entering the cell through the left face (-Y)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Energy entering the cell through the left face (-Y)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="topEntry" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Energy entering the cell through the top face (+Z)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Energy entering the cell through the top face (+Z)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="backExit" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Energy exiting the cell through the back face (-X)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Energy exiting the cell through the back face (-X)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="backEntry" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Energy entering the cell through the back face (-X)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Energy entering the cell through the back face (-X)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="bottomExit" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Energy exiting the cell through the bottom face (-Z)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Energy exiting the cell through the bottom face (-Z)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="frontEntry" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Energy entering the cell through the front face (+X)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Energy entering the cell through the front face (+X)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="rightExit" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Energy exiting the cell through the right face (+Y)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Energy exiting the cell through the right face (+Y)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="totalEntry" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Total energy entering the cell</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Total energy entering the cell</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="intercepted" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Energy intercepted by elements within the cell</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Energy intercepted by elements within the cell</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="totalExit" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Total energy exiting the cell</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Total energy exiting the cell</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="leftExit" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Energy exiting the cell through the left face (-Y)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Energy exiting the cell through the left face (-Y)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="absorbed" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Energy absorbed by elements within the cell</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Energy absorbed by elements within the cell</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="frontExit" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Energy exiting the cell through the front face (+X)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Energy exiting the cell through the front face (+X)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="rightEntry" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Energy entering the cell through the right face (+Y)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Energy entering the cell through the right face (+Y)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="topExit" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Energy exiting the cell through the top face (+Z)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Energy exiting the cell through the top face (+Z)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_ElementComponents">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="scattered" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Scattered Energy</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Scattered Energy</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="emitted" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Emitted Energy</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Emitted Energy</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="absorbed" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Absorbed Energy</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Absorbed Energy</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="intercepted" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Intercepted Energy</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Intercepted Energy</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_FluxTrackingModeProducts">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="BrfProductsProperties" type="_BrfProductsProperties" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Order1Options" type="_Order1Options" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
 		<xsd:attribute name="temperaturePerTrianglePerCell" type="xsd:int" default="0">
 			<xsd:annotation>
 				<xsd:documentation xml:lang = "en" source="attribut"> Temperature per triangle per cell using the format x.y.z.i:tf;tb;a where x, y and z are the indices of the cell, i the indice of the triangle, tf and tb the temperature of the front and back respectively and a the area of the triangle within the cell.</xsd:documentation> 
@@ -1759,6 +1930,12 @@
 			<xsd:annotation>
 				<xsd:documentation xml:lang = "en" source="attribut"> Reflectance and/or Brightness temperature products (images, etc.).</xsd:documentation> 
 				<xsd:documentation xml:lang = "fr" source="attribut"> Reflectance and/or Brightness temperature products (images, etc.).</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="order1Products" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Create a Order1 directory which contains first order scattering products (BRF/BTF, radiative budget)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Create a Order1 directory which contains first order scattering products (BRF/BTF, radiative budget)</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 	</xsd:complexType>
@@ -1908,6 +2085,50 @@
 		</xsd:attribute>
 	</xsd:complexType>
 
+	<xsd:complexType name="_Order1Options">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="order1Only" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Storage of intercepted radiation is disabled after order 1 scattering. Saves RAM usage and time.                      </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Storage of intercepted radiation is disabled after order 1 scattering. Saves RAM usage and time.                      </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="imagesOnly" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Scattering/thermal emission only for directions for which images are created. May save up a lot of time.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Scattering/thermal emission only for directions for which images are created. May save up a lot of time.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_LidarModeProducts">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="lidarProductsProperties" type="_lidarProductsProperties" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="ImageBinaryProducts" type="_ImageBinaryProducts" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="lidarImageProducts" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Options specific to the LIDAR Image option.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Options specific to the LIDAR Image option.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="lidarProducts" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> LIDAR products</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> LIDAR products</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
 	<xsd:complexType name="_lidarProductsProperties">
 		<xsd:annotation>
 			<xsd:documentation xml:lang = "en"> lidarProductsProperties</xsd:documentation> 
@@ -1941,27 +2162,6 @@
 		</xsd:attribute>
 	</xsd:complexType>
 
-	<xsd:complexType name="_Order1Options">
-		<xsd:annotation>
-			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
-			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
-		</xsd:annotation>
-		<xsd:sequence>
-		</xsd:sequence>
-		<xsd:attribute name="order1Only" type="xsd:int" default="0">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Storage of intercepted radiation is disabled after order 1 scattering. Saves RAM usage and time.                      </xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Storage of intercepted radiation is disabled after order 1 scattering. Saves RAM usage and time.                      </xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="imagesOnly" type="xsd:int" default="0">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Scattering/thermal emission only for directions for which images are created. May save up a lot of time.</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Scattering/thermal emission only for directions for which images are created. May save up a lot of time.</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-	</xsd:complexType>
-
 	<xsd:complexType name="_ImageBinaryProducts">
 		<xsd:annotation>
 			<xsd:documentation xml:lang = "en"> ImageBinaryProducts</xsd:documentation> 
@@ -1991,75 +2191,6 @@
 			<xsd:annotation>
 				<xsd:documentation xml:lang = "en" source="attribut"> Determine the precision with which the data for the waveform are stored. A better precision implies more space is used to store the data in the hard-drive.</xsd:documentation> 
 				<xsd:documentation xml:lang = "fr" source="attribut"> Determine the precision with which the data for the waveform are stored. A better precision implies more space is used to store the data in the hard-drive.</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-	</xsd:complexType>
-
-	<xsd:complexType name="_radiativeBudgetProperties">
-		<xsd:annotation>
-			<xsd:documentation xml:lang = "en"> radiativeBudgetProperties</xsd:documentation> 
-			<xsd:documentation xml:lang = "fr"> radiativeBudgetProperties</xsd:documentation>
-		</xsd:annotation>
-		<xsd:sequence>
-		</xsd:sequence>
-		<xsd:attribute name="budget2DParType" type="xsd:int" default="0">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> 2D images of fINTR, fABSR, fSCAR per column per iteration and per type</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> 2D images of fINTR, fABSR, fSCAR per column per iteration and per type</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="fIRfARfSRfINTR1DProducts" type="xsd:int" default="1">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Vertical profiles of fractions of incident (fINCR), intercepted (fINTR), absorbed (fABSR) and scattered (fSCAR) radiation</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Vertical profiles of fractions of incident (fINCR), intercepted (fINTR), absorbed (fABSR) and scattered (fSCAR) radiation</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="budget3DParType" type="xsd:int" default="0">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> 3D fINTR, fABSR, fSCAR per iteration and per type of triangle</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> 3D fINTR, fABSR, fSCAR per iteration and per type of triangle</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="fIRfARfSRfINTR3DProducts" type="xsd:int" default="1">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Horizontal sections xy, for each horizontal layer and each iteration, of fractions of incident (fINCR), intercepted (fINTR), absorbed (fABSR) and scattered (fSCAR) radiation</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Horizontal sections xy, for each horizontal layer and each iteration, of fractions of incident (fINCR), intercepted (fINTR), absorbed (fABSR) and scattered (fSCAR) radiation</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="extrapolation" type="xsd:int" default="1">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Extrapolation of radiation products</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Extrapolation of radiation products</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="fIRfARfSRfINTR2DProducts" type="xsd:int" default="1">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Images fINTR, fABSR, fSCAR per column per iteration                          </xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Images fINTR, fABSR, fSCAR per column per iteration                          </xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="budgetUnitModeR" type="xsd:int" default="0">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> W </xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> W </xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="budget3DParSurface" type="xsd:int" default="0">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> fINTR, fABSR, fSCAR total per individual triangle and per iteration.\nCan be displayed in the Surface Radiative Budget viewer, in the viewer tools.</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> fINTR, fABSR, fSCAR total per individual triangle and per iteration.\nCan be displayed in the Surface Radiative Budget viewer, in the viewer tools.</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="binaryFormat" type="xsd:int" default="0">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Output the large radiative budgets (3D or per individual triangles) to binary files instead of text files. Improves significatively the performance during the writing of these files.</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Output the large radiative budgets (3D or per individual triangles) to binary files instead of text files. Improves significatively the performance during the writing of these files.</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="budgetTotalParType" type="xsd:int" default="0">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> fINTR, fABSR, fSCAR total per type of triangle and per iteration</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> fINTR, fABSR, fSCAR total per type of triangle and per iteration</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 	</xsd:complexType>
@@ -2194,8 +2325,8 @@
 		</xsd:sequence>
 		<xsd:attribute name="importMultipleSensors" type="xsd:int" default="0">
 			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Import multiple-frame-camera sensor file</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Import multiple-frame-camera sensor file</xsd:documentation>
+				<xsd:documentation xml:lang = "en" source="attribut"> This option does not work with the following options of the DART frame camera: hemispherical camera, Angles of View that define the FOV, Tait-Bryan angles.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> This option does not work with the following options of the DART frame camera: hemispherical camera, Angles of View that define the FOV, Tait-Bryan angles.</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 	</xsd:complexType>
@@ -2451,8 +2582,8 @@
 		</xsd:sequence>
 		<xsd:attribute name="ifRadiometer" type="xsd:int" default="0">
 			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Define a radiometer output</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Define a radiometer output</xsd:documentation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Sum of W(W) that enter the camera FOV divided by the camera area</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Sum of W(W) that enter the camera FOV divided by the camera area</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 	</xsd:complexType>
@@ -2553,14 +2684,31 @@
 			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="Sensor" type="_Sensor" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="InsideSensorConfiguration" type="_InsideSensorConfiguration" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="Image" type="_Image" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="Hemisphere" type="_Hemisphere" minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
 		<xsd:attribute name="sensorConfiguration" type="xsd:int" default="0">
 			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Mode</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Mode</xsd:documentation>
+				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_InsideSensorConfiguration">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SensorCentralPosition" type="_SensorCentralPosition" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="SensorView" type="_SensorView" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="nbSceneRepetition" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> The actual number of scene visible will be (2N+1)*(2N+1). In opposition to traditional satellite images generated by DART where repetition of the scene is automatic and relatively costless, repetition for in-situ sensors needs to be separately computed for each "repetead" scene. </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> The actual number of scene visible will be (2N+1)*(2N+1). In opposition to traditional satellite images generated by DART where repetition of the scene is automatic and relatively costless, repetition for in-situ sensors needs to be separately computed for each "repetead" scene. </xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 	</xsd:complexType>
@@ -2574,20 +2722,20 @@
 		</xsd:sequence>
 		<xsd:attribute name="sensorPosZ" type="xsd:double" default="1.6">
 			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Z coordinate of sensor</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Z coordinate of sensor</xsd:documentation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Z (altitude)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Z (altitude)</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 		<xsd:attribute name="sensorPosX" type="xsd:double" default="36">
 			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> X coordinate of sensor</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> X coordinate of sensor</xsd:documentation>
+				<xsd:documentation xml:lang = "en" source="attribut"> X</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> X</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 		<xsd:attribute name="sensorPosY" type="xsd:double" default="36">
 			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Y coordinate of sensor</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Y coordinate of sensor</xsd:documentation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Y</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Y</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 	</xsd:complexType>
@@ -2604,8 +2752,8 @@
 		</xsd:sequence>
 		<xsd:attribute name="viewDefinition" type="xsd:int" default="0">
 			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Central view definition</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Central view definition</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 	</xsd:complexType>
@@ -2619,20 +2767,20 @@
 		</xsd:sequence>
 		<xsd:attribute name="sensorDirectionZ" type="xsd:double" default="0.15">
 			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Direction Z</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Direction Z</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 		<xsd:attribute name="sensorDirectionY" type="xsd:double" default="-0.7">
 			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Direction Y</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Direction Y</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 		<xsd:attribute name="sensorDirectionX" type="xsd:double" default="-0.7">
 			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Direction X</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Direction X</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 	</xsd:complexType>
@@ -2646,14 +2794,14 @@
 		</xsd:sequence>
 		<xsd:attribute name="sensorDirectionPhi" type="xsd:double" default="45">
 			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Phi direction angle</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Phi direction angle</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 		<xsd:attribute name="sensorDirectionTetha" type="xsd:double" default="98">
 			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Theta direction angle</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Theta direction angle</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 	</xsd:complexType>

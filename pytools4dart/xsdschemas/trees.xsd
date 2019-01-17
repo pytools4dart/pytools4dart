@@ -3,7 +3,7 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<!-- Element racine -->
 	<xsd:annotation>
-		<xsd:appinfo>Fichier trees.xsd -- version 5.7.1</xsd:appinfo> 
+		<xsd:appinfo>Fichier trees.xsd -- version 5.7.4</xsd:appinfo> 
 		<xsd:documentation xml:lang = "en"> trees</xsd:documentation> 
 		<xsd:documentation xml:lang = "fr"> trees</xsd:documentation>
 	</xsd:annotation>
@@ -17,7 +17,7 @@
 		<xsd:sequence>
 			<xsd:element name="Trees" type="_Trees" minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
-		<xsd:attribute name="version" type="xsd:string" default="5.7.1">
+		<xsd:attribute name="version" type="xsd:string" default="5.7.4">
 			<xsd:annotation>
 				<xsd:documentation xml:lang = "en" source="attribut"> Version of the plots.xml file. Depends of the version on DART itself.</xsd:documentation> 
 				<xsd:documentation xml:lang = "fr" source="attribut"> Version of the plots.xml file. Depends of the version on DART itself.</xsd:documentation>
@@ -47,6 +47,12 @@
 			<xsd:annotation>
 				<xsd:documentation xml:lang = "en" source="attribut"> Type of tree spatial distribution \n- Random location around the nodes of a user specified grid and dimensions "mean + standard deviation" specified by the user. \n- Exact location (x,y) specified by a text file and dimensions "mean + standard deviation" specified by the user. \n- Exact location (x,y) and exact dimensions specified by a text file</xsd:documentation> 
 				<xsd:documentation xml:lang = "fr" source="attribut"> Type of tree spatial distribution \n- Random location around the nodes of a user specified grid and dimensions "mean + standard deviation" specified by the user. \n- Exact location (x,y) specified by a text file and dimensions "mean + standard deviation" specified by the user. \n- Exact location (x,y) and exact dimensions specified by a text file</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="hidden" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Ignore trees in mock-up creation                         </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Ignore trees in mock-up creation                         </xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 		<xsd:attribute name="isTrees" type="xsd:int" default="0">
@@ -122,12 +128,6 @@
 			<xsd:element name="CrownLevel" type="_CrownLevel" minOccurs="1" maxOccurs="unbounded" />
 			<xsd:element name="BranchesAndTwigs" type="_BranchesAndTwigs" minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
-		<xsd:attribute name="numberOfTreesInWholeScene" type="xsd:int" default="12">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Number of trees (of the species) in the whole scene. Other species can be added</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Number of trees (of the species) in the whole scene. Other species can be added</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
 		<xsd:attribute name="branchesAndTwigsSimulation" type="xsd:int" default="0">
 			<xsd:annotation>
 				<xsd:documentation xml:lang = "en" source="attribut"> Simulation of trees with branches and twigs</xsd:documentation> 
@@ -392,12 +392,6 @@
 			<xsd:element name="CrownLevel" type="_CrownLevel" minOccurs="1" maxOccurs="unbounded" />
 			<xsd:element name="BranchesAndTwigs" type="_BranchesAndTwigs" minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
-		<xsd:attribute name="numberOfTreesInWholeScene" type="xsd:int" default="12">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Number of trees (of the species) in the whole scene. Other species can be added</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Number of trees (of the species) in the whole scene. Other species can be added</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
 		<xsd:attribute name="branchesAndTwigsSimulation" type="xsd:int" default="0">
 			<xsd:annotation>
 				<xsd:documentation xml:lang = "en" source="attribut"> Simulation of trees with branches and twigs</xsd:documentation> 
@@ -724,6 +718,8 @@
 			<xsd:documentation xml:lang = "fr"> Specie_3</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
+			<xsd:element name="IntervalDistribution" type="_IntervalDistribution" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="EstimatedNumberOfTreeDistribution" type="_EstimatedNumberOfTreeDistribution" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="OpticalPropertyLink" type="_OpticalPropertyLink" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="ThermalPropertyLink" type="_ThermalPropertyLink" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="Trunk" type="_Trunk" minOccurs="1" maxOccurs="1" />
@@ -733,34 +729,16 @@
 			<xsd:element name="CrownLevel" type="_CrownLevel" minOccurs="1" maxOccurs="unbounded" />
 			<xsd:element name="BranchesAndTwigs" type="_BranchesAndTwigs" minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
+		<xsd:attribute name="probabilityOfTreesAtTheNodesOfTheGrid" type="xsd:double" default="0.90">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Probability that trees are present around the nodes of the specified grid</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Probability that trees are present around the nodes of the specified grid</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
 		<xsd:attribute name="lai" type="xsd:double" default="4.00">
 			<xsd:annotation>
 				<xsd:documentation xml:lang = "en" source="attribut"> LAI </xsd:documentation> 
 				<xsd:documentation xml:lang = "fr" source="attribut"> LAI </xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="rawX" type="xsd:double" default="5.00">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Horizontal lines of the grid. Trees are located around the nodes of this grid</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Horizontal lines of the grid. Trees are located around the nodes of this grid</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="rawY" type="xsd:double" default="5.00">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Vertical lines of the grid. Trees are located around the nodes of this grid</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Vertical lines of the grid. Trees are located around the nodes of this grid</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="numberOfTreesInWholeScene" type="xsd:int" default="12">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Number of trees (of the species) in the whole scene. Other species can be added</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Number of trees (of the species) in the whole scene. Other species can be added</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="spatialDistribution" type="xsd:int" default="0">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> spatialDistribution</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> spatialDistribution</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 		<xsd:attribute name="rayon" type="xsd:double" default="5.00">
@@ -769,16 +747,58 @@
 				<xsd:documentation xml:lang = "fr" source="attribut"> Radius of the disks within which trees must be located. Disks are centred on the nodes of the specified grid.</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
-		<xsd:attribute name="probabilityOfTreesAtTheNodesOfTheGrid" type="xsd:double" default="0.90">
+		<xsd:attribute name="treeDistributionMethod" type="xsd:int" default="0">
 			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Probability that trees are present around the nodes of the specified grid</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Probability that trees are present around the nodes of the specified grid</xsd:documentation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Tree distribution method</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Tree distribution method</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 		<xsd:attribute name="branchesAndTwigsSimulation" type="xsd:int" default="0">
 			<xsd:annotation>
 				<xsd:documentation xml:lang = "en" source="attribut"> Simulation of trees with branches and twigs</xsd:documentation> 
 				<xsd:documentation xml:lang = "fr" source="attribut"> Simulation of trees with branches and twigs</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="spatialDistribution" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> spatialDistribution</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> spatialDistribution</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_IntervalDistribution">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Interval between trees</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Interval between trees</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="rawX" type="xsd:double" default="5.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Inter-trees distance (dx)                          </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Inter-trees distance (dx)                          </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="rawY" type="xsd:double" default="5.00">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Inter-trees distance (dy)                          </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Inter-trees distance (dy)                          </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_EstimatedNumberOfTreeDistribution">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Estimated number of trees</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Estimated number of trees</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="estimatedNumberOfTrees" type="xsd:int" default="12">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Estimated number of trees</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Estimated number of trees</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 	</xsd:complexType>

@@ -3,7 +3,7 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<!-- Element racine -->
 	<xsd:annotation>
-		<xsd:appinfo>Fichier maket.xsd -- version 5.7.1</xsd:appinfo> 
+		<xsd:appinfo>Fichier maket.xsd -- version 5.7.4</xsd:appinfo> 
 		<xsd:documentation xml:lang = "en"> maket</xsd:documentation> 
 		<xsd:documentation xml:lang = "fr"> maket</xsd:documentation>
 	</xsd:annotation>
@@ -17,7 +17,7 @@
 		<xsd:sequence>
 			<xsd:element name="Maket" type="_Maket" minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
-		<xsd:attribute name="version" type="xsd:string" default="5.7.1">
+		<xsd:attribute name="version" type="xsd:string" default="5.7.4">
 			<xsd:annotation>
 				<xsd:documentation xml:lang = "en" source="attribut"> Version of the plots.xml file. Depends of the version on DART itself.</xsd:documentation> 
 				<xsd:documentation xml:lang = "fr" source="attribut"> Version of the plots.xml file. Depends of the version on DART itself.</xsd:documentation>
@@ -39,6 +39,7 @@
 		</xsd:annotation>
 		<xsd:sequence>
 			<xsd:element name="Scene" type="_Scene" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="RandomGenerationParameters" type="_RandomGenerationParameters" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="Soil" type="_Soil" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="LatLon" type="_LatLon" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="InfiniteSlopeProperties" type="_InfiniteSlopeProperties" minOccurs="1" maxOccurs="1" />
@@ -53,6 +54,12 @@
 			<xsd:annotation>
 				<xsd:documentation xml:lang = "en" source="attribut"> juxtaposition of a unique pattern\nContninuous scene: Altitudes of juxtaposed patterns are equal or are shifted with values equal to altitude difference the scene edges. This option ensures the continuity of topography. It allows one to simulate infinite slopes.</xsd:documentation> 
 				<xsd:documentation xml:lang = "fr" source="attribut"> juxtaposition of a unique pattern\nContninuous scene: Altitudes of juxtaposed patterns are equal or are shifted with values equal to altitude difference the scene edges. This option ensures the continuity of topography. It allows one to simulate infinite slopes.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="useRandomGenerationSeed" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Use a random seed for random operations.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Use a random seed for random operations.</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 	</xsd:complexType>
@@ -138,6 +145,21 @@
 			<xsd:annotation>
 				<xsd:documentation xml:lang = "en" source="attribut"> x coordinate of the upper left or lower right corner of the rectangular sub zone</xsd:documentation> 
 				<xsd:documentation xml:lang = "fr" source="attribut"> x coordinate of the upper left or lower right corner of the rectangular sub zone</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_RandomGenerationParameters">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> Random generation parameters</xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> Random generation parameters</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+		</xsd:sequence>
+		<xsd:attribute name="generationSeed" type="xsd:int" default="733426921">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Seed for random operations.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Seed for random operations.</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 	</xsd:complexType>

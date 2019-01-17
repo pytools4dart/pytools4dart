@@ -2,28 +2,30 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Wed Oct 31 15:06:24 2018 by generateDS.py version 2.29.25.
-# Python 2.7.15rc1 (default, Apr 15 2018, 21:51:34)  [GCC 7.3.0]
+# Generated Wed Jan  2 18:30:52 2019 by generateDS.py version 2.29.25.
+# Python 2.7.15rc1 (default, Nov 12 2018, 14:31:15)  [GCC 7.3.0]
 #
 # Command line options:
 #   ('-m', '')
+#   ('-f', '')
 #   ('--always-export-default', '')
 #   ('--export', 'write literal etree')
+#   ('-u', 'pytools4dart.core_ui.user_methods')
 #   ('-p', 'create')
-#   ('--post-attrib-setter', 'update_node(self,self.troot,"urban")')
-#   ('--pre-ctor', 'self.troot=get_gs_troot("urban","{classname}")')
-#   ('--post-ctor', 'update_node(self,self.troot,"urban")')
+#   ('--post-attrib-setter', "update_node(self,self.troot,'urban')")
+#   ('--pre-ctor', "self.troot=get_gs_troot('urban','{classname}')")
+#   ('--post-ctor', "update_node(self,self.troot,'urban')")
 #   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node')
-#   ('-o', '/home/claudia/tmp/urban.py')
+#   ('-o', 'pytools4dart/core_ui/urban.py')
 #
 # Command line arguments:
-#   /home/claudia/DEV/pytools4dartMTD/pytools4dart/core_ui/urban.xsd
+#   pytools4dart/xsdschemas/urban.xsd
 #
 # Command line:
-#   /home/claudia/DEV/pytools4dartMTD/venv/bin/generateDS.py -m --always-export-default --export="write literal etree" -p "create" --post-attrib-setter="update_node(self,self.troot,"urban")" --pre-ctor="self.troot=get_gs_troot("urban","{classname}")" --post-ctor="update_node(self,self.troot,"urban")" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node" -o "/home/claudia/tmp/urban.py" /home/claudia/DEV/pytools4dartMTD/pytools4dart/core_ui/urban.xsd
+#   /home/boissieu/git/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "pytools4dart.core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'urban')" --pre-ctor="self.troot=get_gs_troot('urban','{classname}')" --post-ctor="update_node(self,self.troot,'urban')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node" -o "pytools4dart/core_ui/urban.py" pytools4dart/xsdschemas/urban.xsd
 #
 # Current working directory (os.getcwd()):
-#   generateds
+#   pytools4dartMTD
 #
 
 import sys
@@ -742,18 +744,23 @@ class createDartFile(GeneratedsSuper):
     """Version of the plots.xml file. Depends of the version on DART
     itself. Version of the plots.xml file. Depends of the version on
     DART itself."""
+    member_data_items_ = [
+        MemberSpec_('version', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('build_', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Urban', '_Urban', 0, 0, {u'maxOccurs': u'1', u'type': u'_Urban', u'name': u'Urban', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
-    def __init__(self, version='5.7.1', build_='0', Urban=None):
+    def __init__(self, version='5.7.4', build_='0', Urban=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","DartFile")
+        self.troot=get_gs_troot('urban','DartFile')
         self.attrib = ['version', 'build_']
         self.children = ['Urban']
         self.parent = None
         self._version = _cast(None, version)
         self._build_ = _cast(None, build_)
         self._Urban = Urban
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -775,12 +782,12 @@ class createDartFile(GeneratedsSuper):
     def get_version(self): return self._version
     def set_version(self, value):
         self._version = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     version = property(get_version, set_version)
     def get_build(self): return self._build_
     def set_build(self, value):
         self._build_ = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     build_ = property(get_build, set_build)
     def copy(self):
         obj_ = self.factory()
@@ -886,23 +893,30 @@ class createDartFile(GeneratedsSuper):
             obj_.build(child_)
             self.set_Urban(obj_)
             obj_.original_tagname_ = 'Urban'
-# end class createDartFile
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class createDartFile
 
 
 class create_Urban(GeneratedsSuper):
     """Urban Urban"""
+    member_data_items_ = [
+        MemberSpec_('Buildings', '_Buildings', 0, 0, {u'maxOccurs': u'1', u'type': u'_Buildings', u'name': u'Buildings', u'minOccurs': u'1'}, None),
+        MemberSpec_('Roads', '_Roads', 0, 0, {u'maxOccurs': u'1', u'type': u'_Roads', u'name': u'Roads', u'minOccurs': u'1'}, None),
+        MemberSpec_('SmallWalls', '_SmallWalls', 0, 0, {u'maxOccurs': u'1', u'type': u'_SmallWalls', u'name': u'SmallWalls', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, Buildings=None, Roads=None, SmallWalls=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_Urban")
+        self.troot=get_gs_troot('urban','_Urban')
         self.attrib = ['']
         self.children = ['Buildings', 'Roads', 'SmallWalls']
         self.parent = None
         self._Buildings = Buildings
         self._Roads = Roads
         self._SmallWalls = SmallWalls
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1050,16 +1064,21 @@ class create_Urban(GeneratedsSuper):
             obj_.build(child_)
             self.set_SmallWalls(obj_)
             obj_.original_tagname_ = 'SmallWalls'
-# end class create_Urban
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Urban
 
 
 class create_Buildings(GeneratedsSuper):
     """Buildings Buildings"""
+    member_data_items_ = [
+        MemberSpec_('Building', '_Building', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_Building', u'name': u'Building', u'minOccurs': u'0'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, Building=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_Buildings")
+        self.troot=get_gs_troot('urban','_Buildings')
         self.attrib = ['']
         self.children = ['Building']
         self.parent = None
@@ -1067,7 +1086,7 @@ class create_Buildings(GeneratedsSuper):
             self._Building = []
         else:
             self._Building = Building
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1183,7 +1202,9 @@ class create_Buildings(GeneratedsSuper):
             obj_.build(child_)
             self.add_Building(obj_)
             obj_.original_tagname_ = 'Building'
-# end class create_Buildings
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Buildings
 
 
 class create_Building(GeneratedsSuper):
@@ -1200,11 +1221,19 @@ class create_Building(GeneratedsSuper):
     option if you experience some slowdown. Objects's positions are
     taken from the position file.\nDesactivate this option if you
     experience some slowdown."""
+    member_data_items_ = [
+        MemberSpec_('hidden', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('doubleFaceBuilding', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('isDisplayed', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('WallProperties', '_WallProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_WallProperties', u'name': u'WallProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('RoofProperties', '_RoofProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_RoofProperties', u'name': u'RoofProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('House', '_House', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_House', u'name': u'House', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, hidden=0, doubleFaceBuilding=1, isDisplayed=1, WallProperties=None, RoofProperties=None, House=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_Building")
+        self.troot=get_gs_troot('urban','_Building')
         self.attrib = ['hidden', 'doubleFaceBuilding', 'isDisplayed']
         self.children = ['WallProperties', 'RoofProperties', 'House']
         self.parent = None
@@ -1217,7 +1246,7 @@ class create_Building(GeneratedsSuper):
             self._House = []
         else:
             self._House = House
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1263,17 +1292,17 @@ class create_Building(GeneratedsSuper):
     def get_hidden(self): return self._hidden
     def set_hidden(self, value):
         self._hidden = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     hidden = property(get_hidden, set_hidden)
     def get_doubleFaceBuilding(self): return self._doubleFaceBuilding
     def set_doubleFaceBuilding(self, value):
         self._doubleFaceBuilding = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     doubleFaceBuilding = property(get_doubleFaceBuilding, set_doubleFaceBuilding)
     def get_isDisplayed(self): return self._isDisplayed
     def set_isDisplayed(self, value):
         self._isDisplayed = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     isDisplayed = property(get_isDisplayed, set_isDisplayed)
     def copy(self):
         obj_ = self.factory()
@@ -1441,18 +1470,27 @@ class create_Building(GeneratedsSuper):
             obj_.build(child_)
             self.add_House(obj_)
             obj_.original_tagname_ = 'House'
-# end class create_Building
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Building
 
 
 class create_WallProperties(GeneratedsSuper):
     """WallProperties WallProperties The walls of all the houses of this
     building have the same optical properties The walls of all the
     houses of this building have the same optical properties"""
+    member_data_items_ = [
+        MemberSpec_('sameWall', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ExternalFacesOpticalPropertyLink', '_ExternalFacesOpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExternalFacesOpticalPropertyLink', u'name': u'ExternalFacesOpticalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('ExternalFacesThermalPropertyLink', '_ExternalFacesThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExternalFacesThermalPropertyLink', u'name': u'ExternalFacesThermalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('InternalFacesOpticalPropertyLink', '_InternalFacesOpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_InternalFacesOpticalPropertyLink', u'name': u'InternalFacesOpticalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('InternalFacesThermalPropertyLink', '_InternalFacesThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_InternalFacesThermalPropertyLink', u'name': u'InternalFacesThermalPropertyLink', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, sameWall=1, ExternalFacesOpticalPropertyLink=None, ExternalFacesThermalPropertyLink=None, InternalFacesOpticalPropertyLink=None, InternalFacesThermalPropertyLink=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_WallProperties")
+        self.troot=get_gs_troot('urban','_WallProperties')
         self.attrib = ['sameWall']
         self.children = ['ExternalFacesOpticalPropertyLink', 'ExternalFacesThermalPropertyLink', 'InternalFacesOpticalPropertyLink', 'InternalFacesThermalPropertyLink']
         self.parent = None
@@ -1461,7 +1499,7 @@ class create_WallProperties(GeneratedsSuper):
         self._ExternalFacesThermalPropertyLink = ExternalFacesThermalPropertyLink
         self._InternalFacesOpticalPropertyLink = InternalFacesOpticalPropertyLink
         self._InternalFacesThermalPropertyLink = InternalFacesThermalPropertyLink
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1504,7 +1542,7 @@ class create_WallProperties(GeneratedsSuper):
     def get_sameWall(self): return self._sameWall
     def set_sameWall(self, value):
         self._sameWall = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     sameWall = property(get_sameWall, set_sameWall)
     def copy(self):
         obj_ = self.factory()
@@ -1651,7 +1689,9 @@ class create_WallProperties(GeneratedsSuper):
             obj_.build(child_)
             self.set_InternalFacesThermalPropertyLink(obj_)
             obj_.original_tagname_ = 'InternalFacesThermalPropertyLink'
-# end class create_WallProperties
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_WallProperties
 
 
 class create_ExternalFacesOpticalPropertyLink(GeneratedsSuper):
@@ -1664,18 +1704,23 @@ class create_ExternalFacesOpticalPropertyLink(GeneratedsSuper):
     that are scattered within a solid angle along a given direction
     Type of phase function (lambertian, etc.) Type of phase function
     (lambertian, etc.)"""
+    member_data_items_ = [
+        MemberSpec_('indexFctPhase', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ident', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('type_', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, indexFctPhase=0, ident='Lambertian_Phase_Function_1', type_=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_ExternalFacesOpticalPropertyLink")
+        self.troot=get_gs_troot('urban','_ExternalFacesOpticalPropertyLink')
         self.attrib = ['indexFctPhase', 'ident', 'type_']
         self.children = []
         self.parent = None
         self._indexFctPhase = _cast(int, indexFctPhase)
         self._ident = _cast(None, ident)
         self._type_ = _cast(int, type_)
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1690,17 +1735,17 @@ class create_ExternalFacesOpticalPropertyLink(GeneratedsSuper):
     def get_indexFctPhase(self): return self._indexFctPhase
     def set_indexFctPhase(self, value):
         self._indexFctPhase = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     indexFctPhase = property(get_indexFctPhase, set_indexFctPhase)
     def get_ident(self): return self._ident
     def set_ident(self, value):
         self._ident = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     ident = property(get_ident, set_ident)
     def get_type(self): return self._type_
     def set_type(self, value):
         self._type_ = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     type_ = property(get_type, set_type)
     def copy(self):
         obj_ = self.factory()
@@ -1807,24 +1852,30 @@ class create_ExternalFacesOpticalPropertyLink(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_ExternalFacesOpticalPropertyLink
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ExternalFacesOpticalPropertyLink
 
 
 class create_ExternalFacesThermalPropertyLink(GeneratedsSuper):
     """ExternalFacesThermalPropertyLink ExternalFacesThermalPropertyLink
     indexTemperature indexTemperature Thermal Function ID Thermal
     Function ID"""
+    member_data_items_ = [
+        MemberSpec_('indexTemperature', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('idTemperature', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, indexTemperature=0, idTemperature='ThermalFunction290_310'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_ExternalFacesThermalPropertyLink")
+        self.troot=get_gs_troot('urban','_ExternalFacesThermalPropertyLink')
         self.attrib = ['indexTemperature', 'idTemperature']
         self.children = []
         self.parent = None
         self._indexTemperature = _cast(int, indexTemperature)
         self._idTemperature = _cast(None, idTemperature)
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1839,12 +1890,12 @@ class create_ExternalFacesThermalPropertyLink(GeneratedsSuper):
     def get_indexTemperature(self): return self._indexTemperature
     def set_indexTemperature(self, value):
         self._indexTemperature = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     indexTemperature = property(get_indexTemperature, set_indexTemperature)
     def get_idTemperature(self): return self._idTemperature
     def set_idTemperature(self, value):
         self._idTemperature = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     idTemperature = property(get_idTemperature, set_idTemperature)
     def copy(self):
         obj_ = self.factory()
@@ -1935,7 +1986,9 @@ class create_ExternalFacesThermalPropertyLink(GeneratedsSuper):
             self.idTemperature = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_ExternalFacesThermalPropertyLink
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ExternalFacesThermalPropertyLink
 
 
 class create_InternalFacesOpticalPropertyLink(GeneratedsSuper):
@@ -1948,18 +2001,23 @@ class create_InternalFacesOpticalPropertyLink(GeneratedsSuper):
     that are scattered within a solid angle along a given direction
     Type of phase function (lambertian, etc.) Type of phase function
     (lambertian, etc.)"""
+    member_data_items_ = [
+        MemberSpec_('indexFctPhase', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ident', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('type_', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, indexFctPhase=0, ident='Lambertian_Phase_Function_1', type_=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_InternalFacesOpticalPropertyLink")
+        self.troot=get_gs_troot('urban','_InternalFacesOpticalPropertyLink')
         self.attrib = ['indexFctPhase', 'ident', 'type_']
         self.children = []
         self.parent = None
         self._indexFctPhase = _cast(int, indexFctPhase)
         self._ident = _cast(None, ident)
         self._type_ = _cast(int, type_)
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1974,17 +2032,17 @@ class create_InternalFacesOpticalPropertyLink(GeneratedsSuper):
     def get_indexFctPhase(self): return self._indexFctPhase
     def set_indexFctPhase(self, value):
         self._indexFctPhase = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     indexFctPhase = property(get_indexFctPhase, set_indexFctPhase)
     def get_ident(self): return self._ident
     def set_ident(self, value):
         self._ident = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     ident = property(get_ident, set_ident)
     def get_type(self): return self._type_
     def set_type(self, value):
         self._type_ = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     type_ = property(get_type, set_type)
     def copy(self):
         obj_ = self.factory()
@@ -2091,24 +2149,30 @@ class create_InternalFacesOpticalPropertyLink(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_InternalFacesOpticalPropertyLink
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_InternalFacesOpticalPropertyLink
 
 
 class create_InternalFacesThermalPropertyLink(GeneratedsSuper):
     """InternalFacesThermalPropertyLink InternalFacesThermalPropertyLink
     indexTemperature indexTemperature Thermal Function ID Thermal
     Function ID"""
+    member_data_items_ = [
+        MemberSpec_('indexTemperature', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('idTemperature', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, indexTemperature=0, idTemperature='ThermalFunction290_310'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_InternalFacesThermalPropertyLink")
+        self.troot=get_gs_troot('urban','_InternalFacesThermalPropertyLink')
         self.attrib = ['indexTemperature', 'idTemperature']
         self.children = []
         self.parent = None
         self._indexTemperature = _cast(int, indexTemperature)
         self._idTemperature = _cast(None, idTemperature)
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2123,12 +2187,12 @@ class create_InternalFacesThermalPropertyLink(GeneratedsSuper):
     def get_indexTemperature(self): return self._indexTemperature
     def set_indexTemperature(self, value):
         self._indexTemperature = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     indexTemperature = property(get_indexTemperature, set_indexTemperature)
     def get_idTemperature(self): return self._idTemperature
     def set_idTemperature(self, value):
         self._idTemperature = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     idTemperature = property(get_idTemperature, set_idTemperature)
     def copy(self):
         obj_ = self.factory()
@@ -2219,18 +2283,27 @@ class create_InternalFacesThermalPropertyLink(GeneratedsSuper):
             self.idTemperature = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_InternalFacesThermalPropertyLink
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_InternalFacesThermalPropertyLink
 
 
 class create_RoofProperties(GeneratedsSuper):
     """RoofProperties RoofProperties The roofs of all the houses of this
     building have the same optical properties The roofs of all the
     houses of this building have the same optical properties"""
+    member_data_items_ = [
+        MemberSpec_('sameRoof', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ExternalFacesOpticalPropertyLink', '_ExternalFacesOpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExternalFacesOpticalPropertyLink', u'name': u'ExternalFacesOpticalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('ExternalFacesThermalPropertyLink', '_ExternalFacesThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExternalFacesThermalPropertyLink', u'name': u'ExternalFacesThermalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('InternalFacesOpticalPropertyLink', '_InternalFacesOpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_InternalFacesOpticalPropertyLink', u'name': u'InternalFacesOpticalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('InternalFacesThermalPropertyLink', '_InternalFacesThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_InternalFacesThermalPropertyLink', u'name': u'InternalFacesThermalPropertyLink', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, sameRoof=1, ExternalFacesOpticalPropertyLink=None, ExternalFacesThermalPropertyLink=None, InternalFacesOpticalPropertyLink=None, InternalFacesThermalPropertyLink=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_RoofProperties")
+        self.troot=get_gs_troot('urban','_RoofProperties')
         self.attrib = ['sameRoof']
         self.children = ['ExternalFacesOpticalPropertyLink', 'ExternalFacesThermalPropertyLink', 'InternalFacesOpticalPropertyLink', 'InternalFacesThermalPropertyLink']
         self.parent = None
@@ -2239,7 +2312,7 @@ class create_RoofProperties(GeneratedsSuper):
         self._ExternalFacesThermalPropertyLink = ExternalFacesThermalPropertyLink
         self._InternalFacesOpticalPropertyLink = InternalFacesOpticalPropertyLink
         self._InternalFacesThermalPropertyLink = InternalFacesThermalPropertyLink
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2282,7 +2355,7 @@ class create_RoofProperties(GeneratedsSuper):
     def get_sameRoof(self): return self._sameRoof
     def set_sameRoof(self, value):
         self._sameRoof = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     sameRoof = property(get_sameRoof, set_sameRoof)
     def copy(self):
         obj_ = self.factory()
@@ -2429,7 +2502,9 @@ class create_RoofProperties(GeneratedsSuper):
             obj_.build(child_)
             self.set_InternalFacesThermalPropertyLink(obj_)
             obj_.original_tagname_ = 'InternalFacesThermalPropertyLink'
-# end class create_RoofProperties
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_RoofProperties
 
 
 class create_House(GeneratedsSuper):
@@ -2451,11 +2526,20 @@ class create_House(GeneratedsSuper):
     delete this for tests If you select this option, this house are
     not use in all DART modules, \n it's useful if you want conserve
     house properties backup without delete this for tests"""
+    member_data_items_ = [
+        MemberSpec_('typeRoof', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('hidden', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Wall', '_Wall', 0, 0, {u'maxOccurs': u'1', u'type': u'_Wall', u'name': u'Wall', u'minOccurs': u'1'}, None),
+        MemberSpec_('RoofNone', '_RoofNone', 0, 0, {u'maxOccurs': u'1', u'type': u'_RoofNone', u'name': u'RoofNone', u'minOccurs': u'1'}, None),
+        MemberSpec_('RoofClassic', '_RoofClassic', 0, 0, {u'maxOccurs': u'1', u'type': u'_RoofClassic', u'name': u'RoofClassic', u'minOccurs': u'1'}, None),
+        MemberSpec_('RoofPlate', '_RoofPlate', 0, 0, {u'maxOccurs': u'1', u'type': u'_RoofPlate', u'name': u'RoofPlate', u'minOccurs': u'1'}, None),
+        MemberSpec_('RoofComplex', '_RoofComplex', 0, 0, {u'maxOccurs': u'1', u'type': u'_RoofComplex', u'name': u'RoofComplex', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, typeRoof=2, hidden=0, Wall=None, RoofNone=None, RoofClassic=None, RoofPlate=None, RoofComplex=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_House")
+        self.troot=get_gs_troot('urban','_House')
         self.attrib = ['typeRoof', 'hidden']
         self.children = ['Wall', 'RoofNone', 'RoofClassic', 'RoofPlate', 'RoofComplex']
         self.parent = None
@@ -2466,7 +2550,7 @@ class create_House(GeneratedsSuper):
         self._RoofClassic = RoofClassic
         self._RoofPlate = RoofPlate
         self._RoofComplex = RoofComplex
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2516,12 +2600,12 @@ class create_House(GeneratedsSuper):
     def get_typeRoof(self): return self._typeRoof
     def set_typeRoof(self, value):
         self._typeRoof = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     typeRoof = property(get_typeRoof, set_typeRoof)
     def get_hidden(self): return self._hidden
     def set_hidden(self, value):
         self._hidden = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     hidden = property(get_hidden, set_hidden)
     def copy(self):
         obj_ = self.factory()
@@ -2701,16 +2785,25 @@ class create_House(GeneratedsSuper):
             obj_.build(child_)
             self.set_RoofComplex(obj_)
             obj_.original_tagname_ = 'RoofComplex'
-# end class create_House
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_House
 
 
 class create_Wall(GeneratedsSuper):
     """Wall Wall"""
+    member_data_items_ = [
+        MemberSpec_('Polygon3D', '_Polygon3D', 0, 0, {u'maxOccurs': u'1', u'type': u'_Polygon3D', u'name': u'Polygon3D', u'minOccurs': u'1'}, None),
+        MemberSpec_('OpticalProperties', '_OpticalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalProperties', u'name': u'OpticalProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('ThermalProperties', '_ThermalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalProperties', u'name': u'ThermalProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('InnerOpticalProperties', '_InnerOpticalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_InnerOpticalProperties', u'name': u'InnerOpticalProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('InnerThermalProperties', '_InnerThermalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_InnerThermalProperties', u'name': u'InnerThermalProperties', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, Polygon3D=None, OpticalProperties=None, ThermalProperties=None, InnerOpticalProperties=None, InnerThermalProperties=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_Wall")
+        self.troot=get_gs_troot('urban','_Wall')
         self.attrib = ['']
         self.children = ['Polygon3D', 'OpticalProperties', 'ThermalProperties', 'InnerOpticalProperties', 'InnerThermalProperties']
         self.parent = None
@@ -2719,7 +2812,7 @@ class create_Wall(GeneratedsSuper):
         self._ThermalProperties = ThermalProperties
         self._InnerOpticalProperties = InnerOpticalProperties
         self._InnerThermalProperties = InnerThermalProperties
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2915,16 +3008,21 @@ class create_Wall(GeneratedsSuper):
             obj_.build(child_)
             self.set_InnerThermalProperties(obj_)
             obj_.original_tagname_ = 'InnerThermalProperties'
-# end class create_Wall
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Wall
 
 
 class create_Polygon3D(GeneratedsSuper):
     """Polygon3D Polygon3D"""
+    member_data_items_ = [
+        MemberSpec_('Point3D', '_Point3D', 1, 0, {u'maxOccurs': u'4', u'type': u'_Point3D', u'name': u'Point3D', u'minOccurs': u'4'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, Point3D=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_Polygon3D")
+        self.troot=get_gs_troot('urban','_Polygon3D')
         self.attrib = ['']
         self.children = ['Point3D']
         self.parent = None
@@ -2932,7 +3030,7 @@ class create_Polygon3D(GeneratedsSuper):
             self._Point3D = []
         else:
             self._Point3D = Point3D
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3052,7 +3150,9 @@ class create_Polygon3D(GeneratedsSuper):
             obj_.build(child_)
             self.add_Point3D(obj_)
             obj_.original_tagname_ = 'Point3D'
-# end class create_Polygon3D
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Polygon3D
 
 
 class create_Point3D(GeneratedsSuper):
@@ -3064,18 +3164,23 @@ class create_Point3D(GeneratedsSuper):
     clockwise input z coordinate of a top corner of a wall of the
     house. Counter-clockwise input z coordinate of a top corner of a
     wall of the house. Counter-clockwise input"""
+    member_data_items_ = [
+        MemberSpec_('y', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('x', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('z', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, y=10.00, x=10.00, z=2.50):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_Point3D")
+        self.troot=get_gs_troot('urban','_Point3D')
         self.attrib = ['y', 'x', 'z']
         self.children = []
         self.parent = None
         self._y = _cast(float, y)
         self._x = _cast(float, x)
         self._z = _cast(float, z)
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3090,17 +3195,17 @@ class create_Point3D(GeneratedsSuper):
     def get_y(self): return self._y
     def set_y(self, value):
         self._y = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     y = property(get_y, set_y)
     def get_x(self): return self._x
     def set_x(self, value):
         self._x = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     x = property(get_x, set_x)
     def get_z(self): return self._z
     def set_z(self, value):
         self._z = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     z = property(get_z, set_z)
     def copy(self):
         obj_ = self.factory()
@@ -3210,16 +3315,21 @@ class create_Point3D(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (z): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_Point3D
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Point3D
 
 
 class create_OpticalProperties(GeneratedsSuper):
     """OpticalProperties OpticalProperties"""
+    member_data_items_ = [
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 1, 0, {u'maxOccurs': u'4', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'4'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, OpticalPropertyLink=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_OpticalProperties")
+        self.troot=get_gs_troot('urban','_OpticalProperties')
         self.attrib = ['']
         self.children = ['OpticalPropertyLink']
         self.parent = None
@@ -3227,7 +3337,7 @@ class create_OpticalProperties(GeneratedsSuper):
             self._OpticalPropertyLink = []
         else:
             self._OpticalPropertyLink = OpticalPropertyLink
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3347,7 +3457,9 @@ class create_OpticalProperties(GeneratedsSuper):
             obj_.build(child_)
             self.add_OpticalPropertyLink(obj_)
             obj_.original_tagname_ = 'OpticalPropertyLink'
-# end class create_OpticalProperties
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_OpticalProperties
 
 
 class create_OpticalPropertyLink(GeneratedsSuper):
@@ -3357,18 +3469,23 @@ class create_OpticalPropertyLink(GeneratedsSuper):
     4 and 1 wall from ground to Point3D 4 and 1 Type of phase
     function (lambertian, etc.) Type of phase function (lambertian,
     etc.)"""
+    member_data_items_ = [
+        MemberSpec_('indexFctPhase', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ident', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('type_', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, indexFctPhase=0, ident='Lambertian_Phase_Function_1', type_=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_OpticalPropertyLink")
+        self.troot=get_gs_troot('urban','_OpticalPropertyLink')
         self.attrib = ['indexFctPhase', 'ident', 'type_']
         self.children = []
         self.parent = None
         self._indexFctPhase = _cast(int, indexFctPhase)
         self._ident = _cast(None, ident)
         self._type_ = _cast(int, type_)
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3383,17 +3500,17 @@ class create_OpticalPropertyLink(GeneratedsSuper):
     def get_indexFctPhase(self): return self._indexFctPhase
     def set_indexFctPhase(self, value):
         self._indexFctPhase = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     indexFctPhase = property(get_indexFctPhase, set_indexFctPhase)
     def get_ident(self): return self._ident
     def set_ident(self, value):
         self._ident = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     ident = property(get_ident, set_ident)
     def get_type(self): return self._type_
     def set_type(self, value):
         self._type_ = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     type_ = property(get_type, set_type)
     def copy(self):
         obj_ = self.factory()
@@ -3500,16 +3617,21 @@ class create_OpticalPropertyLink(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_OpticalPropertyLink
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_OpticalPropertyLink
 
 
 class create_ThermalProperties(GeneratedsSuper):
     """ThermalProperties ThermalProperties"""
+    member_data_items_ = [
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 1, 0, {u'maxOccurs': u'4', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'4'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, ThermalPropertyLink=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_ThermalProperties")
+        self.troot=get_gs_troot('urban','_ThermalProperties')
         self.attrib = ['']
         self.children = ['ThermalPropertyLink']
         self.parent = None
@@ -3517,7 +3639,7 @@ class create_ThermalProperties(GeneratedsSuper):
             self._ThermalPropertyLink = []
         else:
             self._ThermalPropertyLink = ThermalPropertyLink
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3637,23 +3759,29 @@ class create_ThermalProperties(GeneratedsSuper):
             obj_.build(child_)
             self.add_ThermalPropertyLink(obj_)
             obj_.original_tagname_ = 'ThermalPropertyLink'
-# end class create_ThermalProperties
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ThermalProperties
 
 
 class create_ThermalPropertyLink(GeneratedsSuper):
     """ThermalPropertyLink ThermalPropertyLink indexTemperature
     indexTemperature Thermal Function ID Thermal Function ID"""
+    member_data_items_ = [
+        MemberSpec_('indexTemperature', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('idTemperature', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, indexTemperature=0, idTemperature='ThermalFunction290_310'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_ThermalPropertyLink")
+        self.troot=get_gs_troot('urban','_ThermalPropertyLink')
         self.attrib = ['indexTemperature', 'idTemperature']
         self.children = []
         self.parent = None
         self._indexTemperature = _cast(int, indexTemperature)
         self._idTemperature = _cast(None, idTemperature)
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3668,12 +3796,12 @@ class create_ThermalPropertyLink(GeneratedsSuper):
     def get_indexTemperature(self): return self._indexTemperature
     def set_indexTemperature(self, value):
         self._indexTemperature = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     indexTemperature = property(get_indexTemperature, set_indexTemperature)
     def get_idTemperature(self): return self._idTemperature
     def set_idTemperature(self, value):
         self._idTemperature = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     idTemperature = property(get_idTemperature, set_idTemperature)
     def copy(self):
         obj_ = self.factory()
@@ -3764,16 +3892,21 @@ class create_ThermalPropertyLink(GeneratedsSuper):
             self.idTemperature = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_ThermalPropertyLink
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ThermalPropertyLink
 
 
 class create_InnerOpticalProperties(GeneratedsSuper):
     """InnerOpticalProperties InnerOpticalProperties"""
+    member_data_items_ = [
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 1, 0, {u'maxOccurs': u'4', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'4'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, OpticalPropertyLink=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_InnerOpticalProperties")
+        self.troot=get_gs_troot('urban','_InnerOpticalProperties')
         self.attrib = ['']
         self.children = ['OpticalPropertyLink']
         self.parent = None
@@ -3781,7 +3914,7 @@ class create_InnerOpticalProperties(GeneratedsSuper):
             self._OpticalPropertyLink = []
         else:
             self._OpticalPropertyLink = OpticalPropertyLink
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3901,16 +4034,21 @@ class create_InnerOpticalProperties(GeneratedsSuper):
             obj_.build(child_)
             self.add_OpticalPropertyLink(obj_)
             obj_.original_tagname_ = 'OpticalPropertyLink'
-# end class create_InnerOpticalProperties
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_InnerOpticalProperties
 
 
 class create_InnerThermalProperties(GeneratedsSuper):
     """InnerThermalProperties InnerThermalProperties"""
+    member_data_items_ = [
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 1, 0, {u'maxOccurs': u'4', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'4'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, ThermalPropertyLink=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_InnerThermalProperties")
+        self.troot=get_gs_troot('urban','_InnerThermalProperties')
         self.attrib = ['']
         self.children = ['ThermalPropertyLink']
         self.parent = None
@@ -3918,7 +4056,7 @@ class create_InnerThermalProperties(GeneratedsSuper):
             self._ThermalPropertyLink = []
         else:
             self._ThermalPropertyLink = ThermalPropertyLink
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4038,16 +4176,24 @@ class create_InnerThermalProperties(GeneratedsSuper):
             obj_.build(child_)
             self.add_ThermalPropertyLink(obj_)
             obj_.original_tagname_ = 'ThermalPropertyLink'
-# end class create_InnerThermalProperties
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_InnerThermalProperties
 
 
 class create_RoofNone(GeneratedsSuper):
     """RoofNone RoofNone"""
+    member_data_items_ = [
+        MemberSpec_('OpticalProperties', '_OpticalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalProperties', u'name': u'OpticalProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('ThermalProperties', '_ThermalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalProperties', u'name': u'ThermalProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('InnerOpticalProperties', '_InnerOpticalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_InnerOpticalProperties', u'name': u'InnerOpticalProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('InnerThermalProperties', '_InnerThermalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_InnerThermalProperties', u'name': u'InnerThermalProperties', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, OpticalProperties=None, ThermalProperties=None, InnerOpticalProperties=None, InnerThermalProperties=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_RoofNone")
+        self.troot=get_gs_troot('urban','_RoofNone')
         self.attrib = ['']
         self.children = ['OpticalProperties', 'ThermalProperties', 'InnerOpticalProperties', 'InnerThermalProperties']
         self.parent = None
@@ -4055,7 +4201,7 @@ class create_RoofNone(GeneratedsSuper):
         self._ThermalProperties = ThermalProperties
         self._InnerOpticalProperties = InnerOpticalProperties
         self._InnerThermalProperties = InnerThermalProperties
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4227,16 +4373,25 @@ class create_RoofNone(GeneratedsSuper):
             obj_.build(child_)
             self.set_InnerThermalProperties(obj_)
             obj_.original_tagname_ = 'InnerThermalProperties'
-# end class create_RoofNone
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_RoofNone
 
 
 class create_RoofClassic(GeneratedsSuper):
     """RoofClassic RoofClassic"""
+    member_data_items_ = [
+        MemberSpec_('Polygon3D', '_Polygon3D', 0, 0, {u'maxOccurs': u'1', u'type': u'_Polygon3D', u'name': u'Polygon3D', u'minOccurs': u'1'}, None),
+        MemberSpec_('OpticalProperties', '_OpticalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalProperties', u'name': u'OpticalProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('ThermalProperties', '_ThermalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalProperties', u'name': u'ThermalProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('InnerOpticalProperties', '_InnerOpticalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_InnerOpticalProperties', u'name': u'InnerOpticalProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('InnerThermalProperties', '_InnerThermalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_InnerThermalProperties', u'name': u'InnerThermalProperties', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, Polygon3D=None, OpticalProperties=None, ThermalProperties=None, InnerOpticalProperties=None, InnerThermalProperties=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_RoofClassic")
+        self.troot=get_gs_troot('urban','_RoofClassic')
         self.attrib = ['']
         self.children = ['Polygon3D', 'OpticalProperties', 'ThermalProperties', 'InnerOpticalProperties', 'InnerThermalProperties']
         self.parent = None
@@ -4245,7 +4400,7 @@ class create_RoofClassic(GeneratedsSuper):
         self._ThermalProperties = ThermalProperties
         self._InnerOpticalProperties = InnerOpticalProperties
         self._InnerThermalProperties = InnerThermalProperties
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4441,7 +4596,9 @@ class create_RoofClassic(GeneratedsSuper):
             obj_.build(child_)
             self.set_InnerThermalProperties(obj_)
             obj_.original_tagname_ = 'InnerThermalProperties'
-# end class create_RoofClassic
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_RoofClassic
 
 
 class create_RoofPlate(GeneratedsSuper):
@@ -4449,11 +4606,18 @@ class create_RoofPlate(GeneratedsSuper):
     the walls for obtaining the 4 points that define the roof
     Vertical translation applied to the 4 corners of the walls for
     obtaining the 4 points that define the roof"""
+    member_data_items_ = [
+        MemberSpec_('height', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('OpticalProperties', '_OpticalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalProperties', u'name': u'OpticalProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('ThermalProperties', '_ThermalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalProperties', u'name': u'ThermalProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('InnerOpticalProperties', '_InnerOpticalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_InnerOpticalProperties', u'name': u'InnerOpticalProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('InnerThermalProperties', '_InnerThermalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_InnerThermalProperties', u'name': u'InnerThermalProperties', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, height=0.05, OpticalProperties=None, ThermalProperties=None, InnerOpticalProperties=None, InnerThermalProperties=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_RoofPlate")
+        self.troot=get_gs_troot('urban','_RoofPlate')
         self.attrib = ['height']
         self.children = ['OpticalProperties', 'ThermalProperties', 'InnerOpticalProperties', 'InnerThermalProperties']
         self.parent = None
@@ -4462,7 +4626,7 @@ class create_RoofPlate(GeneratedsSuper):
         self._ThermalProperties = ThermalProperties
         self._InnerOpticalProperties = InnerOpticalProperties
         self._InnerThermalProperties = InnerThermalProperties
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4505,7 +4669,7 @@ class create_RoofPlate(GeneratedsSuper):
     def get_height(self): return self._height
     def set_height(self, value):
         self._height = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     height = property(get_height, set_height)
     def copy(self):
         obj_ = self.factory()
@@ -4652,16 +4816,25 @@ class create_RoofPlate(GeneratedsSuper):
             obj_.build(child_)
             self.set_InnerThermalProperties(obj_)
             obj_.original_tagname_ = 'InnerThermalProperties'
-# end class create_RoofPlate
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_RoofPlate
 
 
 class create_RoofComplex(GeneratedsSuper):
     """RoofComplex RoofComplex"""
+    member_data_items_ = [
+        MemberSpec_('Polygon3D', '_Polygon3D', 0, 0, {u'maxOccurs': u'1', u'type': u'_Polygon3D', u'name': u'Polygon3D', u'minOccurs': u'1'}, None),
+        MemberSpec_('OpticalProperties', '_OpticalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalProperties', u'name': u'OpticalProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('ThermalProperties', '_ThermalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalProperties', u'name': u'ThermalProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('InnerOpticalProperties', '_InnerOpticalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_InnerOpticalProperties', u'name': u'InnerOpticalProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('InnerThermalProperties', '_InnerThermalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_InnerThermalProperties', u'name': u'InnerThermalProperties', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, Polygon3D=None, OpticalProperties=None, ThermalProperties=None, InnerOpticalProperties=None, InnerThermalProperties=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_RoofComplex")
+        self.troot=get_gs_troot('urban','_RoofComplex')
         self.attrib = ['']
         self.children = ['Polygon3D', 'OpticalProperties', 'ThermalProperties', 'InnerOpticalProperties', 'InnerThermalProperties']
         self.parent = None
@@ -4670,7 +4843,7 @@ class create_RoofComplex(GeneratedsSuper):
         self._ThermalProperties = ThermalProperties
         self._InnerOpticalProperties = InnerOpticalProperties
         self._InnerThermalProperties = InnerThermalProperties
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4866,16 +5039,21 @@ class create_RoofComplex(GeneratedsSuper):
             obj_.build(child_)
             self.set_InnerThermalProperties(obj_)
             obj_.original_tagname_ = 'InnerThermalProperties'
-# end class create_RoofComplex
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_RoofComplex
 
 
 class create_Roads(GeneratedsSuper):
     """Roads Roads"""
+    member_data_items_ = [
+        MemberSpec_('Road', '_Road', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_Road', u'name': u'Road', u'minOccurs': u'0'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, Road=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_Roads")
+        self.troot=get_gs_troot('urban','_Roads')
         self.attrib = ['']
         self.children = ['Road']
         self.parent = None
@@ -4883,7 +5061,7 @@ class create_Roads(GeneratedsSuper):
             self._Road = []
         else:
             self._Road = Road
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4999,7 +5177,9 @@ class create_Roads(GeneratedsSuper):
             obj_.build(child_)
             self.add_Road(obj_)
             obj_.original_tagname_ = 'Road'
-# end class create_Roads
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Roads
 
 
 class create_Road(GeneratedsSuper):
@@ -5012,11 +5192,18 @@ class create_Road(GeneratedsSuper):
     position file.\nDesactivate this option if you experience some
     slowdown. Objects's positions are taken from the position
     file.\nDesactivate this option if you experience some slowdown."""
+    member_data_items_ = [
+        MemberSpec_('hidden', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('isDisplayed', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Path2D', '_Path2D', 0, 0, {u'maxOccurs': u'1', u'type': u'_Path2D', u'name': u'Path2D', u'minOccurs': u'1'}, None),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, hidden=0, isDisplayed=1, Path2D=None, OpticalPropertyLink=None, ThermalPropertyLink=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_Road")
+        self.troot=get_gs_troot('urban','_Road')
         self.attrib = ['hidden', 'isDisplayed']
         self.children = ['Path2D', 'OpticalPropertyLink', 'ThermalPropertyLink']
         self.parent = None
@@ -5025,7 +5212,7 @@ class create_Road(GeneratedsSuper):
         self._Path2D = Path2D
         self._OpticalPropertyLink = OpticalPropertyLink
         self._ThermalPropertyLink = ThermalPropertyLink
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5061,12 +5248,12 @@ class create_Road(GeneratedsSuper):
     def get_hidden(self): return self._hidden
     def set_hidden(self, value):
         self._hidden = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     hidden = property(get_hidden, set_hidden)
     def get_isDisplayed(self): return self._isDisplayed
     def set_isDisplayed(self, value):
         self._isDisplayed = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     isDisplayed = property(get_isDisplayed, set_isDisplayed)
     def copy(self):
         obj_ = self.factory()
@@ -5212,16 +5399,22 @@ class create_Road(GeneratedsSuper):
             obj_.build(child_)
             self.set_ThermalPropertyLink(obj_)
             obj_.original_tagname_ = 'ThermalPropertyLink'
-# end class create_Road
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Road
 
 
 class create_Path2D(GeneratedsSuper):
     """Path2D Path2D interpolation). interpolation)."""
+    member_data_items_ = [
+        MemberSpec_('width', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Point2D', '_Point2D', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_Point2D', u'name': u'Point2D', u'minOccurs': u'2'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, width=3.000000, Point2D=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_Path2D")
+        self.troot=get_gs_troot('urban','_Path2D')
         self.attrib = ['width']
         self.children = ['Point2D']
         self.parent = None
@@ -5230,7 +5423,7 @@ class create_Path2D(GeneratedsSuper):
             self._Point2D = []
         else:
             self._Point2D = Point2D
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5262,7 +5455,7 @@ class create_Path2D(GeneratedsSuper):
     def get_width(self): return self._width
     def set_width(self, value):
         self._width = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     width = property(get_width, set_width)
     def copy(self):
         obj_ = self.factory()
@@ -5364,24 +5557,30 @@ class create_Path2D(GeneratedsSuper):
             obj_.build(child_)
             self.add_Point2D(obj_)
             obj_.original_tagname_ = 'Point2D'
-# end class create_Path2D
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Path2D
 
 
 class create_Point2D(GeneratedsSuper):
     """Point2D Point2D y coordinate of a point of the road y coordinate of
     a point of the road x coordinate of a point of the road x
     coordinate of a point of the road"""
+    member_data_items_ = [
+        MemberSpec_('y', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('x', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, y=22.00, x=22.00):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_Point2D")
+        self.troot=get_gs_troot('urban','_Point2D')
         self.attrib = ['y', 'x']
         self.children = []
         self.parent = None
         self._y = _cast(float, y)
         self._x = _cast(float, x)
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5396,12 +5595,12 @@ class create_Point2D(GeneratedsSuper):
     def get_y(self): return self._y
     def set_y(self, value):
         self._y = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     y = property(get_y, set_y)
     def get_x(self): return self._x
     def set_x(self, value):
         self._x = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     x = property(get_x, set_x)
     def copy(self):
         obj_ = self.factory()
@@ -5495,16 +5694,21 @@ class create_Point2D(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (x): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_Point2D
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Point2D
 
 
 class create_SmallWalls(GeneratedsSuper):
     """SmallWalls SmallWalls"""
+    member_data_items_ = [
+        MemberSpec_('SmallWall', '_SmallWall', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_SmallWall', u'name': u'SmallWall', u'minOccurs': u'0'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, SmallWall=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_SmallWalls")
+        self.troot=get_gs_troot('urban','_SmallWalls')
         self.attrib = ['']
         self.children = ['SmallWall']
         self.parent = None
@@ -5512,7 +5716,7 @@ class create_SmallWalls(GeneratedsSuper):
             self._SmallWall = []
         else:
             self._SmallWall = SmallWall
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5628,7 +5832,9 @@ class create_SmallWalls(GeneratedsSuper):
             obj_.build(child_)
             self.add_SmallWall(obj_)
             obj_.original_tagname_ = 'SmallWall'
-# end class create_SmallWalls
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_SmallWalls
 
 
 class create_SmallWall(GeneratedsSuper):
@@ -5644,11 +5850,21 @@ class create_SmallWall(GeneratedsSuper):
     file.\nDesactivate this option if you experience some slowdown.
     Objects's positions are taken from the position
     file.\nDesactivate this option if you experience some slowdown."""
+    member_data_items_ = [
+        MemberSpec_('hidden', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('doubleFaceBuilding', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('isDisplayed', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Polygon3D', '_Polygon3D', 0, 0, {u'maxOccurs': u'1', u'type': u'_Polygon3D', u'name': u'Polygon3D', u'minOccurs': u'1'}, None),
+        MemberSpec_('ExternalFacesOpticalPropertyLink', '_ExternalFacesOpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExternalFacesOpticalPropertyLink', u'name': u'ExternalFacesOpticalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('ExternalFacesThermalPropertyLink', '_ExternalFacesThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExternalFacesThermalPropertyLink', u'name': u'ExternalFacesThermalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('InternalFacesOpticalPropertyLink', '_InternalFacesOpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_InternalFacesOpticalPropertyLink', u'name': u'InternalFacesOpticalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('InternalFacesThermalPropertyLink', '_InternalFacesThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_InternalFacesThermalPropertyLink', u'name': u'InternalFacesThermalPropertyLink', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, hidden=0, doubleFaceBuilding=1, isDisplayed=1, Polygon3D=None, ExternalFacesOpticalPropertyLink=None, ExternalFacesThermalPropertyLink=None, InternalFacesOpticalPropertyLink=None, InternalFacesThermalPropertyLink=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("urban","_SmallWall")
+        self.troot=get_gs_troot('urban','_SmallWall')
         self.attrib = ['hidden', 'doubleFaceBuilding', 'isDisplayed']
         self.children = ['Polygon3D', 'ExternalFacesOpticalPropertyLink', 'ExternalFacesThermalPropertyLink', 'InternalFacesOpticalPropertyLink', 'InternalFacesThermalPropertyLink']
         self.parent = None
@@ -5660,7 +5876,7 @@ class create_SmallWall(GeneratedsSuper):
         self._ExternalFacesThermalPropertyLink = ExternalFacesThermalPropertyLink
         self._InternalFacesOpticalPropertyLink = InternalFacesOpticalPropertyLink
         self._InternalFacesThermalPropertyLink = InternalFacesThermalPropertyLink
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5710,17 +5926,17 @@ class create_SmallWall(GeneratedsSuper):
     def get_hidden(self): return self._hidden
     def set_hidden(self, value):
         self._hidden = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     hidden = property(get_hidden, set_hidden)
     def get_doubleFaceBuilding(self): return self._doubleFaceBuilding
     def set_doubleFaceBuilding(self, value):
         self._doubleFaceBuilding = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     doubleFaceBuilding = property(get_doubleFaceBuilding, set_doubleFaceBuilding)
     def get_isDisplayed(self): return self._isDisplayed
     def set_isDisplayed(self, value):
         self._isDisplayed = value
-        update_node(self,self.troot,"urban")
+        update_node(self,self.troot,'urban')
     isDisplayed = property(get_isDisplayed, set_isDisplayed)
     def copy(self):
         obj_ = self.factory()
@@ -5916,7 +6132,9 @@ class create_SmallWall(GeneratedsSuper):
             obj_.build(child_)
             self.set_InternalFacesThermalPropertyLink(obj_)
             obj_.original_tagname_ = 'InternalFacesThermalPropertyLink'
-# end class create_SmallWall
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_SmallWall
 
 
 GDSClassesMapping = {

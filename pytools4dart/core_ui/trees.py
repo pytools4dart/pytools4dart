@@ -2,28 +2,30 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Wed Oct 31 15:06:23 2018 by generateDS.py version 2.29.25.
-# Python 2.7.15rc1 (default, Apr 15 2018, 21:51:34)  [GCC 7.3.0]
+# Generated Wed Jan  2 18:30:47 2019 by generateDS.py version 2.29.25.
+# Python 2.7.15rc1 (default, Nov 12 2018, 14:31:15)  [GCC 7.3.0]
 #
 # Command line options:
 #   ('-m', '')
+#   ('-f', '')
 #   ('--always-export-default', '')
 #   ('--export', 'write literal etree')
+#   ('-u', 'pytools4dart.core_ui.user_methods')
 #   ('-p', 'create')
-#   ('--post-attrib-setter', 'update_node(self,self.troot,"trees")')
-#   ('--pre-ctor', 'self.troot=get_gs_troot("trees","{classname}")')
-#   ('--post-ctor', 'update_node(self,self.troot,"trees")')
+#   ('--post-attrib-setter', "update_node(self,self.troot,'trees')")
+#   ('--pre-ctor', "self.troot=get_gs_troot('trees','{classname}')")
+#   ('--post-ctor', "update_node(self,self.troot,'trees')")
 #   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node')
-#   ('-o', '/home/claudia/tmp/trees.py')
+#   ('-o', 'pytools4dart/core_ui/trees.py')
 #
 # Command line arguments:
-#   /home/claudia/DEV/pytools4dartMTD/pytools4dart/core_ui/trees.xsd
+#   pytools4dart/xsdschemas/trees.xsd
 #
 # Command line:
-#   /home/claudia/DEV/pytools4dartMTD/venv/bin/generateDS.py -m --always-export-default --export="write literal etree" -p "create" --post-attrib-setter="update_node(self,self.troot,"trees")" --pre-ctor="self.troot=get_gs_troot("trees","{classname}")" --post-ctor="update_node(self,self.troot,"trees")" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node" -o "/home/claudia/tmp/trees.py" /home/claudia/DEV/pytools4dartMTD/pytools4dart/core_ui/trees.xsd
+#   /home/boissieu/git/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "pytools4dart.core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'trees')" --pre-ctor="self.troot=get_gs_troot('trees','{classname}')" --post-ctor="update_node(self,self.troot,'trees')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node" -o "pytools4dart/core_ui/trees.py" pytools4dart/xsdschemas/trees.xsd
 #
 # Current working directory (os.getcwd()):
-#   generateds
+#   pytools4dartMTD
 #
 
 import sys
@@ -742,18 +744,23 @@ class createDartFile(GeneratedsSuper):
     """Version of the plots.xml file. Depends of the version on DART
     itself. Version of the plots.xml file. Depends of the version on
     DART itself."""
+    member_data_items_ = [
+        MemberSpec_('version', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('build_', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Trees', '_Trees', 0, 0, {u'maxOccurs': u'1', u'type': u'_Trees', u'name': u'Trees', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
-    def __init__(self, version='5.7.1', build_='0', Trees=None):
+    def __init__(self, version='5.7.4', build_='0', Trees=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","DartFile")
+        self.troot=get_gs_troot('trees','DartFile')
         self.attrib = ['version', 'build_']
         self.children = ['Trees']
         self.parent = None
         self._version = _cast(None, version)
         self._build_ = _cast(None, build_)
         self._Trees = Trees
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -775,12 +782,12 @@ class createDartFile(GeneratedsSuper):
     def get_version(self): return self._version
     def set_version(self, value):
         self._version = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     version = property(get_version, set_version)
     def get_build(self): return self._build_
     def set_build(self, value):
         self._build_ = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     build_ = property(get_build, set_build)
     def copy(self):
         obj_ = self.factory()
@@ -886,7 +893,9 @@ class createDartFile(GeneratedsSuper):
             obj_.build(child_)
             self.set_Trees(obj_)
             obj_.original_tagname_ = 'Trees'
-# end class createDartFile
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class createDartFile
 
 
 class create_Trees(GeneratedsSuper):
@@ -901,23 +910,34 @@ class create_Trees(GeneratedsSuper):
     specified by the user. \n- Exact location (x,y) specified by a
     text file and dimensions "mean + standard deviation" specified
     by the user. \n- Exact location (x,y) and exact dimensions
-    specified by a text file Presence of trees in the scene Presence
-    of trees in the scene"""
+    specified by a text file Ignore trees in mock-up creation Ignore
+    trees in mock-up creation Presence of trees in the scene
+    Presence of trees in the scene"""
+    member_data_items_ = [
+        MemberSpec_('sceneModelCharacteristic', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('hidden', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('isTrees', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Trees_1', '_Trees_1', 0, 0, {u'maxOccurs': u'1', u'type': u'_Trees_1', u'name': u'Trees_1', u'minOccurs': u'1'}, None),
+        MemberSpec_('Trees_2', '_Trees_2', 0, 0, {u'maxOccurs': u'1', u'type': u'_Trees_2', u'name': u'Trees_2', u'minOccurs': u'1'}, None),
+        MemberSpec_('Trees_3', '_Trees_3', 0, 0, {u'maxOccurs': u'1', u'type': u'_Trees_3', u'name': u'Trees_3', u'minOccurs': u'1'}, None),
+        MemberSpec_('TreeGeneralOptions', '_TreeGeneralOptions', 0, 0, {u'maxOccurs': u'1', u'type': u'_TreeGeneralOptions', u'name': u'TreeGeneralOptions', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
-    def __init__(self, sceneModelCharacteristic=1, isTrees=0, Trees_1=None, Trees_2=None, Trees_3=None, TreeGeneralOptions=None):
+    def __init__(self, sceneModelCharacteristic=1, hidden=0, isTrees=0, Trees_1=None, Trees_2=None, Trees_3=None, TreeGeneralOptions=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_Trees")
-        self.attrib = ['sceneModelCharacteristic', 'isTrees']
+        self.troot=get_gs_troot('trees','_Trees')
+        self.attrib = ['sceneModelCharacteristic', 'hidden', 'isTrees']
         self.children = ['Trees_1', 'Trees_2', 'Trees_3', 'TreeGeneralOptions']
         self.parent = None
         self._sceneModelCharacteristic = _cast(int, sceneModelCharacteristic)
+        self._hidden = _cast(int, hidden)
         self._isTrees = _cast(int, isTrees)
         self._Trees_1 = Trees_1
         self._Trees_2 = Trees_2
         self._Trees_3 = Trees_3
         self._TreeGeneralOptions = TreeGeneralOptions
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -960,12 +980,17 @@ class create_Trees(GeneratedsSuper):
     def get_sceneModelCharacteristic(self): return self._sceneModelCharacteristic
     def set_sceneModelCharacteristic(self, value):
         self._sceneModelCharacteristic = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     sceneModelCharacteristic = property(get_sceneModelCharacteristic, set_sceneModelCharacteristic)
+    def get_hidden(self): return self._hidden
+    def set_hidden(self, value):
+        self._hidden = value
+        update_node(self,self.troot,'trees')
+    hidden = property(get_hidden, set_hidden)
     def get_isTrees(self): return self._isTrees
     def set_isTrees(self, value):
         self._isTrees = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     isTrees = property(get_isTrees, set_isTrees)
     def copy(self):
         obj_ = self.factory()
@@ -1005,6 +1030,9 @@ class create_Trees(GeneratedsSuper):
         if self.sceneModelCharacteristic is not None and 'sceneModelCharacteristic' not in already_processed:
             already_processed.add('sceneModelCharacteristic')
             outfile.write(' sceneModelCharacteristic="%s"' % self.gds_format_integer(self.sceneModelCharacteristic, input_name='sceneModelCharacteristic'))
+        if self.hidden is not None and 'hidden' not in already_processed:
+            already_processed.add('hidden')
+            outfile.write(' hidden="%s"' % self.gds_format_integer(self.hidden, input_name='hidden'))
         if self.isTrees is not None and 'isTrees' not in already_processed:
             already_processed.add('isTrees')
             outfile.write(' isTrees="%s"' % self.gds_format_integer(self.isTrees, input_name='isTrees'))
@@ -1028,6 +1056,8 @@ class create_Trees(GeneratedsSuper):
             element = etree_.SubElement(parent_element, '{}' + name_)
         if self.sceneModelCharacteristic is not None:
             element.set('sceneModelCharacteristic', self.gds_format_integer(self.sceneModelCharacteristic))
+        if self.hidden is not None:
+            element.set('hidden', self.gds_format_integer(self.hidden))
         if self.isTrees is not None:
             element.set('isTrees', self.gds_format_integer(self.isTrees))
         if self.Trees_1 is not None:
@@ -1056,6 +1086,10 @@ class create_Trees(GeneratedsSuper):
             already_processed.add('sceneModelCharacteristic')
             showIndent(outfile, level)
             outfile.write('sceneModelCharacteristic=%d,\n' % (self.sceneModelCharacteristic,))
+        if self.hidden is not None and 'hidden' not in already_processed:
+            already_processed.add('hidden')
+            showIndent(outfile, level)
+            outfile.write('hidden=%d,\n' % (self.hidden,))
         if self.isTrees is not None and 'isTrees' not in already_processed:
             already_processed.add('isTrees')
             showIndent(outfile, level)
@@ -1100,6 +1134,13 @@ class create_Trees(GeneratedsSuper):
                 self.sceneModelCharacteristic = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('hidden', node)
+        if value is not None and 'hidden' not in already_processed:
+            already_processed.add('hidden')
+            try:
+                self.hidden = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
         value = find_attr_value_('isTrees', node)
         if value is not None and 'isTrees' not in already_processed:
             already_processed.add('isTrees')
@@ -1128,7 +1169,9 @@ class create_Trees(GeneratedsSuper):
             obj_.build(child_)
             self.set_TreeGeneralOptions(obj_)
             obj_.original_tagname_ = 'TreeGeneralOptions'
-# end class create_Trees
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Trees
 
 
 class create_Trees_1(GeneratedsSuper):
@@ -1140,11 +1183,17 @@ class create_Trees_1(GeneratedsSuper):
     the cells outside the sub-scene. Text files that gives all
     necessary tree information Text files that gives all necessary
     tree information"""
+    member_data_items_ = [
+        MemberSpec_('laiZone', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('sceneParametersFileName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('LaiZoneProperties', '_LaiZoneProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_LaiZoneProperties', u'name': u'LaiZoneProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('Specie', '_Specie', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_Specie', u'name': u'Specie', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, laiZone=0, sceneParametersFileName='trees.txt', LaiZoneProperties=None, Specie=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_Trees_1")
+        self.troot=get_gs_troot('trees','_Trees_1')
         self.attrib = ['laiZone', 'sceneParametersFileName']
         self.children = ['LaiZoneProperties', 'Specie']
         self.parent = None
@@ -1155,7 +1204,7 @@ class create_Trees_1(GeneratedsSuper):
             self._Specie = []
         else:
             self._Specie = Specie
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1194,12 +1243,12 @@ class create_Trees_1(GeneratedsSuper):
     def get_laiZone(self): return self._laiZone
     def set_laiZone(self, value):
         self._laiZone = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     laiZone = property(get_laiZone, set_laiZone)
     def get_sceneParametersFileName(self): return self._sceneParametersFileName
     def set_sceneParametersFileName(self, value):
         self._sceneParametersFileName = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     sceneParametersFileName = property(get_sceneParametersFileName, set_sceneParametersFileName)
     def copy(self):
         obj_ = self.factory()
@@ -1331,16 +1380,21 @@ class create_Trees_1(GeneratedsSuper):
             obj_.build(child_)
             self.add_Specie(obj_)
             obj_.original_tagname_ = 'Specie'
-# end class create_Trees_1
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Trees_1
 
 
 class create_LaiZoneProperties(GeneratedsSuper):
     """LaiZoneProperties LaiZoneProperties"""
+    member_data_items_ = [
+        MemberSpec_('Point2D', '_Point2D', 1, 0, {u'maxOccurs': u'2', u'type': u'_Point2D', u'name': u'Point2D', u'minOccurs': u'2'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, Point2D=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_LaiZoneProperties")
+        self.troot=get_gs_troot('trees','_LaiZoneProperties')
         self.attrib = ['']
         self.children = ['Point2D']
         self.parent = None
@@ -1348,7 +1402,7 @@ class create_LaiZoneProperties(GeneratedsSuper):
             self._Point2D = []
         else:
             self._Point2D = Point2D
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1468,7 +1522,9 @@ class create_LaiZoneProperties(GeneratedsSuper):
             obj_.build(child_)
             self.add_Point2D(obj_)
             obj_.original_tagname_ = 'Point2D'
-# end class create_LaiZoneProperties
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_LaiZoneProperties
 
 
 class create_Point2D(GeneratedsSuper):
@@ -1480,17 +1536,21 @@ class create_Point2D(GeneratedsSuper):
     scene for which the LAI is given x coordinate of a corner (upper
     left or lower right) of the rectangular sub-scene for which the
     LAI is given"""
+    member_data_items_ = [
+        MemberSpec_('y', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('x', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, y=1.00, x=1.00):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_Point2D")
+        self.troot=get_gs_troot('trees','_Point2D')
         self.attrib = ['y', 'x']
         self.children = []
         self.parent = None
         self._y = _cast(float, y)
         self._x = _cast(float, x)
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1505,12 +1565,12 @@ class create_Point2D(GeneratedsSuper):
     def get_y(self): return self._y
     def set_y(self, value):
         self._y = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     y = property(get_y, set_y)
     def get_x(self): return self._x
     def set_x(self, value):
         self._x = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     x = property(get_x, set_x)
     def copy(self):
         obj_ = self.factory()
@@ -1604,24 +1664,30 @@ class create_Point2D(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (x): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_Point2D
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Point2D
 
 
 class create_Specie(GeneratedsSuper):
-    """Specie Specie Number of trees (of the species) in the whole scene.
-    Other species can be added Number of trees (of the species) in
-    the whole scene. Other species can be added Simulation of trees
-    with branches and twigs Simulation of trees with branches and
-    twigs LAI LAI"""
+    """Specie Specie Simulation of trees with branches and twigs Simulation
+    of trees with branches and twigs LAI LAI"""
+    member_data_items_ = [
+        MemberSpec_('branchesAndTwigsSimulation', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('lai', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('CrownLevel', '_CrownLevel', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_CrownLevel', u'name': u'CrownLevel', u'minOccurs': u'1'}, None),
+        MemberSpec_('BranchesAndTwigs', '_BranchesAndTwigs', 0, 0, {u'maxOccurs': u'1', u'type': u'_BranchesAndTwigs', u'name': u'BranchesAndTwigs', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
-    def __init__(self, numberOfTreesInWholeScene=12, branchesAndTwigsSimulation=0, lai=4.00, OpticalPropertyLink=None, ThermalPropertyLink=None, CrownLevel=None, BranchesAndTwigs=None):
+    def __init__(self, branchesAndTwigsSimulation=0, lai=4.00, OpticalPropertyLink=None, ThermalPropertyLink=None, CrownLevel=None, BranchesAndTwigs=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_Specie")
-        self.attrib = ['numberOfTreesInWholeScene', 'branchesAndTwigsSimulation', 'lai']
+        self.troot=get_gs_troot('trees','_Specie')
+        self.attrib = ['branchesAndTwigsSimulation', 'lai']
         self.children = ['OpticalPropertyLink', 'ThermalPropertyLink', 'CrownLevel', 'BranchesAndTwigs']
         self.parent = None
-        self._numberOfTreesInWholeScene = _cast(int, numberOfTreesInWholeScene)
         self._branchesAndTwigsSimulation = _cast(int, branchesAndTwigsSimulation)
         self._lai = _cast(float, lai)
         self._OpticalPropertyLink = OpticalPropertyLink
@@ -1631,7 +1697,7 @@ class create_Specie(GeneratedsSuper):
         else:
             self._CrownLevel = CrownLevel
         self._BranchesAndTwigs = BranchesAndTwigs
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1681,20 +1747,15 @@ class create_Specie(GeneratedsSuper):
             value.parent = self
         self._BranchesAndTwigs = value
     BranchesAndTwigs = property(get_BranchesAndTwigs, set_BranchesAndTwigs)
-    def get_numberOfTreesInWholeScene(self): return self._numberOfTreesInWholeScene
-    def set_numberOfTreesInWholeScene(self, value):
-        self._numberOfTreesInWholeScene = value
-        update_node(self,self.troot,"trees")
-    numberOfTreesInWholeScene = property(get_numberOfTreesInWholeScene, set_numberOfTreesInWholeScene)
     def get_branchesAndTwigsSimulation(self): return self._branchesAndTwigsSimulation
     def set_branchesAndTwigsSimulation(self, value):
         self._branchesAndTwigsSimulation = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     branchesAndTwigsSimulation = property(get_branchesAndTwigsSimulation, set_branchesAndTwigsSimulation)
     def get_lai(self): return self._lai
     def set_lai(self, value):
         self._lai = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     lai = property(get_lai, set_lai)
     def copy(self):
         obj_ = self.factory()
@@ -1731,9 +1792,6 @@ class create_Specie(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_Specie'):
-        if self.numberOfTreesInWholeScene is not None and 'numberOfTreesInWholeScene' not in already_processed:
-            already_processed.add('numberOfTreesInWholeScene')
-            outfile.write(' numberOfTreesInWholeScene="%s"' % self.gds_format_integer(self.numberOfTreesInWholeScene, input_name='numberOfTreesInWholeScene'))
         if self.branchesAndTwigsSimulation is not None and 'branchesAndTwigsSimulation' not in already_processed:
             already_processed.add('branchesAndTwigsSimulation')
             outfile.write(' branchesAndTwigsSimulation="%s"' % self.gds_format_integer(self.branchesAndTwigsSimulation, input_name='branchesAndTwigsSimulation'))
@@ -1758,8 +1816,6 @@ class create_Specie(GeneratedsSuper):
             element = etree_.Element('{}' + name_)
         else:
             element = etree_.SubElement(parent_element, '{}' + name_)
-        if self.numberOfTreesInWholeScene is not None:
-            element.set('numberOfTreesInWholeScene', self.gds_format_integer(self.numberOfTreesInWholeScene))
         if self.branchesAndTwigsSimulation is not None:
             element.set('branchesAndTwigsSimulation', self.gds_format_integer(self.branchesAndTwigsSimulation))
         if self.lai is not None:
@@ -1785,10 +1841,6 @@ class create_Specie(GeneratedsSuper):
         if self.hasContent_():
             self.exportLiteralChildren(outfile, level, name_)
     def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.numberOfTreesInWholeScene is not None and 'numberOfTreesInWholeScene' not in already_processed:
-            already_processed.add('numberOfTreesInWholeScene')
-            showIndent(outfile, level)
-            outfile.write('numberOfTreesInWholeScene=%d,\n' % (self.numberOfTreesInWholeScene,))
         if self.branchesAndTwigsSimulation is not None and 'branchesAndTwigsSimulation' not in already_processed:
             already_processed.add('branchesAndTwigsSimulation')
             showIndent(outfile, level)
@@ -1837,13 +1889,6 @@ class create_Specie(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
         return self
     def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('numberOfTreesInWholeScene', node)
-        if value is not None and 'numberOfTreesInWholeScene' not in already_processed:
-            already_processed.add('numberOfTreesInWholeScene')
-            try:
-                self.numberOfTreesInWholeScene = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
         value = find_attr_value_('branchesAndTwigsSimulation', node)
         if value is not None and 'branchesAndTwigsSimulation' not in already_processed:
             already_processed.add('branchesAndTwigsSimulation')
@@ -1879,7 +1924,9 @@ class create_Specie(GeneratedsSuper):
             obj_.build(child_)
             self.set_BranchesAndTwigs(obj_)
             obj_.original_tagname_ = 'BranchesAndTwigs'
-# end class create_Specie
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Specie
 
 
 class create_OpticalPropertyLink(GeneratedsSuper):
@@ -1892,18 +1939,23 @@ class create_OpticalPropertyLink(GeneratedsSuper):
     scattered within a solid angle along a given direction Type of
     phase function (lambertian, etc.) Type of phase function
     (lambertian, etc.)"""
+    member_data_items_ = [
+        MemberSpec_('indexFctPhase', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ident', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('type_', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, indexFctPhase=0, ident='f0', type_=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_OpticalPropertyLink")
+        self.troot=get_gs_troot('trees','_OpticalPropertyLink')
         self.attrib = ['indexFctPhase', 'ident', 'type_']
         self.children = []
         self.parent = None
         self._indexFctPhase = _cast(int, indexFctPhase)
         self._ident = _cast(None, ident)
         self._type_ = _cast(int, type_)
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1918,17 +1970,17 @@ class create_OpticalPropertyLink(GeneratedsSuper):
     def get_indexFctPhase(self): return self._indexFctPhase
     def set_indexFctPhase(self, value):
         self._indexFctPhase = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     indexFctPhase = property(get_indexFctPhase, set_indexFctPhase)
     def get_ident(self): return self._ident
     def set_ident(self, value):
         self._ident = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     ident = property(get_ident, set_ident)
     def get_type(self): return self._type_
     def set_type(self, value):
         self._type_ = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     type_ = property(get_type, set_type)
     def copy(self):
         obj_ = self.factory()
@@ -2035,23 +2087,29 @@ class create_OpticalPropertyLink(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_OpticalPropertyLink
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_OpticalPropertyLink
 
 
 class create_ThermalPropertyLink(GeneratedsSuper):
     """ThermalPropertyLink ThermalPropertyLink indexTemperature
     indexTemperature Thermal Function ID Thermal Function ID"""
+    member_data_items_ = [
+        MemberSpec_('indexTemperature', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('idTemperature', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, indexTemperature=0, idTemperature='ThermalFunction290_310'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_ThermalPropertyLink")
+        self.troot=get_gs_troot('trees','_ThermalPropertyLink')
         self.attrib = ['indexTemperature', 'idTemperature']
         self.children = []
         self.parent = None
         self._indexTemperature = _cast(int, indexTemperature)
         self._idTemperature = _cast(None, idTemperature)
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2066,12 +2124,12 @@ class create_ThermalPropertyLink(GeneratedsSuper):
     def get_indexTemperature(self): return self._indexTemperature
     def set_indexTemperature(self, value):
         self._indexTemperature = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     indexTemperature = property(get_indexTemperature, set_indexTemperature)
     def get_idTemperature(self): return self._idTemperature
     def set_idTemperature(self, value):
         self._idTemperature = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     idTemperature = property(get_idTemperature, set_idTemperature)
     def copy(self):
         obj_ = self.factory()
@@ -2162,7 +2220,9 @@ class create_ThermalPropertyLink(GeneratedsSuper):
             self.idTemperature = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_ThermalPropertyLink
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ThermalPropertyLink
 
 
 class create_CrownLevel(GeneratedsSuper):
@@ -2188,11 +2248,23 @@ class create_CrownLevel(GeneratedsSuper):
     trunk diameter Trunk diameter in this tree crown level is equal
     to this factor multiplied by the specified below crown trunk
     diameter"""
+    member_data_items_ = [
+        MemberSpec_('verticalWeightForUf', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('laiConservation', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('relativeHeightVsCrownHeight', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('distribution', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('relativeTrunkDiameterWithinCrown', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('LeavesDistribution', '_LeavesDistribution', 0, 0, {u'maxOccurs': u'1', u'type': u'_LeavesDistribution', u'name': u'LeavesDistribution', u'minOccurs': u'1'}, None),
+        MemberSpec_('HolesDistribution', '_HolesDistribution', 0, 0, {u'maxOccurs': u'1', u'type': u'_HolesDistribution', u'name': u'HolesDistribution', u'minOccurs': u'1'}, None),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('VegetationProperty', '_VegetationProperty', 0, 0, {u'maxOccurs': u'1', u'type': u'_VegetationProperty', u'name': u'VegetationProperty', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, verticalWeightForUf=1.00, laiConservation=1, relativeHeightVsCrownHeight=1.00, distribution=0, relativeTrunkDiameterWithinCrown=0.50, LeavesDistribution=None, HolesDistribution=None, OpticalPropertyLink=None, ThermalPropertyLink=None, VegetationProperty=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_CrownLevel")
+        self.troot=get_gs_troot('trees','_CrownLevel')
         self.attrib = ['verticalWeightForUf', 'laiConservation', 'relativeHeightVsCrownHeight', 'distribution', 'relativeTrunkDiameterWithinCrown']
         self.children = ['LeavesDistribution', 'HolesDistribution', 'OpticalPropertyLink', 'ThermalPropertyLink', 'VegetationProperty']
         self.parent = None
@@ -2206,7 +2278,7 @@ class create_CrownLevel(GeneratedsSuper):
         self._OpticalPropertyLink = OpticalPropertyLink
         self._ThermalPropertyLink = ThermalPropertyLink
         self._VegetationProperty = VegetationProperty
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2256,27 +2328,27 @@ class create_CrownLevel(GeneratedsSuper):
     def get_verticalWeightForUf(self): return self._verticalWeightForUf
     def set_verticalWeightForUf(self, value):
         self._verticalWeightForUf = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     verticalWeightForUf = property(get_verticalWeightForUf, set_verticalWeightForUf)
     def get_laiConservation(self): return self._laiConservation
     def set_laiConservation(self, value):
         self._laiConservation = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     laiConservation = property(get_laiConservation, set_laiConservation)
     def get_relativeHeightVsCrownHeight(self): return self._relativeHeightVsCrownHeight
     def set_relativeHeightVsCrownHeight(self, value):
         self._relativeHeightVsCrownHeight = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     relativeHeightVsCrownHeight = property(get_relativeHeightVsCrownHeight, set_relativeHeightVsCrownHeight)
     def get_distribution(self): return self._distribution
     def set_distribution(self, value):
         self._distribution = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     distribution = property(get_distribution, set_distribution)
     def get_relativeTrunkDiameterWithinCrown(self): return self._relativeTrunkDiameterWithinCrown
     def set_relativeTrunkDiameterWithinCrown(self, value):
         self._relativeTrunkDiameterWithinCrown = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     relativeTrunkDiameterWithinCrown = property(get_relativeTrunkDiameterWithinCrown, set_relativeTrunkDiameterWithinCrown)
     def copy(self):
         obj_ = self.factory()
@@ -2504,7 +2576,9 @@ class create_CrownLevel(GeneratedsSuper):
             obj_.build(child_)
             self.set_VegetationProperty(obj_)
             obj_.original_tagname_ = 'VegetationProperty'
-# end class create_CrownLevel
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_CrownLevel
 
 
 class create_LeavesDistribution(GeneratedsSuper):
@@ -2518,11 +2592,17 @@ class create_LeavesDistribution(GeneratedsSuper):
     from tree crown axis larger than "Kappa x local tree crown
     radius" No leaf cells for cells at a distance from tree crown
     axis larger than "Kappa x local tree crown radius" gamma gamma"""
+    member_data_items_ = [
+        MemberSpec_('alpha', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('beta', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('kappa', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('gamma', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, alpha=0.10, beta=0.30, kappa=1.00, gamma=0.80):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_LeavesDistribution")
+        self.troot=get_gs_troot('trees','_LeavesDistribution')
         self.attrib = ['alpha', 'beta', 'kappa', 'gamma']
         self.children = []
         self.parent = None
@@ -2530,7 +2610,7 @@ class create_LeavesDistribution(GeneratedsSuper):
         self._beta = _cast(float, beta)
         self._kappa = _cast(float, kappa)
         self._gamma = _cast(float, gamma)
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2545,22 +2625,22 @@ class create_LeavesDistribution(GeneratedsSuper):
     def get_alpha(self): return self._alpha
     def set_alpha(self, value):
         self._alpha = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     alpha = property(get_alpha, set_alpha)
     def get_beta(self): return self._beta
     def set_beta(self, value):
         self._beta = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     beta = property(get_beta, set_beta)
     def get_kappa(self): return self._kappa
     def set_kappa(self, value):
         self._kappa = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     kappa = property(get_kappa, set_kappa)
     def get_gamma(self): return self._gamma
     def set_gamma(self, value):
         self._gamma = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     gamma = property(get_gamma, set_gamma)
     def copy(self):
         obj_ = self.factory()
@@ -2686,7 +2766,9 @@ class create_LeavesDistribution(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (gamma): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_LeavesDistribution
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_LeavesDistribution
 
 
 class create_HolesDistribution(GeneratedsSuper):
@@ -2698,18 +2780,23 @@ class create_HolesDistribution(GeneratedsSuper):
     the specified thresholds a and b All cells are empty at a
     distance larger than "b x local tree crown radius" All cells are
     empty at a distance larger than "b x local tree crown radius" """
+    member_data_items_ = [
+        MemberSpec_('a', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('percentageOfFullCells', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('b', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, a=0.00, percentageOfFullCells=0.70, b=1.00):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_HolesDistribution")
+        self.troot=get_gs_troot('trees','_HolesDistribution')
         self.attrib = ['a', 'percentageOfFullCells', 'b']
         self.children = []
         self.parent = None
         self._a = _cast(float, a)
         self._percentageOfFullCells = _cast(float, percentageOfFullCells)
         self._b = _cast(float, b)
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2724,17 +2811,17 @@ class create_HolesDistribution(GeneratedsSuper):
     def get_a(self): return self._a
     def set_a(self, value):
         self._a = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     a = property(get_a, set_a)
     def get_percentageOfFullCells(self): return self._percentageOfFullCells
     def set_percentageOfFullCells(self, value):
         self._percentageOfFullCells = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     percentageOfFullCells = property(get_percentageOfFullCells, set_percentageOfFullCells)
     def get_b(self): return self._b
     def set_b(self, value):
         self._b = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     b = property(get_b, set_b)
     def copy(self):
         obj_ = self.factory()
@@ -2844,21 +2931,27 @@ class create_HolesDistribution(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (b): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_HolesDistribution
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_HolesDistribution
 
 
 class create_VegetationProperty(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('VegetationOpticalPropertyLink', '_VegetationOpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_VegetationOpticalPropertyLink', u'name': u'VegetationOpticalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, VegetationOpticalPropertyLink=None, ThermalPropertyLink=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_VegetationProperty")
+        self.troot=get_gs_troot('trees','_VegetationProperty')
         self.attrib = ['']
         self.children = ['VegetationOpticalPropertyLink', 'ThermalPropertyLink']
         self.parent = None
         self._VegetationOpticalPropertyLink = VegetationOpticalPropertyLink
         self._ThermalPropertyLink = ThermalPropertyLink
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2982,7 +3075,9 @@ class create_VegetationProperty(GeneratedsSuper):
             obj_.build(child_)
             self.set_ThermalPropertyLink(obj_)
             obj_.original_tagname_ = 'ThermalPropertyLink'
-# end class create_VegetationProperty
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_VegetationProperty
 
 
 class create_VegetationOpticalPropertyLink(GeneratedsSuper):
@@ -2995,17 +3090,21 @@ class create_VegetationOpticalPropertyLink(GeneratedsSuper):
     within a solid angle along a given direction proportion of
     photons intercepted along an incident direction that are
     scattered within a solid angle along a given direction"""
+    member_data_items_ = [
+        MemberSpec_('indexFctPhase', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ident', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, indexFctPhase=0, ident='f0'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_VegetationOpticalPropertyLink")
+        self.troot=get_gs_troot('trees','_VegetationOpticalPropertyLink')
         self.attrib = ['indexFctPhase', 'ident']
         self.children = []
         self.parent = None
         self._indexFctPhase = _cast(int, indexFctPhase)
         self._ident = _cast(None, ident)
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3020,12 +3119,12 @@ class create_VegetationOpticalPropertyLink(GeneratedsSuper):
     def get_indexFctPhase(self): return self._indexFctPhase
     def set_indexFctPhase(self, value):
         self._indexFctPhase = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     indexFctPhase = property(get_indexFctPhase, set_indexFctPhase)
     def get_ident(self): return self._ident
     def set_ident(self, value):
         self._ident = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     ident = property(get_ident, set_ident)
     def copy(self):
         obj_ = self.factory()
@@ -3116,7 +3215,9 @@ class create_VegetationOpticalPropertyLink(GeneratedsSuper):
             self.ident = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_VegetationOpticalPropertyLink
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_VegetationOpticalPropertyLink
 
 
 class create_BranchesAndTwigs(GeneratedsSuper):
@@ -3127,11 +3228,19 @@ class create_BranchesAndTwigs(GeneratedsSuper):
     Index (same as LAI, but applied to twigs instead of leaves) Name
     of the file that stores the geometry of the branches Name of the
     file that stores the geometry of the branches"""
+    member_data_items_ = [
+        MemberSpec_('possibleBranchTwigMixing', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('twigAreaIndex', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('geometryFileName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('VegetationOpticalPropertyLink', '_VegetationOpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_VegetationOpticalPropertyLink', u'name': u'VegetationOpticalPropertyLink', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, possibleBranchTwigMixing=0, twigAreaIndex=1, geometryFileName='branch.txt', OpticalPropertyLink=None, ThermalPropertyLink=None, VegetationOpticalPropertyLink=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_BranchesAndTwigs")
+        self.troot=get_gs_troot('trees','_BranchesAndTwigs')
         self.attrib = ['possibleBranchTwigMixing', 'twigAreaIndex', 'geometryFileName']
         self.children = ['OpticalPropertyLink', 'ThermalPropertyLink', 'VegetationOpticalPropertyLink']
         self.parent = None
@@ -3141,7 +3250,7 @@ class create_BranchesAndTwigs(GeneratedsSuper):
         self._OpticalPropertyLink = OpticalPropertyLink
         self._ThermalPropertyLink = ThermalPropertyLink
         self._VegetationOpticalPropertyLink = VegetationOpticalPropertyLink
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3177,17 +3286,17 @@ class create_BranchesAndTwigs(GeneratedsSuper):
     def get_possibleBranchTwigMixing(self): return self._possibleBranchTwigMixing
     def set_possibleBranchTwigMixing(self, value):
         self._possibleBranchTwigMixing = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     possibleBranchTwigMixing = property(get_possibleBranchTwigMixing, set_possibleBranchTwigMixing)
     def get_twigAreaIndex(self): return self._twigAreaIndex
     def set_twigAreaIndex(self, value):
         self._twigAreaIndex = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     twigAreaIndex = property(get_twigAreaIndex, set_twigAreaIndex)
     def get_geometryFileName(self): return self._geometryFileName
     def set_geometryFileName(self, value):
         self._geometryFileName = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     geometryFileName = property(get_geometryFileName, set_geometryFileName)
     def copy(self):
         obj_ = self.factory()
@@ -3346,7 +3455,9 @@ class create_BranchesAndTwigs(GeneratedsSuper):
             obj_.build(child_)
             self.set_VegetationOpticalPropertyLink(obj_)
             obj_.original_tagname_ = 'VegetationOpticalPropertyLink'
-# end class create_BranchesAndTwigs
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_BranchesAndTwigs
 
 
 class create_Trees_2(GeneratedsSuper):
@@ -3360,11 +3471,17 @@ class create_Trees_2(GeneratedsSuper):
     specified as unavailable Name of the file that stores the
     position of the trees. This file is created if it is specified
     as unavailable"""
+    member_data_items_ = [
+        MemberSpec_('laiZone', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('treePositionFileName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('LaiZoneProperties', '_LaiZoneProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_LaiZoneProperties', u'name': u'LaiZoneProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('Specie_2', '_Specie_2', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_Specie_2', u'name': u'Specie_2', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, laiZone=0, treePositionFileName='Trees_position.txt', LaiZoneProperties=None, Specie_2=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_Trees_2")
+        self.troot=get_gs_troot('trees','_Trees_2')
         self.attrib = ['laiZone', 'treePositionFileName']
         self.children = ['LaiZoneProperties', 'Specie_2']
         self.parent = None
@@ -3375,7 +3492,7 @@ class create_Trees_2(GeneratedsSuper):
             self._Specie_2 = []
         else:
             self._Specie_2 = Specie_2
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3414,12 +3531,12 @@ class create_Trees_2(GeneratedsSuper):
     def get_laiZone(self): return self._laiZone
     def set_laiZone(self, value):
         self._laiZone = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     laiZone = property(get_laiZone, set_laiZone)
     def get_treePositionFileName(self): return self._treePositionFileName
     def set_treePositionFileName(self, value):
         self._treePositionFileName = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     treePositionFileName = property(get_treePositionFileName, set_treePositionFileName)
     def copy(self):
         obj_ = self.factory()
@@ -3551,24 +3668,32 @@ class create_Trees_2(GeneratedsSuper):
             obj_.build(child_)
             self.add_Specie_2(obj_)
             obj_.original_tagname_ = 'Specie_2'
-# end class create_Trees_2
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Trees_2
 
 
 class create_Specie_2(GeneratedsSuper):
-    """Number of trees (of the species) in the whole scene. Other species
-    can be added Number of trees (of the species) in the whole
-    scene. Other species can be added Simulation of trees with
-    branches and twigs Simulation of trees with branches and twigs
-    LAI LAI"""
+    """Simulation of trees with branches and twigs Simulation of trees with
+    branches and twigs LAI LAI"""
+    member_data_items_ = [
+        MemberSpec_('branchesAndTwigsSimulation', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('lai', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('Trunk', '_Trunk', 0, 0, {u'maxOccurs': u'1', u'type': u'_Trunk', u'name': u'Trunk', u'minOccurs': u'1'}, None),
+        MemberSpec_('Crown', '_Crown', 0, 0, {u'maxOccurs': u'1', u'type': u'_Crown', u'name': u'Crown', u'minOccurs': u'1'}, None),
+        MemberSpec_('CrownLevel', '_CrownLevel', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_CrownLevel', u'name': u'CrownLevel', u'minOccurs': u'1'}, None),
+        MemberSpec_('BranchesAndTwigs', '_BranchesAndTwigs', 0, 0, {u'maxOccurs': u'1', u'type': u'_BranchesAndTwigs', u'name': u'BranchesAndTwigs', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
-    def __init__(self, numberOfTreesInWholeScene=12, branchesAndTwigsSimulation=0, lai=4.00, OpticalPropertyLink=None, ThermalPropertyLink=None, Trunk=None, Crown=None, CrownLevel=None, BranchesAndTwigs=None):
+    def __init__(self, branchesAndTwigsSimulation=0, lai=4.00, OpticalPropertyLink=None, ThermalPropertyLink=None, Trunk=None, Crown=None, CrownLevel=None, BranchesAndTwigs=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_Specie_2")
-        self.attrib = ['numberOfTreesInWholeScene', 'branchesAndTwigsSimulation', 'lai']
+        self.troot=get_gs_troot('trees','_Specie_2')
+        self.attrib = ['branchesAndTwigsSimulation', 'lai']
         self.children = ['OpticalPropertyLink', 'ThermalPropertyLink', 'Trunk', 'Crown', 'CrownLevel', 'BranchesAndTwigs']
         self.parent = None
-        self._numberOfTreesInWholeScene = _cast(int, numberOfTreesInWholeScene)
         self._branchesAndTwigsSimulation = _cast(int, branchesAndTwigsSimulation)
         self._lai = _cast(float, lai)
         self._OpticalPropertyLink = OpticalPropertyLink
@@ -3580,7 +3705,7 @@ class create_Specie_2(GeneratedsSuper):
         else:
             self._CrownLevel = CrownLevel
         self._BranchesAndTwigs = BranchesAndTwigs
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3644,20 +3769,15 @@ class create_Specie_2(GeneratedsSuper):
             value.parent = self
         self._BranchesAndTwigs = value
     BranchesAndTwigs = property(get_BranchesAndTwigs, set_BranchesAndTwigs)
-    def get_numberOfTreesInWholeScene(self): return self._numberOfTreesInWholeScene
-    def set_numberOfTreesInWholeScene(self, value):
-        self._numberOfTreesInWholeScene = value
-        update_node(self,self.troot,"trees")
-    numberOfTreesInWholeScene = property(get_numberOfTreesInWholeScene, set_numberOfTreesInWholeScene)
     def get_branchesAndTwigsSimulation(self): return self._branchesAndTwigsSimulation
     def set_branchesAndTwigsSimulation(self, value):
         self._branchesAndTwigsSimulation = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     branchesAndTwigsSimulation = property(get_branchesAndTwigsSimulation, set_branchesAndTwigsSimulation)
     def get_lai(self): return self._lai
     def set_lai(self, value):
         self._lai = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     lai = property(get_lai, set_lai)
     def copy(self):
         obj_ = self.factory()
@@ -3696,9 +3816,6 @@ class create_Specie_2(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_Specie_2'):
-        if self.numberOfTreesInWholeScene is not None and 'numberOfTreesInWholeScene' not in already_processed:
-            already_processed.add('numberOfTreesInWholeScene')
-            outfile.write(' numberOfTreesInWholeScene="%s"' % self.gds_format_integer(self.numberOfTreesInWholeScene, input_name='numberOfTreesInWholeScene'))
         if self.branchesAndTwigsSimulation is not None and 'branchesAndTwigsSimulation' not in already_processed:
             already_processed.add('branchesAndTwigsSimulation')
             outfile.write(' branchesAndTwigsSimulation="%s"' % self.gds_format_integer(self.branchesAndTwigsSimulation, input_name='branchesAndTwigsSimulation'))
@@ -3727,8 +3844,6 @@ class create_Specie_2(GeneratedsSuper):
             element = etree_.Element('{}' + name_)
         else:
             element = etree_.SubElement(parent_element, '{}' + name_)
-        if self.numberOfTreesInWholeScene is not None:
-            element.set('numberOfTreesInWholeScene', self.gds_format_integer(self.numberOfTreesInWholeScene))
         if self.branchesAndTwigsSimulation is not None:
             element.set('branchesAndTwigsSimulation', self.gds_format_integer(self.branchesAndTwigsSimulation))
         if self.lai is not None:
@@ -3760,10 +3875,6 @@ class create_Specie_2(GeneratedsSuper):
         if self.hasContent_():
             self.exportLiteralChildren(outfile, level, name_)
     def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.numberOfTreesInWholeScene is not None and 'numberOfTreesInWholeScene' not in already_processed:
-            already_processed.add('numberOfTreesInWholeScene')
-            showIndent(outfile, level)
-            outfile.write('numberOfTreesInWholeScene=%d,\n' % (self.numberOfTreesInWholeScene,))
         if self.branchesAndTwigsSimulation is not None and 'branchesAndTwigsSimulation' not in already_processed:
             already_processed.add('branchesAndTwigsSimulation')
             showIndent(outfile, level)
@@ -3824,13 +3935,6 @@ class create_Specie_2(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
         return self
     def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('numberOfTreesInWholeScene', node)
-        if value is not None and 'numberOfTreesInWholeScene' not in already_processed:
-            already_processed.add('numberOfTreesInWholeScene')
-            try:
-                self.numberOfTreesInWholeScene = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
         value = find_attr_value_('branchesAndTwigsSimulation', node)
         if value is not None and 'branchesAndTwigsSimulation' not in already_processed:
             already_processed.add('branchesAndTwigsSimulation')
@@ -3876,7 +3980,9 @@ class create_Specie_2(GeneratedsSuper):
             obj_.build(child_)
             self.set_BranchesAndTwigs(obj_)
             obj_.original_tagname_ = 'BranchesAndTwigs'
-# end class create_Specie_2
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Specie_2
 
 
 class create_Trunk(GeneratedsSuper):
@@ -3889,11 +3995,18 @@ class create_Trunk(GeneratedsSuper):
     Standard deviation of the trunk diameter below the tree crown
     Trunk height within the tree crown Trunk height within the tree
     crown"""
+    member_data_items_ = [
+        MemberSpec_('meanTrunkDiameterBelowCrown', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('stDevMeanTrunkHeightBelowCrown', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('meanTrunkHeightBelowCrown', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('stDevMeanTrunkDiameterBelowCrown', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('trunkHeightWithinCrown', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, meanTrunkDiameterBelowCrown=0.30, stDevMeanTrunkHeightBelowCrown=0.0, meanTrunkHeightBelowCrown=5.00, stDevMeanTrunkDiameterBelowCrown=0.0, trunkHeightWithinCrown=3.00):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_Trunk")
+        self.troot=get_gs_troot('trees','_Trunk')
         self.attrib = ['meanTrunkDiameterBelowCrown', 'stDevMeanTrunkHeightBelowCrown', 'meanTrunkHeightBelowCrown', 'stDevMeanTrunkDiameterBelowCrown', 'trunkHeightWithinCrown']
         self.children = []
         self.parent = None
@@ -3902,7 +4015,7 @@ class create_Trunk(GeneratedsSuper):
         self._meanTrunkHeightBelowCrown = _cast(float, meanTrunkHeightBelowCrown)
         self._stDevMeanTrunkDiameterBelowCrown = _cast(float, stDevMeanTrunkDiameterBelowCrown)
         self._trunkHeightWithinCrown = _cast(float, trunkHeightWithinCrown)
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3917,27 +4030,27 @@ class create_Trunk(GeneratedsSuper):
     def get_meanTrunkDiameterBelowCrown(self): return self._meanTrunkDiameterBelowCrown
     def set_meanTrunkDiameterBelowCrown(self, value):
         self._meanTrunkDiameterBelowCrown = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     meanTrunkDiameterBelowCrown = property(get_meanTrunkDiameterBelowCrown, set_meanTrunkDiameterBelowCrown)
     def get_stDevMeanTrunkHeightBelowCrown(self): return self._stDevMeanTrunkHeightBelowCrown
     def set_stDevMeanTrunkHeightBelowCrown(self, value):
         self._stDevMeanTrunkHeightBelowCrown = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     stDevMeanTrunkHeightBelowCrown = property(get_stDevMeanTrunkHeightBelowCrown, set_stDevMeanTrunkHeightBelowCrown)
     def get_meanTrunkHeightBelowCrown(self): return self._meanTrunkHeightBelowCrown
     def set_meanTrunkHeightBelowCrown(self, value):
         self._meanTrunkHeightBelowCrown = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     meanTrunkHeightBelowCrown = property(get_meanTrunkHeightBelowCrown, set_meanTrunkHeightBelowCrown)
     def get_stDevMeanTrunkDiameterBelowCrown(self): return self._stDevMeanTrunkDiameterBelowCrown
     def set_stDevMeanTrunkDiameterBelowCrown(self, value):
         self._stDevMeanTrunkDiameterBelowCrown = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     stDevMeanTrunkDiameterBelowCrown = property(get_stDevMeanTrunkDiameterBelowCrown, set_stDevMeanTrunkDiameterBelowCrown)
     def get_trunkHeightWithinCrown(self): return self._trunkHeightWithinCrown
     def set_trunkHeightWithinCrown(self, value):
         self._trunkHeightWithinCrown = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     trunkHeightWithinCrown = property(get_trunkHeightWithinCrown, set_trunkHeightWithinCrown)
     def copy(self):
         obj_ = self.factory()
@@ -4079,7 +4192,9 @@ class create_Trunk(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (trunkHeightWithinCrown): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_Trunk
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Trunk
 
 
 class create_Crown(GeneratedsSuper):
@@ -4093,11 +4208,23 @@ class create_Crown(GeneratedsSuper):
     Standard deviation of crown height Standard deviation of crown
     height 0 and within [mean - std dev ; mean + std dev] 0 and
     within [mean - std dev ; mean + std dev]"""
+    member_data_items_ = [
+        MemberSpec_('instrinsicRotation', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('crownShape', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('instrinsicRotationStDev', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('crownHeightStDev', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('crownHeight', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('CrownEllipsoid', '_CrownEllipsoid', 0, 0, {u'maxOccurs': u'1', u'type': u'_CrownEllipsoid', u'name': u'CrownEllipsoid', u'minOccurs': u'1'}, None),
+        MemberSpec_('CrownEllipsoidComposed', '_CrownEllipsoidComposed', 0, 0, {u'maxOccurs': u'1', u'type': u'_CrownEllipsoidComposed', u'name': u'CrownEllipsoidComposed', u'minOccurs': u'1'}, None),
+        MemberSpec_('CrownTruncatedCone', '_CrownTruncatedCone', 0, 0, {u'maxOccurs': u'1', u'type': u'_CrownTruncatedCone', u'name': u'CrownTruncatedCone', u'minOccurs': u'1'}, None),
+        MemberSpec_('CrownTrapezoid', '_CrownTrapezoid', 0, 0, {u'maxOccurs': u'1', u'type': u'_CrownTrapezoid', u'name': u'CrownTrapezoid', u'minOccurs': u'1'}, None),
+        MemberSpec_('CrownConeComp', '_CrownConeComp', 0, 0, {u'maxOccurs': u'1', u'type': u'_CrownConeComp', u'name': u'CrownConeComp', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, instrinsicRotation=0.0, crownShape=0, instrinsicRotationStDev=0.0, crownHeightStDev=0.0, crownHeight=6.00, CrownEllipsoid=None, CrownEllipsoidComposed=None, CrownTruncatedCone=None, CrownTrapezoid=None, CrownConeComp=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_Crown")
+        self.troot=get_gs_troot('trees','_Crown')
         self.attrib = ['instrinsicRotation', 'crownShape', 'instrinsicRotationStDev', 'crownHeightStDev', 'crownHeight']
         self.children = ['CrownEllipsoid', 'CrownEllipsoidComposed', 'CrownTruncatedCone', 'CrownTrapezoid', 'CrownConeComp']
         self.parent = None
@@ -4111,7 +4238,7 @@ class create_Crown(GeneratedsSuper):
         self._CrownTruncatedCone = CrownTruncatedCone
         self._CrownTrapezoid = CrownTrapezoid
         self._CrownConeComp = CrownConeComp
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4161,27 +4288,27 @@ class create_Crown(GeneratedsSuper):
     def get_instrinsicRotation(self): return self._instrinsicRotation
     def set_instrinsicRotation(self, value):
         self._instrinsicRotation = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     instrinsicRotation = property(get_instrinsicRotation, set_instrinsicRotation)
     def get_crownShape(self): return self._crownShape
     def set_crownShape(self, value):
         self._crownShape = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     crownShape = property(get_crownShape, set_crownShape)
     def get_instrinsicRotationStDev(self): return self._instrinsicRotationStDev
     def set_instrinsicRotationStDev(self, value):
         self._instrinsicRotationStDev = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     instrinsicRotationStDev = property(get_instrinsicRotationStDev, set_instrinsicRotationStDev)
     def get_crownHeightStDev(self): return self._crownHeightStDev
     def set_crownHeightStDev(self, value):
         self._crownHeightStDev = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     crownHeightStDev = property(get_crownHeightStDev, set_crownHeightStDev)
     def get_crownHeight(self): return self._crownHeight
     def set_crownHeight(self, value):
         self._crownHeight = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     crownHeight = property(get_crownHeight, set_crownHeight)
     def copy(self):
         obj_ = self.factory()
@@ -4409,7 +4536,9 @@ class create_Crown(GeneratedsSuper):
             obj_.build(child_)
             self.set_CrownConeComp(obj_)
             obj_.original_tagname_ = 'CrownConeComp'
-# end class create_Crown
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Crown
 
 
 class create_CrownEllipsoid(GeneratedsSuper):
@@ -4417,11 +4546,17 @@ class create_CrownEllipsoid(GeneratedsSuper):
     horizontal section is an ellipse The tree crown horizontal
     section is an ellipse The tree crown horizontal section is an
     ellipse"""
+    member_data_items_ = [
+        MemberSpec_('firstAxis', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('secondAxisStDev', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('secondAxis', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('firstAxisStDev', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, firstAxis=4.00, secondAxisStDev=0.0, secondAxis=4.00, firstAxisStDev=0.0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_CrownEllipsoid")
+        self.troot=get_gs_troot('trees','_CrownEllipsoid')
         self.attrib = ['firstAxis', 'secondAxisStDev', 'secondAxis', 'firstAxisStDev']
         self.children = []
         self.parent = None
@@ -4429,7 +4564,7 @@ class create_CrownEllipsoid(GeneratedsSuper):
         self._secondAxisStDev = _cast(float, secondAxisStDev)
         self._secondAxis = _cast(float, secondAxis)
         self._firstAxisStDev = _cast(float, firstAxisStDev)
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4444,22 +4579,22 @@ class create_CrownEllipsoid(GeneratedsSuper):
     def get_firstAxis(self): return self._firstAxis
     def set_firstAxis(self, value):
         self._firstAxis = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     firstAxis = property(get_firstAxis, set_firstAxis)
     def get_secondAxisStDev(self): return self._secondAxisStDev
     def set_secondAxisStDev(self, value):
         self._secondAxisStDev = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     secondAxisStDev = property(get_secondAxisStDev, set_secondAxisStDev)
     def get_secondAxis(self): return self._secondAxis
     def set_secondAxis(self, value):
         self._secondAxis = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     secondAxis = property(get_secondAxis, set_secondAxis)
     def get_firstAxisStDev(self): return self._firstAxisStDev
     def set_firstAxisStDev(self, value):
         self._firstAxisStDev = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     firstAxisStDev = property(get_firstAxisStDev, set_firstAxisStDev)
     def copy(self):
         obj_ = self.factory()
@@ -4585,7 +4720,9 @@ class create_CrownEllipsoid(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (firstAxisStDev): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_CrownEllipsoid
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_CrownEllipsoid
 
 
 class create_CrownEllipsoidComposed(GeneratedsSuper):
@@ -4595,11 +4732,19 @@ class create_CrownEllipsoidComposed(GeneratedsSuper):
     ellipse A compose tree crown is made of two half ellipsoids that
     meet at this intermediate height A compose tree crown is made of
     two half ellipsoids that meet at this intermediate height"""
+    member_data_items_ = [
+        MemberSpec_('secondAxisStDev', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('secondAxis', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('firstAxis', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('intermediateHeightStDev', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('intermediateHeight', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('firstAxisStDev', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, secondAxisStDev=0.0, secondAxis=4.00, firstAxis=4.00, intermediateHeightStDev=0.0, intermediateHeight=2.00, firstAxisStDev=0.0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_CrownEllipsoidComposed")
+        self.troot=get_gs_troot('trees','_CrownEllipsoidComposed')
         self.attrib = ['secondAxisStDev', 'secondAxis', 'firstAxis', 'intermediateHeightStDev', 'intermediateHeight', 'firstAxisStDev']
         self.children = []
         self.parent = None
@@ -4609,7 +4754,7 @@ class create_CrownEllipsoidComposed(GeneratedsSuper):
         self._intermediateHeightStDev = _cast(float, intermediateHeightStDev)
         self._intermediateHeight = _cast(float, intermediateHeight)
         self._firstAxisStDev = _cast(float, firstAxisStDev)
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4624,32 +4769,32 @@ class create_CrownEllipsoidComposed(GeneratedsSuper):
     def get_secondAxisStDev(self): return self._secondAxisStDev
     def set_secondAxisStDev(self, value):
         self._secondAxisStDev = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     secondAxisStDev = property(get_secondAxisStDev, set_secondAxisStDev)
     def get_secondAxis(self): return self._secondAxis
     def set_secondAxis(self, value):
         self._secondAxis = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     secondAxis = property(get_secondAxis, set_secondAxis)
     def get_firstAxis(self): return self._firstAxis
     def set_firstAxis(self, value):
         self._firstAxis = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     firstAxis = property(get_firstAxis, set_firstAxis)
     def get_intermediateHeightStDev(self): return self._intermediateHeightStDev
     def set_intermediateHeightStDev(self, value):
         self._intermediateHeightStDev = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     intermediateHeightStDev = property(get_intermediateHeightStDev, set_intermediateHeightStDev)
     def get_intermediateHeight(self): return self._intermediateHeight
     def set_intermediateHeight(self, value):
         self._intermediateHeight = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     intermediateHeight = property(get_intermediateHeight, set_intermediateHeight)
     def get_firstAxisStDev(self): return self._firstAxisStDev
     def set_firstAxisStDev(self, value):
         self._firstAxisStDev = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     firstAxisStDev = property(get_firstAxisStDev, set_firstAxisStDev)
     def copy(self):
         obj_ = self.factory()
@@ -4807,18 +4952,26 @@ class create_CrownEllipsoidComposed(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (firstAxisStDev): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_CrownEllipsoidComposed
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_CrownEllipsoidComposed
 
 
 class create_CrownTruncatedCone(GeneratedsSuper):
     """0 and within [mean - std dev ; mean + std dev] 0 and within [mean -
     std dev ; mean + std dev] 0 and within [mean - std dev ; mean +
     std dev] 0 and within [mean - std dev ; mean + std dev]"""
+    member_data_items_ = [
+        MemberSpec_('topRadiusStDev', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('topRadius', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('baseRadius', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('baseRadiusStDev', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, topRadiusStDev=0.0, topRadius=2.00, baseRadius=4.00, baseRadiusStDev=0.0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_CrownTruncatedCone")
+        self.troot=get_gs_troot('trees','_CrownTruncatedCone')
         self.attrib = ['topRadiusStDev', 'topRadius', 'baseRadius', 'baseRadiusStDev']
         self.children = []
         self.parent = None
@@ -4826,7 +4979,7 @@ class create_CrownTruncatedCone(GeneratedsSuper):
         self._topRadius = _cast(float, topRadius)
         self._baseRadius = _cast(float, baseRadius)
         self._baseRadiusStDev = _cast(float, baseRadiusStDev)
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4841,22 +4994,22 @@ class create_CrownTruncatedCone(GeneratedsSuper):
     def get_topRadiusStDev(self): return self._topRadiusStDev
     def set_topRadiusStDev(self, value):
         self._topRadiusStDev = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     topRadiusStDev = property(get_topRadiusStDev, set_topRadiusStDev)
     def get_topRadius(self): return self._topRadius
     def set_topRadius(self, value):
         self._topRadius = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     topRadius = property(get_topRadius, set_topRadius)
     def get_baseRadius(self): return self._baseRadius
     def set_baseRadius(self, value):
         self._baseRadius = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     baseRadius = property(get_baseRadius, set_baseRadius)
     def get_baseRadiusStDev(self): return self._baseRadiusStDev
     def set_baseRadiusStDev(self, value):
         self._baseRadiusStDev = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     baseRadiusStDev = property(get_baseRadiusStDev, set_baseRadiusStDev)
     def copy(self):
         obj_ = self.factory()
@@ -4982,7 +5135,9 @@ class create_CrownTruncatedCone(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (baseRadiusStDev): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_CrownTruncatedCone
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_CrownTruncatedCone
 
 
 class create_CrownTrapezoid(GeneratedsSuper):
@@ -4992,11 +5147,21 @@ class create_CrownTrapezoid(GeneratedsSuper):
     within [mean - std dev ; mean + std dev] 0 and within [mean -
     std dev ; mean + std dev] 0 and within [mean - std dev ; mean +
     std dev] 0 and within [mean - std dev ; mean + std dev]"""
+    member_data_items_ = [
+        MemberSpec_('topWidthStDev', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('baseLengthStDev', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('baseLength', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('baseWidthStDev', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('topWidth', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('topLength', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('baseWidth', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('topLengthStDev', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, topWidthStDev=0.0, baseLengthStDev=0.0, baseLength=4.00, baseWidthStDev=0.0, topWidth=4.00, topLength=5.00, baseWidth=4.00, topLengthStDev=0.0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_CrownTrapezoid")
+        self.troot=get_gs_troot('trees','_CrownTrapezoid')
         self.attrib = ['topWidthStDev', 'baseLengthStDev', 'baseLength', 'baseWidthStDev', 'topWidth', 'topLength', 'baseWidth', 'topLengthStDev']
         self.children = []
         self.parent = None
@@ -5008,7 +5173,7 @@ class create_CrownTrapezoid(GeneratedsSuper):
         self._topLength = _cast(float, topLength)
         self._baseWidth = _cast(float, baseWidth)
         self._topLengthStDev = _cast(float, topLengthStDev)
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5023,42 +5188,42 @@ class create_CrownTrapezoid(GeneratedsSuper):
     def get_topWidthStDev(self): return self._topWidthStDev
     def set_topWidthStDev(self, value):
         self._topWidthStDev = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     topWidthStDev = property(get_topWidthStDev, set_topWidthStDev)
     def get_baseLengthStDev(self): return self._baseLengthStDev
     def set_baseLengthStDev(self, value):
         self._baseLengthStDev = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     baseLengthStDev = property(get_baseLengthStDev, set_baseLengthStDev)
     def get_baseLength(self): return self._baseLength
     def set_baseLength(self, value):
         self._baseLength = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     baseLength = property(get_baseLength, set_baseLength)
     def get_baseWidthStDev(self): return self._baseWidthStDev
     def set_baseWidthStDev(self, value):
         self._baseWidthStDev = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     baseWidthStDev = property(get_baseWidthStDev, set_baseWidthStDev)
     def get_topWidth(self): return self._topWidth
     def set_topWidth(self, value):
         self._topWidth = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     topWidth = property(get_topWidth, set_topWidth)
     def get_topLength(self): return self._topLength
     def set_topLength(self, value):
         self._topLength = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     topLength = property(get_topLength, set_topLength)
     def get_baseWidth(self): return self._baseWidth
     def set_baseWidth(self, value):
         self._baseWidth = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     baseWidth = property(get_baseWidth, set_baseWidth)
     def get_topLengthStDev(self): return self._topLengthStDev
     def set_topLengthStDev(self, value):
         self._topLengthStDev = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     topLengthStDev = property(get_topLengthStDev, set_topLengthStDev)
     def copy(self):
         obj_ = self.factory()
@@ -5248,7 +5413,9 @@ class create_CrownTrapezoid(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (topLengthStDev): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_CrownTrapezoid
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_CrownTrapezoid
 
 
 class create_CrownConeComp(GeneratedsSuper):
@@ -5257,11 +5424,19 @@ class create_CrownConeComp(GeneratedsSuper):
     std dev] 0 and within [mean - std dev ; mean + std dev] 0 and
     within [mean - std dev ; mean + std dev] 0 and within [mean -
     std dev ; mean + std dev]"""
+    member_data_items_ = [
+        MemberSpec_('aMoy', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('cMoy', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('bMoy', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('stdDevBMoy', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('stdDevCMoy', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('stdDevAMoy', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, aMoy=4.00, cMoy=3.00, bMoy=3.00, stdDevBMoy=0.0, stdDevCMoy=0.0, stdDevAMoy=0.0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_CrownConeComp")
+        self.troot=get_gs_troot('trees','_CrownConeComp')
         self.attrib = ['aMoy', 'cMoy', 'bMoy', 'stdDevBMoy', 'stdDevCMoy', 'stdDevAMoy']
         self.children = []
         self.parent = None
@@ -5271,7 +5446,7 @@ class create_CrownConeComp(GeneratedsSuper):
         self._stdDevBMoy = _cast(float, stdDevBMoy)
         self._stdDevCMoy = _cast(float, stdDevCMoy)
         self._stdDevAMoy = _cast(float, stdDevAMoy)
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5286,32 +5461,32 @@ class create_CrownConeComp(GeneratedsSuper):
     def get_aMoy(self): return self._aMoy
     def set_aMoy(self, value):
         self._aMoy = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     aMoy = property(get_aMoy, set_aMoy)
     def get_cMoy(self): return self._cMoy
     def set_cMoy(self, value):
         self._cMoy = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     cMoy = property(get_cMoy, set_cMoy)
     def get_bMoy(self): return self._bMoy
     def set_bMoy(self, value):
         self._bMoy = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     bMoy = property(get_bMoy, set_bMoy)
     def get_stdDevBMoy(self): return self._stdDevBMoy
     def set_stdDevBMoy(self, value):
         self._stdDevBMoy = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     stdDevBMoy = property(get_stdDevBMoy, set_stdDevBMoy)
     def get_stdDevCMoy(self): return self._stdDevCMoy
     def set_stdDevCMoy(self, value):
         self._stdDevCMoy = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     stdDevCMoy = property(get_stdDevCMoy, set_stdDevCMoy)
     def get_stdDevAMoy(self): return self._stdDevAMoy
     def set_stdDevAMoy(self, value):
         self._stdDevAMoy = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     stdDevAMoy = property(get_stdDevAMoy, set_stdDevAMoy)
     def copy(self):
         obj_ = self.factory()
@@ -5469,16 +5644,21 @@ class create_CrownConeComp(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (stdDevAMoy): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_CrownConeComp
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_CrownConeComp
 
 
 class create_Trees_3(GeneratedsSuper):
     """Trees_3 Trees_3"""
+    member_data_items_ = [
+        MemberSpec_('Specie_3', '_Specie_3', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_Specie_3', u'name': u'Specie_3', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, Specie_3=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_Trees_3")
+        self.troot=get_gs_troot('trees','_Trees_3')
         self.attrib = ['']
         self.children = ['Specie_3']
         self.parent = None
@@ -5486,7 +5666,7 @@ class create_Trees_3(GeneratedsSuper):
             self._Specie_3 = []
         else:
             self._Specie_3 = Specie_3
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5602,42 +5782,56 @@ class create_Trees_3(GeneratedsSuper):
             obj_.build(child_)
             self.add_Specie_3(obj_)
             obj_.original_tagname_ = 'Specie_3'
-# end class create_Trees_3
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Trees_3
 
 
 class create_Specie_3(GeneratedsSuper):
-    """Specie_3 Specie_3 LAI LAI Horizontal lines of the grid. Trees are
-    located around the nodes of this grid Horizontal lines of the
-    grid. Trees are located around the nodes of this grid Vertical
-    lines of the grid. Trees are located around the nodes of this
-    grid Vertical lines of the grid. Trees are located around the
-    nodes of this grid Number of trees (of the species) in the whole
-    scene. Other species can be added Number of trees (of the
-    species) in the whole scene. Other species can be added
-    spatialDistribution spatialDistribution Radius of the disks
-    within which trees must be located. Disks are centred on the
-    nodes of the specified grid. Radius of the disks within which
-    trees must be located. Disks are centred on the nodes of the
-    specified grid. Probability that trees are present around the
+    """Specie_3 Specie_3 Probability that trees are present around the
     nodes of the specified grid Probability that trees are present
-    around the nodes of the specified grid Simulation of trees with
-    branches and twigs Simulation of trees with branches and twigs"""
+    around the nodes of the specified grid LAI LAI Radius of the
+    disks within which trees must be located. Disks are centred on
+    the nodes of the specified grid. Radius of the disks within
+    which trees must be located. Disks are centred on the nodes of
+    the specified grid. Tree distribution method Tree distribution
+    method Simulation of trees with branches and twigs Simulation of
+    trees with branches and twigs spatialDistribution
+    spatialDistribution"""
+    member_data_items_ = [
+        MemberSpec_('probabilityOfTreesAtTheNodesOfTheGrid', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('lai', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('rayon', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('treeDistributionMethod', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('branchesAndTwigsSimulation', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('spatialDistribution', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('IntervalDistribution', '_IntervalDistribution', 0, 0, {u'maxOccurs': u'1', u'type': u'_IntervalDistribution', u'name': u'IntervalDistribution', u'minOccurs': u'1'}, None),
+        MemberSpec_('EstimatedNumberOfTreeDistribution', '_EstimatedNumberOfTreeDistribution', 0, 0, {u'maxOccurs': u'1', u'type': u'_EstimatedNumberOfTreeDistribution', u'name': u'EstimatedNumberOfTreeDistribution', u'minOccurs': u'1'}, None),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('Trunk', '_Trunk', 0, 0, {u'maxOccurs': u'1', u'type': u'_Trunk', u'name': u'Trunk', u'minOccurs': u'1'}, None),
+        MemberSpec_('Crown', '_Crown', 0, 0, {u'maxOccurs': u'1', u'type': u'_Crown', u'name': u'Crown', u'minOccurs': u'1'}, None),
+        MemberSpec_('EllipsoidSubZone', '_EllipsoidSubZone', 0, 0, {u'maxOccurs': u'1', u'type': u'_EllipsoidSubZone', u'name': u'EllipsoidSubZone', u'minOccurs': u'1'}, None),
+        MemberSpec_('Polygon2D', '_Polygon2D', 0, 0, {u'maxOccurs': u'1', u'type': u'_Polygon2D', u'name': u'Polygon2D', u'minOccurs': u'1'}, None),
+        MemberSpec_('CrownLevel', '_CrownLevel', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_CrownLevel', u'name': u'CrownLevel', u'minOccurs': u'1'}, None),
+        MemberSpec_('BranchesAndTwigs', '_BranchesAndTwigs', 0, 0, {u'maxOccurs': u'1', u'type': u'_BranchesAndTwigs', u'name': u'BranchesAndTwigs', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
-    def __init__(self, lai=4.00, rawX=5.00, rawY=5.00, numberOfTreesInWholeScene=12, spatialDistribution=0, rayon=5.00, probabilityOfTreesAtTheNodesOfTheGrid=0.90, branchesAndTwigsSimulation=0, OpticalPropertyLink=None, ThermalPropertyLink=None, Trunk=None, Crown=None, EllipsoidSubZone=None, Polygon2D=None, CrownLevel=None, BranchesAndTwigs=None):
+    def __init__(self, probabilityOfTreesAtTheNodesOfTheGrid=0.90, lai=4.00, rayon=5.00, treeDistributionMethod=0, branchesAndTwigsSimulation=0, spatialDistribution=0, IntervalDistribution=None, EstimatedNumberOfTreeDistribution=None, OpticalPropertyLink=None, ThermalPropertyLink=None, Trunk=None, Crown=None, EllipsoidSubZone=None, Polygon2D=None, CrownLevel=None, BranchesAndTwigs=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_Specie_3")
-        self.attrib = ['lai', 'rawX', 'rawY', 'numberOfTreesInWholeScene', 'spatialDistribution', 'rayon', 'probabilityOfTreesAtTheNodesOfTheGrid', 'branchesAndTwigsSimulation']
-        self.children = ['OpticalPropertyLink', 'ThermalPropertyLink', 'Trunk', 'Crown', 'EllipsoidSubZone', 'Polygon2D', 'CrownLevel', 'BranchesAndTwigs']
+        self.troot=get_gs_troot('trees','_Specie_3')
+        self.attrib = ['probabilityOfTreesAtTheNodesOfTheGrid', 'lai', 'rayon', 'treeDistributionMethod', 'branchesAndTwigsSimulation', 'spatialDistribution']
+        self.children = ['IntervalDistribution', 'EstimatedNumberOfTreeDistribution', 'OpticalPropertyLink', 'ThermalPropertyLink', 'Trunk', 'Crown', 'EllipsoidSubZone', 'Polygon2D', 'CrownLevel', 'BranchesAndTwigs']
         self.parent = None
-        self._lai = _cast(float, lai)
-        self._rawX = _cast(float, rawX)
-        self._rawY = _cast(float, rawY)
-        self._numberOfTreesInWholeScene = _cast(int, numberOfTreesInWholeScene)
-        self._spatialDistribution = _cast(int, spatialDistribution)
-        self._rayon = _cast(float, rayon)
         self._probabilityOfTreesAtTheNodesOfTheGrid = _cast(float, probabilityOfTreesAtTheNodesOfTheGrid)
+        self._lai = _cast(float, lai)
+        self._rayon = _cast(float, rayon)
+        self._treeDistributionMethod = _cast(int, treeDistributionMethod)
         self._branchesAndTwigsSimulation = _cast(int, branchesAndTwigsSimulation)
+        self._spatialDistribution = _cast(int, spatialDistribution)
+        self._IntervalDistribution = IntervalDistribution
+        self._EstimatedNumberOfTreeDistribution = EstimatedNumberOfTreeDistribution
         self._OpticalPropertyLink = OpticalPropertyLink
         self._ThermalPropertyLink = ThermalPropertyLink
         self._Trunk = Trunk
@@ -5649,7 +5843,7 @@ class create_Specie_3(GeneratedsSuper):
         else:
             self._CrownLevel = CrownLevel
         self._BranchesAndTwigs = BranchesAndTwigs
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5661,6 +5855,20 @@ class create_Specie_3(GeneratedsSuper):
         else:
             return create_Specie_3(*args_, **kwargs_)
     factory = staticmethod(factory)
+    def get_IntervalDistribution(self): return self._IntervalDistribution
+    def set_IntervalDistribution(self, value):
+        if value is not None:
+            checkclass(value, create_IntervalDistribution)
+            value.parent = self
+        self._IntervalDistribution = value
+    IntervalDistribution = property(get_IntervalDistribution, set_IntervalDistribution)
+    def get_EstimatedNumberOfTreeDistribution(self): return self._EstimatedNumberOfTreeDistribution
+    def set_EstimatedNumberOfTreeDistribution(self, value):
+        if value is not None:
+            checkclass(value, create_EstimatedNumberOfTreeDistribution)
+            value.parent = self
+        self._EstimatedNumberOfTreeDistribution = value
+    EstimatedNumberOfTreeDistribution = property(get_EstimatedNumberOfTreeDistribution, set_EstimatedNumberOfTreeDistribution)
     def get_OpticalPropertyLink(self): return self._OpticalPropertyLink
     def set_OpticalPropertyLink(self, value):
         if value is not None:
@@ -5727,51 +5935,43 @@ class create_Specie_3(GeneratedsSuper):
             value.parent = self
         self._BranchesAndTwigs = value
     BranchesAndTwigs = property(get_BranchesAndTwigs, set_BranchesAndTwigs)
-    def get_lai(self): return self._lai
-    def set_lai(self, value):
-        self._lai = value
-        update_node(self,self.troot,"trees")
-    lai = property(get_lai, set_lai)
-    def get_rawX(self): return self._rawX
-    def set_rawX(self, value):
-        self._rawX = value
-        update_node(self,self.troot,"trees")
-    rawX = property(get_rawX, set_rawX)
-    def get_rawY(self): return self._rawY
-    def set_rawY(self, value):
-        self._rawY = value
-        update_node(self,self.troot,"trees")
-    rawY = property(get_rawY, set_rawY)
-    def get_numberOfTreesInWholeScene(self): return self._numberOfTreesInWholeScene
-    def set_numberOfTreesInWholeScene(self, value):
-        self._numberOfTreesInWholeScene = value
-        update_node(self,self.troot,"trees")
-    numberOfTreesInWholeScene = property(get_numberOfTreesInWholeScene, set_numberOfTreesInWholeScene)
-    def get_spatialDistribution(self): return self._spatialDistribution
-    def set_spatialDistribution(self, value):
-        self._spatialDistribution = value
-        update_node(self,self.troot,"trees")
-    spatialDistribution = property(get_spatialDistribution, set_spatialDistribution)
-    def get_rayon(self): return self._rayon
-    def set_rayon(self, value):
-        self._rayon = value
-        update_node(self,self.troot,"trees")
-    rayon = property(get_rayon, set_rayon)
     def get_probabilityOfTreesAtTheNodesOfTheGrid(self): return self._probabilityOfTreesAtTheNodesOfTheGrid
     def set_probabilityOfTreesAtTheNodesOfTheGrid(self, value):
         self._probabilityOfTreesAtTheNodesOfTheGrid = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     probabilityOfTreesAtTheNodesOfTheGrid = property(get_probabilityOfTreesAtTheNodesOfTheGrid, set_probabilityOfTreesAtTheNodesOfTheGrid)
+    def get_lai(self): return self._lai
+    def set_lai(self, value):
+        self._lai = value
+        update_node(self,self.troot,'trees')
+    lai = property(get_lai, set_lai)
+    def get_rayon(self): return self._rayon
+    def set_rayon(self, value):
+        self._rayon = value
+        update_node(self,self.troot,'trees')
+    rayon = property(get_rayon, set_rayon)
+    def get_treeDistributionMethod(self): return self._treeDistributionMethod
+    def set_treeDistributionMethod(self, value):
+        self._treeDistributionMethod = value
+        update_node(self,self.troot,'trees')
+    treeDistributionMethod = property(get_treeDistributionMethod, set_treeDistributionMethod)
     def get_branchesAndTwigsSimulation(self): return self._branchesAndTwigsSimulation
     def set_branchesAndTwigsSimulation(self, value):
         self._branchesAndTwigsSimulation = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     branchesAndTwigsSimulation = property(get_branchesAndTwigsSimulation, set_branchesAndTwigsSimulation)
+    def get_spatialDistribution(self): return self._spatialDistribution
+    def set_spatialDistribution(self, value):
+        self._spatialDistribution = value
+        update_node(self,self.troot,'trees')
+    spatialDistribution = property(get_spatialDistribution, set_spatialDistribution)
     def copy(self):
         obj_ = self.factory()
         return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
+            self.IntervalDistribution is not None or
+            self.EstimatedNumberOfTreeDistribution is not None or
             self.OpticalPropertyLink is not None or
             self.ThermalPropertyLink is not None or
             self.Trunk is not None or
@@ -5806,35 +6006,33 @@ class create_Specie_3(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_Specie_3'):
-        if self.lai is not None and 'lai' not in already_processed:
-            already_processed.add('lai')
-            outfile.write(' lai="%s"' % self.gds_format_double(self.lai, input_name='lai'))
-        if self.rawX is not None and 'rawX' not in already_processed:
-            already_processed.add('rawX')
-            outfile.write(' rawX="%s"' % self.gds_format_double(self.rawX, input_name='rawX'))
-        if self.rawY is not None and 'rawY' not in already_processed:
-            already_processed.add('rawY')
-            outfile.write(' rawY="%s"' % self.gds_format_double(self.rawY, input_name='rawY'))
-        if self.numberOfTreesInWholeScene is not None and 'numberOfTreesInWholeScene' not in already_processed:
-            already_processed.add('numberOfTreesInWholeScene')
-            outfile.write(' numberOfTreesInWholeScene="%s"' % self.gds_format_integer(self.numberOfTreesInWholeScene, input_name='numberOfTreesInWholeScene'))
-        if self.spatialDistribution is not None and 'spatialDistribution' not in already_processed:
-            already_processed.add('spatialDistribution')
-            outfile.write(' spatialDistribution="%s"' % self.gds_format_integer(self.spatialDistribution, input_name='spatialDistribution'))
-        if self.rayon is not None and 'rayon' not in already_processed:
-            already_processed.add('rayon')
-            outfile.write(' rayon="%s"' % self.gds_format_double(self.rayon, input_name='rayon'))
         if self.probabilityOfTreesAtTheNodesOfTheGrid is not None and 'probabilityOfTreesAtTheNodesOfTheGrid' not in already_processed:
             already_processed.add('probabilityOfTreesAtTheNodesOfTheGrid')
             outfile.write(' probabilityOfTreesAtTheNodesOfTheGrid="%s"' % self.gds_format_double(self.probabilityOfTreesAtTheNodesOfTheGrid, input_name='probabilityOfTreesAtTheNodesOfTheGrid'))
+        if self.lai is not None and 'lai' not in already_processed:
+            already_processed.add('lai')
+            outfile.write(' lai="%s"' % self.gds_format_double(self.lai, input_name='lai'))
+        if self.rayon is not None and 'rayon' not in already_processed:
+            already_processed.add('rayon')
+            outfile.write(' rayon="%s"' % self.gds_format_double(self.rayon, input_name='rayon'))
+        if self.treeDistributionMethod is not None and 'treeDistributionMethod' not in already_processed:
+            already_processed.add('treeDistributionMethod')
+            outfile.write(' treeDistributionMethod="%s"' % self.gds_format_integer(self.treeDistributionMethod, input_name='treeDistributionMethod'))
         if self.branchesAndTwigsSimulation is not None and 'branchesAndTwigsSimulation' not in already_processed:
             already_processed.add('branchesAndTwigsSimulation')
             outfile.write(' branchesAndTwigsSimulation="%s"' % self.gds_format_integer(self.branchesAndTwigsSimulation, input_name='branchesAndTwigsSimulation'))
+        if self.spatialDistribution is not None and 'spatialDistribution' not in already_processed:
+            already_processed.add('spatialDistribution')
+            outfile.write(' spatialDistribution="%s"' % self.gds_format_integer(self.spatialDistribution, input_name='spatialDistribution'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_Specie_3', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
+        if self.IntervalDistribution is not None:
+            self.IntervalDistribution.export(outfile, level, namespaceprefix_, name_='IntervalDistribution', pretty_print=pretty_print)
+        if self.EstimatedNumberOfTreeDistribution is not None:
+            self.EstimatedNumberOfTreeDistribution.export(outfile, level, namespaceprefix_, name_='EstimatedNumberOfTreeDistribution', pretty_print=pretty_print)
         if self.OpticalPropertyLink is not None:
             self.OpticalPropertyLink.export(outfile, level, namespaceprefix_, name_='OpticalPropertyLink', pretty_print=pretty_print)
         if self.ThermalPropertyLink is not None:
@@ -5856,22 +6054,24 @@ class create_Specie_3(GeneratedsSuper):
             element = etree_.Element('{}' + name_)
         else:
             element = etree_.SubElement(parent_element, '{}' + name_)
-        if self.lai is not None:
-            element.set('lai', self.gds_format_double(self.lai))
-        if self.rawX is not None:
-            element.set('rawX', self.gds_format_double(self.rawX))
-        if self.rawY is not None:
-            element.set('rawY', self.gds_format_double(self.rawY))
-        if self.numberOfTreesInWholeScene is not None:
-            element.set('numberOfTreesInWholeScene', self.gds_format_integer(self.numberOfTreesInWholeScene))
-        if self.spatialDistribution is not None:
-            element.set('spatialDistribution', self.gds_format_integer(self.spatialDistribution))
-        if self.rayon is not None:
-            element.set('rayon', self.gds_format_double(self.rayon))
         if self.probabilityOfTreesAtTheNodesOfTheGrid is not None:
             element.set('probabilityOfTreesAtTheNodesOfTheGrid', self.gds_format_double(self.probabilityOfTreesAtTheNodesOfTheGrid))
+        if self.lai is not None:
+            element.set('lai', self.gds_format_double(self.lai))
+        if self.rayon is not None:
+            element.set('rayon', self.gds_format_double(self.rayon))
+        if self.treeDistributionMethod is not None:
+            element.set('treeDistributionMethod', self.gds_format_integer(self.treeDistributionMethod))
         if self.branchesAndTwigsSimulation is not None:
             element.set('branchesAndTwigsSimulation', self.gds_format_integer(self.branchesAndTwigsSimulation))
+        if self.spatialDistribution is not None:
+            element.set('spatialDistribution', self.gds_format_integer(self.spatialDistribution))
+        if self.IntervalDistribution is not None:
+            IntervalDistribution_ = self.IntervalDistribution
+            IntervalDistribution_.to_etree(element, name_='IntervalDistribution', mapping_=mapping_)
+        if self.EstimatedNumberOfTreeDistribution is not None:
+            EstimatedNumberOfTreeDistribution_ = self.EstimatedNumberOfTreeDistribution
+            EstimatedNumberOfTreeDistribution_.to_etree(element, name_='EstimatedNumberOfTreeDistribution', mapping_=mapping_)
         if self.OpticalPropertyLink is not None:
             OpticalPropertyLink_ = self.OpticalPropertyLink
             OpticalPropertyLink_.to_etree(element, name_='OpticalPropertyLink', mapping_=mapping_)
@@ -5905,39 +6105,43 @@ class create_Specie_3(GeneratedsSuper):
         if self.hasContent_():
             self.exportLiteralChildren(outfile, level, name_)
     def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.lai is not None and 'lai' not in already_processed:
-            already_processed.add('lai')
-            showIndent(outfile, level)
-            outfile.write('lai=%e,\n' % (self.lai,))
-        if self.rawX is not None and 'rawX' not in already_processed:
-            already_processed.add('rawX')
-            showIndent(outfile, level)
-            outfile.write('rawX=%e,\n' % (self.rawX,))
-        if self.rawY is not None and 'rawY' not in already_processed:
-            already_processed.add('rawY')
-            showIndent(outfile, level)
-            outfile.write('rawY=%e,\n' % (self.rawY,))
-        if self.numberOfTreesInWholeScene is not None and 'numberOfTreesInWholeScene' not in already_processed:
-            already_processed.add('numberOfTreesInWholeScene')
-            showIndent(outfile, level)
-            outfile.write('numberOfTreesInWholeScene=%d,\n' % (self.numberOfTreesInWholeScene,))
-        if self.spatialDistribution is not None and 'spatialDistribution' not in already_processed:
-            already_processed.add('spatialDistribution')
-            showIndent(outfile, level)
-            outfile.write('spatialDistribution=%d,\n' % (self.spatialDistribution,))
-        if self.rayon is not None and 'rayon' not in already_processed:
-            already_processed.add('rayon')
-            showIndent(outfile, level)
-            outfile.write('rayon=%e,\n' % (self.rayon,))
         if self.probabilityOfTreesAtTheNodesOfTheGrid is not None and 'probabilityOfTreesAtTheNodesOfTheGrid' not in already_processed:
             already_processed.add('probabilityOfTreesAtTheNodesOfTheGrid')
             showIndent(outfile, level)
             outfile.write('probabilityOfTreesAtTheNodesOfTheGrid=%e,\n' % (self.probabilityOfTreesAtTheNodesOfTheGrid,))
+        if self.lai is not None and 'lai' not in already_processed:
+            already_processed.add('lai')
+            showIndent(outfile, level)
+            outfile.write('lai=%e,\n' % (self.lai,))
+        if self.rayon is not None and 'rayon' not in already_processed:
+            already_processed.add('rayon')
+            showIndent(outfile, level)
+            outfile.write('rayon=%e,\n' % (self.rayon,))
+        if self.treeDistributionMethod is not None and 'treeDistributionMethod' not in already_processed:
+            already_processed.add('treeDistributionMethod')
+            showIndent(outfile, level)
+            outfile.write('treeDistributionMethod=%d,\n' % (self.treeDistributionMethod,))
         if self.branchesAndTwigsSimulation is not None and 'branchesAndTwigsSimulation' not in already_processed:
             already_processed.add('branchesAndTwigsSimulation')
             showIndent(outfile, level)
             outfile.write('branchesAndTwigsSimulation=%d,\n' % (self.branchesAndTwigsSimulation,))
+        if self.spatialDistribution is not None and 'spatialDistribution' not in already_processed:
+            already_processed.add('spatialDistribution')
+            showIndent(outfile, level)
+            outfile.write('spatialDistribution=%d,\n' % (self.spatialDistribution,))
     def exportLiteralChildren(self, outfile, level, name_):
+        if self.IntervalDistribution is not None:
+            showIndent(outfile, level)
+            outfile.write('IntervalDistribution=model_._IntervalDistribution(\n')
+            self.IntervalDistribution.exportLiteral(outfile, level, name_='IntervalDistribution')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.EstimatedNumberOfTreeDistribution is not None:
+            showIndent(outfile, level)
+            outfile.write('EstimatedNumberOfTreeDistribution=model_._EstimatedNumberOfTreeDistribution(\n')
+            self.EstimatedNumberOfTreeDistribution.exportLiteral(outfile, level, name_='EstimatedNumberOfTreeDistribution')
+            showIndent(outfile, level)
+            outfile.write('),\n')
         if self.OpticalPropertyLink is not None:
             showIndent(outfile, level)
             outfile.write('OpticalPropertyLink=model_._OpticalPropertyLink(\n')
@@ -6001,6 +6205,13 @@ class create_Specie_3(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
         return self
     def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('probabilityOfTreesAtTheNodesOfTheGrid', node)
+        if value is not None and 'probabilityOfTreesAtTheNodesOfTheGrid' not in already_processed:
+            already_processed.add('probabilityOfTreesAtTheNodesOfTheGrid')
+            try:
+                self.probabilityOfTreesAtTheNodesOfTheGrid = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (probabilityOfTreesAtTheNodesOfTheGrid): %s' % exp)
         value = find_attr_value_('lai', node)
         if value is not None and 'lai' not in already_processed:
             already_processed.add('lai')
@@ -6008,25 +6219,25 @@ class create_Specie_3(GeneratedsSuper):
                 self.lai = float(value)
             except ValueError as exp:
                 raise ValueError('Bad float/double attribute (lai): %s' % exp)
-        value = find_attr_value_('rawX', node)
-        if value is not None and 'rawX' not in already_processed:
-            already_processed.add('rawX')
+        value = find_attr_value_('rayon', node)
+        if value is not None and 'rayon' not in already_processed:
+            already_processed.add('rayon')
             try:
-                self.rawX = float(value)
+                self.rayon = float(value)
             except ValueError as exp:
-                raise ValueError('Bad float/double attribute (rawX): %s' % exp)
-        value = find_attr_value_('rawY', node)
-        if value is not None and 'rawY' not in already_processed:
-            already_processed.add('rawY')
+                raise ValueError('Bad float/double attribute (rayon): %s' % exp)
+        value = find_attr_value_('treeDistributionMethod', node)
+        if value is not None and 'treeDistributionMethod' not in already_processed:
+            already_processed.add('treeDistributionMethod')
             try:
-                self.rawY = float(value)
+                self.treeDistributionMethod = int(value)
             except ValueError as exp:
-                raise ValueError('Bad float/double attribute (rawY): %s' % exp)
-        value = find_attr_value_('numberOfTreesInWholeScene', node)
-        if value is not None and 'numberOfTreesInWholeScene' not in already_processed:
-            already_processed.add('numberOfTreesInWholeScene')
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('branchesAndTwigsSimulation', node)
+        if value is not None and 'branchesAndTwigsSimulation' not in already_processed:
+            already_processed.add('branchesAndTwigsSimulation')
             try:
-                self.numberOfTreesInWholeScene = int(value)
+                self.branchesAndTwigsSimulation = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
         value = find_attr_value_('spatialDistribution', node)
@@ -6036,29 +6247,18 @@ class create_Specie_3(GeneratedsSuper):
                 self.spatialDistribution = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-        value = find_attr_value_('rayon', node)
-        if value is not None and 'rayon' not in already_processed:
-            already_processed.add('rayon')
-            try:
-                self.rayon = float(value)
-            except ValueError as exp:
-                raise ValueError('Bad float/double attribute (rayon): %s' % exp)
-        value = find_attr_value_('probabilityOfTreesAtTheNodesOfTheGrid', node)
-        if value is not None and 'probabilityOfTreesAtTheNodesOfTheGrid' not in already_processed:
-            already_processed.add('probabilityOfTreesAtTheNodesOfTheGrid')
-            try:
-                self.probabilityOfTreesAtTheNodesOfTheGrid = float(value)
-            except ValueError as exp:
-                raise ValueError('Bad float/double attribute (probabilityOfTreesAtTheNodesOfTheGrid): %s' % exp)
-        value = find_attr_value_('branchesAndTwigsSimulation', node)
-        if value is not None and 'branchesAndTwigsSimulation' not in already_processed:
-            already_processed.add('branchesAndTwigsSimulation')
-            try:
-                self.branchesAndTwigsSimulation = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'OpticalPropertyLink':
+        if nodeName_ == 'IntervalDistribution':
+            obj_ = create_IntervalDistribution.factory()
+            obj_.build(child_)
+            self.set_IntervalDistribution(obj_)
+            obj_.original_tagname_ = 'IntervalDistribution'
+        elif nodeName_ == 'EstimatedNumberOfTreeDistribution':
+            obj_ = create_EstimatedNumberOfTreeDistribution.factory()
+            obj_.build(child_)
+            self.set_EstimatedNumberOfTreeDistribution(obj_)
+            obj_.original_tagname_ = 'EstimatedNumberOfTreeDistribution'
+        elif nodeName_ == 'OpticalPropertyLink':
             obj_ = create_OpticalPropertyLink.factory()
             obj_.build(child_)
             self.set_OpticalPropertyLink(obj_)
@@ -6098,7 +6298,259 @@ class create_Specie_3(GeneratedsSuper):
             obj_.build(child_)
             self.set_BranchesAndTwigs(obj_)
             obj_.original_tagname_ = 'BranchesAndTwigs'
-# end class create_Specie_3
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Specie_3
+
+
+class create_IntervalDistribution(GeneratedsSuper):
+    """Interval between trees Interval between trees Inter-trees distance
+    (dx) Inter-trees distance (dx) Inter-trees distance (dy) Inter-
+    trees distance (dy)"""
+    member_data_items_ = [
+        MemberSpec_('rawX', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('rawY', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
+    subclass = None
+    superclass = None
+    def __init__(self, rawX=5.00, rawY=5.00):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot('trees','_IntervalDistribution')
+        self.attrib = ['rawX', 'rawY']
+        self.children = []
+        self.parent = None
+        self._rawX = _cast(float, rawX)
+        self._rawY = _cast(float, rawY)
+        update_node(self,self.troot,'trees')
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, create_IntervalDistribution)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if create_IntervalDistribution.subclass:
+            return create_IntervalDistribution.subclass(*args_, **kwargs_)
+        else:
+            return create_IntervalDistribution(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_rawX(self): return self._rawX
+    def set_rawX(self, value):
+        self._rawX = value
+        update_node(self,self.troot,'trees')
+    rawX = property(get_rawX, set_rawX)
+    def get_rawY(self): return self._rawY
+    def set_rawY(self, value):
+        self._rawY = value
+        update_node(self,self.troot,'trees')
+    rawY = property(get_rawY, set_rawY)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='_IntervalDistribution', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_IntervalDistribution')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_IntervalDistribution')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_IntervalDistribution', pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_IntervalDistribution'):
+        if self.rawX is not None and 'rawX' not in already_processed:
+            already_processed.add('rawX')
+            outfile.write(' rawX="%s"' % self.gds_format_double(self.rawX, input_name='rawX'))
+        if self.rawY is not None and 'rawY' not in already_processed:
+            already_processed.add('rawY')
+            outfile.write(' rawY="%s"' % self.gds_format_double(self.rawY, input_name='rawY'))
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_IntervalDistribution', fromsubclass_=False, pretty_print=True):
+        pass
+    def to_etree(self, parent_element=None, name_='_IntervalDistribution', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.rawX is not None:
+            element.set('rawX', self.gds_format_double(self.rawX))
+        if self.rawY is not None:
+            element.set('rawY', self.gds_format_double(self.rawY))
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_IntervalDistribution'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.rawX is not None and 'rawX' not in already_processed:
+            already_processed.add('rawX')
+            showIndent(outfile, level)
+            outfile.write('rawX=%e,\n' % (self.rawX,))
+        if self.rawY is not None and 'rawY' not in already_processed:
+            already_processed.add('rawY')
+            showIndent(outfile, level)
+            outfile.write('rawY=%e,\n' % (self.rawY,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('rawX', node)
+        if value is not None and 'rawX' not in already_processed:
+            already_processed.add('rawX')
+            try:
+                self.rawX = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (rawX): %s' % exp)
+        value = find_attr_value_('rawY', node)
+        if value is not None and 'rawY' not in already_processed:
+            already_processed.add('rawY')
+            try:
+                self.rawY = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (rawY): %s' % exp)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_IntervalDistribution
+
+
+class create_EstimatedNumberOfTreeDistribution(GeneratedsSuper):
+    """Estimated number of trees Estimated number of trees Estimated number
+    of trees Estimated number of trees"""
+    member_data_items_ = [
+        MemberSpec_('estimatedNumberOfTrees', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
+    subclass = None
+    superclass = None
+    def __init__(self, estimatedNumberOfTrees=12):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot('trees','_EstimatedNumberOfTreeDistribution')
+        self.attrib = ['estimatedNumberOfTrees']
+        self.children = []
+        self.parent = None
+        self._estimatedNumberOfTrees = _cast(int, estimatedNumberOfTrees)
+        update_node(self,self.troot,'trees')
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, create_EstimatedNumberOfTreeDistribution)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if create_EstimatedNumberOfTreeDistribution.subclass:
+            return create_EstimatedNumberOfTreeDistribution.subclass(*args_, **kwargs_)
+        else:
+            return create_EstimatedNumberOfTreeDistribution(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_estimatedNumberOfTrees(self): return self._estimatedNumberOfTrees
+    def set_estimatedNumberOfTrees(self, value):
+        self._estimatedNumberOfTrees = value
+        update_node(self,self.troot,'trees')
+    estimatedNumberOfTrees = property(get_estimatedNumberOfTrees, set_estimatedNumberOfTrees)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='_EstimatedNumberOfTreeDistribution', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_EstimatedNumberOfTreeDistribution')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_EstimatedNumberOfTreeDistribution')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_EstimatedNumberOfTreeDistribution', pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_EstimatedNumberOfTreeDistribution'):
+        if self.estimatedNumberOfTrees is not None and 'estimatedNumberOfTrees' not in already_processed:
+            already_processed.add('estimatedNumberOfTrees')
+            outfile.write(' estimatedNumberOfTrees="%s"' % self.gds_format_integer(self.estimatedNumberOfTrees, input_name='estimatedNumberOfTrees'))
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_EstimatedNumberOfTreeDistribution', fromsubclass_=False, pretty_print=True):
+        pass
+    def to_etree(self, parent_element=None, name_='_EstimatedNumberOfTreeDistribution', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.estimatedNumberOfTrees is not None:
+            element.set('estimatedNumberOfTrees', self.gds_format_integer(self.estimatedNumberOfTrees))
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_EstimatedNumberOfTreeDistribution'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.estimatedNumberOfTrees is not None and 'estimatedNumberOfTrees' not in already_processed:
+            already_processed.add('estimatedNumberOfTrees')
+            showIndent(outfile, level)
+            outfile.write('estimatedNumberOfTrees=%d,\n' % (self.estimatedNumberOfTrees,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('estimatedNumberOfTrees', node)
+        if value is not None and 'estimatedNumberOfTrees' not in already_processed:
+            already_processed.add('estimatedNumberOfTrees')
+            try:
+                self.estimatedNumberOfTrees = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_EstimatedNumberOfTreeDistribution
 
 
 class create_EllipsoidSubZone(GeneratedsSuper):
@@ -6108,11 +6560,17 @@ class create_EllipsoidSubZone(GeneratedsSuper):
     zone Y axis (radius) for ellipse Y axis (radius) for ellipse x
     coordinate of the center of the elliptical zone x coordinate of
     the center of the elliptical zone"""
+    member_data_items_ = [
+        MemberSpec_('radiusXEllipseZoneTree', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ellipseCenterY0', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('radiusYEllipseZoneTree', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ellipseCenterX0', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, radiusXEllipseZoneTree=2.0, ellipseCenterY0=5.0, radiusYEllipseZoneTree=3.0, ellipseCenterX0=5.0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_EllipsoidSubZone")
+        self.troot=get_gs_troot('trees','_EllipsoidSubZone')
         self.attrib = ['radiusXEllipseZoneTree', 'ellipseCenterY0', 'radiusYEllipseZoneTree', 'ellipseCenterX0']
         self.children = []
         self.parent = None
@@ -6120,7 +6578,7 @@ class create_EllipsoidSubZone(GeneratedsSuper):
         self._ellipseCenterY0 = _cast(float, ellipseCenterY0)
         self._radiusYEllipseZoneTree = _cast(float, radiusYEllipseZoneTree)
         self._ellipseCenterX0 = _cast(float, ellipseCenterX0)
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -6135,22 +6593,22 @@ class create_EllipsoidSubZone(GeneratedsSuper):
     def get_radiusXEllipseZoneTree(self): return self._radiusXEllipseZoneTree
     def set_radiusXEllipseZoneTree(self, value):
         self._radiusXEllipseZoneTree = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     radiusXEllipseZoneTree = property(get_radiusXEllipseZoneTree, set_radiusXEllipseZoneTree)
     def get_ellipseCenterY0(self): return self._ellipseCenterY0
     def set_ellipseCenterY0(self, value):
         self._ellipseCenterY0 = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     ellipseCenterY0 = property(get_ellipseCenterY0, set_ellipseCenterY0)
     def get_radiusYEllipseZoneTree(self): return self._radiusYEllipseZoneTree
     def set_radiusYEllipseZoneTree(self, value):
         self._radiusYEllipseZoneTree = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     radiusYEllipseZoneTree = property(get_radiusYEllipseZoneTree, set_radiusYEllipseZoneTree)
     def get_ellipseCenterX0(self): return self._ellipseCenterX0
     def set_ellipseCenterX0(self, value):
         self._ellipseCenterX0 = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     ellipseCenterX0 = property(get_ellipseCenterX0, set_ellipseCenterX0)
     def copy(self):
         obj_ = self.factory()
@@ -6276,7 +6734,9 @@ class create_EllipsoidSubZone(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (ellipseCenterX0): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_EllipsoidSubZone
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_EllipsoidSubZone
 
 
 class create_Polygon2D(GeneratedsSuper):
@@ -6284,11 +6744,14 @@ class create_Polygon2D(GeneratedsSuper):
     starting form the top left one, and turning anticlockwise.
     Representation of a DART polygon. It's defined by its 4 corners,
     starting form the top left one, and turning anticlockwise."""
+    member_data_items_ = [
+        MemberSpec_('Point2D', '_Point2D', 1, 0, {u'maxOccurs': u'4', u'type': u'_Point2D', u'name': u'Point2D', u'minOccurs': u'4'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, Point2D=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_Polygon2D")
+        self.troot=get_gs_troot('trees','_Polygon2D')
         self.attrib = ['']
         self.children = ['Point2D']
         self.parent = None
@@ -6296,7 +6759,7 @@ class create_Polygon2D(GeneratedsSuper):
             self._Point2D = []
         else:
             self._Point2D = Point2D
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -6416,7 +6879,9 @@ class create_Polygon2D(GeneratedsSuper):
             obj_.build(child_)
             self.add_Point2D(obj_)
             obj_.original_tagname_ = 'Point2D'
-# end class create_Polygon2D
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Polygon2D
 
 
 class create_TreeGeneralOptions(GeneratedsSuper):
@@ -6425,17 +6890,21 @@ class create_TreeGeneralOptions(GeneratedsSuper):
     juxtaposition of turbid cells. If checked, the tree's crowns
     will be represented as a cloud of triangles. Otherwise, they
     will be represented as a juxtaposition of turbid cells."""
+    member_data_items_ = [
+        MemberSpec_('triangleTreeRepresentation', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('MeshTreeRepresentation', '_MeshTreeRepresentation', 0, 0, {u'maxOccurs': u'1', u'type': u'_MeshTreeRepresentation', u'name': u'MeshTreeRepresentation', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, triangleTreeRepresentation=0, MeshTreeRepresentation=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_TreeGeneralOptions")
+        self.troot=get_gs_troot('trees','_TreeGeneralOptions')
         self.attrib = ['triangleTreeRepresentation']
         self.children = ['MeshTreeRepresentation']
         self.parent = None
         self._triangleTreeRepresentation = _cast(int, triangleTreeRepresentation)
         self._MeshTreeRepresentation = MeshTreeRepresentation
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -6457,7 +6926,7 @@ class create_TreeGeneralOptions(GeneratedsSuper):
     def get_triangleTreeRepresentation(self): return self._triangleTreeRepresentation
     def set_triangleTreeRepresentation(self, value):
         self._triangleTreeRepresentation = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     triangleTreeRepresentation = property(get_triangleTreeRepresentation, set_triangleTreeRepresentation)
     def copy(self):
         obj_ = self.factory()
@@ -6553,7 +7022,9 @@ class create_TreeGeneralOptions(GeneratedsSuper):
             obj_.build(child_)
             self.set_MeshTreeRepresentation(obj_)
             obj_.original_tagname_ = 'MeshTreeRepresentation'
-# end class create_TreeGeneralOptions
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_TreeGeneralOptions
 
 
 class create_MeshTreeRepresentation(GeneratedsSuper):
@@ -6561,11 +7032,17 @@ class create_MeshTreeRepresentation(GeneratedsSuper):
     Defines how the leaves are geometrically distributed in the
     crown. Definition of the leaves geometry and numbers. Definition
     of the leaves geometry and numbers."""
+    member_data_items_ = [
+        MemberSpec_('distributionMode', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('leafDefinition', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('NumberOfTriangleParameters', '_NumberOfTriangleParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_NumberOfTriangleParameters', u'name': u'NumberOfTriangleParameters', u'minOccurs': u'1'}, None),
+        MemberSpec_('MeshLeafDimensionParameters', '_MeshLeafDimensionParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_MeshLeafDimensionParameters', u'name': u'MeshLeafDimensionParameters', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, distributionMode=0, leafDefinition=1, NumberOfTriangleParameters=None, MeshLeafDimensionParameters=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_MeshTreeRepresentation")
+        self.troot=get_gs_troot('trees','_MeshTreeRepresentation')
         self.attrib = ['distributionMode', 'leafDefinition']
         self.children = ['NumberOfTriangleParameters', 'MeshLeafDimensionParameters']
         self.parent = None
@@ -6573,7 +7050,7 @@ class create_MeshTreeRepresentation(GeneratedsSuper):
         self._leafDefinition = _cast(int, leafDefinition)
         self._NumberOfTriangleParameters = NumberOfTriangleParameters
         self._MeshLeafDimensionParameters = MeshLeafDimensionParameters
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -6602,12 +7079,12 @@ class create_MeshTreeRepresentation(GeneratedsSuper):
     def get_distributionMode(self): return self._distributionMode
     def set_distributionMode(self, value):
         self._distributionMode = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     distributionMode = property(get_distributionMode, set_distributionMode)
     def get_leafDefinition(self): return self._leafDefinition
     def set_leafDefinition(self, value):
         self._leafDefinition = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     leafDefinition = property(get_leafDefinition, set_leafDefinition)
     def copy(self):
         obj_ = self.factory()
@@ -6736,7 +7213,9 @@ class create_MeshTreeRepresentation(GeneratedsSuper):
             obj_.build(child_)
             self.set_MeshLeafDimensionParameters(obj_)
             obj_.original_tagname_ = 'MeshLeafDimensionParameters'
-# end class create_MeshTreeRepresentation
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_MeshTreeRepresentation
 
 
 class create_NumberOfTriangleParameters(GeneratedsSuper):
@@ -6748,16 +7227,19 @@ class create_NumberOfTriangleParameters(GeneratedsSuper):
     area of leaves in the crown divided by this number. The real
     final number per tree generated may vary due to rounding and
     distribution errors."""
+    member_data_items_ = [
+        MemberSpec_('nbTrianglesPerTree', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, nbTrianglesPerTree=10000):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_NumberOfTriangleParameters")
+        self.troot=get_gs_troot('trees','_NumberOfTriangleParameters')
         self.attrib = ['nbTrianglesPerTree']
         self.children = []
         self.parent = None
         self._nbTrianglesPerTree = _cast(int, nbTrianglesPerTree)
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -6772,7 +7254,7 @@ class create_NumberOfTriangleParameters(GeneratedsSuper):
     def get_nbTrianglesPerTree(self): return self._nbTrianglesPerTree
     def set_nbTrianglesPerTree(self, value):
         self._nbTrianglesPerTree = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     nbTrianglesPerTree = property(get_nbTrianglesPerTree, set_nbTrianglesPerTree)
     def copy(self):
         obj_ = self.factory()
@@ -6850,7 +7332,9 @@ class create_NumberOfTriangleParameters(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_NumberOfTriangleParameters
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_NumberOfTriangleParameters
 
 
 class create_MeshLeafDimensionParameters(GeneratedsSuper):
@@ -6862,16 +7346,19 @@ class create_MeshLeafDimensionParameters(GeneratedsSuper):
     will then be the total area of leaves in the crown divided by
     this number. The real final number per tree generated may vary
     due to rounding and distribution errors."""
+    member_data_items_ = [
+        MemberSpec_('meshLeafDimension', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, meshLeafDimension=0.003):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("trees","_MeshLeafDimensionParameters")
+        self.troot=get_gs_troot('trees','_MeshLeafDimensionParameters')
         self.attrib = ['meshLeafDimension']
         self.children = []
         self.parent = None
         self._meshLeafDimension = _cast(float, meshLeafDimension)
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -6886,7 +7373,7 @@ class create_MeshLeafDimensionParameters(GeneratedsSuper):
     def get_meshLeafDimension(self): return self._meshLeafDimension
     def set_meshLeafDimension(self, value):
         self._meshLeafDimension = value
-        update_node(self,self.troot,"trees")
+        update_node(self,self.troot,'trees')
     meshLeafDimension = property(get_meshLeafDimension, set_meshLeafDimension)
     def copy(self):
         obj_ = self.factory()
@@ -6964,7 +7451,9 @@ class create_MeshLeafDimensionParameters(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (meshLeafDimension): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_MeshLeafDimensionParameters
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_MeshLeafDimensionParameters
 
 
 GDSClassesMapping = {
@@ -7105,7 +7594,9 @@ __all__ = [
     "create_CrownTrapezoid",
     "create_CrownTruncatedCone",
     "create_EllipsoidSubZone",
+    "create_EstimatedNumberOfTreeDistribution",
     "create_HolesDistribution",
+    "create_IntervalDistribution",
     "create_LaiZoneProperties",
     "create_LeavesDistribution",
     "create_MeshLeafDimensionParameters",

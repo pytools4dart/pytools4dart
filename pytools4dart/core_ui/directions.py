@@ -2,28 +2,30 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Wed Oct 31 15:06:23 2018 by generateDS.py version 2.29.25.
-# Python 2.7.15rc1 (default, Apr 15 2018, 21:51:34)  [GCC 7.3.0]
+# Generated Wed Jan  2 18:30:49 2019 by generateDS.py version 2.29.25.
+# Python 2.7.15rc1 (default, Nov 12 2018, 14:31:15)  [GCC 7.3.0]
 #
 # Command line options:
 #   ('-m', '')
+#   ('-f', '')
 #   ('--always-export-default', '')
 #   ('--export', 'write literal etree')
+#   ('-u', 'pytools4dart.core_ui.user_methods')
 #   ('-p', 'create')
-#   ('--post-attrib-setter', 'update_node(self,self.troot,"directions")')
-#   ('--pre-ctor', 'self.troot=get_gs_troot("directions","{classname}")')
-#   ('--post-ctor', 'update_node(self,self.troot,"directions")')
+#   ('--post-attrib-setter', "update_node(self,self.troot,'directions')")
+#   ('--pre-ctor', "self.troot=get_gs_troot('directions','{classname}')")
+#   ('--post-ctor', "update_node(self,self.troot,'directions')")
 #   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node')
-#   ('-o', '/home/claudia/tmp/directions.py')
+#   ('-o', 'pytools4dart/core_ui/directions.py')
 #
 # Command line arguments:
-#   /home/claudia/DEV/pytools4dartMTD/pytools4dart/core_ui/directions.xsd
+#   pytools4dart/xsdschemas/directions.xsd
 #
 # Command line:
-#   /home/claudia/DEV/pytools4dartMTD/venv/bin/generateDS.py -m --always-export-default --export="write literal etree" -p "create" --post-attrib-setter="update_node(self,self.troot,"directions")" --pre-ctor="self.troot=get_gs_troot("directions","{classname}")" --post-ctor="update_node(self,self.troot,"directions")" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node" -o "/home/claudia/tmp/directions.py" /home/claudia/DEV/pytools4dartMTD/pytools4dart/core_ui/directions.xsd
+#   /home/boissieu/git/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "pytools4dart.core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'directions')" --pre-ctor="self.troot=get_gs_troot('directions','{classname}')" --post-ctor="update_node(self,self.troot,'directions')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node" -o "pytools4dart/core_ui/directions.py" pytools4dart/xsdschemas/directions.xsd
 #
 # Current working directory (os.getcwd()):
-#   generateds
+#   pytools4dartMTD
 #
 
 import sys
@@ -742,18 +744,23 @@ class createDartFile(GeneratedsSuper):
     """Version of the plots.xml file. Depends of the version on DART
     itself. Version of the plots.xml file. Depends of the version on
     DART itself."""
+    member_data_items_ = [
+        MemberSpec_('version', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('build_', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Directions', '_Directions', 0, 0, {u'maxOccurs': u'1', u'type': u'_Directions', u'name': u'Directions', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
-    def __init__(self, version='5.7.1', build_='0', Directions=None):
+    def __init__(self, version='5.7.4', build_='0', Directions=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("directions","DartFile")
+        self.troot=get_gs_troot('directions','DartFile')
         self.attrib = ['version', 'build_']
         self.children = ['Directions']
         self.parent = None
         self._version = _cast(None, version)
         self._build_ = _cast(None, build_)
         self._Directions = Directions
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -775,12 +782,12 @@ class createDartFile(GeneratedsSuper):
     def get_version(self): return self._version
     def set_version(self, value):
         self._version = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     version = property(get_version, set_version)
     def get_build(self): return self._build_
     def set_build(self, value):
         self._build_ = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     build_ = property(get_build, set_build)
     def copy(self):
         obj_ = self.factory()
@@ -886,7 +893,9 @@ class createDartFile(GeneratedsSuper):
             obj_.build(child_)
             self.set_Directions(obj_)
             obj_.original_tagname_ = 'Directions'
-# end class createDartFile
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class createDartFile
 
 
 class create_Directions(GeneratedsSuper):
@@ -902,11 +911,26 @@ class create_Directions(GeneratedsSuper):
     Solar Angle (Ground to Sun)\nSolar angles calculated from the
     localisation of the scene (longitude and latitude) and the exact
     (local) date (YY/MM/DD and HH/MM/SS)"""
+    member_data_items_ = [
+        MemberSpec_('ifCosWeighted', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('numberOfPropagationDirections', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('exactDate', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('AddedDirections', '_AddedDirections', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_AddedDirections', u'name': u'AddedDirections', u'minOccurs': u'0'}, None),
+        MemberSpec_('Region', '_Region', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_Region', u'name': u'Region', u'minOccurs': u'0'}, None),
+        MemberSpec_('OversampledPlane', '_OversampledPlane', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_OversampledPlane', u'name': u'OversampledPlane', u'minOccurs': u'0'}, None),
+        MemberSpec_('Sun', '_Sun', 0, 0, {u'maxOccurs': u'1', u'type': u'_Sun', u'name': u'Sun', u'minOccurs': u'1'}, None),
+        MemberSpec_('ExactDateHour', '_ExactDateHour', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExactDateHour', u'name': u'ExactDateHour', u'minOccurs': u'1'}, None),
+        MemberSpec_('SunViewingAngles', '_SunViewingAngles', 0, 0, {u'maxOccurs': u'1', u'type': u'_SunViewingAngles', u'name': u'SunViewingAngles', u'minOccurs': u'1'}, None),
+        MemberSpec_('HotSpotProperties', '_HotSpotProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_HotSpotProperties', u'name': u'HotSpotProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('Penumbra', '_Penumbra', 0, 0, {u'maxOccurs': u'1', u'type': u'_Penumbra', u'name': u'Penumbra', u'minOccurs': u'1'}, None),
+        MemberSpec_('AzimuthalOffset', '_AzimuthalOffset', 0, 0, {u'maxOccurs': u'1', u'type': u'_AzimuthalOffset', u'name': u'AzimuthalOffset', u'minOccurs': u'1'}, None),
+        MemberSpec_('ExpertModeZone', '_ExpertModeZone', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExpertModeZone', u'name': u'ExpertModeZone', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, ifCosWeighted=0, numberOfPropagationDirections=100, exactDate=2, AddedDirections=None, Region=None, OversampledPlane=None, Sun=None, ExactDateHour=None, SunViewingAngles=None, HotSpotProperties=None, Penumbra=None, AzimuthalOffset=None, ExpertModeZone=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("directions","_Directions")
+        self.troot=get_gs_troot('directions','_Directions')
         self.attrib = ['ifCosWeighted', 'numberOfPropagationDirections', 'exactDate']
         self.children = ['AddedDirections', 'Region', 'OversampledPlane', 'Sun', 'ExactDateHour', 'SunViewingAngles', 'HotSpotProperties', 'Penumbra', 'AzimuthalOffset', 'ExpertModeZone']
         self.parent = None
@@ -932,7 +956,7 @@ class create_Directions(GeneratedsSuper):
         self._Penumbra = Penumbra
         self._AzimuthalOffset = AzimuthalOffset
         self._ExpertModeZone = ExpertModeZone
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1047,17 +1071,17 @@ class create_Directions(GeneratedsSuper):
     def get_ifCosWeighted(self): return self._ifCosWeighted
     def set_ifCosWeighted(self, value):
         self._ifCosWeighted = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     ifCosWeighted = property(get_ifCosWeighted, set_ifCosWeighted)
     def get_numberOfPropagationDirections(self): return self._numberOfPropagationDirections
     def set_numberOfPropagationDirections(self, value):
         self._numberOfPropagationDirections = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     numberOfPropagationDirections = property(get_numberOfPropagationDirections, set_numberOfPropagationDirections)
     def get_exactDate(self): return self._exactDate
     def set_exactDate(self, value):
         self._exactDate = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     exactDate = property(get_exactDate, set_exactDate)
     def copy(self):
         obj_ = self.factory()
@@ -1356,7 +1380,9 @@ class create_Directions(GeneratedsSuper):
             obj_.build(child_)
             self.set_ExpertModeZone(obj_)
             obj_.original_tagname_ = 'ExpertModeZone'
-# end class create_Directions
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Directions
 
 
 class create_AddedDirections(GeneratedsSuper):
@@ -1386,11 +1412,21 @@ class create_AddedDirections(GeneratedsSuper):
     directional sampling for selection of instant directional phase
     function during scattering event. The directions are essentially
     virtual."""
+    member_data_items_ = [
+        MemberSpec_('imageDirection', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ifSquareShape', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('directionType', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ifPhaseOnly', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ZenithAzimuth', '_ZenithAzimuth', 0, 0, {u'maxOccurs': u'1', u'type': u'_ZenithAzimuth', u'name': u'ZenithAzimuth', u'minOccurs': u'1'}, None),
+        MemberSpec_('LatLon', '_LatLon', 0, 0, {u'maxOccurs': u'1', u'type': u'_LatLon', u'name': u'LatLon', u'minOccurs': u'1'}, None),
+        MemberSpec_('Rectangle', '_Rectangle', 0, 0, {u'maxOccurs': u'1', u'type': u'_Rectangle', u'name': u'Rectangle', u'minOccurs': u'1'}, None),
+        MemberSpec_('Square', '_Square', 0, 0, {u'maxOccurs': u'1', u'type': u'_Square', u'name': u'Square', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, imageDirection=1, ifSquareShape=1, directionType=0, ifPhaseOnly=0, ZenithAzimuth=None, LatLon=None, Rectangle=None, Square=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("directions","_AddedDirections")
+        self.troot=get_gs_troot('directions','_AddedDirections')
         self.attrib = ['imageDirection', 'ifSquareShape', 'directionType', 'ifPhaseOnly']
         self.children = ['ZenithAzimuth', 'LatLon', 'Rectangle', 'Square']
         self.parent = None
@@ -1402,7 +1438,7 @@ class create_AddedDirections(GeneratedsSuper):
         self._LatLon = LatLon
         self._Rectangle = Rectangle
         self._Square = Square
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1445,22 +1481,22 @@ class create_AddedDirections(GeneratedsSuper):
     def get_imageDirection(self): return self._imageDirection
     def set_imageDirection(self, value):
         self._imageDirection = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     imageDirection = property(get_imageDirection, set_imageDirection)
     def get_ifSquareShape(self): return self._ifSquareShape
     def set_ifSquareShape(self, value):
         self._ifSquareShape = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     ifSquareShape = property(get_ifSquareShape, set_ifSquareShape)
     def get_directionType(self): return self._directionType
     def set_directionType(self, value):
         self._directionType = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     directionType = property(get_directionType, set_directionType)
     def get_ifPhaseOnly(self): return self._ifPhaseOnly
     def set_ifPhaseOnly(self, value):
         self._ifPhaseOnly = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     ifPhaseOnly = property(get_ifPhaseOnly, set_ifPhaseOnly)
     def copy(self):
         obj_ = self.factory()
@@ -1655,7 +1691,9 @@ class create_AddedDirections(GeneratedsSuper):
             obj_.build(child_)
             self.set_Square(obj_)
             obj_.original_tagname_ = 'Square'
-# end class create_AddedDirections
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_AddedDirections
 
 
 class create_ZenithAzimuth(GeneratedsSuper):
@@ -1667,17 +1705,21 @@ class create_ZenithAzimuth(GeneratedsSuper):
     the added direction: \n- value in [0\u00B0, 90\u00B0[ adds an
     upward region. \n- value in ]90\u00B0, 180\u00B0] adds a
     downward region."""
+    member_data_items_ = [
+        MemberSpec_('directionAzimuthalAngle', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('directionZenithalAngle', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, directionAzimuthalAngle=0, directionZenithalAngle=40.0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("directions","_ZenithAzimuth")
+        self.troot=get_gs_troot('directions','_ZenithAzimuth')
         self.attrib = ['directionAzimuthalAngle', 'directionZenithalAngle']
         self.children = []
         self.parent = None
         self._directionAzimuthalAngle = _cast(float, directionAzimuthalAngle)
         self._directionZenithalAngle = _cast(float, directionZenithalAngle)
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1692,12 +1734,12 @@ class create_ZenithAzimuth(GeneratedsSuper):
     def get_directionAzimuthalAngle(self): return self._directionAzimuthalAngle
     def set_directionAzimuthalAngle(self, value):
         self._directionAzimuthalAngle = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     directionAzimuthalAngle = property(get_directionAzimuthalAngle, set_directionAzimuthalAngle)
     def get_directionZenithalAngle(self): return self._directionZenithalAngle
     def set_directionZenithalAngle(self, value):
         self._directionZenithalAngle = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     directionZenithalAngle = property(get_directionZenithalAngle, set_directionZenithalAngle)
     def copy(self):
         obj_ = self.factory()
@@ -1791,23 +1833,30 @@ class create_ZenithAzimuth(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (directionZenithalAngle): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_ZenithAzimuth
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ZenithAzimuth
 
 
 class create_LatLon(GeneratedsSuper):
     """Latitude Latitude Altitude Altitude Longitude Longitude"""
+    member_data_items_ = [
+        MemberSpec_('latitude', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('altitude', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('longitude', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, latitude=0, altitude=35600.0, longitude=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("directions","_LatLon")
+        self.troot=get_gs_troot('directions','_LatLon')
         self.attrib = ['latitude', 'altitude', 'longitude']
         self.children = []
         self.parent = None
         self._latitude = _cast(float, latitude)
         self._altitude = _cast(float, altitude)
         self._longitude = _cast(float, longitude)
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1822,17 +1871,17 @@ class create_LatLon(GeneratedsSuper):
     def get_latitude(self): return self._latitude
     def set_latitude(self, value):
         self._latitude = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     latitude = property(get_latitude, set_latitude)
     def get_altitude(self): return self._altitude
     def set_altitude(self, value):
         self._altitude = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     altitude = property(get_altitude, set_altitude)
     def get_longitude(self): return self._longitude
     def set_longitude(self, value):
         self._longitude = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     longitude = property(get_longitude, set_longitude)
     def copy(self):
         obj_ = self.factory()
@@ -1942,7 +1991,9 @@ class create_LatLon(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (longitude): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_LatLon
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_LatLon
 
 
 class create_Rectangle(GeneratedsSuper):
@@ -1950,17 +2001,21 @@ class create_Rectangle(GeneratedsSuper):
     Zenithal width of the region in the [0\u00B0, 180\u00B0] range
     Azimuthal width of the region in the [0\u00B0, 360\u00B0] range
     Azimuthal width of the region in the [0\u00B0, 360\u00B0] range"""
+    member_data_items_ = [
+        MemberSpec_('deltaTheta', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('deltaPhi', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, deltaTheta=2, deltaPhi=2):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("directions","_Rectangle")
+        self.troot=get_gs_troot('directions','_Rectangle')
         self.attrib = ['deltaTheta', 'deltaPhi']
         self.children = []
         self.parent = None
         self._deltaTheta = _cast(float, deltaTheta)
         self._deltaPhi = _cast(float, deltaPhi)
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1975,12 +2030,12 @@ class create_Rectangle(GeneratedsSuper):
     def get_deltaTheta(self): return self._deltaTheta
     def set_deltaTheta(self, value):
         self._deltaTheta = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     deltaTheta = property(get_deltaTheta, set_deltaTheta)
     def get_deltaPhi(self): return self._deltaPhi
     def set_deltaPhi(self, value):
         self._deltaPhi = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     deltaPhi = property(get_deltaPhi, set_deltaPhi)
     def copy(self):
         obj_ = self.factory()
@@ -2074,17 +2129,25 @@ class create_Rectangle(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (deltaPhi): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_Rectangle
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Rectangle
 
 
 class create_Square(GeneratedsSuper):
     """The parameter used to described the width of the square. The
     parameter used to described the width of the square."""
+    member_data_items_ = [
+        MemberSpec_('widthDefinition', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('DefineOmega', '_DefineOmega', 0, 0, {u'maxOccurs': u'1', u'type': u'_DefineOmega', u'name': u'DefineOmega', u'minOccurs': u'1'}, None),
+        MemberSpec_('DefineDeltaPhi', '_DefineDeltaPhi', 0, 0, {u'maxOccurs': u'1', u'type': u'_DefineDeltaPhi', u'name': u'DefineDeltaPhi', u'minOccurs': u'1'}, None),
+        MemberSpec_('DefineDeltaTheta', '_DefineDeltaTheta', 0, 0, {u'maxOccurs': u'1', u'type': u'_DefineDeltaTheta', u'name': u'DefineDeltaTheta', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, widthDefinition=0, DefineOmega=None, DefineDeltaPhi=None, DefineDeltaTheta=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("directions","_Square")
+        self.troot=get_gs_troot('directions','_Square')
         self.attrib = ['widthDefinition']
         self.children = ['DefineOmega', 'DefineDeltaPhi', 'DefineDeltaTheta']
         self.parent = None
@@ -2092,7 +2155,7 @@ class create_Square(GeneratedsSuper):
         self._DefineOmega = DefineOmega
         self._DefineDeltaPhi = DefineDeltaPhi
         self._DefineDeltaTheta = DefineDeltaTheta
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2128,7 +2191,7 @@ class create_Square(GeneratedsSuper):
     def get_widthDefinition(self): return self._widthDefinition
     def set_widthDefinition(self, value):
         self._widthDefinition = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     widthDefinition = property(get_widthDefinition, set_widthDefinition)
     def copy(self):
         obj_ = self.factory()
@@ -2258,21 +2321,26 @@ class create_Square(GeneratedsSuper):
             obj_.build(child_)
             self.set_DefineDeltaTheta(obj_)
             obj_.original_tagname_ = 'DefineDeltaTheta'
-# end class create_Square
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Square
 
 
 class create_DefineOmega(GeneratedsSuper):
     """Solid Angle (steradians) Solid Angle (steradians)"""
+    member_data_items_ = [
+        MemberSpec_('omega', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, omega=0.001):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("directions","_DefineOmega")
+        self.troot=get_gs_troot('directions','_DefineOmega')
         self.attrib = ['omega']
         self.children = []
         self.parent = None
         self._omega = _cast(float, omega)
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2287,7 +2355,7 @@ class create_DefineOmega(GeneratedsSuper):
     def get_omega(self): return self._omega
     def set_omega(self, value):
         self._omega = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     omega = property(get_omega, set_omega)
     def copy(self):
         obj_ = self.factory()
@@ -2365,22 +2433,27 @@ class create_DefineOmega(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (omega): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_DefineOmega
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_DefineOmega
 
 
 class create_DefineDeltaPhi(GeneratedsSuper):
     """Azimuthal width of the region in the [0\u00B0, 360\u00B0] range
     Azimuthal width of the region in the [0\u00B0, 360\u00B0] range"""
+    member_data_items_ = [
+        MemberSpec_('deltaPhi', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, deltaPhi=2):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("directions","_DefineDeltaPhi")
+        self.troot=get_gs_troot('directions','_DefineDeltaPhi')
         self.attrib = ['deltaPhi']
         self.children = []
         self.parent = None
         self._deltaPhi = _cast(float, deltaPhi)
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2395,7 +2468,7 @@ class create_DefineDeltaPhi(GeneratedsSuper):
     def get_deltaPhi(self): return self._deltaPhi
     def set_deltaPhi(self, value):
         self._deltaPhi = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     deltaPhi = property(get_deltaPhi, set_deltaPhi)
     def copy(self):
         obj_ = self.factory()
@@ -2473,22 +2546,27 @@ class create_DefineDeltaPhi(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (deltaPhi): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_DefineDeltaPhi
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_DefineDeltaPhi
 
 
 class create_DefineDeltaTheta(GeneratedsSuper):
     """Zenithal width of the region in the [0\u00B0, 180\u00B0] range
     Zenithal width of the region in the [0\u00B0, 180\u00B0] range"""
+    member_data_items_ = [
+        MemberSpec_('deltaTheta', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, deltaTheta=2):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("directions","_DefineDeltaTheta")
+        self.troot=get_gs_troot('directions','_DefineDeltaTheta')
         self.attrib = ['deltaTheta']
         self.children = []
         self.parent = None
         self._deltaTheta = _cast(float, deltaTheta)
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2503,7 +2581,7 @@ class create_DefineDeltaTheta(GeneratedsSuper):
     def get_deltaTheta(self): return self._deltaTheta
     def set_deltaTheta(self, value):
         self._deltaTheta = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     deltaTheta = property(get_deltaTheta, set_deltaTheta)
     def copy(self):
         obj_ = self.factory()
@@ -2581,7 +2659,9 @@ class create_DefineDeltaTheta(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (deltaTheta): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_DefineDeltaTheta
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_DefineDeltaTheta
 
 
 class create_Region(GeneratedsSuper):
@@ -2615,11 +2695,23 @@ class create_Region(GeneratedsSuper):
     this, choose "LatLon Coordinates". All the oversampled direction
     have virtual property All the oversampled direction have virtual
     property"""
+    member_data_items_ = [
+        MemberSpec_('numberOfDirections', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ifPhaseOnly', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('imageDirection', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ifSquareShape', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('regionType', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ifVirtual', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ZenithAzimuth', '_ZenithAzimuth', 0, 0, {u'maxOccurs': u'1', u'type': u'_ZenithAzimuth', u'name': u'ZenithAzimuth', u'minOccurs': u'1'}, None),
+        MemberSpec_('LatLon', '_LatLon', 0, 0, {u'maxOccurs': u'1', u'type': u'_LatLon', u'name': u'LatLon', u'minOccurs': u'1'}, None),
+        MemberSpec_('Rectangle', '_Rectangle', 0, 0, {u'maxOccurs': u'1', u'type': u'_Rectangle', u'name': u'Rectangle', u'minOccurs': u'1'}, None),
+        MemberSpec_('Square', '_Square', 0, 0, {u'maxOccurs': u'1', u'type': u'_Square', u'name': u'Square', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, numberOfDirections=25, ifPhaseOnly=0, imageDirection=1, ifSquareShape=1, regionType=0, ifVirtual=0, ZenithAzimuth=None, LatLon=None, Rectangle=None, Square=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("directions","_Region")
+        self.troot=get_gs_troot('directions','_Region')
         self.attrib = ['numberOfDirections', 'ifPhaseOnly', 'imageDirection', 'ifSquareShape', 'regionType', 'ifVirtual']
         self.children = ['ZenithAzimuth', 'LatLon', 'Rectangle', 'Square']
         self.parent = None
@@ -2633,7 +2725,7 @@ class create_Region(GeneratedsSuper):
         self._LatLon = LatLon
         self._Rectangle = Rectangle
         self._Square = Square
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2676,32 +2768,32 @@ class create_Region(GeneratedsSuper):
     def get_numberOfDirections(self): return self._numberOfDirections
     def set_numberOfDirections(self, value):
         self._numberOfDirections = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     numberOfDirections = property(get_numberOfDirections, set_numberOfDirections)
     def get_ifPhaseOnly(self): return self._ifPhaseOnly
     def set_ifPhaseOnly(self, value):
         self._ifPhaseOnly = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     ifPhaseOnly = property(get_ifPhaseOnly, set_ifPhaseOnly)
     def get_imageDirection(self): return self._imageDirection
     def set_imageDirection(self, value):
         self._imageDirection = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     imageDirection = property(get_imageDirection, set_imageDirection)
     def get_ifSquareShape(self): return self._ifSquareShape
     def set_ifSquareShape(self, value):
         self._ifSquareShape = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     ifSquareShape = property(get_ifSquareShape, set_ifSquareShape)
     def get_regionType(self): return self._regionType
     def set_regionType(self, value):
         self._regionType = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     regionType = property(get_regionType, set_regionType)
     def get_ifVirtual(self): return self._ifVirtual
     def set_ifVirtual(self, value):
         self._ifVirtual = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     ifVirtual = property(get_ifVirtual, set_ifVirtual)
     def copy(self):
         obj_ = self.factory()
@@ -2928,7 +3020,9 @@ class create_Region(GeneratedsSuper):
             obj_.build(child_)
             self.set_Square(obj_)
             obj_.original_tagname_ = 'Square'
-# end class create_Region
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Region
 
 
 class create_OversampledPlane(GeneratedsSuper):
@@ -2939,11 +3033,18 @@ class create_OversampledPlane(GeneratedsSuper):
     steradians). Solid angle for each direction in the oversampled
     plane (in steradians). Plane Azimuth Plane Azimuth Define Zenith
     Angle range Define Zenith Angle range"""
+    member_data_items_ = [
+        MemberSpec_('deltaTheta', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('omega', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('phi', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('defRange', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('thetaRange', '_thetaRange', 0, 0, {u'maxOccurs': u'1', u'type': u'_thetaRange', u'name': u'thetaRange', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, deltaTheta=10.0, omega=0.001, phi=65.0, defRange=0, thetaRange=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("directions","_OversampledPlane")
+        self.troot=get_gs_troot('directions','_OversampledPlane')
         self.attrib = ['deltaTheta', 'omega', 'phi', 'defRange']
         self.children = ['thetaRange']
         self.parent = None
@@ -2952,7 +3053,7 @@ class create_OversampledPlane(GeneratedsSuper):
         self._phi = _cast(float, phi)
         self._defRange = _cast(int, defRange)
         self._thetaRange = thetaRange
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2974,22 +3075,22 @@ class create_OversampledPlane(GeneratedsSuper):
     def get_deltaTheta(self): return self._deltaTheta
     def set_deltaTheta(self, value):
         self._deltaTheta = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     deltaTheta = property(get_deltaTheta, set_deltaTheta)
     def get_omega(self): return self._omega
     def set_omega(self, value):
         self._omega = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     omega = property(get_omega, set_omega)
     def get_phi(self): return self._phi
     def set_phi(self, value):
         self._phi = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     phi = property(get_phi, set_phi)
     def get_defRange(self): return self._defRange
     def set_defRange(self, value):
         self._defRange = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     defRange = property(get_defRange, set_defRange)
     def copy(self):
         obj_ = self.factory()
@@ -3133,23 +3234,29 @@ class create_OversampledPlane(GeneratedsSuper):
             obj_.build(child_)
             self.set_thetaRange(obj_)
             obj_.original_tagname_ = 'thetaRange'
-# end class create_OversampledPlane
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_OversampledPlane
 
 
 class create_thetaRange(GeneratedsSuper):
     """Zenith Angle range Zenith Angle range Begin [\u00B0] Begin [\u00B0]
     End [\u00B0] End [\u00B0]"""
+    member_data_items_ = [
+        MemberSpec_('theta__0', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('theta__1', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, theta__0=-90, theta__1=90):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("directions","_thetaRange")
+        self.troot=get_gs_troot('directions','_thetaRange')
         self.attrib = ['theta__0', 'theta__1']
         self.children = []
         self.parent = None
         self._theta__0 = _cast(float, theta__0)
         self._theta__1 = _cast(float, theta__1)
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3164,12 +3271,12 @@ class create_thetaRange(GeneratedsSuper):
     def get_theta__0(self): return self._theta__0
     def set_theta__0(self, value):
         self._theta__0 = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     theta__0 = property(get_theta__0, set_theta__0)
     def get_theta__1(self): return self._theta__1
     def set_theta__1(self, value):
         self._theta__1 = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     theta__1 = property(get_theta__1, set_theta__1)
     def copy(self):
         obj_ = self.factory()
@@ -3263,7 +3370,9 @@ class create_thetaRange(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (theta__1): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_thetaRange
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_thetaRange
 
 
 class create_Sun(GeneratedsSuper):
@@ -3283,18 +3392,23 @@ class create_Sun(GeneratedsSuper):
     365). Set it to -1 to ignore. Used to compute the Sun-Earth
     distance and the subsequent correction to apply to the solar
     illumination."""
+    member_data_items_ = [
+        MemberSpec_('sunAzimuthAngle', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('sunZenithAngle', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('dayOfTheYear', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, sunAzimuthAngle=45.0, sunZenithAngle=150.0, dayOfTheYear=-1):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("directions","_Sun")
+        self.troot=get_gs_troot('directions','_Sun')
         self.attrib = ['sunAzimuthAngle', 'sunZenithAngle', 'dayOfTheYear']
         self.children = []
         self.parent = None
         self._sunAzimuthAngle = _cast(float, sunAzimuthAngle)
         self._sunZenithAngle = _cast(float, sunZenithAngle)
         self._dayOfTheYear = _cast(int, dayOfTheYear)
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3309,17 +3423,17 @@ class create_Sun(GeneratedsSuper):
     def get_sunAzimuthAngle(self): return self._sunAzimuthAngle
     def set_sunAzimuthAngle(self, value):
         self._sunAzimuthAngle = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     sunAzimuthAngle = property(get_sunAzimuthAngle, set_sunAzimuthAngle)
     def get_sunZenithAngle(self): return self._sunZenithAngle
     def set_sunZenithAngle(self, value):
         self._sunZenithAngle = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     sunZenithAngle = property(get_sunZenithAngle, set_sunZenithAngle)
     def get_dayOfTheYear(self): return self._dayOfTheYear
     def set_dayOfTheYear(self, value):
         self._dayOfTheYear = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     dayOfTheYear = property(get_dayOfTheYear, set_dayOfTheYear)
     def copy(self):
         obj_ = self.factory()
@@ -3429,7 +3543,9 @@ class create_Sun(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_Sun
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Sun
 
 
 class create_ExactDateHour(GeneratedsSuper):
@@ -3445,11 +3561,22 @@ class create_ExactDateHour(GeneratedsSuper):
     UTC. If the time is given as UTC time, this must be 0 Day of the
     month Day of the month Minutes into the hour Minutes into the
     hour Local time Local time"""
+    member_data_items_ = [
+        MemberSpec_('hour', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('daylightSavingTime', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('month', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('second', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('year', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('timezone', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('day', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('minute', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('localTime', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, hour=12, daylightSavingTime=0, month=1, second=0, year=2012, timezone=0, day=1, minute=0, localTime=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("directions","_ExactDateHour")
+        self.troot=get_gs_troot('directions','_ExactDateHour')
         self.attrib = ['hour', 'daylightSavingTime', 'month', 'second', 'year', 'timezone', 'day', 'minute', 'localTime']
         self.children = []
         self.parent = None
@@ -3462,7 +3589,7 @@ class create_ExactDateHour(GeneratedsSuper):
         self._day = _cast(int, day)
         self._minute = _cast(int, minute)
         self._localTime = _cast(int, localTime)
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3477,47 +3604,47 @@ class create_ExactDateHour(GeneratedsSuper):
     def get_hour(self): return self._hour
     def set_hour(self, value):
         self._hour = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     hour = property(get_hour, set_hour)
     def get_daylightSavingTime(self): return self._daylightSavingTime
     def set_daylightSavingTime(self, value):
         self._daylightSavingTime = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     daylightSavingTime = property(get_daylightSavingTime, set_daylightSavingTime)
     def get_month(self): return self._month
     def set_month(self, value):
         self._month = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     month = property(get_month, set_month)
     def get_second(self): return self._second
     def set_second(self, value):
         self._second = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     second = property(get_second, set_second)
     def get_year(self): return self._year
     def set_year(self, value):
         self._year = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     year = property(get_year, set_year)
     def get_timezone(self): return self._timezone
     def set_timezone(self, value):
         self._timezone = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     timezone = property(get_timezone, set_timezone)
     def get_day(self): return self._day
     def set_day(self, value):
         self._day = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     day = property(get_day, set_day)
     def get_minute(self): return self._minute
     def set_minute(self, value):
         self._minute = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     minute = property(get_minute, set_minute)
     def get_localTime(self): return self._localTime
     def set_localTime(self, value):
         self._localTime = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     localTime = property(get_localTime, set_localTime)
     def copy(self):
         obj_ = self.factory()
@@ -3723,7 +3850,9 @@ class create_ExactDateHour(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_ExactDateHour
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ExactDateHour
 
 
 class create_SunViewingAngles(GeneratedsSuper):
@@ -3743,18 +3872,23 @@ class create_SunViewingAngles(GeneratedsSuper):
     365). Set it to -1 to ignore. Used to compute the Sun-Earth
     distance and the subsequent correction to apply to the solar
     illumination."""
+    member_data_items_ = [
+        MemberSpec_('sunViewingAzimuthAngle', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('sunViewingZenithAngle', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('dayOfTheYear', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, sunViewingAzimuthAngle=225.0, sunViewingZenithAngle=30.0, dayOfTheYear=-1):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("directions","_SunViewingAngles")
+        self.troot=get_gs_troot('directions','_SunViewingAngles')
         self.attrib = ['sunViewingAzimuthAngle', 'sunViewingZenithAngle', 'dayOfTheYear']
         self.children = []
         self.parent = None
         self._sunViewingAzimuthAngle = _cast(float, sunViewingAzimuthAngle)
         self._sunViewingZenithAngle = _cast(float, sunViewingZenithAngle)
         self._dayOfTheYear = _cast(int, dayOfTheYear)
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3769,17 +3903,17 @@ class create_SunViewingAngles(GeneratedsSuper):
     def get_sunViewingAzimuthAngle(self): return self._sunViewingAzimuthAngle
     def set_sunViewingAzimuthAngle(self, value):
         self._sunViewingAzimuthAngle = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     sunViewingAzimuthAngle = property(get_sunViewingAzimuthAngle, set_sunViewingAzimuthAngle)
     def get_sunViewingZenithAngle(self): return self._sunViewingZenithAngle
     def set_sunViewingZenithAngle(self, value):
         self._sunViewingZenithAngle = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     sunViewingZenithAngle = property(get_sunViewingZenithAngle, set_sunViewingZenithAngle)
     def get_dayOfTheYear(self): return self._dayOfTheYear
     def set_dayOfTheYear(self, value):
         self._dayOfTheYear = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     dayOfTheYear = property(get_dayOfTheYear, set_dayOfTheYear)
     def copy(self):
         obj_ = self.factory()
@@ -3889,7 +4023,9 @@ class create_SunViewingAngles(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_SunViewingAngles
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_SunViewingAngles
 
 
 class create_HotSpotProperties(GeneratedsSuper):
@@ -3904,11 +4040,20 @@ class create_HotSpotProperties(GeneratedsSuper):
     around the upward hot spot direction, with very small solid
     angles Adds directions around the upward hot spot direction,
     with very small solid angles"""
+    member_data_items_ = [
+        MemberSpec_('oversampleDownwardRegion', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('hotSpotPerpendicularPlane', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('hotSpotParallelPlane', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('oversampleUpwardRegion', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('HotSpotUpwardRegion', '_HotSpotUpwardRegion', 0, 0, {u'maxOccurs': u'1', u'type': u'_HotSpotUpwardRegion', u'name': u'HotSpotUpwardRegion', u'minOccurs': u'1'}, None),
+        MemberSpec_('HotSpotDownwardRegion', '_HotSpotDownwardRegion', 0, 0, {u'maxOccurs': u'1', u'type': u'_HotSpotDownwardRegion', u'name': u'HotSpotDownwardRegion', u'minOccurs': u'1'}, None),
+        MemberSpec_('HotSpotOversampledPlane', '_HotSpotOversampledPlane', 0, 0, {u'maxOccurs': u'1', u'type': u'_HotSpotOversampledPlane', u'name': u'HotSpotOversampledPlane', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, oversampleDownwardRegion=0, hotSpotPerpendicularPlane=0, hotSpotParallelPlane=0, oversampleUpwardRegion=0, HotSpotUpwardRegion=None, HotSpotDownwardRegion=None, HotSpotOversampledPlane=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("directions","_HotSpotProperties")
+        self.troot=get_gs_troot('directions','_HotSpotProperties')
         self.attrib = ['oversampleDownwardRegion', 'hotSpotPerpendicularPlane', 'hotSpotParallelPlane', 'oversampleUpwardRegion']
         self.children = ['HotSpotUpwardRegion', 'HotSpotDownwardRegion', 'HotSpotOversampledPlane']
         self.parent = None
@@ -3919,7 +4064,7 @@ class create_HotSpotProperties(GeneratedsSuper):
         self._HotSpotUpwardRegion = HotSpotUpwardRegion
         self._HotSpotDownwardRegion = HotSpotDownwardRegion
         self._HotSpotOversampledPlane = HotSpotOversampledPlane
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3955,22 +4100,22 @@ class create_HotSpotProperties(GeneratedsSuper):
     def get_oversampleDownwardRegion(self): return self._oversampleDownwardRegion
     def set_oversampleDownwardRegion(self, value):
         self._oversampleDownwardRegion = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     oversampleDownwardRegion = property(get_oversampleDownwardRegion, set_oversampleDownwardRegion)
     def get_hotSpotPerpendicularPlane(self): return self._hotSpotPerpendicularPlane
     def set_hotSpotPerpendicularPlane(self, value):
         self._hotSpotPerpendicularPlane = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     hotSpotPerpendicularPlane = property(get_hotSpotPerpendicularPlane, set_hotSpotPerpendicularPlane)
     def get_hotSpotParallelPlane(self): return self._hotSpotParallelPlane
     def set_hotSpotParallelPlane(self, value):
         self._hotSpotParallelPlane = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     hotSpotParallelPlane = property(get_hotSpotParallelPlane, set_hotSpotParallelPlane)
     def get_oversampleUpwardRegion(self): return self._oversampleUpwardRegion
     def set_oversampleUpwardRegion(self, value):
         self._oversampleUpwardRegion = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     oversampleUpwardRegion = property(get_oversampleUpwardRegion, set_oversampleUpwardRegion)
     def copy(self):
         obj_ = self.factory()
@@ -4148,7 +4293,9 @@ class create_HotSpotProperties(GeneratedsSuper):
             obj_.build(child_)
             self.set_HotSpotOversampledPlane(obj_)
             obj_.original_tagname_ = 'HotSpotOversampledPlane'
-# end class create_HotSpotProperties
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_HotSpotProperties
 
 
 class create_HotSpotUpwardRegion(GeneratedsSuper):
@@ -4156,17 +4303,21 @@ class create_HotSpotUpwardRegion(GeneratedsSuper):
     Number of directions in region. Automatically rounded to the
     nearest squared integer. Number of directions in region.
     Automatically rounded to the nearest squared integer."""
+    member_data_items_ = [
+        MemberSpec_('omega', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('numberOfDirections', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, omega=0.01, numberOfDirections=25):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("directions","_HotSpotUpwardRegion")
+        self.troot=get_gs_troot('directions','_HotSpotUpwardRegion')
         self.attrib = ['omega', 'numberOfDirections']
         self.children = []
         self.parent = None
         self._omega = _cast(float, omega)
         self._numberOfDirections = _cast(int, numberOfDirections)
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4181,12 +4332,12 @@ class create_HotSpotUpwardRegion(GeneratedsSuper):
     def get_omega(self): return self._omega
     def set_omega(self, value):
         self._omega = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     omega = property(get_omega, set_omega)
     def get_numberOfDirections(self): return self._numberOfDirections
     def set_numberOfDirections(self, value):
         self._numberOfDirections = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     numberOfDirections = property(get_numberOfDirections, set_numberOfDirections)
     def copy(self):
         obj_ = self.factory()
@@ -4280,7 +4431,9 @@ class create_HotSpotUpwardRegion(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_HotSpotUpwardRegion
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_HotSpotUpwardRegion
 
 
 class create_HotSpotDownwardRegion(GeneratedsSuper):
@@ -4288,17 +4441,21 @@ class create_HotSpotDownwardRegion(GeneratedsSuper):
     Number of directions in region. Automatically rounded to the
     nearest squared integer. Number of directions in region.
     Automatically rounded to the nearest squared integer."""
+    member_data_items_ = [
+        MemberSpec_('omega', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('numberOfDirections', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, omega=0.01, numberOfDirections=25):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("directions","_HotSpotDownwardRegion")
+        self.troot=get_gs_troot('directions','_HotSpotDownwardRegion')
         self.attrib = ['omega', 'numberOfDirections']
         self.children = []
         self.parent = None
         self._omega = _cast(float, omega)
         self._numberOfDirections = _cast(int, numberOfDirections)
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4313,12 +4470,12 @@ class create_HotSpotDownwardRegion(GeneratedsSuper):
     def get_omega(self): return self._omega
     def set_omega(self, value):
         self._omega = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     omega = property(get_omega, set_omega)
     def get_numberOfDirections(self): return self._numberOfDirections
     def set_numberOfDirections(self, value):
         self._numberOfDirections = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     numberOfDirections = property(get_numberOfDirections, set_numberOfDirections)
     def copy(self):
         obj_ = self.factory()
@@ -4412,7 +4569,9 @@ class create_HotSpotDownwardRegion(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_HotSpotDownwardRegion
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_HotSpotDownwardRegion
 
 
 class create_HotSpotOversampledPlane(GeneratedsSuper):
@@ -4422,17 +4581,21 @@ class create_HotSpotOversampledPlane(GeneratedsSuper):
     direction in the Hot Spot oversampled plane (in steradians).
     Solid angle for each direction in the Hot Spot oversampled plane
     (in steradians)."""
+    member_data_items_ = [
+        MemberSpec_('deltaTheta', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('omega', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, deltaTheta=10.0, omega=0.001):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("directions","_HotSpotOversampledPlane")
+        self.troot=get_gs_troot('directions','_HotSpotOversampledPlane')
         self.attrib = ['deltaTheta', 'omega']
         self.children = []
         self.parent = None
         self._deltaTheta = _cast(float, deltaTheta)
         self._omega = _cast(float, omega)
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4447,12 +4610,12 @@ class create_HotSpotOversampledPlane(GeneratedsSuper):
     def get_deltaTheta(self): return self._deltaTheta
     def set_deltaTheta(self, value):
         self._deltaTheta = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     deltaTheta = property(get_deltaTheta, set_deltaTheta)
     def get_omega(self): return self._omega
     def set_omega(self, value):
         self._omega = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     omega = property(get_omega, set_omega)
     def copy(self):
         obj_ = self.factory()
@@ -4546,7 +4709,9 @@ class create_HotSpotOversampledPlane(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (omega): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_HotSpotOversampledPlane
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_HotSpotOversampledPlane
 
 
 class create_Penumbra(GeneratedsSuper):
@@ -4554,18 +4719,23 @@ class create_Penumbra(GeneratedsSuper):
     obscured by the occluding body. The sun penumbra is the region
     in which only a portion of the sun is obscured by the occluding
     body."""
+    member_data_items_ = [
+        MemberSpec_('mode', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('SunSphere', '_SunSphere', 0, 0, {u'maxOccurs': u'1', u'type': u'_SunSphere', u'name': u'SunSphere', u'minOccurs': u'1'}, None),
+        MemberSpec_('SunIcoSphere', '_SunIcoSphere', 0, 0, {u'maxOccurs': u'1', u'type': u'_SunIcoSphere', u'name': u'SunIcoSphere', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, mode=0, SunSphere=None, SunIcoSphere=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("directions","_Penumbra")
+        self.troot=get_gs_troot('directions','_Penumbra')
         self.attrib = ['mode']
         self.children = ['SunSphere', 'SunIcoSphere']
         self.parent = None
         self._mode = _cast(int, mode)
         self._SunSphere = SunSphere
         self._SunIcoSphere = SunIcoSphere
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4594,7 +4764,7 @@ class create_Penumbra(GeneratedsSuper):
     def get_mode(self): return self._mode
     def set_mode(self, value):
         self._mode = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     mode = property(get_mode, set_mode)
     def copy(self):
         obj_ = self.factory()
@@ -4707,7 +4877,9 @@ class create_Penumbra(GeneratedsSuper):
             obj_.build(child_)
             self.set_SunIcoSphere(obj_)
             obj_.original_tagname_ = 'SunIcoSphere'
-# end class create_Penumbra
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Penumbra
 
 
 class create_SunSphere(GeneratedsSuper):
@@ -4717,16 +4889,19 @@ class create_SunSphere(GeneratedsSuper):
     the numbers of points to be randomly sampled on the sun surface
     IN ADDITION of the central position.\n Multiply linearly the
     computation time of the direct illumination phase."""
+    member_data_items_ = [
+        MemberSpec_('nbPointsOnSphere', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, nbPointsOnSphere=4):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("directions","_SunSphere")
+        self.troot=get_gs_troot('directions','_SunSphere')
         self.attrib = ['nbPointsOnSphere']
         self.children = []
         self.parent = None
         self._nbPointsOnSphere = _cast(int, nbPointsOnSphere)
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4741,7 +4916,7 @@ class create_SunSphere(GeneratedsSuper):
     def get_nbPointsOnSphere(self): return self._nbPointsOnSphere
     def set_nbPointsOnSphere(self, value):
         self._nbPointsOnSphere = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     nbPointsOnSphere = property(get_nbPointsOnSphere, set_nbPointsOnSphere)
     def copy(self):
         obj_ = self.factory()
@@ -4819,7 +4994,9 @@ class create_SunSphere(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_SunSphere
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_SunSphere
 
 
 class create_SunIcoSphere(GeneratedsSuper):
@@ -4832,16 +5009,19 @@ class create_SunIcoSphere(GeneratedsSuper):
     regular polyhedron with 20 equilateral triangles of same area.
     Each subdivision multiply by 4 the number of triangles. Half the
     faces are going to illuminate the scene."""
+    member_data_items_ = [
+        MemberSpec_('nbSudivisions', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, nbSudivisions=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("directions","_SunIcoSphere")
+        self.troot=get_gs_troot('directions','_SunIcoSphere')
         self.attrib = ['nbSudivisions']
         self.children = []
         self.parent = None
         self._nbSudivisions = _cast(int, nbSudivisions)
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4856,7 +5036,7 @@ class create_SunIcoSphere(GeneratedsSuper):
     def get_nbSudivisions(self): return self._nbSudivisions
     def set_nbSudivisions(self, value):
         self._nbSudivisions = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     nbSudivisions = property(get_nbSudivisions, set_nbSudivisions)
     def copy(self):
         obj_ = self.factory()
@@ -4934,7 +5114,9 @@ class create_SunIcoSphere(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_SunIcoSphere
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_SunIcoSphere
 
 
 class create_AzimuthalOffset(GeneratedsSuper):
@@ -4946,17 +5128,21 @@ class create_AzimuthalOffset(GeneratedsSuper):
     be equal to 30deg Example: to get a 30deg scene azimuth
     rotation, the offsets of sun and viewing directions must be
     equal to 30deg"""
+    member_data_items_ = [
+        MemberSpec_('directionalAzimuthalOffset', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('sunAzimuthalOffset', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, directionalAzimuthalOffset=0, sunAzimuthalOffset=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("directions","_AzimuthalOffset")
+        self.troot=get_gs_troot('directions','_AzimuthalOffset')
         self.attrib = ['directionalAzimuthalOffset', 'sunAzimuthalOffset']
         self.children = []
         self.parent = None
         self._directionalAzimuthalOffset = _cast(float, directionalAzimuthalOffset)
         self._sunAzimuthalOffset = _cast(float, sunAzimuthalOffset)
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4971,12 +5157,12 @@ class create_AzimuthalOffset(GeneratedsSuper):
     def get_directionalAzimuthalOffset(self): return self._directionalAzimuthalOffset
     def set_directionalAzimuthalOffset(self, value):
         self._directionalAzimuthalOffset = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     directionalAzimuthalOffset = property(get_directionalAzimuthalOffset, set_directionalAzimuthalOffset)
     def get_sunAzimuthalOffset(self): return self._sunAzimuthalOffset
     def set_sunAzimuthalOffset(self, value):
         self._sunAzimuthalOffset = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     sunAzimuthalOffset = property(get_sunAzimuthalOffset, set_sunAzimuthalOffset)
     def copy(self):
         obj_ = self.factory()
@@ -5070,7 +5256,9 @@ class create_AzimuthalOffset(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (sunAzimuthalOffset): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_AzimuthalOffset
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_AzimuthalOffset
 
 
 class create_ExpertModeZone(GeneratedsSuper):
@@ -5090,17 +5278,21 @@ class create_ExpertModeZone(GeneratedsSuper):
     default value generated by sphere directions, or enter a
     positive integer for the number of layers to generate the
     directions in one hemisphere."""
+    member_data_items_ = [
+        MemberSpec_('numberOfAngularSector', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('numberOfLayers', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, numberOfAngularSector=10, numberOfLayers=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("directions","_ExpertModeZone")
+        self.troot=get_gs_troot('directions','_ExpertModeZone')
         self.attrib = ['numberOfAngularSector', 'numberOfLayers']
         self.children = []
         self.parent = None
         self._numberOfAngularSector = _cast(int, numberOfAngularSector)
         self._numberOfLayers = _cast(int, numberOfLayers)
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5115,12 +5307,12 @@ class create_ExpertModeZone(GeneratedsSuper):
     def get_numberOfAngularSector(self): return self._numberOfAngularSector
     def set_numberOfAngularSector(self, value):
         self._numberOfAngularSector = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     numberOfAngularSector = property(get_numberOfAngularSector, set_numberOfAngularSector)
     def get_numberOfLayers(self): return self._numberOfLayers
     def set_numberOfLayers(self, value):
         self._numberOfLayers = value
-        update_node(self,self.troot,"directions")
+        update_node(self,self.troot,'directions')
     numberOfLayers = property(get_numberOfLayers, set_numberOfLayers)
     def copy(self):
         obj_ = self.factory()
@@ -5214,7 +5406,9 @@ class create_ExpertModeZone(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_ExpertModeZone
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ExpertModeZone
 
 
 GDSClassesMapping = {

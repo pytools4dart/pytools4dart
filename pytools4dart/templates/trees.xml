@@ -7,8 +7,8 @@
 <!-- ==================================================================== -->
 
 <DartDocumentTemplateNode type="header" version="1.0">
-	<DartFile version="5.7.1" build="0">
-		<Trees sceneModelCharacteristic="1" isTrees="0">
+	<DartFile version="5.7.4" build="0">
+		<Trees sceneModelCharacteristic="1" isTrees="0" hidden="0">
 			<DartDocumentTemplateNode test="parent.sceneModelCharacteristic==1 and parent.isTrees==1">
 				<Trees_1 sceneParametersFileName="trees.txt" laiZone="0">
 					<DartDocumentTemplateNode test="parent.laiZone==1">
@@ -20,7 +20,7 @@
 						</LaiZoneProperties>
 					</DartDocumentTemplateNode>
 					<DartDocumentTemplateNode type="list" min="1">
-						<Specie lai="4.00" branchesAndTwigsSimulation="0" numberOfTreesInWholeScene="12">
+						<Specie lai="4.00" branchesAndTwigsSimulation="0">
 							<OpticalPropertyLink type="0" indexFctPhase="0" ident="f0"/>
 							<ThermalPropertyLink indexTemperature="0" idTemperature="ThermalFunction290_310"/>
 							<DartDocumentTemplateNode type="list" min="1">
@@ -63,7 +63,7 @@
 						</LaiZoneProperties>
 					</DartDocumentTemplateNode>
 					<DartDocumentTemplateNode type="list" min="1">
-						<Specie_2 numberOfTreesInWholeScene="12" lai="4.00" branchesAndTwigsSimulation="0">
+						<Specie_2 lai="4.00" branchesAndTwigsSimulation="0">
 							<OpticalPropertyLink type="0" indexFctPhase="0" ident="f0"/>
 							<ThermalPropertyLink indexTemperature="0" idTemperature="ThermalFunction290_310"/>
 							<Trunk meanTrunkHeightBelowCrown="5.00" stDevMeanTrunkHeightBelowCrown="0.0" meanTrunkDiameterBelowCrown="0.30"	stDevMeanTrunkDiameterBelowCrown="0.0" trunkHeightWithinCrown="3.00"/>
@@ -118,7 +118,16 @@
 			<DartDocumentTemplateNode test="parent.sceneModelCharacteristic==3 and parent.isTrees==1">
 				<Trees_3>
 					<DartDocumentTemplateNode type="list" min="1">
-						<Specie_3 numberOfTreesInWholeScene="12" spatialDistribution="0" probabilityOfTreesAtTheNodesOfTheGrid="0.90" lai="4.00" branchesAndTwigsSimulation="0" rawX="5.00" rawY="5.00" rayon="5.00">
+						<Specie_3 treeDistributionMethod="0" spatialDistribution="0" probabilityOfTreesAtTheNodesOfTheGrid="0.90" lai="4.00" branchesAndTwigsSimulation="0" rayon="5.00">
+							
+							<DartDocumentTemplateNode test="parent.treeDistributionMethod==0">
+								<IntervalDistribution rawX="5.00" rawY="5.00"/>
+							</DartDocumentTemplateNode>
+							
+							<DartDocumentTemplateNode test="parent.treeDistributionMethod==1">
+								<EstimatedNumberOfTreeDistribution estimatedNumberOfTrees="12" />
+							</DartDocumentTemplateNode>
+							
 							<OpticalPropertyLink type="0" indexFctPhase="0" ident="f0"/>
 							<ThermalPropertyLink indexTemperature="0" idTemperature="ThermalFunction290_310"/>
 							<Trunk meanTrunkHeightBelowCrown="5.00" stDevMeanTrunkHeightBelowCrown="0.0" meanTrunkDiameterBelowCrown="0.40"	stDevMeanTrunkDiameterBelowCrown="0.0" trunkHeightWithinCrown="3.00"/>

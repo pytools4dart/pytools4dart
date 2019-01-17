@@ -3,7 +3,7 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<!-- Element racine -->
 	<xsd:annotation>
-		<xsd:appinfo>Fichier urban.xsd -- version 5.7.1</xsd:appinfo> 
+		<xsd:appinfo>Fichier urban.xsd -- version 5.7.4</xsd:appinfo> 
 		<xsd:documentation xml:lang = "en"> urban</xsd:documentation> 
 		<xsd:documentation xml:lang = "fr"> urban</xsd:documentation>
 	</xsd:annotation>
@@ -17,7 +17,7 @@
 		<xsd:sequence>
 			<xsd:element name="Urban" type="_Urban" minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
-		<xsd:attribute name="version" type="xsd:string" default="5.7.1">
+		<xsd:attribute name="version" type="xsd:string" default="5.7.4">
 			<xsd:annotation>
 				<xsd:documentation xml:lang = "en" source="attribut"> Version of the plots.xml file. Depends of the version on DART itself.</xsd:documentation> 
 				<xsd:documentation xml:lang = "fr" source="attribut"> Version of the plots.xml file. Depends of the version on DART itself.</xsd:documentation>

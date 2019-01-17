@@ -3,7 +3,7 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<!-- Element racine -->
 	<xsd:annotation>
-		<xsd:appinfo>Fichier plots.xsd -- version 5.7.1</xsd:appinfo> 
+		<xsd:appinfo>Fichier plots.xsd -- version 5.7.4</xsd:appinfo> 
 		<xsd:documentation xml:lang = "en"> Before a run of the Vegetation module, the plots.xml file stores the description of the input data (name and characteristics of the input raster image, name of the description text file, sub-zone definition).  A run of the Vegetation module adds to the plots.xml file some information for each plot that is created: coordinates of the 4 corners, LAI, type of optical property, etc</xsd:documentation> 
 		<xsd:documentation xml:lang = "fr"> Before a run of the Vegetation module, the plots.xml file stores the description of the input data (name and characteristics of the input raster image, name of the description text file, sub-zone definition).  A run of the Vegetation module adds to the plots.xml file some information for each plot that is created: coordinates of the 4 corners, LAI, type of optical property, etc</xsd:documentation>
 	</xsd:annotation>
@@ -17,7 +17,7 @@
 		<xsd:sequence>
 			<xsd:element name="Plots" type="_Plots" minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
-		<xsd:attribute name="version" type="xsd:string" default="5.7.1">
+		<xsd:attribute name="version" type="xsd:string" default="5.7.4">
 			<xsd:annotation>
 				<xsd:documentation xml:lang = "en" source="attribut"> Version of the plots.xml file. Depends of the version on DART itself.</xsd:documentation> 
 				<xsd:documentation xml:lang = "fr" source="attribut"> Version of the plots.xml file. Depends of the version on DART itself.</xsd:documentation>

@@ -2,28 +2,30 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Sun Oct 14 19:16:03 2018 by generateDS.py version 2.29.25.
-# Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
+# Generated Wed Jan  2 18:30:51 2019 by generateDS.py version 2.29.25.
+# Python 2.7.15rc1 (default, Nov 12 2018, 14:31:15)  [GCC 7.3.0]
 #
 # Command line options:
 #   ('-m', '')
+#   ('-f', '')
 #   ('--always-export-default', '')
 #   ('--export', 'write literal etree')
+#   ('-u', 'pytools4dart.core_ui.user_methods')
 #   ('-p', 'create')
-#   ('--post-attrib-setter', 'update_node(self,self.troot,"phase")')
-#   ('--pre-ctor', 'self.troot=get_gs_troot("phase","{classname}")')
-#   ('--post-ctor', 'update_node(self,self.troot,"phase")')
+#   ('--post-attrib-setter', "update_node(self,self.troot,'phase')")
+#   ('--pre-ctor', "self.troot=get_gs_troot('phase','{classname}')")
+#   ('--post-ctor', "update_node(self,self.troot,'phase')")
 #   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node')
-#   ('-o', '/home/boissieu/Scripts/pytools4dartMTD/pytools4dart/core_ui/phase.py')
+#   ('-o', 'pytools4dart/core_ui/phase.py')
 #
 # Command line arguments:
-#   /home/boissieu/Scripts/pytools4dartMTD/pytools4dart/core_ui/phase.xsd
+#   pytools4dart/xsdschemas/phase.xsd
 #
 # Command line:
-#   generateDS.py -m --always-export-default --export="write literal etree" -p "create" --post-attrib-setter="update_node(self,self.troot,"phase")" --pre-ctor="self.troot=get_gs_troot("phase","{classname}")" --post-ctor="update_node(self,self.troot,"phase")" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node" -o "/home/boissieu/Scripts/pytools4dartMTD/pytools4dart/core_ui/phase.py" /home/boissieu/Scripts/pytools4dartMTD/pytools4dart/core_ui/phase.xsd
+#   /home/boissieu/git/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "pytools4dart.core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'phase')" --pre-ctor="self.troot=get_gs_troot('phase','{classname}')" --post-ctor="update_node(self,self.troot,'phase')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node" -o "pytools4dart/core_ui/phase.py" pytools4dart/xsdschemas/phase.xsd
 #
 # Current working directory (os.getcwd()):
-#   generateds
+#   pytools4dartMTD
 #
 
 import sys
@@ -742,18 +744,23 @@ class createDartFile(GeneratedsSuper):
     """Version of the plots.xml file. Depends of the version on DART
     itself. Version of the plots.xml file. Depends of the version on
     DART itself."""
+    member_data_items_ = [
+        MemberSpec_('version', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('build_', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Phase', '_Phase', 0, 0, {u'maxOccurs': u'1', u'type': u'_Phase', u'name': u'Phase', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
-    def __init__(self, version='5.7.1', build_='0', Phase=None):
+    def __init__(self, version='5.7.4', build_='0', Phase=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","DartFile")
+        self.troot=get_gs_troot('phase','DartFile')
         self.attrib = ['version', 'build_']
         self.children = ['Phase']
         self.parent = None
         self._version = _cast(None, version)
         self._build_ = _cast(None, build_)
         self._Phase = Phase
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -775,12 +782,12 @@ class createDartFile(GeneratedsSuper):
     def get_version(self): return self._version
     def set_version(self, value):
         self._version = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     version = property(get_version, set_version)
     def get_build(self): return self._build_
     def set_build(self, value):
         self._build_ = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     build_ = property(get_build, set_build)
     def copy(self):
         obj_ = self.factory()
@@ -886,7 +893,9 @@ class createDartFile(GeneratedsSuper):
             obj_.build(child_)
             self.set_Phase(obj_)
             obj_.original_tagname_ = 'Phase'
-# end class createDartFile
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class createDartFile
 
 
 class create_Phase(GeneratedsSuper):
@@ -897,11 +906,20 @@ class create_Phase(GeneratedsSuper):
     a Monte Carlo approach. With this option, scattering is always a
     succession of scattering mechanisms of order 1, which should
     lead to more accurate results, but slower results....."""
+    member_data_items_ = [
+        MemberSpec_('calculatorMethod', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('AtmosphereRadiativeTransfer', '_AtmosphereRadiativeTransfer', 0, 0, {u'maxOccurs': u'1', u'type': u'_AtmosphereRadiativeTransfer', u'name': u'AtmosphereRadiativeTransfer', u'minOccurs': u'1'}, None),
+        MemberSpec_('ExpertModeZone', '_ExpertModeZone', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExpertModeZone', u'name': u'ExpertModeZone', u'minOccurs': u'1'}, None),
+        MemberSpec_('DartInputParameters', '_DartInputParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_DartInputParameters', u'name': u'DartInputParameters', u'minOccurs': u'1'}, None),
+        MemberSpec_('DartProduct', '_DartProduct', 0, 0, {u'maxOccurs': u'1', u'type': u'_DartProduct', u'name': u'DartProduct', u'minOccurs': u'1'}, None),
+        MemberSpec_('SensorImageSimulation', '_SensorImageSimulation', 0, 0, {u'maxOccurs': u'1', u'type': u'_SensorImageSimulation', u'name': u'SensorImageSimulation', u'minOccurs': u'1'}, None),
+        MemberSpec_('ExternalScripts', '_ExternalScripts', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExternalScripts', u'name': u'ExternalScripts', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, calculatorMethod=0, AtmosphereRadiativeTransfer=None, ExpertModeZone=None, DartInputParameters=None, DartProduct=None, SensorImageSimulation=None, ExternalScripts=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_Phase")
+        self.troot=get_gs_troot('phase','_Phase')
         self.attrib = ['calculatorMethod']
         self.children = ['AtmosphereRadiativeTransfer', 'ExpertModeZone', 'DartInputParameters', 'DartProduct', 'SensorImageSimulation', 'ExternalScripts']
         self.parent = None
@@ -912,7 +930,7 @@ class create_Phase(GeneratedsSuper):
         self._DartProduct = DartProduct
         self._SensorImageSimulation = SensorImageSimulation
         self._ExternalScripts = ExternalScripts
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -969,7 +987,7 @@ class create_Phase(GeneratedsSuper):
     def get_calculatorMethod(self): return self._calculatorMethod
     def set_calculatorMethod(self, value):
         self._calculatorMethod = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     calculatorMethod = property(get_calculatorMethod, set_calculatorMethod)
     def copy(self):
         obj_ = self.factory()
@@ -1150,7 +1168,9 @@ class create_Phase(GeneratedsSuper):
             obj_.build(child_)
             self.set_ExternalScripts(obj_)
             obj_.original_tagname_ = 'ExternalScripts'
-# end class create_Phase
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Phase
 
 
 class create_AtmosphereRadiativeTransfer(GeneratedsSuper):
@@ -1158,17 +1178,21 @@ class create_AtmosphereRadiativeTransfer(GeneratedsSuper):
     atmosphere radiative transfer. Irradiance Passage from TOA to
     BOA.\n - No Atmosphere RT: No simulation of the atmosphere
     radiative transfer. Irradiance"""
+    member_data_items_ = [
+        MemberSpec_('TOAtoBOA', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('AtmosphereRadiativeTransferOptions', '_AtmosphereRadiativeTransferOptions', 0, 0, {u'maxOccurs': u'1', u'type': u'_AtmosphereRadiativeTransferOptions', u'name': u'AtmosphereRadiativeTransferOptions', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, TOAtoBOA=0, AtmosphereRadiativeTransferOptions=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_AtmosphereRadiativeTransfer")
+        self.troot=get_gs_troot('phase','_AtmosphereRadiativeTransfer')
         self.attrib = ['TOAtoBOA']
         self.children = ['AtmosphereRadiativeTransferOptions']
         self.parent = None
         self._TOAtoBOA = _cast(int, TOAtoBOA)
         self._AtmosphereRadiativeTransferOptions = AtmosphereRadiativeTransferOptions
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1190,7 +1214,7 @@ class create_AtmosphereRadiativeTransfer(GeneratedsSuper):
     def get_TOAtoBOA(self): return self._TOAtoBOA
     def set_TOAtoBOA(self, value):
         self._TOAtoBOA = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     TOAtoBOA = property(get_TOAtoBOA, set_TOAtoBOA)
     def copy(self):
         obj_ = self.factory()
@@ -1286,7 +1310,9 @@ class create_AtmosphereRadiativeTransfer(GeneratedsSuper):
             obj_.build(child_)
             self.set_AtmosphereRadiativeTransferOptions(obj_)
             obj_.original_tagname_ = 'AtmosphereRadiativeTransferOptions'
-# end class create_AtmosphereRadiativeTransfer
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_AtmosphereRadiativeTransfer
 
 
 class create_AtmosphereRadiativeTransferOptions(GeneratedsSuper):
@@ -1306,16 +1332,19 @@ class create_AtmosphereRadiativeTransferOptions(GeneratedsSuper):
     can be sometimes fairly time-consuming for a small contribution
     to the radiative budget, depending on the spectral band and the
     scene constitution."""
+    member_data_items_ = [
+        MemberSpec_('couplingEnabled', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, couplingEnabled=1):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_AtmosphereRadiativeTransferOptions")
+        self.troot=get_gs_troot('phase','_AtmosphereRadiativeTransferOptions')
         self.attrib = ['couplingEnabled']
         self.children = []
         self.parent = None
         self._couplingEnabled = _cast(int, couplingEnabled)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1330,7 +1359,7 @@ class create_AtmosphereRadiativeTransferOptions(GeneratedsSuper):
     def get_couplingEnabled(self): return self._couplingEnabled
     def set_couplingEnabled(self, value):
         self._couplingEnabled = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     couplingEnabled = property(get_couplingEnabled, set_couplingEnabled)
     def copy(self):
         obj_ = self.factory()
@@ -1408,7 +1437,9 @@ class create_AtmosphereRadiativeTransferOptions(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_AtmosphereRadiativeTransferOptions
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_AtmosphereRadiativeTransferOptions
 
 
 class create_ExpertModeZone(GeneratedsSuper):
@@ -1481,15 +1512,10 @@ class create_ExpertModeZone(GeneratedsSuper):
     direct sun BOA irradiance Esun, atmosphere BOA irradiance Eatm
     (sun scattered + thermal emission), BOA irradiance E Use
     external python script with DART processing Use external python
-    script with DART processing In order to provide faster results,
-    DART can extrapolate on the N last iterations. The more
-    iterations are used, the more precise usually the results are.
-    In order to provide faster results, DART can extrapolate on the
-    N last iterations. The more iterations are used, the more
-    precise usually the results are. Used to set the number of
-    radiation source points from each cell face in coordination with
-    the factor N.\n- Each cell face has N\u00B2 * M\u00B2 sub-faces.
-    If multiple rays exit the same sub-face with the same direction,
+    script with DART processing Used to set the number of radiation
+    source points from each cell face in coordination with the
+    factor N.\n- Each cell face has N\u00B2 * M\u00B2 sub-faces. If
+    multiple rays exit the same sub-face with the same direction,
     they are concatenated in a single ray. Used to set the number of
     radiation source points from each cell face in coordination with
     the factor N.\n- Each cell face has N\u00B2 * M\u00B2 sub-faces.
@@ -1529,12 +1555,34 @@ class create_ExpertModeZone(GeneratedsSuper):
     much slower. The direct mode is the fastest, but also the most
     costly in memory. Cloning can save a lot of memory but will be
     much slower."""
+    member_data_items_ = [
+        MemberSpec_('isInterceptedPowerPerDirectionForSpecularCheck', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('lightPropagationThreshold', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('nbRandomPointsPerInteceptionAtmosphere', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('illuminationRepartitionMode', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('nbThreads', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('albedoThreshold', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('surfaceBarycenterEnabled', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('sparseVoxelAcceleration', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('maxNbSceneCrossing', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('subFaceBarycenterEnabled', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('accelerationEngine', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('nbTrianglesWithinVoxelAcceleration', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('distanceBetweenIlluminationSubCenters', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useExternalScripts', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('subFaceBarycenterSubdivision', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('thermalEmissionSurfaceSubdivision', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('nbSubcenterVolume', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('expertMode', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('nbSubSubcenterTurbidEmission', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('triangleStorageMode', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
-    def __init__(self, isInterceptedPowerPerDirectionForSpecularCheck=0, lightPropagationThreshold=1E-7, nbRandomPointsPerInteceptionAtmosphere=1, illuminationRepartitionMode=2, nbThreads=4, albedoThreshold=1E-7, surfaceBarycenterEnabled=1, sparseVoxelAcceleration=1, maxNbSceneCrossing=1000, subFaceBarycenterEnabled=1, accelerationEngine=0, nbTrianglesWithinVoxelAcceleration=10, distanceBetweenIlluminationSubCenters=0.1, useExternalScripts=0, extrapolationMethod=0, subFaceBarycenterSubdivision=1, thermalEmissionSurfaceSubdivision=0.01, nbSubcenterVolume=2, expertMode=0, nbSubSubcenterTurbidEmission=40, triangleStorageMode=0):
+    def __init__(self, isInterceptedPowerPerDirectionForSpecularCheck=0, lightPropagationThreshold=1E-7, nbRandomPointsPerInteceptionAtmosphere=1, illuminationRepartitionMode=2, nbThreads=4, albedoThreshold=1E-3, surfaceBarycenterEnabled=1, sparseVoxelAcceleration=1, maxNbSceneCrossing=1000, subFaceBarycenterEnabled=1, accelerationEngine=0, nbTrianglesWithinVoxelAcceleration=10, distanceBetweenIlluminationSubCenters=0.1, useExternalScripts=0, subFaceBarycenterSubdivision=1, thermalEmissionSurfaceSubdivision=0.01, nbSubcenterVolume=2, expertMode=0, nbSubSubcenterTurbidEmission=40, triangleStorageMode=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_ExpertModeZone")
-        self.attrib = ['isInterceptedPowerPerDirectionForSpecularCheck', 'lightPropagationThreshold', 'nbRandomPointsPerInteceptionAtmosphere', 'illuminationRepartitionMode', 'nbThreads', 'albedoThreshold', 'surfaceBarycenterEnabled', 'sparseVoxelAcceleration', 'maxNbSceneCrossing', 'subFaceBarycenterEnabled', 'accelerationEngine', 'nbTrianglesWithinVoxelAcceleration', 'distanceBetweenIlluminationSubCenters', 'useExternalScripts', 'extrapolationMethod', 'subFaceBarycenterSubdivision', 'thermalEmissionSurfaceSubdivision', 'nbSubcenterVolume', 'expertMode', 'nbSubSubcenterTurbidEmission', 'triangleStorageMode']
+        self.troot=get_gs_troot('phase','_ExpertModeZone')
+        self.attrib = ['isInterceptedPowerPerDirectionForSpecularCheck', 'lightPropagationThreshold', 'nbRandomPointsPerInteceptionAtmosphere', 'illuminationRepartitionMode', 'nbThreads', 'albedoThreshold', 'surfaceBarycenterEnabled', 'sparseVoxelAcceleration', 'maxNbSceneCrossing', 'subFaceBarycenterEnabled', 'accelerationEngine', 'nbTrianglesWithinVoxelAcceleration', 'distanceBetweenIlluminationSubCenters', 'useExternalScripts', 'subFaceBarycenterSubdivision', 'thermalEmissionSurfaceSubdivision', 'nbSubcenterVolume', 'expertMode', 'nbSubSubcenterTurbidEmission', 'triangleStorageMode']
         self.children = []
         self.parent = None
         self._isInterceptedPowerPerDirectionForSpecularCheck = _cast(int, isInterceptedPowerPerDirectionForSpecularCheck)
@@ -1551,14 +1599,13 @@ class create_ExpertModeZone(GeneratedsSuper):
         self._nbTrianglesWithinVoxelAcceleration = _cast(int, nbTrianglesWithinVoxelAcceleration)
         self._distanceBetweenIlluminationSubCenters = _cast(float, distanceBetweenIlluminationSubCenters)
         self._useExternalScripts = _cast(int, useExternalScripts)
-        self._extrapolationMethod = _cast(int, extrapolationMethod)
         self._subFaceBarycenterSubdivision = _cast(int, subFaceBarycenterSubdivision)
         self._thermalEmissionSurfaceSubdivision = _cast(float, thermalEmissionSurfaceSubdivision)
         self._nbSubcenterVolume = _cast(int, nbSubcenterVolume)
         self._expertMode = _cast(int, expertMode)
         self._nbSubSubcenterTurbidEmission = _cast(int, nbSubSubcenterTurbidEmission)
         self._triangleStorageMode = _cast(int, triangleStorageMode)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1573,107 +1620,102 @@ class create_ExpertModeZone(GeneratedsSuper):
     def get_isInterceptedPowerPerDirectionForSpecularCheck(self): return self._isInterceptedPowerPerDirectionForSpecularCheck
     def set_isInterceptedPowerPerDirectionForSpecularCheck(self, value):
         self._isInterceptedPowerPerDirectionForSpecularCheck = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     isInterceptedPowerPerDirectionForSpecularCheck = property(get_isInterceptedPowerPerDirectionForSpecularCheck, set_isInterceptedPowerPerDirectionForSpecularCheck)
     def get_lightPropagationThreshold(self): return self._lightPropagationThreshold
     def set_lightPropagationThreshold(self, value):
         self._lightPropagationThreshold = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     lightPropagationThreshold = property(get_lightPropagationThreshold, set_lightPropagationThreshold)
     def get_nbRandomPointsPerInteceptionAtmosphere(self): return self._nbRandomPointsPerInteceptionAtmosphere
     def set_nbRandomPointsPerInteceptionAtmosphere(self, value):
         self._nbRandomPointsPerInteceptionAtmosphere = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     nbRandomPointsPerInteceptionAtmosphere = property(get_nbRandomPointsPerInteceptionAtmosphere, set_nbRandomPointsPerInteceptionAtmosphere)
     def get_illuminationRepartitionMode(self): return self._illuminationRepartitionMode
     def set_illuminationRepartitionMode(self, value):
         self._illuminationRepartitionMode = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     illuminationRepartitionMode = property(get_illuminationRepartitionMode, set_illuminationRepartitionMode)
     def get_nbThreads(self): return self._nbThreads
     def set_nbThreads(self, value):
         self._nbThreads = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     nbThreads = property(get_nbThreads, set_nbThreads)
     def get_albedoThreshold(self): return self._albedoThreshold
     def set_albedoThreshold(self, value):
         self._albedoThreshold = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     albedoThreshold = property(get_albedoThreshold, set_albedoThreshold)
     def get_surfaceBarycenterEnabled(self): return self._surfaceBarycenterEnabled
     def set_surfaceBarycenterEnabled(self, value):
         self._surfaceBarycenterEnabled = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     surfaceBarycenterEnabled = property(get_surfaceBarycenterEnabled, set_surfaceBarycenterEnabled)
     def get_sparseVoxelAcceleration(self): return self._sparseVoxelAcceleration
     def set_sparseVoxelAcceleration(self, value):
         self._sparseVoxelAcceleration = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     sparseVoxelAcceleration = property(get_sparseVoxelAcceleration, set_sparseVoxelAcceleration)
     def get_maxNbSceneCrossing(self): return self._maxNbSceneCrossing
     def set_maxNbSceneCrossing(self, value):
         self._maxNbSceneCrossing = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     maxNbSceneCrossing = property(get_maxNbSceneCrossing, set_maxNbSceneCrossing)
     def get_subFaceBarycenterEnabled(self): return self._subFaceBarycenterEnabled
     def set_subFaceBarycenterEnabled(self, value):
         self._subFaceBarycenterEnabled = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     subFaceBarycenterEnabled = property(get_subFaceBarycenterEnabled, set_subFaceBarycenterEnabled)
     def get_accelerationEngine(self): return self._accelerationEngine
     def set_accelerationEngine(self, value):
         self._accelerationEngine = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     accelerationEngine = property(get_accelerationEngine, set_accelerationEngine)
     def get_nbTrianglesWithinVoxelAcceleration(self): return self._nbTrianglesWithinVoxelAcceleration
     def set_nbTrianglesWithinVoxelAcceleration(self, value):
         self._nbTrianglesWithinVoxelAcceleration = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     nbTrianglesWithinVoxelAcceleration = property(get_nbTrianglesWithinVoxelAcceleration, set_nbTrianglesWithinVoxelAcceleration)
     def get_distanceBetweenIlluminationSubCenters(self): return self._distanceBetweenIlluminationSubCenters
     def set_distanceBetweenIlluminationSubCenters(self, value):
         self._distanceBetweenIlluminationSubCenters = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     distanceBetweenIlluminationSubCenters = property(get_distanceBetweenIlluminationSubCenters, set_distanceBetweenIlluminationSubCenters)
     def get_useExternalScripts(self): return self._useExternalScripts
     def set_useExternalScripts(self, value):
         self._useExternalScripts = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     useExternalScripts = property(get_useExternalScripts, set_useExternalScripts)
-    def get_extrapolationMethod(self): return self._extrapolationMethod
-    def set_extrapolationMethod(self, value):
-        self._extrapolationMethod = value
-        update_node(self,self.troot,"phase")
-    extrapolationMethod = property(get_extrapolationMethod, set_extrapolationMethod)
     def get_subFaceBarycenterSubdivision(self): return self._subFaceBarycenterSubdivision
     def set_subFaceBarycenterSubdivision(self, value):
         self._subFaceBarycenterSubdivision = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     subFaceBarycenterSubdivision = property(get_subFaceBarycenterSubdivision, set_subFaceBarycenterSubdivision)
     def get_thermalEmissionSurfaceSubdivision(self): return self._thermalEmissionSurfaceSubdivision
     def set_thermalEmissionSurfaceSubdivision(self, value):
         self._thermalEmissionSurfaceSubdivision = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     thermalEmissionSurfaceSubdivision = property(get_thermalEmissionSurfaceSubdivision, set_thermalEmissionSurfaceSubdivision)
     def get_nbSubcenterVolume(self): return self._nbSubcenterVolume
     def set_nbSubcenterVolume(self, value):
         self._nbSubcenterVolume = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     nbSubcenterVolume = property(get_nbSubcenterVolume, set_nbSubcenterVolume)
     def get_expertMode(self): return self._expertMode
     def set_expertMode(self, value):
         self._expertMode = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     expertMode = property(get_expertMode, set_expertMode)
     def get_nbSubSubcenterTurbidEmission(self): return self._nbSubSubcenterTurbidEmission
     def set_nbSubSubcenterTurbidEmission(self, value):
         self._nbSubSubcenterTurbidEmission = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     nbSubSubcenterTurbidEmission = property(get_nbSubSubcenterTurbidEmission, set_nbSubSubcenterTurbidEmission)
     def get_triangleStorageMode(self): return self._triangleStorageMode
     def set_triangleStorageMode(self, value):
         self._triangleStorageMode = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     triangleStorageMode = property(get_triangleStorageMode, set_triangleStorageMode)
     def copy(self):
         obj_ = self.factory()
@@ -1748,9 +1790,6 @@ class create_ExpertModeZone(GeneratedsSuper):
         if self.useExternalScripts is not None and 'useExternalScripts' not in already_processed:
             already_processed.add('useExternalScripts')
             outfile.write(' useExternalScripts="%s"' % self.gds_format_integer(self.useExternalScripts, input_name='useExternalScripts'))
-        if self.extrapolationMethod is not None and 'extrapolationMethod' not in already_processed:
-            already_processed.add('extrapolationMethod')
-            outfile.write(' extrapolationMethod="%s"' % self.gds_format_integer(self.extrapolationMethod, input_name='extrapolationMethod'))
         if self.subFaceBarycenterSubdivision is not None and 'subFaceBarycenterSubdivision' not in already_processed:
             already_processed.add('subFaceBarycenterSubdivision')
             outfile.write(' subFaceBarycenterSubdivision="%s"' % self.gds_format_integer(self.subFaceBarycenterSubdivision, input_name='subFaceBarycenterSubdivision'))
@@ -1804,8 +1843,6 @@ class create_ExpertModeZone(GeneratedsSuper):
             element.set('distanceBetweenIlluminationSubCenters', self.gds_format_double(self.distanceBetweenIlluminationSubCenters))
         if self.useExternalScripts is not None:
             element.set('useExternalScripts', self.gds_format_integer(self.useExternalScripts))
-        if self.extrapolationMethod is not None:
-            element.set('extrapolationMethod', self.gds_format_integer(self.extrapolationMethod))
         if self.subFaceBarycenterSubdivision is not None:
             element.set('subFaceBarycenterSubdivision', self.gds_format_integer(self.subFaceBarycenterSubdivision))
         if self.thermalEmissionSurfaceSubdivision is not None:
@@ -1884,10 +1921,6 @@ class create_ExpertModeZone(GeneratedsSuper):
             already_processed.add('useExternalScripts')
             showIndent(outfile, level)
             outfile.write('useExternalScripts=%d,\n' % (self.useExternalScripts,))
-        if self.extrapolationMethod is not None and 'extrapolationMethod' not in already_processed:
-            already_processed.add('extrapolationMethod')
-            showIndent(outfile, level)
-            outfile.write('extrapolationMethod=%d,\n' % (self.extrapolationMethod,))
         if self.subFaceBarycenterSubdivision is not None and 'subFaceBarycenterSubdivision' not in already_processed:
             already_processed.add('subFaceBarycenterSubdivision')
             showIndent(outfile, level)
@@ -2020,13 +2053,6 @@ class create_ExpertModeZone(GeneratedsSuper):
                 self.useExternalScripts = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-        value = find_attr_value_('extrapolationMethod', node)
-        if value is not None and 'extrapolationMethod' not in already_processed:
-            already_processed.add('extrapolationMethod')
-            try:
-                self.extrapolationMethod = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
         value = find_attr_value_('subFaceBarycenterSubdivision', node)
         if value is not None and 'subFaceBarycenterSubdivision' not in already_processed:
             already_processed.add('subFaceBarycenterSubdivision')
@@ -2071,15 +2097,27 @@ class create_ExpertModeZone(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_ExpertModeZone
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ExpertModeZone
 
 
 class create_DartInputParameters(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('MonteCarlo', '_MonteCarlo', 0, 0, {u'maxOccurs': u'1', u'type': u'_MonteCarlo', u'name': u'MonteCarlo', u'minOccurs': u'1'}, None),
+        MemberSpec_('Lidar', '_Lidar', 0, 0, {u'maxOccurs': u'1', u'type': u'_Lidar', u'name': u'Lidar', u'minOccurs': u'1'}, None),
+        MemberSpec_('nodefluxtracking', '_nodefluxtracking', 0, 0, {u'maxOccurs': u'1', u'type': u'_nodefluxtracking', u'name': u'nodefluxtracking', u'minOccurs': u'1'}, None),
+        MemberSpec_('SpectralDomainTir', '_SpectralDomainTir', 0, 0, {u'maxOccurs': u'1', u'type': u'_SpectralDomainTir', u'name': u'SpectralDomainTir', u'minOccurs': u'1'}, None),
+        MemberSpec_('SpectralIntervals', '_SpectralIntervals', 0, 0, {u'maxOccurs': u'1', u'type': u'_SpectralIntervals', u'name': u'SpectralIntervals', u'minOccurs': u'1'}, None),
+        MemberSpec_('temperatureAtmosphere', '_temperatureAtmosphere', 0, 0, {u'maxOccurs': u'1', u'type': u'_temperatureAtmosphere', u'name': u'temperatureAtmosphere', u'minOccurs': u'1'}, None),
+        MemberSpec_('ImageSideIllumination', '_ImageSideIllumination', 0, 0, {u'maxOccurs': u'1', u'type': u'_ImageSideIllumination', u'name': u'ImageSideIllumination', u'minOccurs': u'1'}, None),
+        MemberSpec_('nodeIlluminationMode', '_nodeIlluminationMode', 0, 0, {u'maxOccurs': u'1', u'type': u'_nodeIlluminationMode', u'name': u'nodeIlluminationMode', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, MonteCarlo=None, Lidar=None, nodefluxtracking=None, SpectralDomainTir=None, SpectralIntervals=None, temperatureAtmosphere=None, ImageSideIllumination=None, nodeIlluminationMode=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_DartInputParameters")
+        self.troot=get_gs_troot('phase','_DartInputParameters')
         self.attrib = ['']
         self.children = ['MonteCarlo', 'Lidar', 'nodefluxtracking', 'SpectralDomainTir', 'SpectralIntervals', 'temperatureAtmosphere', 'ImageSideIllumination', 'nodeIlluminationMode']
         self.parent = None
@@ -2091,7 +2129,7 @@ class create_DartInputParameters(GeneratedsSuper):
         self._temperatureAtmosphere = temperatureAtmosphere
         self._ImageSideIllumination = ImageSideIllumination
         self._nodeIlluminationMode = nodeIlluminationMode
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2359,7 +2397,9 @@ class create_DartInputParameters(GeneratedsSuper):
             obj_.build(child_)
             self.set_nodeIlluminationMode(obj_)
             obj_.original_tagname_ = 'nodeIlluminationMode'
-# end class create_DartInputParameters
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_DartInputParameters
 
 
 class create_MonteCarlo(GeneratedsSuper):
@@ -2372,18 +2412,23 @@ class create_MonteCarlo(GeneratedsSuper):
     Carlo: number of photons emitted per illumination cell. -LIDAR:
     approximate number of photons emitted by the LIDAR\n-Monte
     Carlo: number of photons emitted per illumination cell."""
+    member_data_items_ = [
+        MemberSpec_('maximumScatteringOrder', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('calculatorMaximumRAM', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('numberofPhotons', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, maximumScatteringOrder=100, calculatorMaximumRAM=1000, numberofPhotons=10000):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_MonteCarlo")
+        self.troot=get_gs_troot('phase','_MonteCarlo')
         self.attrib = ['maximumScatteringOrder', 'calculatorMaximumRAM', 'numberofPhotons']
         self.children = []
         self.parent = None
         self._maximumScatteringOrder = _cast(int, maximumScatteringOrder)
         self._calculatorMaximumRAM = _cast(int, calculatorMaximumRAM)
         self._numberofPhotons = _cast(int, numberofPhotons)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2398,17 +2443,17 @@ class create_MonteCarlo(GeneratedsSuper):
     def get_maximumScatteringOrder(self): return self._maximumScatteringOrder
     def set_maximumScatteringOrder(self, value):
         self._maximumScatteringOrder = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     maximumScatteringOrder = property(get_maximumScatteringOrder, set_maximumScatteringOrder)
     def get_calculatorMaximumRAM(self): return self._calculatorMaximumRAM
     def set_calculatorMaximumRAM(self, value):
         self._calculatorMaximumRAM = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     calculatorMaximumRAM = property(get_calculatorMaximumRAM, set_calculatorMaximumRAM)
     def get_numberofPhotons(self): return self._numberofPhotons
     def set_numberofPhotons(self, value):
         self._numberofPhotons = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     numberofPhotons = property(get_numberofPhotons, set_numberofPhotons)
     def copy(self):
         obj_ = self.factory()
@@ -2518,7 +2563,9 @@ class create_MonteCarlo(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_MonteCarlo
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_MonteCarlo
 
 
 class create_Lidar(GeneratedsSuper):
@@ -2527,11 +2574,22 @@ class create_Lidar(GeneratedsSuper):
     mode will generate multiple pulse across a defined area. The
     results are an image as well as a waveform for each pulse. Check
     to simulate Solar Noise Check to simulate Solar Noise"""
+    member_data_items_ = [
+        MemberSpec_('simulateImage', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('simulateSolarNoise', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('PhotonCounting', '_PhotonCounting', 0, 0, {u'maxOccurs': u'1', u'type': u'_PhotonCounting', u'name': u'PhotonCounting', u'minOccurs': u'1'}, None),
+        MemberSpec_('RunningMode', '_RunningMode', 0, 0, {u'maxOccurs': u'1', u'type': u'_RunningMode', u'name': u'RunningMode', u'minOccurs': u'1'}, None),
+        MemberSpec_('FluxtrackingSolarNoise', '_FluxtrackingSolarNoise', 0, 0, {u'maxOccurs': u'1', u'type': u'_FluxtrackingSolarNoise', u'name': u'FluxtrackingSolarNoise', u'minOccurs': u'1'}, None),
+        MemberSpec_('PulseDuration', '_PulseDuration', 0, 0, {u'maxOccurs': u'1', u'type': u'_PulseDuration', u'name': u'PulseDuration', u'minOccurs': u'1'}, None),
+        MemberSpec_('LidarGeometry', '_LidarGeometry', 0, 0, {u'maxOccurs': u'1', u'type': u'_LidarGeometry', u'name': u'LidarGeometry', u'minOccurs': u'1'}, None),
+        MemberSpec_('LidarIlluminationIntensity', '_LidarIlluminationIntensity', 0, 0, {u'maxOccurs': u'1', u'type': u'_LidarIlluminationIntensity', u'name': u'LidarIlluminationIntensity', u'minOccurs': u'1'}, None),
+        MemberSpec_('LidarAcquisitionParameters', '_LidarAcquisitionParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_LidarAcquisitionParameters', u'name': u'LidarAcquisitionParameters', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, simulateImage=0, simulateSolarNoise=0, PhotonCounting=None, RunningMode=None, FluxtrackingSolarNoise=None, PulseDuration=None, LidarGeometry=None, LidarIlluminationIntensity=None, LidarAcquisitionParameters=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_Lidar")
+        self.troot=get_gs_troot('phase','_Lidar')
         self.attrib = ['simulateImage', 'simulateSolarNoise']
         self.children = ['PhotonCounting', 'RunningMode', 'FluxtrackingSolarNoise', 'PulseDuration', 'LidarGeometry', 'LidarIlluminationIntensity', 'LidarAcquisitionParameters']
         self.parent = None
@@ -2544,7 +2602,7 @@ class create_Lidar(GeneratedsSuper):
         self._LidarGeometry = LidarGeometry
         self._LidarIlluminationIntensity = LidarIlluminationIntensity
         self._LidarAcquisitionParameters = LidarAcquisitionParameters
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2608,12 +2666,12 @@ class create_Lidar(GeneratedsSuper):
     def get_simulateImage(self): return self._simulateImage
     def set_simulateImage(self, value):
         self._simulateImage = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     simulateImage = property(get_simulateImage, set_simulateImage)
     def get_simulateSolarNoise(self): return self._simulateSolarNoise
     def set_simulateSolarNoise(self, value):
         self._simulateSolarNoise = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     simulateSolarNoise = property(get_simulateSolarNoise, set_simulateSolarNoise)
     def copy(self):
         obj_ = self.factory()
@@ -2827,23 +2885,30 @@ class create_Lidar(GeneratedsSuper):
             obj_.build(child_)
             self.set_LidarAcquisitionParameters(obj_)
             obj_.original_tagname_ = 'LidarAcquisitionParameters'
-# end class create_Lidar
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Lidar
 
 
 class create_PhotonCounting(GeneratedsSuper):
     """LiDAR Type LiDAR Type Select Type Select Type"""
+    member_data_items_ = [
+        MemberSpec_('pcDef', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('PhotonCountingParam', '_PhotonCountingParam', 0, 0, {u'maxOccurs': u'1', u'type': u'_PhotonCountingParam', u'name': u'PhotonCountingParam', u'minOccurs': u'1'}, None),
+        MemberSpec_('DiscreteReturnParam', '_DiscreteReturnParam', 0, 0, {u'maxOccurs': u'1', u'type': u'_DiscreteReturnParam', u'name': u'DiscreteReturnParam', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, pcDef=0, PhotonCountingParam=None, DiscreteReturnParam=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_PhotonCounting")
+        self.troot=get_gs_troot('phase','_PhotonCounting')
         self.attrib = ['pcDef']
         self.children = ['PhotonCountingParam', 'DiscreteReturnParam']
         self.parent = None
         self._pcDef = _cast(int, pcDef)
         self._PhotonCountingParam = PhotonCountingParam
         self._DiscreteReturnParam = DiscreteReturnParam
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2872,7 +2937,7 @@ class create_PhotonCounting(GeneratedsSuper):
     def get_pcDef(self): return self._pcDef
     def set_pcDef(self, value):
         self._pcDef = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     pcDef = property(get_pcDef, set_pcDef)
     def copy(self):
         obj_ = self.factory()
@@ -2985,7 +3050,9 @@ class create_PhotonCounting(GeneratedsSuper):
             obj_.build(child_)
             self.set_DiscreteReturnParam(obj_)
             obj_.original_tagname_ = 'DiscreteReturnParam'
-# end class create_PhotonCounting
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_PhotonCounting
 
 
 class create_PhotonCountingParam(GeneratedsSuper):
@@ -2998,18 +3065,23 @@ class create_PhotonCountingParam(GeneratedsSuper):
     recover from a detection event, before another photon can be
     detected the detector's minimum count rate without light source
     the detector's minimum count rate without light source"""
+    member_data_items_ = [
+        MemberSpec_('quantEff', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('deadTime', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('darkCountRate', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, quantEff=15, deadTime=2.5, darkCountRate=100):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_PhotonCountingParam")
+        self.troot=get_gs_troot('phase','_PhotonCountingParam')
         self.attrib = ['quantEff', 'deadTime', 'darkCountRate']
         self.children = []
         self.parent = None
         self._quantEff = _cast(float, quantEff)
         self._deadTime = _cast(float, deadTime)
         self._darkCountRate = _cast(float, darkCountRate)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3024,17 +3096,17 @@ class create_PhotonCountingParam(GeneratedsSuper):
     def get_quantEff(self): return self._quantEff
     def set_quantEff(self, value):
         self._quantEff = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     quantEff = property(get_quantEff, set_quantEff)
     def get_deadTime(self): return self._deadTime
     def set_deadTime(self, value):
         self._deadTime = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     deadTime = property(get_deadTime, set_deadTime)
     def get_darkCountRate(self): return self._darkCountRate
     def set_darkCountRate(self, value):
         self._darkCountRate = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     darkCountRate = property(get_darkCountRate, set_darkCountRate)
     def copy(self):
         obj_ = self.factory()
@@ -3144,7 +3216,9 @@ class create_PhotonCountingParam(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (darkCountRate): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_PhotonCountingParam
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_PhotonCountingParam
 
 
 class create_DiscreteReturnParam(GeneratedsSuper):
@@ -3157,18 +3231,23 @@ class create_DiscreteReturnParam(GeneratedsSuper):
     Detection. It is sometimes specified in the white paper of the
     LiDAR device. It may vary with distance. Number of points per
     pulse Number of points per pulse"""
+    member_data_items_ = [
+        MemberSpec_('intensityValueType', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('thresAppRef', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('nbPoints', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, intensityValueType=2, thresAppRef='0.01', nbPoints='1'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_DiscreteReturnParam")
+        self.troot=get_gs_troot('phase','_DiscreteReturnParam')
         self.attrib = ['intensityValueType', 'thresAppRef', 'nbPoints']
         self.children = []
         self.parent = None
         self._intensityValueType = _cast(int, intensityValueType)
         self._thresAppRef = _cast(None, thresAppRef)
         self._nbPoints = _cast(None, nbPoints)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3183,17 +3262,17 @@ class create_DiscreteReturnParam(GeneratedsSuper):
     def get_intensityValueType(self): return self._intensityValueType
     def set_intensityValueType(self, value):
         self._intensityValueType = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     intensityValueType = property(get_intensityValueType, set_intensityValueType)
     def get_thresAppRef(self): return self._thresAppRef
     def set_thresAppRef(self, value):
         self._thresAppRef = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     thresAppRef = property(get_thresAppRef, set_thresAppRef)
     def get_nbPoints(self): return self._nbPoints
     def set_nbPoints(self, value):
         self._nbPoints = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     nbPoints = property(get_nbPoints, set_nbPoints)
     def copy(self):
         obj_ = self.factory()
@@ -3297,23 +3376,29 @@ class create_DiscreteReturnParam(GeneratedsSuper):
             self.nbPoints = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_DiscreteReturnParam
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_DiscreteReturnParam
 
 
 class create_RunningMode(GeneratedsSuper):
     """Solar noise running parameters Solar noise running parameters
     Running mode Running mode"""
+    member_data_items_ = [
+        MemberSpec_('snMode', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('AirConfig', '_AirConfig', 0, 0, {u'maxOccurs': u'1', u'type': u'_AirConfig', u'name': u'AirConfig', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, snMode=0, AirConfig=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_RunningMode")
+        self.troot=get_gs_troot('phase','_RunningMode')
         self.attrib = ['snMode']
         self.children = ['AirConfig']
         self.parent = None
         self._snMode = _cast(int, snMode)
         self._AirConfig = AirConfig
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3335,7 +3420,7 @@ class create_RunningMode(GeneratedsSuper):
     def get_snMode(self): return self._snMode
     def set_snMode(self, value):
         self._snMode = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     snMode = property(get_snMode, set_snMode)
     def copy(self):
         obj_ = self.factory()
@@ -3431,21 +3516,26 @@ class create_RunningMode(GeneratedsSuper):
             obj_.build(child_)
             self.set_AirConfig(obj_)
             obj_.original_tagname_ = 'AirConfig'
-# end class create_RunningMode
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_RunningMode
 
 
 class create_AirConfig(GeneratedsSuper):
     """Airborne configuration Airborne configuration Airborne Airborne"""
+    member_data_items_ = [
+        MemberSpec_('airSNConfig', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, airSNConfig=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_AirConfig")
+        self.troot=get_gs_troot('phase','_AirConfig')
         self.attrib = ['airSNConfig']
         self.children = []
         self.parent = None
         self._airSNConfig = _cast(int, airSNConfig)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3460,7 +3550,7 @@ class create_AirConfig(GeneratedsSuper):
     def get_airSNConfig(self): return self._airSNConfig
     def set_airSNConfig(self, value):
         self._airSNConfig = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     airSNConfig = property(get_airSNConfig, set_airSNConfig)
     def copy(self):
         obj_ = self.factory()
@@ -3538,17 +3628,25 @@ class create_AirConfig(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_AirConfig
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_AirConfig
 
 
 class create_FluxtrackingSolarNoise(GeneratedsSuper):
     """Solar Illumination (Flux Tracking) Solar Illumination (Flux
     Tracking)"""
+    member_data_items_ = [
+        MemberSpec_('nodefluxtracking', '_nodefluxtracking', 0, 0, {u'maxOccurs': u'1', u'type': u'_nodefluxtracking', u'name': u'nodefluxtracking', u'minOccurs': u'1'}, None),
+        MemberSpec_('SpectralDomainTir', '_SpectralDomainTir', 0, 0, {u'maxOccurs': u'1', u'type': u'_SpectralDomainTir', u'name': u'SpectralDomainTir', u'minOccurs': u'1'}, None),
+        MemberSpec_('temperatureAtmosphere', '_temperatureAtmosphere', 0, 0, {u'maxOccurs': u'1', u'type': u'_temperatureAtmosphere', u'name': u'temperatureAtmosphere', u'minOccurs': u'1'}, None),
+        MemberSpec_('nodeIlluminationMode', '_nodeIlluminationMode', 0, 0, {u'maxOccurs': u'1', u'type': u'_nodeIlluminationMode', u'name': u'nodeIlluminationMode', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, nodefluxtracking=None, SpectralDomainTir=None, temperatureAtmosphere=None, nodeIlluminationMode=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_FluxtrackingSolarNoise")
+        self.troot=get_gs_troot('phase','_FluxtrackingSolarNoise')
         self.attrib = ['']
         self.children = ['nodefluxtracking', 'SpectralDomainTir', 'temperatureAtmosphere', 'nodeIlluminationMode']
         self.parent = None
@@ -3556,7 +3654,7 @@ class create_FluxtrackingSolarNoise(GeneratedsSuper):
         self._SpectralDomainTir = SpectralDomainTir
         self._temperatureAtmosphere = temperatureAtmosphere
         self._nodeIlluminationMode = nodeIlluminationMode
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3728,7 +3826,9 @@ class create_FluxtrackingSolarNoise(GeneratedsSuper):
             obj_.build(child_)
             self.set_nodeIlluminationMode(obj_)
             obj_.original_tagname_ = 'nodeIlluminationMode'
-# end class create_FluxtrackingSolarNoise
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_FluxtrackingSolarNoise
 
 
 class create_nodefluxtracking(GeneratedsSuper):
@@ -3740,17 +3840,21 @@ class create_nodefluxtracking(GeneratedsSuper):
     However, it mixes several scattering orders within the same
     iteration This option speeds up DART runs. However, it mixes
     several scattering orders within the same iteration"""
+    member_data_items_ = [
+        MemberSpec_('numberOfIteration', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('gaussSiedelAcceleratingTechnique', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
-    def __init__(self, numberOfIteration=5, gaussSiedelAcceleratingTechnique=0):
+    def __init__(self, numberOfIteration=20, gaussSiedelAcceleratingTechnique=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_nodefluxtracking")
+        self.troot=get_gs_troot('phase','_nodefluxtracking')
         self.attrib = ['numberOfIteration', 'gaussSiedelAcceleratingTechnique']
         self.children = []
         self.parent = None
         self._numberOfIteration = _cast(int, numberOfIteration)
         self._gaussSiedelAcceleratingTechnique = _cast(int, gaussSiedelAcceleratingTechnique)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3765,12 +3869,12 @@ class create_nodefluxtracking(GeneratedsSuper):
     def get_numberOfIteration(self): return self._numberOfIteration
     def set_numberOfIteration(self, value):
         self._numberOfIteration = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     numberOfIteration = property(get_numberOfIteration, set_numberOfIteration)
     def get_gaussSiedelAcceleratingTechnique(self): return self._gaussSiedelAcceleratingTechnique
     def set_gaussSiedelAcceleratingTechnique(self, value):
         self._gaussSiedelAcceleratingTechnique = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     gaussSiedelAcceleratingTechnique = property(get_gaussSiedelAcceleratingTechnique, set_gaussSiedelAcceleratingTechnique)
     def copy(self):
         obj_ = self.factory()
@@ -3864,7 +3968,9 @@ class create_nodefluxtracking(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_nodefluxtracking
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_nodefluxtracking
 
 
 class create_SpectralDomainTir(GeneratedsSuper):
@@ -3874,18 +3980,23 @@ class create_SpectralDomainTir(GeneratedsSuper):
     temperature is either assessed with a simulation in the visible,
     or it is simply derived from a file that gives temperature in
     every cell"""
+    member_data_items_ = [
+        MemberSpec_('temperatureMode', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('TemperatureFile', '_TemperatureFile', 0, 0, {u'maxOccurs': u'1', u'type': u'_TemperatureFile', u'name': u'TemperatureFile', u'minOccurs': u'1'}, None),
+        MemberSpec_('skylTemperature', '_skylTemperature', 0, 0, {u'maxOccurs': u'1', u'type': u'_skylTemperature', u'name': u'skylTemperature', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, temperatureMode=0, TemperatureFile=None, skylTemperature=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_SpectralDomainTir")
+        self.troot=get_gs_troot('phase','_SpectralDomainTir')
         self.attrib = ['temperatureMode']
         self.children = ['TemperatureFile', 'skylTemperature']
         self.parent = None
         self._temperatureMode = _cast(int, temperatureMode)
         self._TemperatureFile = TemperatureFile
         self._skylTemperature = skylTemperature
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3914,7 +4025,7 @@ class create_SpectralDomainTir(GeneratedsSuper):
     def get_temperatureMode(self): return self._temperatureMode
     def set_temperatureMode(self, value):
         self._temperatureMode = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     temperatureMode = property(get_temperatureMode, set_temperatureMode)
     def copy(self):
         obj_ = self.factory()
@@ -4027,23 +4138,28 @@ class create_SpectralDomainTir(GeneratedsSuper):
             obj_.build(child_)
             self.set_skylTemperature(obj_)
             obj_.original_tagname_ = 'skylTemperature'
-# end class create_SpectralDomainTir
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_SpectralDomainTir
 
 
 class create_TemperatureFile(GeneratedsSuper):
     """TemperatureFile TemperatureFile Name of the text file that contains
     temperatures of all cells of the scene Name of the text file
     that contains temperatures of all cells of the scene"""
+    member_data_items_ = [
+        MemberSpec_('temperatureFileName', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, temperatureFileName='temperatures.txt'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_TemperatureFile")
+        self.troot=get_gs_troot('phase','_TemperatureFile')
         self.attrib = ['temperatureFileName']
         self.children = []
         self.parent = None
         self._temperatureFileName = _cast(None, temperatureFileName)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4058,7 +4174,7 @@ class create_TemperatureFile(GeneratedsSuper):
     def get_temperatureFileName(self): return self._temperatureFileName
     def set_temperatureFileName(self, value):
         self._temperatureFileName = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     temperatureFileName = property(get_temperatureFileName, set_temperatureFileName)
     def copy(self):
         obj_ = self.factory()
@@ -4133,7 +4249,9 @@ class create_TemperatureFile(GeneratedsSuper):
             self.temperatureFileName = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_TemperatureFile
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_TemperatureFile
 
 
 class create_skylTemperature(GeneratedsSuper):
@@ -4154,18 +4272,23 @@ class create_skylTemperature(GeneratedsSuper):
     the illumination (VIS) in order to calculate scene temperatures
     Used to define the illumination (VIS) in order to calculate
     scene temperatures"""
+    member_data_items_ = [
+        MemberSpec_('distanceBetweenIlluminationSubCenters', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('histogramThreshold', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('SKYLForTemperatureAssignation', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, distanceBetweenIlluminationSubCenters=0.1, histogramThreshold=5.0, SKYLForTemperatureAssignation=0.0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_skylTemperature")
+        self.troot=get_gs_troot('phase','_skylTemperature')
         self.attrib = ['distanceBetweenIlluminationSubCenters', 'histogramThreshold', 'SKYLForTemperatureAssignation']
         self.children = []
         self.parent = None
         self._distanceBetweenIlluminationSubCenters = _cast(float, distanceBetweenIlluminationSubCenters)
         self._histogramThreshold = _cast(float, histogramThreshold)
         self._SKYLForTemperatureAssignation = _cast(float, SKYLForTemperatureAssignation)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4180,17 +4303,17 @@ class create_skylTemperature(GeneratedsSuper):
     def get_distanceBetweenIlluminationSubCenters(self): return self._distanceBetweenIlluminationSubCenters
     def set_distanceBetweenIlluminationSubCenters(self, value):
         self._distanceBetweenIlluminationSubCenters = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     distanceBetweenIlluminationSubCenters = property(get_distanceBetweenIlluminationSubCenters, set_distanceBetweenIlluminationSubCenters)
     def get_histogramThreshold(self): return self._histogramThreshold
     def set_histogramThreshold(self, value):
         self._histogramThreshold = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     histogramThreshold = property(get_histogramThreshold, set_histogramThreshold)
     def get_SKYLForTemperatureAssignation(self): return self._SKYLForTemperatureAssignation
     def set_SKYLForTemperatureAssignation(self, value):
         self._SKYLForTemperatureAssignation = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     SKYLForTemperatureAssignation = property(get_SKYLForTemperatureAssignation, set_SKYLForTemperatureAssignation)
     def copy(self):
         obj_ = self.factory()
@@ -4300,22 +4423,27 @@ class create_skylTemperature(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (SKYLForTemperatureAssignation): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_skylTemperature
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_skylTemperature
 
 
 class create_temperatureAtmosphere(GeneratedsSuper):
     """Active in (T) mode only. Atmosphere brightness temperature Active in
     (T) mode only. Atmosphere brightness temperature"""
+    member_data_items_ = [
+        MemberSpec_('atmosphericApparentTemperature', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, atmosphericApparentTemperature=260.0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_temperatureAtmosphere")
+        self.troot=get_gs_troot('phase','_temperatureAtmosphere')
         self.attrib = ['atmosphericApparentTemperature']
         self.children = []
         self.parent = None
         self._atmosphericApparentTemperature = _cast(float, atmosphericApparentTemperature)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4330,7 +4458,7 @@ class create_temperatureAtmosphere(GeneratedsSuper):
     def get_atmosphericApparentTemperature(self): return self._atmosphericApparentTemperature
     def set_atmosphericApparentTemperature(self, value):
         self._atmosphericApparentTemperature = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     atmosphericApparentTemperature = property(get_atmosphericApparentTemperature, set_atmosphericApparentTemperature)
     def copy(self):
         obj_ = self.factory()
@@ -4408,35 +4536,39 @@ class create_temperatureAtmosphere(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (atmosphericApparentTemperature): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_temperatureAtmosphere
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_temperatureAtmosphere
 
 
 class create_nodeIlluminationMode(GeneratedsSuper):
-    """nodeIlluminationMode nodeIlluminationMode Scenes can be totally
-    (normal mode) or partly (discrete illumination) illuminated.
-    Fluorescence emssion can be simulated, after a previous DART run
-    illuminated the scene. Scenes can be totally (normal mode) or
-    partly (discrete illumination) illuminated. Fluorescence emssion
-    can be simulated, after a previous DART run illuminated the
-    scene. - "TOA: Irradiance spectra": Atmosphere radiative
-    transfer gives BOA irradiance. - "TOA: Irradiance spectra":
-    Atmosphere radiative transfer gives BOA irradiance."""
+    """nodeIlluminationMode nodeIlluminationMode - "TOA: Irradiance
+    spectra": Atmosphere radiative transfer gives BOA irradiance. -
+    "TOA: Irradiance spectra": Atmosphere radiative transfer gives
+    BOA irradiance."""
+    member_data_items_ = [
+        MemberSpec_('irradianceMode', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('irradianceDatabaseNode', '_irradianceDatabaseNode', 0, 0, {u'maxOccurs': u'1', u'type': u'_irradianceDatabaseNode', u'name': u'irradianceDatabaseNode', u'minOccurs': u'1'}, None),
+        MemberSpec_('BandIrradianceFileNode', '_BandIrradianceFileNode', 0, 0, {u'maxOccurs': u'1', u'type': u'_BandIrradianceFileNode', u'name': u'BandIrradianceFileNode', u'minOccurs': u'1'}, None),
+        MemberSpec_('illumination', '_illumination', 0, 0, {u'maxOccurs': u'1', u'type': u'_illumination', u'name': u'illumination', u'minOccurs': u'1'}, None),
+        MemberSpec_('ftiImportation', '_ftiImportation', 0, 0, {u'maxOccurs': u'1', u'type': u'_ftiImportation', u'name': u'ftiImportation', u'minOccurs': u'1'}, None),
+        MemberSpec_('SpectralIrradiance', '_SpectralIrradiance', 0, 0, {u'maxOccurs': u'1', u'type': u'_SpectralIrradiance', u'name': u'SpectralIrradiance', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
-    def __init__(self, illuminationMode=0, irradianceMode=0, DiscreteIllumination=None, irradianceDatabaseNode=None, illumination=None, ftiImportation=None, SpectralIrradiance=None):
+    def __init__(self, irradianceMode=0, irradianceDatabaseNode=None, BandIrradianceFileNode=None, illumination=None, ftiImportation=None, SpectralIrradiance=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_nodeIlluminationMode")
-        self.attrib = ['illuminationMode', 'irradianceMode']
-        self.children = ['DiscreteIllumination', 'irradianceDatabaseNode', 'illumination', 'ftiImportation', 'SpectralIrradiance']
+        self.troot=get_gs_troot('phase','_nodeIlluminationMode')
+        self.attrib = ['irradianceMode']
+        self.children = ['irradianceDatabaseNode', 'BandIrradianceFileNode', 'illumination', 'ftiImportation', 'SpectralIrradiance']
         self.parent = None
-        self._illuminationMode = _cast(int, illuminationMode)
         self._irradianceMode = _cast(int, irradianceMode)
-        self._DiscreteIllumination = DiscreteIllumination
         self._irradianceDatabaseNode = irradianceDatabaseNode
+        self._BandIrradianceFileNode = BandIrradianceFileNode
         self._illumination = illumination
         self._ftiImportation = ftiImportation
         self._SpectralIrradiance = SpectralIrradiance
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4448,13 +4580,6 @@ class create_nodeIlluminationMode(GeneratedsSuper):
         else:
             return create_nodeIlluminationMode(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_DiscreteIllumination(self): return self._DiscreteIllumination
-    def set_DiscreteIllumination(self, value):
-        if value is not None:
-            checkclass(value, create_DiscreteIllumination)
-            value.parent = self
-        self._DiscreteIllumination = value
-    DiscreteIllumination = property(get_DiscreteIllumination, set_DiscreteIllumination)
     def get_irradianceDatabaseNode(self): return self._irradianceDatabaseNode
     def set_irradianceDatabaseNode(self, value):
         if value is not None:
@@ -4462,6 +4587,13 @@ class create_nodeIlluminationMode(GeneratedsSuper):
             value.parent = self
         self._irradianceDatabaseNode = value
     irradianceDatabaseNode = property(get_irradianceDatabaseNode, set_irradianceDatabaseNode)
+    def get_BandIrradianceFileNode(self): return self._BandIrradianceFileNode
+    def set_BandIrradianceFileNode(self, value):
+        if value is not None:
+            checkclass(value, create_BandIrradianceFileNode)
+            value.parent = self
+        self._BandIrradianceFileNode = value
+    BandIrradianceFileNode = property(get_BandIrradianceFileNode, set_BandIrradianceFileNode)
     def get_illumination(self): return self._illumination
     def set_illumination(self, value):
         if value is not None:
@@ -4483,23 +4615,18 @@ class create_nodeIlluminationMode(GeneratedsSuper):
             value.parent = self
         self._SpectralIrradiance = value
     SpectralIrradiance = property(get_SpectralIrradiance, set_SpectralIrradiance)
-    def get_illuminationMode(self): return self._illuminationMode
-    def set_illuminationMode(self, value):
-        self._illuminationMode = value
-        update_node(self,self.troot,"phase")
-    illuminationMode = property(get_illuminationMode, set_illuminationMode)
     def get_irradianceMode(self): return self._irradianceMode
     def set_irradianceMode(self, value):
         self._irradianceMode = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     irradianceMode = property(get_irradianceMode, set_irradianceMode)
     def copy(self):
         obj_ = self.factory()
         return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
-            self.DiscreteIllumination is not None or
             self.irradianceDatabaseNode is not None or
+            self.BandIrradianceFileNode is not None or
             self.illumination is not None or
             self.ftiImportation is not None or
             self.SpectralIrradiance is not None
@@ -4529,9 +4656,6 @@ class create_nodeIlluminationMode(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_nodeIlluminationMode'):
-        if self.illuminationMode is not None and 'illuminationMode' not in already_processed:
-            already_processed.add('illuminationMode')
-            outfile.write(' illuminationMode="%s"' % self.gds_format_integer(self.illuminationMode, input_name='illuminationMode'))
         if self.irradianceMode is not None and 'irradianceMode' not in already_processed:
             already_processed.add('irradianceMode')
             outfile.write(' irradianceMode="%s"' % self.gds_format_integer(self.irradianceMode, input_name='irradianceMode'))
@@ -4540,10 +4664,10 @@ class create_nodeIlluminationMode(GeneratedsSuper):
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.DiscreteIllumination is not None:
-            self.DiscreteIllumination.export(outfile, level, namespaceprefix_, name_='DiscreteIllumination', pretty_print=pretty_print)
         if self.irradianceDatabaseNode is not None:
             self.irradianceDatabaseNode.export(outfile, level, namespaceprefix_, name_='irradianceDatabaseNode', pretty_print=pretty_print)
+        if self.BandIrradianceFileNode is not None:
+            self.BandIrradianceFileNode.export(outfile, level, namespaceprefix_, name_='BandIrradianceFileNode', pretty_print=pretty_print)
         if self.illumination is not None:
             self.illumination.export(outfile, level, namespaceprefix_, name_='illumination', pretty_print=pretty_print)
         if self.ftiImportation is not None:
@@ -4555,16 +4679,14 @@ class create_nodeIlluminationMode(GeneratedsSuper):
             element = etree_.Element('{}' + name_)
         else:
             element = etree_.SubElement(parent_element, '{}' + name_)
-        if self.illuminationMode is not None:
-            element.set('illuminationMode', self.gds_format_integer(self.illuminationMode))
         if self.irradianceMode is not None:
             element.set('irradianceMode', self.gds_format_integer(self.irradianceMode))
-        if self.DiscreteIllumination is not None:
-            DiscreteIllumination_ = self.DiscreteIllumination
-            DiscreteIllumination_.to_etree(element, name_='DiscreteIllumination', mapping_=mapping_)
         if self.irradianceDatabaseNode is not None:
             irradianceDatabaseNode_ = self.irradianceDatabaseNode
             irradianceDatabaseNode_.to_etree(element, name_='irradianceDatabaseNode', mapping_=mapping_)
+        if self.BandIrradianceFileNode is not None:
+            BandIrradianceFileNode_ = self.BandIrradianceFileNode
+            BandIrradianceFileNode_.to_etree(element, name_='BandIrradianceFileNode', mapping_=mapping_)
         if self.illumination is not None:
             illumination_ = self.illumination
             illumination_.to_etree(element, name_='illumination', mapping_=mapping_)
@@ -4584,25 +4706,21 @@ class create_nodeIlluminationMode(GeneratedsSuper):
         if self.hasContent_():
             self.exportLiteralChildren(outfile, level, name_)
     def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.illuminationMode is not None and 'illuminationMode' not in already_processed:
-            already_processed.add('illuminationMode')
-            showIndent(outfile, level)
-            outfile.write('illuminationMode=%d,\n' % (self.illuminationMode,))
         if self.irradianceMode is not None and 'irradianceMode' not in already_processed:
             already_processed.add('irradianceMode')
             showIndent(outfile, level)
             outfile.write('irradianceMode=%d,\n' % (self.irradianceMode,))
     def exportLiteralChildren(self, outfile, level, name_):
-        if self.DiscreteIllumination is not None:
-            showIndent(outfile, level)
-            outfile.write('DiscreteIllumination=model_._DiscreteIllumination(\n')
-            self.DiscreteIllumination.exportLiteral(outfile, level, name_='DiscreteIllumination')
-            showIndent(outfile, level)
-            outfile.write('),\n')
         if self.irradianceDatabaseNode is not None:
             showIndent(outfile, level)
             outfile.write('irradianceDatabaseNode=model_._irradianceDatabaseNode(\n')
             self.irradianceDatabaseNode.exportLiteral(outfile, level, name_='irradianceDatabaseNode')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.BandIrradianceFileNode is not None:
+            showIndent(outfile, level)
+            outfile.write('BandIrradianceFileNode=model_._BandIrradianceFileNode(\n')
+            self.BandIrradianceFileNode.exportLiteral(outfile, level, name_='BandIrradianceFileNode')
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.illumination is not None:
@@ -4631,13 +4749,6 @@ class create_nodeIlluminationMode(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
         return self
     def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('illuminationMode', node)
-        if value is not None and 'illuminationMode' not in already_processed:
-            already_processed.add('illuminationMode')
-            try:
-                self.illuminationMode = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
         value = find_attr_value_('irradianceMode', node)
         if value is not None and 'irradianceMode' not in already_processed:
             already_processed.add('irradianceMode')
@@ -4646,16 +4757,16 @@ class create_nodeIlluminationMode(GeneratedsSuper):
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'DiscreteIllumination':
-            obj_ = create_DiscreteIllumination.factory()
-            obj_.build(child_)
-            self.set_DiscreteIllumination(obj_)
-            obj_.original_tagname_ = 'DiscreteIllumination'
-        elif nodeName_ == 'irradianceDatabaseNode':
+        if nodeName_ == 'irradianceDatabaseNode':
             obj_ = create_irradianceDatabaseNode.factory()
             obj_.build(child_)
             self.set_irradianceDatabaseNode(obj_)
             obj_.original_tagname_ = 'irradianceDatabaseNode'
+        elif nodeName_ == 'BandIrradianceFileNode':
+            obj_ = create_BandIrradianceFileNode.factory()
+            obj_.build(child_)
+            self.set_BandIrradianceFileNode(obj_)
+            obj_.original_tagname_ = 'BandIrradianceFileNode'
         elif nodeName_ == 'illumination':
             obj_ = create_illumination.factory()
             obj_.build(child_)
@@ -4671,184 +4782,9 @@ class create_nodeIlluminationMode(GeneratedsSuper):
             obj_.build(child_)
             self.set_SpectralIrradiance(obj_)
             obj_.original_tagname_ = 'SpectralIrradiance'
-# end class create_nodeIlluminationMode
-
-
-class create_DiscreteIllumination(GeneratedsSuper):
-    """DiscreteIllumination DiscreteIllumination sizeX sizeX sizeY sizeY
-    Coordinates of the center of the rectangle that is illuminated
-    in the dicrete illumination mode. Coordinates of the center of
-    the rectangle that is illuminated in the dicrete illumination
-    mode. centerY centerY"""
-    subclass = None
-    superclass = None
-    def __init__(self, sizeX=0.2, sizeY=0.3, centerX=10.0, centerY=10.0):
-        self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_DiscreteIllumination")
-        self.attrib = ['sizeX', 'sizeY', 'centerX', 'centerY']
-        self.children = []
-        self.parent = None
-        self._sizeX = _cast(float, sizeX)
-        self._sizeY = _cast(float, sizeY)
-        self._centerX = _cast(float, centerX)
-        self._centerY = _cast(float, centerY)
-        update_node(self,self.troot,"phase")
-    def factory(*args_, **kwargs_):
-        if CurrentSubclassModule_ is not None:
-            subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, create_DiscreteIllumination)
-            if subclass is not None:
-                return subclass(*args_, **kwargs_)
-        if create_DiscreteIllumination.subclass:
-            return create_DiscreteIllumination.subclass(*args_, **kwargs_)
-        else:
-            return create_DiscreteIllumination(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_sizeX(self): return self._sizeX
-    def set_sizeX(self, value):
-        self._sizeX = value
-        update_node(self,self.troot,"phase")
-    sizeX = property(get_sizeX, set_sizeX)
-    def get_sizeY(self): return self._sizeY
-    def set_sizeY(self, value):
-        self._sizeY = value
-        update_node(self,self.troot,"phase")
-    sizeY = property(get_sizeY, set_sizeY)
-    def get_centerX(self): return self._centerX
-    def set_centerX(self, value):
-        self._centerX = value
-        update_node(self,self.troot,"phase")
-    centerX = property(get_centerX, set_centerX)
-    def get_centerY(self): return self._centerY
-    def set_centerY(self, value):
-        self._centerY = value
-        update_node(self,self.troot,"phase")
-    centerY = property(get_centerY, set_centerY)
-    def copy(self):
-        obj_ = self.factory()
-        return(obj_.build(self.to_etree()))
-    def hasContent_(self):
-        if (
-
-        ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespaceprefix_='', name_='_DiscreteIllumination', namespacedef_='', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_DiscreteIllumination')
-        if imported_ns_def_ is not None:
-            namespacedef_ = imported_ns_def_
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.original_tagname_ is not None:
-            name_ = self.original_tagname_
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_DiscreteIllumination')
-        if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_DiscreteIllumination', pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_DiscreteIllumination'):
-        if self.sizeX is not None and 'sizeX' not in already_processed:
-            already_processed.add('sizeX')
-            outfile.write(' sizeX="%s"' % self.gds_format_double(self.sizeX, input_name='sizeX'))
-        if self.sizeY is not None and 'sizeY' not in already_processed:
-            already_processed.add('sizeY')
-            outfile.write(' sizeY="%s"' % self.gds_format_double(self.sizeY, input_name='sizeY'))
-        if self.centerX is not None and 'centerX' not in already_processed:
-            already_processed.add('centerX')
-            outfile.write(' centerX="%s"' % self.gds_format_double(self.centerX, input_name='centerX'))
-        if self.centerY is not None and 'centerY' not in already_processed:
-            already_processed.add('centerY')
-            outfile.write(' centerY="%s"' % self.gds_format_double(self.centerY, input_name='centerY'))
-    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_DiscreteIllumination', fromsubclass_=False, pretty_print=True):
-        pass
-    def to_etree(self, parent_element=None, name_='_DiscreteIllumination', mapping_=None):
-        if parent_element is None:
-            element = etree_.Element('{}' + name_)
-        else:
-            element = etree_.SubElement(parent_element, '{}' + name_)
-        if self.sizeX is not None:
-            element.set('sizeX', self.gds_format_double(self.sizeX))
-        if self.sizeY is not None:
-            element.set('sizeY', self.gds_format_double(self.sizeY))
-        if self.centerX is not None:
-            element.set('centerX', self.gds_format_double(self.centerX))
-        if self.centerY is not None:
-            element.set('centerY', self.gds_format_double(self.centerY))
-        if mapping_ is not None:
-            mapping_[id(self)] = element
-        return element
-    def exportLiteral(self, outfile, level, name_='_DiscreteIllumination'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.sizeX is not None and 'sizeX' not in already_processed:
-            already_processed.add('sizeX')
-            showIndent(outfile, level)
-            outfile.write('sizeX=%e,\n' % (self.sizeX,))
-        if self.sizeY is not None and 'sizeY' not in already_processed:
-            already_processed.add('sizeY')
-            showIndent(outfile, level)
-            outfile.write('sizeY=%e,\n' % (self.sizeY,))
-        if self.centerX is not None and 'centerX' not in already_processed:
-            already_processed.add('centerX')
-            showIndent(outfile, level)
-            outfile.write('centerX=%e,\n' % (self.centerX,))
-        if self.centerY is not None and 'centerY' not in already_processed:
-            already_processed.add('centerY')
-            showIndent(outfile, level)
-            outfile.write('centerY=%e,\n' % (self.centerY,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        pass
-    def build(self, node):
-        already_processed = set()
-        self.buildAttributes(node, node.attrib, already_processed)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_)
-        return self
-    def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('sizeX', node)
-        if value is not None and 'sizeX' not in already_processed:
-            already_processed.add('sizeX')
-            try:
-                self.sizeX = float(value)
-            except ValueError as exp:
-                raise ValueError('Bad float/double attribute (sizeX): %s' % exp)
-        value = find_attr_value_('sizeY', node)
-        if value is not None and 'sizeY' not in already_processed:
-            already_processed.add('sizeY')
-            try:
-                self.sizeY = float(value)
-            except ValueError as exp:
-                raise ValueError('Bad float/double attribute (sizeY): %s' % exp)
-        value = find_attr_value_('centerX', node)
-        if value is not None and 'centerX' not in already_processed:
-            already_processed.add('centerX')
-            try:
-                self.centerX = float(value)
-            except ValueError as exp:
-                raise ValueError('Bad float/double attribute (centerX): %s' % exp)
-        value = find_attr_value_('centerY', node)
-        if value is not None and 'centerY' not in already_processed:
-            already_processed.add('centerY')
-            try:
-                self.centerY = float(value)
-            except ValueError as exp:
-                raise ValueError('Bad float/double attribute (centerY): %s' % exp)
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        pass
-# end class create_DiscreteIllumination
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_nodeIlluminationMode
 
 
 class create_irradianceDatabaseNode(GeneratedsSuper):
@@ -4861,11 +4797,19 @@ class create_irradianceDatabaseNode(GeneratedsSuper):
     reflectance parameters by the solar spectrum for the computation
     of per band mean values. Weighting of reflectance parameters by
     the solar spectrum for the computation of per band mean values."""
+    member_data_items_ = [
+        MemberSpec_('irradianceTable', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('irradianceColumn', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('databaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('weightAtmosphereParameters', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('weightReflectanceParameters', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('WeightingParameters', '_WeightingParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_WeightingParameters', u'name': u'WeightingParameters', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, irradianceTable='TOASolar_THKUR', irradianceColumn='irradiance', databaseName='Solar_constant.db', weightAtmosphereParameters=1, weightReflectanceParameters=1, WeightingParameters=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_irradianceDatabaseNode")
+        self.troot=get_gs_troot('phase','_irradianceDatabaseNode')
         self.attrib = ['irradianceTable', 'irradianceColumn', 'databaseName', 'weightAtmosphereParameters', 'weightReflectanceParameters']
         self.children = ['WeightingParameters']
         self.parent = None
@@ -4875,7 +4819,7 @@ class create_irradianceDatabaseNode(GeneratedsSuper):
         self._weightAtmosphereParameters = _cast(int, weightAtmosphereParameters)
         self._weightReflectanceParameters = _cast(int, weightReflectanceParameters)
         self._WeightingParameters = WeightingParameters
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4897,27 +4841,27 @@ class create_irradianceDatabaseNode(GeneratedsSuper):
     def get_irradianceTable(self): return self._irradianceTable
     def set_irradianceTable(self, value):
         self._irradianceTable = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     irradianceTable = property(get_irradianceTable, set_irradianceTable)
     def get_irradianceColumn(self): return self._irradianceColumn
     def set_irradianceColumn(self, value):
         self._irradianceColumn = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     irradianceColumn = property(get_irradianceColumn, set_irradianceColumn)
     def get_databaseName(self): return self._databaseName
     def set_databaseName(self, value):
         self._databaseName = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     databaseName = property(get_databaseName, set_databaseName)
     def get_weightAtmosphereParameters(self): return self._weightAtmosphereParameters
     def set_weightAtmosphereParameters(self, value):
         self._weightAtmosphereParameters = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     weightAtmosphereParameters = property(get_weightAtmosphereParameters, set_weightAtmosphereParameters)
     def get_weightReflectanceParameters(self): return self._weightReflectanceParameters
     def set_weightReflectanceParameters(self, value):
         self._weightReflectanceParameters = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     weightReflectanceParameters = property(get_weightReflectanceParameters, set_weightReflectanceParameters)
     def copy(self):
         obj_ = self.factory()
@@ -5068,7 +5012,9 @@ class create_irradianceDatabaseNode(GeneratedsSuper):
             obj_.build(child_)
             self.set_WeightingParameters(obj_)
             obj_.original_tagname_ = 'WeightingParameters'
-# end class create_irradianceDatabaseNode
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_irradianceDatabaseNode
 
 
 class create_WeightingParameters(GeneratedsSuper):
@@ -5077,16 +5023,19 @@ class create_WeightingParameters(GeneratedsSuper):
     provided temperature. Reflectance, and by extension emissivity,
     will be ponderated across the full bandwidth using the inversion
     of the Plank law of the provided temperature."""
+    member_data_items_ = [
+        MemberSpec_('sceneAverageTemperatureForPonderation', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, sceneAverageTemperatureForPonderation=300):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_WeightingParameters")
+        self.troot=get_gs_troot('phase','_WeightingParameters')
         self.attrib = ['sceneAverageTemperatureForPonderation']
         self.children = []
         self.parent = None
         self._sceneAverageTemperatureForPonderation = _cast(float, sceneAverageTemperatureForPonderation)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5101,7 +5050,7 @@ class create_WeightingParameters(GeneratedsSuper):
     def get_sceneAverageTemperatureForPonderation(self): return self._sceneAverageTemperatureForPonderation
     def set_sceneAverageTemperatureForPonderation(self, value):
         self._sceneAverageTemperatureForPonderation = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     sceneAverageTemperatureForPonderation = property(get_sceneAverageTemperatureForPonderation, set_sceneAverageTemperatureForPonderation)
     def copy(self):
         obj_ = self.factory()
@@ -5179,20 +5128,141 @@ class create_WeightingParameters(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (sceneAverageTemperatureForPonderation): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_WeightingParameters
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_WeightingParameters
+
+
+class create_BandIrradianceFileNode(GeneratedsSuper):
+    """Text file containing lines of |wavelength sunRadiationValue
+    SKYL|.\nThe data is expected to be sorted by ascending
+    wavelength.\nSKYL is ignored and radiation are treated as being
+    TOA in Analytical or Radiative Transfer Atmospheres. Text file
+    containing lines of |wavelength sunRadiationValue SKYL|.\nThe
+    data is expected to be sorted by ascending wavelength.\nSKYL is
+    ignored and radiation are treated as being TOA in Analytical or
+    Radiative Transfer Atmospheres."""
+    member_data_items_ = [
+        MemberSpec_('bandIrradianceFile', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
+    subclass = None
+    superclass = None
+    def __init__(self, bandIrradianceFile='sunIrradiance.txt'):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot('phase','_BandIrradianceFileNode')
+        self.attrib = ['bandIrradianceFile']
+        self.children = []
+        self.parent = None
+        self._bandIrradianceFile = _cast(None, bandIrradianceFile)
+        update_node(self,self.troot,'phase')
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, create_BandIrradianceFileNode)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if create_BandIrradianceFileNode.subclass:
+            return create_BandIrradianceFileNode.subclass(*args_, **kwargs_)
+        else:
+            return create_BandIrradianceFileNode(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_bandIrradianceFile(self): return self._bandIrradianceFile
+    def set_bandIrradianceFile(self, value):
+        self._bandIrradianceFile = value
+        update_node(self,self.troot,'phase')
+    bandIrradianceFile = property(get_bandIrradianceFile, set_bandIrradianceFile)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='_BandIrradianceFileNode', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_BandIrradianceFileNode')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_BandIrradianceFileNode')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_BandIrradianceFileNode', pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_BandIrradianceFileNode'):
+        if self.bandIrradianceFile is not None and 'bandIrradianceFile' not in already_processed:
+            already_processed.add('bandIrradianceFile')
+            outfile.write(' bandIrradianceFile=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.bandIrradianceFile), input_name='bandIrradianceFile')), ))
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_BandIrradianceFileNode', fromsubclass_=False, pretty_print=True):
+        pass
+    def to_etree(self, parent_element=None, name_='_BandIrradianceFileNode', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.bandIrradianceFile is not None:
+            element.set('bandIrradianceFile', self.gds_format_string(self.bandIrradianceFile))
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_BandIrradianceFileNode'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.bandIrradianceFile is not None and 'bandIrradianceFile' not in already_processed:
+            already_processed.add('bandIrradianceFile')
+            showIndent(outfile, level)
+            outfile.write('bandIrradianceFile="%s",\n' % (self.bandIrradianceFile,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('bandIrradianceFile', node)
+        if value is not None and 'bandIrradianceFile' not in already_processed:
+            already_processed.add('bandIrradianceFile')
+            self.bandIrradianceFile = value
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_BandIrradianceFileNode
 
 
 class create_illumination(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('illuminationFileName', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, illuminationFileName='atmosphere_radiance_before_coupling.binary'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_illumination")
+        self.troot=get_gs_troot('phase','_illumination')
         self.attrib = ['illuminationFileName']
         self.children = []
         self.parent = None
         self._illuminationFileName = _cast(None, illuminationFileName)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5207,7 +5277,7 @@ class create_illumination(GeneratedsSuper):
     def get_illuminationFileName(self): return self._illuminationFileName
     def set_illuminationFileName(self, value):
         self._illuminationFileName = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     illuminationFileName = property(get_illuminationFileName, set_illuminationFileName)
     def copy(self):
         obj_ = self.factory()
@@ -5282,22 +5352,27 @@ class create_illumination(GeneratedsSuper):
             self.illuminationFileName = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_illumination
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_illumination
 
 
 class create_ftiImportation(GeneratedsSuper):
     """Mid-Atmosphere transfer function Mid-Atmosphere transfer function
     Transfer function file name Transfer function file name"""
+    member_data_items_ = [
+        MemberSpec_('ftiFileName', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, ftiFileName='atmosphere_transfer_function_from_MA.binary'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_ftiImportation")
+        self.troot=get_gs_troot('phase','_ftiImportation')
         self.attrib = ['ftiFileName']
         self.children = []
         self.parent = None
         self._ftiFileName = _cast(None, ftiFileName)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5312,7 +5387,7 @@ class create_ftiImportation(GeneratedsSuper):
     def get_ftiFileName(self): return self._ftiFileName
     def set_ftiFileName(self, value):
         self._ftiFileName = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     ftiFileName = property(get_ftiFileName, set_ftiFileName)
     def copy(self):
         obj_ = self.factory()
@@ -5387,16 +5462,22 @@ class create_ftiImportation(GeneratedsSuper):
             self.ftiFileName = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_ftiImportation
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ftiImportation
 
 
 class create_SpectralIrradiance(GeneratedsSuper):
     """SpectralIrradiance SpectralIrradiance"""
+    member_data_items_ = [
+        MemberSpec_('CommonParameters', '_CommonParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_CommonParameters', u'name': u'CommonParameters', u'minOccurs': u'1'}, None),
+        MemberSpec_('SpectralIrradianceValue', '_SpectralIrradianceValue', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_SpectralIrradianceValue', u'name': u'SpectralIrradianceValue', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, CommonParameters=None, SpectralIrradianceValue=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_SpectralIrradiance")
+        self.troot=get_gs_troot('phase','_SpectralIrradiance')
         self.attrib = ['']
         self.children = ['CommonParameters', 'SpectralIrradianceValue']
         self.parent = None
@@ -5405,7 +5486,7 @@ class create_SpectralIrradiance(GeneratedsSuper):
             self._SpectralIrradianceValue = []
         else:
             self._SpectralIrradianceValue = SpectralIrradianceValue
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5545,7 +5626,9 @@ class create_SpectralIrradiance(GeneratedsSuper):
             obj_.build(child_)
             self.add_SpectralIrradianceValue(obj_)
             obj_.original_tagname_ = 'SpectralIrradianceValue'
-# end class create_SpectralIrradiance
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_SpectralIrradiance
 
 
 class create_CommonParameters(GeneratedsSuper):
@@ -5553,18 +5636,23 @@ class create_CommonParameters(GeneratedsSuper):
     Incoming radiation definition Same irradiance for all bands Same
     irradiance for all bands Same SKYL for all bands Same SKYL for
     all bands"""
+    member_data_items_ = [
+        MemberSpec_('irraDef', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('commonIrradianceCheckBox', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('commonSkylCheckBox', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, irraDef=0, commonIrradianceCheckBox=1, commonSkylCheckBox=1):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_CommonParameters")
+        self.troot=get_gs_troot('phase','_CommonParameters')
         self.attrib = ['irraDef', 'commonIrradianceCheckBox', 'commonSkylCheckBox']
         self.children = []
         self.parent = None
         self._irraDef = _cast(int, irraDef)
         self._commonIrradianceCheckBox = _cast(int, commonIrradianceCheckBox)
         self._commonSkylCheckBox = _cast(int, commonSkylCheckBox)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5579,17 +5667,17 @@ class create_CommonParameters(GeneratedsSuper):
     def get_irraDef(self): return self._irraDef
     def set_irraDef(self, value):
         self._irraDef = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     irraDef = property(get_irraDef, set_irraDef)
     def get_commonIrradianceCheckBox(self): return self._commonIrradianceCheckBox
     def set_commonIrradianceCheckBox(self, value):
         self._commonIrradianceCheckBox = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     commonIrradianceCheckBox = property(get_commonIrradianceCheckBox, set_commonIrradianceCheckBox)
     def get_commonSkylCheckBox(self): return self._commonSkylCheckBox
     def set_commonSkylCheckBox(self, value):
         self._commonSkylCheckBox = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     commonSkylCheckBox = property(get_commonSkylCheckBox, set_commonSkylCheckBox)
     def copy(self):
         obj_ = self.factory()
@@ -5699,7 +5787,9 @@ class create_CommonParameters(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_CommonParameters
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_CommonParameters
 
 
 class create_SpectralIrradianceValue(GeneratedsSuper):
@@ -5711,18 +5801,23 @@ class create_SpectralIrradianceValue(GeneratedsSuper):
     [W/m\u00B2/\u03BCm] TOA spectral solar constant
     [W/m\u00B2/\u03BCm] SKYL (atmospheric scattering of sun
     radiance) SKYL (atmospheric scattering of sun radiance)"""
+    member_data_items_ = [
+        MemberSpec_('bandNumber', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('irradiance', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Skyl', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, bandNumber=0, irradiance=1000, Skyl=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_SpectralIrradianceValue")
+        self.troot=get_gs_troot('phase','_SpectralIrradianceValue')
         self.attrib = ['bandNumber', 'irradiance', 'Skyl']
         self.children = []
         self.parent = None
         self._bandNumber = _cast(int, bandNumber)
         self._irradiance = _cast(float, irradiance)
         self._Skyl = _cast(float, Skyl)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5737,17 +5832,17 @@ class create_SpectralIrradianceValue(GeneratedsSuper):
     def get_bandNumber(self): return self._bandNumber
     def set_bandNumber(self, value):
         self._bandNumber = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     bandNumber = property(get_bandNumber, set_bandNumber)
     def get_irradiance(self): return self._irradiance
     def set_irradiance(self, value):
         self._irradiance = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     irradiance = property(get_irradiance, set_irradiance)
     def get_Skyl(self): return self._Skyl
     def set_Skyl(self, value):
         self._Skyl = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     Skyl = property(get_Skyl, set_Skyl)
     def copy(self):
         obj_ = self.factory()
@@ -5857,24 +5952,31 @@ class create_SpectralIrradianceValue(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (Skyl): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_SpectralIrradianceValue
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_SpectralIrradianceValue
 
 
 class create_PulseDuration(GeneratedsSuper):
     """PulseDuration PulseDuration Energy of each pulse Energy of each
     pulse Half pulse duration Half pulse duration"""
+    member_data_items_ = [
+        MemberSpec_('pulse_energy', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('gaussian_pulse_cut', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('SigmaDefinition', '_SigmaDefinition', 0, 0, {u'maxOccurs': u'1', u'type': u'_SigmaDefinition', u'name': u'SigmaDefinition', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, pulse_energy=1, gaussian_pulse_cut=3, SigmaDefinition=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_PulseDuration")
+        self.troot=get_gs_troot('phase','_PulseDuration')
         self.attrib = ['pulse_energy', 'gaussian_pulse_cut']
         self.children = ['SigmaDefinition']
         self.parent = None
         self._pulse_energy = _cast(float, pulse_energy)
         self._gaussian_pulse_cut = _cast(float, gaussian_pulse_cut)
         self._SigmaDefinition = SigmaDefinition
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5896,12 +5998,12 @@ class create_PulseDuration(GeneratedsSuper):
     def get_pulse_energy(self): return self._pulse_energy
     def set_pulse_energy(self, value):
         self._pulse_energy = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     pulse_energy = property(get_pulse_energy, set_pulse_energy)
     def get_gaussian_pulse_cut(self): return self._gaussian_pulse_cut
     def set_gaussian_pulse_cut(self, value):
         self._gaussian_pulse_cut = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     gaussian_pulse_cut = property(get_gaussian_pulse_cut, set_gaussian_pulse_cut)
     def copy(self):
         obj_ = self.factory()
@@ -6013,7 +6115,9 @@ class create_PulseDuration(GeneratedsSuper):
             obj_.build(child_)
             self.set_SigmaDefinition(obj_)
             obj_.original_tagname_ = 'SigmaDefinition'
-# end class create_PulseDuration
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_PulseDuration
 
 
 class create_SigmaDefinition(GeneratedsSuper):
@@ -6026,17 +6130,21 @@ class create_SigmaDefinition(GeneratedsSuper):
     the Gaussian pulse standard deviation (sigma) This half pulse
     duration is used to compute the Gaussian pulse standard
     deviation (sigma)"""
+    member_data_items_ = [
+        MemberSpec_('relative_power_of_pulse', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('half_pulse_duration', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, relative_power_of_pulse=0.5, half_pulse_duration=2):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_SigmaDefinition")
+        self.troot=get_gs_troot('phase','_SigmaDefinition')
         self.attrib = ['relative_power_of_pulse', 'half_pulse_duration']
         self.children = []
         self.parent = None
         self._relative_power_of_pulse = _cast(float, relative_power_of_pulse)
         self._half_pulse_duration = _cast(float, half_pulse_duration)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -6051,12 +6159,12 @@ class create_SigmaDefinition(GeneratedsSuper):
     def get_relative_power_of_pulse(self): return self._relative_power_of_pulse
     def set_relative_power_of_pulse(self, value):
         self._relative_power_of_pulse = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     relative_power_of_pulse = property(get_relative_power_of_pulse, set_relative_power_of_pulse)
     def get_half_pulse_duration(self): return self._half_pulse_duration
     def set_half_pulse_duration(self, value):
         self._half_pulse_duration = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     half_pulse_duration = property(get_half_pulse_duration, set_half_pulse_duration)
     def copy(self):
         obj_ = self.factory()
@@ -6150,7 +6258,9 @@ class create_SigmaDefinition(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (half_pulse_duration): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_SigmaDefinition
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_SigmaDefinition
 
 
 class create_LidarGeometry(GeneratedsSuper):
@@ -6164,11 +6274,27 @@ class create_LidarGeometry(GeneratedsSuper):
     the 2D view. Yellow corresponds to the illumination and orange
     to the reception. This parameter has no effet on the simulation
     (GUI only). Width of the beam Width of the beam"""
+    member_data_items_ = [
+        MemberSpec_('lsMode', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('fp_fovDef', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('sensorArea', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ifSetZeroDist', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('display', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('beam_width', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('StWaveHeightRange', '_StWaveHeightRange', 0, 0, {u'maxOccurs': u'1', u'type': u'_StWaveHeightRange', u'name': u'StWaveHeightRange', u'minOccurs': u'1'}, None),
+        MemberSpec_('SensorAngles', '_SensorAngles', 0, 0, {u'maxOccurs': u'1', u'type': u'_SensorAngles', u'name': u'SensorAngles', u'minOccurs': u'1'}, None),
+        MemberSpec_('CenterOnGround', '_CenterOnGround', 0, 0, {u'maxOccurs': u'1', u'type': u'_CenterOnGround', u'name': u'CenterOnGround', u'minOccurs': u'1'}, None),
+        MemberSpec_('ZeroDist', '_ZeroDist', 0, 0, {u'maxOccurs': u'1', u'type': u'_ZeroDist', u'name': u'ZeroDist', u'minOccurs': u'1'}, None),
+        MemberSpec_('FootPrintAndFOVRadiuses', '_FootPrintAndFOVRadiuses', 0, 0, {u'maxOccurs': u'1', u'type': u'_FootPrintAndFOVRadiuses', u'name': u'FootPrintAndFOVRadiuses', u'minOccurs': u'1'}, None),
+        MemberSpec_('FootPrintAndFOVDispersions', '_FootPrintAndFOVDispersions', 0, 0, {u'maxOccurs': u'1', u'type': u'_FootPrintAndFOVDispersions', u'name': u'FootPrintAndFOVDispersions', u'minOccurs': u'1'}, None),
+        MemberSpec_('ALS', '_ALS', 0, 0, {u'maxOccurs': u'1', u'type': u'_ALS', u'name': u'ALS', u'minOccurs': u'1'}, None),
+        MemberSpec_('TLS', '_TLS', 0, 0, {u'maxOccurs': u'1', u'type': u'_TLS', u'name': u'TLS', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, lsMode=0, fp_fovDef=0, sensorArea=0.1, ifSetZeroDist=0, display=1, beam_width=0.0, StWaveHeightRange=None, SensorAngles=None, CenterOnGround=None, ZeroDist=None, FootPrintAndFOVRadiuses=None, FootPrintAndFOVDispersions=None, ALS=None, TLS=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_LidarGeometry")
+        self.troot=get_gs_troot('phase','_LidarGeometry')
         self.attrib = ['lsMode', 'fp_fovDef', 'sensorArea', 'ifSetZeroDist', 'display', 'beam_width']
         self.children = ['StWaveHeightRange', 'SensorAngles', 'CenterOnGround', 'ZeroDist', 'FootPrintAndFOVRadiuses', 'FootPrintAndFOVDispersions', 'ALS', 'TLS']
         self.parent = None
@@ -6186,7 +6312,7 @@ class create_LidarGeometry(GeneratedsSuper):
         self._FootPrintAndFOVDispersions = FootPrintAndFOVDispersions
         self._ALS = ALS
         self._TLS = TLS
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -6257,32 +6383,32 @@ class create_LidarGeometry(GeneratedsSuper):
     def get_lsMode(self): return self._lsMode
     def set_lsMode(self, value):
         self._lsMode = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     lsMode = property(get_lsMode, set_lsMode)
     def get_fp_fovDef(self): return self._fp_fovDef
     def set_fp_fovDef(self, value):
         self._fp_fovDef = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     fp_fovDef = property(get_fp_fovDef, set_fp_fovDef)
     def get_sensorArea(self): return self._sensorArea
     def set_sensorArea(self, value):
         self._sensorArea = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     sensorArea = property(get_sensorArea, set_sensorArea)
     def get_ifSetZeroDist(self): return self._ifSetZeroDist
     def set_ifSetZeroDist(self, value):
         self._ifSetZeroDist = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     ifSetZeroDist = property(get_ifSetZeroDist, set_ifSetZeroDist)
     def get_display(self): return self._display
     def set_display(self, value):
         self._display = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     display = property(get_display, set_display)
     def get_beam_width(self): return self._beam_width
     def set_beam_width(self, value):
         self._beam_width = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     beam_width = property(get_beam_width, set_beam_width)
     def copy(self):
         obj_ = self.factory()
@@ -6577,7 +6703,9 @@ class create_LidarGeometry(GeneratedsSuper):
             obj_.build(child_)
             self.set_TLS(obj_)
             obj_.original_tagname_ = 'TLS'
-# end class create_LidarGeometry
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_LidarGeometry
 
 
 class create_StWaveHeightRange(GeneratedsSuper):
@@ -6599,17 +6727,21 @@ class create_StWaveHeightRange(GeneratedsSuper):
     Altitude" + Max range below Scene Minimum Altitude)" and larger
     than "2 x (Distance "Sensor-Scene Minimum Altitude" - Max range
     above Scene Minimum Altitude)" """
+    member_data_items_ = [
+        MemberSpec_('photon_min_LIDAR', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('photon_max_LIDAR', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, photon_min_LIDAR=50, photon_max_LIDAR=50):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_StWaveHeightRange")
+        self.troot=get_gs_troot('phase','_StWaveHeightRange')
         self.attrib = ['photon_min_LIDAR', 'photon_max_LIDAR']
         self.children = []
         self.parent = None
         self._photon_min_LIDAR = _cast(float, photon_min_LIDAR)
         self._photon_max_LIDAR = _cast(float, photon_max_LIDAR)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -6624,12 +6756,12 @@ class create_StWaveHeightRange(GeneratedsSuper):
     def get_photon_min_LIDAR(self): return self._photon_min_LIDAR
     def set_photon_min_LIDAR(self, value):
         self._photon_min_LIDAR = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     photon_min_LIDAR = property(get_photon_min_LIDAR, set_photon_min_LIDAR)
     def get_photon_max_LIDAR(self): return self._photon_max_LIDAR
     def set_photon_max_LIDAR(self, value):
         self._photon_max_LIDAR = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     photon_max_LIDAR = property(get_photon_max_LIDAR, set_photon_max_LIDAR)
     def copy(self):
         obj_ = self.factory()
@@ -6723,7 +6855,9 @@ class create_StWaveHeightRange(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (photon_max_LIDAR): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_StWaveHeightRange
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_StWaveHeightRange
 
 
 class create_SensorAngles(GeneratedsSuper):
@@ -6736,17 +6870,21 @@ class create_SensorAngles(GeneratedsSuper):
     opposite angles are used for emission. Upward (from ground to
     sensor) Azimuth Angle of the LIDAR sensor, for reception. The
     opposite angles are used for emission."""
+    member_data_items_ = [
+        MemberSpec_('sensorTheta', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('sensorPhi', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, sensorTheta=30, sensorPhi=45):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_SensorAngles")
+        self.troot=get_gs_troot('phase','_SensorAngles')
         self.attrib = ['sensorTheta', 'sensorPhi']
         self.children = []
         self.parent = None
         self._sensorTheta = _cast(float, sensorTheta)
         self._sensorPhi = _cast(float, sensorPhi)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -6761,12 +6899,12 @@ class create_SensorAngles(GeneratedsSuper):
     def get_sensorTheta(self): return self._sensorTheta
     def set_sensorTheta(self, value):
         self._sensorTheta = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     sensorTheta = property(get_sensorTheta, set_sensorTheta)
     def get_sensorPhi(self): return self._sensorPhi
     def set_sensorPhi(self, value):
         self._sensorPhi = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     sensorPhi = property(get_sensorPhi, set_sensorPhi)
     def copy(self):
         obj_ = self.factory()
@@ -6860,7 +6998,9 @@ class create_SensorAngles(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (sensorPhi): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_SensorAngles
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_SensorAngles
 
 
 class create_CenterOnGround(GeneratedsSuper):
@@ -6871,17 +7011,21 @@ class create_CenterOnGround(GeneratedsSuper):
     ground. (0, 0) is the top left corner y coordinate of
     illumination of the LIDAR on the ground. (0, 0) is the top left
     corner"""
+    member_data_items_ = [
+        MemberSpec_('decalageLidar_x', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('decalageLidar_y', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, decalageLidar_x=20, decalageLidar_y=20):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_CenterOnGround")
+        self.troot=get_gs_troot('phase','_CenterOnGround')
         self.attrib = ['decalageLidar_x', 'decalageLidar_y']
         self.children = []
         self.parent = None
         self._decalageLidar_x = _cast(float, decalageLidar_x)
         self._decalageLidar_y = _cast(float, decalageLidar_y)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -6896,12 +7040,12 @@ class create_CenterOnGround(GeneratedsSuper):
     def get_decalageLidar_x(self): return self._decalageLidar_x
     def set_decalageLidar_x(self, value):
         self._decalageLidar_x = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     decalageLidar_x = property(get_decalageLidar_x, set_decalageLidar_x)
     def get_decalageLidar_y(self): return self._decalageLidar_y
     def set_decalageLidar_y(self, value):
         self._decalageLidar_y = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     decalageLidar_y = property(get_decalageLidar_y, set_decalageLidar_y)
     def copy(self):
         obj_ = self.factory()
@@ -6995,7 +7139,9 @@ class create_CenterOnGround(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (decalageLidar_y): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_CenterOnGround
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_CenterOnGround
 
 
 class create_ZeroDist(GeneratedsSuper):
@@ -7004,18 +7150,23 @@ class create_ZeroDist(GeneratedsSuper):
     reference point Stored distance after reference point Stored
     distance after reference point Stored distance before reference
     point Stored distance before reference point"""
+    member_data_items_ = [
+        MemberSpec_('referenceZeroDistance', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('distAfterRef', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('distBeforeRef', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, referenceZeroDistance=-1., distAfterRef=-1., distBeforeRef=-1.):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_ZeroDist")
+        self.troot=get_gs_troot('phase','_ZeroDist')
         self.attrib = ['referenceZeroDistance', 'distAfterRef', 'distBeforeRef']
         self.children = []
         self.parent = None
         self._referenceZeroDistance = _cast(float, referenceZeroDistance)
         self._distAfterRef = _cast(float, distAfterRef)
         self._distBeforeRef = _cast(float, distBeforeRef)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -7030,17 +7181,17 @@ class create_ZeroDist(GeneratedsSuper):
     def get_referenceZeroDistance(self): return self._referenceZeroDistance
     def set_referenceZeroDistance(self, value):
         self._referenceZeroDistance = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     referenceZeroDistance = property(get_referenceZeroDistance, set_referenceZeroDistance)
     def get_distAfterRef(self): return self._distAfterRef
     def set_distAfterRef(self, value):
         self._distAfterRef = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     distAfterRef = property(get_distAfterRef, set_distAfterRef)
     def get_distBeforeRef(self): return self._distBeforeRef
     def set_distBeforeRef(self, value):
         self._distBeforeRef = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     distBeforeRef = property(get_distBeforeRef, set_distBeforeRef)
     def copy(self):
         obj_ = self.factory()
@@ -7150,22 +7301,28 @@ class create_ZeroDist(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (distBeforeRef): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_ZeroDist
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ZeroDist
 
 
 class create_FootPrintAndFOVRadiuses(GeneratedsSuper):
     """Radii Radii Field of view Field of view Footprint Footprint"""
+    member_data_items_ = [
+        MemberSpec_('rayonLidar_reception', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('rayonLidar_emission', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, rayonLidar_reception=15, rayonLidar_emission=12):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_FootPrintAndFOVRadiuses")
+        self.troot=get_gs_troot('phase','_FootPrintAndFOVRadiuses')
         self.attrib = ['rayonLidar_reception', 'rayonLidar_emission']
         self.children = []
         self.parent = None
         self._rayonLidar_reception = _cast(float, rayonLidar_reception)
         self._rayonLidar_emission = _cast(float, rayonLidar_emission)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -7180,12 +7337,12 @@ class create_FootPrintAndFOVRadiuses(GeneratedsSuper):
     def get_rayonLidar_reception(self): return self._rayonLidar_reception
     def set_rayonLidar_reception(self, value):
         self._rayonLidar_reception = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     rayonLidar_reception = property(get_rayonLidar_reception, set_rayonLidar_reception)
     def get_rayonLidar_emission(self): return self._rayonLidar_emission
     def set_rayonLidar_emission(self, value):
         self._rayonLidar_emission = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     rayonLidar_emission = property(get_rayonLidar_emission, set_rayonLidar_emission)
     def copy(self):
         obj_ = self.factory()
@@ -7279,23 +7436,29 @@ class create_FootPrintAndFOVRadiuses(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (rayonLidar_emission): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_FootPrintAndFOVRadiuses
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_FootPrintAndFOVRadiuses
 
 
 class create_FootPrintAndFOVDispersions(GeneratedsSuper):
     """Half angles Half angles Footprint Footprint Field of view Field of
     view"""
+    member_data_items_ = [
+        MemberSpec_('dispersionFootprint', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('dispersionFOV', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, dispersionFootprint=0.0012, dispersionFOV=0.0015):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_FootPrintAndFOVDispersions")
+        self.troot=get_gs_troot('phase','_FootPrintAndFOVDispersions')
         self.attrib = ['dispersionFootprint', 'dispersionFOV']
         self.children = []
         self.parent = None
         self._dispersionFootprint = _cast(float, dispersionFootprint)
         self._dispersionFOV = _cast(float, dispersionFOV)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -7310,12 +7473,12 @@ class create_FootPrintAndFOVDispersions(GeneratedsSuper):
     def get_dispersionFootprint(self): return self._dispersionFootprint
     def set_dispersionFootprint(self, value):
         self._dispersionFootprint = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     dispersionFootprint = property(get_dispersionFootprint, set_dispersionFootprint)
     def get_dispersionFOV(self): return self._dispersionFOV
     def set_dispersionFOV(self, value):
         self._dispersionFOV = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     dispersionFOV = property(get_dispersionFOV, set_dispersionFOV)
     def copy(self):
         obj_ = self.factory()
@@ -7409,22 +7572,28 @@ class create_FootPrintAndFOVDispersions(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (dispersionFOV): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_FootPrintAndFOVDispersions
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_FootPrintAndFOVDispersions
 
 
 class create_ALS(GeneratedsSuper):
     """ALS ALS Altitude of LIDAR platform Altitude of LIDAR platform"""
+    member_data_items_ = [
+        MemberSpec_('sensorHeight', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Swath', '_Swath', 0, 0, {u'maxOccurs': u'1', u'type': u'_Swath', u'name': u'Swath', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, sensorHeight=10, Swath=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_ALS")
+        self.troot=get_gs_troot('phase','_ALS')
         self.attrib = ['sensorHeight']
         self.children = ['Swath']
         self.parent = None
         self._sensorHeight = _cast(float, sensorHeight)
         self._Swath = Swath
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -7446,7 +7615,7 @@ class create_ALS(GeneratedsSuper):
     def get_sensorHeight(self): return self._sensorHeight
     def set_sensorHeight(self, value):
         self._sensorHeight = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     sensorHeight = property(get_sensorHeight, set_sensorHeight)
     def copy(self):
         obj_ = self.factory()
@@ -7542,24 +7711,31 @@ class create_ALS(GeneratedsSuper):
             obj_.build(child_)
             self.set_Swath(obj_)
             obj_.original_tagname_ = 'Swath'
-# end class create_ALS
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ALS
 
 
 class create_Swath(GeneratedsSuper):
     """Swath Swath Import a file contains detailed separated pulses Import
     a file contains detailed separated pulses"""
+    member_data_items_ = [
+        MemberSpec_('isSeparatePulsesImport', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('calculatedSwath', '_calculatedSwath', 0, 0, {u'maxOccurs': u'1', u'type': u'_calculatedSwath', u'name': u'calculatedSwath', u'minOccurs': u'1'}, None),
+        MemberSpec_('importedSwath', '_importedSwath', 0, 0, {u'maxOccurs': u'1', u'type': u'_importedSwath', u'name': u'importedSwath', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, isSeparatePulsesImport=0, calculatedSwath=None, importedSwath=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_Swath")
+        self.troot=get_gs_troot('phase','_Swath')
         self.attrib = ['isSeparatePulsesImport']
         self.children = ['calculatedSwath', 'importedSwath']
         self.parent = None
         self._isSeparatePulsesImport = _cast(int, isSeparatePulsesImport)
         self._calculatedSwath = calculatedSwath
         self._importedSwath = importedSwath
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -7588,7 +7764,7 @@ class create_Swath(GeneratedsSuper):
     def get_isSeparatePulsesImport(self): return self._isSeparatePulsesImport
     def set_isSeparatePulsesImport(self, value):
         self._isSeparatePulsesImport = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     isSeparatePulsesImport = property(get_isSeparatePulsesImport, set_isSeparatePulsesImport)
     def copy(self):
         obj_ = self.factory()
@@ -7701,7 +7877,9 @@ class create_Swath(GeneratedsSuper):
             obj_.build(child_)
             self.set_importedSwath(obj_)
             obj_.original_tagname_ = 'importedSwath'
-# end class create_Swath
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Swath
 
 
 class create_calculatedSwath(GeneratedsSuper):
@@ -7710,11 +7888,19 @@ class create_calculatedSwath(GeneratedsSuper):
     tilt of the scanning axis relative to the movement axis. Swath
     width, perpendicular to the movement axis. Swath width,
     perpendicular to the movement axis."""
+    member_data_items_ = [
+        MemberSpec_('platformAzimuth', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('width', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('CenterBegin', '_CenterBegin', 0, 0, {u'maxOccurs': u'1', u'type': u'_CenterBegin', u'name': u'CenterBegin', u'minOccurs': u'1'}, None),
+        MemberSpec_('CenterEnd', '_CenterEnd', 0, 0, {u'maxOccurs': u'1', u'type': u'_CenterEnd', u'name': u'CenterEnd', u'minOccurs': u'1'}, None),
+        MemberSpec_('ControlPoint', '_ControlPoint', 0, 0, {u'maxOccurs': u'1', u'type': u'_ControlPoint', u'name': u'ControlPoint', u'minOccurs': u'1'}, None),
+        MemberSpec_('ImageParameters', '_ImageParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_ImageParameters', u'name': u'ImageParameters', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, platformAzimuth=0., width=30, CenterBegin=None, CenterEnd=None, ControlPoint=None, ImageParameters=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_calculatedSwath")
+        self.troot=get_gs_troot('phase','_calculatedSwath')
         self.attrib = ['platformAzimuth', 'width']
         self.children = ['CenterBegin', 'CenterEnd', 'ControlPoint', 'ImageParameters']
         self.parent = None
@@ -7724,7 +7910,7 @@ class create_calculatedSwath(GeneratedsSuper):
         self._CenterEnd = CenterEnd
         self._ControlPoint = ControlPoint
         self._ImageParameters = ImageParameters
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -7767,12 +7953,12 @@ class create_calculatedSwath(GeneratedsSuper):
     def get_platformAzimuth(self): return self._platformAzimuth
     def set_platformAzimuth(self, value):
         self._platformAzimuth = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     platformAzimuth = property(get_platformAzimuth, set_platformAzimuth)
     def get_width(self): return self._width
     def set_width(self, value):
         self._width = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     width = property(get_width, set_width)
     def copy(self):
         obj_ = self.factory()
@@ -7935,7 +8121,9 @@ class create_calculatedSwath(GeneratedsSuper):
             obj_.build(child_)
             self.set_ImageParameters(obj_)
             obj_.original_tagname_ = 'ImageParameters'
-# end class create_calculatedSwath
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_calculatedSwath
 
 
 class create_CenterBegin(GeneratedsSuper):
@@ -7944,17 +8132,21 @@ class create_CenterBegin(GeneratedsSuper):
     LIDAR swath region X coordinate of the starting position of the
     LIDAR swath region X coordinate of the starting position of the
     LIDAR swath region"""
+    member_data_items_ = [
+        MemberSpec_('y', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('x', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, y=20, x=5):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_CenterBegin")
+        self.troot=get_gs_troot('phase','_CenterBegin')
         self.attrib = ['y', 'x']
         self.children = []
         self.parent = None
         self._y = _cast(float, y)
         self._x = _cast(float, x)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -7969,12 +8161,12 @@ class create_CenterBegin(GeneratedsSuper):
     def get_y(self): return self._y
     def set_y(self, value):
         self._y = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     y = property(get_y, set_y)
     def get_x(self): return self._x
     def set_x(self, value):
         self._x = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     x = property(get_x, set_x)
     def copy(self):
         obj_ = self.factory()
@@ -8068,7 +8260,9 @@ class create_CenterBegin(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (x): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_CenterBegin
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_CenterBegin
 
 
 class create_CenterEnd(GeneratedsSuper):
@@ -8077,17 +8271,21 @@ class create_CenterEnd(GeneratedsSuper):
     LIDAR swath region X coordinate of the finishing position of the
     LIDAR swath region X coordinate of the finishing position of the
     LIDAR swath region"""
+    member_data_items_ = [
+        MemberSpec_('y', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('x', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, y=20, x=35):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_CenterEnd")
+        self.troot=get_gs_troot('phase','_CenterEnd')
         self.attrib = ['y', 'x']
         self.children = []
         self.parent = None
         self._y = _cast(float, y)
         self._x = _cast(float, x)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -8102,12 +8300,12 @@ class create_CenterEnd(GeneratedsSuper):
     def get_y(self): return self._y
     def set_y(self, value):
         self._y = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     y = property(get_y, set_y)
     def get_x(self): return self._x
     def set_x(self, value):
         self._x = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     x = property(get_x, set_x)
     def copy(self):
         obj_ = self.factory()
@@ -8201,24 +8399,31 @@ class create_CenterEnd(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (x): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_CenterEnd
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_CenterEnd
 
 
 class create_ControlPoint(GeneratedsSuper):
     """ControlPoint ControlPoint Mode of definition of the control point.
     Mode of definition of the control point."""
+    member_data_items_ = [
+        MemberSpec_('definition', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('PositionGround', '_PositionGround', 0, 0, {u'maxOccurs': u'1', u'type': u'_PositionGround', u'name': u'PositionGround', u'minOccurs': u'1'}, None),
+        MemberSpec_('CorrespondingParameters', '_CorrespondingParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_CorrespondingParameters', u'name': u'CorrespondingParameters', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, definition=1, PositionGround=None, CorrespondingParameters=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_ControlPoint")
+        self.troot=get_gs_troot('phase','_ControlPoint')
         self.attrib = ['definition']
         self.children = ['PositionGround', 'CorrespondingParameters']
         self.parent = None
         self._definition = _cast(int, definition)
         self._PositionGround = PositionGround
         self._CorrespondingParameters = CorrespondingParameters
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -8247,7 +8452,7 @@ class create_ControlPoint(GeneratedsSuper):
     def get_definition(self): return self._definition
     def set_definition(self, value):
         self._definition = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     definition = property(get_definition, set_definition)
     def copy(self):
         obj_ = self.factory()
@@ -8360,7 +8565,9 @@ class create_ControlPoint(GeneratedsSuper):
             obj_.build(child_)
             self.set_CorrespondingParameters(obj_)
             obj_.original_tagname_ = 'CorrespondingParameters'
-# end class create_ControlPoint
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ControlPoint
 
 
 class create_PositionGround(GeneratedsSuper):
@@ -8368,17 +8575,21 @@ class create_PositionGround(GeneratedsSuper):
     ground position Y coordinate of the control point ground
     position X coordinate of the control point ground position X
     coordinate of the control point ground position"""
+    member_data_items_ = [
+        MemberSpec_('y', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('x', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, y=20, x=20):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_PositionGround")
+        self.troot=get_gs_troot('phase','_PositionGround')
         self.attrib = ['y', 'x']
         self.children = []
         self.parent = None
         self._y = _cast(float, y)
         self._x = _cast(float, x)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -8393,12 +8604,12 @@ class create_PositionGround(GeneratedsSuper):
     def get_y(self): return self._y
     def set_y(self, value):
         self._y = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     y = property(get_y, set_y)
     def get_x(self): return self._x
     def set_x(self, value):
         self._x = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     x = property(get_x, set_x)
     def copy(self):
         obj_ = self.factory()
@@ -8492,23 +8703,28 @@ class create_PositionGround(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (x): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_PositionGround
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_PositionGround
 
 
 class create_CorrespondingParameters(GeneratedsSuper):
     """CorrespondingParameters CorrespondingParameters Look angle of the
     platform for the given control point Look angle of the platform
     for the given control point"""
+    member_data_items_ = [
+        MemberSpec_('lookAngle', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, lookAngle=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_CorrespondingParameters")
+        self.troot=get_gs_troot('phase','_CorrespondingParameters')
         self.attrib = ['lookAngle']
         self.children = []
         self.parent = None
         self._lookAngle = _cast(float, lookAngle)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -8523,7 +8739,7 @@ class create_CorrespondingParameters(GeneratedsSuper):
     def get_lookAngle(self): return self._lookAngle
     def set_lookAngle(self, value):
         self._lookAngle = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     lookAngle = property(get_lookAngle, set_lookAngle)
     def copy(self):
         obj_ = self.factory()
@@ -8601,7 +8817,9 @@ class create_CorrespondingParameters(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (lookAngle): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_CorrespondingParameters
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_CorrespondingParameters
 
 
 class create_ImageParameters(GeneratedsSuper):
@@ -8610,18 +8828,23 @@ class create_ImageParameters(GeneratedsSuper):
     resolution. Step on the scanning axis of the LIDAR. Step on the
     scanning axis of the LIDAR. Step on the movement axis of the
     LIDAR. Step on the movement axis of the LIDAR."""
+    member_data_items_ = [
+        MemberSpec_('rangeResolutionDef', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('resolutionRange', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('resolutionAzimuth', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, rangeResolutionDef=1, resolutionRange=3, resolutionAzimuth=3):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_ImageParameters")
+        self.troot=get_gs_troot('phase','_ImageParameters')
         self.attrib = ['rangeResolutionDef', 'resolutionRange', 'resolutionAzimuth']
         self.children = []
         self.parent = None
         self._rangeResolutionDef = _cast(int, rangeResolutionDef)
         self._resolutionRange = _cast(float, resolutionRange)
         self._resolutionAzimuth = _cast(float, resolutionAzimuth)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -8636,17 +8859,17 @@ class create_ImageParameters(GeneratedsSuper):
     def get_rangeResolutionDef(self): return self._rangeResolutionDef
     def set_rangeResolutionDef(self, value):
         self._rangeResolutionDef = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     rangeResolutionDef = property(get_rangeResolutionDef, set_rangeResolutionDef)
     def get_resolutionRange(self): return self._resolutionRange
     def set_resolutionRange(self, value):
         self._resolutionRange = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     resolutionRange = property(get_resolutionRange, set_resolutionRange)
     def get_resolutionAzimuth(self): return self._resolutionAzimuth
     def set_resolutionAzimuth(self, value):
         self._resolutionAzimuth = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     resolutionAzimuth = property(get_resolutionAzimuth, set_resolutionAzimuth)
     def copy(self):
         obj_ = self.factory()
@@ -8756,23 +8979,29 @@ class create_ImageParameters(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (resolutionAzimuth): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_ImageParameters
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ImageParameters
 
 
 class create_importedSwath(GeneratedsSuper):
     """Importation Importation The separated pulses file The separated
     pulses file"""
+    member_data_items_ = [
+        MemberSpec_('separatePulsesFile', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ApproximatedTrajectory', '_ApproximatedTrajectory', 0, 0, {u'maxOccurs': u'1', u'type': u'_ApproximatedTrajectory', u'name': u'ApproximatedTrajectory', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, separatePulsesFile='pulses.txt', ApproximatedTrajectory=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_importedSwath")
+        self.troot=get_gs_troot('phase','_importedSwath')
         self.attrib = ['separatePulsesFile']
         self.children = ['ApproximatedTrajectory']
         self.parent = None
         self._separatePulsesFile = _cast(None, separatePulsesFile)
         self._ApproximatedTrajectory = ApproximatedTrajectory
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -8794,7 +9023,7 @@ class create_importedSwath(GeneratedsSuper):
     def get_separatePulsesFile(self): return self._separatePulsesFile
     def set_separatePulsesFile(self, value):
         self._separatePulsesFile = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     separatePulsesFile = property(get_separatePulsesFile, set_separatePulsesFile)
     def copy(self):
         obj_ = self.factory()
@@ -8887,7 +9116,9 @@ class create_importedSwath(GeneratedsSuper):
             obj_.build(child_)
             self.set_ApproximatedTrajectory(obj_)
             obj_.original_tagname_ = 'ApproximatedTrajectory'
-# end class create_importedSwath
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_importedSwath
 
 
 class create_ApproximatedTrajectory(GeneratedsSuper):
@@ -8897,18 +9128,23 @@ class create_ApproximatedTrajectory(GeneratedsSuper):
     perpendicular to the flight direction The azimuth angle that
     represent the platform moving direction The azimuth angle that
     represent the platform moving direction"""
+    member_data_items_ = [
+        MemberSpec_('platformAzimuth', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('platformDirection', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Sensor', '_Sensor', 0, 0, {u'maxOccurs': u'1', u'type': u'_Sensor', u'name': u'Sensor', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, platformAzimuth=0, platformDirection=0, Sensor=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_ApproximatedTrajectory")
+        self.troot=get_gs_troot('phase','_ApproximatedTrajectory')
         self.attrib = ['platformAzimuth', 'platformDirection']
         self.children = ['Sensor']
         self.parent = None
         self._platformAzimuth = _cast(float, platformAzimuth)
         self._platformDirection = _cast(float, platformDirection)
         self._Sensor = Sensor
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -8930,12 +9166,12 @@ class create_ApproximatedTrajectory(GeneratedsSuper):
     def get_platformAzimuth(self): return self._platformAzimuth
     def set_platformAzimuth(self, value):
         self._platformAzimuth = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     platformAzimuth = property(get_platformAzimuth, set_platformAzimuth)
     def get_platformDirection(self): return self._platformDirection
     def set_platformDirection(self, value):
         self._platformDirection = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     platformDirection = property(get_platformDirection, set_platformDirection)
     def copy(self):
         obj_ = self.factory()
@@ -9047,25 +9283,32 @@ class create_ApproximatedTrajectory(GeneratedsSuper):
             obj_.build(child_)
             self.set_Sensor(obj_)
             obj_.original_tagname_ = 'Sensor'
-# end class create_ApproximatedTrajectory
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ApproximatedTrajectory
 
 
 class create_Sensor(GeneratedsSuper):
     """Sensor Sensor Z coordinate of sensor Z coordinate of sensor X
     coordinate of sensor X coordinate of sensor Y coordinate of
     sensor Y coordinate of sensor"""
+    member_data_items_ = [
+        MemberSpec_('sensorPosZ', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('sensorPosX', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('sensorPosY', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, sensorPosZ=1000, sensorPosX=0, sensorPosY=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_Sensor")
+        self.troot=get_gs_troot('phase','_Sensor')
         self.attrib = ['sensorPosZ', 'sensorPosX', 'sensorPosY']
         self.children = []
         self.parent = None
         self._sensorPosZ = _cast(float, sensorPosZ)
         self._sensorPosX = _cast(float, sensorPosX)
         self._sensorPosY = _cast(float, sensorPosY)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -9080,17 +9323,17 @@ class create_Sensor(GeneratedsSuper):
     def get_sensorPosZ(self): return self._sensorPosZ
     def set_sensorPosZ(self, value):
         self._sensorPosZ = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     sensorPosZ = property(get_sensorPosZ, set_sensorPosZ)
     def get_sensorPosX(self): return self._sensorPosX
     def set_sensorPosX(self, value):
         self._sensorPosX = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     sensorPosX = property(get_sensorPosX, set_sensorPosX)
     def get_sensorPosY(self): return self._sensorPosY
     def set_sensorPosY(self, value):
         self._sensorPosY = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     sensorPosY = property(get_sensorPosY, set_sensorPosY)
     def copy(self):
         obj_ = self.factory()
@@ -9200,17 +9443,25 @@ class create_Sensor(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (sensorPosY): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_Sensor
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Sensor
 
 
 class create_TLS(GeneratedsSuper):
     """TLS TLS Lidar position (Y) Lidar position (Y) Lidar position (X)
     Lidar position (X) Lidar position (Z) Lidar position (Z)"""
+    member_data_items_ = [
+        MemberSpec_('lidarPosY', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('lidarPosX', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('lidarPosZ', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('TLSRegion', '_TLSRegion', 0, 0, {u'maxOccurs': u'1', u'type': u'_TLSRegion', u'name': u'TLSRegion', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, lidarPosY=360.82, lidarPosX=360.82, lidarPosZ=10, TLSRegion=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_TLS")
+        self.troot=get_gs_troot('phase','_TLS')
         self.attrib = ['lidarPosY', 'lidarPosX', 'lidarPosZ']
         self.children = ['TLSRegion']
         self.parent = None
@@ -9218,7 +9469,7 @@ class create_TLS(GeneratedsSuper):
         self._lidarPosX = _cast(float, lidarPosX)
         self._lidarPosZ = _cast(float, lidarPosZ)
         self._TLSRegion = TLSRegion
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -9240,17 +9491,17 @@ class create_TLS(GeneratedsSuper):
     def get_lidarPosY(self): return self._lidarPosY
     def set_lidarPosY(self, value):
         self._lidarPosY = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     lidarPosY = property(get_lidarPosY, set_lidarPosY)
     def get_lidarPosX(self): return self._lidarPosX
     def set_lidarPosX(self, value):
         self._lidarPosX = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     lidarPosX = property(get_lidarPosX, set_lidarPosX)
     def get_lidarPosZ(self): return self._lidarPosZ
     def set_lidarPosZ(self, value):
         self._lidarPosZ = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     lidarPosZ = property(get_lidarPosZ, set_lidarPosZ)
     def copy(self):
         obj_ = self.factory()
@@ -9378,23 +9629,29 @@ class create_TLS(GeneratedsSuper):
             obj_.build(child_)
             self.set_TLSRegion(obj_)
             obj_.original_tagname_ = 'TLSRegion'
-# end class create_TLS
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_TLS
 
 
 class create_TLSRegion(GeneratedsSuper):
     """TLS Region TLS Region Import a separated pulse file Import a
     separated pulse file"""
+    member_data_items_ = [
+        MemberSpec_('isSeparatePulsesImport', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('terresScanRange', '_terresScanRange', 0, 0, {u'maxOccurs': u'1', u'type': u'_terresScanRange', u'name': u'terresScanRange', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, isSeparatePulsesImport=0, terresScanRange=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_TLSRegion")
+        self.troot=get_gs_troot('phase','_TLSRegion')
         self.attrib = ['isSeparatePulsesImport']
         self.children = ['terresScanRange']
         self.parent = None
         self._isSeparatePulsesImport = _cast(int, isSeparatePulsesImport)
         self._terresScanRange = terresScanRange
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -9416,7 +9673,7 @@ class create_TLSRegion(GeneratedsSuper):
     def get_isSeparatePulsesImport(self): return self._isSeparatePulsesImport
     def set_isSeparatePulsesImport(self, value):
         self._isSeparatePulsesImport = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     isSeparatePulsesImport = property(get_isSeparatePulsesImport, set_isSeparatePulsesImport)
     def copy(self):
         obj_ = self.factory()
@@ -9512,7 +9769,9 @@ class create_TLSRegion(GeneratedsSuper):
             obj_.build(child_)
             self.set_terresScanRange(obj_)
             obj_.original_tagname_ = 'terresScanRange'
-# end class create_TLSRegion
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_TLSRegion
 
 
 class create_terresScanRange(GeneratedsSuper):
@@ -9532,11 +9791,19 @@ class create_terresScanRange(GeneratedsSuper):
     verticaly upward. In degrees. The direction is defined from the
     target to the TLS.\n0deg goes verticaly upward. Azimuthal range
     of acquisition. Azimuthal range of acquisition."""
+    member_data_items_ = [
+        MemberSpec_('deltaTheta', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('resPhi', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('centerPhi', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('resTheta', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('centerTheta', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('deltaPhi', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, deltaTheta=10, resPhi=1, centerPhi=45, resTheta=1, centerTheta=90, deltaPhi=10):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_terresScanRange")
+        self.troot=get_gs_troot('phase','_terresScanRange')
         self.attrib = ['deltaTheta', 'resPhi', 'centerPhi', 'resTheta', 'centerTheta', 'deltaPhi']
         self.children = []
         self.parent = None
@@ -9546,7 +9813,7 @@ class create_terresScanRange(GeneratedsSuper):
         self._resTheta = _cast(float, resTheta)
         self._centerTheta = _cast(float, centerTheta)
         self._deltaPhi = _cast(float, deltaPhi)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -9561,32 +9828,32 @@ class create_terresScanRange(GeneratedsSuper):
     def get_deltaTheta(self): return self._deltaTheta
     def set_deltaTheta(self, value):
         self._deltaTheta = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     deltaTheta = property(get_deltaTheta, set_deltaTheta)
     def get_resPhi(self): return self._resPhi
     def set_resPhi(self, value):
         self._resPhi = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     resPhi = property(get_resPhi, set_resPhi)
     def get_centerPhi(self): return self._centerPhi
     def set_centerPhi(self, value):
         self._centerPhi = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     centerPhi = property(get_centerPhi, set_centerPhi)
     def get_resTheta(self): return self._resTheta
     def set_resTheta(self, value):
         self._resTheta = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     resTheta = property(get_resTheta, set_resTheta)
     def get_centerTheta(self): return self._centerTheta
     def set_centerTheta(self, value):
         self._centerTheta = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     centerTheta = property(get_centerTheta, set_centerTheta)
     def get_deltaPhi(self): return self._deltaPhi
     def set_deltaPhi(self, value):
         self._deltaPhi = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     deltaPhi = property(get_deltaPhi, set_deltaPhi)
     def copy(self):
         obj_ = self.factory()
@@ -9744,7 +10011,9 @@ class create_terresScanRange(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (deltaPhi): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_terresScanRange
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_terresScanRange
 
 
 class create_LidarIlluminationIntensity(GeneratedsSuper):
@@ -9765,11 +10034,19 @@ class create_LidarIlluminationIntensity(GeneratedsSuper):
     cell. -LIDAR: approximate number of photons emitted by the
     LIDAR\n-Monte Carlo: number of photons emitted per illumination
     cell. shortAxisSubdivitionIllum shortAxisSubdivitionIllum"""
+    member_data_items_ = [
+        MemberSpec_('isImportedPulse', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('gaussian_sigma_illu', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('minNoPhotonPerSubCenter', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('numberofPhotons', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('shortAxisSubdivitionIllum', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ImportedPulse', '_ImportedPulse', 0, 0, {u'maxOccurs': u'1', u'type': u'_ImportedPulse', u'name': u'ImportedPulse', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, isImportedPulse=0, gaussian_sigma_illu=0.368, minNoPhotonPerSubCenter=5, numberofPhotons=100000, shortAxisSubdivitionIllum=100, ImportedPulse=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_LidarIlluminationIntensity")
+        self.troot=get_gs_troot('phase','_LidarIlluminationIntensity')
         self.attrib = ['isImportedPulse', 'gaussian_sigma_illu', 'minNoPhotonPerSubCenter', 'numberofPhotons', 'shortAxisSubdivitionIllum']
         self.children = ['ImportedPulse']
         self.parent = None
@@ -9779,7 +10056,7 @@ class create_LidarIlluminationIntensity(GeneratedsSuper):
         self._numberofPhotons = _cast(int, numberofPhotons)
         self._shortAxisSubdivitionIllum = _cast(int, shortAxisSubdivitionIllum)
         self._ImportedPulse = ImportedPulse
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -9801,27 +10078,27 @@ class create_LidarIlluminationIntensity(GeneratedsSuper):
     def get_isImportedPulse(self): return self._isImportedPulse
     def set_isImportedPulse(self, value):
         self._isImportedPulse = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     isImportedPulse = property(get_isImportedPulse, set_isImportedPulse)
     def get_gaussian_sigma_illu(self): return self._gaussian_sigma_illu
     def set_gaussian_sigma_illu(self, value):
         self._gaussian_sigma_illu = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     gaussian_sigma_illu = property(get_gaussian_sigma_illu, set_gaussian_sigma_illu)
     def get_minNoPhotonPerSubCenter(self): return self._minNoPhotonPerSubCenter
     def set_minNoPhotonPerSubCenter(self, value):
         self._minNoPhotonPerSubCenter = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     minNoPhotonPerSubCenter = property(get_minNoPhotonPerSubCenter, set_minNoPhotonPerSubCenter)
     def get_numberofPhotons(self): return self._numberofPhotons
     def set_numberofPhotons(self, value):
         self._numberofPhotons = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     numberofPhotons = property(get_numberofPhotons, set_numberofPhotons)
     def get_shortAxisSubdivitionIllum(self): return self._shortAxisSubdivitionIllum
     def set_shortAxisSubdivitionIllum(self, value):
         self._shortAxisSubdivitionIllum = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     shortAxisSubdivitionIllum = property(get_shortAxisSubdivitionIllum, set_shortAxisSubdivitionIllum)
     def copy(self):
         obj_ = self.factory()
@@ -9981,18 +10258,26 @@ class create_LidarIlluminationIntensity(GeneratedsSuper):
             obj_.build(child_)
             self.set_ImportedPulse(obj_)
             obj_.original_tagname_ = 'ImportedPulse'
-# end class create_LidarIlluminationIntensity
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_LidarIlluminationIntensity
 
 
 class create_ImportedPulse(GeneratedsSuper):
     """ImportedPulse ImportedPulse Impulse file Impulse file Resolution of
     the matrix Resolution of the matrix Offset on the X axis Offset
     on the X axis Offset on the Y axis Offset on the Y axis"""
+    member_data_items_ = [
+        MemberSpec_('pulseFile', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('resolution', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('offsetX', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('offsetY', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, pulseFile='impulseFile.txt', resolution=1.0, offsetX=0.0, offsetY=0.0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_ImportedPulse")
+        self.troot=get_gs_troot('phase','_ImportedPulse')
         self.attrib = ['pulseFile', 'resolution', 'offsetX', 'offsetY']
         self.children = []
         self.parent = None
@@ -10000,7 +10285,7 @@ class create_ImportedPulse(GeneratedsSuper):
         self._resolution = _cast(float, resolution)
         self._offsetX = _cast(float, offsetX)
         self._offsetY = _cast(float, offsetY)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -10015,22 +10300,22 @@ class create_ImportedPulse(GeneratedsSuper):
     def get_pulseFile(self): return self._pulseFile
     def set_pulseFile(self, value):
         self._pulseFile = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     pulseFile = property(get_pulseFile, set_pulseFile)
     def get_resolution(self): return self._resolution
     def set_resolution(self, value):
         self._resolution = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     resolution = property(get_resolution, set_resolution)
     def get_offsetX(self): return self._offsetX
     def set_offsetX(self, value):
         self._offsetX = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     offsetX = property(get_offsetX, set_offsetX)
     def get_offsetY(self): return self._offsetY
     def set_offsetY(self, value):
         self._offsetY = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     offsetY = property(get_offsetY, set_offsetY)
     def copy(self):
         obj_ = self.factory()
@@ -10153,7 +10438,9 @@ class create_ImportedPulse(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (offsetY): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_ImportedPulse
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ImportedPulse
 
 
 class create_LidarAcquisitionParameters(GeneratedsSuper):
@@ -10176,11 +10463,18 @@ class create_LidarAcquisitionParameters(GeneratedsSuper):
     corresponds to a 15cm altitude difference. This information is
     used for a better management of RAM This information is used for
     a better management of RAM"""
+    member_data_items_ = [
+        MemberSpec_('DART_simulation_identical', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('maximumScatteringOrder', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('LIDAR_filter', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('freq_recepteur_signal_LIDAR', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('calculatorMaximumRAM', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, DART_simulation_identical=0, maximumScatteringOrder=10, LIDAR_filter=0, freq_recepteur_signal_LIDAR=1, calculatorMaximumRAM=1000):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_LidarAcquisitionParameters")
+        self.troot=get_gs_troot('phase','_LidarAcquisitionParameters')
         self.attrib = ['DART_simulation_identical', 'maximumScatteringOrder', 'LIDAR_filter', 'freq_recepteur_signal_LIDAR', 'calculatorMaximumRAM']
         self.children = []
         self.parent = None
@@ -10189,7 +10483,7 @@ class create_LidarAcquisitionParameters(GeneratedsSuper):
         self._LIDAR_filter = _cast(int, LIDAR_filter)
         self._freq_recepteur_signal_LIDAR = _cast(float, freq_recepteur_signal_LIDAR)
         self._calculatorMaximumRAM = _cast(int, calculatorMaximumRAM)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -10204,27 +10498,27 @@ class create_LidarAcquisitionParameters(GeneratedsSuper):
     def get_DART_simulation_identical(self): return self._DART_simulation_identical
     def set_DART_simulation_identical(self, value):
         self._DART_simulation_identical = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     DART_simulation_identical = property(get_DART_simulation_identical, set_DART_simulation_identical)
     def get_maximumScatteringOrder(self): return self._maximumScatteringOrder
     def set_maximumScatteringOrder(self, value):
         self._maximumScatteringOrder = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     maximumScatteringOrder = property(get_maximumScatteringOrder, set_maximumScatteringOrder)
     def get_LIDAR_filter(self): return self._LIDAR_filter
     def set_LIDAR_filter(self, value):
         self._LIDAR_filter = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     LIDAR_filter = property(get_LIDAR_filter, set_LIDAR_filter)
     def get_freq_recepteur_signal_LIDAR(self): return self._freq_recepteur_signal_LIDAR
     def set_freq_recepteur_signal_LIDAR(self, value):
         self._freq_recepteur_signal_LIDAR = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     freq_recepteur_signal_LIDAR = property(get_freq_recepteur_signal_LIDAR, set_freq_recepteur_signal_LIDAR)
     def get_calculatorMaximumRAM(self): return self._calculatorMaximumRAM
     def set_calculatorMaximumRAM(self, value):
         self._calculatorMaximumRAM = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     calculatorMaximumRAM = property(get_calculatorMaximumRAM, set_calculatorMaximumRAM)
     def copy(self):
         obj_ = self.factory()
@@ -10366,16 +10660,21 @@ class create_LidarAcquisitionParameters(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_LidarAcquisitionParameters
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_LidarAcquisitionParameters
 
 
 class create_SpectralIntervals(GeneratedsSuper):
     """Spectral intervals Spectral intervals"""
+    member_data_items_ = [
+        MemberSpec_('SpectralIntervalsProperties', '_SpectralIntervalsProperties', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_SpectralIntervalsProperties', u'name': u'SpectralIntervalsProperties', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, SpectralIntervalsProperties=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_SpectralIntervals")
+        self.troot=get_gs_troot('phase','_SpectralIntervals')
         self.attrib = ['']
         self.children = ['SpectralIntervalsProperties']
         self.parent = None
@@ -10383,7 +10682,7 @@ class create_SpectralIntervals(GeneratedsSuper):
             self._SpectralIntervalsProperties = []
         else:
             self._SpectralIntervalsProperties = SpectralIntervalsProperties
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -10499,7 +10798,9 @@ class create_SpectralIntervals(GeneratedsSuper):
             obj_.build(child_)
             self.add_SpectralIntervalsProperties(obj_)
             obj_.original_tagname_ = 'SpectralIntervalsProperties'
-# end class create_SpectralIntervals
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_SpectralIntervals
 
 
 class create_SpectralIntervalsProperties(GeneratedsSuper):
@@ -10515,11 +10816,18 @@ class create_SpectralIntervalsProperties(GeneratedsSuper):
     Reflectance \n\n-Mode R+T:\nSource: Sun + thermal emission,
     Results: brightness temperature\n\n-Mode T:\nSource : thermal
     emission, Results : brightness temperature Bandwidth Bandwidth"""
+    member_data_items_ = [
+        MemberSpec_('meanLambda', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('bandNumber', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('spectralDartMode', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('deltaLambda', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('emissionLawNode', '_emissionLawNode', 0, 0, {u'maxOccurs': u'1', u'type': u'_emissionLawNode', u'name': u'emissionLawNode', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, meanLambda=0.56, bandNumber=0, spectralDartMode=0, deltaLambda=0.02, emissionLawNode=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_SpectralIntervalsProperties")
+        self.troot=get_gs_troot('phase','_SpectralIntervalsProperties')
         self.attrib = ['meanLambda', 'bandNumber', 'spectralDartMode', 'deltaLambda']
         self.children = ['emissionLawNode']
         self.parent = None
@@ -10528,7 +10836,7 @@ class create_SpectralIntervalsProperties(GeneratedsSuper):
         self._spectralDartMode = _cast(int, spectralDartMode)
         self._deltaLambda = _cast(float, deltaLambda)
         self._emissionLawNode = emissionLawNode
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -10550,22 +10858,22 @@ class create_SpectralIntervalsProperties(GeneratedsSuper):
     def get_meanLambda(self): return self._meanLambda
     def set_meanLambda(self, value):
         self._meanLambda = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     meanLambda = property(get_meanLambda, set_meanLambda)
     def get_bandNumber(self): return self._bandNumber
     def set_bandNumber(self, value):
         self._bandNumber = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     bandNumber = property(get_bandNumber, set_bandNumber)
     def get_spectralDartMode(self): return self._spectralDartMode
     def set_spectralDartMode(self, value):
         self._spectralDartMode = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     spectralDartMode = property(get_spectralDartMode, set_spectralDartMode)
     def get_deltaLambda(self): return self._deltaLambda
     def set_deltaLambda(self, value):
         self._deltaLambda = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     deltaLambda = property(get_deltaLambda, set_deltaLambda)
     def copy(self):
         obj_ = self.factory()
@@ -10709,7 +11017,9 @@ class create_SpectralIntervalsProperties(GeneratedsSuper):
             obj_.build(child_)
             self.set_emissionLawNode(obj_)
             obj_.original_tagname_ = 'emissionLawNode'
-# end class create_SpectralIntervalsProperties
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_SpectralIntervalsProperties
 
 
 class create_emissionLawNode(GeneratedsSuper):
@@ -10719,16 +11029,19 @@ class create_emissionLawNode(GeneratedsSuper):
     Thermal emission : Planck integrated on 1000 steps or Boltzmann
     (sigma*T^4) (in that case, the spectral band is only used to
     compute optical properties)"""
+    member_data_items_ = [
+        MemberSpec_('emissionLaw', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, emissionLaw=1):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_emissionLawNode")
+        self.troot=get_gs_troot('phase','_emissionLawNode')
         self.attrib = ['emissionLaw']
         self.children = []
         self.parent = None
         self._emissionLaw = _cast(int, emissionLaw)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -10743,7 +11056,7 @@ class create_emissionLawNode(GeneratedsSuper):
     def get_emissionLaw(self): return self._emissionLaw
     def set_emissionLaw(self, value):
         self._emissionLaw = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     emissionLaw = property(get_emissionLaw, set_emissionLaw)
     def copy(self):
         obj_ = self.factory()
@@ -10821,7 +11134,9 @@ class create_emissionLawNode(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_emissionLawNode
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_emissionLawNode
 
 
 class create_ImageSideIllumination(GeneratedsSuper):
@@ -10830,11 +11145,22 @@ class create_ImageSideIllumination(GeneratedsSuper):
     precomputed side illumination in order to simulate environnement
     effect. Disable solar illumination. Both direct and diffuse.
     Disable solar illumination. Both direct and diffuse."""
+    member_data_items_ = [
+        MemberSpec_('disableThermalEmission', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('sideIlluminationEnabled', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('disableSolarIllumination', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('TopSide', '_TopSide', 0, 0, {u'maxOccurs': u'1', u'type': u'_TopSide', u'name': u'TopSide', u'minOccurs': u'1'}, None),
+        MemberSpec_('BottomSide', '_BottomSide', 0, 0, {u'maxOccurs': u'1', u'type': u'_BottomSide', u'name': u'BottomSide', u'minOccurs': u'1'}, None),
+        MemberSpec_('RightSide', '_RightSide', 0, 0, {u'maxOccurs': u'1', u'type': u'_RightSide', u'name': u'RightSide', u'minOccurs': u'1'}, None),
+        MemberSpec_('LeftSide', '_LeftSide', 0, 0, {u'maxOccurs': u'1', u'type': u'_LeftSide', u'name': u'LeftSide', u'minOccurs': u'1'}, None),
+        MemberSpec_('FrontSide', '_FrontSide', 0, 0, {u'maxOccurs': u'1', u'type': u'_FrontSide', u'name': u'FrontSide', u'minOccurs': u'1'}, None),
+        MemberSpec_('BackSide', '_BackSide', 0, 0, {u'maxOccurs': u'1', u'type': u'_BackSide', u'name': u'BackSide', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, disableThermalEmission=0, sideIlluminationEnabled=0, disableSolarIllumination=0, TopSide=None, BottomSide=None, RightSide=None, LeftSide=None, FrontSide=None, BackSide=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_ImageSideIllumination")
+        self.troot=get_gs_troot('phase','_ImageSideIllumination')
         self.attrib = ['disableThermalEmission', 'sideIlluminationEnabled', 'disableSolarIllumination']
         self.children = ['TopSide', 'BottomSide', 'RightSide', 'LeftSide', 'FrontSide', 'BackSide']
         self.parent = None
@@ -10847,7 +11173,7 @@ class create_ImageSideIllumination(GeneratedsSuper):
         self._LeftSide = LeftSide
         self._FrontSide = FrontSide
         self._BackSide = BackSide
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -10904,17 +11230,17 @@ class create_ImageSideIllumination(GeneratedsSuper):
     def get_disableThermalEmission(self): return self._disableThermalEmission
     def set_disableThermalEmission(self, value):
         self._disableThermalEmission = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     disableThermalEmission = property(get_disableThermalEmission, set_disableThermalEmission)
     def get_sideIlluminationEnabled(self): return self._sideIlluminationEnabled
     def set_sideIlluminationEnabled(self, value):
         self._sideIlluminationEnabled = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     sideIlluminationEnabled = property(get_sideIlluminationEnabled, set_sideIlluminationEnabled)
     def get_disableSolarIllumination(self): return self._disableSolarIllumination
     def set_disableSolarIllumination(self, value):
         self._disableSolarIllumination = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     disableSolarIllumination = property(get_disableSolarIllumination, set_disableSolarIllumination)
     def copy(self):
         obj_ = self.factory()
@@ -11127,7 +11453,9 @@ class create_ImageSideIllumination(GeneratedsSuper):
             obj_.build(child_)
             self.set_BackSide(obj_)
             obj_.original_tagname_ = 'BackSide'
-# end class create_ImageSideIllumination
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ImageSideIllumination
 
 
 class create_TopSide(GeneratedsSuper):
@@ -11142,11 +11470,17 @@ class create_TopSide(GeneratedsSuper):
     of the other options. Disable connection on the other side in
     repetitive or infinite slope mode. If a ray exit on this side,
     it is stopped regarless of the other options."""
+    member_data_items_ = [
+        MemberSpec_('provideIllumination', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('storeExitingEnergy', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('disableOtherSideConnection', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('SideIlluminationFile', '_SideIlluminationFile', 0, 0, {u'maxOccurs': u'1', u'type': u'_SideIlluminationFile', u'name': u'SideIlluminationFile', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, provideIllumination=0, storeExitingEnergy=0, disableOtherSideConnection=0, SideIlluminationFile=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_TopSide")
+        self.troot=get_gs_troot('phase','_TopSide')
         self.attrib = ['provideIllumination', 'storeExitingEnergy', 'disableOtherSideConnection']
         self.children = ['SideIlluminationFile']
         self.parent = None
@@ -11154,7 +11488,7 @@ class create_TopSide(GeneratedsSuper):
         self._storeExitingEnergy = _cast(int, storeExitingEnergy)
         self._disableOtherSideConnection = _cast(int, disableOtherSideConnection)
         self._SideIlluminationFile = SideIlluminationFile
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -11176,17 +11510,17 @@ class create_TopSide(GeneratedsSuper):
     def get_provideIllumination(self): return self._provideIllumination
     def set_provideIllumination(self, value):
         self._provideIllumination = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     provideIllumination = property(get_provideIllumination, set_provideIllumination)
     def get_storeExitingEnergy(self): return self._storeExitingEnergy
     def set_storeExitingEnergy(self, value):
         self._storeExitingEnergy = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     storeExitingEnergy = property(get_storeExitingEnergy, set_storeExitingEnergy)
     def get_disableOtherSideConnection(self): return self._disableOtherSideConnection
     def set_disableOtherSideConnection(self, value):
         self._disableOtherSideConnection = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     disableOtherSideConnection = property(get_disableOtherSideConnection, set_disableOtherSideConnection)
     def copy(self):
         obj_ = self.factory()
@@ -11314,22 +11648,27 @@ class create_TopSide(GeneratedsSuper):
             obj_.build(child_)
             self.set_SideIlluminationFile(obj_)
             obj_.original_tagname_ = 'SideIlluminationFile'
-# end class create_TopSide
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_TopSide
 
 
 class create_SideIlluminationFile(GeneratedsSuper):
     """Precomputed illumination file path. Precomputed illumination file
     path."""
+    member_data_items_ = [
+        MemberSpec_('sideIlluminationFileName', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, sideIlluminationFileName='bottomZExitEnergy.bin'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_SideIlluminationFile")
+        self.troot=get_gs_troot('phase','_SideIlluminationFile')
         self.attrib = ['sideIlluminationFileName']
         self.children = []
         self.parent = None
         self._sideIlluminationFileName = _cast(None, sideIlluminationFileName)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -11344,7 +11683,7 @@ class create_SideIlluminationFile(GeneratedsSuper):
     def get_sideIlluminationFileName(self): return self._sideIlluminationFileName
     def set_sideIlluminationFileName(self, value):
         self._sideIlluminationFileName = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     sideIlluminationFileName = property(get_sideIlluminationFileName, set_sideIlluminationFileName)
     def copy(self):
         obj_ = self.factory()
@@ -11419,7 +11758,9 @@ class create_SideIlluminationFile(GeneratedsSuper):
             self.sideIlluminationFileName = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_SideIlluminationFile
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_SideIlluminationFile
 
 
 class create_BottomSide(GeneratedsSuper):
@@ -11434,11 +11775,17 @@ class create_BottomSide(GeneratedsSuper):
     of the other options. Disable connection on the other side in
     repetitive or infinite slope mode. If a ray exit on this side,
     it is stopped regarless of the other options."""
+    member_data_items_ = [
+        MemberSpec_('provideIllumination', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('storeExitingEnergy', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('disableOtherSideConnection', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('SideIlluminationFile', '_SideIlluminationFile', 0, 0, {u'maxOccurs': u'1', u'type': u'_SideIlluminationFile', u'name': u'SideIlluminationFile', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, provideIllumination=0, storeExitingEnergy=0, disableOtherSideConnection=0, SideIlluminationFile=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_BottomSide")
+        self.troot=get_gs_troot('phase','_BottomSide')
         self.attrib = ['provideIllumination', 'storeExitingEnergy', 'disableOtherSideConnection']
         self.children = ['SideIlluminationFile']
         self.parent = None
@@ -11446,7 +11793,7 @@ class create_BottomSide(GeneratedsSuper):
         self._storeExitingEnergy = _cast(int, storeExitingEnergy)
         self._disableOtherSideConnection = _cast(int, disableOtherSideConnection)
         self._SideIlluminationFile = SideIlluminationFile
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -11468,17 +11815,17 @@ class create_BottomSide(GeneratedsSuper):
     def get_provideIllumination(self): return self._provideIllumination
     def set_provideIllumination(self, value):
         self._provideIllumination = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     provideIllumination = property(get_provideIllumination, set_provideIllumination)
     def get_storeExitingEnergy(self): return self._storeExitingEnergy
     def set_storeExitingEnergy(self, value):
         self._storeExitingEnergy = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     storeExitingEnergy = property(get_storeExitingEnergy, set_storeExitingEnergy)
     def get_disableOtherSideConnection(self): return self._disableOtherSideConnection
     def set_disableOtherSideConnection(self, value):
         self._disableOtherSideConnection = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     disableOtherSideConnection = property(get_disableOtherSideConnection, set_disableOtherSideConnection)
     def copy(self):
         obj_ = self.factory()
@@ -11606,7 +11953,9 @@ class create_BottomSide(GeneratedsSuper):
             obj_.build(child_)
             self.set_SideIlluminationFile(obj_)
             obj_.original_tagname_ = 'SideIlluminationFile'
-# end class create_BottomSide
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_BottomSide
 
 
 class create_RightSide(GeneratedsSuper):
@@ -11621,11 +11970,17 @@ class create_RightSide(GeneratedsSuper):
     of the other options. Disable connection on the other side in
     repetitive or infinite slope mode. If a ray exit on this side,
     it is stopped regarless of the other options."""
+    member_data_items_ = [
+        MemberSpec_('provideIllumination', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('storeExitingEnergy', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('disableOtherSideConnection', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('SideIlluminationFile', '_SideIlluminationFile', 0, 0, {u'maxOccurs': u'1', u'type': u'_SideIlluminationFile', u'name': u'SideIlluminationFile', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, provideIllumination=0, storeExitingEnergy=0, disableOtherSideConnection=0, SideIlluminationFile=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_RightSide")
+        self.troot=get_gs_troot('phase','_RightSide')
         self.attrib = ['provideIllumination', 'storeExitingEnergy', 'disableOtherSideConnection']
         self.children = ['SideIlluminationFile']
         self.parent = None
@@ -11633,7 +11988,7 @@ class create_RightSide(GeneratedsSuper):
         self._storeExitingEnergy = _cast(int, storeExitingEnergy)
         self._disableOtherSideConnection = _cast(int, disableOtherSideConnection)
         self._SideIlluminationFile = SideIlluminationFile
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -11655,17 +12010,17 @@ class create_RightSide(GeneratedsSuper):
     def get_provideIllumination(self): return self._provideIllumination
     def set_provideIllumination(self, value):
         self._provideIllumination = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     provideIllumination = property(get_provideIllumination, set_provideIllumination)
     def get_storeExitingEnergy(self): return self._storeExitingEnergy
     def set_storeExitingEnergy(self, value):
         self._storeExitingEnergy = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     storeExitingEnergy = property(get_storeExitingEnergy, set_storeExitingEnergy)
     def get_disableOtherSideConnection(self): return self._disableOtherSideConnection
     def set_disableOtherSideConnection(self, value):
         self._disableOtherSideConnection = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     disableOtherSideConnection = property(get_disableOtherSideConnection, set_disableOtherSideConnection)
     def copy(self):
         obj_ = self.factory()
@@ -11793,7 +12148,9 @@ class create_RightSide(GeneratedsSuper):
             obj_.build(child_)
             self.set_SideIlluminationFile(obj_)
             obj_.original_tagname_ = 'SideIlluminationFile'
-# end class create_RightSide
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_RightSide
 
 
 class create_LeftSide(GeneratedsSuper):
@@ -11808,11 +12165,17 @@ class create_LeftSide(GeneratedsSuper):
     of the other options. Disable connection on the other side in
     repetitive or infinite slope mode. If a ray exit on this side,
     it is stopped regarless of the other options."""
+    member_data_items_ = [
+        MemberSpec_('provideIllumination', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('storeExitingEnergy', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('disableOtherSideConnection', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('SideIlluminationFile', '_SideIlluminationFile', 0, 0, {u'maxOccurs': u'1', u'type': u'_SideIlluminationFile', u'name': u'SideIlluminationFile', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, provideIllumination=0, storeExitingEnergy=0, disableOtherSideConnection=0, SideIlluminationFile=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_LeftSide")
+        self.troot=get_gs_troot('phase','_LeftSide')
         self.attrib = ['provideIllumination', 'storeExitingEnergy', 'disableOtherSideConnection']
         self.children = ['SideIlluminationFile']
         self.parent = None
@@ -11820,7 +12183,7 @@ class create_LeftSide(GeneratedsSuper):
         self._storeExitingEnergy = _cast(int, storeExitingEnergy)
         self._disableOtherSideConnection = _cast(int, disableOtherSideConnection)
         self._SideIlluminationFile = SideIlluminationFile
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -11842,17 +12205,17 @@ class create_LeftSide(GeneratedsSuper):
     def get_provideIllumination(self): return self._provideIllumination
     def set_provideIllumination(self, value):
         self._provideIllumination = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     provideIllumination = property(get_provideIllumination, set_provideIllumination)
     def get_storeExitingEnergy(self): return self._storeExitingEnergy
     def set_storeExitingEnergy(self, value):
         self._storeExitingEnergy = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     storeExitingEnergy = property(get_storeExitingEnergy, set_storeExitingEnergy)
     def get_disableOtherSideConnection(self): return self._disableOtherSideConnection
     def set_disableOtherSideConnection(self, value):
         self._disableOtherSideConnection = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     disableOtherSideConnection = property(get_disableOtherSideConnection, set_disableOtherSideConnection)
     def copy(self):
         obj_ = self.factory()
@@ -11980,7 +12343,9 @@ class create_LeftSide(GeneratedsSuper):
             obj_.build(child_)
             self.set_SideIlluminationFile(obj_)
             obj_.original_tagname_ = 'SideIlluminationFile'
-# end class create_LeftSide
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_LeftSide
 
 
 class create_FrontSide(GeneratedsSuper):
@@ -11995,11 +12360,17 @@ class create_FrontSide(GeneratedsSuper):
     of the other options. Disable connection on the other side in
     repetitive or infinite slope mode. If a ray exit on this side,
     it is stopped regarless of the other options."""
+    member_data_items_ = [
+        MemberSpec_('provideIllumination', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('storeExitingEnergy', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('disableOtherSideConnection', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('SideIlluminationFile', '_SideIlluminationFile', 0, 0, {u'maxOccurs': u'1', u'type': u'_SideIlluminationFile', u'name': u'SideIlluminationFile', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, provideIllumination=0, storeExitingEnergy=0, disableOtherSideConnection=0, SideIlluminationFile=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_FrontSide")
+        self.troot=get_gs_troot('phase','_FrontSide')
         self.attrib = ['provideIllumination', 'storeExitingEnergy', 'disableOtherSideConnection']
         self.children = ['SideIlluminationFile']
         self.parent = None
@@ -12007,7 +12378,7 @@ class create_FrontSide(GeneratedsSuper):
         self._storeExitingEnergy = _cast(int, storeExitingEnergy)
         self._disableOtherSideConnection = _cast(int, disableOtherSideConnection)
         self._SideIlluminationFile = SideIlluminationFile
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -12029,17 +12400,17 @@ class create_FrontSide(GeneratedsSuper):
     def get_provideIllumination(self): return self._provideIllumination
     def set_provideIllumination(self, value):
         self._provideIllumination = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     provideIllumination = property(get_provideIllumination, set_provideIllumination)
     def get_storeExitingEnergy(self): return self._storeExitingEnergy
     def set_storeExitingEnergy(self, value):
         self._storeExitingEnergy = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     storeExitingEnergy = property(get_storeExitingEnergy, set_storeExitingEnergy)
     def get_disableOtherSideConnection(self): return self._disableOtherSideConnection
     def set_disableOtherSideConnection(self, value):
         self._disableOtherSideConnection = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     disableOtherSideConnection = property(get_disableOtherSideConnection, set_disableOtherSideConnection)
     def copy(self):
         obj_ = self.factory()
@@ -12167,7 +12538,9 @@ class create_FrontSide(GeneratedsSuper):
             obj_.build(child_)
             self.set_SideIlluminationFile(obj_)
             obj_.original_tagname_ = 'SideIlluminationFile'
-# end class create_FrontSide
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_FrontSide
 
 
 class create_BackSide(GeneratedsSuper):
@@ -12182,11 +12555,17 @@ class create_BackSide(GeneratedsSuper):
     of the other options. Disable connection on the other side in
     repetitive or infinite slope mode. If a ray exit on this side,
     it is stopped regarless of the other options."""
+    member_data_items_ = [
+        MemberSpec_('provideIllumination', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('storeExitingEnergy', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('disableOtherSideConnection', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('SideIlluminationFile', '_SideIlluminationFile', 0, 0, {u'maxOccurs': u'1', u'type': u'_SideIlluminationFile', u'name': u'SideIlluminationFile', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, provideIllumination=0, storeExitingEnergy=0, disableOtherSideConnection=0, SideIlluminationFile=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_BackSide")
+        self.troot=get_gs_troot('phase','_BackSide')
         self.attrib = ['provideIllumination', 'storeExitingEnergy', 'disableOtherSideConnection']
         self.children = ['SideIlluminationFile']
         self.parent = None
@@ -12194,7 +12573,7 @@ class create_BackSide(GeneratedsSuper):
         self._storeExitingEnergy = _cast(int, storeExitingEnergy)
         self._disableOtherSideConnection = _cast(int, disableOtherSideConnection)
         self._SideIlluminationFile = SideIlluminationFile
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -12216,17 +12595,17 @@ class create_BackSide(GeneratedsSuper):
     def get_provideIllumination(self): return self._provideIllumination
     def set_provideIllumination(self, value):
         self._provideIllumination = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     provideIllumination = property(get_provideIllumination, set_provideIllumination)
     def get_storeExitingEnergy(self): return self._storeExitingEnergy
     def set_storeExitingEnergy(self, value):
         self._storeExitingEnergy = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     storeExitingEnergy = property(get_storeExitingEnergy, set_storeExitingEnergy)
     def get_disableOtherSideConnection(self): return self._disableOtherSideConnection
     def set_disableOtherSideConnection(self, value):
         self._disableOtherSideConnection = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     disableOtherSideConnection = property(get_disableOtherSideConnection, set_disableOtherSideConnection)
     def copy(self):
         obj_ = self.factory()
@@ -12354,257 +12733,28 @@ class create_BackSide(GeneratedsSuper):
             obj_.build(child_)
             self.set_SideIlluminationFile(obj_)
             obj_.original_tagname_ = 'SideIlluminationFile'
-# end class create_BackSide
-
-
-class create_overrideBandIrradiance(GeneratedsSuper):
-    subclass = None
-    superclass = None
-    def __init__(self, isOverrideBandIrradiance=0, bandIrradianceFileNode=None):
-        self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_overrideBandIrradiance")
-        self.attrib = ['isOverrideBandIrradiance']
-        self.children = ['bandIrradianceFileNode']
-        self.parent = None
-        self._isOverrideBandIrradiance = _cast(int, isOverrideBandIrradiance)
-        self._bandIrradianceFileNode = bandIrradianceFileNode
-        update_node(self,self.troot,"phase")
-    def factory(*args_, **kwargs_):
-        if CurrentSubclassModule_ is not None:
-            subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, create_overrideBandIrradiance)
-            if subclass is not None:
-                return subclass(*args_, **kwargs_)
-        if create_overrideBandIrradiance.subclass:
-            return create_overrideBandIrradiance.subclass(*args_, **kwargs_)
-        else:
-            return create_overrideBandIrradiance(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_bandIrradianceFileNode(self): return self._bandIrradianceFileNode
-    def set_bandIrradianceFileNode(self, value):
-        if value is not None:
-            checkclass(value, create_bandIrradianceFileNode)
-            value.parent = self
-        self._bandIrradianceFileNode = value
-    bandIrradianceFileNode = property(get_bandIrradianceFileNode, set_bandIrradianceFileNode)
-    def get_isOverrideBandIrradiance(self): return self._isOverrideBandIrradiance
-    def set_isOverrideBandIrradiance(self, value):
-        self._isOverrideBandIrradiance = value
-        update_node(self,self.troot,"phase")
-    isOverrideBandIrradiance = property(get_isOverrideBandIrradiance, set_isOverrideBandIrradiance)
-    def copy(self):
-        obj_ = self.factory()
-        return(obj_.build(self.to_etree()))
-    def hasContent_(self):
-        if (
-            self.bandIrradianceFileNode is not None
-        ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespaceprefix_='', name_='_overrideBandIrradiance', namespacedef_='', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_overrideBandIrradiance')
-        if imported_ns_def_ is not None:
-            namespacedef_ = imported_ns_def_
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.original_tagname_ is not None:
-            name_ = self.original_tagname_
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_overrideBandIrradiance')
-        if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_overrideBandIrradiance', pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_overrideBandIrradiance'):
-        if self.isOverrideBandIrradiance is not None and 'isOverrideBandIrradiance' not in already_processed:
-            already_processed.add('isOverrideBandIrradiance')
-            outfile.write(' isOverrideBandIrradiance="%s"' % self.gds_format_integer(self.isOverrideBandIrradiance, input_name='isOverrideBandIrradiance'))
-    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_overrideBandIrradiance', fromsubclass_=False, pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.bandIrradianceFileNode is not None:
-            self.bandIrradianceFileNode.export(outfile, level, namespaceprefix_, name_='bandIrradianceFileNode', pretty_print=pretty_print)
-    def to_etree(self, parent_element=None, name_='_overrideBandIrradiance', mapping_=None):
-        if parent_element is None:
-            element = etree_.Element('{}' + name_)
-        else:
-            element = etree_.SubElement(parent_element, '{}' + name_)
-        if self.isOverrideBandIrradiance is not None:
-            element.set('isOverrideBandIrradiance', self.gds_format_integer(self.isOverrideBandIrradiance))
-        if self.bandIrradianceFileNode is not None:
-            bandIrradianceFileNode_ = self.bandIrradianceFileNode
-            bandIrradianceFileNode_.to_etree(element, name_='bandIrradianceFileNode', mapping_=mapping_)
-        if mapping_ is not None:
-            mapping_[id(self)] = element
-        return element
-    def exportLiteral(self, outfile, level, name_='_overrideBandIrradiance'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.isOverrideBandIrradiance is not None and 'isOverrideBandIrradiance' not in already_processed:
-            already_processed.add('isOverrideBandIrradiance')
-            showIndent(outfile, level)
-            outfile.write('isOverrideBandIrradiance=%d,\n' % (self.isOverrideBandIrradiance,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.bandIrradianceFileNode is not None:
-            showIndent(outfile, level)
-            outfile.write('bandIrradianceFileNode=model_._bandIrradianceFileNode(\n')
-            self.bandIrradianceFileNode.exportLiteral(outfile, level, name_='bandIrradianceFileNode')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-    def build(self, node):
-        already_processed = set()
-        self.buildAttributes(node, node.attrib, already_processed)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_)
-        return self
-    def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('isOverrideBandIrradiance', node)
-        if value is not None and 'isOverrideBandIrradiance' not in already_processed:
-            already_processed.add('isOverrideBandIrradiance')
-            try:
-                self.isOverrideBandIrradiance = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'bandIrradianceFileNode':
-            obj_ = create_bandIrradianceFileNode.factory()
-            obj_.build(child_)
-            self.set_bandIrradianceFileNode(obj_)
-            obj_.original_tagname_ = 'bandIrradianceFileNode'
-# end class create_overrideBandIrradiance
-
-
-class create_bandIrradianceFileNode(GeneratedsSuper):
-    subclass = None
-    superclass = None
-    def __init__(self, bandIrradianceFile='bandIrradianceFile.txt'):
-        self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_bandIrradianceFileNode")
-        self.attrib = ['bandIrradianceFile']
-        self.children = []
-        self.parent = None
-        self._bandIrradianceFile = _cast(None, bandIrradianceFile)
-        update_node(self,self.troot,"phase")
-    def factory(*args_, **kwargs_):
-        if CurrentSubclassModule_ is not None:
-            subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, create_bandIrradianceFileNode)
-            if subclass is not None:
-                return subclass(*args_, **kwargs_)
-        if create_bandIrradianceFileNode.subclass:
-            return create_bandIrradianceFileNode.subclass(*args_, **kwargs_)
-        else:
-            return create_bandIrradianceFileNode(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_bandIrradianceFile(self): return self._bandIrradianceFile
-    def set_bandIrradianceFile(self, value):
-        self._bandIrradianceFile = value
-        update_node(self,self.troot,"phase")
-    bandIrradianceFile = property(get_bandIrradianceFile, set_bandIrradianceFile)
-    def copy(self):
-        obj_ = self.factory()
-        return(obj_.build(self.to_etree()))
-    def hasContent_(self):
-        if (
-
-        ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespaceprefix_='', name_='_bandIrradianceFileNode', namespacedef_='', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_bandIrradianceFileNode')
-        if imported_ns_def_ is not None:
-            namespacedef_ = imported_ns_def_
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.original_tagname_ is not None:
-            name_ = self.original_tagname_
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_bandIrradianceFileNode')
-        if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_bandIrradianceFileNode', pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_bandIrradianceFileNode'):
-        if self.bandIrradianceFile is not None and 'bandIrradianceFile' not in already_processed:
-            already_processed.add('bandIrradianceFile')
-            outfile.write(' bandIrradianceFile=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.bandIrradianceFile), input_name='bandIrradianceFile')), ))
-    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_bandIrradianceFileNode', fromsubclass_=False, pretty_print=True):
-        pass
-    def to_etree(self, parent_element=None, name_='_bandIrradianceFileNode', mapping_=None):
-        if parent_element is None:
-            element = etree_.Element('{}' + name_)
-        else:
-            element = etree_.SubElement(parent_element, '{}' + name_)
-        if self.bandIrradianceFile is not None:
-            element.set('bandIrradianceFile', self.gds_format_string(self.bandIrradianceFile))
-        if mapping_ is not None:
-            mapping_[id(self)] = element
-        return element
-    def exportLiteral(self, outfile, level, name_='_bandIrradianceFileNode'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.bandIrradianceFile is not None and 'bandIrradianceFile' not in already_processed:
-            already_processed.add('bandIrradianceFile')
-            showIndent(outfile, level)
-            outfile.write('bandIrradianceFile="%s",\n' % (self.bandIrradianceFile,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        pass
-    def build(self, node):
-        already_processed = set()
-        self.buildAttributes(node, node.attrib, already_processed)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_)
-        return self
-    def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('bandIrradianceFile', node)
-        if value is not None and 'bandIrradianceFile' not in already_processed:
-            already_processed.add('bandIrradianceFile')
-            self.bandIrradianceFile = value
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        pass
-# end class create_bandIrradianceFileNode
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_BackSide
 
 
 class create_DartProduct(GeneratedsSuper):
     """DartProduct DartProduct"""
+    member_data_items_ = [
+        MemberSpec_('dartModuleProducts', '_dartModuleProducts', 0, 0, {u'maxOccurs': u'1', u'type': u'_dartModuleProducts', u'name': u'dartModuleProducts', u'minOccurs': u'1'}, None),
+        MemberSpec_('maketModuleProducts', '_maketModuleProducts', 0, 0, {u'maxOccurs': u'1', u'type': u'_maketModuleProducts', u'name': u'maketModuleProducts', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, dartModuleProducts=None, maketModuleProducts=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_DartProduct")
+        self.troot=get_gs_troot('phase','_DartProduct')
         self.attrib = ['']
         self.children = ['dartModuleProducts', 'maketModuleProducts']
         self.parent = None
         self._dartModuleProducts = dartModuleProducts
         self._maketModuleProducts = maketModuleProducts
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -12728,66 +12878,30 @@ class create_DartProduct(GeneratedsSuper):
             obj_.build(child_)
             self.set_maketModuleProducts(obj_)
             obj_.original_tagname_ = 'maketModuleProducts'
-# end class create_DartProduct
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_DartProduct
 
 
 class create_dartModuleProducts(GeneratedsSuper):
-    """dartModuleProducts dartModuleProducts LIDAR products LIDAR products
-    3D and 1D distribution of radiation that is incident,
-    intercepted, absorbed and scattered, for each non empty cell. 3D
-    and 1D distribution of radiation that is incident, intercepted,
-    absorbed and scattered, for each non empty cell. Options
-    specific to the LIDAR Image option. Options specific to the
-    LIDAR Image option. Specifies if the polarization is taken into
-    account in the radiative transfer or not. \n The state of
-    polarization of a wave is described by the 4 components of the
-    Stokes Vector. \n Not polarized for the sun illumination, the
-    light can be polarized by a physical phenomenon (specular
-    reflection, rayleigh scattering). Specifies if the polarization
-    is taken into account in the radiative transfer or not. \n The
-    state of polarization of a wave is described by the 4 components
-    of the Stokes Vector. \n Not polarized for the sun illumination,
-    the light can be polarized by a physical phenomenon (specular
-    reflection, rayleigh scattering). Create a Order1 directory
-    which contains first order scattering products (BRF/BTF,
-    radiative budget) Create a Order1 directory which contains first
-    order scattering products (BRF/BTF, radiative budget)
-    Temperature per triangle per cell using the format
-    x.y.z.i:tf;tb;a where x, y and z are the indices of the cell, i
-    the indice of the triangle, tf and tb the temperature of the
-    front and back respectively and a the area of the triangle
-    within the cell. Temperature per triangle per cell using the
-    format x.y.z.i:tf;tb;a where x, y and z are the indices of the
-    cell, i the indice of the triangle, tf and tb the temperature of
-    the front and back respectively and a the area of the triangle
-    within the cell. Results obtained at each iteration are stored
-    or only first and last Iterations are stored Results obtained at
-    each iteration are stored or only first and last Iterations are
-    stored Reflectance and/or Brightness temperature products
-    (images, etc.). Reflectance and/or Brightness temperature
-    products (images, etc.)."""
+    """dartModuleProducts dartModuleProducts"""
+    member_data_items_ = [
+        MemberSpec_('CommonProducts', '_CommonProducts', 0, 0, {u'maxOccurs': u'1', u'type': u'_CommonProducts', u'name': u'CommonProducts', u'minOccurs': u'1'}, None),
+        MemberSpec_('FluxTrackingModeProducts', '_FluxTrackingModeProducts', 0, 0, {u'maxOccurs': u'1', u'type': u'_FluxTrackingModeProducts', u'name': u'FluxTrackingModeProducts', u'minOccurs': u'1'}, None),
+        MemberSpec_('LidarModeProducts', '_LidarModeProducts', 0, 0, {u'maxOccurs': u'1', u'type': u'_LidarModeProducts', u'name': u'LidarModeProducts', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
-    def __init__(self, lidarProducts=0, radiativeBudgetProducts=0, lidarImageProducts=0, polarizationProducts=0, order1Products=0, temperaturePerTrianglePerCell=0, allIterationsProducts=0, brfProducts=1, BrfProductsProperties=None, lidarProductsProperties=None, Order1Options=None, ImageBinaryProducts=None, radiativeBudgetProperties=None):
+    def __init__(self, CommonProducts=None, FluxTrackingModeProducts=None, LidarModeProducts=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_dartModuleProducts")
-        self.attrib = ['lidarProducts', 'radiativeBudgetProducts', 'lidarImageProducts', 'polarizationProducts', 'order1Products', 'temperaturePerTrianglePerCell', 'allIterationsProducts', 'brfProducts']
-        self.children = ['BrfProductsProperties', 'lidarProductsProperties', 'Order1Options', 'ImageBinaryProducts', 'radiativeBudgetProperties']
+        self.troot=get_gs_troot('phase','_dartModuleProducts')
+        self.attrib = ['']
+        self.children = ['CommonProducts', 'FluxTrackingModeProducts', 'LidarModeProducts']
         self.parent = None
-        self._lidarProducts = _cast(int, lidarProducts)
-        self._radiativeBudgetProducts = _cast(int, radiativeBudgetProducts)
-        self._lidarImageProducts = _cast(int, lidarImageProducts)
-        self._polarizationProducts = _cast(int, polarizationProducts)
-        self._order1Products = _cast(int, order1Products)
-        self._temperaturePerTrianglePerCell = _cast(int, temperaturePerTrianglePerCell)
-        self._allIterationsProducts = _cast(int, allIterationsProducts)
-        self._brfProducts = _cast(int, brfProducts)
-        self._BrfProductsProperties = BrfProductsProperties
-        self._lidarProductsProperties = lidarProductsProperties
-        self._Order1Options = Order1Options
-        self._ImageBinaryProducts = ImageBinaryProducts
-        self._radiativeBudgetProperties = radiativeBudgetProperties
-        update_node(self,self.troot,"phase")
+        self._CommonProducts = CommonProducts
+        self._FluxTrackingModeProducts = FluxTrackingModeProducts
+        self._LidarModeProducts = LidarModeProducts
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -12799,91 +12913,35 @@ class create_dartModuleProducts(GeneratedsSuper):
         else:
             return create_dartModuleProducts(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_BrfProductsProperties(self): return self._BrfProductsProperties
-    def set_BrfProductsProperties(self, value):
+    def get_CommonProducts(self): return self._CommonProducts
+    def set_CommonProducts(self, value):
         if value is not None:
-            checkclass(value, create_BrfProductsProperties)
+            checkclass(value, create_CommonProducts)
             value.parent = self
-        self._BrfProductsProperties = value
-    BrfProductsProperties = property(get_BrfProductsProperties, set_BrfProductsProperties)
-    def get_lidarProductsProperties(self): return self._lidarProductsProperties
-    def set_lidarProductsProperties(self, value):
+        self._CommonProducts = value
+    CommonProducts = property(get_CommonProducts, set_CommonProducts)
+    def get_FluxTrackingModeProducts(self): return self._FluxTrackingModeProducts
+    def set_FluxTrackingModeProducts(self, value):
         if value is not None:
-            checkclass(value, create_lidarProductsProperties)
+            checkclass(value, create_FluxTrackingModeProducts)
             value.parent = self
-        self._lidarProductsProperties = value
-    lidarProductsProperties = property(get_lidarProductsProperties, set_lidarProductsProperties)
-    def get_Order1Options(self): return self._Order1Options
-    def set_Order1Options(self, value):
+        self._FluxTrackingModeProducts = value
+    FluxTrackingModeProducts = property(get_FluxTrackingModeProducts, set_FluxTrackingModeProducts)
+    def get_LidarModeProducts(self): return self._LidarModeProducts
+    def set_LidarModeProducts(self, value):
         if value is not None:
-            checkclass(value, create_Order1Options)
+            checkclass(value, create_LidarModeProducts)
             value.parent = self
-        self._Order1Options = value
-    Order1Options = property(get_Order1Options, set_Order1Options)
-    def get_ImageBinaryProducts(self): return self._ImageBinaryProducts
-    def set_ImageBinaryProducts(self, value):
-        if value is not None:
-            checkclass(value, create_ImageBinaryProducts)
-            value.parent = self
-        self._ImageBinaryProducts = value
-    ImageBinaryProducts = property(get_ImageBinaryProducts, set_ImageBinaryProducts)
-    def get_radiativeBudgetProperties(self): return self._radiativeBudgetProperties
-    def set_radiativeBudgetProperties(self, value):
-        if value is not None:
-            checkclass(value, create_radiativeBudgetProperties)
-            value.parent = self
-        self._radiativeBudgetProperties = value
-    radiativeBudgetProperties = property(get_radiativeBudgetProperties, set_radiativeBudgetProperties)
-    def get_lidarProducts(self): return self._lidarProducts
-    def set_lidarProducts(self, value):
-        self._lidarProducts = value
-        update_node(self,self.troot,"phase")
-    lidarProducts = property(get_lidarProducts, set_lidarProducts)
-    def get_radiativeBudgetProducts(self): return self._radiativeBudgetProducts
-    def set_radiativeBudgetProducts(self, value):
-        self._radiativeBudgetProducts = value
-        update_node(self,self.troot,"phase")
-    radiativeBudgetProducts = property(get_radiativeBudgetProducts, set_radiativeBudgetProducts)
-    def get_lidarImageProducts(self): return self._lidarImageProducts
-    def set_lidarImageProducts(self, value):
-        self._lidarImageProducts = value
-        update_node(self,self.troot,"phase")
-    lidarImageProducts = property(get_lidarImageProducts, set_lidarImageProducts)
-    def get_polarizationProducts(self): return self._polarizationProducts
-    def set_polarizationProducts(self, value):
-        self._polarizationProducts = value
-        update_node(self,self.troot,"phase")
-    polarizationProducts = property(get_polarizationProducts, set_polarizationProducts)
-    def get_order1Products(self): return self._order1Products
-    def set_order1Products(self, value):
-        self._order1Products = value
-        update_node(self,self.troot,"phase")
-    order1Products = property(get_order1Products, set_order1Products)
-    def get_temperaturePerTrianglePerCell(self): return self._temperaturePerTrianglePerCell
-    def set_temperaturePerTrianglePerCell(self, value):
-        self._temperaturePerTrianglePerCell = value
-        update_node(self,self.troot,"phase")
-    temperaturePerTrianglePerCell = property(get_temperaturePerTrianglePerCell, set_temperaturePerTrianglePerCell)
-    def get_allIterationsProducts(self): return self._allIterationsProducts
-    def set_allIterationsProducts(self, value):
-        self._allIterationsProducts = value
-        update_node(self,self.troot,"phase")
-    allIterationsProducts = property(get_allIterationsProducts, set_allIterationsProducts)
-    def get_brfProducts(self): return self._brfProducts
-    def set_brfProducts(self, value):
-        self._brfProducts = value
-        update_node(self,self.troot,"phase")
-    brfProducts = property(get_brfProducts, set_brfProducts)
+        self._LidarModeProducts = value
+    LidarModeProducts = property(get_LidarModeProducts, set_LidarModeProducts)
     def copy(self):
         obj_ = self.factory()
         return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
-            self.BrfProductsProperties is not None or
-            self.lidarProductsProperties is not None or
-            self.Order1Options is not None or
-            self.ImageBinaryProducts is not None or
-            self.radiativeBudgetProperties is not None
+            self.CommonProducts is not None or
+            self.FluxTrackingModeProducts is not None or
+            self.LidarModeProducts is not None
         ):
             return True
         else:
@@ -12910,81 +12968,32 @@ class create_dartModuleProducts(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_dartModuleProducts'):
-        if self.lidarProducts is not None and 'lidarProducts' not in already_processed:
-            already_processed.add('lidarProducts')
-            outfile.write(' lidarProducts="%s"' % self.gds_format_integer(self.lidarProducts, input_name='lidarProducts'))
-        if self.radiativeBudgetProducts is not None and 'radiativeBudgetProducts' not in already_processed:
-            already_processed.add('radiativeBudgetProducts')
-            outfile.write(' radiativeBudgetProducts="%s"' % self.gds_format_integer(self.radiativeBudgetProducts, input_name='radiativeBudgetProducts'))
-        if self.lidarImageProducts is not None and 'lidarImageProducts' not in already_processed:
-            already_processed.add('lidarImageProducts')
-            outfile.write(' lidarImageProducts="%s"' % self.gds_format_integer(self.lidarImageProducts, input_name='lidarImageProducts'))
-        if self.polarizationProducts is not None and 'polarizationProducts' not in already_processed:
-            already_processed.add('polarizationProducts')
-            outfile.write(' polarizationProducts="%s"' % self.gds_format_integer(self.polarizationProducts, input_name='polarizationProducts'))
-        if self.order1Products is not None and 'order1Products' not in already_processed:
-            already_processed.add('order1Products')
-            outfile.write(' order1Products="%s"' % self.gds_format_integer(self.order1Products, input_name='order1Products'))
-        if self.temperaturePerTrianglePerCell is not None and 'temperaturePerTrianglePerCell' not in already_processed:
-            already_processed.add('temperaturePerTrianglePerCell')
-            outfile.write(' temperaturePerTrianglePerCell="%s"' % self.gds_format_integer(self.temperaturePerTrianglePerCell, input_name='temperaturePerTrianglePerCell'))
-        if self.allIterationsProducts is not None and 'allIterationsProducts' not in already_processed:
-            already_processed.add('allIterationsProducts')
-            outfile.write(' allIterationsProducts="%s"' % self.gds_format_integer(self.allIterationsProducts, input_name='allIterationsProducts'))
-        if self.brfProducts is not None and 'brfProducts' not in already_processed:
-            already_processed.add('brfProducts')
-            outfile.write(' brfProducts="%s"' % self.gds_format_integer(self.brfProducts, input_name='brfProducts'))
+        pass
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_dartModuleProducts', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.BrfProductsProperties is not None:
-            self.BrfProductsProperties.export(outfile, level, namespaceprefix_, name_='BrfProductsProperties', pretty_print=pretty_print)
-        if self.lidarProductsProperties is not None:
-            self.lidarProductsProperties.export(outfile, level, namespaceprefix_, name_='lidarProductsProperties', pretty_print=pretty_print)
-        if self.Order1Options is not None:
-            self.Order1Options.export(outfile, level, namespaceprefix_, name_='Order1Options', pretty_print=pretty_print)
-        if self.ImageBinaryProducts is not None:
-            self.ImageBinaryProducts.export(outfile, level, namespaceprefix_, name_='ImageBinaryProducts', pretty_print=pretty_print)
-        if self.radiativeBudgetProperties is not None:
-            self.radiativeBudgetProperties.export(outfile, level, namespaceprefix_, name_='radiativeBudgetProperties', pretty_print=pretty_print)
+        if self.CommonProducts is not None:
+            self.CommonProducts.export(outfile, level, namespaceprefix_, name_='CommonProducts', pretty_print=pretty_print)
+        if self.FluxTrackingModeProducts is not None:
+            self.FluxTrackingModeProducts.export(outfile, level, namespaceprefix_, name_='FluxTrackingModeProducts', pretty_print=pretty_print)
+        if self.LidarModeProducts is not None:
+            self.LidarModeProducts.export(outfile, level, namespaceprefix_, name_='LidarModeProducts', pretty_print=pretty_print)
     def to_etree(self, parent_element=None, name_='_dartModuleProducts', mapping_=None):
         if parent_element is None:
             element = etree_.Element('{}' + name_)
         else:
             element = etree_.SubElement(parent_element, '{}' + name_)
-        if self.lidarProducts is not None:
-            element.set('lidarProducts', self.gds_format_integer(self.lidarProducts))
-        if self.radiativeBudgetProducts is not None:
-            element.set('radiativeBudgetProducts', self.gds_format_integer(self.radiativeBudgetProducts))
-        if self.lidarImageProducts is not None:
-            element.set('lidarImageProducts', self.gds_format_integer(self.lidarImageProducts))
-        if self.polarizationProducts is not None:
-            element.set('polarizationProducts', self.gds_format_integer(self.polarizationProducts))
-        if self.order1Products is not None:
-            element.set('order1Products', self.gds_format_integer(self.order1Products))
-        if self.temperaturePerTrianglePerCell is not None:
-            element.set('temperaturePerTrianglePerCell', self.gds_format_integer(self.temperaturePerTrianglePerCell))
-        if self.allIterationsProducts is not None:
-            element.set('allIterationsProducts', self.gds_format_integer(self.allIterationsProducts))
-        if self.brfProducts is not None:
-            element.set('brfProducts', self.gds_format_integer(self.brfProducts))
-        if self.BrfProductsProperties is not None:
-            BrfProductsProperties_ = self.BrfProductsProperties
-            BrfProductsProperties_.to_etree(element, name_='BrfProductsProperties', mapping_=mapping_)
-        if self.lidarProductsProperties is not None:
-            lidarProductsProperties_ = self.lidarProductsProperties
-            lidarProductsProperties_.to_etree(element, name_='lidarProductsProperties', mapping_=mapping_)
-        if self.Order1Options is not None:
-            Order1Options_ = self.Order1Options
-            Order1Options_.to_etree(element, name_='Order1Options', mapping_=mapping_)
-        if self.ImageBinaryProducts is not None:
-            ImageBinaryProducts_ = self.ImageBinaryProducts
-            ImageBinaryProducts_.to_etree(element, name_='ImageBinaryProducts', mapping_=mapping_)
-        if self.radiativeBudgetProperties is not None:
-            radiativeBudgetProperties_ = self.radiativeBudgetProperties
-            radiativeBudgetProperties_.to_etree(element, name_='radiativeBudgetProperties', mapping_=mapping_)
+        if self.CommonProducts is not None:
+            CommonProducts_ = self.CommonProducts
+            CommonProducts_.to_etree(element, name_='CommonProducts', mapping_=mapping_)
+        if self.FluxTrackingModeProducts is not None:
+            FluxTrackingModeProducts_ = self.FluxTrackingModeProducts
+            FluxTrackingModeProducts_.to_etree(element, name_='FluxTrackingModeProducts', mapping_=mapping_)
+        if self.LidarModeProducts is not None:
+            LidarModeProducts_ = self.LidarModeProducts
+            LidarModeProducts_.to_etree(element, name_='LidarModeProducts', mapping_=mapping_)
         if mapping_ is not None:
             mapping_[id(self)] = element
         return element
@@ -12995,63 +13004,193 @@ class create_dartModuleProducts(GeneratedsSuper):
         if self.hasContent_():
             self.exportLiteralChildren(outfile, level, name_)
     def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.lidarProducts is not None and 'lidarProducts' not in already_processed:
-            already_processed.add('lidarProducts')
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.CommonProducts is not None:
             showIndent(outfile, level)
-            outfile.write('lidarProducts=%d,\n' % (self.lidarProducts,))
+            outfile.write('CommonProducts=model_._CommonProducts(\n')
+            self.CommonProducts.exportLiteral(outfile, level, name_='CommonProducts')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.FluxTrackingModeProducts is not None:
+            showIndent(outfile, level)
+            outfile.write('FluxTrackingModeProducts=model_._FluxTrackingModeProducts(\n')
+            self.FluxTrackingModeProducts.exportLiteral(outfile, level, name_='FluxTrackingModeProducts')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.LidarModeProducts is not None:
+            showIndent(outfile, level)
+            outfile.write('LidarModeProducts=model_._LidarModeProducts(\n')
+            self.LidarModeProducts.exportLiteral(outfile, level, name_='LidarModeProducts')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'CommonProducts':
+            obj_ = create_CommonProducts.factory()
+            obj_.build(child_)
+            self.set_CommonProducts(obj_)
+            obj_.original_tagname_ = 'CommonProducts'
+        elif nodeName_ == 'FluxTrackingModeProducts':
+            obj_ = create_FluxTrackingModeProducts.factory()
+            obj_.build(child_)
+            self.set_FluxTrackingModeProducts(obj_)
+            obj_.original_tagname_ = 'FluxTrackingModeProducts'
+        elif nodeName_ == 'LidarModeProducts':
+            obj_ = create_LidarModeProducts.factory()
+            obj_.build(child_)
+            self.set_LidarModeProducts(obj_)
+            obj_.original_tagname_ = 'LidarModeProducts'
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_dartModuleProducts
+
+
+class create_CommonProducts(GeneratedsSuper):
+    """Specifies if the polarization is taken into account in the radiative
+    transfer or not. \n The state of polarization of a wave is
+    described by the 4 components of the Stokes Vector. \n Not
+    polarized for the sun illumination, the light can be polarized
+    by a physical phenomenon (specular reflection, rayleigh
+    scattering). Specifies if the polarization is taken into account
+    in the radiative transfer or not. \n The state of polarization
+    of a wave is described by the 4 components of the Stokes Vector.
+    \n Not polarized for the sun illumination, the light can be
+    polarized by a physical phenomenon (specular reflection,
+    rayleigh scattering). 3D and 1D distribution of radiation that
+    is incident, intercepted, absorbed and scattered, for each non
+    empty cell. 3D and 1D distribution of radiation that is
+    incident, intercepted, absorbed and scattered, for each non
+    empty cell."""
+    member_data_items_ = [
+        MemberSpec_('polarizationProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('radiativeBudgetProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('radiativeBudgetProperties', '_radiativeBudgetProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_radiativeBudgetProperties', u'name': u'radiativeBudgetProperties', u'minOccurs': u'1'}, None),
+    ]
+    subclass = None
+    superclass = None
+    def __init__(self, polarizationProducts=0, radiativeBudgetProducts=0, radiativeBudgetProperties=None):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot('phase','_CommonProducts')
+        self.attrib = ['polarizationProducts', 'radiativeBudgetProducts']
+        self.children = ['radiativeBudgetProperties']
+        self.parent = None
+        self._polarizationProducts = _cast(int, polarizationProducts)
+        self._radiativeBudgetProducts = _cast(int, radiativeBudgetProducts)
+        self._radiativeBudgetProperties = radiativeBudgetProperties
+        update_node(self,self.troot,'phase')
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, create_CommonProducts)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if create_CommonProducts.subclass:
+            return create_CommonProducts.subclass(*args_, **kwargs_)
+        else:
+            return create_CommonProducts(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_radiativeBudgetProperties(self): return self._radiativeBudgetProperties
+    def set_radiativeBudgetProperties(self, value):
+        if value is not None:
+            checkclass(value, create_radiativeBudgetProperties)
+            value.parent = self
+        self._radiativeBudgetProperties = value
+    radiativeBudgetProperties = property(get_radiativeBudgetProperties, set_radiativeBudgetProperties)
+    def get_polarizationProducts(self): return self._polarizationProducts
+    def set_polarizationProducts(self, value):
+        self._polarizationProducts = value
+        update_node(self,self.troot,'phase')
+    polarizationProducts = property(get_polarizationProducts, set_polarizationProducts)
+    def get_radiativeBudgetProducts(self): return self._radiativeBudgetProducts
+    def set_radiativeBudgetProducts(self, value):
+        self._radiativeBudgetProducts = value
+        update_node(self,self.troot,'phase')
+    radiativeBudgetProducts = property(get_radiativeBudgetProducts, set_radiativeBudgetProducts)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+            self.radiativeBudgetProperties is not None
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='_CommonProducts', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_CommonProducts')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_CommonProducts')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_CommonProducts', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_CommonProducts'):
+        if self.polarizationProducts is not None and 'polarizationProducts' not in already_processed:
+            already_processed.add('polarizationProducts')
+            outfile.write(' polarizationProducts="%s"' % self.gds_format_integer(self.polarizationProducts, input_name='polarizationProducts'))
         if self.radiativeBudgetProducts is not None and 'radiativeBudgetProducts' not in already_processed:
             already_processed.add('radiativeBudgetProducts')
-            showIndent(outfile, level)
-            outfile.write('radiativeBudgetProducts=%d,\n' % (self.radiativeBudgetProducts,))
-        if self.lidarImageProducts is not None and 'lidarImageProducts' not in already_processed:
-            already_processed.add('lidarImageProducts')
-            showIndent(outfile, level)
-            outfile.write('lidarImageProducts=%d,\n' % (self.lidarImageProducts,))
+            outfile.write(' radiativeBudgetProducts="%s"' % self.gds_format_integer(self.radiativeBudgetProducts, input_name='radiativeBudgetProducts'))
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_CommonProducts', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.radiativeBudgetProperties is not None:
+            self.radiativeBudgetProperties.export(outfile, level, namespaceprefix_, name_='radiativeBudgetProperties', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_CommonProducts', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.polarizationProducts is not None:
+            element.set('polarizationProducts', self.gds_format_integer(self.polarizationProducts))
+        if self.radiativeBudgetProducts is not None:
+            element.set('radiativeBudgetProducts', self.gds_format_integer(self.radiativeBudgetProducts))
+        if self.radiativeBudgetProperties is not None:
+            radiativeBudgetProperties_ = self.radiativeBudgetProperties
+            radiativeBudgetProperties_.to_etree(element, name_='radiativeBudgetProperties', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_CommonProducts'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
         if self.polarizationProducts is not None and 'polarizationProducts' not in already_processed:
             already_processed.add('polarizationProducts')
             showIndent(outfile, level)
             outfile.write('polarizationProducts=%d,\n' % (self.polarizationProducts,))
-        if self.order1Products is not None and 'order1Products' not in already_processed:
-            already_processed.add('order1Products')
+        if self.radiativeBudgetProducts is not None and 'radiativeBudgetProducts' not in already_processed:
+            already_processed.add('radiativeBudgetProducts')
             showIndent(outfile, level)
-            outfile.write('order1Products=%d,\n' % (self.order1Products,))
-        if self.temperaturePerTrianglePerCell is not None and 'temperaturePerTrianglePerCell' not in already_processed:
-            already_processed.add('temperaturePerTrianglePerCell')
-            showIndent(outfile, level)
-            outfile.write('temperaturePerTrianglePerCell=%d,\n' % (self.temperaturePerTrianglePerCell,))
-        if self.allIterationsProducts is not None and 'allIterationsProducts' not in already_processed:
-            already_processed.add('allIterationsProducts')
-            showIndent(outfile, level)
-            outfile.write('allIterationsProducts=%d,\n' % (self.allIterationsProducts,))
-        if self.brfProducts is not None and 'brfProducts' not in already_processed:
-            already_processed.add('brfProducts')
-            showIndent(outfile, level)
-            outfile.write('brfProducts=%d,\n' % (self.brfProducts,))
+            outfile.write('radiativeBudgetProducts=%d,\n' % (self.radiativeBudgetProducts,))
     def exportLiteralChildren(self, outfile, level, name_):
-        if self.BrfProductsProperties is not None:
-            showIndent(outfile, level)
-            outfile.write('BrfProductsProperties=model_._BrfProductsProperties(\n')
-            self.BrfProductsProperties.exportLiteral(outfile, level, name_='BrfProductsProperties')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.lidarProductsProperties is not None:
-            showIndent(outfile, level)
-            outfile.write('lidarProductsProperties=model_._lidarProductsProperties(\n')
-            self.lidarProductsProperties.exportLiteral(outfile, level, name_='lidarProductsProperties')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.Order1Options is not None:
-            showIndent(outfile, level)
-            outfile.write('Order1Options=model_._Order1Options(\n')
-            self.Order1Options.exportLiteral(outfile, level, name_='Order1Options')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.ImageBinaryProducts is not None:
-            showIndent(outfile, level)
-            outfile.write('ImageBinaryProducts=model_._ImageBinaryProducts(\n')
-            self.ImageBinaryProducts.exportLiteral(outfile, level, name_='ImageBinaryProducts')
-            showIndent(outfile, level)
-            outfile.write('),\n')
         if self.radiativeBudgetProperties is not None:
             showIndent(outfile, level)
             outfile.write('radiativeBudgetProperties=model_._radiativeBudgetProperties(\n')
@@ -13066,11 +13205,11 @@ class create_dartModuleProducts(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
         return self
     def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('lidarProducts', node)
-        if value is not None and 'lidarProducts' not in already_processed:
-            already_processed.add('lidarProducts')
+        value = find_attr_value_('polarizationProducts', node)
+        if value is not None and 'polarizationProducts' not in already_processed:
+            already_processed.add('polarizationProducts')
             try:
-                self.lidarProducts = int(value)
+                self.polarizationProducts = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
         value = find_attr_value_('radiativeBudgetProducts', node)
@@ -13080,27 +13219,1456 @@ class create_dartModuleProducts(GeneratedsSuper):
                 self.radiativeBudgetProducts = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-        value = find_attr_value_('lidarImageProducts', node)
-        if value is not None and 'lidarImageProducts' not in already_processed:
-            already_processed.add('lidarImageProducts')
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'radiativeBudgetProperties':
+            obj_ = create_radiativeBudgetProperties.factory()
+            obj_.build(child_)
+            self.set_radiativeBudgetProperties(obj_)
+            obj_.original_tagname_ = 'radiativeBudgetProperties'
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_CommonProducts
+
+
+class create_radiativeBudgetProperties(GeneratedsSuper):
+    """radiativeBudgetProperties radiativeBudgetProperties 2D images of
+    fINTR, fABSR, fSCAR per column per iteration and per type 2D
+    images of fINTR, fABSR, fSCAR per column per iteration and per
+    type Vertical profiles of fractions of incident (fINCR),
+    intercepted (fINTR), absorbed (fABSR) and scattered (fSCAR)
+    radiation Vertical profiles of fractions of incident (fINCR),
+    intercepted (fINTR), absorbed (fABSR) and scattered (fSCAR)
+    radiation 3D fINTR, fABSR, fSCAR per iteration and per type of
+    triangle 3D fINTR, fABSR, fSCAR per iteration and per type of
+    triangle Horizontal sections xy, for each horizontal layer and
+    each iteration, of fractions of incident (fINCR), intercepted
+    (fINTR), absorbed (fABSR) and scattered (fSCAR) radiation
+    Horizontal sections xy, for each horizontal layer and each
+    iteration, of fractions of incident (fINCR), intercepted
+    (fINTR), absorbed (fABSR) and scattered (fSCAR) radiation
+    Extrapolation of radiation products Extrapolation of radiation
+    products Images fINTR, fABSR, fSCAR per column per iteration
+    Images fINTR, fABSR, fSCAR per column per iteration W W fINTR,
+    fABSR, fSCAR total per individual triangle and per
+    iteration.\nCan be displayed in the Surface Radiative Budget
+    viewer, in the viewer tools. fINTR, fABSR, fSCAR total per
+    individual triangle and per iteration.\nCan be displayed in the
+    Surface Radiative Budget viewer, in the viewer tools. Output the
+    large radiative budgets (3D or per individual triangles) to
+    binary files instead of text files. Improves significatively the
+    performance during the writing of these files. Output the large
+    radiative budgets (3D or per individual triangles) to binary
+    files instead of text files. Improves significatively the
+    performance during the writing of these files. fINTR, fABSR,
+    fSCAR total per type of triangle and per iteration fINTR, fABSR,
+    fSCAR total per type of triangle and per iteration"""
+    member_data_items_ = [
+        MemberSpec_('budget2DParType', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('fIRfARfSRfINTR1DProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('budget3DParType', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('fIRfARfSRfINTR3DProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('extrapolation', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('fIRfARfSRfINTR2DProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('budgetUnitModeR', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('budget3DParSurface', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('binaryFormat', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('budgetTotalParType', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Components', '_Components', 0, 0, {u'maxOccurs': u'1', u'type': u'_Components', u'name': u'Components', u'minOccurs': u'1'}, None),
+    ]
+    subclass = None
+    superclass = None
+    def __init__(self, budget2DParType=0, fIRfARfSRfINTR1DProducts=1, budget3DParType=0, fIRfARfSRfINTR3DProducts=1, extrapolation=1, fIRfARfSRfINTR2DProducts=1, budgetUnitModeR=0, budget3DParSurface=0, binaryFormat=0, budgetTotalParType=0, Components=None):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot('phase','_radiativeBudgetProperties')
+        self.attrib = ['budget2DParType', 'fIRfARfSRfINTR1DProducts', 'budget3DParType', 'fIRfARfSRfINTR3DProducts', 'extrapolation', 'fIRfARfSRfINTR2DProducts', 'budgetUnitModeR', 'budget3DParSurface', 'binaryFormat', 'budgetTotalParType']
+        self.children = ['Components']
+        self.parent = None
+        self._budget2DParType = _cast(int, budget2DParType)
+        self._fIRfARfSRfINTR1DProducts = _cast(int, fIRfARfSRfINTR1DProducts)
+        self._budget3DParType = _cast(int, budget3DParType)
+        self._fIRfARfSRfINTR3DProducts = _cast(int, fIRfARfSRfINTR3DProducts)
+        self._extrapolation = _cast(int, extrapolation)
+        self._fIRfARfSRfINTR2DProducts = _cast(int, fIRfARfSRfINTR2DProducts)
+        self._budgetUnitModeR = _cast(int, budgetUnitModeR)
+        self._budget3DParSurface = _cast(int, budget3DParSurface)
+        self._binaryFormat = _cast(int, binaryFormat)
+        self._budgetTotalParType = _cast(int, budgetTotalParType)
+        self._Components = Components
+        update_node(self,self.troot,'phase')
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, create_radiativeBudgetProperties)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if create_radiativeBudgetProperties.subclass:
+            return create_radiativeBudgetProperties.subclass(*args_, **kwargs_)
+        else:
+            return create_radiativeBudgetProperties(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_Components(self): return self._Components
+    def set_Components(self, value):
+        if value is not None:
+            checkclass(value, create_Components)
+            value.parent = self
+        self._Components = value
+    Components = property(get_Components, set_Components)
+    def get_budget2DParType(self): return self._budget2DParType
+    def set_budget2DParType(self, value):
+        self._budget2DParType = value
+        update_node(self,self.troot,'phase')
+    budget2DParType = property(get_budget2DParType, set_budget2DParType)
+    def get_fIRfARfSRfINTR1DProducts(self): return self._fIRfARfSRfINTR1DProducts
+    def set_fIRfARfSRfINTR1DProducts(self, value):
+        self._fIRfARfSRfINTR1DProducts = value
+        update_node(self,self.troot,'phase')
+    fIRfARfSRfINTR1DProducts = property(get_fIRfARfSRfINTR1DProducts, set_fIRfARfSRfINTR1DProducts)
+    def get_budget3DParType(self): return self._budget3DParType
+    def set_budget3DParType(self, value):
+        self._budget3DParType = value
+        update_node(self,self.troot,'phase')
+    budget3DParType = property(get_budget3DParType, set_budget3DParType)
+    def get_fIRfARfSRfINTR3DProducts(self): return self._fIRfARfSRfINTR3DProducts
+    def set_fIRfARfSRfINTR3DProducts(self, value):
+        self._fIRfARfSRfINTR3DProducts = value
+        update_node(self,self.troot,'phase')
+    fIRfARfSRfINTR3DProducts = property(get_fIRfARfSRfINTR3DProducts, set_fIRfARfSRfINTR3DProducts)
+    def get_extrapolation(self): return self._extrapolation
+    def set_extrapolation(self, value):
+        self._extrapolation = value
+        update_node(self,self.troot,'phase')
+    extrapolation = property(get_extrapolation, set_extrapolation)
+    def get_fIRfARfSRfINTR2DProducts(self): return self._fIRfARfSRfINTR2DProducts
+    def set_fIRfARfSRfINTR2DProducts(self, value):
+        self._fIRfARfSRfINTR2DProducts = value
+        update_node(self,self.troot,'phase')
+    fIRfARfSRfINTR2DProducts = property(get_fIRfARfSRfINTR2DProducts, set_fIRfARfSRfINTR2DProducts)
+    def get_budgetUnitModeR(self): return self._budgetUnitModeR
+    def set_budgetUnitModeR(self, value):
+        self._budgetUnitModeR = value
+        update_node(self,self.troot,'phase')
+    budgetUnitModeR = property(get_budgetUnitModeR, set_budgetUnitModeR)
+    def get_budget3DParSurface(self): return self._budget3DParSurface
+    def set_budget3DParSurface(self, value):
+        self._budget3DParSurface = value
+        update_node(self,self.troot,'phase')
+    budget3DParSurface = property(get_budget3DParSurface, set_budget3DParSurface)
+    def get_binaryFormat(self): return self._binaryFormat
+    def set_binaryFormat(self, value):
+        self._binaryFormat = value
+        update_node(self,self.troot,'phase')
+    binaryFormat = property(get_binaryFormat, set_binaryFormat)
+    def get_budgetTotalParType(self): return self._budgetTotalParType
+    def set_budgetTotalParType(self, value):
+        self._budgetTotalParType = value
+        update_node(self,self.troot,'phase')
+    budgetTotalParType = property(get_budgetTotalParType, set_budgetTotalParType)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+            self.Components is not None
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='_radiativeBudgetProperties', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_radiativeBudgetProperties')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_radiativeBudgetProperties')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_radiativeBudgetProperties', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_radiativeBudgetProperties'):
+        if self.budget2DParType is not None and 'budget2DParType' not in already_processed:
+            already_processed.add('budget2DParType')
+            outfile.write(' budget2DParType="%s"' % self.gds_format_integer(self.budget2DParType, input_name='budget2DParType'))
+        if self.fIRfARfSRfINTR1DProducts is not None and 'fIRfARfSRfINTR1DProducts' not in already_processed:
+            already_processed.add('fIRfARfSRfINTR1DProducts')
+            outfile.write(' fIRfARfSRfINTR1DProducts="%s"' % self.gds_format_integer(self.fIRfARfSRfINTR1DProducts, input_name='fIRfARfSRfINTR1DProducts'))
+        if self.budget3DParType is not None and 'budget3DParType' not in already_processed:
+            already_processed.add('budget3DParType')
+            outfile.write(' budget3DParType="%s"' % self.gds_format_integer(self.budget3DParType, input_name='budget3DParType'))
+        if self.fIRfARfSRfINTR3DProducts is not None and 'fIRfARfSRfINTR3DProducts' not in already_processed:
+            already_processed.add('fIRfARfSRfINTR3DProducts')
+            outfile.write(' fIRfARfSRfINTR3DProducts="%s"' % self.gds_format_integer(self.fIRfARfSRfINTR3DProducts, input_name='fIRfARfSRfINTR3DProducts'))
+        if self.extrapolation is not None and 'extrapolation' not in already_processed:
+            already_processed.add('extrapolation')
+            outfile.write(' extrapolation="%s"' % self.gds_format_integer(self.extrapolation, input_name='extrapolation'))
+        if self.fIRfARfSRfINTR2DProducts is not None and 'fIRfARfSRfINTR2DProducts' not in already_processed:
+            already_processed.add('fIRfARfSRfINTR2DProducts')
+            outfile.write(' fIRfARfSRfINTR2DProducts="%s"' % self.gds_format_integer(self.fIRfARfSRfINTR2DProducts, input_name='fIRfARfSRfINTR2DProducts'))
+        if self.budgetUnitModeR is not None and 'budgetUnitModeR' not in already_processed:
+            already_processed.add('budgetUnitModeR')
+            outfile.write(' budgetUnitModeR="%s"' % self.gds_format_integer(self.budgetUnitModeR, input_name='budgetUnitModeR'))
+        if self.budget3DParSurface is not None and 'budget3DParSurface' not in already_processed:
+            already_processed.add('budget3DParSurface')
+            outfile.write(' budget3DParSurface="%s"' % self.gds_format_integer(self.budget3DParSurface, input_name='budget3DParSurface'))
+        if self.binaryFormat is not None and 'binaryFormat' not in already_processed:
+            already_processed.add('binaryFormat')
+            outfile.write(' binaryFormat="%s"' % self.gds_format_integer(self.binaryFormat, input_name='binaryFormat'))
+        if self.budgetTotalParType is not None and 'budgetTotalParType' not in already_processed:
+            already_processed.add('budgetTotalParType')
+            outfile.write(' budgetTotalParType="%s"' % self.gds_format_integer(self.budgetTotalParType, input_name='budgetTotalParType'))
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_radiativeBudgetProperties', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.Components is not None:
+            self.Components.export(outfile, level, namespaceprefix_, name_='Components', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_radiativeBudgetProperties', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.budget2DParType is not None:
+            element.set('budget2DParType', self.gds_format_integer(self.budget2DParType))
+        if self.fIRfARfSRfINTR1DProducts is not None:
+            element.set('fIRfARfSRfINTR1DProducts', self.gds_format_integer(self.fIRfARfSRfINTR1DProducts))
+        if self.budget3DParType is not None:
+            element.set('budget3DParType', self.gds_format_integer(self.budget3DParType))
+        if self.fIRfARfSRfINTR3DProducts is not None:
+            element.set('fIRfARfSRfINTR3DProducts', self.gds_format_integer(self.fIRfARfSRfINTR3DProducts))
+        if self.extrapolation is not None:
+            element.set('extrapolation', self.gds_format_integer(self.extrapolation))
+        if self.fIRfARfSRfINTR2DProducts is not None:
+            element.set('fIRfARfSRfINTR2DProducts', self.gds_format_integer(self.fIRfARfSRfINTR2DProducts))
+        if self.budgetUnitModeR is not None:
+            element.set('budgetUnitModeR', self.gds_format_integer(self.budgetUnitModeR))
+        if self.budget3DParSurface is not None:
+            element.set('budget3DParSurface', self.gds_format_integer(self.budget3DParSurface))
+        if self.binaryFormat is not None:
+            element.set('binaryFormat', self.gds_format_integer(self.binaryFormat))
+        if self.budgetTotalParType is not None:
+            element.set('budgetTotalParType', self.gds_format_integer(self.budgetTotalParType))
+        if self.Components is not None:
+            Components_ = self.Components
+            Components_.to_etree(element, name_='Components', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_radiativeBudgetProperties'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.budget2DParType is not None and 'budget2DParType' not in already_processed:
+            already_processed.add('budget2DParType')
+            showIndent(outfile, level)
+            outfile.write('budget2DParType=%d,\n' % (self.budget2DParType,))
+        if self.fIRfARfSRfINTR1DProducts is not None and 'fIRfARfSRfINTR1DProducts' not in already_processed:
+            already_processed.add('fIRfARfSRfINTR1DProducts')
+            showIndent(outfile, level)
+            outfile.write('fIRfARfSRfINTR1DProducts=%d,\n' % (self.fIRfARfSRfINTR1DProducts,))
+        if self.budget3DParType is not None and 'budget3DParType' not in already_processed:
+            already_processed.add('budget3DParType')
+            showIndent(outfile, level)
+            outfile.write('budget3DParType=%d,\n' % (self.budget3DParType,))
+        if self.fIRfARfSRfINTR3DProducts is not None and 'fIRfARfSRfINTR3DProducts' not in already_processed:
+            already_processed.add('fIRfARfSRfINTR3DProducts')
+            showIndent(outfile, level)
+            outfile.write('fIRfARfSRfINTR3DProducts=%d,\n' % (self.fIRfARfSRfINTR3DProducts,))
+        if self.extrapolation is not None and 'extrapolation' not in already_processed:
+            already_processed.add('extrapolation')
+            showIndent(outfile, level)
+            outfile.write('extrapolation=%d,\n' % (self.extrapolation,))
+        if self.fIRfARfSRfINTR2DProducts is not None and 'fIRfARfSRfINTR2DProducts' not in already_processed:
+            already_processed.add('fIRfARfSRfINTR2DProducts')
+            showIndent(outfile, level)
+            outfile.write('fIRfARfSRfINTR2DProducts=%d,\n' % (self.fIRfARfSRfINTR2DProducts,))
+        if self.budgetUnitModeR is not None and 'budgetUnitModeR' not in already_processed:
+            already_processed.add('budgetUnitModeR')
+            showIndent(outfile, level)
+            outfile.write('budgetUnitModeR=%d,\n' % (self.budgetUnitModeR,))
+        if self.budget3DParSurface is not None and 'budget3DParSurface' not in already_processed:
+            already_processed.add('budget3DParSurface')
+            showIndent(outfile, level)
+            outfile.write('budget3DParSurface=%d,\n' % (self.budget3DParSurface,))
+        if self.binaryFormat is not None and 'binaryFormat' not in already_processed:
+            already_processed.add('binaryFormat')
+            showIndent(outfile, level)
+            outfile.write('binaryFormat=%d,\n' % (self.binaryFormat,))
+        if self.budgetTotalParType is not None and 'budgetTotalParType' not in already_processed:
+            already_processed.add('budgetTotalParType')
+            showIndent(outfile, level)
+            outfile.write('budgetTotalParType=%d,\n' % (self.budgetTotalParType,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.Components is not None:
+            showIndent(outfile, level)
+            outfile.write('Components=model_._Components(\n')
+            self.Components.exportLiteral(outfile, level, name_='Components')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('budget2DParType', node)
+        if value is not None and 'budget2DParType' not in already_processed:
+            already_processed.add('budget2DParType')
             try:
-                self.lidarImageProducts = int(value)
+                self.budget2DParType = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-        value = find_attr_value_('polarizationProducts', node)
-        if value is not None and 'polarizationProducts' not in already_processed:
-            already_processed.add('polarizationProducts')
+        value = find_attr_value_('fIRfARfSRfINTR1DProducts', node)
+        if value is not None and 'fIRfARfSRfINTR1DProducts' not in already_processed:
+            already_processed.add('fIRfARfSRfINTR1DProducts')
             try:
-                self.polarizationProducts = int(value)
+                self.fIRfARfSRfINTR1DProducts = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-        value = find_attr_value_('order1Products', node)
-        if value is not None and 'order1Products' not in already_processed:
+        value = find_attr_value_('budget3DParType', node)
+        if value is not None and 'budget3DParType' not in already_processed:
+            already_processed.add('budget3DParType')
+            try:
+                self.budget3DParType = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('fIRfARfSRfINTR3DProducts', node)
+        if value is not None and 'fIRfARfSRfINTR3DProducts' not in already_processed:
+            already_processed.add('fIRfARfSRfINTR3DProducts')
+            try:
+                self.fIRfARfSRfINTR3DProducts = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('extrapolation', node)
+        if value is not None and 'extrapolation' not in already_processed:
+            already_processed.add('extrapolation')
+            try:
+                self.extrapolation = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('fIRfARfSRfINTR2DProducts', node)
+        if value is not None and 'fIRfARfSRfINTR2DProducts' not in already_processed:
+            already_processed.add('fIRfARfSRfINTR2DProducts')
+            try:
+                self.fIRfARfSRfINTR2DProducts = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('budgetUnitModeR', node)
+        if value is not None and 'budgetUnitModeR' not in already_processed:
+            already_processed.add('budgetUnitModeR')
+            try:
+                self.budgetUnitModeR = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('budget3DParSurface', node)
+        if value is not None and 'budget3DParSurface' not in already_processed:
+            already_processed.add('budget3DParSurface')
+            try:
+                self.budget3DParSurface = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('binaryFormat', node)
+        if value is not None and 'binaryFormat' not in already_processed:
+            already_processed.add('binaryFormat')
+            try:
+                self.binaryFormat = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('budgetTotalParType', node)
+        if value is not None and 'budgetTotalParType' not in already_processed:
+            already_processed.add('budgetTotalParType')
+            try:
+                self.budgetTotalParType = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'Components':
+            obj_ = create_Components.factory()
+            obj_.build(child_)
+            self.set_Components(obj_)
+            obj_.original_tagname_ = 'Components'
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_radiativeBudgetProperties
+
+
+class create_Components(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('CellComponents', '_CellComponents', 0, 0, {u'maxOccurs': u'1', u'type': u'_CellComponents', u'name': u'CellComponents', u'minOccurs': u'1'}, None),
+        MemberSpec_('ElementComponents', '_ElementComponents', 0, 0, {u'maxOccurs': u'1', u'type': u'_ElementComponents', u'name': u'ElementComponents', u'minOccurs': u'1'}, None),
+    ]
+    subclass = None
+    superclass = None
+    def __init__(self, CellComponents=None, ElementComponents=None):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot('phase','_Components')
+        self.attrib = ['']
+        self.children = ['CellComponents', 'ElementComponents']
+        self.parent = None
+        self._CellComponents = CellComponents
+        self._ElementComponents = ElementComponents
+        update_node(self,self.troot,'phase')
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, create_Components)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if create_Components.subclass:
+            return create_Components.subclass(*args_, **kwargs_)
+        else:
+            return create_Components(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_CellComponents(self): return self._CellComponents
+    def set_CellComponents(self, value):
+        if value is not None:
+            checkclass(value, create_CellComponents)
+            value.parent = self
+        self._CellComponents = value
+    CellComponents = property(get_CellComponents, set_CellComponents)
+    def get_ElementComponents(self): return self._ElementComponents
+    def set_ElementComponents(self, value):
+        if value is not None:
+            checkclass(value, create_ElementComponents)
+            value.parent = self
+        self._ElementComponents = value
+    ElementComponents = property(get_ElementComponents, set_ElementComponents)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+            self.CellComponents is not None or
+            self.ElementComponents is not None
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='_Components', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_Components')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_Components')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_Components', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_Components'):
+        pass
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_Components', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.CellComponents is not None:
+            self.CellComponents.export(outfile, level, namespaceprefix_, name_='CellComponents', pretty_print=pretty_print)
+        if self.ElementComponents is not None:
+            self.ElementComponents.export(outfile, level, namespaceprefix_, name_='ElementComponents', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_Components', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.CellComponents is not None:
+            CellComponents_ = self.CellComponents
+            CellComponents_.to_etree(element, name_='CellComponents', mapping_=mapping_)
+        if self.ElementComponents is not None:
+            ElementComponents_ = self.ElementComponents
+            ElementComponents_.to_etree(element, name_='ElementComponents', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_Components'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.CellComponents is not None:
+            showIndent(outfile, level)
+            outfile.write('CellComponents=model_._CellComponents(\n')
+            self.CellComponents.exportLiteral(outfile, level, name_='CellComponents')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.ElementComponents is not None:
+            showIndent(outfile, level)
+            outfile.write('ElementComponents=model_._ElementComponents(\n')
+            self.ElementComponents.exportLiteral(outfile, level, name_='ElementComponents')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'CellComponents':
+            obj_ = create_CellComponents.factory()
+            obj_.build(child_)
+            self.set_CellComponents(obj_)
+            obj_.original_tagname_ = 'CellComponents'
+        elif nodeName_ == 'ElementComponents':
+            obj_ = create_ElementComponents.factory()
+            obj_.build(child_)
+            self.set_ElementComponents(obj_)
+            obj_.original_tagname_ = 'ElementComponents'
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Components
+
+
+class create_CellComponents(GeneratedsSuper):
+    """Energy entering the cell through the bottom face (-Z) Energy
+    entering the cell through the bottom face (-Z) Energy scattered
+    by elements within the cell Energy scattered by elements within
+    the cell Energy emitted by elements within the cell Energy
+    emitted by elements within the cell Energy entering the cell
+    through the left face (-Y) Energy entering the cell through the
+    left face (-Y) Energy entering the cell through the top face
+    (+Z) Energy entering the cell through the top face (+Z) Energy
+    exiting the cell through the back face (-X) Energy exiting the
+    cell through the back face (-X) Energy entering the cell through
+    the back face (-X) Energy entering the cell through the back
+    face (-X) Energy exiting the cell through the bottom face (-Z)
+    Energy exiting the cell through the bottom face (-Z) Energy
+    entering the cell through the front face (+X) Energy entering
+    the cell through the front face (+X) Energy exiting the cell
+    through the right face (+Y) Energy exiting the cell through the
+    right face (+Y) Total energy entering the cell Total energy
+    entering the cell Energy intercepted by elements within the cell
+    Energy intercepted by elements within the cell Total energy
+    exiting the cell Total energy exiting the cell Energy exiting
+    the cell through the left face (-Y) Energy exiting the cell
+    through the left face (-Y) Energy absorbed by elements within
+    the cell Energy absorbed by elements within the cell Energy
+    exiting the cell through the front face (+X) Energy exiting the
+    cell through the front face (+X) Energy entering the cell
+    through the right face (+Y) Energy entering the cell through the
+    right face (+Y) Energy exiting the cell through the top face
+    (+Z) Energy exiting the cell through the top face (+Z)"""
+    member_data_items_ = [
+        MemberSpec_('bottomEntry', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('scattered', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('emitted', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('leftEntry', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('topEntry', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('backExit', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('backEntry', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('bottomExit', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('frontEntry', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('rightExit', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('totalEntry', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('intercepted', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('totalExit', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('leftExit', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('absorbed', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('frontExit', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('rightEntry', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('topExit', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
+    subclass = None
+    superclass = None
+    def __init__(self, bottomEntry=0, scattered=1, emitted=1, leftEntry=0, topEntry=1, backExit=0, backEntry=0, bottomExit=0, frontEntry=0, rightExit=0, totalEntry=0, intercepted=1, totalExit=0, leftExit=0, absorbed=1, frontExit=0, rightEntry=0, topExit=1):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot('phase','_CellComponents')
+        self.attrib = ['bottomEntry', 'scattered', 'emitted', 'leftEntry', 'topEntry', 'backExit', 'backEntry', 'bottomExit', 'frontEntry', 'rightExit', 'totalEntry', 'intercepted', 'totalExit', 'leftExit', 'absorbed', 'frontExit', 'rightEntry', 'topExit']
+        self.children = []
+        self.parent = None
+        self._bottomEntry = _cast(int, bottomEntry)
+        self._scattered = _cast(int, scattered)
+        self._emitted = _cast(int, emitted)
+        self._leftEntry = _cast(int, leftEntry)
+        self._topEntry = _cast(int, topEntry)
+        self._backExit = _cast(int, backExit)
+        self._backEntry = _cast(int, backEntry)
+        self._bottomExit = _cast(int, bottomExit)
+        self._frontEntry = _cast(int, frontEntry)
+        self._rightExit = _cast(int, rightExit)
+        self._totalEntry = _cast(int, totalEntry)
+        self._intercepted = _cast(int, intercepted)
+        self._totalExit = _cast(int, totalExit)
+        self._leftExit = _cast(int, leftExit)
+        self._absorbed = _cast(int, absorbed)
+        self._frontExit = _cast(int, frontExit)
+        self._rightEntry = _cast(int, rightEntry)
+        self._topExit = _cast(int, topExit)
+        update_node(self,self.troot,'phase')
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, create_CellComponents)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if create_CellComponents.subclass:
+            return create_CellComponents.subclass(*args_, **kwargs_)
+        else:
+            return create_CellComponents(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_bottomEntry(self): return self._bottomEntry
+    def set_bottomEntry(self, value):
+        self._bottomEntry = value
+        update_node(self,self.troot,'phase')
+    bottomEntry = property(get_bottomEntry, set_bottomEntry)
+    def get_scattered(self): return self._scattered
+    def set_scattered(self, value):
+        self._scattered = value
+        update_node(self,self.troot,'phase')
+    scattered = property(get_scattered, set_scattered)
+    def get_emitted(self): return self._emitted
+    def set_emitted(self, value):
+        self._emitted = value
+        update_node(self,self.troot,'phase')
+    emitted = property(get_emitted, set_emitted)
+    def get_leftEntry(self): return self._leftEntry
+    def set_leftEntry(self, value):
+        self._leftEntry = value
+        update_node(self,self.troot,'phase')
+    leftEntry = property(get_leftEntry, set_leftEntry)
+    def get_topEntry(self): return self._topEntry
+    def set_topEntry(self, value):
+        self._topEntry = value
+        update_node(self,self.troot,'phase')
+    topEntry = property(get_topEntry, set_topEntry)
+    def get_backExit(self): return self._backExit
+    def set_backExit(self, value):
+        self._backExit = value
+        update_node(self,self.troot,'phase')
+    backExit = property(get_backExit, set_backExit)
+    def get_backEntry(self): return self._backEntry
+    def set_backEntry(self, value):
+        self._backEntry = value
+        update_node(self,self.troot,'phase')
+    backEntry = property(get_backEntry, set_backEntry)
+    def get_bottomExit(self): return self._bottomExit
+    def set_bottomExit(self, value):
+        self._bottomExit = value
+        update_node(self,self.troot,'phase')
+    bottomExit = property(get_bottomExit, set_bottomExit)
+    def get_frontEntry(self): return self._frontEntry
+    def set_frontEntry(self, value):
+        self._frontEntry = value
+        update_node(self,self.troot,'phase')
+    frontEntry = property(get_frontEntry, set_frontEntry)
+    def get_rightExit(self): return self._rightExit
+    def set_rightExit(self, value):
+        self._rightExit = value
+        update_node(self,self.troot,'phase')
+    rightExit = property(get_rightExit, set_rightExit)
+    def get_totalEntry(self): return self._totalEntry
+    def set_totalEntry(self, value):
+        self._totalEntry = value
+        update_node(self,self.troot,'phase')
+    totalEntry = property(get_totalEntry, set_totalEntry)
+    def get_intercepted(self): return self._intercepted
+    def set_intercepted(self, value):
+        self._intercepted = value
+        update_node(self,self.troot,'phase')
+    intercepted = property(get_intercepted, set_intercepted)
+    def get_totalExit(self): return self._totalExit
+    def set_totalExit(self, value):
+        self._totalExit = value
+        update_node(self,self.troot,'phase')
+    totalExit = property(get_totalExit, set_totalExit)
+    def get_leftExit(self): return self._leftExit
+    def set_leftExit(self, value):
+        self._leftExit = value
+        update_node(self,self.troot,'phase')
+    leftExit = property(get_leftExit, set_leftExit)
+    def get_absorbed(self): return self._absorbed
+    def set_absorbed(self, value):
+        self._absorbed = value
+        update_node(self,self.troot,'phase')
+    absorbed = property(get_absorbed, set_absorbed)
+    def get_frontExit(self): return self._frontExit
+    def set_frontExit(self, value):
+        self._frontExit = value
+        update_node(self,self.troot,'phase')
+    frontExit = property(get_frontExit, set_frontExit)
+    def get_rightEntry(self): return self._rightEntry
+    def set_rightEntry(self, value):
+        self._rightEntry = value
+        update_node(self,self.troot,'phase')
+    rightEntry = property(get_rightEntry, set_rightEntry)
+    def get_topExit(self): return self._topExit
+    def set_topExit(self, value):
+        self._topExit = value
+        update_node(self,self.troot,'phase')
+    topExit = property(get_topExit, set_topExit)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='_CellComponents', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_CellComponents')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_CellComponents')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_CellComponents', pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_CellComponents'):
+        if self.bottomEntry is not None and 'bottomEntry' not in already_processed:
+            already_processed.add('bottomEntry')
+            outfile.write(' bottomEntry="%s"' % self.gds_format_integer(self.bottomEntry, input_name='bottomEntry'))
+        if self.scattered is not None and 'scattered' not in already_processed:
+            already_processed.add('scattered')
+            outfile.write(' scattered="%s"' % self.gds_format_integer(self.scattered, input_name='scattered'))
+        if self.emitted is not None and 'emitted' not in already_processed:
+            already_processed.add('emitted')
+            outfile.write(' emitted="%s"' % self.gds_format_integer(self.emitted, input_name='emitted'))
+        if self.leftEntry is not None and 'leftEntry' not in already_processed:
+            already_processed.add('leftEntry')
+            outfile.write(' leftEntry="%s"' % self.gds_format_integer(self.leftEntry, input_name='leftEntry'))
+        if self.topEntry is not None and 'topEntry' not in already_processed:
+            already_processed.add('topEntry')
+            outfile.write(' topEntry="%s"' % self.gds_format_integer(self.topEntry, input_name='topEntry'))
+        if self.backExit is not None and 'backExit' not in already_processed:
+            already_processed.add('backExit')
+            outfile.write(' backExit="%s"' % self.gds_format_integer(self.backExit, input_name='backExit'))
+        if self.backEntry is not None and 'backEntry' not in already_processed:
+            already_processed.add('backEntry')
+            outfile.write(' backEntry="%s"' % self.gds_format_integer(self.backEntry, input_name='backEntry'))
+        if self.bottomExit is not None and 'bottomExit' not in already_processed:
+            already_processed.add('bottomExit')
+            outfile.write(' bottomExit="%s"' % self.gds_format_integer(self.bottomExit, input_name='bottomExit'))
+        if self.frontEntry is not None and 'frontEntry' not in already_processed:
+            already_processed.add('frontEntry')
+            outfile.write(' frontEntry="%s"' % self.gds_format_integer(self.frontEntry, input_name='frontEntry'))
+        if self.rightExit is not None and 'rightExit' not in already_processed:
+            already_processed.add('rightExit')
+            outfile.write(' rightExit="%s"' % self.gds_format_integer(self.rightExit, input_name='rightExit'))
+        if self.totalEntry is not None and 'totalEntry' not in already_processed:
+            already_processed.add('totalEntry')
+            outfile.write(' totalEntry="%s"' % self.gds_format_integer(self.totalEntry, input_name='totalEntry'))
+        if self.intercepted is not None and 'intercepted' not in already_processed:
+            already_processed.add('intercepted')
+            outfile.write(' intercepted="%s"' % self.gds_format_integer(self.intercepted, input_name='intercepted'))
+        if self.totalExit is not None and 'totalExit' not in already_processed:
+            already_processed.add('totalExit')
+            outfile.write(' totalExit="%s"' % self.gds_format_integer(self.totalExit, input_name='totalExit'))
+        if self.leftExit is not None and 'leftExit' not in already_processed:
+            already_processed.add('leftExit')
+            outfile.write(' leftExit="%s"' % self.gds_format_integer(self.leftExit, input_name='leftExit'))
+        if self.absorbed is not None and 'absorbed' not in already_processed:
+            already_processed.add('absorbed')
+            outfile.write(' absorbed="%s"' % self.gds_format_integer(self.absorbed, input_name='absorbed'))
+        if self.frontExit is not None and 'frontExit' not in already_processed:
+            already_processed.add('frontExit')
+            outfile.write(' frontExit="%s"' % self.gds_format_integer(self.frontExit, input_name='frontExit'))
+        if self.rightEntry is not None and 'rightEntry' not in already_processed:
+            already_processed.add('rightEntry')
+            outfile.write(' rightEntry="%s"' % self.gds_format_integer(self.rightEntry, input_name='rightEntry'))
+        if self.topExit is not None and 'topExit' not in already_processed:
+            already_processed.add('topExit')
+            outfile.write(' topExit="%s"' % self.gds_format_integer(self.topExit, input_name='topExit'))
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_CellComponents', fromsubclass_=False, pretty_print=True):
+        pass
+    def to_etree(self, parent_element=None, name_='_CellComponents', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.bottomEntry is not None:
+            element.set('bottomEntry', self.gds_format_integer(self.bottomEntry))
+        if self.scattered is not None:
+            element.set('scattered', self.gds_format_integer(self.scattered))
+        if self.emitted is not None:
+            element.set('emitted', self.gds_format_integer(self.emitted))
+        if self.leftEntry is not None:
+            element.set('leftEntry', self.gds_format_integer(self.leftEntry))
+        if self.topEntry is not None:
+            element.set('topEntry', self.gds_format_integer(self.topEntry))
+        if self.backExit is not None:
+            element.set('backExit', self.gds_format_integer(self.backExit))
+        if self.backEntry is not None:
+            element.set('backEntry', self.gds_format_integer(self.backEntry))
+        if self.bottomExit is not None:
+            element.set('bottomExit', self.gds_format_integer(self.bottomExit))
+        if self.frontEntry is not None:
+            element.set('frontEntry', self.gds_format_integer(self.frontEntry))
+        if self.rightExit is not None:
+            element.set('rightExit', self.gds_format_integer(self.rightExit))
+        if self.totalEntry is not None:
+            element.set('totalEntry', self.gds_format_integer(self.totalEntry))
+        if self.intercepted is not None:
+            element.set('intercepted', self.gds_format_integer(self.intercepted))
+        if self.totalExit is not None:
+            element.set('totalExit', self.gds_format_integer(self.totalExit))
+        if self.leftExit is not None:
+            element.set('leftExit', self.gds_format_integer(self.leftExit))
+        if self.absorbed is not None:
+            element.set('absorbed', self.gds_format_integer(self.absorbed))
+        if self.frontExit is not None:
+            element.set('frontExit', self.gds_format_integer(self.frontExit))
+        if self.rightEntry is not None:
+            element.set('rightEntry', self.gds_format_integer(self.rightEntry))
+        if self.topExit is not None:
+            element.set('topExit', self.gds_format_integer(self.topExit))
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_CellComponents'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.bottomEntry is not None and 'bottomEntry' not in already_processed:
+            already_processed.add('bottomEntry')
+            showIndent(outfile, level)
+            outfile.write('bottomEntry=%d,\n' % (self.bottomEntry,))
+        if self.scattered is not None and 'scattered' not in already_processed:
+            already_processed.add('scattered')
+            showIndent(outfile, level)
+            outfile.write('scattered=%d,\n' % (self.scattered,))
+        if self.emitted is not None and 'emitted' not in already_processed:
+            already_processed.add('emitted')
+            showIndent(outfile, level)
+            outfile.write('emitted=%d,\n' % (self.emitted,))
+        if self.leftEntry is not None and 'leftEntry' not in already_processed:
+            already_processed.add('leftEntry')
+            showIndent(outfile, level)
+            outfile.write('leftEntry=%d,\n' % (self.leftEntry,))
+        if self.topEntry is not None and 'topEntry' not in already_processed:
+            already_processed.add('topEntry')
+            showIndent(outfile, level)
+            outfile.write('topEntry=%d,\n' % (self.topEntry,))
+        if self.backExit is not None and 'backExit' not in already_processed:
+            already_processed.add('backExit')
+            showIndent(outfile, level)
+            outfile.write('backExit=%d,\n' % (self.backExit,))
+        if self.backEntry is not None and 'backEntry' not in already_processed:
+            already_processed.add('backEntry')
+            showIndent(outfile, level)
+            outfile.write('backEntry=%d,\n' % (self.backEntry,))
+        if self.bottomExit is not None and 'bottomExit' not in already_processed:
+            already_processed.add('bottomExit')
+            showIndent(outfile, level)
+            outfile.write('bottomExit=%d,\n' % (self.bottomExit,))
+        if self.frontEntry is not None and 'frontEntry' not in already_processed:
+            already_processed.add('frontEntry')
+            showIndent(outfile, level)
+            outfile.write('frontEntry=%d,\n' % (self.frontEntry,))
+        if self.rightExit is not None and 'rightExit' not in already_processed:
+            already_processed.add('rightExit')
+            showIndent(outfile, level)
+            outfile.write('rightExit=%d,\n' % (self.rightExit,))
+        if self.totalEntry is not None and 'totalEntry' not in already_processed:
+            already_processed.add('totalEntry')
+            showIndent(outfile, level)
+            outfile.write('totalEntry=%d,\n' % (self.totalEntry,))
+        if self.intercepted is not None and 'intercepted' not in already_processed:
+            already_processed.add('intercepted')
+            showIndent(outfile, level)
+            outfile.write('intercepted=%d,\n' % (self.intercepted,))
+        if self.totalExit is not None and 'totalExit' not in already_processed:
+            already_processed.add('totalExit')
+            showIndent(outfile, level)
+            outfile.write('totalExit=%d,\n' % (self.totalExit,))
+        if self.leftExit is not None and 'leftExit' not in already_processed:
+            already_processed.add('leftExit')
+            showIndent(outfile, level)
+            outfile.write('leftExit=%d,\n' % (self.leftExit,))
+        if self.absorbed is not None and 'absorbed' not in already_processed:
+            already_processed.add('absorbed')
+            showIndent(outfile, level)
+            outfile.write('absorbed=%d,\n' % (self.absorbed,))
+        if self.frontExit is not None and 'frontExit' not in already_processed:
+            already_processed.add('frontExit')
+            showIndent(outfile, level)
+            outfile.write('frontExit=%d,\n' % (self.frontExit,))
+        if self.rightEntry is not None and 'rightEntry' not in already_processed:
+            already_processed.add('rightEntry')
+            showIndent(outfile, level)
+            outfile.write('rightEntry=%d,\n' % (self.rightEntry,))
+        if self.topExit is not None and 'topExit' not in already_processed:
+            already_processed.add('topExit')
+            showIndent(outfile, level)
+            outfile.write('topExit=%d,\n' % (self.topExit,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('bottomEntry', node)
+        if value is not None and 'bottomEntry' not in already_processed:
+            already_processed.add('bottomEntry')
+            try:
+                self.bottomEntry = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('scattered', node)
+        if value is not None and 'scattered' not in already_processed:
+            already_processed.add('scattered')
+            try:
+                self.scattered = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('emitted', node)
+        if value is not None and 'emitted' not in already_processed:
+            already_processed.add('emitted')
+            try:
+                self.emitted = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('leftEntry', node)
+        if value is not None and 'leftEntry' not in already_processed:
+            already_processed.add('leftEntry')
+            try:
+                self.leftEntry = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('topEntry', node)
+        if value is not None and 'topEntry' not in already_processed:
+            already_processed.add('topEntry')
+            try:
+                self.topEntry = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('backExit', node)
+        if value is not None and 'backExit' not in already_processed:
+            already_processed.add('backExit')
+            try:
+                self.backExit = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('backEntry', node)
+        if value is not None and 'backEntry' not in already_processed:
+            already_processed.add('backEntry')
+            try:
+                self.backEntry = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('bottomExit', node)
+        if value is not None and 'bottomExit' not in already_processed:
+            already_processed.add('bottomExit')
+            try:
+                self.bottomExit = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('frontEntry', node)
+        if value is not None and 'frontEntry' not in already_processed:
+            already_processed.add('frontEntry')
+            try:
+                self.frontEntry = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('rightExit', node)
+        if value is not None and 'rightExit' not in already_processed:
+            already_processed.add('rightExit')
+            try:
+                self.rightExit = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('totalEntry', node)
+        if value is not None and 'totalEntry' not in already_processed:
+            already_processed.add('totalEntry')
+            try:
+                self.totalEntry = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('intercepted', node)
+        if value is not None and 'intercepted' not in already_processed:
+            already_processed.add('intercepted')
+            try:
+                self.intercepted = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('totalExit', node)
+        if value is not None and 'totalExit' not in already_processed:
+            already_processed.add('totalExit')
+            try:
+                self.totalExit = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('leftExit', node)
+        if value is not None and 'leftExit' not in already_processed:
+            already_processed.add('leftExit')
+            try:
+                self.leftExit = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('absorbed', node)
+        if value is not None and 'absorbed' not in already_processed:
+            already_processed.add('absorbed')
+            try:
+                self.absorbed = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('frontExit', node)
+        if value is not None and 'frontExit' not in already_processed:
+            already_processed.add('frontExit')
+            try:
+                self.frontExit = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('rightEntry', node)
+        if value is not None and 'rightEntry' not in already_processed:
+            already_processed.add('rightEntry')
+            try:
+                self.rightEntry = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('topExit', node)
+        if value is not None and 'topExit' not in already_processed:
+            already_processed.add('topExit')
+            try:
+                self.topExit = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_CellComponents
+
+
+class create_ElementComponents(GeneratedsSuper):
+    """Scattered Energy Scattered Energy Emitted Energy Emitted Energy
+    Absorbed Energy Absorbed Energy Intercepted Energy Intercepted
+    Energy"""
+    member_data_items_ = [
+        MemberSpec_('scattered', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('emitted', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('absorbed', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('intercepted', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
+    subclass = None
+    superclass = None
+    def __init__(self, scattered=1, emitted=1, absorbed=1, intercepted=1):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot('phase','_ElementComponents')
+        self.attrib = ['scattered', 'emitted', 'absorbed', 'intercepted']
+        self.children = []
+        self.parent = None
+        self._scattered = _cast(int, scattered)
+        self._emitted = _cast(int, emitted)
+        self._absorbed = _cast(int, absorbed)
+        self._intercepted = _cast(int, intercepted)
+        update_node(self,self.troot,'phase')
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, create_ElementComponents)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if create_ElementComponents.subclass:
+            return create_ElementComponents.subclass(*args_, **kwargs_)
+        else:
+            return create_ElementComponents(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_scattered(self): return self._scattered
+    def set_scattered(self, value):
+        self._scattered = value
+        update_node(self,self.troot,'phase')
+    scattered = property(get_scattered, set_scattered)
+    def get_emitted(self): return self._emitted
+    def set_emitted(self, value):
+        self._emitted = value
+        update_node(self,self.troot,'phase')
+    emitted = property(get_emitted, set_emitted)
+    def get_absorbed(self): return self._absorbed
+    def set_absorbed(self, value):
+        self._absorbed = value
+        update_node(self,self.troot,'phase')
+    absorbed = property(get_absorbed, set_absorbed)
+    def get_intercepted(self): return self._intercepted
+    def set_intercepted(self, value):
+        self._intercepted = value
+        update_node(self,self.troot,'phase')
+    intercepted = property(get_intercepted, set_intercepted)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='_ElementComponents', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_ElementComponents')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_ElementComponents')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_ElementComponents', pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_ElementComponents'):
+        if self.scattered is not None and 'scattered' not in already_processed:
+            already_processed.add('scattered')
+            outfile.write(' scattered="%s"' % self.gds_format_integer(self.scattered, input_name='scattered'))
+        if self.emitted is not None and 'emitted' not in already_processed:
+            already_processed.add('emitted')
+            outfile.write(' emitted="%s"' % self.gds_format_integer(self.emitted, input_name='emitted'))
+        if self.absorbed is not None and 'absorbed' not in already_processed:
+            already_processed.add('absorbed')
+            outfile.write(' absorbed="%s"' % self.gds_format_integer(self.absorbed, input_name='absorbed'))
+        if self.intercepted is not None and 'intercepted' not in already_processed:
+            already_processed.add('intercepted')
+            outfile.write(' intercepted="%s"' % self.gds_format_integer(self.intercepted, input_name='intercepted'))
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_ElementComponents', fromsubclass_=False, pretty_print=True):
+        pass
+    def to_etree(self, parent_element=None, name_='_ElementComponents', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.scattered is not None:
+            element.set('scattered', self.gds_format_integer(self.scattered))
+        if self.emitted is not None:
+            element.set('emitted', self.gds_format_integer(self.emitted))
+        if self.absorbed is not None:
+            element.set('absorbed', self.gds_format_integer(self.absorbed))
+        if self.intercepted is not None:
+            element.set('intercepted', self.gds_format_integer(self.intercepted))
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_ElementComponents'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.scattered is not None and 'scattered' not in already_processed:
+            already_processed.add('scattered')
+            showIndent(outfile, level)
+            outfile.write('scattered=%d,\n' % (self.scattered,))
+        if self.emitted is not None and 'emitted' not in already_processed:
+            already_processed.add('emitted')
+            showIndent(outfile, level)
+            outfile.write('emitted=%d,\n' % (self.emitted,))
+        if self.absorbed is not None and 'absorbed' not in already_processed:
+            already_processed.add('absorbed')
+            showIndent(outfile, level)
+            outfile.write('absorbed=%d,\n' % (self.absorbed,))
+        if self.intercepted is not None and 'intercepted' not in already_processed:
+            already_processed.add('intercepted')
+            showIndent(outfile, level)
+            outfile.write('intercepted=%d,\n' % (self.intercepted,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('scattered', node)
+        if value is not None and 'scattered' not in already_processed:
+            already_processed.add('scattered')
+            try:
+                self.scattered = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('emitted', node)
+        if value is not None and 'emitted' not in already_processed:
+            already_processed.add('emitted')
+            try:
+                self.emitted = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('absorbed', node)
+        if value is not None and 'absorbed' not in already_processed:
+            already_processed.add('absorbed')
+            try:
+                self.absorbed = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('intercepted', node)
+        if value is not None and 'intercepted' not in already_processed:
+            already_processed.add('intercepted')
+            try:
+                self.intercepted = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ElementComponents
+
+
+class create_FluxTrackingModeProducts(GeneratedsSuper):
+    """Temperature per triangle per cell using the format x.y.z.i:tf;tb;a
+    where x, y and z are the indices of the cell, i the indice of
+    the triangle, tf and tb the temperature of the front and back
+    respectively and a the area of the triangle within the cell.
+    Temperature per triangle per cell using the format
+    x.y.z.i:tf;tb;a where x, y and z are the indices of the cell, i
+    the indice of the triangle, tf and tb the temperature of the
+    front and back respectively and a the area of the triangle
+    within the cell. Results obtained at each iteration are stored
+    or only first and last Iterations are stored Results obtained at
+    each iteration are stored or only first and last Iterations are
+    stored Reflectance and/or Brightness temperature products
+    (images, etc.). Reflectance and/or Brightness temperature
+    products (images, etc.). Create a Order1 directory which
+    contains first order scattering products (BRF/BTF, radiative
+    budget) Create a Order1 directory which contains first order
+    scattering products (BRF/BTF, radiative budget)"""
+    member_data_items_ = [
+        MemberSpec_('temperaturePerTrianglePerCell', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('allIterationsProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('brfProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('order1Products', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('BrfProductsProperties', '_BrfProductsProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_BrfProductsProperties', u'name': u'BrfProductsProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('Order1Options', '_Order1Options', 0, 0, {u'maxOccurs': u'1', u'type': u'_Order1Options', u'name': u'Order1Options', u'minOccurs': u'1'}, None),
+    ]
+    subclass = None
+    superclass = None
+    def __init__(self, temperaturePerTrianglePerCell=0, allIterationsProducts=0, brfProducts=1, order1Products=0, BrfProductsProperties=None, Order1Options=None):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot('phase','_FluxTrackingModeProducts')
+        self.attrib = ['temperaturePerTrianglePerCell', 'allIterationsProducts', 'brfProducts', 'order1Products']
+        self.children = ['BrfProductsProperties', 'Order1Options']
+        self.parent = None
+        self._temperaturePerTrianglePerCell = _cast(int, temperaturePerTrianglePerCell)
+        self._allIterationsProducts = _cast(int, allIterationsProducts)
+        self._brfProducts = _cast(int, brfProducts)
+        self._order1Products = _cast(int, order1Products)
+        self._BrfProductsProperties = BrfProductsProperties
+        self._Order1Options = Order1Options
+        update_node(self,self.troot,'phase')
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, create_FluxTrackingModeProducts)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if create_FluxTrackingModeProducts.subclass:
+            return create_FluxTrackingModeProducts.subclass(*args_, **kwargs_)
+        else:
+            return create_FluxTrackingModeProducts(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_BrfProductsProperties(self): return self._BrfProductsProperties
+    def set_BrfProductsProperties(self, value):
+        if value is not None:
+            checkclass(value, create_BrfProductsProperties)
+            value.parent = self
+        self._BrfProductsProperties = value
+    BrfProductsProperties = property(get_BrfProductsProperties, set_BrfProductsProperties)
+    def get_Order1Options(self): return self._Order1Options
+    def set_Order1Options(self, value):
+        if value is not None:
+            checkclass(value, create_Order1Options)
+            value.parent = self
+        self._Order1Options = value
+    Order1Options = property(get_Order1Options, set_Order1Options)
+    def get_temperaturePerTrianglePerCell(self): return self._temperaturePerTrianglePerCell
+    def set_temperaturePerTrianglePerCell(self, value):
+        self._temperaturePerTrianglePerCell = value
+        update_node(self,self.troot,'phase')
+    temperaturePerTrianglePerCell = property(get_temperaturePerTrianglePerCell, set_temperaturePerTrianglePerCell)
+    def get_allIterationsProducts(self): return self._allIterationsProducts
+    def set_allIterationsProducts(self, value):
+        self._allIterationsProducts = value
+        update_node(self,self.troot,'phase')
+    allIterationsProducts = property(get_allIterationsProducts, set_allIterationsProducts)
+    def get_brfProducts(self): return self._brfProducts
+    def set_brfProducts(self, value):
+        self._brfProducts = value
+        update_node(self,self.troot,'phase')
+    brfProducts = property(get_brfProducts, set_brfProducts)
+    def get_order1Products(self): return self._order1Products
+    def set_order1Products(self, value):
+        self._order1Products = value
+        update_node(self,self.troot,'phase')
+    order1Products = property(get_order1Products, set_order1Products)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+            self.BrfProductsProperties is not None or
+            self.Order1Options is not None
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='_FluxTrackingModeProducts', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_FluxTrackingModeProducts')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_FluxTrackingModeProducts')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_FluxTrackingModeProducts', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_FluxTrackingModeProducts'):
+        if self.temperaturePerTrianglePerCell is not None and 'temperaturePerTrianglePerCell' not in already_processed:
+            already_processed.add('temperaturePerTrianglePerCell')
+            outfile.write(' temperaturePerTrianglePerCell="%s"' % self.gds_format_integer(self.temperaturePerTrianglePerCell, input_name='temperaturePerTrianglePerCell'))
+        if self.allIterationsProducts is not None and 'allIterationsProducts' not in already_processed:
+            already_processed.add('allIterationsProducts')
+            outfile.write(' allIterationsProducts="%s"' % self.gds_format_integer(self.allIterationsProducts, input_name='allIterationsProducts'))
+        if self.brfProducts is not None and 'brfProducts' not in already_processed:
+            already_processed.add('brfProducts')
+            outfile.write(' brfProducts="%s"' % self.gds_format_integer(self.brfProducts, input_name='brfProducts'))
+        if self.order1Products is not None and 'order1Products' not in already_processed:
             already_processed.add('order1Products')
-            try:
-                self.order1Products = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+            outfile.write(' order1Products="%s"' % self.gds_format_integer(self.order1Products, input_name='order1Products'))
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_FluxTrackingModeProducts', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.BrfProductsProperties is not None:
+            self.BrfProductsProperties.export(outfile, level, namespaceprefix_, name_='BrfProductsProperties', pretty_print=pretty_print)
+        if self.Order1Options is not None:
+            self.Order1Options.export(outfile, level, namespaceprefix_, name_='Order1Options', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_FluxTrackingModeProducts', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.temperaturePerTrianglePerCell is not None:
+            element.set('temperaturePerTrianglePerCell', self.gds_format_integer(self.temperaturePerTrianglePerCell))
+        if self.allIterationsProducts is not None:
+            element.set('allIterationsProducts', self.gds_format_integer(self.allIterationsProducts))
+        if self.brfProducts is not None:
+            element.set('brfProducts', self.gds_format_integer(self.brfProducts))
+        if self.order1Products is not None:
+            element.set('order1Products', self.gds_format_integer(self.order1Products))
+        if self.BrfProductsProperties is not None:
+            BrfProductsProperties_ = self.BrfProductsProperties
+            BrfProductsProperties_.to_etree(element, name_='BrfProductsProperties', mapping_=mapping_)
+        if self.Order1Options is not None:
+            Order1Options_ = self.Order1Options
+            Order1Options_.to_etree(element, name_='Order1Options', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_FluxTrackingModeProducts'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.temperaturePerTrianglePerCell is not None and 'temperaturePerTrianglePerCell' not in already_processed:
+            already_processed.add('temperaturePerTrianglePerCell')
+            showIndent(outfile, level)
+            outfile.write('temperaturePerTrianglePerCell=%d,\n' % (self.temperaturePerTrianglePerCell,))
+        if self.allIterationsProducts is not None and 'allIterationsProducts' not in already_processed:
+            already_processed.add('allIterationsProducts')
+            showIndent(outfile, level)
+            outfile.write('allIterationsProducts=%d,\n' % (self.allIterationsProducts,))
+        if self.brfProducts is not None and 'brfProducts' not in already_processed:
+            already_processed.add('brfProducts')
+            showIndent(outfile, level)
+            outfile.write('brfProducts=%d,\n' % (self.brfProducts,))
+        if self.order1Products is not None and 'order1Products' not in already_processed:
+            already_processed.add('order1Products')
+            showIndent(outfile, level)
+            outfile.write('order1Products=%d,\n' % (self.order1Products,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.BrfProductsProperties is not None:
+            showIndent(outfile, level)
+            outfile.write('BrfProductsProperties=model_._BrfProductsProperties(\n')
+            self.BrfProductsProperties.exportLiteral(outfile, level, name_='BrfProductsProperties')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.Order1Options is not None:
+            showIndent(outfile, level)
+            outfile.write('Order1Options=model_._Order1Options(\n')
+            self.Order1Options.exportLiteral(outfile, level, name_='Order1Options')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('temperaturePerTrianglePerCell', node)
         if value is not None and 'temperaturePerTrianglePerCell' not in already_processed:
             already_processed.add('temperaturePerTrianglePerCell')
@@ -13122,33 +14690,27 @@ class create_dartModuleProducts(GeneratedsSuper):
                 self.brfProducts = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('order1Products', node)
+        if value is not None and 'order1Products' not in already_processed:
+            already_processed.add('order1Products')
+            try:
+                self.order1Products = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'BrfProductsProperties':
             obj_ = create_BrfProductsProperties.factory()
             obj_.build(child_)
             self.set_BrfProductsProperties(obj_)
             obj_.original_tagname_ = 'BrfProductsProperties'
-        elif nodeName_ == 'lidarProductsProperties':
-            obj_ = create_lidarProductsProperties.factory()
-            obj_.build(child_)
-            self.set_lidarProductsProperties(obj_)
-            obj_.original_tagname_ = 'lidarProductsProperties'
         elif nodeName_ == 'Order1Options':
             obj_ = create_Order1Options.factory()
             obj_.build(child_)
             self.set_Order1Options(obj_)
             obj_.original_tagname_ = 'Order1Options'
-        elif nodeName_ == 'ImageBinaryProducts':
-            obj_ = create_ImageBinaryProducts.factory()
-            obj_.build(child_)
-            self.set_ImageBinaryProducts(obj_)
-            obj_.original_tagname_ = 'ImageBinaryProducts'
-        elif nodeName_ == 'radiativeBudgetProperties':
-            obj_ = create_radiativeBudgetProperties.factory()
-            obj_.build(child_)
-            self.set_radiativeBudgetProperties(obj_)
-            obj_.original_tagname_ = 'radiativeBudgetProperties'
-# end class create_dartModuleProducts
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_FluxTrackingModeProducts
 
 
 class create_BrfProductsProperties(GeneratedsSuper):
@@ -13181,11 +14743,27 @@ class create_BrfProductsProperties(GeneratedsSuper):
     One text file that gives the mean reflectance factor for each
     upward direction that is selected horizontalOversampling
     horizontalOversampling"""
+    member_data_items_ = [
+        MemberSpec_('maximalThetaImages', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('projection', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('sensorOversampling', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('nb_scene', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('sensorPlaneprojection', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('centralizedBrfProduct', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('extrapolation', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('image', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('luminanceProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('transmittanceImages', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('brfProduct', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('horizontalOversampling', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ExpertModeZone_Etalement', '_ExpertModeZone_Etalement', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExpertModeZone_Etalement', u'name': u'ExpertModeZone_Etalement', u'minOccurs': u'1'}, None),
+        MemberSpec_('ExpertModeZone_maskProjection', '_ExpertModeZone_maskProjection', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExpertModeZone_maskProjection', u'name': u'ExpertModeZone_maskProjection', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, maximalThetaImages=25.0, projection=0, sensorOversampling=1, nb_scene=1, sensorPlaneprojection=1, centralizedBrfProduct=1, extrapolation=1, image=1, luminanceProducts=0, transmittanceImages=0, brfProduct=1, horizontalOversampling=1, ExpertModeZone_Etalement=None, ExpertModeZone_maskProjection=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_BrfProductsProperties")
+        self.troot=get_gs_troot('phase','_BrfProductsProperties')
         self.attrib = ['maximalThetaImages', 'projection', 'sensorOversampling', 'nb_scene', 'sensorPlaneprojection', 'centralizedBrfProduct', 'extrapolation', 'image', 'luminanceProducts', 'transmittanceImages', 'brfProduct', 'horizontalOversampling']
         self.children = ['ExpertModeZone_Etalement', 'ExpertModeZone_maskProjection']
         self.parent = None
@@ -13203,7 +14781,7 @@ class create_BrfProductsProperties(GeneratedsSuper):
         self._horizontalOversampling = _cast(int, horizontalOversampling)
         self._ExpertModeZone_Etalement = ExpertModeZone_Etalement
         self._ExpertModeZone_maskProjection = ExpertModeZone_maskProjection
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -13232,62 +14810,62 @@ class create_BrfProductsProperties(GeneratedsSuper):
     def get_maximalThetaImages(self): return self._maximalThetaImages
     def set_maximalThetaImages(self, value):
         self._maximalThetaImages = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     maximalThetaImages = property(get_maximalThetaImages, set_maximalThetaImages)
     def get_projection(self): return self._projection
     def set_projection(self, value):
         self._projection = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     projection = property(get_projection, set_projection)
     def get_sensorOversampling(self): return self._sensorOversampling
     def set_sensorOversampling(self, value):
         self._sensorOversampling = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     sensorOversampling = property(get_sensorOversampling, set_sensorOversampling)
     def get_nb_scene(self): return self._nb_scene
     def set_nb_scene(self, value):
         self._nb_scene = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     nb_scene = property(get_nb_scene, set_nb_scene)
     def get_sensorPlaneprojection(self): return self._sensorPlaneprojection
     def set_sensorPlaneprojection(self, value):
         self._sensorPlaneprojection = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     sensorPlaneprojection = property(get_sensorPlaneprojection, set_sensorPlaneprojection)
     def get_centralizedBrfProduct(self): return self._centralizedBrfProduct
     def set_centralizedBrfProduct(self, value):
         self._centralizedBrfProduct = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     centralizedBrfProduct = property(get_centralizedBrfProduct, set_centralizedBrfProduct)
     def get_extrapolation(self): return self._extrapolation
     def set_extrapolation(self, value):
         self._extrapolation = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     extrapolation = property(get_extrapolation, set_extrapolation)
     def get_image(self): return self._image
     def set_image(self, value):
         self._image = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     image = property(get_image, set_image)
     def get_luminanceProducts(self): return self._luminanceProducts
     def set_luminanceProducts(self, value):
         self._luminanceProducts = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     luminanceProducts = property(get_luminanceProducts, set_luminanceProducts)
     def get_transmittanceImages(self): return self._transmittanceImages
     def set_transmittanceImages(self, value):
         self._transmittanceImages = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     transmittanceImages = property(get_transmittanceImages, set_transmittanceImages)
     def get_brfProduct(self): return self._brfProduct
     def set_brfProduct(self, value):
         self._brfProduct = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     brfProduct = property(get_brfProduct, set_brfProduct)
     def get_horizontalOversampling(self): return self._horizontalOversampling
     def set_horizontalOversampling(self, value):
         self._horizontalOversampling = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     horizontalOversampling = property(get_horizontalOversampling, set_horizontalOversampling)
     def copy(self):
         obj_ = self.factory()
@@ -13576,7 +15154,9 @@ class create_BrfProductsProperties(GeneratedsSuper):
             obj_.build(child_)
             self.set_ExpertModeZone_maskProjection(obj_)
             obj_.original_tagname_ = 'ExpertModeZone_maskProjection'
-# end class create_BrfProductsProperties
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_BrfProductsProperties
 
 
 class create_ExpertModeZone_Etalement(GeneratedsSuper):
@@ -13585,18 +15165,23 @@ class create_ExpertModeZone_Etalement(GeneratedsSuper):
     in function of the original figure's projection. The energy of
     rays reaching the image layer will be (or not) repartie in the
     pixels in function of the original figure's projection."""
+    member_data_items_ = [
+        MemberSpec_('etalement', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ExpertModeZone_Projection', '_ExpertModeZone_Projection', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExpertModeZone_Projection', u'name': u'ExpertModeZone_Projection', u'minOccurs': u'1'}, None),
+        MemberSpec_('ExpertModeZone_PerTypeProduct', '_ExpertModeZone_PerTypeProduct', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExpertModeZone_PerTypeProduct', u'name': u'ExpertModeZone_PerTypeProduct', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, etalement=2, ExpertModeZone_Projection=None, ExpertModeZone_PerTypeProduct=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_ExpertModeZone_Etalement")
+        self.troot=get_gs_troot('phase','_ExpertModeZone_Etalement')
         self.attrib = ['etalement']
         self.children = ['ExpertModeZone_Projection', 'ExpertModeZone_PerTypeProduct']
         self.parent = None
         self._etalement = _cast(int, etalement)
         self._ExpertModeZone_Projection = ExpertModeZone_Projection
         self._ExpertModeZone_PerTypeProduct = ExpertModeZone_PerTypeProduct
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -13625,7 +15210,7 @@ class create_ExpertModeZone_Etalement(GeneratedsSuper):
     def get_etalement(self): return self._etalement
     def set_etalement(self, value):
         self._etalement = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     etalement = property(get_etalement, set_etalement)
     def copy(self):
         obj_ = self.factory()
@@ -13738,7 +15323,9 @@ class create_ExpertModeZone_Etalement(GeneratedsSuper):
             obj_.build(child_)
             self.set_ExpertModeZone_PerTypeProduct(obj_)
             obj_.original_tagname_ = 'ExpertModeZone_PerTypeProduct'
-# end class create_ExpertModeZone_Etalement
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ExpertModeZone_Etalement
 
 
 class create_ExpertModeZone_Projection(GeneratedsSuper):
@@ -13751,16 +15338,19 @@ class create_ExpertModeZone_Projection(GeneratedsSuper):
     tool).\nAnother way to do it is to deactivate the projection in
     DART itself, and to use the tool to project (and resample) the
     generated horizontal images."""
+    member_data_items_ = [
+        MemberSpec_('keepNonProjectedImage', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, keepNonProjectedImage=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_ExpertModeZone_Projection")
+        self.troot=get_gs_troot('phase','_ExpertModeZone_Projection')
         self.attrib = ['keepNonProjectedImage']
         self.children = []
         self.parent = None
         self._keepNonProjectedImage = _cast(int, keepNonProjectedImage)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -13775,7 +15365,7 @@ class create_ExpertModeZone_Projection(GeneratedsSuper):
     def get_keepNonProjectedImage(self): return self._keepNonProjectedImage
     def set_keepNonProjectedImage(self, value):
         self._keepNonProjectedImage = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     keepNonProjectedImage = property(get_keepNonProjectedImage, set_keepNonProjectedImage)
     def copy(self):
         obj_ = self.factory()
@@ -13853,7 +15443,9 @@ class create_ExpertModeZone_Projection(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_ExpertModeZone_Projection
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ExpertModeZone_Projection
 
 
 class create_ExpertModeZone_PerTypeProduct(GeneratedsSuper):
@@ -13865,16 +15457,19 @@ class create_ExpertModeZone_PerTypeProduct(GeneratedsSuper):
     vegetation or any custom type defined for 3D imported
     objects).\nCurrently only available for the option "Precise
     (slow)" Spreading of rays\n"""
+    member_data_items_ = [
+        MemberSpec_('generatePerTypeProduct', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, generatePerTypeProduct=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_ExpertModeZone_PerTypeProduct")
+        self.troot=get_gs_troot('phase','_ExpertModeZone_PerTypeProduct')
         self.attrib = ['generatePerTypeProduct']
         self.children = []
         self.parent = None
         self._generatePerTypeProduct = _cast(int, generatePerTypeProduct)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -13889,7 +15484,7 @@ class create_ExpertModeZone_PerTypeProduct(GeneratedsSuper):
     def get_generatePerTypeProduct(self): return self._generatePerTypeProduct
     def set_generatePerTypeProduct(self, value):
         self._generatePerTypeProduct = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     generatePerTypeProduct = property(get_generatePerTypeProduct, set_generatePerTypeProduct)
     def copy(self):
         obj_ = self.factory()
@@ -13967,23 +15562,28 @@ class create_ExpertModeZone_PerTypeProduct(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_ExpertModeZone_PerTypeProduct
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ExpertModeZone_PerTypeProduct
 
 
 class create_ExpertModeZone_maskProjection(GeneratedsSuper):
     """ExpertModeZone_maskProjection ExpertModeZone_maskProjection
     Irradiance, Exitance and Albedo images Irradiance, Exitance and
     Albedo images"""
+    member_data_items_ = [
+        MemberSpec_('albedoImages', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, albedoImages=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_ExpertModeZone_maskProjection")
+        self.troot=get_gs_troot('phase','_ExpertModeZone_maskProjection')
         self.attrib = ['albedoImages']
         self.children = []
         self.parent = None
         self._albedoImages = _cast(int, albedoImages)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -13998,7 +15598,7 @@ class create_ExpertModeZone_maskProjection(GeneratedsSuper):
     def get_albedoImages(self): return self._albedoImages
     def set_albedoImages(self, value):
         self._albedoImages = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     albedoImages = property(get_albedoImages, set_albedoImages)
     def copy(self):
         obj_ = self.factory()
@@ -14076,7 +15676,339 @@ class create_ExpertModeZone_maskProjection(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_ExpertModeZone_maskProjection
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ExpertModeZone_maskProjection
+
+
+class create_Order1Options(GeneratedsSuper):
+    """Storage of intercepted radiation is disabled after order 1
+    scattering. Saves RAM usage and time. Storage of intercepted
+    radiation is disabled after order 1 scattering. Saves RAM usage
+    and time. Scattering/thermal emission only for directions for
+    which images are created. May save up a lot of time.
+    Scattering/thermal emission only for directions for which images
+    are created. May save up a lot of time."""
+    member_data_items_ = [
+        MemberSpec_('order1Only', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('imagesOnly', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
+    subclass = None
+    superclass = None
+    def __init__(self, order1Only=0, imagesOnly=0):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot('phase','_Order1Options')
+        self.attrib = ['order1Only', 'imagesOnly']
+        self.children = []
+        self.parent = None
+        self._order1Only = _cast(int, order1Only)
+        self._imagesOnly = _cast(int, imagesOnly)
+        update_node(self,self.troot,'phase')
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, create_Order1Options)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if create_Order1Options.subclass:
+            return create_Order1Options.subclass(*args_, **kwargs_)
+        else:
+            return create_Order1Options(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_order1Only(self): return self._order1Only
+    def set_order1Only(self, value):
+        self._order1Only = value
+        update_node(self,self.troot,'phase')
+    order1Only = property(get_order1Only, set_order1Only)
+    def get_imagesOnly(self): return self._imagesOnly
+    def set_imagesOnly(self, value):
+        self._imagesOnly = value
+        update_node(self,self.troot,'phase')
+    imagesOnly = property(get_imagesOnly, set_imagesOnly)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='_Order1Options', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_Order1Options')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_Order1Options')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_Order1Options', pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_Order1Options'):
+        if self.order1Only is not None and 'order1Only' not in already_processed:
+            already_processed.add('order1Only')
+            outfile.write(' order1Only="%s"' % self.gds_format_integer(self.order1Only, input_name='order1Only'))
+        if self.imagesOnly is not None and 'imagesOnly' not in already_processed:
+            already_processed.add('imagesOnly')
+            outfile.write(' imagesOnly="%s"' % self.gds_format_integer(self.imagesOnly, input_name='imagesOnly'))
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_Order1Options', fromsubclass_=False, pretty_print=True):
+        pass
+    def to_etree(self, parent_element=None, name_='_Order1Options', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.order1Only is not None:
+            element.set('order1Only', self.gds_format_integer(self.order1Only))
+        if self.imagesOnly is not None:
+            element.set('imagesOnly', self.gds_format_integer(self.imagesOnly))
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_Order1Options'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.order1Only is not None and 'order1Only' not in already_processed:
+            already_processed.add('order1Only')
+            showIndent(outfile, level)
+            outfile.write('order1Only=%d,\n' % (self.order1Only,))
+        if self.imagesOnly is not None and 'imagesOnly' not in already_processed:
+            already_processed.add('imagesOnly')
+            showIndent(outfile, level)
+            outfile.write('imagesOnly=%d,\n' % (self.imagesOnly,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('order1Only', node)
+        if value is not None and 'order1Only' not in already_processed:
+            already_processed.add('order1Only')
+            try:
+                self.order1Only = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('imagesOnly', node)
+        if value is not None and 'imagesOnly' not in already_processed:
+            already_processed.add('imagesOnly')
+            try:
+                self.imagesOnly = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Order1Options
+
+
+class create_LidarModeProducts(GeneratedsSuper):
+    """Options specific to the LIDAR Image option. Options specific to the
+    LIDAR Image option. LIDAR products LIDAR products"""
+    member_data_items_ = [
+        MemberSpec_('lidarImageProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('lidarProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('lidarProductsProperties', '_lidarProductsProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_lidarProductsProperties', u'name': u'lidarProductsProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('ImageBinaryProducts', '_ImageBinaryProducts', 0, 0, {u'maxOccurs': u'1', u'type': u'_ImageBinaryProducts', u'name': u'ImageBinaryProducts', u'minOccurs': u'1'}, None),
+    ]
+    subclass = None
+    superclass = None
+    def __init__(self, lidarImageProducts=0, lidarProducts=1, lidarProductsProperties=None, ImageBinaryProducts=None):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot('phase','_LidarModeProducts')
+        self.attrib = ['lidarImageProducts', 'lidarProducts']
+        self.children = ['lidarProductsProperties', 'ImageBinaryProducts']
+        self.parent = None
+        self._lidarImageProducts = _cast(int, lidarImageProducts)
+        self._lidarProducts = _cast(int, lidarProducts)
+        self._lidarProductsProperties = lidarProductsProperties
+        self._ImageBinaryProducts = ImageBinaryProducts
+        update_node(self,self.troot,'phase')
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, create_LidarModeProducts)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if create_LidarModeProducts.subclass:
+            return create_LidarModeProducts.subclass(*args_, **kwargs_)
+        else:
+            return create_LidarModeProducts(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_lidarProductsProperties(self): return self._lidarProductsProperties
+    def set_lidarProductsProperties(self, value):
+        if value is not None:
+            checkclass(value, create_lidarProductsProperties)
+            value.parent = self
+        self._lidarProductsProperties = value
+    lidarProductsProperties = property(get_lidarProductsProperties, set_lidarProductsProperties)
+    def get_ImageBinaryProducts(self): return self._ImageBinaryProducts
+    def set_ImageBinaryProducts(self, value):
+        if value is not None:
+            checkclass(value, create_ImageBinaryProducts)
+            value.parent = self
+        self._ImageBinaryProducts = value
+    ImageBinaryProducts = property(get_ImageBinaryProducts, set_ImageBinaryProducts)
+    def get_lidarImageProducts(self): return self._lidarImageProducts
+    def set_lidarImageProducts(self, value):
+        self._lidarImageProducts = value
+        update_node(self,self.troot,'phase')
+    lidarImageProducts = property(get_lidarImageProducts, set_lidarImageProducts)
+    def get_lidarProducts(self): return self._lidarProducts
+    def set_lidarProducts(self, value):
+        self._lidarProducts = value
+        update_node(self,self.troot,'phase')
+    lidarProducts = property(get_lidarProducts, set_lidarProducts)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+            self.lidarProductsProperties is not None or
+            self.ImageBinaryProducts is not None
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='_LidarModeProducts', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_LidarModeProducts')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_LidarModeProducts')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_LidarModeProducts', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_LidarModeProducts'):
+        if self.lidarImageProducts is not None and 'lidarImageProducts' not in already_processed:
+            already_processed.add('lidarImageProducts')
+            outfile.write(' lidarImageProducts="%s"' % self.gds_format_integer(self.lidarImageProducts, input_name='lidarImageProducts'))
+        if self.lidarProducts is not None and 'lidarProducts' not in already_processed:
+            already_processed.add('lidarProducts')
+            outfile.write(' lidarProducts="%s"' % self.gds_format_integer(self.lidarProducts, input_name='lidarProducts'))
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_LidarModeProducts', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.lidarProductsProperties is not None:
+            self.lidarProductsProperties.export(outfile, level, namespaceprefix_, name_='lidarProductsProperties', pretty_print=pretty_print)
+        if self.ImageBinaryProducts is not None:
+            self.ImageBinaryProducts.export(outfile, level, namespaceprefix_, name_='ImageBinaryProducts', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_LidarModeProducts', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.lidarImageProducts is not None:
+            element.set('lidarImageProducts', self.gds_format_integer(self.lidarImageProducts))
+        if self.lidarProducts is not None:
+            element.set('lidarProducts', self.gds_format_integer(self.lidarProducts))
+        if self.lidarProductsProperties is not None:
+            lidarProductsProperties_ = self.lidarProductsProperties
+            lidarProductsProperties_.to_etree(element, name_='lidarProductsProperties', mapping_=mapping_)
+        if self.ImageBinaryProducts is not None:
+            ImageBinaryProducts_ = self.ImageBinaryProducts
+            ImageBinaryProducts_.to_etree(element, name_='ImageBinaryProducts', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_LidarModeProducts'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.lidarImageProducts is not None and 'lidarImageProducts' not in already_processed:
+            already_processed.add('lidarImageProducts')
+            showIndent(outfile, level)
+            outfile.write('lidarImageProducts=%d,\n' % (self.lidarImageProducts,))
+        if self.lidarProducts is not None and 'lidarProducts' not in already_processed:
+            already_processed.add('lidarProducts')
+            showIndent(outfile, level)
+            outfile.write('lidarProducts=%d,\n' % (self.lidarProducts,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.lidarProductsProperties is not None:
+            showIndent(outfile, level)
+            outfile.write('lidarProductsProperties=model_._lidarProductsProperties(\n')
+            self.lidarProductsProperties.exportLiteral(outfile, level, name_='lidarProductsProperties')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.ImageBinaryProducts is not None:
+            showIndent(outfile, level)
+            outfile.write('ImageBinaryProducts=model_._ImageBinaryProducts(\n')
+            self.ImageBinaryProducts.exportLiteral(outfile, level, name_='ImageBinaryProducts')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('lidarImageProducts', node)
+        if value is not None and 'lidarImageProducts' not in already_processed:
+            already_processed.add('lidarImageProducts')
+            try:
+                self.lidarImageProducts = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('lidarProducts', node)
+        if value is not None and 'lidarProducts' not in already_processed:
+            already_processed.add('lidarProducts')
+            try:
+                self.lidarProducts = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'lidarProductsProperties':
+            obj_ = create_lidarProductsProperties.factory()
+            obj_.build(child_)
+            self.set_lidarProductsProperties(obj_)
+            obj_.original_tagname_ = 'lidarProductsProperties'
+        elif nodeName_ == 'ImageBinaryProducts':
+            obj_ = create_ImageBinaryProducts.factory()
+            obj_.build(child_)
+            self.set_ImageBinaryProducts(obj_)
+            obj_.original_tagname_ = 'ImageBinaryProducts'
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_LidarModeProducts
 
 
 class create_lidarProductsProperties(GeneratedsSuper):
@@ -14088,11 +16020,17 @@ class create_lidarProductsProperties(GeneratedsSuper):
     Lidar_image_panel.txt, which is used by DART LiDAR viewer.
     Generate Lidar_image_panel.txt, which is used by DART LiDAR
     viewer."""
+    member_data_items_ = [
+        MemberSpec_('convolvedWaveform', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('photonInformations', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('groundSensorImage', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('lidarImagePanelInformation', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, convolvedWaveform=1, photonInformations=0, groundSensorImage=0, lidarImagePanelInformation=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_lidarProductsProperties")
+        self.troot=get_gs_troot('phase','_lidarProductsProperties')
         self.attrib = ['convolvedWaveform', 'photonInformations', 'groundSensorImage', 'lidarImagePanelInformation']
         self.children = []
         self.parent = None
@@ -14100,7 +16038,7 @@ class create_lidarProductsProperties(GeneratedsSuper):
         self._photonInformations = _cast(int, photonInformations)
         self._groundSensorImage = _cast(int, groundSensorImage)
         self._lidarImagePanelInformation = _cast(int, lidarImagePanelInformation)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -14115,22 +16053,22 @@ class create_lidarProductsProperties(GeneratedsSuper):
     def get_convolvedWaveform(self): return self._convolvedWaveform
     def set_convolvedWaveform(self, value):
         self._convolvedWaveform = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     convolvedWaveform = property(get_convolvedWaveform, set_convolvedWaveform)
     def get_photonInformations(self): return self._photonInformations
     def set_photonInformations(self, value):
         self._photonInformations = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     photonInformations = property(get_photonInformations, set_photonInformations)
     def get_groundSensorImage(self): return self._groundSensorImage
     def set_groundSensorImage(self, value):
         self._groundSensorImage = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     groundSensorImage = property(get_groundSensorImage, set_groundSensorImage)
     def get_lidarImagePanelInformation(self): return self._lidarImagePanelInformation
     def set_lidarImagePanelInformation(self, value):
         self._lidarImagePanelInformation = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     lidarImagePanelInformation = property(get_lidarImagePanelInformation, set_lidarImagePanelInformation)
     def copy(self):
         obj_ = self.factory()
@@ -14256,142 +16194,9 @@ class create_lidarProductsProperties(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_lidarProductsProperties
-
-
-class create_Order1Options(GeneratedsSuper):
-    """Storage of intercepted radiation is disabled after order 1
-    scattering. Saves RAM usage and time. Storage of intercepted
-    radiation is disabled after order 1 scattering. Saves RAM usage
-    and time. Scattering/thermal emission only for directions for
-    which images are created. May save up a lot of time.
-    Scattering/thermal emission only for directions for which images
-    are created. May save up a lot of time."""
-    subclass = None
-    superclass = None
-    def __init__(self, order1Only=0, imagesOnly=0):
-        self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_Order1Options")
-        self.attrib = ['order1Only', 'imagesOnly']
-        self.children = []
-        self.parent = None
-        self._order1Only = _cast(int, order1Only)
-        self._imagesOnly = _cast(int, imagesOnly)
-        update_node(self,self.troot,"phase")
-    def factory(*args_, **kwargs_):
-        if CurrentSubclassModule_ is not None:
-            subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, create_Order1Options)
-            if subclass is not None:
-                return subclass(*args_, **kwargs_)
-        if create_Order1Options.subclass:
-            return create_Order1Options.subclass(*args_, **kwargs_)
-        else:
-            return create_Order1Options(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_order1Only(self): return self._order1Only
-    def set_order1Only(self, value):
-        self._order1Only = value
-        update_node(self,self.troot,"phase")
-    order1Only = property(get_order1Only, set_order1Only)
-    def get_imagesOnly(self): return self._imagesOnly
-    def set_imagesOnly(self, value):
-        self._imagesOnly = value
-        update_node(self,self.troot,"phase")
-    imagesOnly = property(get_imagesOnly, set_imagesOnly)
-    def copy(self):
-        obj_ = self.factory()
-        return(obj_.build(self.to_etree()))
-    def hasContent_(self):
-        if (
-
-        ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespaceprefix_='', name_='_Order1Options', namespacedef_='', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_Order1Options')
-        if imported_ns_def_ is not None:
-            namespacedef_ = imported_ns_def_
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.original_tagname_ is not None:
-            name_ = self.original_tagname_
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_Order1Options')
-        if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_Order1Options', pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_Order1Options'):
-        if self.order1Only is not None and 'order1Only' not in already_processed:
-            already_processed.add('order1Only')
-            outfile.write(' order1Only="%s"' % self.gds_format_integer(self.order1Only, input_name='order1Only'))
-        if self.imagesOnly is not None and 'imagesOnly' not in already_processed:
-            already_processed.add('imagesOnly')
-            outfile.write(' imagesOnly="%s"' % self.gds_format_integer(self.imagesOnly, input_name='imagesOnly'))
-    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_Order1Options', fromsubclass_=False, pretty_print=True):
-        pass
-    def to_etree(self, parent_element=None, name_='_Order1Options', mapping_=None):
-        if parent_element is None:
-            element = etree_.Element('{}' + name_)
-        else:
-            element = etree_.SubElement(parent_element, '{}' + name_)
-        if self.order1Only is not None:
-            element.set('order1Only', self.gds_format_integer(self.order1Only))
-        if self.imagesOnly is not None:
-            element.set('imagesOnly', self.gds_format_integer(self.imagesOnly))
-        if mapping_ is not None:
-            mapping_[id(self)] = element
-        return element
-    def exportLiteral(self, outfile, level, name_='_Order1Options'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.order1Only is not None and 'order1Only' not in already_processed:
-            already_processed.add('order1Only')
-            showIndent(outfile, level)
-            outfile.write('order1Only=%d,\n' % (self.order1Only,))
-        if self.imagesOnly is not None and 'imagesOnly' not in already_processed:
-            already_processed.add('imagesOnly')
-            showIndent(outfile, level)
-            outfile.write('imagesOnly=%d,\n' % (self.imagesOnly,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        pass
-    def build(self, node):
-        already_processed = set()
-        self.buildAttributes(node, node.attrib, already_processed)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_)
-        return self
-    def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('order1Only', node)
-        if value is not None and 'order1Only' not in already_processed:
-            already_processed.add('order1Only')
-            try:
-                self.order1Only = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-        value = find_attr_value_('imagesOnly', node)
-        if value is not None and 'imagesOnly' not in already_processed:
-            already_processed.add('imagesOnly')
-            try:
-                self.imagesOnly = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        pass
-# end class create_Order1Options
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_lidarProductsProperties
 
 
 class create_ImageBinaryProducts(GeneratedsSuper):
@@ -14414,11 +16219,17 @@ class create_ImageBinaryProducts(GeneratedsSuper):
     the data in the hard-drive. Determine the precision with which
     the data for the waveform are stored. A better precision implies
     more space is used to store the data in the hard-drive."""
+    member_data_items_ = [
+        MemberSpec_('ifOutputStaticSection', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ifOutputNonConvolveWaveform', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ifOutputFirstOrderWaveform', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('outputFloatFormat', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, ifOutputStaticSection=1, ifOutputNonConvolveWaveform=1, ifOutputFirstOrderWaveform=1, outputFloatFormat=1):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_ImageBinaryProducts")
+        self.troot=get_gs_troot('phase','_ImageBinaryProducts')
         self.attrib = ['ifOutputStaticSection', 'ifOutputNonConvolveWaveform', 'ifOutputFirstOrderWaveform', 'outputFloatFormat']
         self.children = []
         self.parent = None
@@ -14426,7 +16237,7 @@ class create_ImageBinaryProducts(GeneratedsSuper):
         self._ifOutputNonConvolveWaveform = _cast(int, ifOutputNonConvolveWaveform)
         self._ifOutputFirstOrderWaveform = _cast(int, ifOutputFirstOrderWaveform)
         self._outputFloatFormat = _cast(int, outputFloatFormat)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -14441,22 +16252,22 @@ class create_ImageBinaryProducts(GeneratedsSuper):
     def get_ifOutputStaticSection(self): return self._ifOutputStaticSection
     def set_ifOutputStaticSection(self, value):
         self._ifOutputStaticSection = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     ifOutputStaticSection = property(get_ifOutputStaticSection, set_ifOutputStaticSection)
     def get_ifOutputNonConvolveWaveform(self): return self._ifOutputNonConvolveWaveform
     def set_ifOutputNonConvolveWaveform(self, value):
         self._ifOutputNonConvolveWaveform = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     ifOutputNonConvolveWaveform = property(get_ifOutputNonConvolveWaveform, set_ifOutputNonConvolveWaveform)
     def get_ifOutputFirstOrderWaveform(self): return self._ifOutputFirstOrderWaveform
     def set_ifOutputFirstOrderWaveform(self, value):
         self._ifOutputFirstOrderWaveform = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     ifOutputFirstOrderWaveform = property(get_ifOutputFirstOrderWaveform, set_ifOutputFirstOrderWaveform)
     def get_outputFloatFormat(self): return self._outputFloatFormat
     def set_outputFloatFormat(self, value):
         self._outputFloatFormat = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     outputFloatFormat = property(get_outputFloatFormat, set_outputFloatFormat)
     def copy(self):
         obj_ = self.factory()
@@ -14582,342 +16393,9 @@ class create_ImageBinaryProducts(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_ImageBinaryProducts
-
-
-class create_radiativeBudgetProperties(GeneratedsSuper):
-    """radiativeBudgetProperties radiativeBudgetProperties 2D images of
-    fINTR, fABSR, fSCAR per column per iteration and per type 2D
-    images of fINTR, fABSR, fSCAR per column per iteration and per
-    type Vertical profiles of fractions of incident (fINCR),
-    intercepted (fINTR), absorbed (fABSR) and scattered (fSCAR)
-    radiation Vertical profiles of fractions of incident (fINCR),
-    intercepted (fINTR), absorbed (fABSR) and scattered (fSCAR)
-    radiation 3D fINTR, fABSR, fSCAR per iteration and per type of
-    triangle 3D fINTR, fABSR, fSCAR per iteration and per type of
-    triangle Horizontal sections xy, for each horizontal layer and
-    each iteration, of fractions of incident (fINCR), intercepted
-    (fINTR), absorbed (fABSR) and scattered (fSCAR) radiation
-    Horizontal sections xy, for each horizontal layer and each
-    iteration, of fractions of incident (fINCR), intercepted
-    (fINTR), absorbed (fABSR) and scattered (fSCAR) radiation
-    Extrapolation of radiation products Extrapolation of radiation
-    products Images fINTR, fABSR, fSCAR per column per iteration
-    Images fINTR, fABSR, fSCAR per column per iteration W W fINTR,
-    fABSR, fSCAR total per individual triangle and per
-    iteration.\nCan be displayed in the Surface Radiative Budget
-    viewer, in the viewer tools. fINTR, fABSR, fSCAR total per
-    individual triangle and per iteration.\nCan be displayed in the
-    Surface Radiative Budget viewer, in the viewer tools. Output the
-    large radiative budgets (3D or per individual triangles) to
-    binary files instead of text files. Improves significatively the
-    performance during the writing of these files. Output the large
-    radiative budgets (3D or per individual triangles) to binary
-    files instead of text files. Improves significatively the
-    performance during the writing of these files. fINTR, fABSR,
-    fSCAR total per type of triangle and per iteration fINTR, fABSR,
-    fSCAR total per type of triangle and per iteration"""
-    subclass = None
-    superclass = None
-    def __init__(self, budget2DParType=0, fIRfARfSRfINTR1DProducts=1, budget3DParType=0, fIRfARfSRfINTR3DProducts=1, extrapolation=1, fIRfARfSRfINTR2DProducts=1, budgetUnitModeR=0, budget3DParSurface=0, binaryFormat=0, budgetTotalParType=0):
-        self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_radiativeBudgetProperties")
-        self.attrib = ['budget2DParType', 'fIRfARfSRfINTR1DProducts', 'budget3DParType', 'fIRfARfSRfINTR3DProducts', 'extrapolation', 'fIRfARfSRfINTR2DProducts', 'budgetUnitModeR', 'budget3DParSurface', 'binaryFormat', 'budgetTotalParType']
-        self.children = []
-        self.parent = None
-        self._budget2DParType = _cast(int, budget2DParType)
-        self._fIRfARfSRfINTR1DProducts = _cast(int, fIRfARfSRfINTR1DProducts)
-        self._budget3DParType = _cast(int, budget3DParType)
-        self._fIRfARfSRfINTR3DProducts = _cast(int, fIRfARfSRfINTR3DProducts)
-        self._extrapolation = _cast(int, extrapolation)
-        self._fIRfARfSRfINTR2DProducts = _cast(int, fIRfARfSRfINTR2DProducts)
-        self._budgetUnitModeR = _cast(int, budgetUnitModeR)
-        self._budget3DParSurface = _cast(int, budget3DParSurface)
-        self._binaryFormat = _cast(int, binaryFormat)
-        self._budgetTotalParType = _cast(int, budgetTotalParType)
-        update_node(self,self.troot,"phase")
-    def factory(*args_, **kwargs_):
-        if CurrentSubclassModule_ is not None:
-            subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, create_radiativeBudgetProperties)
-            if subclass is not None:
-                return subclass(*args_, **kwargs_)
-        if create_radiativeBudgetProperties.subclass:
-            return create_radiativeBudgetProperties.subclass(*args_, **kwargs_)
-        else:
-            return create_radiativeBudgetProperties(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_budget2DParType(self): return self._budget2DParType
-    def set_budget2DParType(self, value):
-        self._budget2DParType = value
-        update_node(self,self.troot,"phase")
-    budget2DParType = property(get_budget2DParType, set_budget2DParType)
-    def get_fIRfARfSRfINTR1DProducts(self): return self._fIRfARfSRfINTR1DProducts
-    def set_fIRfARfSRfINTR1DProducts(self, value):
-        self._fIRfARfSRfINTR1DProducts = value
-        update_node(self,self.troot,"phase")
-    fIRfARfSRfINTR1DProducts = property(get_fIRfARfSRfINTR1DProducts, set_fIRfARfSRfINTR1DProducts)
-    def get_budget3DParType(self): return self._budget3DParType
-    def set_budget3DParType(self, value):
-        self._budget3DParType = value
-        update_node(self,self.troot,"phase")
-    budget3DParType = property(get_budget3DParType, set_budget3DParType)
-    def get_fIRfARfSRfINTR3DProducts(self): return self._fIRfARfSRfINTR3DProducts
-    def set_fIRfARfSRfINTR3DProducts(self, value):
-        self._fIRfARfSRfINTR3DProducts = value
-        update_node(self,self.troot,"phase")
-    fIRfARfSRfINTR3DProducts = property(get_fIRfARfSRfINTR3DProducts, set_fIRfARfSRfINTR3DProducts)
-    def get_extrapolation(self): return self._extrapolation
-    def set_extrapolation(self, value):
-        self._extrapolation = value
-        update_node(self,self.troot,"phase")
-    extrapolation = property(get_extrapolation, set_extrapolation)
-    def get_fIRfARfSRfINTR2DProducts(self): return self._fIRfARfSRfINTR2DProducts
-    def set_fIRfARfSRfINTR2DProducts(self, value):
-        self._fIRfARfSRfINTR2DProducts = value
-        update_node(self,self.troot,"phase")
-    fIRfARfSRfINTR2DProducts = property(get_fIRfARfSRfINTR2DProducts, set_fIRfARfSRfINTR2DProducts)
-    def get_budgetUnitModeR(self): return self._budgetUnitModeR
-    def set_budgetUnitModeR(self, value):
-        self._budgetUnitModeR = value
-        update_node(self,self.troot,"phase")
-    budgetUnitModeR = property(get_budgetUnitModeR, set_budgetUnitModeR)
-    def get_budget3DParSurface(self): return self._budget3DParSurface
-    def set_budget3DParSurface(self, value):
-        self._budget3DParSurface = value
-        update_node(self,self.troot,"phase")
-    budget3DParSurface = property(get_budget3DParSurface, set_budget3DParSurface)
-    def get_binaryFormat(self): return self._binaryFormat
-    def set_binaryFormat(self, value):
-        self._binaryFormat = value
-        update_node(self,self.troot,"phase")
-    binaryFormat = property(get_binaryFormat, set_binaryFormat)
-    def get_budgetTotalParType(self): return self._budgetTotalParType
-    def set_budgetTotalParType(self, value):
-        self._budgetTotalParType = value
-        update_node(self,self.troot,"phase")
-    budgetTotalParType = property(get_budgetTotalParType, set_budgetTotalParType)
-    def copy(self):
-        obj_ = self.factory()
-        return(obj_.build(self.to_etree()))
-    def hasContent_(self):
-        if (
-
-        ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespaceprefix_='', name_='_radiativeBudgetProperties', namespacedef_='', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_radiativeBudgetProperties')
-        if imported_ns_def_ is not None:
-            namespacedef_ = imported_ns_def_
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.original_tagname_ is not None:
-            name_ = self.original_tagname_
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_radiativeBudgetProperties')
-        if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_radiativeBudgetProperties', pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_radiativeBudgetProperties'):
-        if self.budget2DParType is not None and 'budget2DParType' not in already_processed:
-            already_processed.add('budget2DParType')
-            outfile.write(' budget2DParType="%s"' % self.gds_format_integer(self.budget2DParType, input_name='budget2DParType'))
-        if self.fIRfARfSRfINTR1DProducts is not None and 'fIRfARfSRfINTR1DProducts' not in already_processed:
-            already_processed.add('fIRfARfSRfINTR1DProducts')
-            outfile.write(' fIRfARfSRfINTR1DProducts="%s"' % self.gds_format_integer(self.fIRfARfSRfINTR1DProducts, input_name='fIRfARfSRfINTR1DProducts'))
-        if self.budget3DParType is not None and 'budget3DParType' not in already_processed:
-            already_processed.add('budget3DParType')
-            outfile.write(' budget3DParType="%s"' % self.gds_format_integer(self.budget3DParType, input_name='budget3DParType'))
-        if self.fIRfARfSRfINTR3DProducts is not None and 'fIRfARfSRfINTR3DProducts' not in already_processed:
-            already_processed.add('fIRfARfSRfINTR3DProducts')
-            outfile.write(' fIRfARfSRfINTR3DProducts="%s"' % self.gds_format_integer(self.fIRfARfSRfINTR3DProducts, input_name='fIRfARfSRfINTR3DProducts'))
-        if self.extrapolation is not None and 'extrapolation' not in already_processed:
-            already_processed.add('extrapolation')
-            outfile.write(' extrapolation="%s"' % self.gds_format_integer(self.extrapolation, input_name='extrapolation'))
-        if self.fIRfARfSRfINTR2DProducts is not None and 'fIRfARfSRfINTR2DProducts' not in already_processed:
-            already_processed.add('fIRfARfSRfINTR2DProducts')
-            outfile.write(' fIRfARfSRfINTR2DProducts="%s"' % self.gds_format_integer(self.fIRfARfSRfINTR2DProducts, input_name='fIRfARfSRfINTR2DProducts'))
-        if self.budgetUnitModeR is not None and 'budgetUnitModeR' not in already_processed:
-            already_processed.add('budgetUnitModeR')
-            outfile.write(' budgetUnitModeR="%s"' % self.gds_format_integer(self.budgetUnitModeR, input_name='budgetUnitModeR'))
-        if self.budget3DParSurface is not None and 'budget3DParSurface' not in already_processed:
-            already_processed.add('budget3DParSurface')
-            outfile.write(' budget3DParSurface="%s"' % self.gds_format_integer(self.budget3DParSurface, input_name='budget3DParSurface'))
-        if self.binaryFormat is not None and 'binaryFormat' not in already_processed:
-            already_processed.add('binaryFormat')
-            outfile.write(' binaryFormat="%s"' % self.gds_format_integer(self.binaryFormat, input_name='binaryFormat'))
-        if self.budgetTotalParType is not None and 'budgetTotalParType' not in already_processed:
-            already_processed.add('budgetTotalParType')
-            outfile.write(' budgetTotalParType="%s"' % self.gds_format_integer(self.budgetTotalParType, input_name='budgetTotalParType'))
-    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_radiativeBudgetProperties', fromsubclass_=False, pretty_print=True):
-        pass
-    def to_etree(self, parent_element=None, name_='_radiativeBudgetProperties', mapping_=None):
-        if parent_element is None:
-            element = etree_.Element('{}' + name_)
-        else:
-            element = etree_.SubElement(parent_element, '{}' + name_)
-        if self.budget2DParType is not None:
-            element.set('budget2DParType', self.gds_format_integer(self.budget2DParType))
-        if self.fIRfARfSRfINTR1DProducts is not None:
-            element.set('fIRfARfSRfINTR1DProducts', self.gds_format_integer(self.fIRfARfSRfINTR1DProducts))
-        if self.budget3DParType is not None:
-            element.set('budget3DParType', self.gds_format_integer(self.budget3DParType))
-        if self.fIRfARfSRfINTR3DProducts is not None:
-            element.set('fIRfARfSRfINTR3DProducts', self.gds_format_integer(self.fIRfARfSRfINTR3DProducts))
-        if self.extrapolation is not None:
-            element.set('extrapolation', self.gds_format_integer(self.extrapolation))
-        if self.fIRfARfSRfINTR2DProducts is not None:
-            element.set('fIRfARfSRfINTR2DProducts', self.gds_format_integer(self.fIRfARfSRfINTR2DProducts))
-        if self.budgetUnitModeR is not None:
-            element.set('budgetUnitModeR', self.gds_format_integer(self.budgetUnitModeR))
-        if self.budget3DParSurface is not None:
-            element.set('budget3DParSurface', self.gds_format_integer(self.budget3DParSurface))
-        if self.binaryFormat is not None:
-            element.set('binaryFormat', self.gds_format_integer(self.binaryFormat))
-        if self.budgetTotalParType is not None:
-            element.set('budgetTotalParType', self.gds_format_integer(self.budgetTotalParType))
-        if mapping_ is not None:
-            mapping_[id(self)] = element
-        return element
-    def exportLiteral(self, outfile, level, name_='_radiativeBudgetProperties'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.budget2DParType is not None and 'budget2DParType' not in already_processed:
-            already_processed.add('budget2DParType')
-            showIndent(outfile, level)
-            outfile.write('budget2DParType=%d,\n' % (self.budget2DParType,))
-        if self.fIRfARfSRfINTR1DProducts is not None and 'fIRfARfSRfINTR1DProducts' not in already_processed:
-            already_processed.add('fIRfARfSRfINTR1DProducts')
-            showIndent(outfile, level)
-            outfile.write('fIRfARfSRfINTR1DProducts=%d,\n' % (self.fIRfARfSRfINTR1DProducts,))
-        if self.budget3DParType is not None and 'budget3DParType' not in already_processed:
-            already_processed.add('budget3DParType')
-            showIndent(outfile, level)
-            outfile.write('budget3DParType=%d,\n' % (self.budget3DParType,))
-        if self.fIRfARfSRfINTR3DProducts is not None and 'fIRfARfSRfINTR3DProducts' not in already_processed:
-            already_processed.add('fIRfARfSRfINTR3DProducts')
-            showIndent(outfile, level)
-            outfile.write('fIRfARfSRfINTR3DProducts=%d,\n' % (self.fIRfARfSRfINTR3DProducts,))
-        if self.extrapolation is not None and 'extrapolation' not in already_processed:
-            already_processed.add('extrapolation')
-            showIndent(outfile, level)
-            outfile.write('extrapolation=%d,\n' % (self.extrapolation,))
-        if self.fIRfARfSRfINTR2DProducts is not None and 'fIRfARfSRfINTR2DProducts' not in already_processed:
-            already_processed.add('fIRfARfSRfINTR2DProducts')
-            showIndent(outfile, level)
-            outfile.write('fIRfARfSRfINTR2DProducts=%d,\n' % (self.fIRfARfSRfINTR2DProducts,))
-        if self.budgetUnitModeR is not None and 'budgetUnitModeR' not in already_processed:
-            already_processed.add('budgetUnitModeR')
-            showIndent(outfile, level)
-            outfile.write('budgetUnitModeR=%d,\n' % (self.budgetUnitModeR,))
-        if self.budget3DParSurface is not None and 'budget3DParSurface' not in already_processed:
-            already_processed.add('budget3DParSurface')
-            showIndent(outfile, level)
-            outfile.write('budget3DParSurface=%d,\n' % (self.budget3DParSurface,))
-        if self.binaryFormat is not None and 'binaryFormat' not in already_processed:
-            already_processed.add('binaryFormat')
-            showIndent(outfile, level)
-            outfile.write('binaryFormat=%d,\n' % (self.binaryFormat,))
-        if self.budgetTotalParType is not None and 'budgetTotalParType' not in already_processed:
-            already_processed.add('budgetTotalParType')
-            showIndent(outfile, level)
-            outfile.write('budgetTotalParType=%d,\n' % (self.budgetTotalParType,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        pass
-    def build(self, node):
-        already_processed = set()
-        self.buildAttributes(node, node.attrib, already_processed)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_)
-        return self
-    def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('budget2DParType', node)
-        if value is not None and 'budget2DParType' not in already_processed:
-            already_processed.add('budget2DParType')
-            try:
-                self.budget2DParType = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-        value = find_attr_value_('fIRfARfSRfINTR1DProducts', node)
-        if value is not None and 'fIRfARfSRfINTR1DProducts' not in already_processed:
-            already_processed.add('fIRfARfSRfINTR1DProducts')
-            try:
-                self.fIRfARfSRfINTR1DProducts = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-        value = find_attr_value_('budget3DParType', node)
-        if value is not None and 'budget3DParType' not in already_processed:
-            already_processed.add('budget3DParType')
-            try:
-                self.budget3DParType = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-        value = find_attr_value_('fIRfARfSRfINTR3DProducts', node)
-        if value is not None and 'fIRfARfSRfINTR3DProducts' not in already_processed:
-            already_processed.add('fIRfARfSRfINTR3DProducts')
-            try:
-                self.fIRfARfSRfINTR3DProducts = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-        value = find_attr_value_('extrapolation', node)
-        if value is not None and 'extrapolation' not in already_processed:
-            already_processed.add('extrapolation')
-            try:
-                self.extrapolation = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-        value = find_attr_value_('fIRfARfSRfINTR2DProducts', node)
-        if value is not None and 'fIRfARfSRfINTR2DProducts' not in already_processed:
-            already_processed.add('fIRfARfSRfINTR2DProducts')
-            try:
-                self.fIRfARfSRfINTR2DProducts = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-        value = find_attr_value_('budgetUnitModeR', node)
-        if value is not None and 'budgetUnitModeR' not in already_processed:
-            already_processed.add('budgetUnitModeR')
-            try:
-                self.budgetUnitModeR = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-        value = find_attr_value_('budget3DParSurface', node)
-        if value is not None and 'budget3DParSurface' not in already_processed:
-            already_processed.add('budget3DParSurface')
-            try:
-                self.budget3DParSurface = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-        value = find_attr_value_('binaryFormat', node)
-        if value is not None and 'binaryFormat' not in already_processed:
-            already_processed.add('binaryFormat')
-            try:
-                self.binaryFormat = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-        value = find_attr_value_('budgetTotalParType', node)
-        if value is not None and 'budgetTotalParType' not in already_processed:
-            already_processed.add('budgetTotalParType')
-            try:
-                self.budgetTotalParType = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        pass
-# end class create_radiativeBudgetProperties
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ImageBinaryProducts
 
 
 class create_maketModuleProducts(GeneratedsSuper):
@@ -14937,11 +16415,21 @@ class create_maketModuleProducts(GeneratedsSuper):
     triangles in the scene in each cell (and gives the results in a
     file) Generate a .obj file of the DSM. Generate a .obj file of
     the DSM."""
+    member_data_items_ = [
+        MemberSpec_('laiProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('coverRateProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('MNEProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('areaMaketProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('objectGeneration', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('areaMaketProductsProperties', '_areaMaketProductsProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_areaMaketProductsProperties', u'name': u'areaMaketProductsProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('coverRateProductsProperties', '_coverRateProductsProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_coverRateProductsProperties', u'name': u'coverRateProductsProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('LaiProductsProperties', '_LaiProductsProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_LaiProductsProperties', u'name': u'LaiProductsProperties', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, laiProducts=0, coverRateProducts=0, MNEProducts=0, areaMaketProducts=0, objectGeneration=0, areaMaketProductsProperties=None, coverRateProductsProperties=None, LaiProductsProperties=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_maketModuleProducts")
+        self.troot=get_gs_troot('phase','_maketModuleProducts')
         self.attrib = ['laiProducts', 'coverRateProducts', 'MNEProducts', 'areaMaketProducts', 'objectGeneration']
         self.children = ['areaMaketProductsProperties', 'coverRateProductsProperties', 'LaiProductsProperties']
         self.parent = None
@@ -14953,7 +16441,7 @@ class create_maketModuleProducts(GeneratedsSuper):
         self._areaMaketProductsProperties = areaMaketProductsProperties
         self._coverRateProductsProperties = coverRateProductsProperties
         self._LaiProductsProperties = LaiProductsProperties
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -14989,27 +16477,27 @@ class create_maketModuleProducts(GeneratedsSuper):
     def get_laiProducts(self): return self._laiProducts
     def set_laiProducts(self, value):
         self._laiProducts = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     laiProducts = property(get_laiProducts, set_laiProducts)
     def get_coverRateProducts(self): return self._coverRateProducts
     def set_coverRateProducts(self, value):
         self._coverRateProducts = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     coverRateProducts = property(get_coverRateProducts, set_coverRateProducts)
     def get_MNEProducts(self): return self._MNEProducts
     def set_MNEProducts(self, value):
         self._MNEProducts = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     MNEProducts = property(get_MNEProducts, set_MNEProducts)
     def get_areaMaketProducts(self): return self._areaMaketProducts
     def set_areaMaketProducts(self, value):
         self._areaMaketProducts = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     areaMaketProducts = property(get_areaMaketProducts, set_areaMaketProducts)
     def get_objectGeneration(self): return self._objectGeneration
     def set_objectGeneration(self, value):
         self._objectGeneration = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     objectGeneration = property(get_objectGeneration, set_objectGeneration)
     def copy(self):
         obj_ = self.factory()
@@ -15203,7 +16691,9 @@ class create_maketModuleProducts(GeneratedsSuper):
             obj_.build(child_)
             self.set_LaiProductsProperties(obj_)
             obj_.original_tagname_ = 'LaiProductsProperties'
-# end class create_maketModuleProducts
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_maketModuleProducts
 
 
 class create_areaMaketProductsProperties(GeneratedsSuper):
@@ -15214,17 +16704,21 @@ class create_areaMaketProductsProperties(GeneratedsSuper):
     containing the total area of triangle for each cell. Scene
     Builder creates 1 file per type containing the total area of
     triangle for each cell."""
+    member_data_items_ = [
+        MemberSpec_('totalMaketArea', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('areaMaketPerType', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, totalMaketArea=1, areaMaketPerType=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_areaMaketProductsProperties")
+        self.troot=get_gs_troot('phase','_areaMaketProductsProperties')
         self.attrib = ['totalMaketArea', 'areaMaketPerType']
         self.children = []
         self.parent = None
         self._totalMaketArea = _cast(int, totalMaketArea)
         self._areaMaketPerType = _cast(int, areaMaketPerType)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -15239,12 +16733,12 @@ class create_areaMaketProductsProperties(GeneratedsSuper):
     def get_totalMaketArea(self): return self._totalMaketArea
     def set_totalMaketArea(self, value):
         self._totalMaketArea = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     totalMaketArea = property(get_totalMaketArea, set_totalMaketArea)
     def get_areaMaketPerType(self): return self._areaMaketPerType
     def set_areaMaketPerType(self, value):
         self._areaMaketPerType = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     areaMaketPerType = property(get_areaMaketPerType, set_areaMaketPerType)
     def copy(self):
         obj_ = self.factory()
@@ -15338,7 +16832,9 @@ class create_areaMaketProductsProperties(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_areaMaketProductsProperties
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_areaMaketProductsProperties
 
 
 class create_coverRateProductsProperties(GeneratedsSuper):
@@ -15360,18 +16856,23 @@ class create_coverRateProductsProperties(GeneratedsSuper):
     total ground cover in the simulation.properties.txt\n The value
     is accessible through the key
     [maket.groundCover.triangles.total]"""
+    member_data_items_ = [
+        MemberSpec_('coverRatePerType', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('coverRatePrecision', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('totalMaketCoverRate', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, coverRatePerType=0, coverRatePrecision=0.1, totalMaketCoverRate=1):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_coverRateProductsProperties")
+        self.troot=get_gs_troot('phase','_coverRateProductsProperties')
         self.attrib = ['coverRatePerType', 'coverRatePrecision', 'totalMaketCoverRate']
         self.children = []
         self.parent = None
         self._coverRatePerType = _cast(int, coverRatePerType)
         self._coverRatePrecision = _cast(float, coverRatePrecision)
         self._totalMaketCoverRate = _cast(int, totalMaketCoverRate)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -15386,17 +16887,17 @@ class create_coverRateProductsProperties(GeneratedsSuper):
     def get_coverRatePerType(self): return self._coverRatePerType
     def set_coverRatePerType(self, value):
         self._coverRatePerType = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     coverRatePerType = property(get_coverRatePerType, set_coverRatePerType)
     def get_coverRatePrecision(self): return self._coverRatePrecision
     def set_coverRatePrecision(self, value):
         self._coverRatePrecision = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     coverRatePrecision = property(get_coverRatePrecision, set_coverRatePrecision)
     def get_totalMaketCoverRate(self): return self._totalMaketCoverRate
     def set_totalMaketCoverRate(self, value):
         self._totalMaketCoverRate = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     totalMaketCoverRate = property(get_totalMaketCoverRate, set_totalMaketCoverRate)
     def copy(self):
         obj_ = self.factory()
@@ -15506,25 +17007,32 @@ class create_coverRateProductsProperties(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_coverRateProductsProperties
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_coverRateProductsProperties
 
 
 class create_LaiProductsProperties(GeneratedsSuper):
     """LaiProductsProperties LaiProductsProperties nonEmptyCellsLayer
     nonEmptyCellsLayer lai1DProducts lai1DProducts lai3DProducts
     lai3DProducts"""
+    member_data_items_ = [
+        MemberSpec_('nonEmptyCellsLayer', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('lai1DProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('lai3DProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, nonEmptyCellsLayer=1, lai1DProducts=1, lai3DProducts=1):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_LaiProductsProperties")
+        self.troot=get_gs_troot('phase','_LaiProductsProperties')
         self.attrib = ['nonEmptyCellsLayer', 'lai1DProducts', 'lai3DProducts']
         self.children = []
         self.parent = None
         self._nonEmptyCellsLayer = _cast(int, nonEmptyCellsLayer)
         self._lai1DProducts = _cast(int, lai1DProducts)
         self._lai3DProducts = _cast(int, lai3DProducts)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -15539,17 +17047,17 @@ class create_LaiProductsProperties(GeneratedsSuper):
     def get_nonEmptyCellsLayer(self): return self._nonEmptyCellsLayer
     def set_nonEmptyCellsLayer(self, value):
         self._nonEmptyCellsLayer = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     nonEmptyCellsLayer = property(get_nonEmptyCellsLayer, set_nonEmptyCellsLayer)
     def get_lai1DProducts(self): return self._lai1DProducts
     def set_lai1DProducts(self, value):
         self._lai1DProducts = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     lai1DProducts = property(get_lai1DProducts, set_lai1DProducts)
     def get_lai3DProducts(self): return self._lai3DProducts
     def set_lai3DProducts(self, value):
         self._lai3DProducts = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     lai3DProducts = property(get_lai3DProducts, set_lai3DProducts)
     def copy(self):
         obj_ = self.factory()
@@ -15659,18 +17167,31 @@ class create_LaiProductsProperties(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_LaiProductsProperties
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_LaiProductsProperties
 
 
 class create_SensorImageSimulation(GeneratedsSuper):
     """Simulating passive sensors looking downward Simulating passive
-    sensors looking downward Import multiple-frame-camera sensor
-    file Import multiple-frame-camera sensor file"""
+    sensors looking downward This option does not work with the
+    following options of the DART frame camera: hemispherical
+    camera, Angles of View that define the FOV, Tait-Bryan angles.
+    This option does not work with the following options of the DART
+    frame camera: hemispherical camera, Angles of View that define
+    the FOV, Tait-Bryan angles."""
+    member_data_items_ = [
+        MemberSpec_('importMultipleSensors', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('SensorsImportation', '_SensorsImportation', 0, 0, {u'maxOccurs': u'1', u'type': u'_SensorsImportation', u'name': u'SensorsImportation', u'minOccurs': u'1'}, None),
+        MemberSpec_('Pinhole', '_Pinhole', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_Pinhole', u'name': u'Pinhole', u'minOccurs': u'0'}, None),
+        MemberSpec_('Pushbroom', '_Pushbroom', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_Pushbroom', u'name': u'Pushbroom', u'minOccurs': u'0'}, None),
+        MemberSpec_('InsideSensor', '_InsideSensor', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_InsideSensor', u'name': u'InsideSensor', u'minOccurs': u'0'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, importMultipleSensors=0, SensorsImportation=None, Pinhole=None, Pushbroom=None, InsideSensor=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_SensorImageSimulation")
+        self.troot=get_gs_troot('phase','_SensorImageSimulation')
         self.attrib = ['importMultipleSensors']
         self.children = ['SensorsImportation', 'Pinhole', 'Pushbroom', 'InsideSensor']
         self.parent = None
@@ -15688,7 +17209,7 @@ class create_SensorImageSimulation(GeneratedsSuper):
             self._InsideSensor = []
         else:
             self._InsideSensor = InsideSensor
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -15761,7 +17282,7 @@ class create_SensorImageSimulation(GeneratedsSuper):
     def get_importMultipleSensors(self): return self._importMultipleSensors
     def set_importMultipleSensors(self, value):
         self._importMultipleSensors = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     importMultipleSensors = property(get_importMultipleSensors, set_importMultipleSensors)
     def copy(self):
         obj_ = self.factory()
@@ -15926,22 +17447,27 @@ class create_SensorImageSimulation(GeneratedsSuper):
             obj_.build(child_)
             self.add_InsideSensor(obj_)
             obj_.original_tagname_ = 'InsideSensor'
-# end class create_SensorImageSimulation
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_SensorImageSimulation
 
 
 class create_SensorsImportation(GeneratedsSuper):
     """Multiple-PH-camera sensor importation Multiple-PH-camera sensor
     importation File name File name"""
+    member_data_items_ = [
+        MemberSpec_('fileN', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, fileN='sensors.txt'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_SensorsImportation")
+        self.troot=get_gs_troot('phase','_SensorsImportation')
         self.attrib = ['fileN']
         self.children = []
         self.parent = None
         self._fileN = _cast(None, fileN)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -15956,7 +17482,7 @@ class create_SensorsImportation(GeneratedsSuper):
     def get_fileN(self): return self._fileN
     def set_fileN(self, value):
         self._fileN = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     fileN = property(get_fileN, set_fileN)
     def copy(self):
         obj_ = self.factory()
@@ -16031,7 +17557,9 @@ class create_SensorsImportation(GeneratedsSuper):
             self.fileN = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_SensorsImportation
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_SensorsImportation
 
 
 class create_Pinhole(GeneratedsSuper):
@@ -16049,11 +17577,22 @@ class create_Pinhole(GeneratedsSuper):
     specifically. If this option is checked, the result will be a
     hemispherical camera image If this option is checked, the result
     will be a hemispherical camera image"""
+    member_data_items_ = [
+        MemberSpec_('setImageSize', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('defCameraOrientation', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ifFishEye', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('OrientationDef', '_OrientationDef', 0, 0, {u'maxOccurs': u'1', u'type': u'_OrientationDef', u'name': u'OrientationDef', u'minOccurs': u'1'}, None),
+        MemberSpec_('Sensor', '_Sensor', 0, 0, {u'maxOccurs': u'1', u'type': u'_Sensor', u'name': u'Sensor', u'minOccurs': u'1'}, None),
+        MemberSpec_('FishEye', '_FishEye', 0, 0, {u'maxOccurs': u'1', u'type': u'_FishEye', u'name': u'FishEye', u'minOccurs': u'1'}, None),
+        MemberSpec_('CamImageFOV', '_CamImageFOV', 0, 0, {u'maxOccurs': u'1', u'type': u'_CamImageFOV', u'name': u'CamImageFOV', u'minOccurs': u'1'}, None),
+        MemberSpec_('FishEyeFOV', '_FishEyeFOV', 0, 0, {u'maxOccurs': u'1', u'type': u'_FishEyeFOV', u'name': u'FishEyeFOV', u'minOccurs': u'1'}, None),
+        MemberSpec_('Radiometer', '_Radiometer', 0, 0, {u'maxOccurs': u'1', u'type': u'_Radiometer', u'name': u'Radiometer', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, setImageSize=0, defCameraOrientation=0, ifFishEye=0, OrientationDef=None, Sensor=None, FishEye=None, CamImageFOV=None, FishEyeFOV=None, Radiometer=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_Pinhole")
+        self.troot=get_gs_troot('phase','_Pinhole')
         self.attrib = ['setImageSize', 'defCameraOrientation', 'ifFishEye']
         self.children = ['OrientationDef', 'Sensor', 'FishEye', 'CamImageFOV', 'FishEyeFOV', 'Radiometer']
         self.parent = None
@@ -16066,7 +17605,7 @@ class create_Pinhole(GeneratedsSuper):
         self._CamImageFOV = CamImageFOV
         self._FishEyeFOV = FishEyeFOV
         self._Radiometer = Radiometer
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -16123,17 +17662,17 @@ class create_Pinhole(GeneratedsSuper):
     def get_setImageSize(self): return self._setImageSize
     def set_setImageSize(self, value):
         self._setImageSize = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     setImageSize = property(get_setImageSize, set_setImageSize)
     def get_defCameraOrientation(self): return self._defCameraOrientation
     def set_defCameraOrientation(self, value):
         self._defCameraOrientation = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     defCameraOrientation = property(get_defCameraOrientation, set_defCameraOrientation)
     def get_ifFishEye(self): return self._ifFishEye
     def set_ifFishEye(self, value):
         self._ifFishEye = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     ifFishEye = property(get_ifFishEye, set_ifFishEye)
     def copy(self):
         obj_ = self.factory()
@@ -16346,25 +17885,32 @@ class create_Pinhole(GeneratedsSuper):
             obj_.build(child_)
             self.set_Radiometer(obj_)
             obj_.original_tagname_ = 'Radiometer'
-# end class create_Pinhole
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Pinhole
 
 
 class create_OrientationDef(GeneratedsSuper):
     """Orientation definition Orientation definition 2 Types to be selected
     (ZYZ intrinsic rotation, or Tait-Bryan Angles) 2 Types to be
     selected (ZYZ intrinsic rotation, or Tait-Bryan Angles)"""
+    member_data_items_ = [
+        MemberSpec_('orientDefType', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('CameraOrientation', '_CameraOrientation', 0, 0, {u'maxOccurs': u'1', u'type': u'_CameraOrientation', u'name': u'CameraOrientation', u'minOccurs': u'1'}, None),
+        MemberSpec_('CameraOrientYPR', '_CameraOrientYPR', 0, 0, {u'maxOccurs': u'1', u'type': u'_CameraOrientYPR', u'name': u'CameraOrientYPR', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, orientDefType=0, CameraOrientation=None, CameraOrientYPR=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_OrientationDef")
+        self.troot=get_gs_troot('phase','_OrientationDef')
         self.attrib = ['orientDefType']
         self.children = ['CameraOrientation', 'CameraOrientYPR']
         self.parent = None
         self._orientDefType = _cast(int, orientDefType)
         self._CameraOrientation = CameraOrientation
         self._CameraOrientYPR = CameraOrientYPR
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -16393,7 +17939,7 @@ class create_OrientationDef(GeneratedsSuper):
     def get_orientDefType(self): return self._orientDefType
     def set_orientDefType(self, value):
         self._orientDefType = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     orientDefType = property(get_orientDefType, set_orientDefType)
     def copy(self):
         obj_ = self.factory()
@@ -16506,7 +18052,9 @@ class create_OrientationDef(GeneratedsSuper):
             obj_.build(child_)
             self.set_CameraOrientYPR(obj_)
             obj_.original_tagname_ = 'CameraOrientYPR'
-# end class create_OrientationDef
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_OrientationDef
 
 
 class create_CameraOrientation(GeneratedsSuper):
@@ -16521,18 +18069,23 @@ class create_CameraOrientation(GeneratedsSuper):
     (perpendicular to the camera focal plane), towards the camera
     position Azimuth angle of the camera axis (perpendicular to the
     camera focal plane), towards the camera position"""
+    member_data_items_ = [
+        MemberSpec_('cameraTheta', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('cameraRotation', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('cameraPhi', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, cameraTheta=15, cameraRotation=0, cameraPhi=225):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_CameraOrientation")
+        self.troot=get_gs_troot('phase','_CameraOrientation')
         self.attrib = ['cameraTheta', 'cameraRotation', 'cameraPhi']
         self.children = []
         self.parent = None
         self._cameraTheta = _cast(float, cameraTheta)
         self._cameraRotation = _cast(float, cameraRotation)
         self._cameraPhi = _cast(float, cameraPhi)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -16547,17 +18100,17 @@ class create_CameraOrientation(GeneratedsSuper):
     def get_cameraTheta(self): return self._cameraTheta
     def set_cameraTheta(self, value):
         self._cameraTheta = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     cameraTheta = property(get_cameraTheta, set_cameraTheta)
     def get_cameraRotation(self): return self._cameraRotation
     def set_cameraRotation(self, value):
         self._cameraRotation = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     cameraRotation = property(get_cameraRotation, set_cameraRotation)
     def get_cameraPhi(self): return self._cameraPhi
     def set_cameraPhi(self, value):
         self._cameraPhi = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     cameraPhi = property(get_cameraPhi, set_cameraPhi)
     def copy(self):
         obj_ = self.factory()
@@ -16667,7 +18220,9 @@ class create_CameraOrientation(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (cameraPhi): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_CameraOrientation
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_CameraOrientation
 
 
 class create_CameraOrientYPR(GeneratedsSuper):
@@ -16676,11 +18231,17 @@ class create_CameraOrientYPR(GeneratedsSuper):
     intrinsic Z axis Rotation along intrinsic X axis Rotation along
     intrinsic X axis Rotation Order (123) Rotation Order (123)
     Rotation along intrinsic Y axis Rotation along intrinsic Y axis"""
+    member_data_items_ = [
+        MemberSpec_('yaw', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('roll', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('rotDefBT', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('pitch', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, yaw=0, roll=180, rotDefBT=5, pitch=-90):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_CameraOrientYPR")
+        self.troot=get_gs_troot('phase','_CameraOrientYPR')
         self.attrib = ['yaw', 'roll', 'rotDefBT', 'pitch']
         self.children = []
         self.parent = None
@@ -16688,7 +18249,7 @@ class create_CameraOrientYPR(GeneratedsSuper):
         self._roll = _cast(float, roll)
         self._rotDefBT = _cast(int, rotDefBT)
         self._pitch = _cast(float, pitch)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -16703,22 +18264,22 @@ class create_CameraOrientYPR(GeneratedsSuper):
     def get_yaw(self): return self._yaw
     def set_yaw(self, value):
         self._yaw = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     yaw = property(get_yaw, set_yaw)
     def get_roll(self): return self._roll
     def set_roll(self, value):
         self._roll = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     roll = property(get_roll, set_roll)
     def get_rotDefBT(self): return self._rotDefBT
     def set_rotDefBT(self, value):
         self._rotDefBT = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     rotDefBT = property(get_rotDefBT, set_rotDefBT)
     def get_pitch(self): return self._pitch
     def set_pitch(self, value):
         self._pitch = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     pitch = property(get_pitch, set_pitch)
     def copy(self):
         obj_ = self.factory()
@@ -16844,7 +18405,9 @@ class create_CameraOrientYPR(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (pitch): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_CameraOrientYPR
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_CameraOrientYPR
 
 
 class create_FishEye(GeneratedsSuper):
@@ -16853,16 +18416,19 @@ class create_FishEye(GeneratedsSuper):
     defined by zenith angle offset size This defines the offset
     between each pixels in the hemspherical camera image, which is
     defined by zenith angle offset size"""
+    member_data_items_ = [
+        MemberSpec_('resolutionTheta', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, resolutionTheta=1):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_FishEye")
+        self.troot=get_gs_troot('phase','_FishEye')
         self.attrib = ['resolutionTheta']
         self.children = []
         self.parent = None
         self._resolutionTheta = _cast(float, resolutionTheta)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -16877,7 +18443,7 @@ class create_FishEye(GeneratedsSuper):
     def get_resolutionTheta(self): return self._resolutionTheta
     def set_resolutionTheta(self, value):
         self._resolutionTheta = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     resolutionTheta = property(get_resolutionTheta, set_resolutionTheta)
     def copy(self):
         obj_ = self.factory()
@@ -16955,7 +18521,9 @@ class create_FishEye(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (resolutionTheta): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_FishEye
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_FishEye
 
 
 class create_CamImageFOV(GeneratedsSuper):
@@ -16964,11 +18532,18 @@ class create_CamImageFOV(GeneratedsSuper):
     by its field of view. Force the number of pixels within the
     camera field of view Force the number of pixels within the
     camera field of view FOV definition FOV definition"""
+    member_data_items_ = [
+        MemberSpec_('defNbPixels', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('definitionFOV', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('CamImageDim', '_CamImageDim', 0, 0, {u'maxOccurs': u'1', u'type': u'_CamImageDim', u'name': u'CamImageDim', u'minOccurs': u'1'}, None),
+        MemberSpec_('CamImageAOV', '_CamImageAOV', 0, 0, {u'maxOccurs': u'1', u'type': u'_CamImageAOV', u'name': u'CamImageAOV', u'minOccurs': u'1'}, None),
+        MemberSpec_('NbPixels', '_NbPixels', 0, 0, {u'maxOccurs': u'1', u'type': u'_NbPixels', u'name': u'NbPixels', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, defNbPixels=0, definitionFOV=1, CamImageDim=None, CamImageAOV=None, NbPixels=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_CamImageFOV")
+        self.troot=get_gs_troot('phase','_CamImageFOV')
         self.attrib = ['defNbPixels', 'definitionFOV']
         self.children = ['CamImageDim', 'CamImageAOV', 'NbPixels']
         self.parent = None
@@ -16977,7 +18552,7 @@ class create_CamImageFOV(GeneratedsSuper):
         self._CamImageDim = CamImageDim
         self._CamImageAOV = CamImageAOV
         self._NbPixels = NbPixels
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -17013,12 +18588,12 @@ class create_CamImageFOV(GeneratedsSuper):
     def get_defNbPixels(self): return self._defNbPixels
     def set_defNbPixels(self, value):
         self._defNbPixels = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     defNbPixels = property(get_defNbPixels, set_defNbPixels)
     def get_definitionFOV(self): return self._definitionFOV
     def set_definitionFOV(self, value):
         self._definitionFOV = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     definitionFOV = property(get_definitionFOV, set_definitionFOV)
     def copy(self):
         obj_ = self.factory()
@@ -17164,7 +18739,9 @@ class create_CamImageFOV(GeneratedsSuper):
             obj_.build(child_)
             self.set_NbPixels(obj_)
             obj_.original_tagname_ = 'NbPixels'
-# end class create_CamImageFOV
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_CamImageFOV
 
 
 class create_CamImageDim(GeneratedsSuper):
@@ -17174,17 +18751,21 @@ class create_CamImageDim(GeneratedsSuper):
     [m]. Length of subregion viewed by camera in its local frame
     [m]. Width of subregion viewed by camera in its local frame [m].
     Width of subregion viewed by camera in its local frame [m]."""
+    member_data_items_ = [
+        MemberSpec_('sizeImageX', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('sizeImageY', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, sizeImageX=30, sizeImageY=25):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_CamImageDim")
+        self.troot=get_gs_troot('phase','_CamImageDim')
         self.attrib = ['sizeImageX', 'sizeImageY']
         self.children = []
         self.parent = None
         self._sizeImageX = _cast(float, sizeImageX)
         self._sizeImageY = _cast(float, sizeImageY)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -17199,12 +18780,12 @@ class create_CamImageDim(GeneratedsSuper):
     def get_sizeImageX(self): return self._sizeImageX
     def set_sizeImageX(self, value):
         self._sizeImageX = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     sizeImageX = property(get_sizeImageX, set_sizeImageX)
     def get_sizeImageY(self): return self._sizeImageY
     def set_sizeImageY(self, value):
         self._sizeImageY = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     sizeImageY = property(get_sizeImageY, set_sizeImageY)
     def copy(self):
         obj_ = self.factory()
@@ -17298,7 +18879,9 @@ class create_CamImageDim(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (sizeImageY): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_CamImageDim
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_CamImageDim
 
 
 class create_CamImageAOV(GeneratedsSuper):
@@ -17306,17 +18889,21 @@ class create_CamImageAOV(GeneratedsSuper):
     by angles of view in length and width. Angle of view length
     [\u00B0] Angle of view length [\u00B0] Angle of view width
     [\u00B0] Angle of view width [\u00B0]"""
+    member_data_items_ = [
+        MemberSpec_('aovX', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('aovY', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, aovX=30, aovY=25):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_CamImageAOV")
+        self.troot=get_gs_troot('phase','_CamImageAOV')
         self.attrib = ['aovX', 'aovY']
         self.children = []
         self.parent = None
         self._aovX = _cast(float, aovX)
         self._aovY = _cast(float, aovY)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -17331,12 +18918,12 @@ class create_CamImageAOV(GeneratedsSuper):
     def get_aovX(self): return self._aovX
     def set_aovX(self, value):
         self._aovX = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     aovX = property(get_aovX, set_aovX)
     def get_aovY(self): return self._aovY
     def set_aovY(self, value):
         self._aovY = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     aovY = property(get_aovY, set_aovY)
     def copy(self):
         obj_ = self.factory()
@@ -17430,23 +19017,29 @@ class create_CamImageAOV(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (aovY): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_CamImageAOV
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_CamImageAOV
 
 
 class create_NbPixels(GeneratedsSuper):
     """Number of pixels (Horizontal) Number of pixels (Horizontal) Number
     of pixels (Vertical) Number of pixels (Vertical)"""
+    member_data_items_ = [
+        MemberSpec_('nbPixelsX', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('nbPixelsY', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, nbPixelsX=60, nbPixelsY=50):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_NbPixels")
+        self.troot=get_gs_troot('phase','_NbPixels')
         self.attrib = ['nbPixelsX', 'nbPixelsY']
         self.children = []
         self.parent = None
         self._nbPixelsX = _cast(int, nbPixelsX)
         self._nbPixelsY = _cast(int, nbPixelsY)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -17461,12 +19054,12 @@ class create_NbPixels(GeneratedsSuper):
     def get_nbPixelsX(self): return self._nbPixelsX
     def set_nbPixelsX(self, value):
         self._nbPixelsX = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     nbPixelsX = property(get_nbPixelsX, set_nbPixelsX)
     def get_nbPixelsY(self): return self._nbPixelsY
     def set_nbPixelsY(self, value):
         self._nbPixelsY = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     nbPixelsY = property(get_nbPixelsY, set_nbPixelsY)
     def copy(self):
         obj_ = self.factory()
@@ -17560,23 +19153,28 @@ class create_NbPixels(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_NbPixels
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_NbPixels
 
 
 class create_FishEyeFOV(GeneratedsSuper):
     """Hemispherical camera FOV Hemispherical camera FOV This defines the
     maximum zenith angle at the boundaries of the image This defines
     the maximum zenith angle at the boundaries of the image"""
+    member_data_items_ = [
+        MemberSpec_('angleMaxFishEye', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, angleMaxFishEye=90):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_FishEyeFOV")
+        self.troot=get_gs_troot('phase','_FishEyeFOV')
         self.attrib = ['angleMaxFishEye']
         self.children = []
         self.parent = None
         self._angleMaxFishEye = _cast(float, angleMaxFishEye)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -17591,7 +19189,7 @@ class create_FishEyeFOV(GeneratedsSuper):
     def get_angleMaxFishEye(self): return self._angleMaxFishEye
     def set_angleMaxFishEye(self, value):
         self._angleMaxFishEye = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     angleMaxFishEye = property(get_angleMaxFishEye, set_angleMaxFishEye)
     def copy(self):
         obj_ = self.factory()
@@ -17669,22 +19267,28 @@ class create_FishEyeFOV(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (angleMaxFishEye): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_FishEyeFOV
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_FishEyeFOV
 
 
 class create_Radiometer(GeneratedsSuper):
-    """Radiometer Radiometer Define a radiometer output Define a radiometer
-    output"""
+    """Radiometer Radiometer Sum of W(W) that enter the camera FOV divided
+    by the camera area Sum of W(W) that enter the camera FOV divided
+    by the camera area"""
+    member_data_items_ = [
+        MemberSpec_('ifRadiometer', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, ifRadiometer=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_Radiometer")
+        self.troot=get_gs_troot('phase','_Radiometer')
         self.attrib = ['ifRadiometer']
         self.children = []
         self.parent = None
         self._ifRadiometer = _cast(int, ifRadiometer)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -17699,7 +19303,7 @@ class create_Radiometer(GeneratedsSuper):
     def get_ifRadiometer(self): return self._ifRadiometer
     def set_ifRadiometer(self, value):
         self._ifRadiometer = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     ifRadiometer = property(get_ifRadiometer, set_ifRadiometer)
     def copy(self):
         obj_ = self.factory()
@@ -17777,18 +19381,26 @@ class create_Radiometer(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_Radiometer
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Radiometer
 
 
 class create_Pushbroom(GeneratedsSuper):
     """Pushbroom Pushbroom Importation of files containing the theta/phi
     information Importation of files containing the theta/phi
     information"""
+    member_data_items_ = [
+        MemberSpec_('importThetaPhi', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Platform', '_Platform', 0, 0, {u'maxOccurs': u'1', u'type': u'_Platform', u'name': u'Platform', u'minOccurs': u'1'}, None),
+        MemberSpec_('Sensor', '_Sensor', 0, 0, {u'maxOccurs': u'1', u'type': u'_Sensor', u'name': u'Sensor', u'minOccurs': u'1'}, None),
+        MemberSpec_('Importation', '_Importation', 0, 0, {u'maxOccurs': u'1', u'type': u'_Importation', u'name': u'Importation', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, importThetaPhi=0, Platform=None, Sensor=None, Importation=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_Pushbroom")
+        self.troot=get_gs_troot('phase','_Pushbroom')
         self.attrib = ['importThetaPhi']
         self.children = ['Platform', 'Sensor', 'Importation']
         self.parent = None
@@ -17796,7 +19408,7 @@ class create_Pushbroom(GeneratedsSuper):
         self._Platform = Platform
         self._Sensor = Sensor
         self._Importation = Importation
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -17832,7 +19444,7 @@ class create_Pushbroom(GeneratedsSuper):
     def get_importThetaPhi(self): return self._importThetaPhi
     def set_importThetaPhi(self, value):
         self._importThetaPhi = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     importThetaPhi = property(get_importThetaPhi, set_importThetaPhi)
     def copy(self):
         obj_ = self.factory()
@@ -17962,7 +19574,9 @@ class create_Pushbroom(GeneratedsSuper):
             obj_.build(child_)
             self.set_Importation(obj_)
             obj_.original_tagname_ = 'Importation'
-# end class create_Pushbroom
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Pushbroom
 
 
 class create_Platform(GeneratedsSuper):
@@ -17973,18 +19587,23 @@ class create_Platform(GeneratedsSuper):
     platform moving direction The azimuth angle that represent the
     platform moving direction Pushbroom Camera Orientation (Pitch)
     Pushbroom Camera Orientation (Pitch)"""
+    member_data_items_ = [
+        MemberSpec_('platformAzimuth', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('platformDirection', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('pitchLookAngle', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, platformAzimuth=0, platformDirection=0, pitchLookAngle=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_Platform")
+        self.troot=get_gs_troot('phase','_Platform')
         self.attrib = ['platformAzimuth', 'platformDirection', 'pitchLookAngle']
         self.children = []
         self.parent = None
         self._platformAzimuth = _cast(float, platformAzimuth)
         self._platformDirection = _cast(float, platformDirection)
         self._pitchLookAngle = _cast(float, pitchLookAngle)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -17999,17 +19618,17 @@ class create_Platform(GeneratedsSuper):
     def get_platformAzimuth(self): return self._platformAzimuth
     def set_platformAzimuth(self, value):
         self._platformAzimuth = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     platformAzimuth = property(get_platformAzimuth, set_platformAzimuth)
     def get_platformDirection(self): return self._platformDirection
     def set_platformDirection(self, value):
         self._platformDirection = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     platformDirection = property(get_platformDirection, set_platformDirection)
     def get_pitchLookAngle(self): return self._pitchLookAngle
     def set_pitchLookAngle(self, value):
         self._pitchLookAngle = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     pitchLookAngle = property(get_pitchLookAngle, set_pitchLookAngle)
     def copy(self):
         obj_ = self.factory()
@@ -18119,7 +19738,9 @@ class create_Platform(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (pitchLookAngle): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_Platform
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Platform
 
 
 class create_Importation(GeneratedsSuper):
@@ -18136,11 +19757,19 @@ class create_Importation(GeneratedsSuper):
     origin position of the scene An ascii file descibe the zenith
     distribution over the image An ascii file descibe the zenith
     distribution over the image"""
+    member_data_items_ = [
+        MemberSpec_('phiFile', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('resImage', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('sensorAltitude', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('offsetX', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('offsetY', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('thetaFile', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, phiFile='phi.txt', resImage=1, sensorAltitude=1000, offsetX=0, offsetY=0, thetaFile='theta.txt'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_Importation")
+        self.troot=get_gs_troot('phase','_Importation')
         self.attrib = ['phiFile', 'resImage', 'sensorAltitude', 'offsetX', 'offsetY', 'thetaFile']
         self.children = []
         self.parent = None
@@ -18150,7 +19779,7 @@ class create_Importation(GeneratedsSuper):
         self._offsetX = _cast(float, offsetX)
         self._offsetY = _cast(float, offsetY)
         self._thetaFile = _cast(None, thetaFile)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -18165,32 +19794,32 @@ class create_Importation(GeneratedsSuper):
     def get_phiFile(self): return self._phiFile
     def set_phiFile(self, value):
         self._phiFile = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     phiFile = property(get_phiFile, set_phiFile)
     def get_resImage(self): return self._resImage
     def set_resImage(self, value):
         self._resImage = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     resImage = property(get_resImage, set_resImage)
     def get_sensorAltitude(self): return self._sensorAltitude
     def set_sensorAltitude(self, value):
         self._sensorAltitude = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     sensorAltitude = property(get_sensorAltitude, set_sensorAltitude)
     def get_offsetX(self): return self._offsetX
     def set_offsetX(self, value):
         self._offsetX = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     offsetX = property(get_offsetX, set_offsetX)
     def get_offsetY(self): return self._offsetY
     def set_offsetY(self, value):
         self._offsetY = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     offsetY = property(get_offsetY, set_offsetY)
     def get_thetaFile(self): return self._thetaFile
     def set_thetaFile(self, value):
         self._thetaFile = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     thetaFile = property(get_thetaFile, set_thetaFile)
     def copy(self):
         obj_ = self.factory()
@@ -18342,24 +19971,31 @@ class create_Importation(GeneratedsSuper):
             self.thetaFile = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_Importation
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Importation
 
 
 class create_InsideSensor(GeneratedsSuper):
-    """Mode Mode"""
+    member_data_items_ = [
+        MemberSpec_('sensorConfiguration', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('InsideSensorConfiguration', '_InsideSensorConfiguration', 0, 0, {u'maxOccurs': u'1', u'type': u'_InsideSensorConfiguration', u'name': u'InsideSensorConfiguration', u'minOccurs': u'1'}, None),
+        MemberSpec_('Image', '_Image', 0, 0, {u'maxOccurs': u'1', u'type': u'_Image', u'name': u'Image', u'minOccurs': u'1'}, None),
+        MemberSpec_('Hemisphere', '_Hemisphere', 0, 0, {u'maxOccurs': u'1', u'type': u'_Hemisphere', u'name': u'Hemisphere', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
-    def __init__(self, sensorConfiguration=0, Sensor=None, Image=None, Hemisphere=None):
+    def __init__(self, sensorConfiguration=0, InsideSensorConfiguration=None, Image=None, Hemisphere=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_InsideSensor")
+        self.troot=get_gs_troot('phase','_InsideSensor')
         self.attrib = ['sensorConfiguration']
-        self.children = ['Sensor', 'Image', 'Hemisphere']
+        self.children = ['InsideSensorConfiguration', 'Image', 'Hemisphere']
         self.parent = None
         self._sensorConfiguration = _cast(int, sensorConfiguration)
-        self._Sensor = Sensor
+        self._InsideSensorConfiguration = InsideSensorConfiguration
         self._Image = Image
         self._Hemisphere = Hemisphere
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -18371,13 +20007,13 @@ class create_InsideSensor(GeneratedsSuper):
         else:
             return create_InsideSensor(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_Sensor(self): return self._Sensor
-    def set_Sensor(self, value):
+    def get_InsideSensorConfiguration(self): return self._InsideSensorConfiguration
+    def set_InsideSensorConfiguration(self, value):
         if value is not None:
-            checkclass(value, create_Sensor)
+            checkclass(value, create_InsideSensorConfiguration)
             value.parent = self
-        self._Sensor = value
-    Sensor = property(get_Sensor, set_Sensor)
+        self._InsideSensorConfiguration = value
+    InsideSensorConfiguration = property(get_InsideSensorConfiguration, set_InsideSensorConfiguration)
     def get_Image(self): return self._Image
     def set_Image(self, value):
         if value is not None:
@@ -18395,14 +20031,14 @@ class create_InsideSensor(GeneratedsSuper):
     def get_sensorConfiguration(self): return self._sensorConfiguration
     def set_sensorConfiguration(self, value):
         self._sensorConfiguration = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     sensorConfiguration = property(get_sensorConfiguration, set_sensorConfiguration)
     def copy(self):
         obj_ = self.factory()
         return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
-            self.Sensor is not None or
+            self.InsideSensorConfiguration is not None or
             self.Image is not None or
             self.Hemisphere is not None
         ):
@@ -18439,8 +20075,8 @@ class create_InsideSensor(GeneratedsSuper):
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.Sensor is not None:
-            self.Sensor.export(outfile, level, namespaceprefix_, name_='Sensor', pretty_print=pretty_print)
+        if self.InsideSensorConfiguration is not None:
+            self.InsideSensorConfiguration.export(outfile, level, namespaceprefix_, name_='InsideSensorConfiguration', pretty_print=pretty_print)
         if self.Image is not None:
             self.Image.export(outfile, level, namespaceprefix_, name_='Image', pretty_print=pretty_print)
         if self.Hemisphere is not None:
@@ -18452,9 +20088,9 @@ class create_InsideSensor(GeneratedsSuper):
             element = etree_.SubElement(parent_element, '{}' + name_)
         if self.sensorConfiguration is not None:
             element.set('sensorConfiguration', self.gds_format_integer(self.sensorConfiguration))
-        if self.Sensor is not None:
-            Sensor_ = self.Sensor
-            Sensor_.to_etree(element, name_='Sensor', mapping_=mapping_)
+        if self.InsideSensorConfiguration is not None:
+            InsideSensorConfiguration_ = self.InsideSensorConfiguration
+            InsideSensorConfiguration_.to_etree(element, name_='InsideSensorConfiguration', mapping_=mapping_)
         if self.Image is not None:
             Image_ = self.Image
             Image_.to_etree(element, name_='Image', mapping_=mapping_)
@@ -18476,10 +20112,10 @@ class create_InsideSensor(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('sensorConfiguration=%d,\n' % (self.sensorConfiguration,))
     def exportLiteralChildren(self, outfile, level, name_):
-        if self.Sensor is not None:
+        if self.InsideSensorConfiguration is not None:
             showIndent(outfile, level)
-            outfile.write('Sensor=model_._Sensor(\n')
-            self.Sensor.exportLiteral(outfile, level, name_='Sensor')
+            outfile.write('InsideSensorConfiguration=model_._InsideSensorConfiguration(\n')
+            self.InsideSensorConfiguration.exportLiteral(outfile, level, name_='InsideSensorConfiguration')
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.Image is not None:
@@ -18510,11 +20146,11 @@ class create_InsideSensor(GeneratedsSuper):
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'Sensor':
-            obj_ = create_Sensor.factory()
+        if nodeName_ == 'InsideSensorConfiguration':
+            obj_ = create_InsideSensorConfiguration.factory()
             obj_.build(child_)
-            self.set_Sensor(obj_)
-            obj_.original_tagname_ = 'Sensor'
+            self.set_InsideSensorConfiguration(obj_)
+            obj_.original_tagname_ = 'InsideSensorConfiguration'
         elif nodeName_ == 'Image':
             obj_ = create_Image.factory()
             obj_.build(child_)
@@ -18525,25 +20161,204 @@ class create_InsideSensor(GeneratedsSuper):
             obj_.build(child_)
             self.set_Hemisphere(obj_)
             obj_.original_tagname_ = 'Hemisphere'
-# end class create_InsideSensor
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_InsideSensor
+
+
+class create_InsideSensorConfiguration(GeneratedsSuper):
+    """The actual number of scene visible will be (2N+1)*(2N+1). In
+    opposition to traditional satellite images generated by DART
+    where repetition of the scene is automatic and relatively
+    costless, repetition for in-situ sensors needs to be separately
+    computed for each "repetead" scene. The actual number of scene
+    visible will be (2N+1)*(2N+1). In opposition to traditional
+    satellite images generated by DART where repetition of the scene
+    is automatic and relatively costless, repetition for in-situ
+    sensors needs to be separately computed for each "repetead"
+    scene."""
+    member_data_items_ = [
+        MemberSpec_('nbSceneRepetition', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('SensorCentralPosition', '_SensorCentralPosition', 0, 0, {u'maxOccurs': u'1', u'type': u'_SensorCentralPosition', u'name': u'SensorCentralPosition', u'minOccurs': u'1'}, None),
+        MemberSpec_('SensorView', '_SensorView', 0, 0, {u'maxOccurs': u'1', u'type': u'_SensorView', u'name': u'SensorView', u'minOccurs': u'1'}, None),
+    ]
+    subclass = None
+    superclass = None
+    def __init__(self, nbSceneRepetition=0, SensorCentralPosition=None, SensorView=None):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot('phase','_InsideSensorConfiguration')
+        self.attrib = ['nbSceneRepetition']
+        self.children = ['SensorCentralPosition', 'SensorView']
+        self.parent = None
+        self._nbSceneRepetition = _cast(int, nbSceneRepetition)
+        self._SensorCentralPosition = SensorCentralPosition
+        self._SensorView = SensorView
+        update_node(self,self.troot,'phase')
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, create_InsideSensorConfiguration)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if create_InsideSensorConfiguration.subclass:
+            return create_InsideSensorConfiguration.subclass(*args_, **kwargs_)
+        else:
+            return create_InsideSensorConfiguration(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_SensorCentralPosition(self): return self._SensorCentralPosition
+    def set_SensorCentralPosition(self, value):
+        if value is not None:
+            checkclass(value, create_SensorCentralPosition)
+            value.parent = self
+        self._SensorCentralPosition = value
+    SensorCentralPosition = property(get_SensorCentralPosition, set_SensorCentralPosition)
+    def get_SensorView(self): return self._SensorView
+    def set_SensorView(self, value):
+        if value is not None:
+            checkclass(value, create_SensorView)
+            value.parent = self
+        self._SensorView = value
+    SensorView = property(get_SensorView, set_SensorView)
+    def get_nbSceneRepetition(self): return self._nbSceneRepetition
+    def set_nbSceneRepetition(self, value):
+        self._nbSceneRepetition = value
+        update_node(self,self.troot,'phase')
+    nbSceneRepetition = property(get_nbSceneRepetition, set_nbSceneRepetition)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+            self.SensorCentralPosition is not None or
+            self.SensorView is not None
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='_InsideSensorConfiguration', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_InsideSensorConfiguration')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_InsideSensorConfiguration')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_InsideSensorConfiguration', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_InsideSensorConfiguration'):
+        if self.nbSceneRepetition is not None and 'nbSceneRepetition' not in already_processed:
+            already_processed.add('nbSceneRepetition')
+            outfile.write(' nbSceneRepetition="%s"' % self.gds_format_integer(self.nbSceneRepetition, input_name='nbSceneRepetition'))
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_InsideSensorConfiguration', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.SensorCentralPosition is not None:
+            self.SensorCentralPosition.export(outfile, level, namespaceprefix_, name_='SensorCentralPosition', pretty_print=pretty_print)
+        if self.SensorView is not None:
+            self.SensorView.export(outfile, level, namespaceprefix_, name_='SensorView', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_InsideSensorConfiguration', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.nbSceneRepetition is not None:
+            element.set('nbSceneRepetition', self.gds_format_integer(self.nbSceneRepetition))
+        if self.SensorCentralPosition is not None:
+            SensorCentralPosition_ = self.SensorCentralPosition
+            SensorCentralPosition_.to_etree(element, name_='SensorCentralPosition', mapping_=mapping_)
+        if self.SensorView is not None:
+            SensorView_ = self.SensorView
+            SensorView_.to_etree(element, name_='SensorView', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_InsideSensorConfiguration'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.nbSceneRepetition is not None and 'nbSceneRepetition' not in already_processed:
+            already_processed.add('nbSceneRepetition')
+            showIndent(outfile, level)
+            outfile.write('nbSceneRepetition=%d,\n' % (self.nbSceneRepetition,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.SensorCentralPosition is not None:
+            showIndent(outfile, level)
+            outfile.write('SensorCentralPosition=model_._SensorCentralPosition(\n')
+            self.SensorCentralPosition.exportLiteral(outfile, level, name_='SensorCentralPosition')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.SensorView is not None:
+            showIndent(outfile, level)
+            outfile.write('SensorView=model_._SensorView(\n')
+            self.SensorView.exportLiteral(outfile, level, name_='SensorView')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('nbSceneRepetition', node)
+        if value is not None and 'nbSceneRepetition' not in already_processed:
+            already_processed.add('nbSceneRepetition')
+            try:
+                self.nbSceneRepetition = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'SensorCentralPosition':
+            obj_ = create_SensorCentralPosition.factory()
+            obj_.build(child_)
+            self.set_SensorCentralPosition(obj_)
+            obj_.original_tagname_ = 'SensorCentralPosition'
+        elif nodeName_ == 'SensorView':
+            obj_ = create_SensorView.factory()
+            obj_.build(child_)
+            self.set_SensorView(obj_)
+            obj_.original_tagname_ = 'SensorView'
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_InsideSensorConfiguration
 
 
 class create_SensorCentralPosition(GeneratedsSuper):
-    """Z coordinate of sensor Z coordinate of sensor X coordinate of sensor
-    X coordinate of sensor Y coordinate of sensor Y coordinate of
-    sensor"""
+    """Z (altitude) Z (altitude) X X Y Y"""
+    member_data_items_ = [
+        MemberSpec_('sensorPosZ', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('sensorPosX', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('sensorPosY', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, sensorPosZ=1.6, sensorPosX=36, sensorPosY=36):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_SensorCentralPosition")
+        self.troot=get_gs_troot('phase','_SensorCentralPosition')
         self.attrib = ['sensorPosZ', 'sensorPosX', 'sensorPosY']
         self.children = []
         self.parent = None
         self._sensorPosZ = _cast(float, sensorPosZ)
         self._sensorPosX = _cast(float, sensorPosX)
         self._sensorPosY = _cast(float, sensorPosY)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -18558,17 +20373,17 @@ class create_SensorCentralPosition(GeneratedsSuper):
     def get_sensorPosZ(self): return self._sensorPosZ
     def set_sensorPosZ(self, value):
         self._sensorPosZ = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     sensorPosZ = property(get_sensorPosZ, set_sensorPosZ)
     def get_sensorPosX(self): return self._sensorPosX
     def set_sensorPosX(self, value):
         self._sensorPosX = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     sensorPosX = property(get_sensorPosX, set_sensorPosX)
     def get_sensorPosY(self): return self._sensorPosY
     def set_sensorPosY(self, value):
         self._sensorPosY = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     sensorPosY = property(get_sensorPosY, set_sensorPosY)
     def copy(self):
         obj_ = self.factory()
@@ -18678,15 +20493,24 @@ class create_SensorCentralPosition(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (sensorPosY): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_SensorCentralPosition
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_SensorCentralPosition
 
 
 class create_SensorView(GeneratedsSuper):
+    """Central view definition Central view definition"""
+    member_data_items_ = [
+        MemberSpec_('viewDefinition', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('SensorViewDirection', '_SensorViewDirection', 0, 0, {u'maxOccurs': u'1', u'type': u'_SensorViewDirection', u'name': u'SensorViewDirection', u'minOccurs': u'1'}, None),
+        MemberSpec_('SensorAngleDirection', '_SensorAngleDirection', 0, 0, {u'maxOccurs': u'1', u'type': u'_SensorAngleDirection', u'name': u'SensorAngleDirection', u'minOccurs': u'1'}, None),
+        MemberSpec_('CameraOrientYPR', '_CameraOrientYPR', 0, 0, {u'maxOccurs': u'1', u'type': u'_CameraOrientYPR', u'name': u'CameraOrientYPR', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, viewDefinition=0, SensorViewDirection=None, SensorAngleDirection=None, CameraOrientYPR=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_SensorView")
+        self.troot=get_gs_troot('phase','_SensorView')
         self.attrib = ['viewDefinition']
         self.children = ['SensorViewDirection', 'SensorAngleDirection', 'CameraOrientYPR']
         self.parent = None
@@ -18694,7 +20518,7 @@ class create_SensorView(GeneratedsSuper):
         self._SensorViewDirection = SensorViewDirection
         self._SensorAngleDirection = SensorAngleDirection
         self._CameraOrientYPR = CameraOrientYPR
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -18730,7 +20554,7 @@ class create_SensorView(GeneratedsSuper):
     def get_viewDefinition(self): return self._viewDefinition
     def set_viewDefinition(self, value):
         self._viewDefinition = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     viewDefinition = property(get_viewDefinition, set_viewDefinition)
     def copy(self):
         obj_ = self.factory()
@@ -18860,22 +20684,31 @@ class create_SensorView(GeneratedsSuper):
             obj_.build(child_)
             self.set_CameraOrientYPR(obj_)
             obj_.original_tagname_ = 'CameraOrientYPR'
-# end class create_SensorView
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_SensorView
 
 
 class create_SensorViewDirection(GeneratedsSuper):
+    """Direction Z Direction Z Direction Y Direction Y Direction X
+    Direction X"""
+    member_data_items_ = [
+        MemberSpec_('sensorDirectionZ', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('sensorDirectionY', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('sensorDirectionX', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, sensorDirectionZ=0.15, sensorDirectionY=-0.7, sensorDirectionX=-0.7):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_SensorViewDirection")
+        self.troot=get_gs_troot('phase','_SensorViewDirection')
         self.attrib = ['sensorDirectionZ', 'sensorDirectionY', 'sensorDirectionX']
         self.children = []
         self.parent = None
         self._sensorDirectionZ = _cast(float, sensorDirectionZ)
         self._sensorDirectionY = _cast(float, sensorDirectionY)
         self._sensorDirectionX = _cast(float, sensorDirectionX)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -18890,17 +20723,17 @@ class create_SensorViewDirection(GeneratedsSuper):
     def get_sensorDirectionZ(self): return self._sensorDirectionZ
     def set_sensorDirectionZ(self, value):
         self._sensorDirectionZ = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     sensorDirectionZ = property(get_sensorDirectionZ, set_sensorDirectionZ)
     def get_sensorDirectionY(self): return self._sensorDirectionY
     def set_sensorDirectionY(self, value):
         self._sensorDirectionY = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     sensorDirectionY = property(get_sensorDirectionY, set_sensorDirectionY)
     def get_sensorDirectionX(self): return self._sensorDirectionX
     def set_sensorDirectionX(self, value):
         self._sensorDirectionX = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     sensorDirectionX = property(get_sensorDirectionX, set_sensorDirectionX)
     def copy(self):
         obj_ = self.factory()
@@ -19010,21 +20843,29 @@ class create_SensorViewDirection(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (sensorDirectionX): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_SensorViewDirection
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_SensorViewDirection
 
 
 class create_SensorAngleDirection(GeneratedsSuper):
+    """Phi direction angle Phi direction angle Theta direction angle Theta
+    direction angle"""
+    member_data_items_ = [
+        MemberSpec_('sensorDirectionPhi', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('sensorDirectionTetha', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, sensorDirectionPhi=45, sensorDirectionTetha=98):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_SensorAngleDirection")
+        self.troot=get_gs_troot('phase','_SensorAngleDirection')
         self.attrib = ['sensorDirectionPhi', 'sensorDirectionTetha']
         self.children = []
         self.parent = None
         self._sensorDirectionPhi = _cast(float, sensorDirectionPhi)
         self._sensorDirectionTetha = _cast(float, sensorDirectionTetha)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -19039,12 +20880,12 @@ class create_SensorAngleDirection(GeneratedsSuper):
     def get_sensorDirectionPhi(self): return self._sensorDirectionPhi
     def set_sensorDirectionPhi(self, value):
         self._sensorDirectionPhi = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     sensorDirectionPhi = property(get_sensorDirectionPhi, set_sensorDirectionPhi)
     def get_sensorDirectionTetha(self): return self._sensorDirectionTetha
     def set_sensorDirectionTetha(self, value):
         self._sensorDirectionTetha = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     sensorDirectionTetha = property(get_sensorDirectionTetha, set_sensorDirectionTetha)
     def copy(self):
         obj_ = self.factory()
@@ -19138,15 +20979,23 @@ class create_SensorAngleDirection(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (sensorDirectionTetha): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_SensorAngleDirection
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_SensorAngleDirection
 
 
 class create_Image(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('SensorDimensions', '_SensorDimensions', 0, 0, {u'maxOccurs': u'1', u'type': u'_SensorDimensions', u'name': u'SensorDimensions', u'minOccurs': u'1'}, None),
+        MemberSpec_('ImageResolution', '_ImageResolution', 0, 0, {u'maxOccurs': u'1', u'type': u'_ImageResolution', u'name': u'ImageResolution', u'minOccurs': u'1'}, None),
+        MemberSpec_('FocaleDistance', '_FocaleDistance', 0, 0, {u'maxOccurs': u'1', u'type': u'_FocaleDistance', u'name': u'FocaleDistance', u'minOccurs': u'1'}, None),
+        MemberSpec_('SensorOrientation', '_SensorOrientation', 0, 0, {u'maxOccurs': u'1', u'type': u'_SensorOrientation', u'name': u'SensorOrientation', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, SensorDimensions=None, ImageResolution=None, FocaleDistance=None, SensorOrientation=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_Image")
+        self.troot=get_gs_troot('phase','_Image')
         self.attrib = ['']
         self.children = ['SensorDimensions', 'ImageResolution', 'FocaleDistance', 'SensorOrientation']
         self.parent = None
@@ -19154,7 +21003,7 @@ class create_Image(GeneratedsSuper):
         self._ImageResolution = ImageResolution
         self._FocaleDistance = FocaleDistance
         self._SensorOrientation = SensorOrientation
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -19326,22 +21175,28 @@ class create_Image(GeneratedsSuper):
             obj_.build(child_)
             self.set_SensorOrientation(obj_)
             obj_.original_tagname_ = 'SensorOrientation'
-# end class create_Image
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Image
 
 
 class create_SensorDimensions(GeneratedsSuper):
     """Sensor width Sensor width Sensor height Sensor height"""
+    member_data_items_ = [
+        MemberSpec_('width', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('height', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, width=0.54, height=0.40):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_SensorDimensions")
+        self.troot=get_gs_troot('phase','_SensorDimensions')
         self.attrib = ['width', 'height']
         self.children = []
         self.parent = None
         self._width = _cast(float, width)
         self._height = _cast(float, height)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -19356,12 +21211,12 @@ class create_SensorDimensions(GeneratedsSuper):
     def get_width(self): return self._width
     def set_width(self, value):
         self._width = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     width = property(get_width, set_width)
     def get_height(self): return self._height
     def set_height(self, value):
         self._height = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     height = property(get_height, set_height)
     def copy(self):
         obj_ = self.factory()
@@ -19455,22 +21310,28 @@ class create_SensorDimensions(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (height): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_SensorDimensions
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_SensorDimensions
 
 
 class create_ImageResolution(GeneratedsSuper):
     """Image width Image width Image height Image height"""
+    member_data_items_ = [
+        MemberSpec_('nbPixelsWidth', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('nbPixelsHeight', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, nbPixelsWidth=1000, nbPixelsHeight=1000):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_ImageResolution")
+        self.troot=get_gs_troot('phase','_ImageResolution')
         self.attrib = ['nbPixelsWidth', 'nbPixelsHeight']
         self.children = []
         self.parent = None
         self._nbPixelsWidth = _cast(int, nbPixelsWidth)
         self._nbPixelsHeight = _cast(int, nbPixelsHeight)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -19485,12 +21346,12 @@ class create_ImageResolution(GeneratedsSuper):
     def get_nbPixelsWidth(self): return self._nbPixelsWidth
     def set_nbPixelsWidth(self, value):
         self._nbPixelsWidth = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     nbPixelsWidth = property(get_nbPixelsWidth, set_nbPixelsWidth)
     def get_nbPixelsHeight(self): return self._nbPixelsHeight
     def set_nbPixelsHeight(self, value):
         self._nbPixelsHeight = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     nbPixelsHeight = property(get_nbPixelsHeight, set_nbPixelsHeight)
     def copy(self):
         obj_ = self.factory()
@@ -19584,21 +21445,26 @@ class create_ImageResolution(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_ImageResolution
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ImageResolution
 
 
 class create_FocaleDistance(GeneratedsSuper):
     """Focal distance Focal distance"""
+    member_data_items_ = [
+        MemberSpec_('focaleDistance', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, focaleDistance=0.1):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_FocaleDistance")
+        self.troot=get_gs_troot('phase','_FocaleDistance')
         self.attrib = ['focaleDistance']
         self.children = []
         self.parent = None
         self._focaleDistance = _cast(float, focaleDistance)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -19613,7 +21479,7 @@ class create_FocaleDistance(GeneratedsSuper):
     def get_focaleDistance(self): return self._focaleDistance
     def set_focaleDistance(self, value):
         self._focaleDistance = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     focaleDistance = property(get_focaleDistance, set_focaleDistance)
     def copy(self):
         obj_ = self.factory()
@@ -19691,23 +21557,28 @@ class create_FocaleDistance(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (focaleDistance): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_FocaleDistance
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_FocaleDistance
 
 
 class create_SensorOrientation(GeneratedsSuper):
     """Sensor rotation in the plane that is perpendicular to the central
     view direction Sensor rotation in the plane that is
     perpendicular to the central view direction"""
+    member_data_items_ = [
+        MemberSpec_('tethaOrientation', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, tethaOrientation=0.0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_SensorOrientation")
+        self.troot=get_gs_troot('phase','_SensorOrientation')
         self.attrib = ['tethaOrientation']
         self.children = []
         self.parent = None
         self._tethaOrientation = _cast(float, tethaOrientation)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -19722,7 +21593,7 @@ class create_SensorOrientation(GeneratedsSuper):
     def get_tethaOrientation(self): return self._tethaOrientation
     def set_tethaOrientation(self, value):
         self._tethaOrientation = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     tethaOrientation = property(get_tethaOrientation, set_tethaOrientation)
     def copy(self):
         obj_ = self.factory()
@@ -19800,15 +21671,23 @@ class create_SensorOrientation(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (tethaOrientation): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_SensorOrientation
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_SensorOrientation
 
 
 class create_Hemisphere(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('ZenithalRange', '_ZenithalRange', 0, 0, {u'maxOccurs': u'1', u'type': u'_ZenithalRange', u'name': u'ZenithalRange', u'minOccurs': u'1'}, None),
+        MemberSpec_('HemisphereImageResolution', '_HemisphereImageResolution', 0, 0, {u'maxOccurs': u'1', u'type': u'_HemisphereImageResolution', u'name': u'HemisphereImageResolution', u'minOccurs': u'1'}, None),
+        MemberSpec_('SphereGeometry', '_SphereGeometry', 0, 0, {u'maxOccurs': u'1', u'type': u'_SphereGeometry', u'name': u'SphereGeometry', u'minOccurs': u'1'}, None),
+        MemberSpec_('SensorOrientation', '_SensorOrientation', 0, 0, {u'maxOccurs': u'1', u'type': u'_SensorOrientation', u'name': u'SensorOrientation', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, ZenithalRange=None, HemisphereImageResolution=None, SphereGeometry=None, SensorOrientation=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_Hemisphere")
+        self.troot=get_gs_troot('phase','_Hemisphere')
         self.attrib = ['']
         self.children = ['ZenithalRange', 'HemisphereImageResolution', 'SphereGeometry', 'SensorOrientation']
         self.parent = None
@@ -19816,7 +21695,7 @@ class create_Hemisphere(GeneratedsSuper):
         self._HemisphereImageResolution = HemisphereImageResolution
         self._SphereGeometry = SphereGeometry
         self._SensorOrientation = SensorOrientation
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -19988,7 +21867,9 @@ class create_Hemisphere(GeneratedsSuper):
             obj_.build(child_)
             self.set_SensorOrientation(obj_)
             obj_.original_tagname_ = 'SensorOrientation'
-# end class create_Hemisphere
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Hemisphere
 
 
 class create_ZenithalRange(GeneratedsSuper):
@@ -19998,17 +21879,21 @@ class create_ZenithalRange(GeneratedsSuper):
     the sensor central direction, registered by the sensor. Maximum
     zenith, relative to the sensor central direction, registered by
     the sensor."""
+    member_data_items_ = [
+        MemberSpec_('zenithMinimum', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('zenithMaximum', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, zenithMinimum=0, zenithMaximum=90):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_ZenithalRange")
+        self.troot=get_gs_troot('phase','_ZenithalRange')
         self.attrib = ['zenithMinimum', 'zenithMaximum']
         self.children = []
         self.parent = None
         self._zenithMinimum = _cast(float, zenithMinimum)
         self._zenithMaximum = _cast(float, zenithMaximum)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -20023,12 +21908,12 @@ class create_ZenithalRange(GeneratedsSuper):
     def get_zenithMinimum(self): return self._zenithMinimum
     def set_zenithMinimum(self, value):
         self._zenithMinimum = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     zenithMinimum = property(get_zenithMinimum, set_zenithMinimum)
     def get_zenithMaximum(self): return self._zenithMaximum
     def set_zenithMaximum(self, value):
         self._zenithMaximum = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     zenithMaximum = property(get_zenithMaximum, set_zenithMaximum)
     def copy(self):
         obj_ = self.factory()
@@ -20122,7 +22007,9 @@ class create_ZenithalRange(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (zenithMaximum): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_ZenithalRange
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ZenithalRange
 
 
 class create_HemisphereImageResolution(GeneratedsSuper):
@@ -20132,16 +22019,19 @@ class create_HemisphereImageResolution(GeneratedsSuper):
     will be a disk incrusted in a square image. This parameter
     defines the number of pixel of said square image. Quasi-
     equivalent to zenithal resolution."""
+    member_data_items_ = [
+        MemberSpec_('nbPixelsPerAxis', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, nbPixelsPerAxis=1000):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_HemisphereImageResolution")
+        self.troot=get_gs_troot('phase','_HemisphereImageResolution')
         self.attrib = ['nbPixelsPerAxis']
         self.children = []
         self.parent = None
         self._nbPixelsPerAxis = _cast(int, nbPixelsPerAxis)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -20156,7 +22046,7 @@ class create_HemisphereImageResolution(GeneratedsSuper):
     def get_nbPixelsPerAxis(self): return self._nbPixelsPerAxis
     def set_nbPixelsPerAxis(self, value):
         self._nbPixelsPerAxis = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     nbPixelsPerAxis = property(get_nbPixelsPerAxis, set_nbPixelsPerAxis)
     def copy(self):
         obj_ = self.factory()
@@ -20234,21 +22124,26 @@ class create_HemisphereImageResolution(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_HemisphereImageResolution
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_HemisphereImageResolution
 
 
 class create_SphereGeometry(GeneratedsSuper):
     """Radius of the intercepting sphere Radius of the intercepting sphere"""
+    member_data_items_ = [
+        MemberSpec_('radius', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, radius=0.1):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_SphereGeometry")
+        self.troot=get_gs_troot('phase','_SphereGeometry')
         self.attrib = ['radius']
         self.children = []
         self.parent = None
         self._radius = _cast(float, radius)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -20263,7 +22158,7 @@ class create_SphereGeometry(GeneratedsSuper):
     def get_radius(self): return self._radius
     def set_radius(self, value):
         self._radius = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     radius = property(get_radius, set_radius)
     def copy(self):
         obj_ = self.factory()
@@ -20341,16 +22236,21 @@ class create_SphereGeometry(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (radius): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_SphereGeometry
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_SphereGeometry
 
 
 class create_ExternalScripts(GeneratedsSuper):
     """Python External Scripts Python External Scripts"""
+    member_data_items_ = [
+        MemberSpec_('ExternalScript', '_ExternalScript', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_ExternalScript', u'name': u'ExternalScript', u'minOccurs': u'0'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, ExternalScript=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_ExternalScripts")
+        self.troot=get_gs_troot('phase','_ExternalScripts')
         self.attrib = ['']
         self.children = ['ExternalScript']
         self.parent = None
@@ -20358,7 +22258,7 @@ class create_ExternalScripts(GeneratedsSuper):
             self._ExternalScript = []
         else:
             self._ExternalScript = ExternalScript
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -20474,22 +22374,28 @@ class create_ExternalScripts(GeneratedsSuper):
             obj_.build(child_)
             self.add_ExternalScript(obj_)
             obj_.original_tagname_ = 'ExternalScript'
-# end class create_ExternalScripts
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ExternalScripts
 
 
 class create_ExternalScript(GeneratedsSuper):
     """Python External Script Python External Script"""
+    member_data_items_ = [
+        MemberSpec_('ScriptDefinition', '_ScriptDefinition', 0, 0, {u'maxOccurs': u'1', u'type': u'_ScriptDefinition', u'name': u'ScriptDefinition', u'minOccurs': u'1'}, None),
+        MemberSpec_('ScriptLaunchPosition', '_ScriptLaunchPosition', 0, 0, {u'maxOccurs': u'1', u'type': u'_ScriptLaunchPosition', u'name': u'ScriptLaunchPosition', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, ScriptDefinition=None, ScriptLaunchPosition=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_ExternalScript")
+        self.troot=get_gs_troot('phase','_ExternalScript')
         self.attrib = ['']
         self.children = ['ScriptDefinition', 'ScriptLaunchPosition']
         self.parent = None
         self._ScriptDefinition = ScriptDefinition
         self._ScriptLaunchPosition = ScriptLaunchPosition
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -20613,23 +22519,29 @@ class create_ExternalScript(GeneratedsSuper):
             obj_.build(child_)
             self.set_ScriptLaunchPosition(obj_)
             obj_.original_tagname_ = 'ScriptLaunchPosition'
-# end class create_ExternalScript
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ExternalScript
 
 
 class create_ScriptDefinition(GeneratedsSuper):
     """Python Script definition Python Script definition Source script
     (.py) Source script (.py) Script arguments Script arguments"""
+    member_data_items_ = [
+        MemberSpec_('sourceAbsolutePath', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('arguments', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, sourceAbsolutePath='script.py', arguments=''):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_ScriptDefinition")
+        self.troot=get_gs_troot('phase','_ScriptDefinition')
         self.attrib = ['sourceAbsolutePath', 'arguments']
         self.children = []
         self.parent = None
         self._sourceAbsolutePath = _cast(None, sourceAbsolutePath)
         self._arguments = _cast(None, arguments)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -20644,12 +22556,12 @@ class create_ScriptDefinition(GeneratedsSuper):
     def get_sourceAbsolutePath(self): return self._sourceAbsolutePath
     def set_sourceAbsolutePath(self, value):
         self._sourceAbsolutePath = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     sourceAbsolutePath = property(get_sourceAbsolutePath, set_sourceAbsolutePath)
     def get_arguments(self): return self._arguments
     def set_arguments(self, value):
         self._arguments = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     arguments = property(get_arguments, set_arguments)
     def copy(self):
         obj_ = self.factory()
@@ -20737,23 +22649,29 @@ class create_ScriptDefinition(GeneratedsSuper):
             self.arguments = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_ScriptDefinition
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ScriptDefinition
 
 
 class create_ScriptLaunchPosition(GeneratedsSuper):
     """Script location in DART process Script location in DART process
     Script position in DART process Script position in DART process"""
+    member_data_items_ = [
+        MemberSpec_('launchPosition', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('LaunchBetweenDartModules', '_LaunchBetweenDartModules', 0, 0, {u'maxOccurs': u'1', u'type': u'_LaunchBetweenDartModules', u'name': u'LaunchBetweenDartModules', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, launchPosition=1, LaunchBetweenDartModules=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_ScriptLaunchPosition")
+        self.troot=get_gs_troot('phase','_ScriptLaunchPosition')
         self.attrib = ['launchPosition']
         self.children = ['LaunchBetweenDartModules']
         self.parent = None
         self._launchPosition = _cast(int, launchPosition)
         self._LaunchBetweenDartModules = LaunchBetweenDartModules
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -20775,7 +22693,7 @@ class create_ScriptLaunchPosition(GeneratedsSuper):
     def get_launchPosition(self): return self._launchPosition
     def set_launchPosition(self, value):
         self._launchPosition = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     launchPosition = property(get_launchPosition, set_launchPosition)
     def copy(self):
         obj_ = self.factory()
@@ -20871,23 +22789,28 @@ class create_ScriptLaunchPosition(GeneratedsSuper):
             obj_.build(child_)
             self.set_LaunchBetweenDartModules(obj_)
             obj_.original_tagname_ = 'LaunchBetweenDartModules'
-# end class create_ScriptLaunchPosition
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ScriptLaunchPosition
 
 
 class create_LaunchBetweenDartModules(GeneratedsSuper):
     """Launch script between DART modules Launch script between DART
     modules Launch script between following DART modules Launch
     script between following DART modules"""
+    member_data_items_ = [
+        MemberSpec_('betweenModules', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, betweenModules=1):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("phase","_LaunchBetweenDartModules")
+        self.troot=get_gs_troot('phase','_LaunchBetweenDartModules')
         self.attrib = ['betweenModules']
         self.children = []
         self.parent = None
         self._betweenModules = _cast(int, betweenModules)
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -20902,7 +22825,7 @@ class create_LaunchBetweenDartModules(GeneratedsSuper):
     def get_betweenModules(self): return self._betweenModules
     def set_betweenModules(self, value):
         self._betweenModules = value
-        update_node(self,self.troot,"phase")
+        update_node(self,self.troot,'phase')
     betweenModules = property(get_betweenModules, set_betweenModules)
     def copy(self):
         obj_ = self.factory()
@@ -20980,7 +22903,9 @@ class create_LaunchBetweenDartModules(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_LaunchBetweenDartModules
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_LaunchBetweenDartModules
 
 
 GDSClassesMapping = {
@@ -21118,6 +23043,7 @@ __all__ = [
     "create_AtmosphereRadiativeTransfer",
     "create_AtmosphereRadiativeTransferOptions",
     "create_BackSide",
+    "create_BandIrradianceFileNode",
     "create_BottomSide",
     "create_BrfProductsProperties",
     "create_CamImageAOV",
@@ -21125,16 +23051,19 @@ __all__ = [
     "create_CamImageFOV",
     "create_CameraOrientYPR",
     "create_CameraOrientation",
+    "create_CellComponents",
     "create_CenterBegin",
     "create_CenterEnd",
     "create_CenterOnGround",
     "create_CommonParameters",
+    "create_CommonProducts",
+    "create_Components",
     "create_ControlPoint",
     "create_CorrespondingParameters",
     "create_DartInputParameters",
     "create_DartProduct",
-    "create_DiscreteIllumination",
     "create_DiscreteReturnParam",
+    "create_ElementComponents",
     "create_ExpertModeZone",
     "create_ExpertModeZone_Etalement",
     "create_ExpertModeZone_PerTypeProduct",
@@ -21144,6 +23073,7 @@ __all__ = [
     "create_ExternalScripts",
     "create_FishEye",
     "create_FishEyeFOV",
+    "create_FluxTrackingModeProducts",
     "create_FluxtrackingSolarNoise",
     "create_FocaleDistance",
     "create_FootPrintAndFOVDispersions",
@@ -21159,6 +23089,7 @@ __all__ = [
     "create_Importation",
     "create_ImportedPulse",
     "create_InsideSensor",
+    "create_InsideSensorConfiguration",
     "create_LaiProductsProperties",
     "create_LaunchBetweenDartModules",
     "create_LeftSide",
@@ -21166,6 +23097,7 @@ __all__ = [
     "create_LidarAcquisitionParameters",
     "create_LidarGeometry",
     "create_LidarIlluminationIntensity",
+    "create_LidarModeProducts",
     "create_MonteCarlo",
     "create_NbPixels",
     "create_Order1Options",
@@ -21211,7 +23143,6 @@ __all__ = [
     "create_ZenithalRange",
     "create_ZeroDist",
     "create_areaMaketProductsProperties",
-    "create_bandIrradianceFileNode",
     "create_calculatedSwath",
     "create_coverRateProductsProperties",
     "create_dartModuleProducts",
@@ -21224,7 +23155,6 @@ __all__ = [
     "create_maketModuleProducts",
     "create_nodeIlluminationMode",
     "create_nodefluxtracking",
-    "create_overrideBandIrradiance",
     "create_radiativeBudgetProperties",
     "create_skylTemperature",
     "create_temperatureAtmosphere",

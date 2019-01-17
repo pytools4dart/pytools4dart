@@ -5,7 +5,7 @@
 <!-- == == -->
 <!-- ==================================================================== -->
 <DartDocumentTemplateNode type="header" version="1.0">
-	<DartFile version="5.7.1" build="0">
+	<DartFile version="5.7.4" build="0">
 		<Phase calculatorMethod="0">
 			<AtmosphereRadiativeTransfer TOAtoBOA="0">
 				<DartDocumentTemplateNode test="parent.TOAtoBOA==2">
@@ -14,11 +14,11 @@
 			</AtmosphereRadiativeTransfer>
 			<ExpertModeZone expertMode="0" nbThreads="4"
 				lightPropagationThreshold="1E-7"
-				nbRandomPointsPerInteceptionAtmosphere="1" albedoThreshold="1E-7"
+				nbRandomPointsPerInteceptionAtmosphere="1" albedoThreshold="1E-3"
 				distanceBetweenIlluminationSubCenters="0.1" maxNbSceneCrossing="1000"
 				illuminationRepartitionMode="2" nbSubcenterVolume="2" subFaceBarycenterSubdivision="1" thermalEmissionSurfaceSubdivision="0.01"
 				nbSubSubcenterTurbidEmission="40" isInterceptedPowerPerDirectionForSpecularCheck="0"
-				subFaceBarycenterEnabled="1" surfaceBarycenterEnabled="1" extrapolationMethod="0" useExternalScripts="0" sparseVoxelAcceleration="1" 
+				subFaceBarycenterEnabled="1" surfaceBarycenterEnabled="1" useExternalScripts="0" sparseVoxelAcceleration="1" 
 				nbTrianglesWithinVoxelAcceleration="10" accelerationEngine="0" triangleStorageMode="0"/>
 			<DartInputParameters>
 				<DartDocumentTemplateNode test="parent.parent.calculatorMethod==1">
@@ -45,7 +45,7 @@
 							</RunningMode>
 							<FluxtrackingSolarNoise>
 								<nodefluxtracking
-									gaussSiedelAcceleratingTechnique="0" numberOfIteration="5" />
+									gaussSiedelAcceleratingTechnique="0" numberOfIteration="20" />
 
 								<SpectralDomainTir temperatureMode="0">
 									<DartDocumentTemplateNode test="parent.temperatureMode==1">
@@ -58,12 +58,10 @@
 								</SpectralDomainTir>
 								<temperatureAtmosphere
 									atmosphericApparentTemperature="260.0" />
-								<nodeIlluminationMode illuminationMode="0"
-									irradianceMode="0">
-									<DartDocumentTemplateNode test="parent.illuminationMode==1">
-										<DiscreteIllumination sizeX="0.2" sizeY="0.3"
-											centerX="10.0" centerY="10.0" />
-									</DartDocumentTemplateNode>
+								<nodeIlluminationMode irradianceMode="0"> <!-- illuminationMode="0" -->									
+									<!--DartDocumentTemplateNode test="parent.illuminationMode==1"-->
+										<!--DiscreteIllumination sizeX="0.2" sizeY="0.3" centerX="10.0" centerY="10.0" /-->
+									<!--/DartDocumentTemplateNode-->
 									<DartDocumentTemplateNode test="parent.irradianceMode==0">
 										<irradianceDatabaseNode databaseName="Solar_constant.db"
 											irradianceTable="TOASolar_THKUR" irradianceColumn="irradiance"
@@ -72,7 +70,12 @@
 												<WeightingParameters sceneAverageTemperatureForPonderation="300"/>
 											</DartDocumentTemplateNode>
 										</irradianceDatabaseNode> 
+									</DartDocumentTemplateNode>									
+						
+									<DartDocumentTemplateNode test="parent.irradianceMode==3">
+										<BandIrradianceFileNode bandIrradianceFile="sunIrradiance.txt"/>
 									</DartDocumentTemplateNode>
+									
 									<DartDocumentTemplateNode test="parent.irradianceMode==2">
 										<illumination illuminationFileName="atmosphere_radiance_before_coupling.binary" />
 									</DartDocumentTemplateNode>
@@ -247,12 +250,10 @@
 				</DartDocumentTemplateNode>
 
 				<DartDocumentTemplateNode test="parent.parent.calculatorMethod!=2">
-					<nodeIlluminationMode illuminationMode="0"
-						irradianceMode="0">
-						<DartDocumentTemplateNode test="parent.illuminationMode==1">
-							<DiscreteIllumination sizeX="0.2" sizeY="0.3"
-								centerX="10.0" centerY="10.0" />
-						</DartDocumentTemplateNode>
+					<nodeIlluminationMode irradianceMode="0"> <!-- illuminationMode="0" -->						
+						<!--DartDocumentTemplateNode test="parent.illuminationMode==1"-->
+							<!--DiscreteIllumination sizeX="0.2" sizeY="0.3" centerX="10.0" centerY="10.0" /-->
+						<!--/DartDocumentTemplateNode-->
 						<DartDocumentTemplateNode test="parent.irradianceMode==0">
 							<irradianceDatabaseNode databaseName="Solar_constant.db"
 								irradianceTable="TOASolar_THKUR" irradianceColumn="irradiance"
@@ -261,15 +262,10 @@
 									<WeightingParameters sceneAverageTemperatureForPonderation="300"/>
 								</DartDocumentTemplateNode>
 							</irradianceDatabaseNode>
-						</DartDocumentTemplateNode>
+						</DartDocumentTemplateNode>				
 						
-						<DartDocumentTemplateNode test="parent.irradianceMode==1">
-							<overrideBandIrradiance isOverrideBandIrradiance="0">
-								<DartDocumentTemplateNode test="parent.isOverrideBandIrradiance==1">
-								<bandIrradianceFileNode bandIrradianceFile="bandIrradianceFile.txt">
-								</bandIrradianceFileNode>
-								</DartDocumentTemplateNode>
-							</overrideBandIrradiance>
+						<DartDocumentTemplateNode test="parent.irradianceMode==3">
+							<BandIrradianceFileNode bandIrradianceFile="sunIrradiance.txt"/>
 						</DartDocumentTemplateNode>
 						
 						<DartDocumentTemplateNode test="parent.irradianceMode==2">
@@ -292,54 +288,70 @@
 				</DartDocumentTemplateNode>
 			</DartInputParameters>
 			<DartProduct>
-				<dartModuleProducts brfProducts="1"
-					radiativeBudgetProducts="0" allIterationsProducts="0" polarizationProducts="0"
-					order1Products="0" lidarProducts="0" lidarImageProducts="0" temperaturePerTrianglePerCell="0">					
-					<DartDocumentTemplateNode test="parent.brfProducts==1">
-						<BrfProductsProperties brfProduct="1" image="1" centralizedBrfProduct="1"
-							extrapolation="1" maximalThetaImages="25.0"
-							sensorPlaneprojection="1" horizontalOversampling="1"
-							sensorOversampling="1" nb_scene="1" projection="0"
-							luminanceProducts="0" transmittanceImages="0">
-							<DartDocumentTemplateNode test="parent.image==1">
-								<ExpertModeZone_Etalement etalement="2">
-									<DartDocumentTemplateNode test="parent.parent.sensorPlaneprojection==1">
-										<ExpertModeZone_Projection keepNonProjectedImage="0" />
+				<dartModuleProducts>
+					<CommonProducts radiativeBudgetProducts="0" polarizationProducts="0">					
+						<DartDocumentTemplateNode test="parent.radiativeBudgetProducts==1">
+							<radiativeBudgetProperties
+								fIRfARfSRfINTR1DProducts="1" fIRfARfSRfINTR2DProducts="1" fIRfARfSRfINTR3DProducts="1"
+								extrapolation="1" budgetTotalParType="0" budget2DParType="0" budget3DParType="0"
+								budget3DParSurface="0" budgetUnitModeR="0" binaryFormat="0">
+									<Components>
+										<CellComponents intercepted="1" scattered="1" emitted="1" absorbed="1"
+										 bottomExit="0" bottomEntry="0" topExit="1" topEntry="1"
+										  frontExit="0" frontEntry="0" rightExit="0" rightEntry="0"
+										 backExit="0" backEntry="0" leftExit="0" leftEntry="0"
+										  totalExit="0" totalEntry="0"/>
+										<ElementComponents intercepted="1" scattered="1" emitted="1" absorbed="1"/>
+									</Components>
+								</radiativeBudgetProperties>
+						</DartDocumentTemplateNode>
+					</CommonProducts>					
+					<DartDocumentTemplateNode test="parent.parent.parent.calculatorMethod!=2">
+						<FluxTrackingModeProducts brfProducts="1" temperaturePerTrianglePerCell="0" order1Products="0" allIterationsProducts="0">
+							<DartDocumentTemplateNode test="parent.brfProducts==1">
+								<BrfProductsProperties brfProduct="1" image="1" centralizedBrfProduct="1"
+									extrapolation="1" maximalThetaImages="25.0"
+									sensorPlaneprojection="1" horizontalOversampling="1"
+									sensorOversampling="1" nb_scene="1" projection="0"
+									luminanceProducts="0" transmittanceImages="0">
+									<DartDocumentTemplateNode test="parent.image==1">
+										<ExpertModeZone_Etalement etalement="2">
+											<DartDocumentTemplateNode test="parent.parent.sensorPlaneprojection==1">
+												<ExpertModeZone_Projection keepNonProjectedImage="0" />
+											</DartDocumentTemplateNode>
+											<DartDocumentTemplateNode test="parent.etalement==2">
+												<ExpertModeZone_PerTypeProduct generatePerTypeProduct="0" />
+											</DartDocumentTemplateNode>
+										</ExpertModeZone_Etalement>
 									</DartDocumentTemplateNode>
-									<DartDocumentTemplateNode test="parent.etalement==2">
-										<ExpertModeZone_PerTypeProduct generatePerTypeProduct="0" />
+									<DartDocumentTemplateNode
+										test="parent.projection==1 or parent.projection==2 or parent.projection==3">
+										<ExpertModeZone_maskProjection
+											albedoImages="0"/>
 									</DartDocumentTemplateNode>
-								</ExpertModeZone_Etalement>
+									<!-- DartDocumentTemplateNode test="parent.radiometricSensorSimulation==1" -->
+									<!-- RadiometricSensorSimulationProperties impulseResponseFileName="ir.txt" 
+										dimension="5" a1="0.1" sO="0.1"/ -->
+									<!-- /DartDocumentTemplateNode -->
+								</BrfProductsProperties>
+							</DartDocumentTemplateNode>							
+							<DartDocumentTemplateNode test="parent.order1Products==1">
+								<Order1Options order1Only="0" imagesOnly="0"/>				
 							</DartDocumentTemplateNode>
-							<DartDocumentTemplateNode
-								test="parent.projection==1 or parent.projection==2 or parent.projection==3">
-								<ExpertModeZone_maskProjection
-									albedoImages="0"/>
+						</FluxTrackingModeProducts>
+					</DartDocumentTemplateNode>					
+					<DartDocumentTemplateNode test="parent.parent.parent.calculatorMethod==2">
+						<LidarModeProducts lidarProducts="1" lidarImageProducts="0">
+							<DartDocumentTemplateNode test="parent.lidarProducts==1">
+								<lidarProductsProperties convolvedWaveform="1" groundSensorImage="0" photonInformations="0" lidarImagePanelInformation="0"/>
 							</DartDocumentTemplateNode>
-							<!-- DartDocumentTemplateNode test="parent.radiometricSensorSimulation==1" -->
-							<!-- RadiometricSensorSimulationProperties impulseResponseFileName="ir.txt" 
-								dimension="5" a1="0.1" sO="0.1"/ -->
-							<!-- /DartDocumentTemplateNode -->
-						</BrfProductsProperties>
-					</DartDocumentTemplateNode>
-					<DartDocumentTemplateNode test="parent.lidarProducts==1">
-						<lidarProductsProperties
-							convolvedWaveform="1" groundSensorImage="0" photonInformations="0" lidarImagePanelInformation="0"/>
-					</DartDocumentTemplateNode>
-					<DartDocumentTemplateNode test="parent.order1Products==1 and parent.parent.parent.calculatorMethod!=2">
-						<Order1Options order1Only="0" imagesOnly="0"/>				
-					</DartDocumentTemplateNode>
-					<DartDocumentTemplateNode test="parent.lidarImageProducts==1">
-						<ImageBinaryProducts outputFloatFormat="1"
-							ifOutputNonConvolveWaveform="1" ifOutputFirstOrderWaveform="1"
-							ifOutputStaticSection="1" />
-					</DartDocumentTemplateNode>
-					<DartDocumentTemplateNode test="parent.radiativeBudgetProducts==1">
-						<radiativeBudgetProperties
-							fIRfARfSRfINTR1DProducts="1" fIRfARfSRfINTR2DProducts="1" fIRfARfSRfINTR3DProducts="1"
-							extrapolation="1" budgetTotalParType="0" budget2DParType="0" budget3DParType="0"
-							budget3DParSurface="0" budgetUnitModeR="0" binaryFormat="0"/>
-					</DartDocumentTemplateNode>
+							<DartDocumentTemplateNode test="parent.lidarImageProducts==1">
+								<ImageBinaryProducts outputFloatFormat="1"
+									ifOutputNonConvolveWaveform="1" ifOutputFirstOrderWaveform="1"
+									ifOutputStaticSection="1" />
+							</DartDocumentTemplateNode>
+						</LidarModeProducts>
+					</DartDocumentTemplateNode>						
 				</dartModuleProducts>
 				<maketModuleProducts laiProducts="0"
 					MNEProducts="0" areaMaketProducts="0" coverRateProducts="0" objectGeneration="0">
@@ -410,7 +422,7 @@
 							</DartDocumentTemplateNode>
 						</Pushbroom>
 						<InsideSensor sensorConfiguration="0">
-							<Sensor nbSceneRepetition="0">
+							<InsideSensorConfiguration nbSceneRepetition="0">
 								<SensorCentralPosition sensorPosX="36" sensorPosY="36" sensorPosZ="1.6"/>
 								<SensorView viewDefinition="0">
 									<DartDocumentTemplateNode test="parent.viewDefinition==0">
@@ -423,7 +435,7 @@
 										<CameraOrientYPR rotDefBT="5" yaw="0" pitch="-90" roll="180"/>
 									</DartDocumentTemplateNode>
 								</SensorView>
-							</Sensor>
+							</InsideSensorConfiguration>
 							<DartDocumentTemplateNode test="parent.sensorConfiguration==0">
 								<Image>
 									<SensorDimensions width="0.54" height="0.40"/>

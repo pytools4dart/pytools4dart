@@ -2,28 +2,30 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Wed Oct 31 15:06:25 2018 by generateDS.py version 2.29.25.
-# Python 2.7.15rc1 (default, Apr 15 2018, 21:51:34)  [GCC 7.3.0]
+# Generated Wed Jan  2 18:30:52 2019 by generateDS.py version 2.29.25.
+# Python 2.7.15rc1 (default, Nov 12 2018, 14:31:15)  [GCC 7.3.0]
 #
 # Command line options:
 #   ('-m', '')
+#   ('-f', '')
 #   ('--always-export-default', '')
 #   ('--export', 'write literal etree')
+#   ('-u', 'pytools4dart.core_ui.user_methods')
 #   ('-p', 'create')
-#   ('--post-attrib-setter', 'update_node(self,self.troot,"atmosphere")')
-#   ('--pre-ctor', 'self.troot=get_gs_troot("atmosphere","{classname}")')
-#   ('--post-ctor', 'update_node(self,self.troot,"atmosphere")')
+#   ('--post-attrib-setter', "update_node(self,self.troot,'atmosphere')")
+#   ('--pre-ctor', "self.troot=get_gs_troot('atmosphere','{classname}')")
+#   ('--post-ctor', "update_node(self,self.troot,'atmosphere')")
 #   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node')
-#   ('-o', '/home/claudia/tmp/atmosphere.py')
+#   ('-o', 'pytools4dart/core_ui/atmosphere.py')
 #
 # Command line arguments:
-#   /home/claudia/DEV/pytools4dartMTD/pytools4dart/core_ui/atmosphere.xsd
+#   pytools4dart/xsdschemas/atmosphere.xsd
 #
 # Command line:
-#   /home/claudia/DEV/pytools4dartMTD/venv/bin/generateDS.py -m --always-export-default --export="write literal etree" -p "create" --post-attrib-setter="update_node(self,self.troot,"atmosphere")" --pre-ctor="self.troot=get_gs_troot("atmosphere","{classname}")" --post-ctor="update_node(self,self.troot,"atmosphere")" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node" -o "/home/claudia/tmp/atmosphere.py" /home/claudia/DEV/pytools4dartMTD/pytools4dart/core_ui/atmosphere.xsd
+#   /home/boissieu/git/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "pytools4dart.core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'atmosphere')" --pre-ctor="self.troot=get_gs_troot('atmosphere','{classname}')" --post-ctor="update_node(self,self.troot,'atmosphere')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node" -o "pytools4dart/core_ui/atmosphere.py" pytools4dart/xsdschemas/atmosphere.xsd
 #
 # Current working directory (os.getcwd()):
-#   generateds
+#   pytools4dartMTD
 #
 
 import sys
@@ -742,18 +744,23 @@ class createDartFile(GeneratedsSuper):
     """Version of the plots.xml file. Depends of the version on DART
     itself. Version of the plots.xml file. Depends of the version on
     DART itself."""
+    member_data_items_ = [
+        MemberSpec_('version', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('build_', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Atmosphere', '_Atmosphere', 0, 0, {u'maxOccurs': u'1', u'type': u'_Atmosphere', u'name': u'Atmosphere', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
-    def __init__(self, version='5.7.1', build_='0', Atmosphere=None):
+    def __init__(self, version='5.7.4', build_='0', Atmosphere=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","DartFile")
+        self.troot=get_gs_troot('atmosphere','DartFile')
         self.attrib = ['version', 'build_']
         self.children = ['Atmosphere']
         self.parent = None
         self._version = _cast(None, version)
         self._build_ = _cast(None, build_)
         self._Atmosphere = Atmosphere
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -775,12 +782,12 @@ class createDartFile(GeneratedsSuper):
     def get_version(self): return self._version
     def set_version(self, value):
         self._version = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     version = property(get_version, set_version)
     def get_build(self): return self._build_
     def set_build(self, value):
         self._build_ = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     build_ = property(get_build, set_build)
     def copy(self):
         obj_ = self.factory()
@@ -886,7 +893,9 @@ class createDartFile(GeneratedsSuper):
             obj_.build(child_)
             self.set_Atmosphere(obj_)
             obj_.original_tagname_ = 'Atmosphere'
-# end class createDartFile
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class createDartFile
 
 
 class create_Atmosphere(GeneratedsSuper):
@@ -895,18 +904,23 @@ class create_Atmosphere(GeneratedsSuper):
     lower atmosphere) Radiative transfer is simulated within the air
     of the lower atmosphere (i.e., the earth landscape is within the
     lower atmosphere)"""
+    member_data_items_ = [
+        MemberSpec_('isRadiativeTransfertInBottomAtmosphereDefined', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Aerosol', '_Aerosol', 0, 0, {u'maxOccurs': u'1', u'type': u'_Aerosol', u'name': u'Aerosol', u'minOccurs': u'1'}, None),
+        MemberSpec_('IsAtmosphere', '_IsAtmosphere', 0, 0, {u'maxOccurs': u'1', u'type': u'_IsAtmosphere', u'name': u'IsAtmosphere', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, isRadiativeTransfertInBottomAtmosphereDefined=0, Aerosol=None, IsAtmosphere=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_Atmosphere")
+        self.troot=get_gs_troot('atmosphere','_Atmosphere')
         self.attrib = ['isRadiativeTransfertInBottomAtmosphereDefined']
         self.children = ['Aerosol', 'IsAtmosphere']
         self.parent = None
         self._isRadiativeTransfertInBottomAtmosphereDefined = _cast(int, isRadiativeTransfertInBottomAtmosphereDefined)
         self._Aerosol = Aerosol
         self._IsAtmosphere = IsAtmosphere
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -935,7 +949,7 @@ class create_Atmosphere(GeneratedsSuper):
     def get_isRadiativeTransfertInBottomAtmosphereDefined(self): return self._isRadiativeTransfertInBottomAtmosphereDefined
     def set_isRadiativeTransfertInBottomAtmosphereDefined(self, value):
         self._isRadiativeTransfertInBottomAtmosphereDefined = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     isRadiativeTransfertInBottomAtmosphereDefined = property(get_isRadiativeTransfertInBottomAtmosphereDefined, set_isRadiativeTransfertInBottomAtmosphereDefined)
     def copy(self):
         obj_ = self.factory()
@@ -1048,15 +1062,20 @@ class create_Atmosphere(GeneratedsSuper):
             obj_.build(child_)
             self.set_IsAtmosphere(obj_)
             obj_.original_tagname_ = 'IsAtmosphere'
-# end class create_Atmosphere
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Atmosphere
 
 
 class create_Aerosol(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('AerosolProperties', '_AerosolProperties', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_AerosolProperties', u'name': u'AerosolProperties', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, AerosolProperties=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_Aerosol")
+        self.troot=get_gs_troot('atmosphere','_Aerosol')
         self.attrib = ['']
         self.children = ['AerosolProperties']
         self.parent = None
@@ -1064,7 +1083,7 @@ class create_Aerosol(GeneratedsSuper):
             self._AerosolProperties = []
         else:
             self._AerosolProperties = AerosolProperties
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1180,7 +1199,9 @@ class create_Aerosol(GeneratedsSuper):
             obj_.build(child_)
             self.add_AerosolProperties(obj_)
             obj_.original_tagname_ = 'AerosolProperties'
-# end class create_Aerosol
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Aerosol
 
 
 class create_AerosolProperties(GeneratedsSuper):
@@ -1191,11 +1212,18 @@ class create_AerosolProperties(GeneratedsSuper):
     multiplied by these factor at every wavelength Aerosol optical
     depth of the database will be multiplied by these factor at
     every wavelength"""
+    member_data_items_ = [
+        MemberSpec_('aerosolsModelName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('aerosolCumulativeModelName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('hgParametersModelName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('databaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('aerosolOptDepthFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, aerosolsModelName='USSTD76_RURALV23', aerosolCumulativeModelName='RURALV23', hgParametersModelName='RURALV23', databaseName='dart_atmosphere.db', aerosolOptDepthFactor=1):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_AerosolProperties")
+        self.troot=get_gs_troot('atmosphere','_AerosolProperties')
         self.attrib = ['aerosolsModelName', 'aerosolCumulativeModelName', 'hgParametersModelName', 'databaseName', 'aerosolOptDepthFactor']
         self.children = []
         self.parent = None
@@ -1204,7 +1232,7 @@ class create_AerosolProperties(GeneratedsSuper):
         self._hgParametersModelName = _cast(None, hgParametersModelName)
         self._databaseName = _cast(None, databaseName)
         self._aerosolOptDepthFactor = _cast(float, aerosolOptDepthFactor)
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1219,27 +1247,27 @@ class create_AerosolProperties(GeneratedsSuper):
     def get_aerosolsModelName(self): return self._aerosolsModelName
     def set_aerosolsModelName(self, value):
         self._aerosolsModelName = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     aerosolsModelName = property(get_aerosolsModelName, set_aerosolsModelName)
     def get_aerosolCumulativeModelName(self): return self._aerosolCumulativeModelName
     def set_aerosolCumulativeModelName(self, value):
         self._aerosolCumulativeModelName = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     aerosolCumulativeModelName = property(get_aerosolCumulativeModelName, set_aerosolCumulativeModelName)
     def get_hgParametersModelName(self): return self._hgParametersModelName
     def set_hgParametersModelName(self, value):
         self._hgParametersModelName = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     hgParametersModelName = property(get_hgParametersModelName, set_hgParametersModelName)
     def get_databaseName(self): return self._databaseName
     def set_databaseName(self, value):
         self._databaseName = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     databaseName = property(get_databaseName, set_databaseName)
     def get_aerosolOptDepthFactor(self): return self._aerosolOptDepthFactor
     def set_aerosolOptDepthFactor(self, value):
         self._aerosolOptDepthFactor = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     aerosolOptDepthFactor = property(get_aerosolOptDepthFactor, set_aerosolOptDepthFactor)
     def copy(self):
         obj_ = self.factory()
@@ -1369,7 +1397,9 @@ class create_AerosolProperties(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (aerosolOptDepthFactor): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_AerosolProperties
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_AerosolProperties
 
 
 class create_IsAtmosphere(GeneratedsSuper):
@@ -1377,11 +1407,20 @@ class create_IsAtmosphere(GeneratedsSuper):
     or user defined mono-spectral parameters for the atmosphere
     Choice of an atmosphere spectral database or user defined mono-
     spectral parameters for the atmosphere"""
+    member_data_items_ = [
+        MemberSpec_('typeOfAtmosphere', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('isRadiativeTransfertInBottomAtmosphere', '_isRadiativeTransfertInBottomAtmosphere', 0, 0, {u'maxOccurs': u'1', u'type': u'_isRadiativeTransfertInBottomAtmosphere', u'name': u'isRadiativeTransfertInBottomAtmosphere', u'minOccurs': u'1'}, None),
+        MemberSpec_('AtmosphericOpticalProperty', '_AtmosphericOpticalProperty', 0, 0, {u'maxOccurs': u'1', u'type': u'_AtmosphericOpticalProperty', u'name': u'AtmosphericOpticalProperty', u'minOccurs': u'1'}, None),
+        MemberSpec_('TemperatureFile', '_TemperatureFile', 0, 0, {u'maxOccurs': u'1', u'type': u'_TemperatureFile', u'name': u'TemperatureFile', u'minOccurs': u'1'}, None),
+        MemberSpec_('AtmosphericOpticalPropertyModel', '_AtmosphericOpticalPropertyModel', 0, 0, {u'maxOccurs': u'1', u'type': u'_AtmosphericOpticalPropertyModel', u'name': u'AtmosphericOpticalPropertyModel', u'minOccurs': u'1'}, None),
+        MemberSpec_('AtmosphereIterations', '_AtmosphereIterations', 0, 0, {u'maxOccurs': u'1', u'type': u'_AtmosphereIterations', u'name': u'AtmosphereIterations', u'minOccurs': u'1'}, None),
+        MemberSpec_('AtmosphereGeometry', '_AtmosphereGeometry', 0, 0, {u'maxOccurs': u'1', u'type': u'_AtmosphereGeometry', u'name': u'AtmosphereGeometry', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, typeOfAtmosphere=1, isRadiativeTransfertInBottomAtmosphere=None, AtmosphericOpticalProperty=None, TemperatureFile=None, AtmosphericOpticalPropertyModel=None, AtmosphereIterations=None, AtmosphereGeometry=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_IsAtmosphere")
+        self.troot=get_gs_troot('atmosphere','_IsAtmosphere')
         self.attrib = ['typeOfAtmosphere']
         self.children = ['isRadiativeTransfertInBottomAtmosphere', 'AtmosphericOpticalProperty', 'TemperatureFile', 'AtmosphericOpticalPropertyModel', 'AtmosphereIterations', 'AtmosphereGeometry']
         self.parent = None
@@ -1392,7 +1431,7 @@ class create_IsAtmosphere(GeneratedsSuper):
         self._AtmosphericOpticalPropertyModel = AtmosphericOpticalPropertyModel
         self._AtmosphereIterations = AtmosphereIterations
         self._AtmosphereGeometry = AtmosphereGeometry
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1449,7 +1488,7 @@ class create_IsAtmosphere(GeneratedsSuper):
     def get_typeOfAtmosphere(self): return self._typeOfAtmosphere
     def set_typeOfAtmosphere(self, value):
         self._typeOfAtmosphere = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     typeOfAtmosphere = property(get_typeOfAtmosphere, set_typeOfAtmosphere)
     def copy(self):
         obj_ = self.factory()
@@ -1630,7 +1669,9 @@ class create_IsAtmosphere(GeneratedsSuper):
             obj_.build(child_)
             self.set_AtmosphereGeometry(obj_)
             obj_.original_tagname_ = 'AtmosphereGeometry'
-# end class create_IsAtmosphere
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_IsAtmosphere
 
 
 class create_isRadiativeTransfertInBottomAtmosphere(GeneratedsSuper):
@@ -1641,17 +1682,21 @@ class create_isRadiativeTransfertInBottomAtmosphere(GeneratedsSuper):
     atmosphere up to which will be included in the BA level.
     Altitude of the atmosphere up to which will be included in the
     BA level."""
+    member_data_items_ = [
+        MemberSpec_('writeTemperatureFile', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('BA_altitude', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, writeTemperatureFile=0, BA_altitude=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_isRadiativeTransfertInBottomAtmosphere")
+        self.troot=get_gs_troot('atmosphere','_isRadiativeTransfertInBottomAtmosphere')
         self.attrib = ['writeTemperatureFile', 'BA_altitude']
         self.children = []
         self.parent = None
         self._writeTemperatureFile = _cast(int, writeTemperatureFile)
         self._BA_altitude = _cast(float, BA_altitude)
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1666,12 +1711,12 @@ class create_isRadiativeTransfertInBottomAtmosphere(GeneratedsSuper):
     def get_writeTemperatureFile(self): return self._writeTemperatureFile
     def set_writeTemperatureFile(self, value):
         self._writeTemperatureFile = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     writeTemperatureFile = property(get_writeTemperatureFile, set_writeTemperatureFile)
     def get_BA_altitude(self): return self._BA_altitude
     def set_BA_altitude(self, value):
         self._BA_altitude = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     BA_altitude = property(get_BA_altitude, set_BA_altitude)
     def copy(self):
         obj_ = self.factory()
@@ -1765,7 +1810,9 @@ class create_isRadiativeTransfertInBottomAtmosphere(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (BA_altitude): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_isRadiativeTransfertInBottomAtmosphere
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_isRadiativeTransfertInBottomAtmosphere
 
 
 class create_AtmosphericOpticalProperty(GeneratedsSuper):
@@ -1788,11 +1835,24 @@ class create_AtmosphericOpticalProperty(GeneratedsSuper):
     scattering by aerosols Transmittance ([0 1]) of an atmosphere
     made of 100% absorbing gas only Transmittance ([0 1]) of an
     atmosphere made of 100% absorbing gas only"""
+    member_data_items_ = [
+        MemberSpec_('aerosolOpticalDepth', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('g2', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('g1', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('aerosolScaleFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('pointMilieu', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('gasScaleFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('courbureTerre', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('gasOpticalDepth', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('a_HG', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('aerosolAlbedo', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('transmittanceOfGases', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, aerosolOpticalDepth=0.202, g2=0.4, g1=0.790, aerosolScaleFactor=1000, pointMilieu=1, gasScaleFactor=8400, courbureTerre=1, gasOpticalDepth=0.049, a_HG=0.95, aerosolAlbedo=0.947, transmittanceOfGases=0.750):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_AtmosphericOpticalProperty")
+        self.troot=get_gs_troot('atmosphere','_AtmosphericOpticalProperty')
         self.attrib = ['aerosolOpticalDepth', 'g2', 'g1', 'aerosolScaleFactor', 'pointMilieu', 'gasScaleFactor', 'courbureTerre', 'gasOpticalDepth', 'a_HG', 'aerosolAlbedo', 'transmittanceOfGases']
         self.children = []
         self.parent = None
@@ -1807,7 +1867,7 @@ class create_AtmosphericOpticalProperty(GeneratedsSuper):
         self._a_HG = _cast(float, a_HG)
         self._aerosolAlbedo = _cast(float, aerosolAlbedo)
         self._transmittanceOfGases = _cast(float, transmittanceOfGases)
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1822,57 +1882,57 @@ class create_AtmosphericOpticalProperty(GeneratedsSuper):
     def get_aerosolOpticalDepth(self): return self._aerosolOpticalDepth
     def set_aerosolOpticalDepth(self, value):
         self._aerosolOpticalDepth = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     aerosolOpticalDepth = property(get_aerosolOpticalDepth, set_aerosolOpticalDepth)
     def get_g2(self): return self._g2
     def set_g2(self, value):
         self._g2 = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     g2 = property(get_g2, set_g2)
     def get_g1(self): return self._g1
     def set_g1(self, value):
         self._g1 = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     g1 = property(get_g1, set_g1)
     def get_aerosolScaleFactor(self): return self._aerosolScaleFactor
     def set_aerosolScaleFactor(self, value):
         self._aerosolScaleFactor = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     aerosolScaleFactor = property(get_aerosolScaleFactor, set_aerosolScaleFactor)
     def get_pointMilieu(self): return self._pointMilieu
     def set_pointMilieu(self, value):
         self._pointMilieu = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     pointMilieu = property(get_pointMilieu, set_pointMilieu)
     def get_gasScaleFactor(self): return self._gasScaleFactor
     def set_gasScaleFactor(self, value):
         self._gasScaleFactor = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     gasScaleFactor = property(get_gasScaleFactor, set_gasScaleFactor)
     def get_courbureTerre(self): return self._courbureTerre
     def set_courbureTerre(self, value):
         self._courbureTerre = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     courbureTerre = property(get_courbureTerre, set_courbureTerre)
     def get_gasOpticalDepth(self): return self._gasOpticalDepth
     def set_gasOpticalDepth(self, value):
         self._gasOpticalDepth = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     gasOpticalDepth = property(get_gasOpticalDepth, set_gasOpticalDepth)
     def get_a_HG(self): return self._a_HG
     def set_a_HG(self, value):
         self._a_HG = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     a_HG = property(get_a_HG, set_a_HG)
     def get_aerosolAlbedo(self): return self._aerosolAlbedo
     def set_aerosolAlbedo(self, value):
         self._aerosolAlbedo = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     aerosolAlbedo = property(get_aerosolAlbedo, set_aerosolAlbedo)
     def get_transmittanceOfGases(self): return self._transmittanceOfGases
     def set_transmittanceOfGases(self, value):
         self._transmittanceOfGases = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     transmittanceOfGases = property(get_transmittanceOfGases, set_transmittanceOfGases)
     def copy(self):
         obj_ = self.factory()
@@ -2110,7 +2170,9 @@ class create_AtmosphericOpticalProperty(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (transmittanceOfGases): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_AtmosphericOpticalProperty
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_AtmosphericOpticalProperty
 
 
 class create_TemperatureFile(GeneratedsSuper):
@@ -2119,16 +2181,19 @@ class create_TemperatureFile(GeneratedsSuper):
     T+R File containing temperature vertical profile; example : \n
     *number of layers* 2 \n0 300\n80 220\n File necessary only in
     mode T or T+R"""
+    member_data_items_ = [
+        MemberSpec_('atmosphereTemperatureFileName', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, atmosphereTemperatureFileName='atmosphereTemperature.txt'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_TemperatureFile")
+        self.troot=get_gs_troot('atmosphere','_TemperatureFile')
         self.attrib = ['atmosphereTemperatureFileName']
         self.children = []
         self.parent = None
         self._atmosphereTemperatureFileName = _cast(None, atmosphereTemperatureFileName)
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2143,7 +2208,7 @@ class create_TemperatureFile(GeneratedsSuper):
     def get_atmosphereTemperatureFileName(self): return self._atmosphereTemperatureFileName
     def set_atmosphereTemperatureFileName(self, value):
         self._atmosphereTemperatureFileName = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     atmosphereTemperatureFileName = property(get_atmosphereTemperatureFileName, set_atmosphereTemperatureFileName)
     def copy(self):
         obj_ = self.factory()
@@ -2218,7 +2283,9 @@ class create_TemperatureFile(GeneratedsSuper):
             self.atmosphereTemperatureFileName = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_TemperatureFile
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_TemperatureFile
 
 
 class create_AtmosphericOpticalPropertyModel(GeneratedsSuper):
@@ -2233,11 +2300,28 @@ class create_AtmosphericOpticalPropertyModel(GeneratedsSuper):
     atmosphere extrapolation CO2 mixing rate CO2 mixing rate
     Manually define the amount of other gases Manually define the
     amount of other gases"""
+    member_data_items_ = [
+        MemberSpec_('precipitableWaterAmountCkeckbox', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('databaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('correctionBandModel', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('temperatureModelName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('redefTemperature', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('gasModelName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('gasGroup', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('gasCumulativeModelName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ignoreGasForExtrapolation', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('co2MixRate', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('scaleOtherGases', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ignoredGas', '_ignoredGas', 0, 0, {u'maxOccurs': u'1', u'type': u'_ignoredGas', u'name': u'ignoredGas', u'minOccurs': u'1'}, None),
+        MemberSpec_('OtherGasesScale', '_OtherGasesScale', 0, 0, {u'maxOccurs': u'1', u'type': u'_OtherGasesScale', u'name': u'OtherGasesScale', u'minOccurs': u'1'}, None),
+        MemberSpec_('WaterAmount', '_WaterAmount', 0, 0, {u'maxOccurs': u'1', u'type': u'_WaterAmount', u'name': u'WaterAmount', u'minOccurs': u'1'}, None),
+        MemberSpec_('tempParameters', '_tempParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_tempParameters', u'name': u'tempParameters', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, precipitableWaterAmountCkeckbox=0, databaseName='dart_atmosphere.db', correctionBandModel=1, temperatureModelName='USSTD76', redefTemperature=0, gasModelName='USSTD76', gasGroup=1, gasCumulativeModelName='USSTD76', ignoreGasForExtrapolation=0, co2MixRate=365.0, scaleOtherGases=0, ignoredGas=None, OtherGasesScale=None, WaterAmount=None, tempParameters=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_AtmosphericOpticalPropertyModel")
+        self.troot=get_gs_troot('atmosphere','_AtmosphericOpticalPropertyModel')
         self.attrib = ['precipitableWaterAmountCkeckbox', 'databaseName', 'correctionBandModel', 'temperatureModelName', 'redefTemperature', 'gasModelName', 'gasGroup', 'gasCumulativeModelName', 'ignoreGasForExtrapolation', 'co2MixRate', 'scaleOtherGases']
         self.children = ['ignoredGas', 'OtherGasesScale', 'WaterAmount', 'tempParameters']
         self.parent = None
@@ -2256,7 +2340,7 @@ class create_AtmosphericOpticalPropertyModel(GeneratedsSuper):
         self._OtherGasesScale = OtherGasesScale
         self._WaterAmount = WaterAmount
         self._tempParameters = tempParameters
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2299,57 +2383,57 @@ class create_AtmosphericOpticalPropertyModel(GeneratedsSuper):
     def get_precipitableWaterAmountCkeckbox(self): return self._precipitableWaterAmountCkeckbox
     def set_precipitableWaterAmountCkeckbox(self, value):
         self._precipitableWaterAmountCkeckbox = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     precipitableWaterAmountCkeckbox = property(get_precipitableWaterAmountCkeckbox, set_precipitableWaterAmountCkeckbox)
     def get_databaseName(self): return self._databaseName
     def set_databaseName(self, value):
         self._databaseName = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     databaseName = property(get_databaseName, set_databaseName)
     def get_correctionBandModel(self): return self._correctionBandModel
     def set_correctionBandModel(self, value):
         self._correctionBandModel = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     correctionBandModel = property(get_correctionBandModel, set_correctionBandModel)
     def get_temperatureModelName(self): return self._temperatureModelName
     def set_temperatureModelName(self, value):
         self._temperatureModelName = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     temperatureModelName = property(get_temperatureModelName, set_temperatureModelName)
     def get_redefTemperature(self): return self._redefTemperature
     def set_redefTemperature(self, value):
         self._redefTemperature = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     redefTemperature = property(get_redefTemperature, set_redefTemperature)
     def get_gasModelName(self): return self._gasModelName
     def set_gasModelName(self, value):
         self._gasModelName = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     gasModelName = property(get_gasModelName, set_gasModelName)
     def get_gasGroup(self): return self._gasGroup
     def set_gasGroup(self, value):
         self._gasGroup = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     gasGroup = property(get_gasGroup, set_gasGroup)
     def get_gasCumulativeModelName(self): return self._gasCumulativeModelName
     def set_gasCumulativeModelName(self, value):
         self._gasCumulativeModelName = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     gasCumulativeModelName = property(get_gasCumulativeModelName, set_gasCumulativeModelName)
     def get_ignoreGasForExtrapolation(self): return self._ignoreGasForExtrapolation
     def set_ignoreGasForExtrapolation(self, value):
         self._ignoreGasForExtrapolation = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     ignoreGasForExtrapolation = property(get_ignoreGasForExtrapolation, set_ignoreGasForExtrapolation)
     def get_co2MixRate(self): return self._co2MixRate
     def set_co2MixRate(self, value):
         self._co2MixRate = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     co2MixRate = property(get_co2MixRate, set_co2MixRate)
     def get_scaleOtherGases(self): return self._scaleOtherGases
     def set_scaleOtherGases(self, value):
         self._scaleOtherGases = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     scaleOtherGases = property(get_scaleOtherGases, set_scaleOtherGases)
     def copy(self):
         obj_ = self.factory()
@@ -2644,17 +2728,35 @@ class create_AtmosphericOpticalPropertyModel(GeneratedsSuper):
             obj_.build(child_)
             self.set_tempParameters(obj_)
             obj_.original_tagname_ = 'tempParameters'
-# end class create_AtmosphericOpticalPropertyModel
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_AtmosphericOpticalPropertyModel
 
 
 class create_ignoredGas(GeneratedsSuper):
     """Ignored gas Ignored gas CO2 CO2 CO CO NO NO HNO3 HNO3 H2O H2O SO2
     SO2 CH4 CH4 NH3 NH3 N2O N2O N2 N2 O3 O3 O2 O2 NO2 NO2"""
+    member_data_items_ = [
+        MemberSpec_('CO2', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('CO', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('NO', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('HNO3', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('H2O', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('SO2', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('CH4', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('NH3', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('N2O', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('N2', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('O3', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('O2', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('NO2', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('fillH2O', '_fillH2O', 0, 0, {u'maxOccurs': u'1', u'type': u'_fillH2O', u'name': u'fillH2O', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, CO2=0, CO=0, NO=0, HNO3=0, H2O=0, SO2=0, CH4=0, NH3=0, N2O=0, N2=0, O3=0, O2=0, NO2=0, fillH2O=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_ignoredGas")
+        self.troot=get_gs_troot('atmosphere','_ignoredGas')
         self.attrib = ['CO2', 'CO', 'NO', 'HNO3', 'H2O', 'SO2', 'CH4', 'NH3', 'N2O', 'N2', 'O3', 'O2', 'NO2']
         self.children = ['fillH2O']
         self.parent = None
@@ -2672,7 +2774,7 @@ class create_ignoredGas(GeneratedsSuper):
         self._O2 = _cast(int, O2)
         self._NO2 = _cast(int, NO2)
         self._fillH2O = fillH2O
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2694,67 +2796,67 @@ class create_ignoredGas(GeneratedsSuper):
     def get_CO2(self): return self._CO2
     def set_CO2(self, value):
         self._CO2 = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     CO2 = property(get_CO2, set_CO2)
     def get_CO(self): return self._CO
     def set_CO(self, value):
         self._CO = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     CO = property(get_CO, set_CO)
     def get_NO(self): return self._NO
     def set_NO(self, value):
         self._NO = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     NO = property(get_NO, set_NO)
     def get_HNO3(self): return self._HNO3
     def set_HNO3(self, value):
         self._HNO3 = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     HNO3 = property(get_HNO3, set_HNO3)
     def get_H2O(self): return self._H2O
     def set_H2O(self, value):
         self._H2O = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     H2O = property(get_H2O, set_H2O)
     def get_SO2(self): return self._SO2
     def set_SO2(self, value):
         self._SO2 = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     SO2 = property(get_SO2, set_SO2)
     def get_CH4(self): return self._CH4
     def set_CH4(self, value):
         self._CH4 = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     CH4 = property(get_CH4, set_CH4)
     def get_NH3(self): return self._NH3
     def set_NH3(self, value):
         self._NH3 = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     NH3 = property(get_NH3, set_NH3)
     def get_N2O(self): return self._N2O
     def set_N2O(self, value):
         self._N2O = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     N2O = property(get_N2O, set_N2O)
     def get_N2(self): return self._N2
     def set_N2(self, value):
         self._N2 = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     N2 = property(get_N2, set_N2)
     def get_O3(self): return self._O3
     def set_O3(self, value):
         self._O3 = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     O3 = property(get_O3, set_O3)
     def get_O2(self): return self._O2
     def set_O2(self, value):
         self._O2 = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     O2 = property(get_O2, set_O2)
     def get_NO2(self): return self._NO2
     def set_NO2(self, value):
         self._NO2 = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     NO2 = property(get_NO2, set_NO2)
     def copy(self):
         obj_ = self.factory()
@@ -3042,24 +3144,30 @@ class create_ignoredGas(GeneratedsSuper):
             obj_.build(child_)
             self.set_fillH2O(obj_)
             obj_.original_tagname_ = 'fillH2O'
-# end class create_ignoredGas
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ignoredGas
 
 
 class create_fillH2O(GeneratedsSuper):
     """Fill in defined water vapor profile Fill in defined water vapor
     profile Define water vapor parameters at a point Define water
     vapor parameters at a point"""
+    member_data_items_ = [
+        MemberSpec_('ifFillH2O', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('h2oDef', '_h2oDef', 0, 0, {u'maxOccurs': u'1', u'type': u'_h2oDef', u'name': u'h2oDef', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, ifFillH2O=0, h2oDef=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_fillH2O")
+        self.troot=get_gs_troot('atmosphere','_fillH2O')
         self.attrib = ['ifFillH2O']
         self.children = ['h2oDef']
         self.parent = None
         self._ifFillH2O = _cast(int, ifFillH2O)
         self._h2oDef = h2oDef
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3081,7 +3189,7 @@ class create_fillH2O(GeneratedsSuper):
     def get_ifFillH2O(self): return self._ifFillH2O
     def set_ifFillH2O(self, value):
         self._ifFillH2O = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     ifFillH2O = property(get_ifFillH2O, set_ifFillH2O)
     def copy(self):
         obj_ = self.factory()
@@ -3177,7 +3285,9 @@ class create_fillH2O(GeneratedsSuper):
             obj_.build(child_)
             self.set_h2oDef(obj_)
             obj_.original_tagname_ = 'h2oDef'
-# end class create_fillH2O
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_fillH2O
 
 
 class create_h2oDef(GeneratedsSuper):
@@ -3185,11 +3295,18 @@ class create_h2oDef(GeneratedsSuper):
     humidity Relative humidity Distance to calculate reference
     cross-section Distance to calculate reference cross-section
     Temperature Temperature"""
+    member_data_items_ = [
+        MemberSpec_('pressure', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('altitude', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('rh', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('dist', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('temp', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, pressure=1013, altitude=0, rh=40, dist=160, temp=273.15):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_h2oDef")
+        self.troot=get_gs_troot('atmosphere','_h2oDef')
         self.attrib = ['pressure', 'altitude', 'rh', 'dist', 'temp']
         self.children = []
         self.parent = None
@@ -3198,7 +3315,7 @@ class create_h2oDef(GeneratedsSuper):
         self._rh = _cast(float, rh)
         self._dist = _cast(float, dist)
         self._temp = _cast(float, temp)
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3213,27 +3330,27 @@ class create_h2oDef(GeneratedsSuper):
     def get_pressure(self): return self._pressure
     def set_pressure(self, value):
         self._pressure = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     pressure = property(get_pressure, set_pressure)
     def get_altitude(self): return self._altitude
     def set_altitude(self, value):
         self._altitude = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     altitude = property(get_altitude, set_altitude)
     def get_rh(self): return self._rh
     def set_rh(self, value):
         self._rh = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     rh = property(get_rh, set_rh)
     def get_dist(self): return self._dist
     def set_dist(self, value):
         self._dist = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     dist = property(get_dist, set_dist)
     def get_temp(self): return self._temp
     def set_temp(self, value):
         self._temp = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     temp = property(get_temp, set_temp)
     def copy(self):
         obj_ = self.factory()
@@ -3375,7 +3492,9 @@ class create_h2oDef(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (temp): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_h2oDef
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_h2oDef
 
 
 class create_OtherGasesScale(GeneratedsSuper):
@@ -3383,11 +3502,26 @@ class create_OtherGasesScale(GeneratedsSuper):
     factors for other gases' amounts N2 N2 CH4 CH4 CO CO NO NO N2O
     N2O O3 O3 SO2 SO2 Scattering Gases Scattering Gases HNO3 HNO3
     NO2 NO2 Others Others NH3 NH3 O2 O2"""
+    member_data_items_ = [
+        MemberSpec_('n2MulFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ch4MulFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('coMulFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('noMulFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('n2oMulFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('o3MulFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('so2MulFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('scatMulFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('hno3MulFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('no2MulFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('othersMulFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('nh3MulFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('o2MulFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, n2MulFactor=1, ch4MulFactor=1, coMulFactor=1, noMulFactor=1, n2oMulFactor=1, o3MulFactor=1, so2MulFactor=1, scatMulFactor=1, hno3MulFactor=1, no2MulFactor=1, othersMulFactor=1, nh3MulFactor=1, o2MulFactor=1):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_OtherGasesScale")
+        self.troot=get_gs_troot('atmosphere','_OtherGasesScale')
         self.attrib = ['n2MulFactor', 'ch4MulFactor', 'coMulFactor', 'noMulFactor', 'n2oMulFactor', 'o3MulFactor', 'so2MulFactor', 'scatMulFactor', 'hno3MulFactor', 'no2MulFactor', 'othersMulFactor', 'nh3MulFactor', 'o2MulFactor']
         self.children = []
         self.parent = None
@@ -3404,7 +3538,7 @@ class create_OtherGasesScale(GeneratedsSuper):
         self._othersMulFactor = _cast(float, othersMulFactor)
         self._nh3MulFactor = _cast(float, nh3MulFactor)
         self._o2MulFactor = _cast(float, o2MulFactor)
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3419,67 +3553,67 @@ class create_OtherGasesScale(GeneratedsSuper):
     def get_n2MulFactor(self): return self._n2MulFactor
     def set_n2MulFactor(self, value):
         self._n2MulFactor = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     n2MulFactor = property(get_n2MulFactor, set_n2MulFactor)
     def get_ch4MulFactor(self): return self._ch4MulFactor
     def set_ch4MulFactor(self, value):
         self._ch4MulFactor = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     ch4MulFactor = property(get_ch4MulFactor, set_ch4MulFactor)
     def get_coMulFactor(self): return self._coMulFactor
     def set_coMulFactor(self, value):
         self._coMulFactor = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     coMulFactor = property(get_coMulFactor, set_coMulFactor)
     def get_noMulFactor(self): return self._noMulFactor
     def set_noMulFactor(self, value):
         self._noMulFactor = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     noMulFactor = property(get_noMulFactor, set_noMulFactor)
     def get_n2oMulFactor(self): return self._n2oMulFactor
     def set_n2oMulFactor(self, value):
         self._n2oMulFactor = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     n2oMulFactor = property(get_n2oMulFactor, set_n2oMulFactor)
     def get_o3MulFactor(self): return self._o3MulFactor
     def set_o3MulFactor(self, value):
         self._o3MulFactor = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     o3MulFactor = property(get_o3MulFactor, set_o3MulFactor)
     def get_so2MulFactor(self): return self._so2MulFactor
     def set_so2MulFactor(self, value):
         self._so2MulFactor = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     so2MulFactor = property(get_so2MulFactor, set_so2MulFactor)
     def get_scatMulFactor(self): return self._scatMulFactor
     def set_scatMulFactor(self, value):
         self._scatMulFactor = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     scatMulFactor = property(get_scatMulFactor, set_scatMulFactor)
     def get_hno3MulFactor(self): return self._hno3MulFactor
     def set_hno3MulFactor(self, value):
         self._hno3MulFactor = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     hno3MulFactor = property(get_hno3MulFactor, set_hno3MulFactor)
     def get_no2MulFactor(self): return self._no2MulFactor
     def set_no2MulFactor(self, value):
         self._no2MulFactor = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     no2MulFactor = property(get_no2MulFactor, set_no2MulFactor)
     def get_othersMulFactor(self): return self._othersMulFactor
     def set_othersMulFactor(self, value):
         self._othersMulFactor = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     othersMulFactor = property(get_othersMulFactor, set_othersMulFactor)
     def get_nh3MulFactor(self): return self._nh3MulFactor
     def set_nh3MulFactor(self, value):
         self._nh3MulFactor = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     nh3MulFactor = property(get_nh3MulFactor, set_nh3MulFactor)
     def get_o2MulFactor(self): return self._o2MulFactor
     def set_o2MulFactor(self, value):
         self._o2MulFactor = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     o2MulFactor = property(get_o2MulFactor, set_o2MulFactor)
     def copy(self):
         obj_ = self.factory()
@@ -3749,16 +3883,26 @@ class create_OtherGasesScale(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (o2MulFactor): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_OtherGasesScale
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_OtherGasesScale
 
 
 class create_WaterAmount(GeneratedsSuper):
     """Definition Definition"""
+    member_data_items_ = [
+        MemberSpec_('defWaterAmount', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('M_factor', '_M_factor', 0, 0, {u'maxOccurs': u'1', u'type': u'_M_factor', u'name': u'M_factor', u'minOccurs': u'1'}, None),
+        MemberSpec_('Amount_g_per_cm2', '_Amount_g_per_cm2', 0, 0, {u'maxOccurs': u'1', u'type': u'_Amount_g_per_cm2', u'name': u'Amount_g_per_cm2', u'minOccurs': u'1'}, None),
+        MemberSpec_('Amount_atm_cm', '_Amount_atm_cm', 0, 0, {u'maxOccurs': u'1', u'type': u'_Amount_atm_cm', u'name': u'Amount_atm_cm', u'minOccurs': u'1'}, None),
+        MemberSpec_('Density_atm_cm_per_km_altitude', '_Density_atm_cm_per_km_altitude', 0, 0, {u'maxOccurs': u'1', u'type': u'_Density_atm_cm_per_km_altitude', u'name': u'Density_atm_cm_per_km_altitude', u'minOccurs': u'1'}, None),
+        MemberSpec_('Density_RH_temp_altitude', '_Density_RH_temp_altitude', 0, 0, {u'maxOccurs': u'1', u'type': u'_Density_RH_temp_altitude', u'name': u'Density_RH_temp_altitude', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, defWaterAmount=0, M_factor=None, Amount_g_per_cm2=None, Amount_atm_cm=None, Density_atm_cm_per_km_altitude=None, Density_RH_temp_altitude=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_WaterAmount")
+        self.troot=get_gs_troot('atmosphere','_WaterAmount')
         self.attrib = ['defWaterAmount']
         self.children = ['M_factor', 'Amount_g_per_cm2', 'Amount_atm_cm', 'Density_atm_cm_per_km_altitude', 'Density_RH_temp_altitude']
         self.parent = None
@@ -3768,7 +3912,7 @@ class create_WaterAmount(GeneratedsSuper):
         self._Amount_atm_cm = Amount_atm_cm
         self._Density_atm_cm_per_km_altitude = Density_atm_cm_per_km_altitude
         self._Density_RH_temp_altitude = Density_RH_temp_altitude
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3818,7 +3962,7 @@ class create_WaterAmount(GeneratedsSuper):
     def get_defWaterAmount(self): return self._defWaterAmount
     def set_defWaterAmount(self, value):
         self._defWaterAmount = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     defWaterAmount = property(get_defWaterAmount, set_defWaterAmount)
     def copy(self):
         obj_ = self.factory()
@@ -3982,22 +4126,27 @@ class create_WaterAmount(GeneratedsSuper):
             obj_.build(child_)
             self.set_Density_RH_temp_altitude(obj_)
             obj_.original_tagname_ = 'Density_RH_temp_altitude'
-# end class create_WaterAmount
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_WaterAmount
 
 
 class create_M_factor(GeneratedsSuper):
     """Multiplicative factor Multiplicative factor Multiplicative factor
     Multiplicative factor"""
+    member_data_items_ = [
+        MemberSpec_('mulFactorH2O', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, mulFactorH2O=1.0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_M_factor")
+        self.troot=get_gs_troot('atmosphere','_M_factor')
         self.attrib = ['mulFactorH2O']
         self.children = []
         self.parent = None
         self._mulFactorH2O = _cast(float, mulFactorH2O)
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4012,7 +4161,7 @@ class create_M_factor(GeneratedsSuper):
     def get_mulFactorH2O(self): return self._mulFactorH2O
     def set_mulFactorH2O(self, value):
         self._mulFactorH2O = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     mulFactorH2O = property(get_mulFactorH2O, set_mulFactorH2O)
     def copy(self):
         obj_ = self.factory()
@@ -4090,21 +4239,26 @@ class create_M_factor(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (mulFactorH2O): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_M_factor
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_M_factor
 
 
 class create_Amount_g_per_cm2(GeneratedsSuper):
     """Total amount in g/cm2 Total amount in g/cm2 Amount Amount"""
+    member_data_items_ = [
+        MemberSpec_('g_per_cm2', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, g_per_cm2=1.41):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_Amount_g_per_cm2")
+        self.troot=get_gs_troot('atmosphere','_Amount_g_per_cm2')
         self.attrib = ['g_per_cm2']
         self.children = []
         self.parent = None
         self._g_per_cm2 = _cast(float, g_per_cm2)
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4119,7 +4273,7 @@ class create_Amount_g_per_cm2(GeneratedsSuper):
     def get_g_per_cm2(self): return self._g_per_cm2
     def set_g_per_cm2(self, value):
         self._g_per_cm2 = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     g_per_cm2 = property(get_g_per_cm2, set_g_per_cm2)
     def copy(self):
         obj_ = self.factory()
@@ -4197,21 +4351,26 @@ class create_Amount_g_per_cm2(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (g_per_cm2): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_Amount_g_per_cm2
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Amount_g_per_cm2
 
 
 class create_Amount_atm_cm(GeneratedsSuper):
     """Total amount in atm-cm Total amount in atm-cm Amount Amount"""
+    member_data_items_ = [
+        MemberSpec_('atm_cm', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, atm_cm=1762.3):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_Amount_atm_cm")
+        self.troot=get_gs_troot('atmosphere','_Amount_atm_cm')
         self.attrib = ['atm_cm']
         self.children = []
         self.parent = None
         self._atm_cm = _cast(float, atm_cm)
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4226,7 +4385,7 @@ class create_Amount_atm_cm(GeneratedsSuper):
     def get_atm_cm(self): return self._atm_cm
     def set_atm_cm(self, value):
         self._atm_cm = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     atm_cm = property(get_atm_cm, set_atm_cm)
     def copy(self):
         obj_ = self.factory()
@@ -4304,23 +4463,29 @@ class create_Amount_atm_cm(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (atm_cm): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_Amount_atm_cm
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Amount_atm_cm
 
 
 class create_Density_atm_cm_per_km_altitude(GeneratedsSuper):
     """Density in atm-cm/km Density in atm-cm/km Altitude Altitude Density
     Density"""
+    member_data_items_ = [
+        MemberSpec_('altitude', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('atm_cm_per_km', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, altitude=0, atm_cm_per_km=734.0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_Density_atm_cm_per_km_altitude")
+        self.troot=get_gs_troot('atmosphere','_Density_atm_cm_per_km_altitude')
         self.attrib = ['altitude', 'atm_cm_per_km']
         self.children = []
         self.parent = None
         self._altitude = _cast(float, altitude)
         self._atm_cm_per_km = _cast(float, atm_cm_per_km)
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4335,12 +4500,12 @@ class create_Density_atm_cm_per_km_altitude(GeneratedsSuper):
     def get_altitude(self): return self._altitude
     def set_altitude(self, value):
         self._altitude = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     altitude = property(get_altitude, set_altitude)
     def get_atm_cm_per_km(self): return self._atm_cm_per_km
     def set_atm_cm_per_km(self, value):
         self._atm_cm_per_km = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     atm_cm_per_km = property(get_atm_cm_per_km, set_atm_cm_per_km)
     def copy(self):
         obj_ = self.factory()
@@ -4434,25 +4599,32 @@ class create_Density_atm_cm_per_km_altitude(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (atm_cm_per_km): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_Density_atm_cm_per_km_altitude
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Density_atm_cm_per_km_altitude
 
 
 class create_Density_RH_temp_altitude(GeneratedsSuper):
     """Density in realtive humidity Density in realtive humidity Altitude
     Altitude Relative humidity Relative humidity Temperature
     Temperature"""
+    member_data_items_ = [
+        MemberSpec_('altitude', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('rh', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('temp', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, altitude=0, rh=50.0, temp=288.15):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_Density_RH_temp_altitude")
+        self.troot=get_gs_troot('atmosphere','_Density_RH_temp_altitude')
         self.attrib = ['altitude', 'rh', 'temp']
         self.children = []
         self.parent = None
         self._altitude = _cast(float, altitude)
         self._rh = _cast(float, rh)
         self._temp = _cast(float, temp)
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4467,17 +4639,17 @@ class create_Density_RH_temp_altitude(GeneratedsSuper):
     def get_altitude(self): return self._altitude
     def set_altitude(self, value):
         self._altitude = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     altitude = property(get_altitude, set_altitude)
     def get_rh(self): return self._rh
     def set_rh(self, value):
         self._rh = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     rh = property(get_rh, set_rh)
     def get_temp(self): return self._temp
     def set_temp(self, value):
         self._temp = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     temp = property(get_temp, set_temp)
     def copy(self):
         obj_ = self.factory()
@@ -4587,23 +4759,29 @@ class create_Density_RH_temp_altitude(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (temp): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_Density_RH_temp_altitude
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Density_RH_temp_altitude
 
 
 class create_tempParameters(GeneratedsSuper):
     """Temperature at the defined altitude Temperature at the defined
     altitude Altitude Altitude Temperature Temperature"""
+    member_data_items_ = [
+        MemberSpec_('altitude', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('temp', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, altitude=0, temp=288.15):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_tempParameters")
+        self.troot=get_gs_troot('atmosphere','_tempParameters')
         self.attrib = ['altitude', 'temp']
         self.children = []
         self.parent = None
         self._altitude = _cast(float, altitude)
         self._temp = _cast(float, temp)
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4618,12 +4796,12 @@ class create_tempParameters(GeneratedsSuper):
     def get_altitude(self): return self._altitude
     def set_altitude(self, value):
         self._altitude = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     altitude = property(get_altitude, set_altitude)
     def get_temp(self): return self._temp
     def set_temp(self, value):
         self._temp = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     temp = property(get_temp, set_temp)
     def copy(self):
         obj_ = self.factory()
@@ -4717,15 +4895,23 @@ class create_tempParameters(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (temp): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_tempParameters
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_tempParameters
 
 
 class create_AtmosphereIterations(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('AtmosphereTransfertFunctions', '_AtmosphereTransfertFunctions', 0, 0, {u'maxOccurs': u'1', u'type': u'_AtmosphereTransfertFunctions', u'name': u'AtmosphereTransfertFunctions', u'minOccurs': u'1'}, None),
+        MemberSpec_('AtmosphereProducts', '_AtmosphereProducts', 0, 0, {u'maxOccurs': u'1', u'type': u'_AtmosphereProducts', u'name': u'AtmosphereProducts', u'minOccurs': u'1'}, None),
+        MemberSpec_('AtmosphereComponents', '_AtmosphereComponents', 0, 0, {u'maxOccurs': u'1', u'type': u'_AtmosphereComponents', u'name': u'AtmosphereComponents', u'minOccurs': u'1'}, None),
+        MemberSpec_('AtmosphereExpertModeZone', '_AtmosphereExpertModeZone', 0, 0, {u'maxOccurs': u'1', u'type': u'_AtmosphereExpertModeZone', u'name': u'AtmosphereExpertModeZone', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, AtmosphereTransfertFunctions=None, AtmosphereProducts=None, AtmosphereComponents=None, AtmosphereExpertModeZone=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_AtmosphereIterations")
+        self.troot=get_gs_troot('atmosphere','_AtmosphereIterations')
         self.attrib = ['']
         self.children = ['AtmosphereTransfertFunctions', 'AtmosphereProducts', 'AtmosphereComponents', 'AtmosphereExpertModeZone']
         self.parent = None
@@ -4733,7 +4919,7 @@ class create_AtmosphereIterations(GeneratedsSuper):
         self._AtmosphereProducts = AtmosphereProducts
         self._AtmosphereComponents = AtmosphereComponents
         self._AtmosphereExpertModeZone = AtmosphereExpertModeZone
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4905,24 +5091,31 @@ class create_AtmosphereIterations(GeneratedsSuper):
             obj_.build(child_)
             self.set_AtmosphereExpertModeZone(obj_)
             obj_.original_tagname_ = 'AtmosphereExpertModeZone'
-# end class create_AtmosphereIterations
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_AtmosphereIterations
 
 
 class create_AtmosphereTransfertFunctions(GeneratedsSuper):
     """Transfer functions file as input (no recomputation)/output Transfer
     functions file as input (no recomputation)/output"""
+    member_data_items_ = [
+        MemberSpec_('inputOutputTransfertFunctions', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ComputedTransferFunctions', '_ComputedTransferFunctions', 0, 0, {u'maxOccurs': u'1', u'type': u'_ComputedTransferFunctions', u'name': u'ComputedTransferFunctions', u'minOccurs': u'1'}, None),
+        MemberSpec_('ImportedTransferFunctions', '_ImportedTransferFunctions', 0, 0, {u'maxOccurs': u'1', u'type': u'_ImportedTransferFunctions', u'name': u'ImportedTransferFunctions', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, inputOutputTransfertFunctions=0, ComputedTransferFunctions=None, ImportedTransferFunctions=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_AtmosphereTransfertFunctions")
+        self.troot=get_gs_troot('atmosphere','_AtmosphereTransfertFunctions')
         self.attrib = ['inputOutputTransfertFunctions']
         self.children = ['ComputedTransferFunctions', 'ImportedTransferFunctions']
         self.parent = None
         self._inputOutputTransfertFunctions = _cast(int, inputOutputTransfertFunctions)
         self._ComputedTransferFunctions = ComputedTransferFunctions
         self._ImportedTransferFunctions = ImportedTransferFunctions
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4951,7 +5144,7 @@ class create_AtmosphereTransfertFunctions(GeneratedsSuper):
     def get_inputOutputTransfertFunctions(self): return self._inputOutputTransfertFunctions
     def set_inputOutputTransfertFunctions(self, value):
         self._inputOutputTransfertFunctions = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     inputOutputTransfertFunctions = property(get_inputOutputTransfertFunctions, set_inputOutputTransfertFunctions)
     def copy(self):
         obj_ = self.factory()
@@ -5064,7 +5257,9 @@ class create_AtmosphereTransfertFunctions(GeneratedsSuper):
             obj_.build(child_)
             self.set_ImportedTransferFunctions(obj_)
             obj_.original_tagname_ = 'ImportedTransferFunctions'
-# end class create_AtmosphereTransfertFunctions
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_AtmosphereTransfertFunctions
 
 
 class create_ComputedTransferFunctions(GeneratedsSuper):
@@ -5072,16 +5267,19 @@ class create_ComputedTransferFunctions(GeneratedsSuper):
     reused by DART. See option just above. Write the computed
     transfer functions in a file that can be later reused by DART.
     See option just above."""
+    member_data_items_ = [
+        MemberSpec_('writeTransferFunctions', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, writeTransferFunctions=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_ComputedTransferFunctions")
+        self.troot=get_gs_troot('atmosphere','_ComputedTransferFunctions')
         self.attrib = ['writeTransferFunctions']
         self.children = []
         self.parent = None
         self._writeTransferFunctions = _cast(int, writeTransferFunctions)
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5096,7 +5294,7 @@ class create_ComputedTransferFunctions(GeneratedsSuper):
     def get_writeTransferFunctions(self): return self._writeTransferFunctions
     def set_writeTransferFunctions(self, value):
         self._writeTransferFunctions = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     writeTransferFunctions = property(get_writeTransferFunctions, set_writeTransferFunctions)
     def copy(self):
         obj_ = self.factory()
@@ -5174,7 +5372,9 @@ class create_ComputedTransferFunctions(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_ComputedTransferFunctions
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ComputedTransferFunctions
 
 
 class create_ImportedTransferFunctions(GeneratedsSuper):
@@ -5182,16 +5382,19 @@ class create_ImportedTransferFunctions(GeneratedsSuper):
     file can be generated by DART in "on the fly" mode. (Relative)
     file path to the precomputed transfer functions. This file can
     be generated by DART in "on the fly" mode."""
+    member_data_items_ = [
+        MemberSpec_('transferFunctionsFile', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, transferFunctionsFile='atmosphereTransferFunctions.binary'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_ImportedTransferFunctions")
+        self.troot=get_gs_troot('atmosphere','_ImportedTransferFunctions')
         self.attrib = ['transferFunctionsFile']
         self.children = []
         self.parent = None
         self._transferFunctionsFile = _cast(None, transferFunctionsFile)
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5206,7 +5409,7 @@ class create_ImportedTransferFunctions(GeneratedsSuper):
     def get_transferFunctionsFile(self): return self._transferFunctionsFile
     def set_transferFunctionsFile(self, value):
         self._transferFunctionsFile = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     transferFunctionsFile = property(get_transferFunctionsFile, set_transferFunctionsFile)
     def copy(self):
         obj_ = self.factory()
@@ -5281,7 +5484,9 @@ class create_ImportedTransferFunctions(GeneratedsSuper):
             self.transferFunctionsFile = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_ImportedTransferFunctions
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ImportedTransferFunctions
 
 
 class create_AtmosphereProducts(GeneratedsSuper):
@@ -5290,11 +5495,17 @@ class create_AtmosphereProducts(GeneratedsSuper):
     atmosphere radiance BOA after coupling atmosphere radiance BOA
     after coupling Order 1 for atmosphere Order 1 for atmosphere
     atmosphere BRF TOA atmosphere BRF TOA"""
+    member_data_items_ = [
+        MemberSpec_('atmosphereRadiance_BOA_avantCouplage', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('atmosphereRadiance_BOA_apresCouplage', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ordreUnAtmos', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('atmosphereBRF_TOA', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, atmosphereRadiance_BOA_avantCouplage=0, atmosphereRadiance_BOA_apresCouplage=0, ordreUnAtmos=0, atmosphereBRF_TOA=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_AtmosphereProducts")
+        self.troot=get_gs_troot('atmosphere','_AtmosphereProducts')
         self.attrib = ['atmosphereRadiance_BOA_avantCouplage', 'atmosphereRadiance_BOA_apresCouplage', 'ordreUnAtmos', 'atmosphereBRF_TOA']
         self.children = []
         self.parent = None
@@ -5302,7 +5513,7 @@ class create_AtmosphereProducts(GeneratedsSuper):
         self._atmosphereRadiance_BOA_apresCouplage = _cast(int, atmosphereRadiance_BOA_apresCouplage)
         self._ordreUnAtmos = _cast(int, ordreUnAtmos)
         self._atmosphereBRF_TOA = _cast(int, atmosphereBRF_TOA)
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5317,22 +5528,22 @@ class create_AtmosphereProducts(GeneratedsSuper):
     def get_atmosphereRadiance_BOA_avantCouplage(self): return self._atmosphereRadiance_BOA_avantCouplage
     def set_atmosphereRadiance_BOA_avantCouplage(self, value):
         self._atmosphereRadiance_BOA_avantCouplage = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     atmosphereRadiance_BOA_avantCouplage = property(get_atmosphereRadiance_BOA_avantCouplage, set_atmosphereRadiance_BOA_avantCouplage)
     def get_atmosphereRadiance_BOA_apresCouplage(self): return self._atmosphereRadiance_BOA_apresCouplage
     def set_atmosphereRadiance_BOA_apresCouplage(self, value):
         self._atmosphereRadiance_BOA_apresCouplage = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     atmosphereRadiance_BOA_apresCouplage = property(get_atmosphereRadiance_BOA_apresCouplage, set_atmosphereRadiance_BOA_apresCouplage)
     def get_ordreUnAtmos(self): return self._ordreUnAtmos
     def set_ordreUnAtmos(self, value):
         self._ordreUnAtmos = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     ordreUnAtmos = property(get_ordreUnAtmos, set_ordreUnAtmos)
     def get_atmosphereBRF_TOA(self): return self._atmosphereBRF_TOA
     def set_atmosphereBRF_TOA(self, value):
         self._atmosphereBRF_TOA = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     atmosphereBRF_TOA = property(get_atmosphereBRF_TOA, set_atmosphereBRF_TOA)
     def copy(self):
         obj_ = self.factory()
@@ -5458,7 +5669,9 @@ class create_AtmosphereProducts(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_AtmosphereProducts
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_AtmosphereProducts
 
 
 class create_AtmosphereComponents(GeneratedsSuper):
@@ -5525,17 +5738,21 @@ class create_AtmosphereComponents(GeneratedsSuper):
     atmosphere , without absorption and scattering. \n There can be
     also Earth scene reflected/emitted radiation that is possibly
     scattered and/or directly transmitted by the atmosphere."""
+    member_data_items_ = [
+        MemberSpec_('upwardingFluxes', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('downwardingFluxes', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, upwardingFluxes=0, downwardingFluxes=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_AtmosphereComponents")
+        self.troot=get_gs_troot('atmosphere','_AtmosphereComponents')
         self.attrib = ['upwardingFluxes', 'downwardingFluxes']
         self.children = []
         self.parent = None
         self._upwardingFluxes = _cast(int, upwardingFluxes)
         self._downwardingFluxes = _cast(int, downwardingFluxes)
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5550,12 +5767,12 @@ class create_AtmosphereComponents(GeneratedsSuper):
     def get_upwardingFluxes(self): return self._upwardingFluxes
     def set_upwardingFluxes(self, value):
         self._upwardingFluxes = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     upwardingFluxes = property(get_upwardingFluxes, set_upwardingFluxes)
     def get_downwardingFluxes(self): return self._downwardingFluxes
     def set_downwardingFluxes(self, value):
         self._downwardingFluxes = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     downwardingFluxes = property(get_downwardingFluxes, set_downwardingFluxes)
     def copy(self):
         obj_ = self.factory()
@@ -5649,7 +5866,9 @@ class create_AtmosphereComponents(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_AtmosphereComponents
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_AtmosphereComponents
 
 
 class create_AtmosphereExpertModeZone(GeneratedsSuper):
@@ -5660,18 +5879,23 @@ class create_AtmosphereExpertModeZone(GeneratedsSuper):
     Sensor level for illumination computation Extrapolation over the
     3 last iterations at BOA, TOA and Sensor level for illumination
     computation"""
+    member_data_items_ = [
+        MemberSpec_('threshold_Atmos_scattering', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('number_iterationMax', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('extrapol_atmos', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, threshold_Atmos_scattering=0.0001, number_iterationMax=100, extrapol_atmos=1):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_AtmosphereExpertModeZone")
+        self.troot=get_gs_troot('atmosphere','_AtmosphereExpertModeZone')
         self.attrib = ['threshold_Atmos_scattering', 'number_iterationMax', 'extrapol_atmos']
         self.children = []
         self.parent = None
         self._threshold_Atmos_scattering = _cast(float, threshold_Atmos_scattering)
         self._number_iterationMax = _cast(int, number_iterationMax)
         self._extrapol_atmos = _cast(int, extrapol_atmos)
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5686,17 +5910,17 @@ class create_AtmosphereExpertModeZone(GeneratedsSuper):
     def get_threshold_Atmos_scattering(self): return self._threshold_Atmos_scattering
     def set_threshold_Atmos_scattering(self, value):
         self._threshold_Atmos_scattering = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     threshold_Atmos_scattering = property(get_threshold_Atmos_scattering, set_threshold_Atmos_scattering)
     def get_number_iterationMax(self): return self._number_iterationMax
     def set_number_iterationMax(self, value):
         self._number_iterationMax = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     number_iterationMax = property(get_number_iterationMax, set_number_iterationMax)
     def get_extrapol_atmos(self): return self._extrapol_atmos
     def set_extrapol_atmos(self, value):
         self._extrapol_atmos = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     extrapol_atmos = property(get_extrapol_atmos, set_extrapol_atmos)
     def copy(self):
         obj_ = self.factory()
@@ -5806,7 +6030,9 @@ class create_AtmosphereExpertModeZone(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_AtmosphereExpertModeZone
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_AtmosphereExpertModeZone
 
 
 class create_AtmosphereGeometry(GeneratedsSuper):
@@ -5822,11 +6048,19 @@ class create_AtmosphereGeometry(GeneratedsSuper):
     Sensor layer altitude is used to compute atmosphere upward
     transmittance and path radiance from the Earth scene to the
     sensor."""
+    member_data_items_ = [
+        MemberSpec_('minimumNumberOfDivisions', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('discretisationAtmos', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('heightOfSensor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('discretisationAtmosAuto', '_discretisationAtmosAuto', 0, 0, {u'maxOccurs': u'1', u'type': u'_discretisationAtmosAuto', u'name': u'discretisationAtmosAuto', u'minOccurs': u'1'}, None),
+        MemberSpec_('MidAtmosphere', '_MidAtmosphere', 0, 0, {u'maxOccurs': u'1', u'type': u'_MidAtmosphere', u'name': u'MidAtmosphere', u'minOccurs': u'1'}, None),
+        MemberSpec_('UpperAtmosphere', '_UpperAtmosphere', 0, 0, {u'maxOccurs': u'1', u'type': u'_UpperAtmosphere', u'name': u'UpperAtmosphere', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, minimumNumberOfDivisions=4, discretisationAtmos=1, heightOfSensor=3000, discretisationAtmosAuto=None, MidAtmosphere=None, UpperAtmosphere=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_AtmosphereGeometry")
+        self.troot=get_gs_troot('atmosphere','_AtmosphereGeometry')
         self.attrib = ['minimumNumberOfDivisions', 'discretisationAtmos', 'heightOfSensor']
         self.children = ['discretisationAtmosAuto', 'MidAtmosphere', 'UpperAtmosphere']
         self.parent = None
@@ -5836,7 +6070,7 @@ class create_AtmosphereGeometry(GeneratedsSuper):
         self._discretisationAtmosAuto = discretisationAtmosAuto
         self._MidAtmosphere = MidAtmosphere
         self._UpperAtmosphere = UpperAtmosphere
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5872,17 +6106,17 @@ class create_AtmosphereGeometry(GeneratedsSuper):
     def get_minimumNumberOfDivisions(self): return self._minimumNumberOfDivisions
     def set_minimumNumberOfDivisions(self, value):
         self._minimumNumberOfDivisions = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     minimumNumberOfDivisions = property(get_minimumNumberOfDivisions, set_minimumNumberOfDivisions)
     def get_discretisationAtmos(self): return self._discretisationAtmos
     def set_discretisationAtmos(self, value):
         self._discretisationAtmos = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     discretisationAtmos = property(get_discretisationAtmos, set_discretisationAtmos)
     def get_heightOfSensor(self): return self._heightOfSensor
     def set_heightOfSensor(self, value):
         self._heightOfSensor = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     heightOfSensor = property(get_heightOfSensor, set_heightOfSensor)
     def copy(self):
         obj_ = self.factory()
@@ -6044,7 +6278,9 @@ class create_AtmosphereGeometry(GeneratedsSuper):
             obj_.build(child_)
             self.set_UpperAtmosphere(obj_)
             obj_.original_tagname_ = 'UpperAtmosphere'
-# end class create_AtmosphereGeometry
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_AtmosphereGeometry
 
 
 class create_discretisationAtmosAuto(GeneratedsSuper):
@@ -6068,11 +6304,17 @@ class create_discretisationAtmosAuto(GeneratedsSuper):
     and layer depth increase accuracy and computation time\n Better
     and faster results if the number of BA cells is a multiple of
     the number of MA cells (on x and y)"""
+    member_data_items_ = [
+        MemberSpec_('epsilon_atmos', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('xAI', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('gamma_atmos', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('yAI', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, epsilon_atmos=0.003, xAI=400.0, gamma_atmos=0.95, yAI=400.0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_discretisationAtmosAuto")
+        self.troot=get_gs_troot('atmosphere','_discretisationAtmosAuto')
         self.attrib = ['epsilon_atmos', 'xAI', 'gamma_atmos', 'yAI']
         self.children = []
         self.parent = None
@@ -6080,7 +6322,7 @@ class create_discretisationAtmosAuto(GeneratedsSuper):
         self._xAI = _cast(float, xAI)
         self._gamma_atmos = _cast(float, gamma_atmos)
         self._yAI = _cast(float, yAI)
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -6095,22 +6337,22 @@ class create_discretisationAtmosAuto(GeneratedsSuper):
     def get_epsilon_atmos(self): return self._epsilon_atmos
     def set_epsilon_atmos(self, value):
         self._epsilon_atmos = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     epsilon_atmos = property(get_epsilon_atmos, set_epsilon_atmos)
     def get_xAI(self): return self._xAI
     def set_xAI(self, value):
         self._xAI = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     xAI = property(get_xAI, set_xAI)
     def get_gamma_atmos(self): return self._gamma_atmos
     def set_gamma_atmos(self, value):
         self._gamma_atmos = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     gamma_atmos = property(get_gamma_atmos, set_gamma_atmos)
     def get_yAI(self): return self._yAI
     def set_yAI(self, value):
         self._yAI = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     yAI = property(get_yAI, set_yAI)
     def copy(self):
         obj_ = self.factory()
@@ -6236,21 +6478,27 @@ class create_discretisationAtmosAuto(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (yAI): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_discretisationAtmosAuto
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_discretisationAtmosAuto
 
 
 class create_MidAtmosphere(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('CellDimensions', '_CellDimensions', 0, 0, {u'maxOccurs': u'1', u'type': u'_CellDimensions', u'name': u'CellDimensions', u'minOccurs': u'1'}, None),
+        MemberSpec_('Height', '_Height', 0, 0, {u'maxOccurs': u'1', u'type': u'_Height', u'name': u'Height', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, CellDimensions=None, Height=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_MidAtmosphere")
+        self.troot=get_gs_troot('atmosphere','_MidAtmosphere')
         self.attrib = ['']
         self.children = ['CellDimensions', 'Height']
         self.parent = None
         self._CellDimensions = CellDimensions
         self._Height = Height
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -6374,7 +6622,9 @@ class create_MidAtmosphere(GeneratedsSuper):
             obj_.build(child_)
             self.set_Height(obj_)
             obj_.original_tagname_ = 'Height'
-# end class create_MidAtmosphere
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_MidAtmosphere
 
 
 class create_CellDimensions(GeneratedsSuper):
@@ -6397,18 +6647,23 @@ class create_CellDimensions(GeneratedsSuper):
     computation time Dimension in z of the MA cells\nAdvice: Smaller
     cell dimensions and layer depth increase accuracy and
     computation time"""
+    member_data_items_ = [
+        MemberSpec_('xAI', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('yAI', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('zAI', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, xAI=100.0, yAI=100.0, zAI=500.0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_CellDimensions")
+        self.troot=get_gs_troot('atmosphere','_CellDimensions')
         self.attrib = ['xAI', 'yAI', 'zAI']
         self.children = []
         self.parent = None
         self._xAI = _cast(float, xAI)
         self._yAI = _cast(float, yAI)
         self._zAI = _cast(float, zAI)
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -6423,17 +6678,17 @@ class create_CellDimensions(GeneratedsSuper):
     def get_xAI(self): return self._xAI
     def set_xAI(self, value):
         self._xAI = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     xAI = property(get_xAI, set_xAI)
     def get_yAI(self): return self._yAI
     def set_yAI(self, value):
         self._yAI = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     yAI = property(get_yAI, set_yAI)
     def get_zAI(self): return self._zAI
     def set_zAI(self, value):
         self._zAI = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     zAI = property(get_zAI, set_zAI)
     def copy(self):
         obj_ = self.factory()
@@ -6543,21 +6798,26 @@ class create_CellDimensions(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (zAI): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_CellDimensions
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_CellDimensions
 
 
 class create_Height(GeneratedsSuper):
     """Number of MA layers Number of MA layers"""
+    member_data_items_ = [
+        MemberSpec_('hCFAI', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, hCFAI=4000.0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_Height")
+        self.troot=get_gs_troot('atmosphere','_Height')
         self.attrib = ['hCFAI']
         self.children = []
         self.parent = None
         self._hCFAI = _cast(float, hCFAI)
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -6572,7 +6832,7 @@ class create_Height(GeneratedsSuper):
     def get_hCFAI(self): return self._hCFAI
     def set_hCFAI(self, value):
         self._hCFAI = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     hCFAI = property(get_hCFAI, set_hCFAI)
     def copy(self):
         obj_ = self.factory()
@@ -6650,22 +6910,28 @@ class create_Height(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (hCFAI): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_Height
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Height
 
 
 class create_UpperAtmosphere(GeneratedsSuper):
     """smaller computer times. smaller computer times."""
+    member_data_items_ = [
+        MemberSpec_('hCFHA', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Layer', '_Layer', 0, 0, {u'maxOccurs': u'1', u'type': u'_Layer', u'name': u'Layer', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, hCFHA=80000.0, Layer=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_UpperAtmosphere")
+        self.troot=get_gs_troot('atmosphere','_UpperAtmosphere')
         self.attrib = ['hCFHA']
         self.children = ['Layer']
         self.parent = None
         self._hCFHA = _cast(float, hCFHA)
         self._Layer = Layer
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -6687,7 +6953,7 @@ class create_UpperAtmosphere(GeneratedsSuper):
     def get_hCFHA(self): return self._hCFHA
     def set_hCFHA(self, value):
         self._hCFHA = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     hCFHA = property(get_hCFHA, set_hCFHA)
     def copy(self):
         obj_ = self.factory()
@@ -6783,21 +7049,26 @@ class create_UpperAtmosphere(GeneratedsSuper):
             obj_.build(child_)
             self.set_Layer(obj_)
             obj_.original_tagname_ = 'Layer'
-# end class create_UpperAtmosphere
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_UpperAtmosphere
 
 
 class create_Layer(GeneratedsSuper):
     """smaller computer times. smaller computer times."""
+    member_data_items_ = [
+        MemberSpec_('zHA', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, zHA=2000.0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("atmosphere","_Layer")
+        self.troot=get_gs_troot('atmosphere','_Layer')
         self.attrib = ['zHA']
         self.children = []
         self.parent = None
         self._zHA = _cast(float, zHA)
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -6812,7 +7083,7 @@ class create_Layer(GeneratedsSuper):
     def get_zHA(self): return self._zHA
     def set_zHA(self, value):
         self._zHA = value
-        update_node(self,self.troot,"atmosphere")
+        update_node(self,self.troot,'atmosphere')
     zHA = property(get_zHA, set_zHA)
     def copy(self):
         obj_ = self.factory()
@@ -6890,7 +7161,9 @@ class create_Layer(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (zHA): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_Layer
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Layer
 
 
 GDSClassesMapping = {

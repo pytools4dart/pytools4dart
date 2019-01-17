@@ -5,8 +5,8 @@
 <!-- == == -->
 <!-- ==================================================================== -->
 <DartDocumentTemplateNode type="header" version="1.0">
-	<DartFile version="5.7.1" build="0">
-		<object_3d>
+	<DartFile version="5.7.4" build="0">
+		<object_3d generateTriangleFileXML="0">
 			<Types>
 				<DefaultTypes>
 					<DefaultType name="Default_Object" typeColor="125 0 125" indexOT="101" />

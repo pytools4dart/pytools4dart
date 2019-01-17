@@ -3,7 +3,7 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<!-- Element racine -->
 	<xsd:annotation>
-		<xsd:appinfo>Fichier coeff_diff.xsd -- version 5.7.1</xsd:appinfo> 
+		<xsd:appinfo>Fichier coeff_diff.xsd -- version 5.7.4</xsd:appinfo> 
 		<xsd:documentation xml:lang = "en"> </xsd:documentation> 
 		<xsd:documentation xml:lang = "fr"> coeff_diff</xsd:documentation>
 	</xsd:annotation>
@@ -17,7 +17,7 @@
 		<xsd:sequence>
 			<xsd:element name="Coeff_diff" type="_Coeff_diff" minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
-		<xsd:attribute name="version" type="xsd:string" default="5.7.1">
+		<xsd:attribute name="version" type="xsd:string" default="5.7.4">
 			<xsd:annotation>
 				<xsd:documentation xml:lang = "en" source="attribut"> Version of the plots.xml file. Depends of the version on DART itself.</xsd:documentation> 
 				<xsd:documentation xml:lang = "fr" source="attribut"> Version of the plots.xml file. Depends of the version on DART itself.</xsd:documentation>
@@ -227,7 +227,7 @@
 				<xsd:documentation xml:lang = "fr" source="attribut"> Leaf internal structure parameter - N</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
-		<xsd:attribute name="inputProspectFile" type="xsd:string" default="Prospect_Fluspect/Prospect_6D_2015.txt">
+		<xsd:attribute name="inputProspectFile" type="xsd:string" default="Prospect_Fluspect/Optipar2017_ProspectD.txt">
 			<xsd:annotation>
 				<xsd:documentation xml:lang = "en" source="attribut"> Input prospect database file</xsd:documentation> 
 				<xsd:documentation xml:lang = "fr" source="attribut"> Input prospect database file</xsd:documentation>
@@ -374,6 +374,12 @@
 			<xsd:annotation>
 				<xsd:documentation xml:lang = "en" source="attribut"> Direct transmittance</xsd:documentation> 
 				<xsd:documentation xml:lang = "fr" source="attribut"> Direct transmittance</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="diffuseTransmittanceAcceleration" type="xsd:double" default="0.">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Diffuse transmittance acceleration factor</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Diffuse transmittance acceleration factor</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 		<xsd:attribute name="useSameFactorForAllBands" type="xsd:int" default="1">
@@ -943,13 +949,61 @@
 			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="SpecularData" type="_SpecularData" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="UnderstoryMultiModel" type="_UnderstoryMultiModel" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="UnderstoryMultiTopModel" type="_UnderstoryMultiTopModel" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="UnderstoryMultiBottomModel" type="_UnderstoryMultiBottomModel" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="Ellipsoidal" type="_Ellipsoidal" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="Elliptical" type="_Elliptical" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="UserDefined" type="_UserDefined" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="Manual" type="_Manual" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="BoundedUniform" type="_BoundedUniform" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="DirectionalClumpingIndexProperties" type="_DirectionalClumpingIndexProperties" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="ident" type="xsd:string" default="Turbid_Leaf_Deciduous_Phase_Function">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> proportion of photons intercepted along an incident direction that are scattered within a solid angle along a given direction</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> proportion of photons intercepted along an incident direction that are scattered within a solid angle along a given direction</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="hasDifferentModelForBottom" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Has a different model for the bottom of vegetation</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Has a different model for the bottom of vegetation</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="dimFoliar" type="xsd:double" default="0.01">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> 0 for no hot spot)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> 0 for no hot spot)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="thermalHotSpotFactor" type="xsd:double" default="0.1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Thermal Hot-Spot factor (see manual)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Thermal Hot-Spot factor (see manual)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="lad" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Leaf Angle Distribution\nNot used for "Triangle" to "Turbid" transformation.\nIn that case, there are several LADs and these LADs are ellipsoidal</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Leaf Angle Distribution\nNot used for "Triangle" to "Turbid" transformation.\nIn that case, there are several LADs and these LADs are ellipsoidal</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="useOpticalFactorMatrix" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Apply a 3D factor matrix per cell on optical properties</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Apply a 3D factor matrix per cell on optical properties</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_UnderstoryMultiModel">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SpecularData" type="_SpecularData" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="ProspectExternalModule" type="_ProspectExternalModule" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="understoryNodeMultiplicativeFactorForLUT" type="_understoryNodeMultiplicativeFactorForLUT" minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
@@ -959,16 +1013,109 @@
 				<xsd:documentation xml:lang = "fr" source="attribut"> Name of the spectral data base (text file) used to compute the spectral phase function(s)</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
-		<xsd:attribute name="dimFoliar" type="xsd:double" default="0.01">
+		<xsd:attribute name="useSpecular" type="xsd:int" default="0">
 			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> 0 for no hot spot)</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> 0 for no hot spot)</xsd:documentation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Use specular</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Use specular</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
-		<xsd:attribute name="lad" type="xsd:int" default="1">
+		<xsd:attribute name="databaseName" type="xsd:string" default="Lambertian_vegetation.db">
 			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Leaf Angle Distribution\nNot used for "Triangle" to "Turbid" transformation.\nIn that case, there are several LADs and these LADs are ellipsoidal</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Leaf Angle Distribution\nNot used for "Triangle" to "Turbid" transformation.\nIn that case, there are several LADs and these LADs are ellipsoidal</xsd:documentation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Reflectance database        </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Reflectance database        </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="useMultiplicativeFactorForLUT" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_understoryNodeMultiplicativeFactorForLUT">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="understoryMultiplicativeFactorForLUT" type="_understoryMultiplicativeFactorForLUT" minOccurs="1" maxOccurs="unbounded" />
+			<xsd:element name="opticalFactorMatrix" type="_opticalFactorMatrix" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="useSameFactorForAllBands" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> When selected, the parameters values of every spectral band will be equal to these parameters.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> When selected, the parameters values of every spectral band will be equal to these parameters.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="reflectanceFactor" type="xsd:double" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Necessary for building up LUT tables with variable adaxial leaf reflectance values. \nA multispectral LUT can be computed applying the sequencer to DART mutispectral simulation with one spectral band each.                     </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Necessary for building up LUT tables with variable adaxial leaf reflectance values. \nA multispectral LUT can be computed applying the sequencer to DART mutispectral simulation with one spectral band each.                     </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="LeafTransmittanceFactor" type="xsd:double" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Necessary for building up LUT tables with variable leaf transmittance values. \nA multispectral LUT can be computed applying the sequencer to DART mutispectral simulation with one spectral band each.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Necessary for building up LUT tables with variable leaf transmittance values. \nA multispectral LUT can be computed applying the sequencer to DART mutispectral simulation with one spectral band each.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="useSameOpticalFactorMatrixForAllBands" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Apply the same 3D factor matrix per cell on optical properties to all the spectral bands</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Apply the same 3D factor matrix per cell on optical properties to all the spectral bands</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="diffuseTransmittanceAcceleration" type="xsd:double" default="0.">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Diffuse transmittance acceleration factor</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Diffuse transmittance acceleration factor</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_understoryMultiplicativeFactorForLUT">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="opticalFactorMatrix" type="_opticalFactorMatrix" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="reflectanceFactor" type="xsd:double" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="LeafTransmittanceFactor" type="xsd:double" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Necessary for building up LUT tables with variable leaf transmittance values. \nA multispectral LUT can be computed applying the sequencer to DART mutispectral simulation with one spectral band each.</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Necessary for building up LUT tables with variable leaf transmittance values. \nA multispectral LUT can be computed applying the sequencer to DART mutispectral simulation with one spectral band each.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="useOpticalFactorMatrix" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Apply a 3D factor matrix per cell on optical properties</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Apply a 3D factor matrix per cell on optical properties</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="_UnderstoryMultiTopModel">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SpecularData" type="_SpecularData" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="ProspectExternalModule" type="_ProspectExternalModule" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="understoryNodeMultiplicativeFactorForLUT" type="_understoryNodeMultiplicativeFactorForLUT" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="ModelName" type="xsd:string" default="leaf_deciduous">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Name of the spectral data base (text file) used to compute the spectral phase function(s)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Name of the spectral data base (text file) used to compute the spectral phase function(s)</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 		<xsd:attribute name="useSpecular" type="xsd:int" default="0">
@@ -977,13 +1124,7 @@
 				<xsd:documentation xml:lang = "fr" source="attribut"> Use specular</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
-		<xsd:attribute name="ident" type="xsd:string" default="Turbid_Leaf_Deciduous_Phase_Function">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> proportion of photons intercepted along an incident direction that are scattered within a solid angle along a given direction</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> proportion of photons intercepted along an incident direction that are scattered within a solid angle along a given direction</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="databaseName" type="xsd:string" default="Vegetation.db">
+		<xsd:attribute name="databaseName" type="xsd:string" default="Lambertian_vegetation.db">
 			<xsd:annotation>
 				<xsd:documentation xml:lang = "en" source="attribut"> Reflectance database        </xsd:documentation> 
 				<xsd:documentation xml:lang = "fr" source="attribut"> Reflectance database        </xsd:documentation>
@@ -991,14 +1132,44 @@
 		</xsd:attribute>
 		<xsd:attribute name="useMultiplicativeFactorForLUT" type="xsd:int" default="1">
 			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> useMultiplicativeFactorForLUT</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> useMultiplicativeFactorForLUT</xsd:documentation>
+				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
-		<xsd:attribute name="useOpticalFactorMatrix" type="xsd:int" default="0">
+	</xsd:complexType>
+
+	<xsd:complexType name="_UnderstoryMultiBottomModel">
+		<xsd:annotation>
+			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
+			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SpecularData" type="_SpecularData" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="ProspectExternalModule" type="_ProspectExternalModule" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="understoryNodeMultiplicativeFactorForLUT" type="_understoryNodeMultiplicativeFactorForLUT" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="ModelName" type="xsd:string" default="leaf_deciduous">
 			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Apply a 3D factor matrix per cell on optical properties</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Apply a 3D factor matrix per cell on optical properties</xsd:documentation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Name of the spectral data base (text file) used to compute the spectral phase function(s)</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Name of the spectral data base (text file) used to compute the spectral phase function(s)</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="useSpecular" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Use specular</xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Use specular</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="databaseName" type="xsd:string" default="Lambertian_vegetation.db">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> Reflectance database        </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> Reflectance database        </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="useMultiplicativeFactorForLUT" type="xsd:int" default="1">
+			<xsd:annotation>
+				<xsd:documentation xml:lang = "en" source="attribut"> </xsd:documentation> 
+				<xsd:documentation xml:lang = "fr" source="attribut"> </xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 	</xsd:complexType>
@@ -1137,81 +1308,6 @@
 			<xsd:annotation>
 				<xsd:documentation xml:lang = "en" source="attribut"> G(teta)_with_clumping </xsd:documentation> 
 				<xsd:documentation xml:lang = "fr" source="attribut"> G(teta)_with_clumping </xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-	</xsd:complexType>
-
-	<xsd:complexType name="_understoryNodeMultiplicativeFactorForLUT">
-		<xsd:annotation>
-			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
-			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
-		</xsd:annotation>
-		<xsd:sequence>
-			<xsd:element name="understoryMultiplicativeFactorForLUT" type="_understoryMultiplicativeFactorForLUT" minOccurs="1" maxOccurs="unbounded" />
-			<xsd:element name="opticalFactorMatrix" type="_opticalFactorMatrix" minOccurs="1" maxOccurs="1" />
-		</xsd:sequence>
-		<xsd:attribute name="useSameFactorForAllBands" type="xsd:int" default="1">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> When selected, the parameters values of every spectral band will be equal to these parameters.</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> When selected, the parameters values of every spectral band will be equal to these parameters.</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="adaxialReflectanceFactor" type="xsd:double" default="1">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Necessary for building up LUT tables with variable adaxial leaf reflectance values. \nA multispectral LUT can be computed applying the sequencer to DART mutispectral simulation with one spectral band each.</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Necessary for building up LUT tables with variable adaxial leaf reflectance values. \nA multispectral LUT can be computed applying the sequencer to DART mutispectral simulation with one spectral band each.</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="useSameOpticalFactorMatrixForAllBands" type="xsd:int" default="0">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Apply the same 3D factor matrix per cell on optical properties to all the spectral bands</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Apply the same 3D factor matrix per cell on optical properties to all the spectral bands</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="abaxialReflectanceFactor" type="xsd:double" default="1">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Necessary for building up LUT tables with variable abaxial leaf reflectance values. \nA multispectral LUT can be computed applying the sequencer to DART mutispectral simulation with one spectral band each.</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Necessary for building up LUT tables with variable abaxial leaf reflectance values. \nA multispectral LUT can be computed applying the sequencer to DART mutispectral simulation with one spectral band each.</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="LeafTransmittanceFactor" type="xsd:double" default="1">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Necessary for building up LUT tables with variable leaf transmittance values. \nA multispectral LUT can be computed applying the sequencer to DART mutispectral simulation with one spectral band each.</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Necessary for building up LUT tables with variable leaf transmittance values. \nA multispectral LUT can be computed applying the sequencer to DART mutispectral simulation with one spectral band each.</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-	</xsd:complexType>
-
-	<xsd:complexType name="_understoryMultiplicativeFactorForLUT">
-		<xsd:annotation>
-			<xsd:documentation xml:lang = "en"> </xsd:documentation> 
-			<xsd:documentation xml:lang = "fr"> </xsd:documentation>
-		</xsd:annotation>
-		<xsd:sequence>
-			<xsd:element name="opticalFactorMatrix" type="_opticalFactorMatrix" minOccurs="1" maxOccurs="1" />
-		</xsd:sequence>
-		<xsd:attribute name="abaxialReflectanceFactor" type="xsd:double" default="1">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Necessary for building up LUT tables with variable abaxial leaf reflectance values. \nA multispectral LUT can be computed applying the sequencer to DART mutispectral simulation with one spectral band each.</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Necessary for building up LUT tables with variable abaxial leaf reflectance values. \nA multispectral LUT can be computed applying the sequencer to DART mutispectral simulation with one spectral band each.</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="adaxialReflectanceFactor" type="xsd:double" default="1">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Necessary for building up LUT tables with variable adaxial leaf reflectance values. \nA multispectral LUT can be computed applying the sequencer to DART mutispectral simulation with one spectral band each.</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Necessary for building up LUT tables with variable adaxial leaf reflectance values. \nA multispectral LUT can be computed applying the sequencer to DART mutispectral simulation with one spectral band each.</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="LeafTransmittanceFactor" type="xsd:double" default="1">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Necessary for building up LUT tables with variable leaf transmittance values. \nA multispectral LUT can be computed applying the sequencer to DART mutispectral simulation with one spectral band each.</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Necessary for building up LUT tables with variable leaf transmittance values. \nA multispectral LUT can be computed applying the sequencer to DART mutispectral simulation with one spectral band each.</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="useOpticalFactorMatrix" type="xsd:int" default="0">
-			<xsd:annotation>
-				<xsd:documentation xml:lang = "en" source="attribut"> Apply a 3D factor matrix per cell on optical properties</xsd:documentation> 
-				<xsd:documentation xml:lang = "fr" source="attribut"> Apply a 3D factor matrix per cell on optical properties</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 	</xsd:complexType>

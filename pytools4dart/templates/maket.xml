@@ -7,8 +7,8 @@
 <!-- ==================================================================== -->
 
 <DartDocumentTemplateNode type="header" version="1.0">
-<DartFile version="5.7.1" build="0">
-	<Maket dartZone="0"  exactlyPeriodicScene="1">
+<DartFile version="5.7.4" build="0">
+	<Maket dartZone="0"  exactlyPeriodicScene="1" useRandomGenerationSeed="1">
 		<Scene>
 			<!--CellDimensions x="1" y="1" z="1"/-->
 			<CellDimensions x="1" z="1"/>
@@ -23,6 +23,9 @@
 				</DartZoneProperties>
 			</DartDocumentTemplateNode>
 		</Scene>
+		<DartDocumentTemplateNode test="parent.useRandomGenerationSeed==0">
+			<RandomGenerationParameters generationSeed="733426921"/>
+		</DartDocumentTemplateNode>	
 		<Soil>
 			<OpticalPropertyLink type="0" indexFctPhase="0" ident="Lambertian_Phase_Function_1"/>
 			<ThermalPropertyLink indexTemperature="0" idTemperature="ThermalFunction290_310"/>

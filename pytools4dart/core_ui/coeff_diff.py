@@ -2,28 +2,30 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Wed Oct 31 15:06:24 2018 by generateDS.py version 2.29.25.
-# Python 2.7.15rc1 (default, Apr 15 2018, 21:51:34)  [GCC 7.3.0]
+# Generated Wed Jan  2 18:30:49 2019 by generateDS.py version 2.29.25.
+# Python 2.7.15rc1 (default, Nov 12 2018, 14:31:15)  [GCC 7.3.0]
 #
 # Command line options:
 #   ('-m', '')
+#   ('-f', '')
 #   ('--always-export-default', '')
 #   ('--export', 'write literal etree')
+#   ('-u', 'pytools4dart.core_ui.user_methods')
 #   ('-p', 'create')
-#   ('--post-attrib-setter', 'update_node(self,self.troot,"coeff_diff")')
-#   ('--pre-ctor', 'self.troot=get_gs_troot("coeff_diff","{classname}")')
-#   ('--post-ctor', 'update_node(self,self.troot,"coeff_diff")')
+#   ('--post-attrib-setter', "update_node(self,self.troot,'coeff_diff')")
+#   ('--pre-ctor', "self.troot=get_gs_troot('coeff_diff','{classname}')")
+#   ('--post-ctor', "update_node(self,self.troot,'coeff_diff')")
 #   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node')
-#   ('-o', '/home/claudia/tmp/coeff_diff.py')
+#   ('-o', 'pytools4dart/core_ui/coeff_diff.py')
 #
 # Command line arguments:
-#   /home/claudia/DEV/pytools4dartMTD/pytools4dart/core_ui/coeff_diff.xsd
+#   pytools4dart/xsdschemas/coeff_diff.xsd
 #
 # Command line:
-#   /home/claudia/DEV/pytools4dartMTD/venv/bin/generateDS.py -m --always-export-default --export="write literal etree" -p "create" --post-attrib-setter="update_node(self,self.troot,"coeff_diff")" --pre-ctor="self.troot=get_gs_troot("coeff_diff","{classname}")" --post-ctor="update_node(self,self.troot,"coeff_diff")" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node" -o "/home/claudia/tmp/coeff_diff.py" /home/claudia/DEV/pytools4dartMTD/pytools4dart/core_ui/coeff_diff.xsd
+#   /home/boissieu/git/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "pytools4dart.core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'coeff_diff')" --pre-ctor="self.troot=get_gs_troot('coeff_diff','{classname}')" --post-ctor="update_node(self,self.troot,'coeff_diff')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node" -o "pytools4dart/core_ui/coeff_diff.py" pytools4dart/xsdschemas/coeff_diff.xsd
 #
 # Current working directory (os.getcwd()):
-#   generateds
+#   pytools4dartMTD
 #
 
 import sys
@@ -742,18 +744,23 @@ class createDartFile(GeneratedsSuper):
     """Version of the plots.xml file. Depends of the version on DART
     itself. Version of the plots.xml file. Depends of the version on
     DART itself."""
+    member_data_items_ = [
+        MemberSpec_('version', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('build_', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Coeff_diff', '_Coeff_diff', 0, 0, {u'maxOccurs': u'1', u'type': u'_Coeff_diff', u'name': u'Coeff_diff', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
-    def __init__(self, version='5.7.1', build_='0', Coeff_diff=None):
+    def __init__(self, version='5.7.4', build_='0', Coeff_diff=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","DartFile")
+        self.troot=get_gs_troot('coeff_diff','DartFile')
         self.attrib = ['version', 'build_']
         self.children = ['Coeff_diff']
         self.parent = None
         self._version = _cast(None, version)
         self._build_ = _cast(None, build_)
         self._Coeff_diff = Coeff_diff
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -775,12 +782,12 @@ class createDartFile(GeneratedsSuper):
     def get_version(self): return self._version
     def set_version(self, value):
         self._version = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     version = property(get_version, set_version)
     def get_build(self): return self._build_
     def set_build(self, value):
         self._build_ = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     build_ = property(get_build, set_build)
     def copy(self):
         obj_ = self.factory()
@@ -886,7 +893,9 @@ class createDartFile(GeneratedsSuper):
             obj_.build(child_)
             self.set_Coeff_diff(obj_)
             obj_.original_tagname_ = 'Coeff_diff'
-# end class createDartFile
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class createDartFile
 
 
 class create_Coeff_diff(GeneratedsSuper):
@@ -897,11 +906,22 @@ class create_Coeff_diff(GeneratedsSuper):
     generated for Photo-System I and II. Elements which have been
     defined as fluorescent will fluoresce. Separated images and BRFs
     will be generated for Photo-System I and II."""
+    member_data_items_ = [
+        MemberSpec_('fluorescenceFile', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('fluorescenceProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('FluorescenceProductsProperties', '_FluorescenceProductsProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_FluorescenceProductsProperties', u'name': u'FluorescenceProductsProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('LambertianMultiFunctions', '_LambertianMultiFunctions', 0, 0, {u'maxOccurs': u'1', u'type': u'_LambertianMultiFunctions', u'name': u'LambertianMultiFunctions', u'minOccurs': u'1'}, None),
+        MemberSpec_('HapkeSpecularMultiFunctions', '_HapkeSpecularMultiFunctions', 0, 0, {u'maxOccurs': u'1', u'type': u'_HapkeSpecularMultiFunctions', u'name': u'HapkeSpecularMultiFunctions', u'minOccurs': u'1'}, None),
+        MemberSpec_('RPVMultiFunctions', '_RPVMultiFunctions', 0, 0, {u'maxOccurs': u'1', u'type': u'_RPVMultiFunctions', u'name': u'RPVMultiFunctions', u'minOccurs': u'1'}, None),
+        MemberSpec_('UnderstoryMultiFunctions', '_UnderstoryMultiFunctions', 0, 0, {u'maxOccurs': u'1', u'type': u'_UnderstoryMultiFunctions', u'name': u'UnderstoryMultiFunctions', u'minOccurs': u'1'}, None),
+        MemberSpec_('AirMultiFunctions', '_AirMultiFunctions', 0, 0, {u'maxOccurs': u'1', u'type': u'_AirMultiFunctions', u'name': u'AirMultiFunctions', u'minOccurs': u'1'}, None),
+        MemberSpec_('Temperatures', '_Temperatures', 0, 0, {u'maxOccurs': u'1', u'type': u'_Temperatures', u'name': u'Temperatures', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, fluorescenceFile=0, fluorescenceProducts=0, FluorescenceProductsProperties=None, LambertianMultiFunctions=None, HapkeSpecularMultiFunctions=None, RPVMultiFunctions=None, UnderstoryMultiFunctions=None, AirMultiFunctions=None, Temperatures=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_Coeff_diff")
+        self.troot=get_gs_troot('coeff_diff','_Coeff_diff')
         self.attrib = ['fluorescenceFile', 'fluorescenceProducts']
         self.children = ['FluorescenceProductsProperties', 'LambertianMultiFunctions', 'HapkeSpecularMultiFunctions', 'RPVMultiFunctions', 'UnderstoryMultiFunctions', 'AirMultiFunctions', 'Temperatures']
         self.parent = None
@@ -914,7 +934,7 @@ class create_Coeff_diff(GeneratedsSuper):
         self._UnderstoryMultiFunctions = UnderstoryMultiFunctions
         self._AirMultiFunctions = AirMultiFunctions
         self._Temperatures = Temperatures
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -978,12 +998,12 @@ class create_Coeff_diff(GeneratedsSuper):
     def get_fluorescenceFile(self): return self._fluorescenceFile
     def set_fluorescenceFile(self, value):
         self._fluorescenceFile = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     fluorescenceFile = property(get_fluorescenceFile, set_fluorescenceFile)
     def get_fluorescenceProducts(self): return self._fluorescenceProducts
     def set_fluorescenceProducts(self, value):
         self._fluorescenceProducts = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     fluorescenceProducts = property(get_fluorescenceProducts, set_fluorescenceProducts)
     def copy(self):
         obj_ = self.factory()
@@ -1197,7 +1217,9 @@ class create_Coeff_diff(GeneratedsSuper):
             obj_.build(child_)
             self.set_Temperatures(obj_)
             obj_.original_tagname_ = 'Temperatures'
-# end class create_Coeff_diff
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Coeff_diff
 
 
 class create_FluorescenceProductsProperties(GeneratedsSuper):
@@ -1205,16 +1227,19 @@ class create_FluorescenceProductsProperties(GeneratedsSuper):
     mechanims, using radiation already absorbed by the scene. Name
     of the text file that allows one to compute fluorescence
     mechanims, using radiation already absorbed by the scene."""
+    member_data_items_ = [
+        MemberSpec_('fluorescenceFileName', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, fluorescenceFileName='yieldsPerTriangle.txt'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_FluorescenceProductsProperties")
+        self.troot=get_gs_troot('coeff_diff','_FluorescenceProductsProperties')
         self.attrib = ['fluorescenceFileName']
         self.children = []
         self.parent = None
         self._fluorescenceFileName = _cast(None, fluorescenceFileName)
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1229,7 +1254,7 @@ class create_FluorescenceProductsProperties(GeneratedsSuper):
     def get_fluorescenceFileName(self): return self._fluorescenceFileName
     def set_fluorescenceFileName(self, value):
         self._fluorescenceFileName = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     fluorescenceFileName = property(get_fluorescenceFileName, set_fluorescenceFileName)
     def copy(self):
         obj_ = self.factory()
@@ -1304,16 +1329,21 @@ class create_FluorescenceProductsProperties(GeneratedsSuper):
             self.fluorescenceFileName = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_FluorescenceProductsProperties
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_FluorescenceProductsProperties
 
 
 class create_LambertianMultiFunctions(GeneratedsSuper):
     """LambertianMultiFunctions LambertianMultiFunctions"""
+    member_data_items_ = [
+        MemberSpec_('LambertianMulti', '_LambertianMulti', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_LambertianMulti', u'name': u'LambertianMulti', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, LambertianMulti=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_LambertianMultiFunctions")
+        self.troot=get_gs_troot('coeff_diff','_LambertianMultiFunctions')
         self.attrib = ['']
         self.children = ['LambertianMulti']
         self.parent = None
@@ -1321,7 +1351,7 @@ class create_LambertianMultiFunctions(GeneratedsSuper):
             self._LambertianMulti = []
         else:
             self._LambertianMulti = LambertianMulti
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1437,7 +1467,9 @@ class create_LambertianMultiFunctions(GeneratedsSuper):
             obj_.build(child_)
             self.add_LambertianMulti(obj_)
             obj_.original_tagname_ = 'LambertianMulti'
-# end class create_LambertianMultiFunctions
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_LambertianMultiFunctions
 
 
 class create_LambertianMulti(GeneratedsSuper):
@@ -1455,11 +1487,22 @@ class create_LambertianMulti(GeneratedsSuper):
     corresponding to 3 sigmas. Coefficient of determination :
     standard deviation / mean. The value provided is considered as
     corresponding to 3 sigmas."""
+    member_data_items_ = [
+        MemberSpec_('ModelName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('databaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useMultiplicativeFactorForLUT', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ident', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useSpecular', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('roStDev', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('SpecularData', '_SpecularData', 0, 0, {u'maxOccurs': u'1', u'type': u'_SpecularData', u'name': u'SpecularData', u'minOccurs': u'1'}, None),
+        MemberSpec_('ProspectExternalModule', '_ProspectExternalModule', 0, 0, {u'maxOccurs': u'1', u'type': u'_ProspectExternalModule', u'name': u'ProspectExternalModule', u'minOccurs': u'1'}, None),
+        MemberSpec_('lambertianNodeMultiplicativeFactorForLUT', '_lambertianNodeMultiplicativeFactorForLUT', 0, 0, {u'maxOccurs': u'1', u'type': u'_lambertianNodeMultiplicativeFactorForLUT', u'name': u'lambertianNodeMultiplicativeFactorForLUT', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, ModelName='reflect_equal_1_trans_equal_0_0', databaseName='Lambertian_vegetation.db', useMultiplicativeFactorForLUT=1, ident='Lambertian_Phase_Function_1', useSpecular=0, roStDev=0.000, SpecularData=None, ProspectExternalModule=None, lambertianNodeMultiplicativeFactorForLUT=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_LambertianMulti")
+        self.troot=get_gs_troot('coeff_diff','_LambertianMulti')
         self.attrib = ['ModelName', 'databaseName', 'useMultiplicativeFactorForLUT', 'ident', 'useSpecular', 'roStDev']
         self.children = ['SpecularData', 'ProspectExternalModule', 'lambertianNodeMultiplicativeFactorForLUT']
         self.parent = None
@@ -1472,7 +1515,7 @@ class create_LambertianMulti(GeneratedsSuper):
         self._SpecularData = SpecularData
         self._ProspectExternalModule = ProspectExternalModule
         self._lambertianNodeMultiplicativeFactorForLUT = lambertianNodeMultiplicativeFactorForLUT
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1508,32 +1551,32 @@ class create_LambertianMulti(GeneratedsSuper):
     def get_ModelName(self): return self._ModelName
     def set_ModelName(self, value):
         self._ModelName = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     ModelName = property(get_ModelName, set_ModelName)
     def get_databaseName(self): return self._databaseName
     def set_databaseName(self, value):
         self._databaseName = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     databaseName = property(get_databaseName, set_databaseName)
     def get_useMultiplicativeFactorForLUT(self): return self._useMultiplicativeFactorForLUT
     def set_useMultiplicativeFactorForLUT(self, value):
         self._useMultiplicativeFactorForLUT = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     useMultiplicativeFactorForLUT = property(get_useMultiplicativeFactorForLUT, set_useMultiplicativeFactorForLUT)
     def get_ident(self): return self._ident
     def set_ident(self, value):
         self._ident = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     ident = property(get_ident, set_ident)
     def get_useSpecular(self): return self._useSpecular
     def set_useSpecular(self, value):
         self._useSpecular = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     useSpecular = property(get_useSpecular, set_useSpecular)
     def get_roStDev(self): return self._roStDev
     def set_roStDev(self, value):
         self._roStDev = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     roStDev = property(get_roStDev, set_roStDev)
     def copy(self):
         obj_ = self.factory()
@@ -1734,7 +1777,9 @@ class create_LambertianMulti(GeneratedsSuper):
             obj_.build(child_)
             self.set_lambertianNodeMultiplicativeFactorForLUT(obj_)
             obj_.original_tagname_ = 'lambertianNodeMultiplicativeFactorForLUT'
-# end class create_LambertianMulti
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_LambertianMulti
 
 
 class create_SpecularData(GeneratedsSuper):
@@ -1756,11 +1801,17 @@ class create_SpecularData(GeneratedsSuper):
     normal\nIf fluxes are not stored per direction, there is no
     refraction for fluxes other than sun flux. Specular model
     Specular model"""
+    member_data_items_ = [
+        MemberSpec_('specularDatabaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('specularRadianceDistribution', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useRefraction', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('specularModelName', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, specularDatabaseName='Specular.db', specularRadianceDistribution=0, useRefraction=0, specularModelName='basic'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_SpecularData")
+        self.troot=get_gs_troot('coeff_diff','_SpecularData')
         self.attrib = ['specularDatabaseName', 'specularRadianceDistribution', 'useRefraction', 'specularModelName']
         self.children = []
         self.parent = None
@@ -1768,7 +1819,7 @@ class create_SpecularData(GeneratedsSuper):
         self._specularRadianceDistribution = _cast(int, specularRadianceDistribution)
         self._useRefraction = _cast(int, useRefraction)
         self._specularModelName = _cast(None, specularModelName)
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1783,22 +1834,22 @@ class create_SpecularData(GeneratedsSuper):
     def get_specularDatabaseName(self): return self._specularDatabaseName
     def set_specularDatabaseName(self, value):
         self._specularDatabaseName = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     specularDatabaseName = property(get_specularDatabaseName, set_specularDatabaseName)
     def get_specularRadianceDistribution(self): return self._specularRadianceDistribution
     def set_specularRadianceDistribution(self, value):
         self._specularRadianceDistribution = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     specularRadianceDistribution = property(get_specularRadianceDistribution, set_specularRadianceDistribution)
     def get_useRefraction(self): return self._useRefraction
     def set_useRefraction(self, value):
         self._useRefraction = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     useRefraction = property(get_useRefraction, set_useRefraction)
     def get_specularModelName(self): return self._specularModelName
     def set_specularModelName(self, value):
         self._specularModelName = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     specularModelName = property(get_specularModelName, set_specularModelName)
     def copy(self):
         obj_ = self.factory()
@@ -1918,7 +1969,9 @@ class create_SpecularData(GeneratedsSuper):
             self.specularModelName = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_SpecularData
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_SpecularData
 
 
 class create_ProspectExternalModule(GeneratedsSuper):
@@ -1930,11 +1983,18 @@ class create_ProspectExternalModule(GeneratedsSuper):
     simulation. This optical properties generated fluorescence,
     based on the prospect parameters. This optical properties
     generated fluorescence, based on the prospect parameters."""
+    member_data_items_ = [
+        MemberSpec_('useProspectExternalModule', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('isFluorescent', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ProspectExternParameters', '_ProspectExternParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_ProspectExternParameters', u'name': u'ProspectExternParameters', u'minOccurs': u'1'}, None),
+        MemberSpec_('FluorescenceYields', '_FluorescenceYields', 0, 0, {u'maxOccurs': u'1', u'type': u'_FluorescenceYields', u'name': u'FluorescenceYields', u'minOccurs': u'1'}, None),
+        MemberSpec_('WindProfileEta', '_WindProfileEta', 0, 0, {u'maxOccurs': u'1', u'type': u'_WindProfileEta', u'name': u'WindProfileEta', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, useProspectExternalModule=0, isFluorescent=0, ProspectExternParameters=None, FluorescenceYields=None, WindProfileEta=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_ProspectExternalModule")
+        self.troot=get_gs_troot('coeff_diff','_ProspectExternalModule')
         self.attrib = ['useProspectExternalModule', 'isFluorescent']
         self.children = ['ProspectExternParameters', 'FluorescenceYields', 'WindProfileEta']
         self.parent = None
@@ -1943,7 +2003,7 @@ class create_ProspectExternalModule(GeneratedsSuper):
         self._ProspectExternParameters = ProspectExternParameters
         self._FluorescenceYields = FluorescenceYields
         self._WindProfileEta = WindProfileEta
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1979,12 +2039,12 @@ class create_ProspectExternalModule(GeneratedsSuper):
     def get_useProspectExternalModule(self): return self._useProspectExternalModule
     def set_useProspectExternalModule(self, value):
         self._useProspectExternalModule = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     useProspectExternalModule = property(get_useProspectExternalModule, set_useProspectExternalModule)
     def get_isFluorescent(self): return self._isFluorescent
     def set_isFluorescent(self, value):
         self._isFluorescent = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     isFluorescent = property(get_isFluorescent, set_isFluorescent)
     def copy(self):
         obj_ = self.factory()
@@ -2130,7 +2190,9 @@ class create_ProspectExternalModule(GeneratedsSuper):
             obj_.build(child_)
             self.set_WindProfileEta(obj_)
             obj_.original_tagname_ = 'WindProfileEta'
-# end class create_ProspectExternalModule
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ProspectExternalModule
 
 
 class create_ProspectExternParameters(GeneratedsSuper):
@@ -2145,11 +2207,21 @@ class create_ProspectExternParameters(GeneratedsSuper):
     Cab (\u03BCg.cm-2) Leaf chlorophyll a+b content - Cab
     (\u03BCg.cm-2) Leaf equivalent water thickness - Cw (cm) Leaf
     equivalent water thickness - Cw (cm)"""
+    member_data_items_ = [
+        MemberSpec_('CBrown', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Cm', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Car', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('anthocyanin', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('N', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('inputProspectFile', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Cab', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Cw', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
-    def __init__(self, CBrown=0.0, Cm=0.01, Car=10., anthocyanin=0, N=1.8, inputProspectFile='Prospect_Fluspect/Prospect_6D_2015.txt', Cab=30, Cw=0.012):
+    def __init__(self, CBrown=0.0, Cm=0.01, Car=10., anthocyanin=0, N=1.8, inputProspectFile='Prospect_Fluspect/Optipar2017_ProspectD.txt', Cab=30, Cw=0.012):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_ProspectExternParameters")
+        self.troot=get_gs_troot('coeff_diff','_ProspectExternParameters')
         self.attrib = ['CBrown', 'Cm', 'Car', 'anthocyanin', 'N', 'inputProspectFile', 'Cab', 'Cw']
         self.children = []
         self.parent = None
@@ -2161,7 +2233,7 @@ class create_ProspectExternParameters(GeneratedsSuper):
         self._inputProspectFile = _cast(None, inputProspectFile)
         self._Cab = _cast(float, Cab)
         self._Cw = _cast(float, Cw)
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2176,42 +2248,42 @@ class create_ProspectExternParameters(GeneratedsSuper):
     def get_CBrown(self): return self._CBrown
     def set_CBrown(self, value):
         self._CBrown = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     CBrown = property(get_CBrown, set_CBrown)
     def get_Cm(self): return self._Cm
     def set_Cm(self, value):
         self._Cm = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     Cm = property(get_Cm, set_Cm)
     def get_Car(self): return self._Car
     def set_Car(self, value):
         self._Car = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     Car = property(get_Car, set_Car)
     def get_anthocyanin(self): return self._anthocyanin
     def set_anthocyanin(self, value):
         self._anthocyanin = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     anthocyanin = property(get_anthocyanin, set_anthocyanin)
     def get_N(self): return self._N
     def set_N(self, value):
         self._N = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     N = property(get_N, set_N)
     def get_inputProspectFile(self): return self._inputProspectFile
     def set_inputProspectFile(self, value):
         self._inputProspectFile = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     inputProspectFile = property(get_inputProspectFile, set_inputProspectFile)
     def get_Cab(self): return self._Cab
     def set_Cab(self, value):
         self._Cab = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     Cab = property(get_Cab, set_Cab)
     def get_Cw(self): return self._Cw
     def set_Cw(self, value):
         self._Cw = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     Cw = property(get_Cw, set_Cw)
     def copy(self):
         obj_ = self.factory()
@@ -2398,23 +2470,29 @@ class create_ProspectExternParameters(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (Cw): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_ProspectExternParameters
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ProspectExternParameters
 
 
 class create_FluorescenceYields(GeneratedsSuper):
     """Override the yields par triangle file Override the yields par
     triangle file"""
+    member_data_items_ = [
+        MemberSpec_('forceYields', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Yields', '_Yields', 0, 0, {u'maxOccurs': u'1', u'type': u'_Yields', u'name': u'Yields', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, forceYields=0, Yields=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_FluorescenceYields")
+        self.troot=get_gs_troot('coeff_diff','_FluorescenceYields')
         self.attrib = ['forceYields']
         self.children = ['Yields']
         self.parent = None
         self._forceYields = _cast(int, forceYields)
         self._Yields = Yields
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2436,7 +2514,7 @@ class create_FluorescenceYields(GeneratedsSuper):
     def get_forceYields(self): return self._forceYields
     def set_forceYields(self, value):
         self._forceYields = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     forceYields = property(get_forceYields, set_forceYields)
     def copy(self):
         obj_ = self.factory()
@@ -2532,23 +2610,29 @@ class create_FluorescenceYields(GeneratedsSuper):
             obj_.build(child_)
             self.set_Yields(obj_)
             obj_.original_tagname_ = 'Yields'
-# end class create_FluorescenceYields
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_FluorescenceYields
 
 
 class create_Yields(GeneratedsSuper):
     """Yield of the photo-system I Yield of the photo-system I Yield of the
     photo-system II Yield of the photo-system II"""
+    member_data_items_ = [
+        MemberSpec_('yieldPSI', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('yieldPSII', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, yieldPSI=0.002, yieldPSII=0.01):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_Yields")
+        self.troot=get_gs_troot('coeff_diff','_Yields')
         self.attrib = ['yieldPSI', 'yieldPSII']
         self.children = []
         self.parent = None
         self._yieldPSI = _cast(float, yieldPSI)
         self._yieldPSII = _cast(float, yieldPSII)
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2563,12 +2647,12 @@ class create_Yields(GeneratedsSuper):
     def get_yieldPSI(self): return self._yieldPSI
     def set_yieldPSI(self, value):
         self._yieldPSI = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     yieldPSI = property(get_yieldPSI, set_yieldPSI)
     def get_yieldPSII(self): return self._yieldPSII
     def set_yieldPSII(self, value):
         self._yieldPSII = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     yieldPSII = property(get_yieldPSII, set_yieldPSII)
     def copy(self):
         obj_ = self.factory()
@@ -2662,7 +2746,9 @@ class create_Yields(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (yieldPSII): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_Yields
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Yields
 
 
 class create_WindProfileEta(GeneratedsSuper):
@@ -2674,17 +2760,21 @@ class create_WindProfileEta(GeneratedsSuper):
     emission depending on the height and angles of the fluorescing
     surface. These coefficients depend on the profile of winds and
     temperature and can provided by the SCOPE model, for example."""
+    member_data_items_ = [
+        MemberSpec_('useBioClimaticWeighting', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('BioClimaticWeighting', '_BioClimaticWeighting', 0, 0, {u'maxOccurs': u'1', u'type': u'_BioClimaticWeighting', u'name': u'BioClimaticWeighting', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, useBioClimaticWeighting=0, BioClimaticWeighting=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_WindProfileEta")
+        self.troot=get_gs_troot('coeff_diff','_WindProfileEta')
         self.attrib = ['useBioClimaticWeighting']
         self.children = ['BioClimaticWeighting']
         self.parent = None
         self._useBioClimaticWeighting = _cast(int, useBioClimaticWeighting)
         self._BioClimaticWeighting = BioClimaticWeighting
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2706,7 +2796,7 @@ class create_WindProfileEta(GeneratedsSuper):
     def get_useBioClimaticWeighting(self): return self._useBioClimaticWeighting
     def set_useBioClimaticWeighting(self, value):
         self._useBioClimaticWeighting = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     useBioClimaticWeighting = property(get_useBioClimaticWeighting, set_useBioClimaticWeighting)
     def copy(self):
         obj_ = self.factory()
@@ -2802,7 +2892,9 @@ class create_WindProfileEta(GeneratedsSuper):
             obj_.build(child_)
             self.set_BioClimaticWeighting(obj_)
             obj_.original_tagname_ = 'BioClimaticWeighting'
-# end class create_WindProfileEta
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_WindProfileEta
 
 
 class create_BioClimaticWeighting(GeneratedsSuper):
@@ -2819,18 +2911,23 @@ class create_BioClimaticWeighting(GeneratedsSuper):
     between this minimum and maximum.\nIf 2 optical properties are
     linked, then the minimum and maximum will be computed using
     their combined associated objects.\n"""
+    member_data_items_ = [
+        MemberSpec_('profileFilePath', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('linkedOpticalProperty', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, profileFilePath='profileEta.bin', linkedOpticalProperty=0, OpticalPropertyLink=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_BioClimaticWeighting")
+        self.troot=get_gs_troot('coeff_diff','_BioClimaticWeighting')
         self.attrib = ['profileFilePath', 'linkedOpticalProperty']
         self.children = ['OpticalPropertyLink']
         self.parent = None
         self._profileFilePath = _cast(None, profileFilePath)
         self._linkedOpticalProperty = _cast(int, linkedOpticalProperty)
         self._OpticalPropertyLink = OpticalPropertyLink
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2852,12 +2949,12 @@ class create_BioClimaticWeighting(GeneratedsSuper):
     def get_profileFilePath(self): return self._profileFilePath
     def set_profileFilePath(self, value):
         self._profileFilePath = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     profileFilePath = property(get_profileFilePath, set_profileFilePath)
     def get_linkedOpticalProperty(self): return self._linkedOpticalProperty
     def set_linkedOpticalProperty(self, value):
         self._linkedOpticalProperty = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     linkedOpticalProperty = property(get_linkedOpticalProperty, set_linkedOpticalProperty)
     def copy(self):
         obj_ = self.factory()
@@ -2966,25 +3063,32 @@ class create_BioClimaticWeighting(GeneratedsSuper):
             obj_.build(child_)
             self.set_OpticalPropertyLink(obj_)
             obj_.original_tagname_ = 'OpticalPropertyLink'
-# end class create_BioClimaticWeighting
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_BioClimaticWeighting
 
 
 class create_OpticalPropertyLink(GeneratedsSuper):
     """Optical property index Optical property index Linked Optical
     property name Linked Optical property name Type of optical
     property Type of optical property"""
+    member_data_items_ = [
+        MemberSpec_('indexFctPhase', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ident', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('type_', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, indexFctPhase=0, ident='linkedOpticalProperty', type_=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_OpticalPropertyLink")
+        self.troot=get_gs_troot('coeff_diff','_OpticalPropertyLink')
         self.attrib = ['indexFctPhase', 'ident', 'type_']
         self.children = []
         self.parent = None
         self._indexFctPhase = _cast(int, indexFctPhase)
         self._ident = _cast(None, ident)
         self._type_ = _cast(int, type_)
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2999,17 +3103,17 @@ class create_OpticalPropertyLink(GeneratedsSuper):
     def get_indexFctPhase(self): return self._indexFctPhase
     def set_indexFctPhase(self, value):
         self._indexFctPhase = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     indexFctPhase = property(get_indexFctPhase, set_indexFctPhase)
     def get_ident(self): return self._ident
     def set_ident(self, value):
         self._ident = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     ident = property(get_ident, set_ident)
     def get_type(self): return self._type_
     def set_type(self, value):
         self._type_ = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     type_ = property(get_type, set_type)
     def copy(self):
         obj_ = self.factory()
@@ -3116,30 +3220,46 @@ class create_OpticalPropertyLink(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_OpticalPropertyLink
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_OpticalPropertyLink
 
 
 class create_lambertianNodeMultiplicativeFactorForLUT(GeneratedsSuper):
     """nodeMultiplicativeFactorForLUT nodeMultiplicativeFactorForLUT
     Diffuse transmittance Diffuse transmittance Direct transmittance
-    Direct transmittance When selected, the parameters values of
-    every spectral band will be equal to these parameters. When
-    selected, the parameters values of every spectral band will be
-    equal to these parameters. Apply the same 3D factor matrix per
-    cell on optical properties to all the spectral bands Apply the
-    same 3D factor matrix per cell on optical properties to all the
-    spectral bands Specular intensity Specular intensity"""
+    Direct transmittance Diffuse transmittance acceleration factor
+    Diffuse transmittance acceleration factor When selected, the
+    parameters values of every spectral band will be equal to these
+    parameters. When selected, the parameters values of every
+    spectral band will be equal to these parameters. Apply the same
+    3D factor matrix per cell on optical properties to all the
+    spectral bands Apply the same 3D factor matrix per cell on
+    optical properties to all the spectral bands Specular intensity
+    Specular intensity"""
+    member_data_items_ = [
+        MemberSpec_('diffuseTransmittanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('reflectanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('directTransmittanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('diffuseTransmittanceAcceleration', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useSameFactorForAllBands', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useSameOpticalFactorMatrixForAllBands', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('specularIntensityFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('lambertianMultiplicativeFactorForLUT', '_lambertianMultiplicativeFactorForLUT', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_lambertianMultiplicativeFactorForLUT', u'name': u'lambertianMultiplicativeFactorForLUT', u'minOccurs': u'1'}, None),
+        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {u'maxOccurs': u'1', u'type': u'_opticalFactorMatrix', u'name': u'opticalFactorMatrix', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
-    def __init__(self, diffuseTransmittanceFactor=1, reflectanceFactor=1, directTransmittanceFactor=1, useSameFactorForAllBands=1, useSameOpticalFactorMatrixForAllBands=0, specularIntensityFactor=1, lambertianMultiplicativeFactorForLUT=None, opticalFactorMatrix=None):
+    def __init__(self, diffuseTransmittanceFactor=1, reflectanceFactor=1, directTransmittanceFactor=1, diffuseTransmittanceAcceleration=0., useSameFactorForAllBands=1, useSameOpticalFactorMatrixForAllBands=0, specularIntensityFactor=1, lambertianMultiplicativeFactorForLUT=None, opticalFactorMatrix=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_lambertianNodeMultiplicativeFactorForLUT")
-        self.attrib = ['diffuseTransmittanceFactor', 'reflectanceFactor', 'directTransmittanceFactor', 'useSameFactorForAllBands', 'useSameOpticalFactorMatrixForAllBands', 'specularIntensityFactor']
+        self.troot=get_gs_troot('coeff_diff','_lambertianNodeMultiplicativeFactorForLUT')
+        self.attrib = ['diffuseTransmittanceFactor', 'reflectanceFactor', 'directTransmittanceFactor', 'diffuseTransmittanceAcceleration', 'useSameFactorForAllBands', 'useSameOpticalFactorMatrixForAllBands', 'specularIntensityFactor']
         self.children = ['lambertianMultiplicativeFactorForLUT', 'opticalFactorMatrix']
         self.parent = None
         self._diffuseTransmittanceFactor = _cast(float, diffuseTransmittanceFactor)
         self._reflectanceFactor = _cast(float, reflectanceFactor)
         self._directTransmittanceFactor = _cast(float, directTransmittanceFactor)
+        self._diffuseTransmittanceAcceleration = _cast(float, diffuseTransmittanceAcceleration)
         self._useSameFactorForAllBands = _cast(int, useSameFactorForAllBands)
         self._useSameOpticalFactorMatrixForAllBands = _cast(int, useSameOpticalFactorMatrixForAllBands)
         self._specularIntensityFactor = _cast(float, specularIntensityFactor)
@@ -3148,7 +3268,7 @@ class create_lambertianNodeMultiplicativeFactorForLUT(GeneratedsSuper):
         else:
             self._lambertianMultiplicativeFactorForLUT = lambertianMultiplicativeFactorForLUT
         self._opticalFactorMatrix = opticalFactorMatrix
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3187,32 +3307,37 @@ class create_lambertianNodeMultiplicativeFactorForLUT(GeneratedsSuper):
     def get_diffuseTransmittanceFactor(self): return self._diffuseTransmittanceFactor
     def set_diffuseTransmittanceFactor(self, value):
         self._diffuseTransmittanceFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     diffuseTransmittanceFactor = property(get_diffuseTransmittanceFactor, set_diffuseTransmittanceFactor)
     def get_reflectanceFactor(self): return self._reflectanceFactor
     def set_reflectanceFactor(self, value):
         self._reflectanceFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     reflectanceFactor = property(get_reflectanceFactor, set_reflectanceFactor)
     def get_directTransmittanceFactor(self): return self._directTransmittanceFactor
     def set_directTransmittanceFactor(self, value):
         self._directTransmittanceFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     directTransmittanceFactor = property(get_directTransmittanceFactor, set_directTransmittanceFactor)
+    def get_diffuseTransmittanceAcceleration(self): return self._diffuseTransmittanceAcceleration
+    def set_diffuseTransmittanceAcceleration(self, value):
+        self._diffuseTransmittanceAcceleration = value
+        update_node(self,self.troot,'coeff_diff')
+    diffuseTransmittanceAcceleration = property(get_diffuseTransmittanceAcceleration, set_diffuseTransmittanceAcceleration)
     def get_useSameFactorForAllBands(self): return self._useSameFactorForAllBands
     def set_useSameFactorForAllBands(self, value):
         self._useSameFactorForAllBands = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     useSameFactorForAllBands = property(get_useSameFactorForAllBands, set_useSameFactorForAllBands)
     def get_useSameOpticalFactorMatrixForAllBands(self): return self._useSameOpticalFactorMatrixForAllBands
     def set_useSameOpticalFactorMatrixForAllBands(self, value):
         self._useSameOpticalFactorMatrixForAllBands = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     useSameOpticalFactorMatrixForAllBands = property(get_useSameOpticalFactorMatrixForAllBands, set_useSameOpticalFactorMatrixForAllBands)
     def get_specularIntensityFactor(self): return self._specularIntensityFactor
     def set_specularIntensityFactor(self, value):
         self._specularIntensityFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     specularIntensityFactor = property(get_specularIntensityFactor, set_specularIntensityFactor)
     def copy(self):
         obj_ = self.factory()
@@ -3256,6 +3381,9 @@ class create_lambertianNodeMultiplicativeFactorForLUT(GeneratedsSuper):
         if self.directTransmittanceFactor is not None and 'directTransmittanceFactor' not in already_processed:
             already_processed.add('directTransmittanceFactor')
             outfile.write(' directTransmittanceFactor="%s"' % self.gds_format_double(self.directTransmittanceFactor, input_name='directTransmittanceFactor'))
+        if self.diffuseTransmittanceAcceleration is not None and 'diffuseTransmittanceAcceleration' not in already_processed:
+            already_processed.add('diffuseTransmittanceAcceleration')
+            outfile.write(' diffuseTransmittanceAcceleration="%s"' % self.gds_format_double(self.diffuseTransmittanceAcceleration, input_name='diffuseTransmittanceAcceleration'))
         if self.useSameFactorForAllBands is not None and 'useSameFactorForAllBands' not in already_processed:
             already_processed.add('useSameFactorForAllBands')
             outfile.write(' useSameFactorForAllBands="%s"' % self.gds_format_integer(self.useSameFactorForAllBands, input_name='useSameFactorForAllBands'))
@@ -3285,6 +3413,8 @@ class create_lambertianNodeMultiplicativeFactorForLUT(GeneratedsSuper):
             element.set('reflectanceFactor', self.gds_format_double(self.reflectanceFactor))
         if self.directTransmittanceFactor is not None:
             element.set('directTransmittanceFactor', self.gds_format_double(self.directTransmittanceFactor))
+        if self.diffuseTransmittanceAcceleration is not None:
+            element.set('diffuseTransmittanceAcceleration', self.gds_format_double(self.diffuseTransmittanceAcceleration))
         if self.useSameFactorForAllBands is not None:
             element.set('useSameFactorForAllBands', self.gds_format_integer(self.useSameFactorForAllBands))
         if self.useSameOpticalFactorMatrixForAllBands is not None:
@@ -3318,6 +3448,10 @@ class create_lambertianNodeMultiplicativeFactorForLUT(GeneratedsSuper):
             already_processed.add('directTransmittanceFactor')
             showIndent(outfile, level)
             outfile.write('directTransmittanceFactor=%e,\n' % (self.directTransmittanceFactor,))
+        if self.diffuseTransmittanceAcceleration is not None and 'diffuseTransmittanceAcceleration' not in already_processed:
+            already_processed.add('diffuseTransmittanceAcceleration')
+            showIndent(outfile, level)
+            outfile.write('diffuseTransmittanceAcceleration=%e,\n' % (self.diffuseTransmittanceAcceleration,))
         if self.useSameFactorForAllBands is not None and 'useSameFactorForAllBands' not in already_processed:
             already_processed.add('useSameFactorForAllBands')
             showIndent(outfile, level)
@@ -3379,6 +3513,13 @@ class create_lambertianNodeMultiplicativeFactorForLUT(GeneratedsSuper):
                 self.directTransmittanceFactor = float(value)
             except ValueError as exp:
                 raise ValueError('Bad float/double attribute (directTransmittanceFactor): %s' % exp)
+        value = find_attr_value_('diffuseTransmittanceAcceleration', node)
+        if value is not None and 'diffuseTransmittanceAcceleration' not in already_processed:
+            already_processed.add('diffuseTransmittanceAcceleration')
+            try:
+                self.diffuseTransmittanceAcceleration = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (diffuseTransmittanceAcceleration): %s' % exp)
         value = find_attr_value_('useSameFactorForAllBands', node)
         if value is not None and 'useSameFactorForAllBands' not in already_processed:
             already_processed.add('useSameFactorForAllBands')
@@ -3411,7 +3552,9 @@ class create_lambertianNodeMultiplicativeFactorForLUT(GeneratedsSuper):
             obj_.build(child_)
             self.set_opticalFactorMatrix(obj_)
             obj_.original_tagname_ = 'opticalFactorMatrix'
-# end class create_lambertianNodeMultiplicativeFactorForLUT
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_lambertianNodeMultiplicativeFactorForLUT
 
 
 class create_lambertianMultiplicativeFactorForLUT(GeneratedsSuper):
@@ -3422,11 +3565,19 @@ class create_lambertianMultiplicativeFactorForLUT(GeneratedsSuper):
     intensity Apply a 3D factor matrix per cell on optical
     properties Apply a 3D factor matrix per cell on optical
     properties"""
+    member_data_items_ = [
+        MemberSpec_('diffuseTransmittanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('directTransmittanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('reflectanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('specularIntensityFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useOpticalFactorMatrix', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {u'maxOccurs': u'1', u'type': u'_opticalFactorMatrix', u'name': u'opticalFactorMatrix', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, diffuseTransmittanceFactor=1, directTransmittanceFactor=1, reflectanceFactor=1, specularIntensityFactor=1, useOpticalFactorMatrix=0, opticalFactorMatrix=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_lambertianMultiplicativeFactorForLUT")
+        self.troot=get_gs_troot('coeff_diff','_lambertianMultiplicativeFactorForLUT')
         self.attrib = ['diffuseTransmittanceFactor', 'directTransmittanceFactor', 'reflectanceFactor', 'specularIntensityFactor', 'useOpticalFactorMatrix']
         self.children = ['opticalFactorMatrix']
         self.parent = None
@@ -3436,7 +3587,7 @@ class create_lambertianMultiplicativeFactorForLUT(GeneratedsSuper):
         self._specularIntensityFactor = _cast(float, specularIntensityFactor)
         self._useOpticalFactorMatrix = _cast(int, useOpticalFactorMatrix)
         self._opticalFactorMatrix = opticalFactorMatrix
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3458,27 +3609,27 @@ class create_lambertianMultiplicativeFactorForLUT(GeneratedsSuper):
     def get_diffuseTransmittanceFactor(self): return self._diffuseTransmittanceFactor
     def set_diffuseTransmittanceFactor(self, value):
         self._diffuseTransmittanceFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     diffuseTransmittanceFactor = property(get_diffuseTransmittanceFactor, set_diffuseTransmittanceFactor)
     def get_directTransmittanceFactor(self): return self._directTransmittanceFactor
     def set_directTransmittanceFactor(self, value):
         self._directTransmittanceFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     directTransmittanceFactor = property(get_directTransmittanceFactor, set_directTransmittanceFactor)
     def get_reflectanceFactor(self): return self._reflectanceFactor
     def set_reflectanceFactor(self, value):
         self._reflectanceFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     reflectanceFactor = property(get_reflectanceFactor, set_reflectanceFactor)
     def get_specularIntensityFactor(self): return self._specularIntensityFactor
     def set_specularIntensityFactor(self, value):
         self._specularIntensityFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     specularIntensityFactor = property(get_specularIntensityFactor, set_specularIntensityFactor)
     def get_useOpticalFactorMatrix(self): return self._useOpticalFactorMatrix
     def set_useOpticalFactorMatrix(self, value):
         self._useOpticalFactorMatrix = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     useOpticalFactorMatrix = property(get_useOpticalFactorMatrix, set_useOpticalFactorMatrix)
     def copy(self):
         obj_ = self.factory()
@@ -3638,7 +3789,9 @@ class create_lambertianMultiplicativeFactorForLUT(GeneratedsSuper):
             obj_.build(child_)
             self.set_opticalFactorMatrix(obj_)
             obj_.original_tagname_ = 'opticalFactorMatrix'
-# end class create_lambertianMultiplicativeFactorForLUT
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_lambertianMultiplicativeFactorForLUT
 
 
 class create_opticalFactorMatrix(GeneratedsSuper):
@@ -3650,17 +3803,21 @@ class create_opticalFactorMatrix(GeneratedsSuper):
     layers\nOrdered like the schematic view in simulation editor,
     origin top-left:\ncolumns (y) - lines (x) - altitudes
     (z)\nAccepted field separators: semi-column, space, tab"""
+    member_data_items_ = [
+        MemberSpec_('duplicateFirstMatrixLayer', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('opticalFactorMatrixFile', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, duplicateFirstMatrixLayer=0, opticalFactorMatrixFile='choose'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_opticalFactorMatrix")
+        self.troot=get_gs_troot('coeff_diff','_opticalFactorMatrix')
         self.attrib = ['duplicateFirstMatrixLayer', 'opticalFactorMatrixFile']
         self.children = []
         self.parent = None
         self._duplicateFirstMatrixLayer = _cast(int, duplicateFirstMatrixLayer)
         self._opticalFactorMatrixFile = _cast(None, opticalFactorMatrixFile)
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3675,12 +3832,12 @@ class create_opticalFactorMatrix(GeneratedsSuper):
     def get_duplicateFirstMatrixLayer(self): return self._duplicateFirstMatrixLayer
     def set_duplicateFirstMatrixLayer(self, value):
         self._duplicateFirstMatrixLayer = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     duplicateFirstMatrixLayer = property(get_duplicateFirstMatrixLayer, set_duplicateFirstMatrixLayer)
     def get_opticalFactorMatrixFile(self): return self._opticalFactorMatrixFile
     def set_opticalFactorMatrixFile(self, value):
         self._opticalFactorMatrixFile = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     opticalFactorMatrixFile = property(get_opticalFactorMatrixFile, set_opticalFactorMatrixFile)
     def copy(self):
         obj_ = self.factory()
@@ -3771,15 +3928,20 @@ class create_opticalFactorMatrix(GeneratedsSuper):
             self.opticalFactorMatrixFile = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_opticalFactorMatrix
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_opticalFactorMatrix
 
 
 class create_HapkeSpecularMultiFunctions(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('HapkeSpecularMulti', '_HapkeSpecularMulti', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_HapkeSpecularMulti', u'name': u'HapkeSpecularMulti', u'minOccurs': u'0'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, HapkeSpecularMulti=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_HapkeSpecularMultiFunctions")
+        self.troot=get_gs_troot('coeff_diff','_HapkeSpecularMultiFunctions')
         self.attrib = ['']
         self.children = ['HapkeSpecularMulti']
         self.parent = None
@@ -3787,7 +3949,7 @@ class create_HapkeSpecularMultiFunctions(GeneratedsSuper):
             self._HapkeSpecularMulti = []
         else:
             self._HapkeSpecularMulti = HapkeSpecularMulti
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3903,7 +4065,9 @@ class create_HapkeSpecularMultiFunctions(GeneratedsSuper):
             obj_.build(child_)
             self.add_HapkeSpecularMulti(obj_)
             obj_.original_tagname_ = 'HapkeSpecularMulti'
-# end class create_HapkeSpecularMultiFunctions
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_HapkeSpecularMultiFunctions
 
 
 class create_HapkeSpecularMulti(GeneratedsSuper):
@@ -3923,11 +4087,24 @@ class create_HapkeSpecularMulti(GeneratedsSuper):
     a given direction Transmittance model Transmittance model
     Reflectance database Reflectance database
     useMultiplicativeFactorForLUT useMultiplicativeFactorForLUT"""
+    member_data_items_ = [
+        MemberSpec_('ModelName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useExternalModule', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('transmittanceDatabaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useSpecular', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ident', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('transmittanceModelName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('databaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useMultiplicativeFactorForLUT', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('SpecularData', '_SpecularData', 0, 0, {u'maxOccurs': u'1', u'type': u'_SpecularData', u'name': u'SpecularData', u'minOccurs': u'1'}, None),
+        MemberSpec_('HapkeExternalModules', '_HapkeExternalModules', 0, 0, {u'maxOccurs': u'1', u'type': u'_HapkeExternalModules', u'name': u'HapkeExternalModules', u'minOccurs': u'1'}, None),
+        MemberSpec_('hapkeNodeMultiplicativeFactorForLUT', '_hapkeNodeMultiplicativeFactorForLUT', 0, 0, {u'maxOccurs': u'1', u'type': u'_hapkeNodeMultiplicativeFactorForLUT', u'name': u'hapkeNodeMultiplicativeFactorForLUT', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, ModelName='all_equal_to_one', useExternalModule=0, transmittanceDatabaseName='Lambertian_vegetation.db', useSpecular=0, ident='Hapke_Phase_Function_1', transmittanceModelName='reflect_equal_1_trans_equal_1_1', databaseName='Hapke.db', useMultiplicativeFactorForLUT=1, SpecularData=None, HapkeExternalModules=None, hapkeNodeMultiplicativeFactorForLUT=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_HapkeSpecularMulti")
+        self.troot=get_gs_troot('coeff_diff','_HapkeSpecularMulti')
         self.attrib = ['ModelName', 'useExternalModule', 'transmittanceDatabaseName', 'useSpecular', 'ident', 'transmittanceModelName', 'databaseName', 'useMultiplicativeFactorForLUT']
         self.children = ['SpecularData', 'HapkeExternalModules', 'hapkeNodeMultiplicativeFactorForLUT']
         self.parent = None
@@ -3942,7 +4119,7 @@ class create_HapkeSpecularMulti(GeneratedsSuper):
         self._SpecularData = SpecularData
         self._HapkeExternalModules = HapkeExternalModules
         self._hapkeNodeMultiplicativeFactorForLUT = hapkeNodeMultiplicativeFactorForLUT
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3978,42 +4155,42 @@ class create_HapkeSpecularMulti(GeneratedsSuper):
     def get_ModelName(self): return self._ModelName
     def set_ModelName(self, value):
         self._ModelName = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     ModelName = property(get_ModelName, set_ModelName)
     def get_useExternalModule(self): return self._useExternalModule
     def set_useExternalModule(self, value):
         self._useExternalModule = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     useExternalModule = property(get_useExternalModule, set_useExternalModule)
     def get_transmittanceDatabaseName(self): return self._transmittanceDatabaseName
     def set_transmittanceDatabaseName(self, value):
         self._transmittanceDatabaseName = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     transmittanceDatabaseName = property(get_transmittanceDatabaseName, set_transmittanceDatabaseName)
     def get_useSpecular(self): return self._useSpecular
     def set_useSpecular(self, value):
         self._useSpecular = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     useSpecular = property(get_useSpecular, set_useSpecular)
     def get_ident(self): return self._ident
     def set_ident(self, value):
         self._ident = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     ident = property(get_ident, set_ident)
     def get_transmittanceModelName(self): return self._transmittanceModelName
     def set_transmittanceModelName(self, value):
         self._transmittanceModelName = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     transmittanceModelName = property(get_transmittanceModelName, set_transmittanceModelName)
     def get_databaseName(self): return self._databaseName
     def set_databaseName(self, value):
         self._databaseName = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     databaseName = property(get_databaseName, set_databaseName)
     def get_useMultiplicativeFactorForLUT(self): return self._useMultiplicativeFactorForLUT
     def set_useMultiplicativeFactorForLUT(self, value):
         self._useMultiplicativeFactorForLUT = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     useMultiplicativeFactorForLUT = property(get_useMultiplicativeFactorForLUT, set_useMultiplicativeFactorForLUT)
     def copy(self):
         obj_ = self.factory()
@@ -4240,15 +4417,20 @@ class create_HapkeSpecularMulti(GeneratedsSuper):
             obj_.build(child_)
             self.set_hapkeNodeMultiplicativeFactorForLUT(obj_)
             obj_.original_tagname_ = 'hapkeNodeMultiplicativeFactorForLUT'
-# end class create_HapkeSpecularMulti
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_HapkeSpecularMulti
 
 
 class create_HapkeExternalModules(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('HapkeExternalModule', '_HapkeExternalModule', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_HapkeExternalModule', u'name': u'HapkeExternalModule', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, HapkeExternalModule=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_HapkeExternalModules")
+        self.troot=get_gs_troot('coeff_diff','_HapkeExternalModules')
         self.attrib = ['']
         self.children = ['HapkeExternalModule']
         self.parent = None
@@ -4256,7 +4438,7 @@ class create_HapkeExternalModules(GeneratedsSuper):
             self._HapkeExternalModule = []
         else:
             self._HapkeExternalModule = HapkeExternalModule
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4372,7 +4554,9 @@ class create_HapkeExternalModules(GeneratedsSuper):
             obj_.build(child_)
             self.add_HapkeExternalModule(obj_)
             obj_.original_tagname_ = 'HapkeExternalModule'
-# end class create_HapkeExternalModules
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_HapkeExternalModules
 
 
 class create_HapkeExternalModule(GeneratedsSuper):
@@ -4380,18 +4564,23 @@ class create_HapkeExternalModule(GeneratedsSuper):
     Hapke extend model. Input FileName used by Hapke external module
     Input FileName used by Hapke external module Hapke model name
     Hapke model name"""
+    member_data_items_ = [
+        MemberSpec_('soilSpecFlag', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('hapkeInputFile', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('choiceOfHapkeModel', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, soilSpecFlag=0, hapkeInputFile='hapke_input.txt', choiceOfHapkeModel='New'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_HapkeExternalModule")
+        self.troot=get_gs_troot('coeff_diff','_HapkeExternalModule')
         self.attrib = ['soilSpecFlag', 'hapkeInputFile', 'choiceOfHapkeModel']
         self.children = []
         self.parent = None
         self._soilSpecFlag = _cast(int, soilSpecFlag)
         self._hapkeInputFile = _cast(None, hapkeInputFile)
         self._choiceOfHapkeModel = _cast(None, choiceOfHapkeModel)
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4406,17 +4595,17 @@ class create_HapkeExternalModule(GeneratedsSuper):
     def get_soilSpecFlag(self): return self._soilSpecFlag
     def set_soilSpecFlag(self, value):
         self._soilSpecFlag = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     soilSpecFlag = property(get_soilSpecFlag, set_soilSpecFlag)
     def get_hapkeInputFile(self): return self._hapkeInputFile
     def set_hapkeInputFile(self, value):
         self._hapkeInputFile = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     hapkeInputFile = property(get_hapkeInputFile, set_hapkeInputFile)
     def get_choiceOfHapkeModel(self): return self._choiceOfHapkeModel
     def set_choiceOfHapkeModel(self, value):
         self._choiceOfHapkeModel = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     choiceOfHapkeModel = property(get_choiceOfHapkeModel, set_choiceOfHapkeModel)
     def copy(self):
         obj_ = self.factory()
@@ -4520,7 +4709,9 @@ class create_HapkeExternalModule(GeneratedsSuper):
             self.choiceOfHapkeModel = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_HapkeExternalModule
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_HapkeExternalModule
 
 
 class create_hapkeNodeMultiplicativeFactorForLUT(GeneratedsSuper):
@@ -4539,11 +4730,27 @@ class create_hapkeNodeMultiplicativeFactorForLUT(GeneratedsSuper):
     every spectral band will be equal to these parameters. When
     selected, the parameters values of every spectral band will be
     equal to these parameters. W W"""
+    member_data_items_ = [
+        MemberSpec_('diffuseTransmittanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('directTransmittanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('hapkeParameterH1', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('hapkeParameterH2', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('specularIntensityFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useSameOpticalFactorMatrixForAllBands', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('hapkeParameterC4', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('hapkeParameterC1', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('hapkeParameterC3', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('hapkeParameterC2', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useSameFactorForAllBands', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('hapkeParameterW', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('hapkeMultiplicativeFactorForLUT', '_hapkeMultiplicativeFactorForLUT', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_hapkeMultiplicativeFactorForLUT', u'name': u'hapkeMultiplicativeFactorForLUT', u'minOccurs': u'1'}, None),
+        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {u'maxOccurs': u'1', u'type': u'_opticalFactorMatrix', u'name': u'opticalFactorMatrix', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, diffuseTransmittanceFactor=0, directTransmittanceFactor=0, hapkeParameterH1=1.0, hapkeParameterH2=1.0, specularIntensityFactor=1, useSameOpticalFactorMatrixForAllBands=0, hapkeParameterC4=1.0, hapkeParameterC1=1.0, hapkeParameterC3=1.0, hapkeParameterC2=1.0, useSameFactorForAllBands=1, hapkeParameterW=1.0, hapkeMultiplicativeFactorForLUT=None, opticalFactorMatrix=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_hapkeNodeMultiplicativeFactorForLUT")
+        self.troot=get_gs_troot('coeff_diff','_hapkeNodeMultiplicativeFactorForLUT')
         self.attrib = ['diffuseTransmittanceFactor', 'directTransmittanceFactor', 'hapkeParameterH1', 'hapkeParameterH2', 'specularIntensityFactor', 'useSameOpticalFactorMatrixForAllBands', 'hapkeParameterC4', 'hapkeParameterC1', 'hapkeParameterC3', 'hapkeParameterC2', 'useSameFactorForAllBands', 'hapkeParameterW']
         self.children = ['hapkeMultiplicativeFactorForLUT', 'opticalFactorMatrix']
         self.parent = None
@@ -4564,7 +4771,7 @@ class create_hapkeNodeMultiplicativeFactorForLUT(GeneratedsSuper):
         else:
             self._hapkeMultiplicativeFactorForLUT = hapkeMultiplicativeFactorForLUT
         self._opticalFactorMatrix = opticalFactorMatrix
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4603,62 +4810,62 @@ class create_hapkeNodeMultiplicativeFactorForLUT(GeneratedsSuper):
     def get_diffuseTransmittanceFactor(self): return self._diffuseTransmittanceFactor
     def set_diffuseTransmittanceFactor(self, value):
         self._diffuseTransmittanceFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     diffuseTransmittanceFactor = property(get_diffuseTransmittanceFactor, set_diffuseTransmittanceFactor)
     def get_directTransmittanceFactor(self): return self._directTransmittanceFactor
     def set_directTransmittanceFactor(self, value):
         self._directTransmittanceFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     directTransmittanceFactor = property(get_directTransmittanceFactor, set_directTransmittanceFactor)
     def get_hapkeParameterH1(self): return self._hapkeParameterH1
     def set_hapkeParameterH1(self, value):
         self._hapkeParameterH1 = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     hapkeParameterH1 = property(get_hapkeParameterH1, set_hapkeParameterH1)
     def get_hapkeParameterH2(self): return self._hapkeParameterH2
     def set_hapkeParameterH2(self, value):
         self._hapkeParameterH2 = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     hapkeParameterH2 = property(get_hapkeParameterH2, set_hapkeParameterH2)
     def get_specularIntensityFactor(self): return self._specularIntensityFactor
     def set_specularIntensityFactor(self, value):
         self._specularIntensityFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     specularIntensityFactor = property(get_specularIntensityFactor, set_specularIntensityFactor)
     def get_useSameOpticalFactorMatrixForAllBands(self): return self._useSameOpticalFactorMatrixForAllBands
     def set_useSameOpticalFactorMatrixForAllBands(self, value):
         self._useSameOpticalFactorMatrixForAllBands = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     useSameOpticalFactorMatrixForAllBands = property(get_useSameOpticalFactorMatrixForAllBands, set_useSameOpticalFactorMatrixForAllBands)
     def get_hapkeParameterC4(self): return self._hapkeParameterC4
     def set_hapkeParameterC4(self, value):
         self._hapkeParameterC4 = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     hapkeParameterC4 = property(get_hapkeParameterC4, set_hapkeParameterC4)
     def get_hapkeParameterC1(self): return self._hapkeParameterC1
     def set_hapkeParameterC1(self, value):
         self._hapkeParameterC1 = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     hapkeParameterC1 = property(get_hapkeParameterC1, set_hapkeParameterC1)
     def get_hapkeParameterC3(self): return self._hapkeParameterC3
     def set_hapkeParameterC3(self, value):
         self._hapkeParameterC3 = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     hapkeParameterC3 = property(get_hapkeParameterC3, set_hapkeParameterC3)
     def get_hapkeParameterC2(self): return self._hapkeParameterC2
     def set_hapkeParameterC2(self, value):
         self._hapkeParameterC2 = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     hapkeParameterC2 = property(get_hapkeParameterC2, set_hapkeParameterC2)
     def get_useSameFactorForAllBands(self): return self._useSameFactorForAllBands
     def set_useSameFactorForAllBands(self, value):
         self._useSameFactorForAllBands = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     useSameFactorForAllBands = property(get_useSameFactorForAllBands, set_useSameFactorForAllBands)
     def get_hapkeParameterW(self): return self._hapkeParameterW
     def set_hapkeParameterW(self, value):
         self._hapkeParameterW = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     hapkeParameterW = property(get_hapkeParameterW, set_hapkeParameterW)
     def copy(self):
         obj_ = self.factory()
@@ -4953,7 +5160,9 @@ class create_hapkeNodeMultiplicativeFactorForLUT(GeneratedsSuper):
             obj_.build(child_)
             self.set_opticalFactorMatrix(obj_)
             obj_.original_tagname_ = 'opticalFactorMatrix'
-# end class create_hapkeNodeMultiplicativeFactorForLUT
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_hapkeNodeMultiplicativeFactorForLUT
 
 
 class create_hapkeMultiplicativeFactorForLUT(GeneratedsSuper):
@@ -4968,11 +5177,25 @@ class create_hapkeMultiplicativeFactorForLUT(GeneratedsSuper):
     each. C4 C4 C1 C1 C3 C3 C2 C2 W W Apply a 3D factor matrix per
     cell on optical properties Apply a 3D factor matrix per cell on
     optical properties"""
+    member_data_items_ = [
+        MemberSpec_('diffuseTransmittanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('directTransmittanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('hapkeParameterH1', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('hapkeParameterH2', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('specularIntensityFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('hapkeParameterC4', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('hapkeParameterC1', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('hapkeParameterC3', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('hapkeParameterC2', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('hapkeParameterW', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useOpticalFactorMatrix', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {u'maxOccurs': u'1', u'type': u'_opticalFactorMatrix', u'name': u'opticalFactorMatrix', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, diffuseTransmittanceFactor=0, directTransmittanceFactor=0, hapkeParameterH1=1.0, hapkeParameterH2=1.0, specularIntensityFactor=1, hapkeParameterC4=1.0, hapkeParameterC1=1.0, hapkeParameterC3=1.0, hapkeParameterC2=1.0, hapkeParameterW=1.0, useOpticalFactorMatrix=0, opticalFactorMatrix=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_hapkeMultiplicativeFactorForLUT")
+        self.troot=get_gs_troot('coeff_diff','_hapkeMultiplicativeFactorForLUT')
         self.attrib = ['diffuseTransmittanceFactor', 'directTransmittanceFactor', 'hapkeParameterH1', 'hapkeParameterH2', 'specularIntensityFactor', 'hapkeParameterC4', 'hapkeParameterC1', 'hapkeParameterC3', 'hapkeParameterC2', 'hapkeParameterW', 'useOpticalFactorMatrix']
         self.children = ['opticalFactorMatrix']
         self.parent = None
@@ -4988,7 +5211,7 @@ class create_hapkeMultiplicativeFactorForLUT(GeneratedsSuper):
         self._hapkeParameterW = _cast(float, hapkeParameterW)
         self._useOpticalFactorMatrix = _cast(int, useOpticalFactorMatrix)
         self._opticalFactorMatrix = opticalFactorMatrix
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5010,57 +5233,57 @@ class create_hapkeMultiplicativeFactorForLUT(GeneratedsSuper):
     def get_diffuseTransmittanceFactor(self): return self._diffuseTransmittanceFactor
     def set_diffuseTransmittanceFactor(self, value):
         self._diffuseTransmittanceFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     diffuseTransmittanceFactor = property(get_diffuseTransmittanceFactor, set_diffuseTransmittanceFactor)
     def get_directTransmittanceFactor(self): return self._directTransmittanceFactor
     def set_directTransmittanceFactor(self, value):
         self._directTransmittanceFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     directTransmittanceFactor = property(get_directTransmittanceFactor, set_directTransmittanceFactor)
     def get_hapkeParameterH1(self): return self._hapkeParameterH1
     def set_hapkeParameterH1(self, value):
         self._hapkeParameterH1 = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     hapkeParameterH1 = property(get_hapkeParameterH1, set_hapkeParameterH1)
     def get_hapkeParameterH2(self): return self._hapkeParameterH2
     def set_hapkeParameterH2(self, value):
         self._hapkeParameterH2 = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     hapkeParameterH2 = property(get_hapkeParameterH2, set_hapkeParameterH2)
     def get_specularIntensityFactor(self): return self._specularIntensityFactor
     def set_specularIntensityFactor(self, value):
         self._specularIntensityFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     specularIntensityFactor = property(get_specularIntensityFactor, set_specularIntensityFactor)
     def get_hapkeParameterC4(self): return self._hapkeParameterC4
     def set_hapkeParameterC4(self, value):
         self._hapkeParameterC4 = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     hapkeParameterC4 = property(get_hapkeParameterC4, set_hapkeParameterC4)
     def get_hapkeParameterC1(self): return self._hapkeParameterC1
     def set_hapkeParameterC1(self, value):
         self._hapkeParameterC1 = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     hapkeParameterC1 = property(get_hapkeParameterC1, set_hapkeParameterC1)
     def get_hapkeParameterC3(self): return self._hapkeParameterC3
     def set_hapkeParameterC3(self, value):
         self._hapkeParameterC3 = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     hapkeParameterC3 = property(get_hapkeParameterC3, set_hapkeParameterC3)
     def get_hapkeParameterC2(self): return self._hapkeParameterC2
     def set_hapkeParameterC2(self, value):
         self._hapkeParameterC2 = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     hapkeParameterC2 = property(get_hapkeParameterC2, set_hapkeParameterC2)
     def get_hapkeParameterW(self): return self._hapkeParameterW
     def set_hapkeParameterW(self, value):
         self._hapkeParameterW = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     hapkeParameterW = property(get_hapkeParameterW, set_hapkeParameterW)
     def get_useOpticalFactorMatrix(self): return self._useOpticalFactorMatrix
     def set_useOpticalFactorMatrix(self, value):
         self._useOpticalFactorMatrix = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     useOpticalFactorMatrix = property(get_useOpticalFactorMatrix, set_useOpticalFactorMatrix)
     def copy(self):
         obj_ = self.factory()
@@ -5316,15 +5539,20 @@ class create_hapkeMultiplicativeFactorForLUT(GeneratedsSuper):
             obj_.build(child_)
             self.set_opticalFactorMatrix(obj_)
             obj_.original_tagname_ = 'opticalFactorMatrix'
-# end class create_hapkeMultiplicativeFactorForLUT
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_hapkeMultiplicativeFactorForLUT
 
 
 class create_RPVMultiFunctions(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('RPVMulti', '_RPVMulti', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_RPVMulti', u'name': u'RPVMulti', u'minOccurs': u'0'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, RPVMulti=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_RPVMultiFunctions")
+        self.troot=get_gs_troot('coeff_diff','_RPVMultiFunctions')
         self.attrib = ['']
         self.children = ['RPVMulti']
         self.parent = None
@@ -5332,7 +5560,7 @@ class create_RPVMultiFunctions(GeneratedsSuper):
             self._RPVMulti = []
         else:
             self._RPVMulti = RPVMulti
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5448,7 +5676,9 @@ class create_RPVMultiFunctions(GeneratedsSuper):
             obj_.build(child_)
             self.add_RPVMulti(obj_)
             obj_.original_tagname_ = 'RPVMulti'
-# end class create_RPVMultiFunctions
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_RPVMultiFunctions
 
 
 class create_RPVMulti(GeneratedsSuper):
@@ -5463,11 +5693,22 @@ class create_RPVMulti(GeneratedsSuper):
     along a given direction proportion of photons intercepted along
     an incident direction that are scattered within a solid angle
     along a given direction Use specular Use specular"""
+    member_data_items_ = [
+        MemberSpec_('ModelName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('transmittanceModelName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('databaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useMultiplicativeFactorForLUT', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('transmittanceDatabaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ident', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useSpecular', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('SpecularData', '_SpecularData', 0, 0, {u'maxOccurs': u'1', u'type': u'_SpecularData', u'name': u'SpecularData', u'minOccurs': u'1'}, None),
+        MemberSpec_('RPVNodeMultiplicativeFactorForLUT', '_RPVNodeMultiplicativeFactorForLUT', 0, 0, {u'maxOccurs': u'1', u'type': u'_RPVNodeMultiplicativeFactorForLUT', u'name': u'RPVNodeMultiplicativeFactorForLUT', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, ModelName='basic', transmittanceModelName='reflect_equal_1_trans_equal_0_0', databaseName='RPV.db', useMultiplicativeFactorForLUT=1, transmittanceDatabaseName='Lambertian_vegetation.db', ident='RPV_Phase_Function_1', useSpecular=0, SpecularData=None, RPVNodeMultiplicativeFactorForLUT=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_RPVMulti")
+        self.troot=get_gs_troot('coeff_diff','_RPVMulti')
         self.attrib = ['ModelName', 'transmittanceModelName', 'databaseName', 'useMultiplicativeFactorForLUT', 'transmittanceDatabaseName', 'ident', 'useSpecular']
         self.children = ['SpecularData', 'RPVNodeMultiplicativeFactorForLUT']
         self.parent = None
@@ -5480,7 +5721,7 @@ class create_RPVMulti(GeneratedsSuper):
         self._useSpecular = _cast(int, useSpecular)
         self._SpecularData = SpecularData
         self._RPVNodeMultiplicativeFactorForLUT = RPVNodeMultiplicativeFactorForLUT
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5509,37 +5750,37 @@ class create_RPVMulti(GeneratedsSuper):
     def get_ModelName(self): return self._ModelName
     def set_ModelName(self, value):
         self._ModelName = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     ModelName = property(get_ModelName, set_ModelName)
     def get_transmittanceModelName(self): return self._transmittanceModelName
     def set_transmittanceModelName(self, value):
         self._transmittanceModelName = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     transmittanceModelName = property(get_transmittanceModelName, set_transmittanceModelName)
     def get_databaseName(self): return self._databaseName
     def set_databaseName(self, value):
         self._databaseName = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     databaseName = property(get_databaseName, set_databaseName)
     def get_useMultiplicativeFactorForLUT(self): return self._useMultiplicativeFactorForLUT
     def set_useMultiplicativeFactorForLUT(self, value):
         self._useMultiplicativeFactorForLUT = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     useMultiplicativeFactorForLUT = property(get_useMultiplicativeFactorForLUT, set_useMultiplicativeFactorForLUT)
     def get_transmittanceDatabaseName(self): return self._transmittanceDatabaseName
     def set_transmittanceDatabaseName(self, value):
         self._transmittanceDatabaseName = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     transmittanceDatabaseName = property(get_transmittanceDatabaseName, set_transmittanceDatabaseName)
     def get_ident(self): return self._ident
     def set_ident(self, value):
         self._ident = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     ident = property(get_ident, set_ident)
     def get_useSpecular(self): return self._useSpecular
     def set_useSpecular(self, value):
         self._useSpecular = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     useSpecular = property(get_useSpecular, set_useSpecular)
     def copy(self):
         obj_ = self.factory()
@@ -5733,7 +5974,9 @@ class create_RPVMulti(GeneratedsSuper):
             obj_.build(child_)
             self.set_RPVNodeMultiplicativeFactorForLUT(obj_)
             obj_.original_tagname_ = 'RPVNodeMultiplicativeFactorForLUT'
-# end class create_RPVMulti
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_RPVMulti
 
 
 class create_RPVNodeMultiplicativeFactorForLUT(GeneratedsSuper):
@@ -5752,11 +5995,24 @@ class create_RPVNodeMultiplicativeFactorForLUT(GeneratedsSuper):
     values. \nA multispectral LUT can be computed applying the
     sequencer to DART mutispectral simulation with one spectral band
     each."""
+    member_data_items_ = [
+        MemberSpec_('g_RPVMultiplicativeFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('diffuseTransmittanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('directTransmittanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('k_RPVMultiplicativeFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useSameOpticalFactorMatrixForAllBands', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('h_RPVMultiplicativeFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useSameFactorForAllBands', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('rhoZero_RPVMultiplicativeFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('specularIntensityFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('RPVMultiplicativeFactorForLUT', '_RPVMultiplicativeFactorForLUT', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_RPVMultiplicativeFactorForLUT', u'name': u'RPVMultiplicativeFactorForLUT', u'minOccurs': u'1'}, None),
+        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {u'maxOccurs': u'1', u'type': u'_opticalFactorMatrix', u'name': u'opticalFactorMatrix', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, g_RPVMultiplicativeFactor=0.1, diffuseTransmittanceFactor=1, directTransmittanceFactor=1, k_RPVMultiplicativeFactor=0.95, useSameOpticalFactorMatrixForAllBands=0, h_RPVMultiplicativeFactor=0.7, useSameFactorForAllBands=1, rhoZero_RPVMultiplicativeFactor=0.70, specularIntensityFactor=1, RPVMultiplicativeFactorForLUT=None, opticalFactorMatrix=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_RPVNodeMultiplicativeFactorForLUT")
+        self.troot=get_gs_troot('coeff_diff','_RPVNodeMultiplicativeFactorForLUT')
         self.attrib = ['g_RPVMultiplicativeFactor', 'diffuseTransmittanceFactor', 'directTransmittanceFactor', 'k_RPVMultiplicativeFactor', 'useSameOpticalFactorMatrixForAllBands', 'h_RPVMultiplicativeFactor', 'useSameFactorForAllBands', 'rhoZero_RPVMultiplicativeFactor', 'specularIntensityFactor']
         self.children = ['RPVMultiplicativeFactorForLUT', 'opticalFactorMatrix']
         self.parent = None
@@ -5774,7 +6030,7 @@ class create_RPVNodeMultiplicativeFactorForLUT(GeneratedsSuper):
         else:
             self._RPVMultiplicativeFactorForLUT = RPVMultiplicativeFactorForLUT
         self._opticalFactorMatrix = opticalFactorMatrix
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -5813,47 +6069,47 @@ class create_RPVNodeMultiplicativeFactorForLUT(GeneratedsSuper):
     def get_g_RPVMultiplicativeFactor(self): return self._g_RPVMultiplicativeFactor
     def set_g_RPVMultiplicativeFactor(self, value):
         self._g_RPVMultiplicativeFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     g_RPVMultiplicativeFactor = property(get_g_RPVMultiplicativeFactor, set_g_RPVMultiplicativeFactor)
     def get_diffuseTransmittanceFactor(self): return self._diffuseTransmittanceFactor
     def set_diffuseTransmittanceFactor(self, value):
         self._diffuseTransmittanceFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     diffuseTransmittanceFactor = property(get_diffuseTransmittanceFactor, set_diffuseTransmittanceFactor)
     def get_directTransmittanceFactor(self): return self._directTransmittanceFactor
     def set_directTransmittanceFactor(self, value):
         self._directTransmittanceFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     directTransmittanceFactor = property(get_directTransmittanceFactor, set_directTransmittanceFactor)
     def get_k_RPVMultiplicativeFactor(self): return self._k_RPVMultiplicativeFactor
     def set_k_RPVMultiplicativeFactor(self, value):
         self._k_RPVMultiplicativeFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     k_RPVMultiplicativeFactor = property(get_k_RPVMultiplicativeFactor, set_k_RPVMultiplicativeFactor)
     def get_useSameOpticalFactorMatrixForAllBands(self): return self._useSameOpticalFactorMatrixForAllBands
     def set_useSameOpticalFactorMatrixForAllBands(self, value):
         self._useSameOpticalFactorMatrixForAllBands = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     useSameOpticalFactorMatrixForAllBands = property(get_useSameOpticalFactorMatrixForAllBands, set_useSameOpticalFactorMatrixForAllBands)
     def get_h_RPVMultiplicativeFactor(self): return self._h_RPVMultiplicativeFactor
     def set_h_RPVMultiplicativeFactor(self, value):
         self._h_RPVMultiplicativeFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     h_RPVMultiplicativeFactor = property(get_h_RPVMultiplicativeFactor, set_h_RPVMultiplicativeFactor)
     def get_useSameFactorForAllBands(self): return self._useSameFactorForAllBands
     def set_useSameFactorForAllBands(self, value):
         self._useSameFactorForAllBands = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     useSameFactorForAllBands = property(get_useSameFactorForAllBands, set_useSameFactorForAllBands)
     def get_rhoZero_RPVMultiplicativeFactor(self): return self._rhoZero_RPVMultiplicativeFactor
     def set_rhoZero_RPVMultiplicativeFactor(self, value):
         self._rhoZero_RPVMultiplicativeFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     rhoZero_RPVMultiplicativeFactor = property(get_rhoZero_RPVMultiplicativeFactor, set_rhoZero_RPVMultiplicativeFactor)
     def get_specularIntensityFactor(self): return self._specularIntensityFactor
     def set_specularIntensityFactor(self, value):
         self._specularIntensityFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     specularIntensityFactor = property(get_specularIntensityFactor, set_specularIntensityFactor)
     def copy(self):
         obj_ = self.factory()
@@ -6100,7 +6356,9 @@ class create_RPVNodeMultiplicativeFactorForLUT(GeneratedsSuper):
             obj_.build(child_)
             self.set_opticalFactorMatrix(obj_)
             obj_.original_tagname_ = 'opticalFactorMatrix'
-# end class create_RPVNodeMultiplicativeFactorForLUT
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_RPVNodeMultiplicativeFactorForLUT
 
 
 class create_RPVMultiplicativeFactorForLUT(GeneratedsSuper):
@@ -6114,11 +6372,22 @@ class create_RPVMultiplicativeFactorForLUT(GeneratedsSuper):
     sequencer to DART mutispectral simulation with one spectral band
     each. Apply a 3D factor matrix per cell on optical properties
     Apply a 3D factor matrix per cell on optical properties"""
+    member_data_items_ = [
+        MemberSpec_('g_RPVMultiplicativeFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('diffuseTransmittanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('directTransmittanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('k_RPVMultiplicativeFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('h_RPVMultiplicativeFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('rhoZero_RPVMultiplicativeFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('specularIntensityFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useOpticalFactorMatrix', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {u'maxOccurs': u'1', u'type': u'_opticalFactorMatrix', u'name': u'opticalFactorMatrix', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, g_RPVMultiplicativeFactor=0.1, diffuseTransmittanceFactor=1, directTransmittanceFactor=1, k_RPVMultiplicativeFactor=0.95, h_RPVMultiplicativeFactor=0.7, rhoZero_RPVMultiplicativeFactor=0.70, specularIntensityFactor=1, useOpticalFactorMatrix=0, opticalFactorMatrix=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_RPVMultiplicativeFactorForLUT")
+        self.troot=get_gs_troot('coeff_diff','_RPVMultiplicativeFactorForLUT')
         self.attrib = ['g_RPVMultiplicativeFactor', 'diffuseTransmittanceFactor', 'directTransmittanceFactor', 'k_RPVMultiplicativeFactor', 'h_RPVMultiplicativeFactor', 'rhoZero_RPVMultiplicativeFactor', 'specularIntensityFactor', 'useOpticalFactorMatrix']
         self.children = ['opticalFactorMatrix']
         self.parent = None
@@ -6131,7 +6400,7 @@ class create_RPVMultiplicativeFactorForLUT(GeneratedsSuper):
         self._specularIntensityFactor = _cast(float, specularIntensityFactor)
         self._useOpticalFactorMatrix = _cast(int, useOpticalFactorMatrix)
         self._opticalFactorMatrix = opticalFactorMatrix
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -6153,42 +6422,42 @@ class create_RPVMultiplicativeFactorForLUT(GeneratedsSuper):
     def get_g_RPVMultiplicativeFactor(self): return self._g_RPVMultiplicativeFactor
     def set_g_RPVMultiplicativeFactor(self, value):
         self._g_RPVMultiplicativeFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     g_RPVMultiplicativeFactor = property(get_g_RPVMultiplicativeFactor, set_g_RPVMultiplicativeFactor)
     def get_diffuseTransmittanceFactor(self): return self._diffuseTransmittanceFactor
     def set_diffuseTransmittanceFactor(self, value):
         self._diffuseTransmittanceFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     diffuseTransmittanceFactor = property(get_diffuseTransmittanceFactor, set_diffuseTransmittanceFactor)
     def get_directTransmittanceFactor(self): return self._directTransmittanceFactor
     def set_directTransmittanceFactor(self, value):
         self._directTransmittanceFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     directTransmittanceFactor = property(get_directTransmittanceFactor, set_directTransmittanceFactor)
     def get_k_RPVMultiplicativeFactor(self): return self._k_RPVMultiplicativeFactor
     def set_k_RPVMultiplicativeFactor(self, value):
         self._k_RPVMultiplicativeFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     k_RPVMultiplicativeFactor = property(get_k_RPVMultiplicativeFactor, set_k_RPVMultiplicativeFactor)
     def get_h_RPVMultiplicativeFactor(self): return self._h_RPVMultiplicativeFactor
     def set_h_RPVMultiplicativeFactor(self, value):
         self._h_RPVMultiplicativeFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     h_RPVMultiplicativeFactor = property(get_h_RPVMultiplicativeFactor, set_h_RPVMultiplicativeFactor)
     def get_rhoZero_RPVMultiplicativeFactor(self): return self._rhoZero_RPVMultiplicativeFactor
     def set_rhoZero_RPVMultiplicativeFactor(self, value):
         self._rhoZero_RPVMultiplicativeFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     rhoZero_RPVMultiplicativeFactor = property(get_rhoZero_RPVMultiplicativeFactor, set_rhoZero_RPVMultiplicativeFactor)
     def get_specularIntensityFactor(self): return self._specularIntensityFactor
     def set_specularIntensityFactor(self, value):
         self._specularIntensityFactor = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     specularIntensityFactor = property(get_specularIntensityFactor, set_specularIntensityFactor)
     def get_useOpticalFactorMatrix(self): return self._useOpticalFactorMatrix
     def set_useOpticalFactorMatrix(self, value):
         self._useOpticalFactorMatrix = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     useOpticalFactorMatrix = property(get_useOpticalFactorMatrix, set_useOpticalFactorMatrix)
     def copy(self):
         obj_ = self.factory()
@@ -6396,7 +6665,9 @@ class create_RPVMultiplicativeFactorForLUT(GeneratedsSuper):
             obj_.build(child_)
             self.set_opticalFactorMatrix(obj_)
             obj_.original_tagname_ = 'opticalFactorMatrix'
-# end class create_RPVMultiplicativeFactorForLUT
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_RPVMultiplicativeFactorForLUT
 
 
 class create_UnderstoryMultiFunctions(GeneratedsSuper):
@@ -6414,11 +6685,17 @@ class create_UnderstoryMultiFunctions(GeneratedsSuper):
     20, 24, 30, 36, 40, 45, 60, 72, 90, 120, 180, 360 Write computed
     LAD into the file : output/lib_phase/LAD.txt Write computed LAD
     into the file : output/lib_phase/LAD.txt"""
+    member_data_items_ = [
+        MemberSpec_('integrationStepOnTheta', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('integrationStepOnPhi', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('outputLADFile', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('UnderstoryMulti', '_UnderstoryMulti', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_UnderstoryMulti', u'name': u'UnderstoryMulti', u'minOccurs': u'0'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, integrationStepOnTheta=1, integrationStepOnPhi=10, outputLADFile=0, UnderstoryMulti=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_UnderstoryMultiFunctions")
+        self.troot=get_gs_troot('coeff_diff','_UnderstoryMultiFunctions')
         self.attrib = ['integrationStepOnTheta', 'integrationStepOnPhi', 'outputLADFile']
         self.children = ['UnderstoryMulti']
         self.parent = None
@@ -6429,7 +6706,7 @@ class create_UnderstoryMultiFunctions(GeneratedsSuper):
             self._UnderstoryMulti = []
         else:
             self._UnderstoryMulti = UnderstoryMulti
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -6461,17 +6738,17 @@ class create_UnderstoryMultiFunctions(GeneratedsSuper):
     def get_integrationStepOnTheta(self): return self._integrationStepOnTheta
     def set_integrationStepOnTheta(self, value):
         self._integrationStepOnTheta = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     integrationStepOnTheta = property(get_integrationStepOnTheta, set_integrationStepOnTheta)
     def get_integrationStepOnPhi(self): return self._integrationStepOnPhi
     def set_integrationStepOnPhi(self, value):
         self._integrationStepOnPhi = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     integrationStepOnPhi = property(get_integrationStepOnPhi, set_integrationStepOnPhi)
     def get_outputLADFile(self): return self._outputLADFile
     def set_outputLADFile(self, value):
         self._outputLADFile = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     outputLADFile = property(get_outputLADFile, set_outputLADFile)
     def copy(self):
         obj_ = self.factory()
@@ -6605,53 +6882,68 @@ class create_UnderstoryMultiFunctions(GeneratedsSuper):
             obj_.build(child_)
             self.add_UnderstoryMulti(obj_)
             obj_.original_tagname_ = 'UnderstoryMulti'
-# end class create_UnderstoryMultiFunctions
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_UnderstoryMultiFunctions
 
 
 class create_UnderstoryMulti(GeneratedsSuper):
-    """Name of the spectral data base (text file) used to compute the
-    spectral phase function(s) Name of the spectral data base (text
-    file) used to compute the spectral phase function(s) 0 for no
-    hot spot) 0 for no hot spot) Leaf Angle Distribution\nNot used
+    """proportion of photons intercepted along an incident direction that
+    are scattered within a solid angle along a given direction
+    proportion of photons intercepted along an incident direction
+    that are scattered within a solid angle along a given direction
+    Has a different model for the bottom of vegetation Has a
+    different model for the bottom of vegetation 0 for no hot spot)
+    0 for no hot spot) Thermal Hot-Spot factor (see manual) Thermal
+    Hot-Spot factor (see manual) Leaf Angle Distribution\nNot used
     for "Triangle" to "Turbid" transformation.\nIn that case, there
     are several LADs and these LADs are ellipsoidal Leaf Angle
     Distribution\nNot used for "Triangle" to "Turbid"
     transformation.\nIn that case, there are several LADs and these
-    LADs are ellipsoidal Use specular Use specular proportion of
-    photons intercepted along an incident direction that are
-    scattered within a solid angle along a given direction
-    proportion of photons intercepted along an incident direction
-    that are scattered within a solid angle along a given direction
-    Reflectance database Reflectance database
-    useMultiplicativeFactorForLUT useMultiplicativeFactorForLUT
-    Apply a 3D factor matrix per cell on optical properties Apply a
-    3D factor matrix per cell on optical properties"""
+    LADs are ellipsoidal Apply a 3D factor matrix per cell on
+    optical properties Apply a 3D factor matrix per cell on optical
+    properties"""
+    member_data_items_ = [
+        MemberSpec_('ident', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('hasDifferentModelForBottom', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('dimFoliar', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('thermalHotSpotFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('lad', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useOpticalFactorMatrix', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('UnderstoryMultiModel', '_UnderstoryMultiModel', 0, 0, {u'maxOccurs': u'1', u'type': u'_UnderstoryMultiModel', u'name': u'UnderstoryMultiModel', u'minOccurs': u'1'}, None),
+        MemberSpec_('UnderstoryMultiTopModel', '_UnderstoryMultiTopModel', 0, 0, {u'maxOccurs': u'1', u'type': u'_UnderstoryMultiTopModel', u'name': u'UnderstoryMultiTopModel', u'minOccurs': u'1'}, None),
+        MemberSpec_('UnderstoryMultiBottomModel', '_UnderstoryMultiBottomModel', 0, 0, {u'maxOccurs': u'1', u'type': u'_UnderstoryMultiBottomModel', u'name': u'UnderstoryMultiBottomModel', u'minOccurs': u'1'}, None),
+        MemberSpec_('Ellipsoidal', '_Ellipsoidal', 0, 0, {u'maxOccurs': u'1', u'type': u'_Ellipsoidal', u'name': u'Ellipsoidal', u'minOccurs': u'1'}, None),
+        MemberSpec_('Elliptical', '_Elliptical', 0, 0, {u'maxOccurs': u'1', u'type': u'_Elliptical', u'name': u'Elliptical', u'minOccurs': u'1'}, None),
+        MemberSpec_('UserDefined', '_UserDefined', 0, 0, {u'maxOccurs': u'1', u'type': u'_UserDefined', u'name': u'UserDefined', u'minOccurs': u'1'}, None),
+        MemberSpec_('Manual', '_Manual', 0, 0, {u'maxOccurs': u'1', u'type': u'_Manual', u'name': u'Manual', u'minOccurs': u'1'}, None),
+        MemberSpec_('BoundedUniform', '_BoundedUniform', 0, 0, {u'maxOccurs': u'1', u'type': u'_BoundedUniform', u'name': u'BoundedUniform', u'minOccurs': u'1'}, None),
+        MemberSpec_('DirectionalClumpingIndexProperties', '_DirectionalClumpingIndexProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_DirectionalClumpingIndexProperties', u'name': u'DirectionalClumpingIndexProperties', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
-    def __init__(self, ModelName='leaf_deciduous', dimFoliar=0.01, lad=1, useSpecular=0, ident='Turbid_Leaf_Deciduous_Phase_Function', databaseName='Vegetation.db', useMultiplicativeFactorForLUT=1, useOpticalFactorMatrix=0, SpecularData=None, Ellipsoidal=None, Elliptical=None, UserDefined=None, Manual=None, BoundedUniform=None, DirectionalClumpingIndexProperties=None, ProspectExternalModule=None, understoryNodeMultiplicativeFactorForLUT=None):
+    def __init__(self, ident='Turbid_Leaf_Deciduous_Phase_Function', hasDifferentModelForBottom=0, dimFoliar=0.01, thermalHotSpotFactor=0.1, lad=1, useOpticalFactorMatrix=0, UnderstoryMultiModel=None, UnderstoryMultiTopModel=None, UnderstoryMultiBottomModel=None, Ellipsoidal=None, Elliptical=None, UserDefined=None, Manual=None, BoundedUniform=None, DirectionalClumpingIndexProperties=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_UnderstoryMulti")
-        self.attrib = ['ModelName', 'dimFoliar', 'lad', 'useSpecular', 'ident', 'databaseName', 'useMultiplicativeFactorForLUT', 'useOpticalFactorMatrix']
-        self.children = ['SpecularData', 'Ellipsoidal', 'Elliptical', 'UserDefined', 'Manual', 'BoundedUniform', 'DirectionalClumpingIndexProperties', 'ProspectExternalModule', 'understoryNodeMultiplicativeFactorForLUT']
+        self.troot=get_gs_troot('coeff_diff','_UnderstoryMulti')
+        self.attrib = ['ident', 'hasDifferentModelForBottom', 'dimFoliar', 'thermalHotSpotFactor', 'lad', 'useOpticalFactorMatrix']
+        self.children = ['UnderstoryMultiModel', 'UnderstoryMultiTopModel', 'UnderstoryMultiBottomModel', 'Ellipsoidal', 'Elliptical', 'UserDefined', 'Manual', 'BoundedUniform', 'DirectionalClumpingIndexProperties']
         self.parent = None
-        self._ModelName = _cast(None, ModelName)
-        self._dimFoliar = _cast(float, dimFoliar)
-        self._lad = _cast(int, lad)
-        self._useSpecular = _cast(int, useSpecular)
         self._ident = _cast(None, ident)
-        self._databaseName = _cast(None, databaseName)
-        self._useMultiplicativeFactorForLUT = _cast(int, useMultiplicativeFactorForLUT)
+        self._hasDifferentModelForBottom = _cast(int, hasDifferentModelForBottom)
+        self._dimFoliar = _cast(float, dimFoliar)
+        self._thermalHotSpotFactor = _cast(float, thermalHotSpotFactor)
+        self._lad = _cast(int, lad)
         self._useOpticalFactorMatrix = _cast(int, useOpticalFactorMatrix)
-        self._SpecularData = SpecularData
+        self._UnderstoryMultiModel = UnderstoryMultiModel
+        self._UnderstoryMultiTopModel = UnderstoryMultiTopModel
+        self._UnderstoryMultiBottomModel = UnderstoryMultiBottomModel
         self._Ellipsoidal = Ellipsoidal
         self._Elliptical = Elliptical
         self._UserDefined = UserDefined
         self._Manual = Manual
         self._BoundedUniform = BoundedUniform
         self._DirectionalClumpingIndexProperties = DirectionalClumpingIndexProperties
-        self._ProspectExternalModule = ProspectExternalModule
-        self._understoryNodeMultiplicativeFactorForLUT = understoryNodeMultiplicativeFactorForLUT
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -6663,13 +6955,27 @@ class create_UnderstoryMulti(GeneratedsSuper):
         else:
             return create_UnderstoryMulti(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_SpecularData(self): return self._SpecularData
-    def set_SpecularData(self, value):
+    def get_UnderstoryMultiModel(self): return self._UnderstoryMultiModel
+    def set_UnderstoryMultiModel(self, value):
         if value is not None:
-            checkclass(value, create_SpecularData)
+            checkclass(value, create_UnderstoryMultiModel)
             value.parent = self
-        self._SpecularData = value
-    SpecularData = property(get_SpecularData, set_SpecularData)
+        self._UnderstoryMultiModel = value
+    UnderstoryMultiModel = property(get_UnderstoryMultiModel, set_UnderstoryMultiModel)
+    def get_UnderstoryMultiTopModel(self): return self._UnderstoryMultiTopModel
+    def set_UnderstoryMultiTopModel(self, value):
+        if value is not None:
+            checkclass(value, create_UnderstoryMultiTopModel)
+            value.parent = self
+        self._UnderstoryMultiTopModel = value
+    UnderstoryMultiTopModel = property(get_UnderstoryMultiTopModel, set_UnderstoryMultiTopModel)
+    def get_UnderstoryMultiBottomModel(self): return self._UnderstoryMultiBottomModel
+    def set_UnderstoryMultiBottomModel(self, value):
+        if value is not None:
+            checkclass(value, create_UnderstoryMultiBottomModel)
+            value.parent = self
+        self._UnderstoryMultiBottomModel = value
+    UnderstoryMultiBottomModel = property(get_UnderstoryMultiBottomModel, set_UnderstoryMultiBottomModel)
     def get_Ellipsoidal(self): return self._Ellipsoidal
     def set_Ellipsoidal(self, value):
         if value is not None:
@@ -6712,74 +7018,50 @@ class create_UnderstoryMulti(GeneratedsSuper):
             value.parent = self
         self._DirectionalClumpingIndexProperties = value
     DirectionalClumpingIndexProperties = property(get_DirectionalClumpingIndexProperties, set_DirectionalClumpingIndexProperties)
-    def get_ProspectExternalModule(self): return self._ProspectExternalModule
-    def set_ProspectExternalModule(self, value):
-        if value is not None:
-            checkclass(value, create_ProspectExternalModule)
-            value.parent = self
-        self._ProspectExternalModule = value
-    ProspectExternalModule = property(get_ProspectExternalModule, set_ProspectExternalModule)
-    def get_understoryNodeMultiplicativeFactorForLUT(self): return self._understoryNodeMultiplicativeFactorForLUT
-    def set_understoryNodeMultiplicativeFactorForLUT(self, value):
-        if value is not None:
-            checkclass(value, create_understoryNodeMultiplicativeFactorForLUT)
-            value.parent = self
-        self._understoryNodeMultiplicativeFactorForLUT = value
-    understoryNodeMultiplicativeFactorForLUT = property(get_understoryNodeMultiplicativeFactorForLUT, set_understoryNodeMultiplicativeFactorForLUT)
-    def get_ModelName(self): return self._ModelName
-    def set_ModelName(self, value):
-        self._ModelName = value
-        update_node(self,self.troot,"coeff_diff")
-    ModelName = property(get_ModelName, set_ModelName)
-    def get_dimFoliar(self): return self._dimFoliar
-    def set_dimFoliar(self, value):
-        self._dimFoliar = value
-        update_node(self,self.troot,"coeff_diff")
-    dimFoliar = property(get_dimFoliar, set_dimFoliar)
-    def get_lad(self): return self._lad
-    def set_lad(self, value):
-        self._lad = value
-        update_node(self,self.troot,"coeff_diff")
-    lad = property(get_lad, set_lad)
-    def get_useSpecular(self): return self._useSpecular
-    def set_useSpecular(self, value):
-        self._useSpecular = value
-        update_node(self,self.troot,"coeff_diff")
-    useSpecular = property(get_useSpecular, set_useSpecular)
     def get_ident(self): return self._ident
     def set_ident(self, value):
         self._ident = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     ident = property(get_ident, set_ident)
-    def get_databaseName(self): return self._databaseName
-    def set_databaseName(self, value):
-        self._databaseName = value
-        update_node(self,self.troot,"coeff_diff")
-    databaseName = property(get_databaseName, set_databaseName)
-    def get_useMultiplicativeFactorForLUT(self): return self._useMultiplicativeFactorForLUT
-    def set_useMultiplicativeFactorForLUT(self, value):
-        self._useMultiplicativeFactorForLUT = value
-        update_node(self,self.troot,"coeff_diff")
-    useMultiplicativeFactorForLUT = property(get_useMultiplicativeFactorForLUT, set_useMultiplicativeFactorForLUT)
+    def get_hasDifferentModelForBottom(self): return self._hasDifferentModelForBottom
+    def set_hasDifferentModelForBottom(self, value):
+        self._hasDifferentModelForBottom = value
+        update_node(self,self.troot,'coeff_diff')
+    hasDifferentModelForBottom = property(get_hasDifferentModelForBottom, set_hasDifferentModelForBottom)
+    def get_dimFoliar(self): return self._dimFoliar
+    def set_dimFoliar(self, value):
+        self._dimFoliar = value
+        update_node(self,self.troot,'coeff_diff')
+    dimFoliar = property(get_dimFoliar, set_dimFoliar)
+    def get_thermalHotSpotFactor(self): return self._thermalHotSpotFactor
+    def set_thermalHotSpotFactor(self, value):
+        self._thermalHotSpotFactor = value
+        update_node(self,self.troot,'coeff_diff')
+    thermalHotSpotFactor = property(get_thermalHotSpotFactor, set_thermalHotSpotFactor)
+    def get_lad(self): return self._lad
+    def set_lad(self, value):
+        self._lad = value
+        update_node(self,self.troot,'coeff_diff')
+    lad = property(get_lad, set_lad)
     def get_useOpticalFactorMatrix(self): return self._useOpticalFactorMatrix
     def set_useOpticalFactorMatrix(self, value):
         self._useOpticalFactorMatrix = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     useOpticalFactorMatrix = property(get_useOpticalFactorMatrix, set_useOpticalFactorMatrix)
     def copy(self):
         obj_ = self.factory()
         return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
-            self.SpecularData is not None or
+            self.UnderstoryMultiModel is not None or
+            self.UnderstoryMultiTopModel is not None or
+            self.UnderstoryMultiBottomModel is not None or
             self.Ellipsoidal is not None or
             self.Elliptical is not None or
             self.UserDefined is not None or
             self.Manual is not None or
             self.BoundedUniform is not None or
-            self.DirectionalClumpingIndexProperties is not None or
-            self.ProspectExternalModule is not None or
-            self.understoryNodeMultiplicativeFactorForLUT is not None
+            self.DirectionalClumpingIndexProperties is not None
         ):
             return True
         else:
@@ -6806,27 +7088,21 @@ class create_UnderstoryMulti(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_UnderstoryMulti'):
-        if self.ModelName is not None and 'ModelName' not in already_processed:
-            already_processed.add('ModelName')
-            outfile.write(' ModelName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.ModelName), input_name='ModelName')), ))
-        if self.dimFoliar is not None and 'dimFoliar' not in already_processed:
-            already_processed.add('dimFoliar')
-            outfile.write(' dimFoliar="%s"' % self.gds_format_double(self.dimFoliar, input_name='dimFoliar'))
-        if self.lad is not None and 'lad' not in already_processed:
-            already_processed.add('lad')
-            outfile.write(' lad="%s"' % self.gds_format_integer(self.lad, input_name='lad'))
-        if self.useSpecular is not None and 'useSpecular' not in already_processed:
-            already_processed.add('useSpecular')
-            outfile.write(' useSpecular="%s"' % self.gds_format_integer(self.useSpecular, input_name='useSpecular'))
         if self.ident is not None and 'ident' not in already_processed:
             already_processed.add('ident')
             outfile.write(' ident=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.ident), input_name='ident')), ))
-        if self.databaseName is not None and 'databaseName' not in already_processed:
-            already_processed.add('databaseName')
-            outfile.write(' databaseName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.databaseName), input_name='databaseName')), ))
-        if self.useMultiplicativeFactorForLUT is not None and 'useMultiplicativeFactorForLUT' not in already_processed:
-            already_processed.add('useMultiplicativeFactorForLUT')
-            outfile.write(' useMultiplicativeFactorForLUT="%s"' % self.gds_format_integer(self.useMultiplicativeFactorForLUT, input_name='useMultiplicativeFactorForLUT'))
+        if self.hasDifferentModelForBottom is not None and 'hasDifferentModelForBottom' not in already_processed:
+            already_processed.add('hasDifferentModelForBottom')
+            outfile.write(' hasDifferentModelForBottom="%s"' % self.gds_format_integer(self.hasDifferentModelForBottom, input_name='hasDifferentModelForBottom'))
+        if self.dimFoliar is not None and 'dimFoliar' not in already_processed:
+            already_processed.add('dimFoliar')
+            outfile.write(' dimFoliar="%s"' % self.gds_format_double(self.dimFoliar, input_name='dimFoliar'))
+        if self.thermalHotSpotFactor is not None and 'thermalHotSpotFactor' not in already_processed:
+            already_processed.add('thermalHotSpotFactor')
+            outfile.write(' thermalHotSpotFactor="%s"' % self.gds_format_double(self.thermalHotSpotFactor, input_name='thermalHotSpotFactor'))
+        if self.lad is not None and 'lad' not in already_processed:
+            already_processed.add('lad')
+            outfile.write(' lad="%s"' % self.gds_format_integer(self.lad, input_name='lad'))
         if self.useOpticalFactorMatrix is not None and 'useOpticalFactorMatrix' not in already_processed:
             already_processed.add('useOpticalFactorMatrix')
             outfile.write(' useOpticalFactorMatrix="%s"' % self.gds_format_integer(self.useOpticalFactorMatrix, input_name='useOpticalFactorMatrix'))
@@ -6835,8 +7111,12 @@ class create_UnderstoryMulti(GeneratedsSuper):
             eol_ = '\n'
         else:
             eol_ = ''
-        if self.SpecularData is not None:
-            self.SpecularData.export(outfile, level, namespaceprefix_, name_='SpecularData', pretty_print=pretty_print)
+        if self.UnderstoryMultiModel is not None:
+            self.UnderstoryMultiModel.export(outfile, level, namespaceprefix_, name_='UnderstoryMultiModel', pretty_print=pretty_print)
+        if self.UnderstoryMultiTopModel is not None:
+            self.UnderstoryMultiTopModel.export(outfile, level, namespaceprefix_, name_='UnderstoryMultiTopModel', pretty_print=pretty_print)
+        if self.UnderstoryMultiBottomModel is not None:
+            self.UnderstoryMultiBottomModel.export(outfile, level, namespaceprefix_, name_='UnderstoryMultiBottomModel', pretty_print=pretty_print)
         if self.Ellipsoidal is not None:
             self.Ellipsoidal.export(outfile, level, namespaceprefix_, name_='Ellipsoidal', pretty_print=pretty_print)
         if self.Elliptical is not None:
@@ -6849,34 +7129,32 @@ class create_UnderstoryMulti(GeneratedsSuper):
             self.BoundedUniform.export(outfile, level, namespaceprefix_, name_='BoundedUniform', pretty_print=pretty_print)
         if self.DirectionalClumpingIndexProperties is not None:
             self.DirectionalClumpingIndexProperties.export(outfile, level, namespaceprefix_, name_='DirectionalClumpingIndexProperties', pretty_print=pretty_print)
-        if self.ProspectExternalModule is not None:
-            self.ProspectExternalModule.export(outfile, level, namespaceprefix_, name_='ProspectExternalModule', pretty_print=pretty_print)
-        if self.understoryNodeMultiplicativeFactorForLUT is not None:
-            self.understoryNodeMultiplicativeFactorForLUT.export(outfile, level, namespaceprefix_, name_='understoryNodeMultiplicativeFactorForLUT', pretty_print=pretty_print)
     def to_etree(self, parent_element=None, name_='_UnderstoryMulti', mapping_=None):
         if parent_element is None:
             element = etree_.Element('{}' + name_)
         else:
             element = etree_.SubElement(parent_element, '{}' + name_)
-        if self.ModelName is not None:
-            element.set('ModelName', self.gds_format_string(self.ModelName))
-        if self.dimFoliar is not None:
-            element.set('dimFoliar', self.gds_format_double(self.dimFoliar))
-        if self.lad is not None:
-            element.set('lad', self.gds_format_integer(self.lad))
-        if self.useSpecular is not None:
-            element.set('useSpecular', self.gds_format_integer(self.useSpecular))
         if self.ident is not None:
             element.set('ident', self.gds_format_string(self.ident))
-        if self.databaseName is not None:
-            element.set('databaseName', self.gds_format_string(self.databaseName))
-        if self.useMultiplicativeFactorForLUT is not None:
-            element.set('useMultiplicativeFactorForLUT', self.gds_format_integer(self.useMultiplicativeFactorForLUT))
+        if self.hasDifferentModelForBottom is not None:
+            element.set('hasDifferentModelForBottom', self.gds_format_integer(self.hasDifferentModelForBottom))
+        if self.dimFoliar is not None:
+            element.set('dimFoliar', self.gds_format_double(self.dimFoliar))
+        if self.thermalHotSpotFactor is not None:
+            element.set('thermalHotSpotFactor', self.gds_format_double(self.thermalHotSpotFactor))
+        if self.lad is not None:
+            element.set('lad', self.gds_format_integer(self.lad))
         if self.useOpticalFactorMatrix is not None:
             element.set('useOpticalFactorMatrix', self.gds_format_integer(self.useOpticalFactorMatrix))
-        if self.SpecularData is not None:
-            SpecularData_ = self.SpecularData
-            SpecularData_.to_etree(element, name_='SpecularData', mapping_=mapping_)
+        if self.UnderstoryMultiModel is not None:
+            UnderstoryMultiModel_ = self.UnderstoryMultiModel
+            UnderstoryMultiModel_.to_etree(element, name_='UnderstoryMultiModel', mapping_=mapping_)
+        if self.UnderstoryMultiTopModel is not None:
+            UnderstoryMultiTopModel_ = self.UnderstoryMultiTopModel
+            UnderstoryMultiTopModel_.to_etree(element, name_='UnderstoryMultiTopModel', mapping_=mapping_)
+        if self.UnderstoryMultiBottomModel is not None:
+            UnderstoryMultiBottomModel_ = self.UnderstoryMultiBottomModel
+            UnderstoryMultiBottomModel_.to_etree(element, name_='UnderstoryMultiBottomModel', mapping_=mapping_)
         if self.Ellipsoidal is not None:
             Ellipsoidal_ = self.Ellipsoidal
             Ellipsoidal_.to_etree(element, name_='Ellipsoidal', mapping_=mapping_)
@@ -6895,12 +7173,6 @@ class create_UnderstoryMulti(GeneratedsSuper):
         if self.DirectionalClumpingIndexProperties is not None:
             DirectionalClumpingIndexProperties_ = self.DirectionalClumpingIndexProperties
             DirectionalClumpingIndexProperties_.to_etree(element, name_='DirectionalClumpingIndexProperties', mapping_=mapping_)
-        if self.ProspectExternalModule is not None:
-            ProspectExternalModule_ = self.ProspectExternalModule
-            ProspectExternalModule_.to_etree(element, name_='ProspectExternalModule', mapping_=mapping_)
-        if self.understoryNodeMultiplicativeFactorForLUT is not None:
-            understoryNodeMultiplicativeFactorForLUT_ = self.understoryNodeMultiplicativeFactorForLUT
-            understoryNodeMultiplicativeFactorForLUT_.to_etree(element, name_='understoryNodeMultiplicativeFactorForLUT', mapping_=mapping_)
         if mapping_ is not None:
             mapping_[id(self)] = element
         return element
@@ -6911,43 +7183,47 @@ class create_UnderstoryMulti(GeneratedsSuper):
         if self.hasContent_():
             self.exportLiteralChildren(outfile, level, name_)
     def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.ModelName is not None and 'ModelName' not in already_processed:
-            already_processed.add('ModelName')
-            showIndent(outfile, level)
-            outfile.write('ModelName="%s",\n' % (self.ModelName,))
-        if self.dimFoliar is not None and 'dimFoliar' not in already_processed:
-            already_processed.add('dimFoliar')
-            showIndent(outfile, level)
-            outfile.write('dimFoliar=%e,\n' % (self.dimFoliar,))
-        if self.lad is not None and 'lad' not in already_processed:
-            already_processed.add('lad')
-            showIndent(outfile, level)
-            outfile.write('lad=%d,\n' % (self.lad,))
-        if self.useSpecular is not None and 'useSpecular' not in already_processed:
-            already_processed.add('useSpecular')
-            showIndent(outfile, level)
-            outfile.write('useSpecular=%d,\n' % (self.useSpecular,))
         if self.ident is not None and 'ident' not in already_processed:
             already_processed.add('ident')
             showIndent(outfile, level)
             outfile.write('ident="%s",\n' % (self.ident,))
-        if self.databaseName is not None and 'databaseName' not in already_processed:
-            already_processed.add('databaseName')
+        if self.hasDifferentModelForBottom is not None and 'hasDifferentModelForBottom' not in already_processed:
+            already_processed.add('hasDifferentModelForBottom')
             showIndent(outfile, level)
-            outfile.write('databaseName="%s",\n' % (self.databaseName,))
-        if self.useMultiplicativeFactorForLUT is not None and 'useMultiplicativeFactorForLUT' not in already_processed:
-            already_processed.add('useMultiplicativeFactorForLUT')
+            outfile.write('hasDifferentModelForBottom=%d,\n' % (self.hasDifferentModelForBottom,))
+        if self.dimFoliar is not None and 'dimFoliar' not in already_processed:
+            already_processed.add('dimFoliar')
             showIndent(outfile, level)
-            outfile.write('useMultiplicativeFactorForLUT=%d,\n' % (self.useMultiplicativeFactorForLUT,))
+            outfile.write('dimFoliar=%e,\n' % (self.dimFoliar,))
+        if self.thermalHotSpotFactor is not None and 'thermalHotSpotFactor' not in already_processed:
+            already_processed.add('thermalHotSpotFactor')
+            showIndent(outfile, level)
+            outfile.write('thermalHotSpotFactor=%e,\n' % (self.thermalHotSpotFactor,))
+        if self.lad is not None and 'lad' not in already_processed:
+            already_processed.add('lad')
+            showIndent(outfile, level)
+            outfile.write('lad=%d,\n' % (self.lad,))
         if self.useOpticalFactorMatrix is not None and 'useOpticalFactorMatrix' not in already_processed:
             already_processed.add('useOpticalFactorMatrix')
             showIndent(outfile, level)
             outfile.write('useOpticalFactorMatrix=%d,\n' % (self.useOpticalFactorMatrix,))
     def exportLiteralChildren(self, outfile, level, name_):
-        if self.SpecularData is not None:
+        if self.UnderstoryMultiModel is not None:
             showIndent(outfile, level)
-            outfile.write('SpecularData=model_._SpecularData(\n')
-            self.SpecularData.exportLiteral(outfile, level, name_='SpecularData')
+            outfile.write('UnderstoryMultiModel=model_._UnderstoryMultiModel(\n')
+            self.UnderstoryMultiModel.exportLiteral(outfile, level, name_='UnderstoryMultiModel')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.UnderstoryMultiTopModel is not None:
+            showIndent(outfile, level)
+            outfile.write('UnderstoryMultiTopModel=model_._UnderstoryMultiTopModel(\n')
+            self.UnderstoryMultiTopModel.exportLiteral(outfile, level, name_='UnderstoryMultiTopModel')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.UnderstoryMultiBottomModel is not None:
+            showIndent(outfile, level)
+            outfile.write('UnderstoryMultiBottomModel=model_._UnderstoryMultiBottomModel(\n')
+            self.UnderstoryMultiBottomModel.exportLiteral(outfile, level, name_='UnderstoryMultiBottomModel')
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.Ellipsoidal is not None:
@@ -6986,18 +7262,6 @@ class create_UnderstoryMulti(GeneratedsSuper):
             self.DirectionalClumpingIndexProperties.exportLiteral(outfile, level, name_='DirectionalClumpingIndexProperties')
             showIndent(outfile, level)
             outfile.write('),\n')
-        if self.ProspectExternalModule is not None:
-            showIndent(outfile, level)
-            outfile.write('ProspectExternalModule=model_._ProspectExternalModule(\n')
-            self.ProspectExternalModule.exportLiteral(outfile, level, name_='ProspectExternalModule')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.understoryNodeMultiplicativeFactorForLUT is not None:
-            showIndent(outfile, level)
-            outfile.write('understoryNodeMultiplicativeFactorForLUT=model_._understoryNodeMultiplicativeFactorForLUT(\n')
-            self.understoryNodeMultiplicativeFactorForLUT.exportLiteral(outfile, level, name_='understoryNodeMultiplicativeFactorForLUT')
-            showIndent(outfile, level)
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7006,10 +7270,17 @@ class create_UnderstoryMulti(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
         return self
     def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('ModelName', node)
-        if value is not None and 'ModelName' not in already_processed:
-            already_processed.add('ModelName')
-            self.ModelName = value
+        value = find_attr_value_('ident', node)
+        if value is not None and 'ident' not in already_processed:
+            already_processed.add('ident')
+            self.ident = value
+        value = find_attr_value_('hasDifferentModelForBottom', node)
+        if value is not None and 'hasDifferentModelForBottom' not in already_processed:
+            already_processed.add('hasDifferentModelForBottom')
+            try:
+                self.hasDifferentModelForBottom = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
         value = find_attr_value_('dimFoliar', node)
         if value is not None and 'dimFoliar' not in already_processed:
             already_processed.add('dimFoliar')
@@ -7017,33 +7288,18 @@ class create_UnderstoryMulti(GeneratedsSuper):
                 self.dimFoliar = float(value)
             except ValueError as exp:
                 raise ValueError('Bad float/double attribute (dimFoliar): %s' % exp)
+        value = find_attr_value_('thermalHotSpotFactor', node)
+        if value is not None and 'thermalHotSpotFactor' not in already_processed:
+            already_processed.add('thermalHotSpotFactor')
+            try:
+                self.thermalHotSpotFactor = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (thermalHotSpotFactor): %s' % exp)
         value = find_attr_value_('lad', node)
         if value is not None and 'lad' not in already_processed:
             already_processed.add('lad')
             try:
                 self.lad = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-        value = find_attr_value_('useSpecular', node)
-        if value is not None and 'useSpecular' not in already_processed:
-            already_processed.add('useSpecular')
-            try:
-                self.useSpecular = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-        value = find_attr_value_('ident', node)
-        if value is not None and 'ident' not in already_processed:
-            already_processed.add('ident')
-            self.ident = value
-        value = find_attr_value_('databaseName', node)
-        if value is not None and 'databaseName' not in already_processed:
-            already_processed.add('databaseName')
-            self.databaseName = value
-        value = find_attr_value_('useMultiplicativeFactorForLUT', node)
-        if value is not None and 'useMultiplicativeFactorForLUT' not in already_processed:
-            already_processed.add('useMultiplicativeFactorForLUT')
-            try:
-                self.useMultiplicativeFactorForLUT = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
         value = find_attr_value_('useOpticalFactorMatrix', node)
@@ -7054,11 +7310,21 @@ class create_UnderstoryMulti(GeneratedsSuper):
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'SpecularData':
-            obj_ = create_SpecularData.factory()
+        if nodeName_ == 'UnderstoryMultiModel':
+            obj_ = create_UnderstoryMultiModel.factory()
             obj_.build(child_)
-            self.set_SpecularData(obj_)
-            obj_.original_tagname_ = 'SpecularData'
+            self.set_UnderstoryMultiModel(obj_)
+            obj_.original_tagname_ = 'UnderstoryMultiModel'
+        elif nodeName_ == 'UnderstoryMultiTopModel':
+            obj_ = create_UnderstoryMultiTopModel.factory()
+            obj_.build(child_)
+            self.set_UnderstoryMultiTopModel(obj_)
+            obj_.original_tagname_ = 'UnderstoryMultiTopModel'
+        elif nodeName_ == 'UnderstoryMultiBottomModel':
+            obj_ = create_UnderstoryMultiBottomModel.factory()
+            obj_.build(child_)
+            self.set_UnderstoryMultiBottomModel(obj_)
+            obj_.original_tagname_ = 'UnderstoryMultiBottomModel'
         elif nodeName_ == 'Ellipsoidal':
             obj_ = create_Ellipsoidal.factory()
             obj_.build(child_)
@@ -7089,6 +7355,253 @@ class create_UnderstoryMulti(GeneratedsSuper):
             obj_.build(child_)
             self.set_DirectionalClumpingIndexProperties(obj_)
             obj_.original_tagname_ = 'DirectionalClumpingIndexProperties'
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_UnderstoryMulti
+
+
+class create_UnderstoryMultiModel(GeneratedsSuper):
+    """Name of the spectral data base (text file) used to compute the
+    spectral phase function(s) Name of the spectral data base (text
+    file) used to compute the spectral phase function(s) Use
+    specular Use specular Reflectance database Reflectance database"""
+    member_data_items_ = [
+        MemberSpec_('ModelName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useSpecular', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('databaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useMultiplicativeFactorForLUT', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('SpecularData', '_SpecularData', 0, 0, {u'maxOccurs': u'1', u'type': u'_SpecularData', u'name': u'SpecularData', u'minOccurs': u'1'}, None),
+        MemberSpec_('ProspectExternalModule', '_ProspectExternalModule', 0, 0, {u'maxOccurs': u'1', u'type': u'_ProspectExternalModule', u'name': u'ProspectExternalModule', u'minOccurs': u'1'}, None),
+        MemberSpec_('understoryNodeMultiplicativeFactorForLUT', '_understoryNodeMultiplicativeFactorForLUT', 0, 0, {u'maxOccurs': u'1', u'type': u'_understoryNodeMultiplicativeFactorForLUT', u'name': u'understoryNodeMultiplicativeFactorForLUT', u'minOccurs': u'1'}, None),
+    ]
+    subclass = None
+    superclass = None
+    def __init__(self, ModelName='leaf_deciduous', useSpecular=0, databaseName='Lambertian_vegetation.db', useMultiplicativeFactorForLUT=1, SpecularData=None, ProspectExternalModule=None, understoryNodeMultiplicativeFactorForLUT=None):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot('coeff_diff','_UnderstoryMultiModel')
+        self.attrib = ['ModelName', 'useSpecular', 'databaseName', 'useMultiplicativeFactorForLUT']
+        self.children = ['SpecularData', 'ProspectExternalModule', 'understoryNodeMultiplicativeFactorForLUT']
+        self.parent = None
+        self._ModelName = _cast(None, ModelName)
+        self._useSpecular = _cast(int, useSpecular)
+        self._databaseName = _cast(None, databaseName)
+        self._useMultiplicativeFactorForLUT = _cast(int, useMultiplicativeFactorForLUT)
+        self._SpecularData = SpecularData
+        self._ProspectExternalModule = ProspectExternalModule
+        self._understoryNodeMultiplicativeFactorForLUT = understoryNodeMultiplicativeFactorForLUT
+        update_node(self,self.troot,'coeff_diff')
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, create_UnderstoryMultiModel)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if create_UnderstoryMultiModel.subclass:
+            return create_UnderstoryMultiModel.subclass(*args_, **kwargs_)
+        else:
+            return create_UnderstoryMultiModel(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_SpecularData(self): return self._SpecularData
+    def set_SpecularData(self, value):
+        if value is not None:
+            checkclass(value, create_SpecularData)
+            value.parent = self
+        self._SpecularData = value
+    SpecularData = property(get_SpecularData, set_SpecularData)
+    def get_ProspectExternalModule(self): return self._ProspectExternalModule
+    def set_ProspectExternalModule(self, value):
+        if value is not None:
+            checkclass(value, create_ProspectExternalModule)
+            value.parent = self
+        self._ProspectExternalModule = value
+    ProspectExternalModule = property(get_ProspectExternalModule, set_ProspectExternalModule)
+    def get_understoryNodeMultiplicativeFactorForLUT(self): return self._understoryNodeMultiplicativeFactorForLUT
+    def set_understoryNodeMultiplicativeFactorForLUT(self, value):
+        if value is not None:
+            checkclass(value, create_understoryNodeMultiplicativeFactorForLUT)
+            value.parent = self
+        self._understoryNodeMultiplicativeFactorForLUT = value
+    understoryNodeMultiplicativeFactorForLUT = property(get_understoryNodeMultiplicativeFactorForLUT, set_understoryNodeMultiplicativeFactorForLUT)
+    def get_ModelName(self): return self._ModelName
+    def set_ModelName(self, value):
+        self._ModelName = value
+        update_node(self,self.troot,'coeff_diff')
+    ModelName = property(get_ModelName, set_ModelName)
+    def get_useSpecular(self): return self._useSpecular
+    def set_useSpecular(self, value):
+        self._useSpecular = value
+        update_node(self,self.troot,'coeff_diff')
+    useSpecular = property(get_useSpecular, set_useSpecular)
+    def get_databaseName(self): return self._databaseName
+    def set_databaseName(self, value):
+        self._databaseName = value
+        update_node(self,self.troot,'coeff_diff')
+    databaseName = property(get_databaseName, set_databaseName)
+    def get_useMultiplicativeFactorForLUT(self): return self._useMultiplicativeFactorForLUT
+    def set_useMultiplicativeFactorForLUT(self, value):
+        self._useMultiplicativeFactorForLUT = value
+        update_node(self,self.troot,'coeff_diff')
+    useMultiplicativeFactorForLUT = property(get_useMultiplicativeFactorForLUT, set_useMultiplicativeFactorForLUT)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+            self.SpecularData is not None or
+            self.ProspectExternalModule is not None or
+            self.understoryNodeMultiplicativeFactorForLUT is not None
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='_UnderstoryMultiModel', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_UnderstoryMultiModel')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_UnderstoryMultiModel')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_UnderstoryMultiModel', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_UnderstoryMultiModel'):
+        if self.ModelName is not None and 'ModelName' not in already_processed:
+            already_processed.add('ModelName')
+            outfile.write(' ModelName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.ModelName), input_name='ModelName')), ))
+        if self.useSpecular is not None and 'useSpecular' not in already_processed:
+            already_processed.add('useSpecular')
+            outfile.write(' useSpecular="%s"' % self.gds_format_integer(self.useSpecular, input_name='useSpecular'))
+        if self.databaseName is not None and 'databaseName' not in already_processed:
+            already_processed.add('databaseName')
+            outfile.write(' databaseName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.databaseName), input_name='databaseName')), ))
+        if self.useMultiplicativeFactorForLUT is not None and 'useMultiplicativeFactorForLUT' not in already_processed:
+            already_processed.add('useMultiplicativeFactorForLUT')
+            outfile.write(' useMultiplicativeFactorForLUT="%s"' % self.gds_format_integer(self.useMultiplicativeFactorForLUT, input_name='useMultiplicativeFactorForLUT'))
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_UnderstoryMultiModel', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.SpecularData is not None:
+            self.SpecularData.export(outfile, level, namespaceprefix_, name_='SpecularData', pretty_print=pretty_print)
+        if self.ProspectExternalModule is not None:
+            self.ProspectExternalModule.export(outfile, level, namespaceprefix_, name_='ProspectExternalModule', pretty_print=pretty_print)
+        if self.understoryNodeMultiplicativeFactorForLUT is not None:
+            self.understoryNodeMultiplicativeFactorForLUT.export(outfile, level, namespaceprefix_, name_='understoryNodeMultiplicativeFactorForLUT', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_UnderstoryMultiModel', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.ModelName is not None:
+            element.set('ModelName', self.gds_format_string(self.ModelName))
+        if self.useSpecular is not None:
+            element.set('useSpecular', self.gds_format_integer(self.useSpecular))
+        if self.databaseName is not None:
+            element.set('databaseName', self.gds_format_string(self.databaseName))
+        if self.useMultiplicativeFactorForLUT is not None:
+            element.set('useMultiplicativeFactorForLUT', self.gds_format_integer(self.useMultiplicativeFactorForLUT))
+        if self.SpecularData is not None:
+            SpecularData_ = self.SpecularData
+            SpecularData_.to_etree(element, name_='SpecularData', mapping_=mapping_)
+        if self.ProspectExternalModule is not None:
+            ProspectExternalModule_ = self.ProspectExternalModule
+            ProspectExternalModule_.to_etree(element, name_='ProspectExternalModule', mapping_=mapping_)
+        if self.understoryNodeMultiplicativeFactorForLUT is not None:
+            understoryNodeMultiplicativeFactorForLUT_ = self.understoryNodeMultiplicativeFactorForLUT
+            understoryNodeMultiplicativeFactorForLUT_.to_etree(element, name_='understoryNodeMultiplicativeFactorForLUT', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_UnderstoryMultiModel'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.ModelName is not None and 'ModelName' not in already_processed:
+            already_processed.add('ModelName')
+            showIndent(outfile, level)
+            outfile.write('ModelName="%s",\n' % (self.ModelName,))
+        if self.useSpecular is not None and 'useSpecular' not in already_processed:
+            already_processed.add('useSpecular')
+            showIndent(outfile, level)
+            outfile.write('useSpecular=%d,\n' % (self.useSpecular,))
+        if self.databaseName is not None and 'databaseName' not in already_processed:
+            already_processed.add('databaseName')
+            showIndent(outfile, level)
+            outfile.write('databaseName="%s",\n' % (self.databaseName,))
+        if self.useMultiplicativeFactorForLUT is not None and 'useMultiplicativeFactorForLUT' not in already_processed:
+            already_processed.add('useMultiplicativeFactorForLUT')
+            showIndent(outfile, level)
+            outfile.write('useMultiplicativeFactorForLUT=%d,\n' % (self.useMultiplicativeFactorForLUT,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.SpecularData is not None:
+            showIndent(outfile, level)
+            outfile.write('SpecularData=model_._SpecularData(\n')
+            self.SpecularData.exportLiteral(outfile, level, name_='SpecularData')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.ProspectExternalModule is not None:
+            showIndent(outfile, level)
+            outfile.write('ProspectExternalModule=model_._ProspectExternalModule(\n')
+            self.ProspectExternalModule.exportLiteral(outfile, level, name_='ProspectExternalModule')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.understoryNodeMultiplicativeFactorForLUT is not None:
+            showIndent(outfile, level)
+            outfile.write('understoryNodeMultiplicativeFactorForLUT=model_._understoryNodeMultiplicativeFactorForLUT(\n')
+            self.understoryNodeMultiplicativeFactorForLUT.exportLiteral(outfile, level, name_='understoryNodeMultiplicativeFactorForLUT')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('ModelName', node)
+        if value is not None and 'ModelName' not in already_processed:
+            already_processed.add('ModelName')
+            self.ModelName = value
+        value = find_attr_value_('useSpecular', node)
+        if value is not None and 'useSpecular' not in already_processed:
+            already_processed.add('useSpecular')
+            try:
+                self.useSpecular = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('databaseName', node)
+        if value is not None and 'databaseName' not in already_processed:
+            already_processed.add('databaseName')
+            self.databaseName = value
+        value = find_attr_value_('useMultiplicativeFactorForLUT', node)
+        if value is not None and 'useMultiplicativeFactorForLUT' not in already_processed:
+            already_processed.add('useMultiplicativeFactorForLUT')
+            try:
+                self.useMultiplicativeFactorForLUT = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'SpecularData':
+            obj_ = create_SpecularData.factory()
+            obj_.build(child_)
+            self.set_SpecularData(obj_)
+            obj_.original_tagname_ = 'SpecularData'
         elif nodeName_ == 'ProspectExternalModule':
             obj_ = create_ProspectExternalModule.factory()
             obj_.build(child_)
@@ -7099,22 +7612,1030 @@ class create_UnderstoryMulti(GeneratedsSuper):
             obj_.build(child_)
             self.set_understoryNodeMultiplicativeFactorForLUT(obj_)
             obj_.original_tagname_ = 'understoryNodeMultiplicativeFactorForLUT'
-# end class create_UnderstoryMulti
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_UnderstoryMultiModel
+
+
+class create_understoryNodeMultiplicativeFactorForLUT(GeneratedsSuper):
+    """When selected, the parameters values of every spectral band will be
+    equal to these parameters. When selected, the parameters values
+    of every spectral band will be equal to these parameters.
+    Necessary for building up LUT tables with variable adaxial leaf
+    reflectance values. \nA multispectral LUT can be computed
+    applying the sequencer to DART mutispectral simulation with one
+    spectral band each. Necessary for building up LUT tables with
+    variable adaxial leaf reflectance values. \nA multispectral LUT
+    can be computed applying the sequencer to DART mutispectral
+    simulation with one spectral band each. Necessary for building
+    up LUT tables with variable leaf transmittance values. \nA
+    multispectral LUT can be computed applying the sequencer to DART
+    mutispectral simulation with one spectral band each. Necessary
+    for building up LUT tables with variable leaf transmittance
+    values. \nA multispectral LUT can be computed applying the
+    sequencer to DART mutispectral simulation with one spectral band
+    each. Apply the same 3D factor matrix per cell on optical
+    properties to all the spectral bands Apply the same 3D factor
+    matrix per cell on optical properties to all the spectral bands
+    Diffuse transmittance acceleration factor Diffuse transmittance
+    acceleration factor"""
+    member_data_items_ = [
+        MemberSpec_('useSameFactorForAllBands', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('reflectanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('LeafTransmittanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useSameOpticalFactorMatrixForAllBands', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('diffuseTransmittanceAcceleration', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('understoryMultiplicativeFactorForLUT', '_understoryMultiplicativeFactorForLUT', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_understoryMultiplicativeFactorForLUT', u'name': u'understoryMultiplicativeFactorForLUT', u'minOccurs': u'1'}, None),
+        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {u'maxOccurs': u'1', u'type': u'_opticalFactorMatrix', u'name': u'opticalFactorMatrix', u'minOccurs': u'1'}, None),
+    ]
+    subclass = None
+    superclass = None
+    def __init__(self, useSameFactorForAllBands=1, reflectanceFactor=1, LeafTransmittanceFactor=1, useSameOpticalFactorMatrixForAllBands=0, diffuseTransmittanceAcceleration=0., understoryMultiplicativeFactorForLUT=None, opticalFactorMatrix=None):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot('coeff_diff','_understoryNodeMultiplicativeFactorForLUT')
+        self.attrib = ['useSameFactorForAllBands', 'reflectanceFactor', 'LeafTransmittanceFactor', 'useSameOpticalFactorMatrixForAllBands', 'diffuseTransmittanceAcceleration']
+        self.children = ['understoryMultiplicativeFactorForLUT', 'opticalFactorMatrix']
+        self.parent = None
+        self._useSameFactorForAllBands = _cast(int, useSameFactorForAllBands)
+        self._reflectanceFactor = _cast(float, reflectanceFactor)
+        self._LeafTransmittanceFactor = _cast(float, LeafTransmittanceFactor)
+        self._useSameOpticalFactorMatrixForAllBands = _cast(int, useSameOpticalFactorMatrixForAllBands)
+        self._diffuseTransmittanceAcceleration = _cast(float, diffuseTransmittanceAcceleration)
+        if understoryMultiplicativeFactorForLUT is None:
+            self._understoryMultiplicativeFactorForLUT = []
+        else:
+            self._understoryMultiplicativeFactorForLUT = understoryMultiplicativeFactorForLUT
+        self._opticalFactorMatrix = opticalFactorMatrix
+        update_node(self,self.troot,'coeff_diff')
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, create_understoryNodeMultiplicativeFactorForLUT)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if create_understoryNodeMultiplicativeFactorForLUT.subclass:
+            return create_understoryNodeMultiplicativeFactorForLUT.subclass(*args_, **kwargs_)
+        else:
+            return create_understoryNodeMultiplicativeFactorForLUT(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_understoryMultiplicativeFactorForLUT(self): return self._understoryMultiplicativeFactorForLUT
+    def set_understoryMultiplicativeFactorForLUT(self, value):
+        if value is not None:
+            checkclass(value, create_understoryMultiplicativeFactorForLUT)
+            for v in value:
+                v.parent = self
+        self._understoryMultiplicativeFactorForLUT = value
+    def add_understoryMultiplicativeFactorForLUT(self, value):
+        value.parent = self
+        self._understoryMultiplicativeFactorForLUT.append(value)
+    def insert_understoryMultiplicativeFactorForLUT_at(self, index, value):
+        value.parent = self
+        self.understoryMultiplicativeFactorForLUT.insert(index, value)
+    def replace_understoryMultiplicativeFactorForLUT_at(self, index, value):
+        value.parent = self
+        self.understoryMultiplicativeFactorForLUT[index] = value
+    understoryMultiplicativeFactorForLUT = property(get_understoryMultiplicativeFactorForLUT, set_understoryMultiplicativeFactorForLUT)
+    def get_opticalFactorMatrix(self): return self._opticalFactorMatrix
+    def set_opticalFactorMatrix(self, value):
+        if value is not None:
+            checkclass(value, create_opticalFactorMatrix)
+            value.parent = self
+        self._opticalFactorMatrix = value
+    opticalFactorMatrix = property(get_opticalFactorMatrix, set_opticalFactorMatrix)
+    def get_useSameFactorForAllBands(self): return self._useSameFactorForAllBands
+    def set_useSameFactorForAllBands(self, value):
+        self._useSameFactorForAllBands = value
+        update_node(self,self.troot,'coeff_diff')
+    useSameFactorForAllBands = property(get_useSameFactorForAllBands, set_useSameFactorForAllBands)
+    def get_reflectanceFactor(self): return self._reflectanceFactor
+    def set_reflectanceFactor(self, value):
+        self._reflectanceFactor = value
+        update_node(self,self.troot,'coeff_diff')
+    reflectanceFactor = property(get_reflectanceFactor, set_reflectanceFactor)
+    def get_LeafTransmittanceFactor(self): return self._LeafTransmittanceFactor
+    def set_LeafTransmittanceFactor(self, value):
+        self._LeafTransmittanceFactor = value
+        update_node(self,self.troot,'coeff_diff')
+    LeafTransmittanceFactor = property(get_LeafTransmittanceFactor, set_LeafTransmittanceFactor)
+    def get_useSameOpticalFactorMatrixForAllBands(self): return self._useSameOpticalFactorMatrixForAllBands
+    def set_useSameOpticalFactorMatrixForAllBands(self, value):
+        self._useSameOpticalFactorMatrixForAllBands = value
+        update_node(self,self.troot,'coeff_diff')
+    useSameOpticalFactorMatrixForAllBands = property(get_useSameOpticalFactorMatrixForAllBands, set_useSameOpticalFactorMatrixForAllBands)
+    def get_diffuseTransmittanceAcceleration(self): return self._diffuseTransmittanceAcceleration
+    def set_diffuseTransmittanceAcceleration(self, value):
+        self._diffuseTransmittanceAcceleration = value
+        update_node(self,self.troot,'coeff_diff')
+    diffuseTransmittanceAcceleration = property(get_diffuseTransmittanceAcceleration, set_diffuseTransmittanceAcceleration)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+            self.understoryMultiplicativeFactorForLUT or
+            self.opticalFactorMatrix is not None
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='_understoryNodeMultiplicativeFactorForLUT', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_understoryNodeMultiplicativeFactorForLUT')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_understoryNodeMultiplicativeFactorForLUT')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_understoryNodeMultiplicativeFactorForLUT', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_understoryNodeMultiplicativeFactorForLUT'):
+        if self.useSameFactorForAllBands is not None and 'useSameFactorForAllBands' not in already_processed:
+            already_processed.add('useSameFactorForAllBands')
+            outfile.write(' useSameFactorForAllBands="%s"' % self.gds_format_integer(self.useSameFactorForAllBands, input_name='useSameFactorForAllBands'))
+        if self.reflectanceFactor is not None and 'reflectanceFactor' not in already_processed:
+            already_processed.add('reflectanceFactor')
+            outfile.write(' reflectanceFactor="%s"' % self.gds_format_double(self.reflectanceFactor, input_name='reflectanceFactor'))
+        if self.LeafTransmittanceFactor is not None and 'LeafTransmittanceFactor' not in already_processed:
+            already_processed.add('LeafTransmittanceFactor')
+            outfile.write(' LeafTransmittanceFactor="%s"' % self.gds_format_double(self.LeafTransmittanceFactor, input_name='LeafTransmittanceFactor'))
+        if self.useSameOpticalFactorMatrixForAllBands is not None and 'useSameOpticalFactorMatrixForAllBands' not in already_processed:
+            already_processed.add('useSameOpticalFactorMatrixForAllBands')
+            outfile.write(' useSameOpticalFactorMatrixForAllBands="%s"' % self.gds_format_integer(self.useSameOpticalFactorMatrixForAllBands, input_name='useSameOpticalFactorMatrixForAllBands'))
+        if self.diffuseTransmittanceAcceleration is not None and 'diffuseTransmittanceAcceleration' not in already_processed:
+            already_processed.add('diffuseTransmittanceAcceleration')
+            outfile.write(' diffuseTransmittanceAcceleration="%s"' % self.gds_format_double(self.diffuseTransmittanceAcceleration, input_name='diffuseTransmittanceAcceleration'))
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_understoryNodeMultiplicativeFactorForLUT', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for understoryMultiplicativeFactorForLUT_ in self.understoryMultiplicativeFactorForLUT:
+            understoryMultiplicativeFactorForLUT_.export(outfile, level, namespaceprefix_, name_='understoryMultiplicativeFactorForLUT', pretty_print=pretty_print)
+        if self.opticalFactorMatrix is not None:
+            self.opticalFactorMatrix.export(outfile, level, namespaceprefix_, name_='opticalFactorMatrix', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_understoryNodeMultiplicativeFactorForLUT', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.useSameFactorForAllBands is not None:
+            element.set('useSameFactorForAllBands', self.gds_format_integer(self.useSameFactorForAllBands))
+        if self.reflectanceFactor is not None:
+            element.set('reflectanceFactor', self.gds_format_double(self.reflectanceFactor))
+        if self.LeafTransmittanceFactor is not None:
+            element.set('LeafTransmittanceFactor', self.gds_format_double(self.LeafTransmittanceFactor))
+        if self.useSameOpticalFactorMatrixForAllBands is not None:
+            element.set('useSameOpticalFactorMatrixForAllBands', self.gds_format_integer(self.useSameOpticalFactorMatrixForAllBands))
+        if self.diffuseTransmittanceAcceleration is not None:
+            element.set('diffuseTransmittanceAcceleration', self.gds_format_double(self.diffuseTransmittanceAcceleration))
+        for understoryMultiplicativeFactorForLUT_ in self.understoryMultiplicativeFactorForLUT:
+            understoryMultiplicativeFactorForLUT_.to_etree(element, name_='understoryMultiplicativeFactorForLUT', mapping_=mapping_)
+        if self.opticalFactorMatrix is not None:
+            opticalFactorMatrix_ = self.opticalFactorMatrix
+            opticalFactorMatrix_.to_etree(element, name_='opticalFactorMatrix', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_understoryNodeMultiplicativeFactorForLUT'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.useSameFactorForAllBands is not None and 'useSameFactorForAllBands' not in already_processed:
+            already_processed.add('useSameFactorForAllBands')
+            showIndent(outfile, level)
+            outfile.write('useSameFactorForAllBands=%d,\n' % (self.useSameFactorForAllBands,))
+        if self.reflectanceFactor is not None and 'reflectanceFactor' not in already_processed:
+            already_processed.add('reflectanceFactor')
+            showIndent(outfile, level)
+            outfile.write('reflectanceFactor=%e,\n' % (self.reflectanceFactor,))
+        if self.LeafTransmittanceFactor is not None and 'LeafTransmittanceFactor' not in already_processed:
+            already_processed.add('LeafTransmittanceFactor')
+            showIndent(outfile, level)
+            outfile.write('LeafTransmittanceFactor=%e,\n' % (self.LeafTransmittanceFactor,))
+        if self.useSameOpticalFactorMatrixForAllBands is not None and 'useSameOpticalFactorMatrixForAllBands' not in already_processed:
+            already_processed.add('useSameOpticalFactorMatrixForAllBands')
+            showIndent(outfile, level)
+            outfile.write('useSameOpticalFactorMatrixForAllBands=%d,\n' % (self.useSameOpticalFactorMatrixForAllBands,))
+        if self.diffuseTransmittanceAcceleration is not None and 'diffuseTransmittanceAcceleration' not in already_processed:
+            already_processed.add('diffuseTransmittanceAcceleration')
+            showIndent(outfile, level)
+            outfile.write('diffuseTransmittanceAcceleration=%e,\n' % (self.diffuseTransmittanceAcceleration,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('understoryMultiplicativeFactorForLUT=[\n')
+        level += 1
+        for understoryMultiplicativeFactorForLUT_ in self.understoryMultiplicativeFactorForLUT:
+            showIndent(outfile, level)
+            outfile.write('model_._understoryMultiplicativeFactorForLUT(\n')
+            understoryMultiplicativeFactorForLUT_.exportLiteral(outfile, level, name_='_understoryMultiplicativeFactorForLUT')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+        if self.opticalFactorMatrix is not None:
+            showIndent(outfile, level)
+            outfile.write('opticalFactorMatrix=model_._opticalFactorMatrix(\n')
+            self.opticalFactorMatrix.exportLiteral(outfile, level, name_='opticalFactorMatrix')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        self.understoryMultiplicativeFactorForLUT = []
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('useSameFactorForAllBands', node)
+        if value is not None and 'useSameFactorForAllBands' not in already_processed:
+            already_processed.add('useSameFactorForAllBands')
+            try:
+                self.useSameFactorForAllBands = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('reflectanceFactor', node)
+        if value is not None and 'reflectanceFactor' not in already_processed:
+            already_processed.add('reflectanceFactor')
+            try:
+                self.reflectanceFactor = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (reflectanceFactor): %s' % exp)
+        value = find_attr_value_('LeafTransmittanceFactor', node)
+        if value is not None and 'LeafTransmittanceFactor' not in already_processed:
+            already_processed.add('LeafTransmittanceFactor')
+            try:
+                self.LeafTransmittanceFactor = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (LeafTransmittanceFactor): %s' % exp)
+        value = find_attr_value_('useSameOpticalFactorMatrixForAllBands', node)
+        if value is not None and 'useSameOpticalFactorMatrixForAllBands' not in already_processed:
+            already_processed.add('useSameOpticalFactorMatrixForAllBands')
+            try:
+                self.useSameOpticalFactorMatrixForAllBands = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('diffuseTransmittanceAcceleration', node)
+        if value is not None and 'diffuseTransmittanceAcceleration' not in already_processed:
+            already_processed.add('diffuseTransmittanceAcceleration')
+            try:
+                self.diffuseTransmittanceAcceleration = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (diffuseTransmittanceAcceleration): %s' % exp)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'understoryMultiplicativeFactorForLUT':
+            obj_ = create_understoryMultiplicativeFactorForLUT.factory()
+            obj_.build(child_)
+            self.add_understoryMultiplicativeFactorForLUT(obj_)
+            obj_.original_tagname_ = 'understoryMultiplicativeFactorForLUT'
+        elif nodeName_ == 'opticalFactorMatrix':
+            obj_ = create_opticalFactorMatrix.factory()
+            obj_.build(child_)
+            self.set_opticalFactorMatrix(obj_)
+            obj_.original_tagname_ = 'opticalFactorMatrix'
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_understoryNodeMultiplicativeFactorForLUT
+
+
+class create_understoryMultiplicativeFactorForLUT(GeneratedsSuper):
+    """Necessary for building up LUT tables with variable leaf
+    transmittance values. \nA multispectral LUT can be computed
+    applying the sequencer to DART mutispectral simulation with one
+    spectral band each. Necessary for building up LUT tables with
+    variable leaf transmittance values. \nA multispectral LUT can be
+    computed applying the sequencer to DART mutispectral simulation
+    with one spectral band each. Apply a 3D factor matrix per cell
+    on optical properties Apply a 3D factor matrix per cell on
+    optical properties"""
+    member_data_items_ = [
+        MemberSpec_('reflectanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('LeafTransmittanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useOpticalFactorMatrix', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {u'maxOccurs': u'1', u'type': u'_opticalFactorMatrix', u'name': u'opticalFactorMatrix', u'minOccurs': u'1'}, None),
+    ]
+    subclass = None
+    superclass = None
+    def __init__(self, reflectanceFactor=1, LeafTransmittanceFactor=1, useOpticalFactorMatrix=0, opticalFactorMatrix=None):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot('coeff_diff','_understoryMultiplicativeFactorForLUT')
+        self.attrib = ['reflectanceFactor', 'LeafTransmittanceFactor', 'useOpticalFactorMatrix']
+        self.children = ['opticalFactorMatrix']
+        self.parent = None
+        self._reflectanceFactor = _cast(float, reflectanceFactor)
+        self._LeafTransmittanceFactor = _cast(float, LeafTransmittanceFactor)
+        self._useOpticalFactorMatrix = _cast(int, useOpticalFactorMatrix)
+        self._opticalFactorMatrix = opticalFactorMatrix
+        update_node(self,self.troot,'coeff_diff')
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, create_understoryMultiplicativeFactorForLUT)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if create_understoryMultiplicativeFactorForLUT.subclass:
+            return create_understoryMultiplicativeFactorForLUT.subclass(*args_, **kwargs_)
+        else:
+            return create_understoryMultiplicativeFactorForLUT(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_opticalFactorMatrix(self): return self._opticalFactorMatrix
+    def set_opticalFactorMatrix(self, value):
+        if value is not None:
+            checkclass(value, create_opticalFactorMatrix)
+            value.parent = self
+        self._opticalFactorMatrix = value
+    opticalFactorMatrix = property(get_opticalFactorMatrix, set_opticalFactorMatrix)
+    def get_reflectanceFactor(self): return self._reflectanceFactor
+    def set_reflectanceFactor(self, value):
+        self._reflectanceFactor = value
+        update_node(self,self.troot,'coeff_diff')
+    reflectanceFactor = property(get_reflectanceFactor, set_reflectanceFactor)
+    def get_LeafTransmittanceFactor(self): return self._LeafTransmittanceFactor
+    def set_LeafTransmittanceFactor(self, value):
+        self._LeafTransmittanceFactor = value
+        update_node(self,self.troot,'coeff_diff')
+    LeafTransmittanceFactor = property(get_LeafTransmittanceFactor, set_LeafTransmittanceFactor)
+    def get_useOpticalFactorMatrix(self): return self._useOpticalFactorMatrix
+    def set_useOpticalFactorMatrix(self, value):
+        self._useOpticalFactorMatrix = value
+        update_node(self,self.troot,'coeff_diff')
+    useOpticalFactorMatrix = property(get_useOpticalFactorMatrix, set_useOpticalFactorMatrix)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+            self.opticalFactorMatrix is not None
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='_understoryMultiplicativeFactorForLUT', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_understoryMultiplicativeFactorForLUT')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_understoryMultiplicativeFactorForLUT')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_understoryMultiplicativeFactorForLUT', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_understoryMultiplicativeFactorForLUT'):
+        if self.reflectanceFactor is not None and 'reflectanceFactor' not in already_processed:
+            already_processed.add('reflectanceFactor')
+            outfile.write(' reflectanceFactor="%s"' % self.gds_format_double(self.reflectanceFactor, input_name='reflectanceFactor'))
+        if self.LeafTransmittanceFactor is not None and 'LeafTransmittanceFactor' not in already_processed:
+            already_processed.add('LeafTransmittanceFactor')
+            outfile.write(' LeafTransmittanceFactor="%s"' % self.gds_format_double(self.LeafTransmittanceFactor, input_name='LeafTransmittanceFactor'))
+        if self.useOpticalFactorMatrix is not None and 'useOpticalFactorMatrix' not in already_processed:
+            already_processed.add('useOpticalFactorMatrix')
+            outfile.write(' useOpticalFactorMatrix="%s"' % self.gds_format_integer(self.useOpticalFactorMatrix, input_name='useOpticalFactorMatrix'))
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_understoryMultiplicativeFactorForLUT', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.opticalFactorMatrix is not None:
+            self.opticalFactorMatrix.export(outfile, level, namespaceprefix_, name_='opticalFactorMatrix', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_understoryMultiplicativeFactorForLUT', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.reflectanceFactor is not None:
+            element.set('reflectanceFactor', self.gds_format_double(self.reflectanceFactor))
+        if self.LeafTransmittanceFactor is not None:
+            element.set('LeafTransmittanceFactor', self.gds_format_double(self.LeafTransmittanceFactor))
+        if self.useOpticalFactorMatrix is not None:
+            element.set('useOpticalFactorMatrix', self.gds_format_integer(self.useOpticalFactorMatrix))
+        if self.opticalFactorMatrix is not None:
+            opticalFactorMatrix_ = self.opticalFactorMatrix
+            opticalFactorMatrix_.to_etree(element, name_='opticalFactorMatrix', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_understoryMultiplicativeFactorForLUT'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.reflectanceFactor is not None and 'reflectanceFactor' not in already_processed:
+            already_processed.add('reflectanceFactor')
+            showIndent(outfile, level)
+            outfile.write('reflectanceFactor=%e,\n' % (self.reflectanceFactor,))
+        if self.LeafTransmittanceFactor is not None and 'LeafTransmittanceFactor' not in already_processed:
+            already_processed.add('LeafTransmittanceFactor')
+            showIndent(outfile, level)
+            outfile.write('LeafTransmittanceFactor=%e,\n' % (self.LeafTransmittanceFactor,))
+        if self.useOpticalFactorMatrix is not None and 'useOpticalFactorMatrix' not in already_processed:
+            already_processed.add('useOpticalFactorMatrix')
+            showIndent(outfile, level)
+            outfile.write('useOpticalFactorMatrix=%d,\n' % (self.useOpticalFactorMatrix,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.opticalFactorMatrix is not None:
+            showIndent(outfile, level)
+            outfile.write('opticalFactorMatrix=model_._opticalFactorMatrix(\n')
+            self.opticalFactorMatrix.exportLiteral(outfile, level, name_='opticalFactorMatrix')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('reflectanceFactor', node)
+        if value is not None and 'reflectanceFactor' not in already_processed:
+            already_processed.add('reflectanceFactor')
+            try:
+                self.reflectanceFactor = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (reflectanceFactor): %s' % exp)
+        value = find_attr_value_('LeafTransmittanceFactor', node)
+        if value is not None and 'LeafTransmittanceFactor' not in already_processed:
+            already_processed.add('LeafTransmittanceFactor')
+            try:
+                self.LeafTransmittanceFactor = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (LeafTransmittanceFactor): %s' % exp)
+        value = find_attr_value_('useOpticalFactorMatrix', node)
+        if value is not None and 'useOpticalFactorMatrix' not in already_processed:
+            already_processed.add('useOpticalFactorMatrix')
+            try:
+                self.useOpticalFactorMatrix = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'opticalFactorMatrix':
+            obj_ = create_opticalFactorMatrix.factory()
+            obj_.build(child_)
+            self.set_opticalFactorMatrix(obj_)
+            obj_.original_tagname_ = 'opticalFactorMatrix'
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_understoryMultiplicativeFactorForLUT
+
+
+class create_UnderstoryMultiTopModel(GeneratedsSuper):
+    """Name of the spectral data base (text file) used to compute the
+    spectral phase function(s) Name of the spectral data base (text
+    file) used to compute the spectral phase function(s) Use
+    specular Use specular Reflectance database Reflectance database"""
+    member_data_items_ = [
+        MemberSpec_('ModelName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useSpecular', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('databaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useMultiplicativeFactorForLUT', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('SpecularData', '_SpecularData', 0, 0, {u'maxOccurs': u'1', u'type': u'_SpecularData', u'name': u'SpecularData', u'minOccurs': u'1'}, None),
+        MemberSpec_('ProspectExternalModule', '_ProspectExternalModule', 0, 0, {u'maxOccurs': u'1', u'type': u'_ProspectExternalModule', u'name': u'ProspectExternalModule', u'minOccurs': u'1'}, None),
+        MemberSpec_('understoryNodeMultiplicativeFactorForLUT', '_understoryNodeMultiplicativeFactorForLUT', 0, 0, {u'maxOccurs': u'1', u'type': u'_understoryNodeMultiplicativeFactorForLUT', u'name': u'understoryNodeMultiplicativeFactorForLUT', u'minOccurs': u'1'}, None),
+    ]
+    subclass = None
+    superclass = None
+    def __init__(self, ModelName='leaf_deciduous', useSpecular=0, databaseName='Lambertian_vegetation.db', useMultiplicativeFactorForLUT=1, SpecularData=None, ProspectExternalModule=None, understoryNodeMultiplicativeFactorForLUT=None):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot('coeff_diff','_UnderstoryMultiTopModel')
+        self.attrib = ['ModelName', 'useSpecular', 'databaseName', 'useMultiplicativeFactorForLUT']
+        self.children = ['SpecularData', 'ProspectExternalModule', 'understoryNodeMultiplicativeFactorForLUT']
+        self.parent = None
+        self._ModelName = _cast(None, ModelName)
+        self._useSpecular = _cast(int, useSpecular)
+        self._databaseName = _cast(None, databaseName)
+        self._useMultiplicativeFactorForLUT = _cast(int, useMultiplicativeFactorForLUT)
+        self._SpecularData = SpecularData
+        self._ProspectExternalModule = ProspectExternalModule
+        self._understoryNodeMultiplicativeFactorForLUT = understoryNodeMultiplicativeFactorForLUT
+        update_node(self,self.troot,'coeff_diff')
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, create_UnderstoryMultiTopModel)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if create_UnderstoryMultiTopModel.subclass:
+            return create_UnderstoryMultiTopModel.subclass(*args_, **kwargs_)
+        else:
+            return create_UnderstoryMultiTopModel(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_SpecularData(self): return self._SpecularData
+    def set_SpecularData(self, value):
+        if value is not None:
+            checkclass(value, create_SpecularData)
+            value.parent = self
+        self._SpecularData = value
+    SpecularData = property(get_SpecularData, set_SpecularData)
+    def get_ProspectExternalModule(self): return self._ProspectExternalModule
+    def set_ProspectExternalModule(self, value):
+        if value is not None:
+            checkclass(value, create_ProspectExternalModule)
+            value.parent = self
+        self._ProspectExternalModule = value
+    ProspectExternalModule = property(get_ProspectExternalModule, set_ProspectExternalModule)
+    def get_understoryNodeMultiplicativeFactorForLUT(self): return self._understoryNodeMultiplicativeFactorForLUT
+    def set_understoryNodeMultiplicativeFactorForLUT(self, value):
+        if value is not None:
+            checkclass(value, create_understoryNodeMultiplicativeFactorForLUT)
+            value.parent = self
+        self._understoryNodeMultiplicativeFactorForLUT = value
+    understoryNodeMultiplicativeFactorForLUT = property(get_understoryNodeMultiplicativeFactorForLUT, set_understoryNodeMultiplicativeFactorForLUT)
+    def get_ModelName(self): return self._ModelName
+    def set_ModelName(self, value):
+        self._ModelName = value
+        update_node(self,self.troot,'coeff_diff')
+    ModelName = property(get_ModelName, set_ModelName)
+    def get_useSpecular(self): return self._useSpecular
+    def set_useSpecular(self, value):
+        self._useSpecular = value
+        update_node(self,self.troot,'coeff_diff')
+    useSpecular = property(get_useSpecular, set_useSpecular)
+    def get_databaseName(self): return self._databaseName
+    def set_databaseName(self, value):
+        self._databaseName = value
+        update_node(self,self.troot,'coeff_diff')
+    databaseName = property(get_databaseName, set_databaseName)
+    def get_useMultiplicativeFactorForLUT(self): return self._useMultiplicativeFactorForLUT
+    def set_useMultiplicativeFactorForLUT(self, value):
+        self._useMultiplicativeFactorForLUT = value
+        update_node(self,self.troot,'coeff_diff')
+    useMultiplicativeFactorForLUT = property(get_useMultiplicativeFactorForLUT, set_useMultiplicativeFactorForLUT)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+            self.SpecularData is not None or
+            self.ProspectExternalModule is not None or
+            self.understoryNodeMultiplicativeFactorForLUT is not None
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='_UnderstoryMultiTopModel', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_UnderstoryMultiTopModel')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_UnderstoryMultiTopModel')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_UnderstoryMultiTopModel', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_UnderstoryMultiTopModel'):
+        if self.ModelName is not None and 'ModelName' not in already_processed:
+            already_processed.add('ModelName')
+            outfile.write(' ModelName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.ModelName), input_name='ModelName')), ))
+        if self.useSpecular is not None and 'useSpecular' not in already_processed:
+            already_processed.add('useSpecular')
+            outfile.write(' useSpecular="%s"' % self.gds_format_integer(self.useSpecular, input_name='useSpecular'))
+        if self.databaseName is not None and 'databaseName' not in already_processed:
+            already_processed.add('databaseName')
+            outfile.write(' databaseName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.databaseName), input_name='databaseName')), ))
+        if self.useMultiplicativeFactorForLUT is not None and 'useMultiplicativeFactorForLUT' not in already_processed:
+            already_processed.add('useMultiplicativeFactorForLUT')
+            outfile.write(' useMultiplicativeFactorForLUT="%s"' % self.gds_format_integer(self.useMultiplicativeFactorForLUT, input_name='useMultiplicativeFactorForLUT'))
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_UnderstoryMultiTopModel', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.SpecularData is not None:
+            self.SpecularData.export(outfile, level, namespaceprefix_, name_='SpecularData', pretty_print=pretty_print)
+        if self.ProspectExternalModule is not None:
+            self.ProspectExternalModule.export(outfile, level, namespaceprefix_, name_='ProspectExternalModule', pretty_print=pretty_print)
+        if self.understoryNodeMultiplicativeFactorForLUT is not None:
+            self.understoryNodeMultiplicativeFactorForLUT.export(outfile, level, namespaceprefix_, name_='understoryNodeMultiplicativeFactorForLUT', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_UnderstoryMultiTopModel', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.ModelName is not None:
+            element.set('ModelName', self.gds_format_string(self.ModelName))
+        if self.useSpecular is not None:
+            element.set('useSpecular', self.gds_format_integer(self.useSpecular))
+        if self.databaseName is not None:
+            element.set('databaseName', self.gds_format_string(self.databaseName))
+        if self.useMultiplicativeFactorForLUT is not None:
+            element.set('useMultiplicativeFactorForLUT', self.gds_format_integer(self.useMultiplicativeFactorForLUT))
+        if self.SpecularData is not None:
+            SpecularData_ = self.SpecularData
+            SpecularData_.to_etree(element, name_='SpecularData', mapping_=mapping_)
+        if self.ProspectExternalModule is not None:
+            ProspectExternalModule_ = self.ProspectExternalModule
+            ProspectExternalModule_.to_etree(element, name_='ProspectExternalModule', mapping_=mapping_)
+        if self.understoryNodeMultiplicativeFactorForLUT is not None:
+            understoryNodeMultiplicativeFactorForLUT_ = self.understoryNodeMultiplicativeFactorForLUT
+            understoryNodeMultiplicativeFactorForLUT_.to_etree(element, name_='understoryNodeMultiplicativeFactorForLUT', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_UnderstoryMultiTopModel'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.ModelName is not None and 'ModelName' not in already_processed:
+            already_processed.add('ModelName')
+            showIndent(outfile, level)
+            outfile.write('ModelName="%s",\n' % (self.ModelName,))
+        if self.useSpecular is not None and 'useSpecular' not in already_processed:
+            already_processed.add('useSpecular')
+            showIndent(outfile, level)
+            outfile.write('useSpecular=%d,\n' % (self.useSpecular,))
+        if self.databaseName is not None and 'databaseName' not in already_processed:
+            already_processed.add('databaseName')
+            showIndent(outfile, level)
+            outfile.write('databaseName="%s",\n' % (self.databaseName,))
+        if self.useMultiplicativeFactorForLUT is not None and 'useMultiplicativeFactorForLUT' not in already_processed:
+            already_processed.add('useMultiplicativeFactorForLUT')
+            showIndent(outfile, level)
+            outfile.write('useMultiplicativeFactorForLUT=%d,\n' % (self.useMultiplicativeFactorForLUT,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.SpecularData is not None:
+            showIndent(outfile, level)
+            outfile.write('SpecularData=model_._SpecularData(\n')
+            self.SpecularData.exportLiteral(outfile, level, name_='SpecularData')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.ProspectExternalModule is not None:
+            showIndent(outfile, level)
+            outfile.write('ProspectExternalModule=model_._ProspectExternalModule(\n')
+            self.ProspectExternalModule.exportLiteral(outfile, level, name_='ProspectExternalModule')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.understoryNodeMultiplicativeFactorForLUT is not None:
+            showIndent(outfile, level)
+            outfile.write('understoryNodeMultiplicativeFactorForLUT=model_._understoryNodeMultiplicativeFactorForLUT(\n')
+            self.understoryNodeMultiplicativeFactorForLUT.exportLiteral(outfile, level, name_='understoryNodeMultiplicativeFactorForLUT')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('ModelName', node)
+        if value is not None and 'ModelName' not in already_processed:
+            already_processed.add('ModelName')
+            self.ModelName = value
+        value = find_attr_value_('useSpecular', node)
+        if value is not None and 'useSpecular' not in already_processed:
+            already_processed.add('useSpecular')
+            try:
+                self.useSpecular = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('databaseName', node)
+        if value is not None and 'databaseName' not in already_processed:
+            already_processed.add('databaseName')
+            self.databaseName = value
+        value = find_attr_value_('useMultiplicativeFactorForLUT', node)
+        if value is not None and 'useMultiplicativeFactorForLUT' not in already_processed:
+            already_processed.add('useMultiplicativeFactorForLUT')
+            try:
+                self.useMultiplicativeFactorForLUT = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'SpecularData':
+            obj_ = create_SpecularData.factory()
+            obj_.build(child_)
+            self.set_SpecularData(obj_)
+            obj_.original_tagname_ = 'SpecularData'
+        elif nodeName_ == 'ProspectExternalModule':
+            obj_ = create_ProspectExternalModule.factory()
+            obj_.build(child_)
+            self.set_ProspectExternalModule(obj_)
+            obj_.original_tagname_ = 'ProspectExternalModule'
+        elif nodeName_ == 'understoryNodeMultiplicativeFactorForLUT':
+            obj_ = create_understoryNodeMultiplicativeFactorForLUT.factory()
+            obj_.build(child_)
+            self.set_understoryNodeMultiplicativeFactorForLUT(obj_)
+            obj_.original_tagname_ = 'understoryNodeMultiplicativeFactorForLUT'
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_UnderstoryMultiTopModel
+
+
+class create_UnderstoryMultiBottomModel(GeneratedsSuper):
+    """Name of the spectral data base (text file) used to compute the
+    spectral phase function(s) Name of the spectral data base (text
+    file) used to compute the spectral phase function(s) Use
+    specular Use specular Reflectance database Reflectance database"""
+    member_data_items_ = [
+        MemberSpec_('ModelName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useSpecular', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('databaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useMultiplicativeFactorForLUT', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('SpecularData', '_SpecularData', 0, 0, {u'maxOccurs': u'1', u'type': u'_SpecularData', u'name': u'SpecularData', u'minOccurs': u'1'}, None),
+        MemberSpec_('ProspectExternalModule', '_ProspectExternalModule', 0, 0, {u'maxOccurs': u'1', u'type': u'_ProspectExternalModule', u'name': u'ProspectExternalModule', u'minOccurs': u'1'}, None),
+        MemberSpec_('understoryNodeMultiplicativeFactorForLUT', '_understoryNodeMultiplicativeFactorForLUT', 0, 0, {u'maxOccurs': u'1', u'type': u'_understoryNodeMultiplicativeFactorForLUT', u'name': u'understoryNodeMultiplicativeFactorForLUT', u'minOccurs': u'1'}, None),
+    ]
+    subclass = None
+    superclass = None
+    def __init__(self, ModelName='leaf_deciduous', useSpecular=0, databaseName='Lambertian_vegetation.db', useMultiplicativeFactorForLUT=1, SpecularData=None, ProspectExternalModule=None, understoryNodeMultiplicativeFactorForLUT=None):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot('coeff_diff','_UnderstoryMultiBottomModel')
+        self.attrib = ['ModelName', 'useSpecular', 'databaseName', 'useMultiplicativeFactorForLUT']
+        self.children = ['SpecularData', 'ProspectExternalModule', 'understoryNodeMultiplicativeFactorForLUT']
+        self.parent = None
+        self._ModelName = _cast(None, ModelName)
+        self._useSpecular = _cast(int, useSpecular)
+        self._databaseName = _cast(None, databaseName)
+        self._useMultiplicativeFactorForLUT = _cast(int, useMultiplicativeFactorForLUT)
+        self._SpecularData = SpecularData
+        self._ProspectExternalModule = ProspectExternalModule
+        self._understoryNodeMultiplicativeFactorForLUT = understoryNodeMultiplicativeFactorForLUT
+        update_node(self,self.troot,'coeff_diff')
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, create_UnderstoryMultiBottomModel)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if create_UnderstoryMultiBottomModel.subclass:
+            return create_UnderstoryMultiBottomModel.subclass(*args_, **kwargs_)
+        else:
+            return create_UnderstoryMultiBottomModel(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_SpecularData(self): return self._SpecularData
+    def set_SpecularData(self, value):
+        if value is not None:
+            checkclass(value, create_SpecularData)
+            value.parent = self
+        self._SpecularData = value
+    SpecularData = property(get_SpecularData, set_SpecularData)
+    def get_ProspectExternalModule(self): return self._ProspectExternalModule
+    def set_ProspectExternalModule(self, value):
+        if value is not None:
+            checkclass(value, create_ProspectExternalModule)
+            value.parent = self
+        self._ProspectExternalModule = value
+    ProspectExternalModule = property(get_ProspectExternalModule, set_ProspectExternalModule)
+    def get_understoryNodeMultiplicativeFactorForLUT(self): return self._understoryNodeMultiplicativeFactorForLUT
+    def set_understoryNodeMultiplicativeFactorForLUT(self, value):
+        if value is not None:
+            checkclass(value, create_understoryNodeMultiplicativeFactorForLUT)
+            value.parent = self
+        self._understoryNodeMultiplicativeFactorForLUT = value
+    understoryNodeMultiplicativeFactorForLUT = property(get_understoryNodeMultiplicativeFactorForLUT, set_understoryNodeMultiplicativeFactorForLUT)
+    def get_ModelName(self): return self._ModelName
+    def set_ModelName(self, value):
+        self._ModelName = value
+        update_node(self,self.troot,'coeff_diff')
+    ModelName = property(get_ModelName, set_ModelName)
+    def get_useSpecular(self): return self._useSpecular
+    def set_useSpecular(self, value):
+        self._useSpecular = value
+        update_node(self,self.troot,'coeff_diff')
+    useSpecular = property(get_useSpecular, set_useSpecular)
+    def get_databaseName(self): return self._databaseName
+    def set_databaseName(self, value):
+        self._databaseName = value
+        update_node(self,self.troot,'coeff_diff')
+    databaseName = property(get_databaseName, set_databaseName)
+    def get_useMultiplicativeFactorForLUT(self): return self._useMultiplicativeFactorForLUT
+    def set_useMultiplicativeFactorForLUT(self, value):
+        self._useMultiplicativeFactorForLUT = value
+        update_node(self,self.troot,'coeff_diff')
+    useMultiplicativeFactorForLUT = property(get_useMultiplicativeFactorForLUT, set_useMultiplicativeFactorForLUT)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+            self.SpecularData is not None or
+            self.ProspectExternalModule is not None or
+            self.understoryNodeMultiplicativeFactorForLUT is not None
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='_UnderstoryMultiBottomModel', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_UnderstoryMultiBottomModel')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_UnderstoryMultiBottomModel')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_UnderstoryMultiBottomModel', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_UnderstoryMultiBottomModel'):
+        if self.ModelName is not None and 'ModelName' not in already_processed:
+            already_processed.add('ModelName')
+            outfile.write(' ModelName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.ModelName), input_name='ModelName')), ))
+        if self.useSpecular is not None and 'useSpecular' not in already_processed:
+            already_processed.add('useSpecular')
+            outfile.write(' useSpecular="%s"' % self.gds_format_integer(self.useSpecular, input_name='useSpecular'))
+        if self.databaseName is not None and 'databaseName' not in already_processed:
+            already_processed.add('databaseName')
+            outfile.write(' databaseName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.databaseName), input_name='databaseName')), ))
+        if self.useMultiplicativeFactorForLUT is not None and 'useMultiplicativeFactorForLUT' not in already_processed:
+            already_processed.add('useMultiplicativeFactorForLUT')
+            outfile.write(' useMultiplicativeFactorForLUT="%s"' % self.gds_format_integer(self.useMultiplicativeFactorForLUT, input_name='useMultiplicativeFactorForLUT'))
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_UnderstoryMultiBottomModel', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.SpecularData is not None:
+            self.SpecularData.export(outfile, level, namespaceprefix_, name_='SpecularData', pretty_print=pretty_print)
+        if self.ProspectExternalModule is not None:
+            self.ProspectExternalModule.export(outfile, level, namespaceprefix_, name_='ProspectExternalModule', pretty_print=pretty_print)
+        if self.understoryNodeMultiplicativeFactorForLUT is not None:
+            self.understoryNodeMultiplicativeFactorForLUT.export(outfile, level, namespaceprefix_, name_='understoryNodeMultiplicativeFactorForLUT', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_UnderstoryMultiBottomModel', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.ModelName is not None:
+            element.set('ModelName', self.gds_format_string(self.ModelName))
+        if self.useSpecular is not None:
+            element.set('useSpecular', self.gds_format_integer(self.useSpecular))
+        if self.databaseName is not None:
+            element.set('databaseName', self.gds_format_string(self.databaseName))
+        if self.useMultiplicativeFactorForLUT is not None:
+            element.set('useMultiplicativeFactorForLUT', self.gds_format_integer(self.useMultiplicativeFactorForLUT))
+        if self.SpecularData is not None:
+            SpecularData_ = self.SpecularData
+            SpecularData_.to_etree(element, name_='SpecularData', mapping_=mapping_)
+        if self.ProspectExternalModule is not None:
+            ProspectExternalModule_ = self.ProspectExternalModule
+            ProspectExternalModule_.to_etree(element, name_='ProspectExternalModule', mapping_=mapping_)
+        if self.understoryNodeMultiplicativeFactorForLUT is not None:
+            understoryNodeMultiplicativeFactorForLUT_ = self.understoryNodeMultiplicativeFactorForLUT
+            understoryNodeMultiplicativeFactorForLUT_.to_etree(element, name_='understoryNodeMultiplicativeFactorForLUT', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_UnderstoryMultiBottomModel'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.ModelName is not None and 'ModelName' not in already_processed:
+            already_processed.add('ModelName')
+            showIndent(outfile, level)
+            outfile.write('ModelName="%s",\n' % (self.ModelName,))
+        if self.useSpecular is not None and 'useSpecular' not in already_processed:
+            already_processed.add('useSpecular')
+            showIndent(outfile, level)
+            outfile.write('useSpecular=%d,\n' % (self.useSpecular,))
+        if self.databaseName is not None and 'databaseName' not in already_processed:
+            already_processed.add('databaseName')
+            showIndent(outfile, level)
+            outfile.write('databaseName="%s",\n' % (self.databaseName,))
+        if self.useMultiplicativeFactorForLUT is not None and 'useMultiplicativeFactorForLUT' not in already_processed:
+            already_processed.add('useMultiplicativeFactorForLUT')
+            showIndent(outfile, level)
+            outfile.write('useMultiplicativeFactorForLUT=%d,\n' % (self.useMultiplicativeFactorForLUT,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.SpecularData is not None:
+            showIndent(outfile, level)
+            outfile.write('SpecularData=model_._SpecularData(\n')
+            self.SpecularData.exportLiteral(outfile, level, name_='SpecularData')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.ProspectExternalModule is not None:
+            showIndent(outfile, level)
+            outfile.write('ProspectExternalModule=model_._ProspectExternalModule(\n')
+            self.ProspectExternalModule.exportLiteral(outfile, level, name_='ProspectExternalModule')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.understoryNodeMultiplicativeFactorForLUT is not None:
+            showIndent(outfile, level)
+            outfile.write('understoryNodeMultiplicativeFactorForLUT=model_._understoryNodeMultiplicativeFactorForLUT(\n')
+            self.understoryNodeMultiplicativeFactorForLUT.exportLiteral(outfile, level, name_='understoryNodeMultiplicativeFactorForLUT')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('ModelName', node)
+        if value is not None and 'ModelName' not in already_processed:
+            already_processed.add('ModelName')
+            self.ModelName = value
+        value = find_attr_value_('useSpecular', node)
+        if value is not None and 'useSpecular' not in already_processed:
+            already_processed.add('useSpecular')
+            try:
+                self.useSpecular = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('databaseName', node)
+        if value is not None and 'databaseName' not in already_processed:
+            already_processed.add('databaseName')
+            self.databaseName = value
+        value = find_attr_value_('useMultiplicativeFactorForLUT', node)
+        if value is not None and 'useMultiplicativeFactorForLUT' not in already_processed:
+            already_processed.add('useMultiplicativeFactorForLUT')
+            try:
+                self.useMultiplicativeFactorForLUT = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'SpecularData':
+            obj_ = create_SpecularData.factory()
+            obj_.build(child_)
+            self.set_SpecularData(obj_)
+            obj_.original_tagname_ = 'SpecularData'
+        elif nodeName_ == 'ProspectExternalModule':
+            obj_ = create_ProspectExternalModule.factory()
+            obj_.build(child_)
+            self.set_ProspectExternalModule(obj_)
+            obj_.original_tagname_ = 'ProspectExternalModule'
+        elif nodeName_ == 'understoryNodeMultiplicativeFactorForLUT':
+            obj_ = create_understoryNodeMultiplicativeFactorForLUT.factory()
+            obj_.build(child_)
+            self.set_understoryNodeMultiplicativeFactorForLUT(obj_)
+            obj_.original_tagname_ = 'understoryNodeMultiplicativeFactorForLUT'
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_UnderstoryMultiBottomModel
 
 
 class create_Ellipsoidal(GeneratedsSuper):
     """Average leaf angle for the ellipsoidal leaf angle distribution
     Average leaf angle for the ellipsoidal leaf angle distribution"""
+    member_data_items_ = [
+        MemberSpec_('ala', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, ala=0.000):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_Ellipsoidal")
+        self.troot=get_gs_troot('coeff_diff','_Ellipsoidal')
         self.attrib = ['ala']
         self.children = []
         self.parent = None
         self._ala = _cast(float, ala)
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -7129,7 +8650,7 @@ class create_Ellipsoidal(GeneratedsSuper):
     def get_ala(self): return self._ala
     def set_ala(self, value):
         self._ala = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     ala = property(get_ala, set_ala)
     def copy(self):
         obj_ = self.factory()
@@ -7207,7 +8728,9 @@ class create_Ellipsoidal(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (ala): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_Ellipsoidal
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Ellipsoidal
 
 
 class create_Elliptical(GeneratedsSuper):
@@ -7215,17 +8738,21 @@ class create_Elliptical(GeneratedsSuper):
     of the elliptical leaf angle distribution Angle of the principal
     axis of the ellipse (elliptical LAD) Angle of the principal axis
     of the ellipse (elliptical LAD)"""
+    member_data_items_ = [
+        MemberSpec_('epsilon', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('thetam', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, epsilon=0.000, thetam=0.000):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_Elliptical")
+        self.troot=get_gs_troot('coeff_diff','_Elliptical')
         self.attrib = ['epsilon', 'thetam']
         self.children = []
         self.parent = None
         self._epsilon = _cast(float, epsilon)
         self._thetam = _cast(float, thetam)
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -7240,12 +8767,12 @@ class create_Elliptical(GeneratedsSuper):
     def get_epsilon(self): return self._epsilon
     def set_epsilon(self, value):
         self._epsilon = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     epsilon = property(get_epsilon, set_epsilon)
     def get_thetam(self): return self._thetam
     def set_thetam(self, value):
         self._thetam = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     thetam = property(get_thetam, set_thetam)
     def copy(self):
         obj_ = self.factory()
@@ -7339,23 +8866,28 @@ class create_Elliptical(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (thetam): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_Elliptical
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Elliptical
 
 
 class create_UserDefined(GeneratedsSuper):
     """Name of the spectral data base (text file) used to compute the
     spectral phase function(s). Name of the spectral data base (text
     file) used to compute the spectral phase function(s)."""
+    member_data_items_ = [
+        MemberSpec_('fileName', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, fileName='LADFile.txt'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_UserDefined")
+        self.troot=get_gs_troot('coeff_diff','_UserDefined')
         self.attrib = ['fileName']
         self.children = []
         self.parent = None
         self._fileName = _cast(None, fileName)
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -7370,7 +8902,7 @@ class create_UserDefined(GeneratedsSuper):
     def get_fileName(self): return self._fileName
     def set_fileName(self, value):
         self._fileName = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     fileName = property(get_fileName, set_fileName)
     def copy(self):
         obj_ = self.factory()
@@ -7445,7 +8977,9 @@ class create_UserDefined(GeneratedsSuper):
             self.fileName = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_UserDefined
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_UserDefined
 
 
 class create_Manual(GeneratedsSuper):
@@ -7454,11 +8988,17 @@ class create_Manual(GeneratedsSuper):
     distribution Mean angle of leaf distribution Mean angle of leaf
     distribution Minimum angle of leaf distribution Minimum angle of
     leaf distribution"""
+    member_data_items_ = [
+        MemberSpec_('LAD_m', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('LAD_b2', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('LAD_b0', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('LAD_b1', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, LAD_m=1, LAD_b2=90, LAD_b0=45, LAD_b1=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_Manual")
+        self.troot=get_gs_troot('coeff_diff','_Manual')
         self.attrib = ['LAD_m', 'LAD_b2', 'LAD_b0', 'LAD_b1']
         self.children = []
         self.parent = None
@@ -7466,7 +9006,7 @@ class create_Manual(GeneratedsSuper):
         self._LAD_b2 = _cast(float, LAD_b2)
         self._LAD_b0 = _cast(float, LAD_b0)
         self._LAD_b1 = _cast(float, LAD_b1)
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -7481,22 +9021,22 @@ class create_Manual(GeneratedsSuper):
     def get_LAD_m(self): return self._LAD_m
     def set_LAD_m(self, value):
         self._LAD_m = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     LAD_m = property(get_LAD_m, set_LAD_m)
     def get_LAD_b2(self): return self._LAD_b2
     def set_LAD_b2(self, value):
         self._LAD_b2 = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     LAD_b2 = property(get_LAD_b2, set_LAD_b2)
     def get_LAD_b0(self): return self._LAD_b0
     def set_LAD_b0(self, value):
         self._LAD_b0 = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     LAD_b0 = property(get_LAD_b0, set_LAD_b0)
     def get_LAD_b1(self): return self._LAD_b1
     def set_LAD_b1(self, value):
         self._LAD_b1 = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     LAD_b1 = property(get_LAD_b1, set_LAD_b1)
     def copy(self):
         obj_ = self.factory()
@@ -7622,7 +9162,9 @@ class create_Manual(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (LAD_b1): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_Manual
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Manual
 
 
 class create_BoundedUniform(GeneratedsSuper):
@@ -7630,17 +9172,21 @@ class create_BoundedUniform(GeneratedsSuper):
     angluar segmentation for leaf angle distribution Umpteenth
     angluar segment of computed leaf angle distribution Umpteenth
     angluar segment of computed leaf angle distribution"""
+    member_data_items_ = [
+        MemberSpec_('nbAla', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('nthAla', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, nbAla=1, nthAla=1):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_BoundedUniform")
+        self.troot=get_gs_troot('coeff_diff','_BoundedUniform')
         self.attrib = ['nbAla', 'nthAla']
         self.children = []
         self.parent = None
         self._nbAla = _cast(int, nbAla)
         self._nthAla = _cast(int, nthAla)
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -7655,12 +9201,12 @@ class create_BoundedUniform(GeneratedsSuper):
     def get_nbAla(self): return self._nbAla
     def set_nbAla(self, value):
         self._nbAla = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     nbAla = property(get_nbAla, set_nbAla)
     def get_nthAla(self): return self._nthAla
     def set_nthAla(self, value):
         self._nthAla = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     nthAla = property(get_nthAla, set_nthAla)
     def copy(self):
         obj_ = self.factory()
@@ -7754,7 +9300,9 @@ class create_BoundedUniform(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_BoundedUniform
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_BoundedUniform
 
 
 class create_DirectionalClumpingIndexProperties(GeneratedsSuper):
@@ -7762,11 +9310,17 @@ class create_DirectionalClumpingIndexProperties(GeneratedsSuper):
     Omega Min See tool tip of Omega Min See tool tip of Omega Min
     See tool tip of Omega Min G(teta)_with_clumping
     G(teta)_with_clumping"""
+    member_data_items_ = [
+        MemberSpec_('omegaMax', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('clumpinga', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('clumpingb', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('omegaMin', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, omegaMax=0, clumpinga=0, clumpingb=0, omegaMin=1):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_DirectionalClumpingIndexProperties")
+        self.troot=get_gs_troot('coeff_diff','_DirectionalClumpingIndexProperties')
         self.attrib = ['omegaMax', 'clumpinga', 'clumpingb', 'omegaMin']
         self.children = []
         self.parent = None
@@ -7774,7 +9328,7 @@ class create_DirectionalClumpingIndexProperties(GeneratedsSuper):
         self._clumpinga = _cast(float, clumpinga)
         self._clumpingb = _cast(float, clumpingb)
         self._omegaMin = _cast(float, omegaMin)
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -7789,22 +9343,22 @@ class create_DirectionalClumpingIndexProperties(GeneratedsSuper):
     def get_omegaMax(self): return self._omegaMax
     def set_omegaMax(self, value):
         self._omegaMax = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     omegaMax = property(get_omegaMax, set_omegaMax)
     def get_clumpinga(self): return self._clumpinga
     def set_clumpinga(self, value):
         self._clumpinga = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     clumpinga = property(get_clumpinga, set_clumpinga)
     def get_clumpingb(self): return self._clumpingb
     def set_clumpingb(self, value):
         self._clumpingb = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     clumpingb = property(get_clumpingb, set_clumpingb)
     def get_omegaMin(self): return self._omegaMin
     def set_omegaMin(self, value):
         self._omegaMin = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     omegaMin = property(get_omegaMin, set_omegaMin)
     def copy(self):
         obj_ = self.factory()
@@ -7930,525 +9484,20 @@ class create_DirectionalClumpingIndexProperties(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (omegaMin): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_DirectionalClumpingIndexProperties
-
-
-class create_understoryNodeMultiplicativeFactorForLUT(GeneratedsSuper):
-    """When selected, the parameters values of every spectral band will be
-    equal to these parameters. When selected, the parameters values
-    of every spectral band will be equal to these parameters.
-    Necessary for building up LUT tables with variable adaxial leaf
-    reflectance values. \nA multispectral LUT can be computed
-    applying the sequencer to DART mutispectral simulation with one
-    spectral band each. Necessary for building up LUT tables with
-    variable adaxial leaf reflectance values. \nA multispectral LUT
-    can be computed applying the sequencer to DART mutispectral
-    simulation with one spectral band each. Apply the same 3D factor
-    matrix per cell on optical properties to all the spectral bands
-    Apply the same 3D factor matrix per cell on optical properties
-    to all the spectral bands Necessary for building up LUT tables
-    with variable abaxial leaf reflectance values. \nA multispectral
-    LUT can be computed applying the sequencer to DART mutispectral
-    simulation with one spectral band each. Necessary for building
-    up LUT tables with variable abaxial leaf reflectance values. \nA
-    multispectral LUT can be computed applying the sequencer to DART
-    mutispectral simulation with one spectral band each. Necessary
-    for building up LUT tables with variable leaf transmittance
-    values. \nA multispectral LUT can be computed applying the
-    sequencer to DART mutispectral simulation with one spectral band
-    each. Necessary for building up LUT tables with variable leaf
-    transmittance values. \nA multispectral LUT can be computed
-    applying the sequencer to DART mutispectral simulation with one
-    spectral band each."""
-    subclass = None
-    superclass = None
-    def __init__(self, useSameFactorForAllBands=1, adaxialReflectanceFactor=1, useSameOpticalFactorMatrixForAllBands=0, abaxialReflectanceFactor=1, LeafTransmittanceFactor=1, understoryMultiplicativeFactorForLUT=None, opticalFactorMatrix=None):
-        self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_understoryNodeMultiplicativeFactorForLUT")
-        self.attrib = ['useSameFactorForAllBands', 'adaxialReflectanceFactor', 'useSameOpticalFactorMatrixForAllBands', 'abaxialReflectanceFactor', 'LeafTransmittanceFactor']
-        self.children = ['understoryMultiplicativeFactorForLUT', 'opticalFactorMatrix']
-        self.parent = None
-        self._useSameFactorForAllBands = _cast(int, useSameFactorForAllBands)
-        self._adaxialReflectanceFactor = _cast(float, adaxialReflectanceFactor)
-        self._useSameOpticalFactorMatrixForAllBands = _cast(int, useSameOpticalFactorMatrixForAllBands)
-        self._abaxialReflectanceFactor = _cast(float, abaxialReflectanceFactor)
-        self._LeafTransmittanceFactor = _cast(float, LeafTransmittanceFactor)
-        if understoryMultiplicativeFactorForLUT is None:
-            self._understoryMultiplicativeFactorForLUT = []
-        else:
-            self._understoryMultiplicativeFactorForLUT = understoryMultiplicativeFactorForLUT
-        self._opticalFactorMatrix = opticalFactorMatrix
-        update_node(self,self.troot,"coeff_diff")
-    def factory(*args_, **kwargs_):
-        if CurrentSubclassModule_ is not None:
-            subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, create_understoryNodeMultiplicativeFactorForLUT)
-            if subclass is not None:
-                return subclass(*args_, **kwargs_)
-        if create_understoryNodeMultiplicativeFactorForLUT.subclass:
-            return create_understoryNodeMultiplicativeFactorForLUT.subclass(*args_, **kwargs_)
-        else:
-            return create_understoryNodeMultiplicativeFactorForLUT(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_understoryMultiplicativeFactorForLUT(self): return self._understoryMultiplicativeFactorForLUT
-    def set_understoryMultiplicativeFactorForLUT(self, value):
-        if value is not None:
-            checkclass(value, create_understoryMultiplicativeFactorForLUT)
-            for v in value:
-                v.parent = self
-        self._understoryMultiplicativeFactorForLUT = value
-    def add_understoryMultiplicativeFactorForLUT(self, value):
-        value.parent = self
-        self._understoryMultiplicativeFactorForLUT.append(value)
-    def insert_understoryMultiplicativeFactorForLUT_at(self, index, value):
-        value.parent = self
-        self.understoryMultiplicativeFactorForLUT.insert(index, value)
-    def replace_understoryMultiplicativeFactorForLUT_at(self, index, value):
-        value.parent = self
-        self.understoryMultiplicativeFactorForLUT[index] = value
-    understoryMultiplicativeFactorForLUT = property(get_understoryMultiplicativeFactorForLUT, set_understoryMultiplicativeFactorForLUT)
-    def get_opticalFactorMatrix(self): return self._opticalFactorMatrix
-    def set_opticalFactorMatrix(self, value):
-        if value is not None:
-            checkclass(value, create_opticalFactorMatrix)
-            value.parent = self
-        self._opticalFactorMatrix = value
-    opticalFactorMatrix = property(get_opticalFactorMatrix, set_opticalFactorMatrix)
-    def get_useSameFactorForAllBands(self): return self._useSameFactorForAllBands
-    def set_useSameFactorForAllBands(self, value):
-        self._useSameFactorForAllBands = value
-        update_node(self,self.troot,"coeff_diff")
-    useSameFactorForAllBands = property(get_useSameFactorForAllBands, set_useSameFactorForAllBands)
-    def get_adaxialReflectanceFactor(self): return self._adaxialReflectanceFactor
-    def set_adaxialReflectanceFactor(self, value):
-        self._adaxialReflectanceFactor = value
-        update_node(self,self.troot,"coeff_diff")
-    adaxialReflectanceFactor = property(get_adaxialReflectanceFactor, set_adaxialReflectanceFactor)
-    def get_useSameOpticalFactorMatrixForAllBands(self): return self._useSameOpticalFactorMatrixForAllBands
-    def set_useSameOpticalFactorMatrixForAllBands(self, value):
-        self._useSameOpticalFactorMatrixForAllBands = value
-        update_node(self,self.troot,"coeff_diff")
-    useSameOpticalFactorMatrixForAllBands = property(get_useSameOpticalFactorMatrixForAllBands, set_useSameOpticalFactorMatrixForAllBands)
-    def get_abaxialReflectanceFactor(self): return self._abaxialReflectanceFactor
-    def set_abaxialReflectanceFactor(self, value):
-        self._abaxialReflectanceFactor = value
-        update_node(self,self.troot,"coeff_diff")
-    abaxialReflectanceFactor = property(get_abaxialReflectanceFactor, set_abaxialReflectanceFactor)
-    def get_LeafTransmittanceFactor(self): return self._LeafTransmittanceFactor
-    def set_LeafTransmittanceFactor(self, value):
-        self._LeafTransmittanceFactor = value
-        update_node(self,self.troot,"coeff_diff")
-    LeafTransmittanceFactor = property(get_LeafTransmittanceFactor, set_LeafTransmittanceFactor)
-    def copy(self):
-        obj_ = self.factory()
-        return(obj_.build(self.to_etree()))
-    def hasContent_(self):
-        if (
-            self.understoryMultiplicativeFactorForLUT or
-            self.opticalFactorMatrix is not None
-        ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespaceprefix_='', name_='_understoryNodeMultiplicativeFactorForLUT', namespacedef_='', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_understoryNodeMultiplicativeFactorForLUT')
-        if imported_ns_def_ is not None:
-            namespacedef_ = imported_ns_def_
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.original_tagname_ is not None:
-            name_ = self.original_tagname_
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_understoryNodeMultiplicativeFactorForLUT')
-        if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_understoryNodeMultiplicativeFactorForLUT', pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_understoryNodeMultiplicativeFactorForLUT'):
-        if self.useSameFactorForAllBands is not None and 'useSameFactorForAllBands' not in already_processed:
-            already_processed.add('useSameFactorForAllBands')
-            outfile.write(' useSameFactorForAllBands="%s"' % self.gds_format_integer(self.useSameFactorForAllBands, input_name='useSameFactorForAllBands'))
-        if self.adaxialReflectanceFactor is not None and 'adaxialReflectanceFactor' not in already_processed:
-            already_processed.add('adaxialReflectanceFactor')
-            outfile.write(' adaxialReflectanceFactor="%s"' % self.gds_format_double(self.adaxialReflectanceFactor, input_name='adaxialReflectanceFactor'))
-        if self.useSameOpticalFactorMatrixForAllBands is not None and 'useSameOpticalFactorMatrixForAllBands' not in already_processed:
-            already_processed.add('useSameOpticalFactorMatrixForAllBands')
-            outfile.write(' useSameOpticalFactorMatrixForAllBands="%s"' % self.gds_format_integer(self.useSameOpticalFactorMatrixForAllBands, input_name='useSameOpticalFactorMatrixForAllBands'))
-        if self.abaxialReflectanceFactor is not None and 'abaxialReflectanceFactor' not in already_processed:
-            already_processed.add('abaxialReflectanceFactor')
-            outfile.write(' abaxialReflectanceFactor="%s"' % self.gds_format_double(self.abaxialReflectanceFactor, input_name='abaxialReflectanceFactor'))
-        if self.LeafTransmittanceFactor is not None and 'LeafTransmittanceFactor' not in already_processed:
-            already_processed.add('LeafTransmittanceFactor')
-            outfile.write(' LeafTransmittanceFactor="%s"' % self.gds_format_double(self.LeafTransmittanceFactor, input_name='LeafTransmittanceFactor'))
-    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_understoryNodeMultiplicativeFactorForLUT', fromsubclass_=False, pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        for understoryMultiplicativeFactorForLUT_ in self.understoryMultiplicativeFactorForLUT:
-            understoryMultiplicativeFactorForLUT_.export(outfile, level, namespaceprefix_, name_='understoryMultiplicativeFactorForLUT', pretty_print=pretty_print)
-        if self.opticalFactorMatrix is not None:
-            self.opticalFactorMatrix.export(outfile, level, namespaceprefix_, name_='opticalFactorMatrix', pretty_print=pretty_print)
-    def to_etree(self, parent_element=None, name_='_understoryNodeMultiplicativeFactorForLUT', mapping_=None):
-        if parent_element is None:
-            element = etree_.Element('{}' + name_)
-        else:
-            element = etree_.SubElement(parent_element, '{}' + name_)
-        if self.useSameFactorForAllBands is not None:
-            element.set('useSameFactorForAllBands', self.gds_format_integer(self.useSameFactorForAllBands))
-        if self.adaxialReflectanceFactor is not None:
-            element.set('adaxialReflectanceFactor', self.gds_format_double(self.adaxialReflectanceFactor))
-        if self.useSameOpticalFactorMatrixForAllBands is not None:
-            element.set('useSameOpticalFactorMatrixForAllBands', self.gds_format_integer(self.useSameOpticalFactorMatrixForAllBands))
-        if self.abaxialReflectanceFactor is not None:
-            element.set('abaxialReflectanceFactor', self.gds_format_double(self.abaxialReflectanceFactor))
-        if self.LeafTransmittanceFactor is not None:
-            element.set('LeafTransmittanceFactor', self.gds_format_double(self.LeafTransmittanceFactor))
-        for understoryMultiplicativeFactorForLUT_ in self.understoryMultiplicativeFactorForLUT:
-            understoryMultiplicativeFactorForLUT_.to_etree(element, name_='understoryMultiplicativeFactorForLUT', mapping_=mapping_)
-        if self.opticalFactorMatrix is not None:
-            opticalFactorMatrix_ = self.opticalFactorMatrix
-            opticalFactorMatrix_.to_etree(element, name_='opticalFactorMatrix', mapping_=mapping_)
-        if mapping_ is not None:
-            mapping_[id(self)] = element
-        return element
-    def exportLiteral(self, outfile, level, name_='_understoryNodeMultiplicativeFactorForLUT'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.useSameFactorForAllBands is not None and 'useSameFactorForAllBands' not in already_processed:
-            already_processed.add('useSameFactorForAllBands')
-            showIndent(outfile, level)
-            outfile.write('useSameFactorForAllBands=%d,\n' % (self.useSameFactorForAllBands,))
-        if self.adaxialReflectanceFactor is not None and 'adaxialReflectanceFactor' not in already_processed:
-            already_processed.add('adaxialReflectanceFactor')
-            showIndent(outfile, level)
-            outfile.write('adaxialReflectanceFactor=%e,\n' % (self.adaxialReflectanceFactor,))
-        if self.useSameOpticalFactorMatrixForAllBands is not None and 'useSameOpticalFactorMatrixForAllBands' not in already_processed:
-            already_processed.add('useSameOpticalFactorMatrixForAllBands')
-            showIndent(outfile, level)
-            outfile.write('useSameOpticalFactorMatrixForAllBands=%d,\n' % (self.useSameOpticalFactorMatrixForAllBands,))
-        if self.abaxialReflectanceFactor is not None and 'abaxialReflectanceFactor' not in already_processed:
-            already_processed.add('abaxialReflectanceFactor')
-            showIndent(outfile, level)
-            outfile.write('abaxialReflectanceFactor=%e,\n' % (self.abaxialReflectanceFactor,))
-        if self.LeafTransmittanceFactor is not None and 'LeafTransmittanceFactor' not in already_processed:
-            already_processed.add('LeafTransmittanceFactor')
-            showIndent(outfile, level)
-            outfile.write('LeafTransmittanceFactor=%e,\n' % (self.LeafTransmittanceFactor,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('understoryMultiplicativeFactorForLUT=[\n')
-        level += 1
-        for understoryMultiplicativeFactorForLUT_ in self.understoryMultiplicativeFactorForLUT:
-            showIndent(outfile, level)
-            outfile.write('model_._understoryMultiplicativeFactorForLUT(\n')
-            understoryMultiplicativeFactorForLUT_.exportLiteral(outfile, level, name_='_understoryMultiplicativeFactorForLUT')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        if self.opticalFactorMatrix is not None:
-            showIndent(outfile, level)
-            outfile.write('opticalFactorMatrix=model_._opticalFactorMatrix(\n')
-            self.opticalFactorMatrix.exportLiteral(outfile, level, name_='opticalFactorMatrix')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-    def build(self, node):
-        already_processed = set()
-        self.buildAttributes(node, node.attrib, already_processed)
-        self.understoryMultiplicativeFactorForLUT = []
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_)
-        return self
-    def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('useSameFactorForAllBands', node)
-        if value is not None and 'useSameFactorForAllBands' not in already_processed:
-            already_processed.add('useSameFactorForAllBands')
-            try:
-                self.useSameFactorForAllBands = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-        value = find_attr_value_('adaxialReflectanceFactor', node)
-        if value is not None and 'adaxialReflectanceFactor' not in already_processed:
-            already_processed.add('adaxialReflectanceFactor')
-            try:
-                self.adaxialReflectanceFactor = float(value)
-            except ValueError as exp:
-                raise ValueError('Bad float/double attribute (adaxialReflectanceFactor): %s' % exp)
-        value = find_attr_value_('useSameOpticalFactorMatrixForAllBands', node)
-        if value is not None and 'useSameOpticalFactorMatrixForAllBands' not in already_processed:
-            already_processed.add('useSameOpticalFactorMatrixForAllBands')
-            try:
-                self.useSameOpticalFactorMatrixForAllBands = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-        value = find_attr_value_('abaxialReflectanceFactor', node)
-        if value is not None and 'abaxialReflectanceFactor' not in already_processed:
-            already_processed.add('abaxialReflectanceFactor')
-            try:
-                self.abaxialReflectanceFactor = float(value)
-            except ValueError as exp:
-                raise ValueError('Bad float/double attribute (abaxialReflectanceFactor): %s' % exp)
-        value = find_attr_value_('LeafTransmittanceFactor', node)
-        if value is not None and 'LeafTransmittanceFactor' not in already_processed:
-            already_processed.add('LeafTransmittanceFactor')
-            try:
-                self.LeafTransmittanceFactor = float(value)
-            except ValueError as exp:
-                raise ValueError('Bad float/double attribute (LeafTransmittanceFactor): %s' % exp)
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'understoryMultiplicativeFactorForLUT':
-            obj_ = create_understoryMultiplicativeFactorForLUT.factory()
-            obj_.build(child_)
-            self.add_understoryMultiplicativeFactorForLUT(obj_)
-            obj_.original_tagname_ = 'understoryMultiplicativeFactorForLUT'
-        elif nodeName_ == 'opticalFactorMatrix':
-            obj_ = create_opticalFactorMatrix.factory()
-            obj_.build(child_)
-            self.set_opticalFactorMatrix(obj_)
-            obj_.original_tagname_ = 'opticalFactorMatrix'
-# end class create_understoryNodeMultiplicativeFactorForLUT
-
-
-class create_understoryMultiplicativeFactorForLUT(GeneratedsSuper):
-    """Necessary for building up LUT tables with variable abaxial leaf
-    reflectance values. \nA multispectral LUT can be computed
-    applying the sequencer to DART mutispectral simulation with one
-    spectral band each. Necessary for building up LUT tables with
-    variable abaxial leaf reflectance values. \nA multispectral LUT
-    can be computed applying the sequencer to DART mutispectral
-    simulation with one spectral band each. Necessary for building
-    up LUT tables with variable adaxial leaf reflectance values. \nA
-    multispectral LUT can be computed applying the sequencer to DART
-    mutispectral simulation with one spectral band each. Necessary
-    for building up LUT tables with variable adaxial leaf
-    reflectance values. \nA multispectral LUT can be computed
-    applying the sequencer to DART mutispectral simulation with one
-    spectral band each. Necessary for building up LUT tables with
-    variable leaf transmittance values. \nA multispectral LUT can be
-    computed applying the sequencer to DART mutispectral simulation
-    with one spectral band each. Necessary for building up LUT
-    tables with variable leaf transmittance values. \nA
-    multispectral LUT can be computed applying the sequencer to DART
-    mutispectral simulation with one spectral band each. Apply a 3D
-    factor matrix per cell on optical properties Apply a 3D factor
-    matrix per cell on optical properties"""
-    subclass = None
-    superclass = None
-    def __init__(self, abaxialReflectanceFactor=1, adaxialReflectanceFactor=1, LeafTransmittanceFactor=1, useOpticalFactorMatrix=0, opticalFactorMatrix=None):
-        self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_understoryMultiplicativeFactorForLUT")
-        self.attrib = ['abaxialReflectanceFactor', 'adaxialReflectanceFactor', 'LeafTransmittanceFactor', 'useOpticalFactorMatrix']
-        self.children = ['opticalFactorMatrix']
-        self.parent = None
-        self._abaxialReflectanceFactor = _cast(float, abaxialReflectanceFactor)
-        self._adaxialReflectanceFactor = _cast(float, adaxialReflectanceFactor)
-        self._LeafTransmittanceFactor = _cast(float, LeafTransmittanceFactor)
-        self._useOpticalFactorMatrix = _cast(int, useOpticalFactorMatrix)
-        self._opticalFactorMatrix = opticalFactorMatrix
-        update_node(self,self.troot,"coeff_diff")
-    def factory(*args_, **kwargs_):
-        if CurrentSubclassModule_ is not None:
-            subclass = getSubclassFromModule_(
-                CurrentSubclassModule_, create_understoryMultiplicativeFactorForLUT)
-            if subclass is not None:
-                return subclass(*args_, **kwargs_)
-        if create_understoryMultiplicativeFactorForLUT.subclass:
-            return create_understoryMultiplicativeFactorForLUT.subclass(*args_, **kwargs_)
-        else:
-            return create_understoryMultiplicativeFactorForLUT(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_opticalFactorMatrix(self): return self._opticalFactorMatrix
-    def set_opticalFactorMatrix(self, value):
-        if value is not None:
-            checkclass(value, create_opticalFactorMatrix)
-            value.parent = self
-        self._opticalFactorMatrix = value
-    opticalFactorMatrix = property(get_opticalFactorMatrix, set_opticalFactorMatrix)
-    def get_abaxialReflectanceFactor(self): return self._abaxialReflectanceFactor
-    def set_abaxialReflectanceFactor(self, value):
-        self._abaxialReflectanceFactor = value
-        update_node(self,self.troot,"coeff_diff")
-    abaxialReflectanceFactor = property(get_abaxialReflectanceFactor, set_abaxialReflectanceFactor)
-    def get_adaxialReflectanceFactor(self): return self._adaxialReflectanceFactor
-    def set_adaxialReflectanceFactor(self, value):
-        self._adaxialReflectanceFactor = value
-        update_node(self,self.troot,"coeff_diff")
-    adaxialReflectanceFactor = property(get_adaxialReflectanceFactor, set_adaxialReflectanceFactor)
-    def get_LeafTransmittanceFactor(self): return self._LeafTransmittanceFactor
-    def set_LeafTransmittanceFactor(self, value):
-        self._LeafTransmittanceFactor = value
-        update_node(self,self.troot,"coeff_diff")
-    LeafTransmittanceFactor = property(get_LeafTransmittanceFactor, set_LeafTransmittanceFactor)
-    def get_useOpticalFactorMatrix(self): return self._useOpticalFactorMatrix
-    def set_useOpticalFactorMatrix(self, value):
-        self._useOpticalFactorMatrix = value
-        update_node(self,self.troot,"coeff_diff")
-    useOpticalFactorMatrix = property(get_useOpticalFactorMatrix, set_useOpticalFactorMatrix)
-    def copy(self):
-        obj_ = self.factory()
-        return(obj_.build(self.to_etree()))
-    def hasContent_(self):
-        if (
-            self.opticalFactorMatrix is not None
-        ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespaceprefix_='', name_='_understoryMultiplicativeFactorForLUT', namespacedef_='', pretty_print=True):
-        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_understoryMultiplicativeFactorForLUT')
-        if imported_ns_def_ is not None:
-            namespacedef_ = imported_ns_def_
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.original_tagname_ is not None:
-            name_ = self.original_tagname_
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_understoryMultiplicativeFactorForLUT')
-        if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_understoryMultiplicativeFactorForLUT', pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_understoryMultiplicativeFactorForLUT'):
-        if self.abaxialReflectanceFactor is not None and 'abaxialReflectanceFactor' not in already_processed:
-            already_processed.add('abaxialReflectanceFactor')
-            outfile.write(' abaxialReflectanceFactor="%s"' % self.gds_format_double(self.abaxialReflectanceFactor, input_name='abaxialReflectanceFactor'))
-        if self.adaxialReflectanceFactor is not None and 'adaxialReflectanceFactor' not in already_processed:
-            already_processed.add('adaxialReflectanceFactor')
-            outfile.write(' adaxialReflectanceFactor="%s"' % self.gds_format_double(self.adaxialReflectanceFactor, input_name='adaxialReflectanceFactor'))
-        if self.LeafTransmittanceFactor is not None and 'LeafTransmittanceFactor' not in already_processed:
-            already_processed.add('LeafTransmittanceFactor')
-            outfile.write(' LeafTransmittanceFactor="%s"' % self.gds_format_double(self.LeafTransmittanceFactor, input_name='LeafTransmittanceFactor'))
-        if self.useOpticalFactorMatrix is not None and 'useOpticalFactorMatrix' not in already_processed:
-            already_processed.add('useOpticalFactorMatrix')
-            outfile.write(' useOpticalFactorMatrix="%s"' % self.gds_format_integer(self.useOpticalFactorMatrix, input_name='useOpticalFactorMatrix'))
-    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_understoryMultiplicativeFactorForLUT', fromsubclass_=False, pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.opticalFactorMatrix is not None:
-            self.opticalFactorMatrix.export(outfile, level, namespaceprefix_, name_='opticalFactorMatrix', pretty_print=pretty_print)
-    def to_etree(self, parent_element=None, name_='_understoryMultiplicativeFactorForLUT', mapping_=None):
-        if parent_element is None:
-            element = etree_.Element('{}' + name_)
-        else:
-            element = etree_.SubElement(parent_element, '{}' + name_)
-        if self.abaxialReflectanceFactor is not None:
-            element.set('abaxialReflectanceFactor', self.gds_format_double(self.abaxialReflectanceFactor))
-        if self.adaxialReflectanceFactor is not None:
-            element.set('adaxialReflectanceFactor', self.gds_format_double(self.adaxialReflectanceFactor))
-        if self.LeafTransmittanceFactor is not None:
-            element.set('LeafTransmittanceFactor', self.gds_format_double(self.LeafTransmittanceFactor))
-        if self.useOpticalFactorMatrix is not None:
-            element.set('useOpticalFactorMatrix', self.gds_format_integer(self.useOpticalFactorMatrix))
-        if self.opticalFactorMatrix is not None:
-            opticalFactorMatrix_ = self.opticalFactorMatrix
-            opticalFactorMatrix_.to_etree(element, name_='opticalFactorMatrix', mapping_=mapping_)
-        if mapping_ is not None:
-            mapping_[id(self)] = element
-        return element
-    def exportLiteral(self, outfile, level, name_='_understoryMultiplicativeFactorForLUT'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.abaxialReflectanceFactor is not None and 'abaxialReflectanceFactor' not in already_processed:
-            already_processed.add('abaxialReflectanceFactor')
-            showIndent(outfile, level)
-            outfile.write('abaxialReflectanceFactor=%e,\n' % (self.abaxialReflectanceFactor,))
-        if self.adaxialReflectanceFactor is not None and 'adaxialReflectanceFactor' not in already_processed:
-            already_processed.add('adaxialReflectanceFactor')
-            showIndent(outfile, level)
-            outfile.write('adaxialReflectanceFactor=%e,\n' % (self.adaxialReflectanceFactor,))
-        if self.LeafTransmittanceFactor is not None and 'LeafTransmittanceFactor' not in already_processed:
-            already_processed.add('LeafTransmittanceFactor')
-            showIndent(outfile, level)
-            outfile.write('LeafTransmittanceFactor=%e,\n' % (self.LeafTransmittanceFactor,))
-        if self.useOpticalFactorMatrix is not None and 'useOpticalFactorMatrix' not in already_processed:
-            already_processed.add('useOpticalFactorMatrix')
-            showIndent(outfile, level)
-            outfile.write('useOpticalFactorMatrix=%d,\n' % (self.useOpticalFactorMatrix,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.opticalFactorMatrix is not None:
-            showIndent(outfile, level)
-            outfile.write('opticalFactorMatrix=model_._opticalFactorMatrix(\n')
-            self.opticalFactorMatrix.exportLiteral(outfile, level, name_='opticalFactorMatrix')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-    def build(self, node):
-        already_processed = set()
-        self.buildAttributes(node, node.attrib, already_processed)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_)
-        return self
-    def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('abaxialReflectanceFactor', node)
-        if value is not None and 'abaxialReflectanceFactor' not in already_processed:
-            already_processed.add('abaxialReflectanceFactor')
-            try:
-                self.abaxialReflectanceFactor = float(value)
-            except ValueError as exp:
-                raise ValueError('Bad float/double attribute (abaxialReflectanceFactor): %s' % exp)
-        value = find_attr_value_('adaxialReflectanceFactor', node)
-        if value is not None and 'adaxialReflectanceFactor' not in already_processed:
-            already_processed.add('adaxialReflectanceFactor')
-            try:
-                self.adaxialReflectanceFactor = float(value)
-            except ValueError as exp:
-                raise ValueError('Bad float/double attribute (adaxialReflectanceFactor): %s' % exp)
-        value = find_attr_value_('LeafTransmittanceFactor', node)
-        if value is not None and 'LeafTransmittanceFactor' not in already_processed:
-            already_processed.add('LeafTransmittanceFactor')
-            try:
-                self.LeafTransmittanceFactor = float(value)
-            except ValueError as exp:
-                raise ValueError('Bad float/double attribute (LeafTransmittanceFactor): %s' % exp)
-        value = find_attr_value_('useOpticalFactorMatrix', node)
-        if value is not None and 'useOpticalFactorMatrix' not in already_processed:
-            already_processed.add('useOpticalFactorMatrix')
-            try:
-                self.useOpticalFactorMatrix = int(value)
-            except ValueError as exp:
-                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'opticalFactorMatrix':
-            obj_ = create_opticalFactorMatrix.factory()
-            obj_.build(child_)
-            self.set_opticalFactorMatrix(obj_)
-            obj_.original_tagname_ = 'opticalFactorMatrix'
-# end class create_understoryMultiplicativeFactorForLUT
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_DirectionalClumpingIndexProperties
 
 
 class create_AirMultiFunctions(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('AirFunction', '_AirFunction', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_AirFunction', u'name': u'AirFunction', u'minOccurs': u'0'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, AirFunction=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_AirMultiFunctions")
+        self.troot=get_gs_troot('coeff_diff','_AirMultiFunctions')
         self.attrib = ['']
         self.children = ['AirFunction']
         self.parent = None
@@ -8456,7 +9505,7 @@ class create_AirMultiFunctions(GeneratedsSuper):
             self._AirFunction = []
         else:
             self._AirFunction = AirFunction
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -8572,7 +9621,9 @@ class create_AirMultiFunctions(GeneratedsSuper):
             obj_.build(child_)
             self.add_AirFunction(obj_)
             obj_.original_tagname_ = 'AirFunction'
-# end class create_AirMultiFunctions
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_AirMultiFunctions
 
 
 class create_AirFunction(GeneratedsSuper):
@@ -8585,11 +9636,18 @@ class create_AirFunction(GeneratedsSuper):
     file) used to compute the spectral phase function(s) Reflectance
     database Reflectance database Multiplicative factor for database
     Multiplicative factor for database"""
+    member_data_items_ = [
+        MemberSpec_('ident', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ModelName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('databaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useMultiplicativeFactorForLUT', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('AirFunctionNodeMultiplicativeFactorForLut', '_AirFunctionNodeMultiplicativeFactorForLut', 0, 0, {u'maxOccurs': u'1', u'type': u'_AirFunctionNodeMultiplicativeFactorForLut', u'name': u'AirFunctionNodeMultiplicativeFactorForLut', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, ident='Molecule', ModelName='rayleigh_gas', databaseName='Fluid.db', useMultiplicativeFactorForLUT=1, AirFunctionNodeMultiplicativeFactorForLut=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_AirFunction")
+        self.troot=get_gs_troot('coeff_diff','_AirFunction')
         self.attrib = ['ident', 'ModelName', 'databaseName', 'useMultiplicativeFactorForLUT']
         self.children = ['AirFunctionNodeMultiplicativeFactorForLut']
         self.parent = None
@@ -8598,7 +9656,7 @@ class create_AirFunction(GeneratedsSuper):
         self._databaseName = _cast(None, databaseName)
         self._useMultiplicativeFactorForLUT = _cast(int, useMultiplicativeFactorForLUT)
         self._AirFunctionNodeMultiplicativeFactorForLut = AirFunctionNodeMultiplicativeFactorForLut
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -8620,22 +9678,22 @@ class create_AirFunction(GeneratedsSuper):
     def get_ident(self): return self._ident
     def set_ident(self, value):
         self._ident = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     ident = property(get_ident, set_ident)
     def get_ModelName(self): return self._ModelName
     def set_ModelName(self, value):
         self._ModelName = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     ModelName = property(get_ModelName, set_ModelName)
     def get_databaseName(self): return self._databaseName
     def set_databaseName(self, value):
         self._databaseName = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     databaseName = property(get_databaseName, set_databaseName)
     def get_useMultiplicativeFactorForLUT(self): return self._useMultiplicativeFactorForLUT
     def set_useMultiplicativeFactorForLUT(self, value):
         self._useMultiplicativeFactorForLUT = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     useMultiplicativeFactorForLUT = property(get_useMultiplicativeFactorForLUT, set_useMultiplicativeFactorForLUT)
     def copy(self):
         obj_ = self.factory()
@@ -8770,7 +9828,9 @@ class create_AirFunction(GeneratedsSuper):
             obj_.build(child_)
             self.set_AirFunctionNodeMultiplicativeFactorForLut(obj_)
             obj_.original_tagname_ = 'AirFunctionNodeMultiplicativeFactorForLut'
-# end class create_AirFunction
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_AirFunction
 
 
 class create_AirFunctionNodeMultiplicativeFactorForLut(GeneratedsSuper):
@@ -8795,11 +9855,22 @@ class create_AirFunctionNodeMultiplicativeFactorForLut(GeneratedsSuper):
     Multiplicative factor for Sigma Multiplicative factor for Sigma
     Multiplicative factor for Albedo Multiplicative factor for
     Albedo"""
+    member_data_items_ = [
+        MemberSpec_('multiplicativeFactor1', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('multiplicativeFactor2', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('multiplicativeFactor3', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useSameFactorForAllBands', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useSameOpticalFactorMatrixForAllBands', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('sigma', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('albedo', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('AirFunctionMultiplicativeFactorForLut', '_AirFunctionMultiplicativeFactorForLut', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_AirFunctionMultiplicativeFactorForLut', u'name': u'AirFunctionMultiplicativeFactorForLut', u'minOccurs': u'1'}, None),
+        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {u'maxOccurs': u'1', u'type': u'_opticalFactorMatrix', u'name': u'opticalFactorMatrix', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, multiplicativeFactor1=1.0, multiplicativeFactor2=1.0, multiplicativeFactor3=1.0, useSameFactorForAllBands=1, useSameOpticalFactorMatrixForAllBands=0, sigma=1.0, albedo=1.0, AirFunctionMultiplicativeFactorForLut=None, opticalFactorMatrix=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_AirFunctionNodeMultiplicativeFactorForLut")
+        self.troot=get_gs_troot('coeff_diff','_AirFunctionNodeMultiplicativeFactorForLut')
         self.attrib = ['multiplicativeFactor1', 'multiplicativeFactor2', 'multiplicativeFactor3', 'useSameFactorForAllBands', 'useSameOpticalFactorMatrixForAllBands', 'sigma', 'albedo']
         self.children = ['AirFunctionMultiplicativeFactorForLut', 'opticalFactorMatrix']
         self.parent = None
@@ -8815,7 +9886,7 @@ class create_AirFunctionNodeMultiplicativeFactorForLut(GeneratedsSuper):
         else:
             self._AirFunctionMultiplicativeFactorForLut = AirFunctionMultiplicativeFactorForLut
         self._opticalFactorMatrix = opticalFactorMatrix
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -8854,37 +9925,37 @@ class create_AirFunctionNodeMultiplicativeFactorForLut(GeneratedsSuper):
     def get_multiplicativeFactor1(self): return self._multiplicativeFactor1
     def set_multiplicativeFactor1(self, value):
         self._multiplicativeFactor1 = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     multiplicativeFactor1 = property(get_multiplicativeFactor1, set_multiplicativeFactor1)
     def get_multiplicativeFactor2(self): return self._multiplicativeFactor2
     def set_multiplicativeFactor2(self, value):
         self._multiplicativeFactor2 = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     multiplicativeFactor2 = property(get_multiplicativeFactor2, set_multiplicativeFactor2)
     def get_multiplicativeFactor3(self): return self._multiplicativeFactor3
     def set_multiplicativeFactor3(self, value):
         self._multiplicativeFactor3 = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     multiplicativeFactor3 = property(get_multiplicativeFactor3, set_multiplicativeFactor3)
     def get_useSameFactorForAllBands(self): return self._useSameFactorForAllBands
     def set_useSameFactorForAllBands(self, value):
         self._useSameFactorForAllBands = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     useSameFactorForAllBands = property(get_useSameFactorForAllBands, set_useSameFactorForAllBands)
     def get_useSameOpticalFactorMatrixForAllBands(self): return self._useSameOpticalFactorMatrixForAllBands
     def set_useSameOpticalFactorMatrixForAllBands(self, value):
         self._useSameOpticalFactorMatrixForAllBands = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     useSameOpticalFactorMatrixForAllBands = property(get_useSameOpticalFactorMatrixForAllBands, set_useSameOpticalFactorMatrixForAllBands)
     def get_sigma(self): return self._sigma
     def set_sigma(self, value):
         self._sigma = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     sigma = property(get_sigma, set_sigma)
     def get_albedo(self): return self._albedo
     def set_albedo(self, value):
         self._albedo = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     albedo = property(get_albedo, set_albedo)
     def copy(self):
         obj_ = self.factory()
@@ -9099,7 +10170,9 @@ class create_AirFunctionNodeMultiplicativeFactorForLut(GeneratedsSuper):
             obj_.build(child_)
             self.set_opticalFactorMatrix(obj_)
             obj_.original_tagname_ = 'opticalFactorMatrix'
-# end class create_AirFunctionNodeMultiplicativeFactorForLut
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_AirFunctionNodeMultiplicativeFactorForLut
 
 
 class create_AirFunctionMultiplicativeFactorForLut(GeneratedsSuper):
@@ -9120,11 +10193,20 @@ class create_AirFunctionMultiplicativeFactorForLut(GeneratedsSuper):
     Multiplicative factor for Albedo Multiplicative factor for
     Albedo Apply a 3D factor matrix per cell on optical properties
     Apply a 3D factor matrix per cell on optical properties"""
+    member_data_items_ = [
+        MemberSpec_('multiplicativeFactor1', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('multiplicativeFactor2', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('multiplicativeFactor3', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('sigma', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('albedo', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useOpticalFactorMatrix', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {u'maxOccurs': u'1', u'type': u'_opticalFactorMatrix', u'name': u'opticalFactorMatrix', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, multiplicativeFactor1=1.0, multiplicativeFactor2=1.0, multiplicativeFactor3=1.0, sigma=1.0, albedo=1.0, useOpticalFactorMatrix=0, opticalFactorMatrix=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_AirFunctionMultiplicativeFactorForLut")
+        self.troot=get_gs_troot('coeff_diff','_AirFunctionMultiplicativeFactorForLut')
         self.attrib = ['multiplicativeFactor1', 'multiplicativeFactor2', 'multiplicativeFactor3', 'sigma', 'albedo', 'useOpticalFactorMatrix']
         self.children = ['opticalFactorMatrix']
         self.parent = None
@@ -9135,7 +10217,7 @@ class create_AirFunctionMultiplicativeFactorForLut(GeneratedsSuper):
         self._albedo = _cast(float, albedo)
         self._useOpticalFactorMatrix = _cast(int, useOpticalFactorMatrix)
         self._opticalFactorMatrix = opticalFactorMatrix
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -9157,32 +10239,32 @@ class create_AirFunctionMultiplicativeFactorForLut(GeneratedsSuper):
     def get_multiplicativeFactor1(self): return self._multiplicativeFactor1
     def set_multiplicativeFactor1(self, value):
         self._multiplicativeFactor1 = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     multiplicativeFactor1 = property(get_multiplicativeFactor1, set_multiplicativeFactor1)
     def get_multiplicativeFactor2(self): return self._multiplicativeFactor2
     def set_multiplicativeFactor2(self, value):
         self._multiplicativeFactor2 = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     multiplicativeFactor2 = property(get_multiplicativeFactor2, set_multiplicativeFactor2)
     def get_multiplicativeFactor3(self): return self._multiplicativeFactor3
     def set_multiplicativeFactor3(self, value):
         self._multiplicativeFactor3 = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     multiplicativeFactor3 = property(get_multiplicativeFactor3, set_multiplicativeFactor3)
     def get_sigma(self): return self._sigma
     def set_sigma(self, value):
         self._sigma = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     sigma = property(get_sigma, set_sigma)
     def get_albedo(self): return self._albedo
     def set_albedo(self, value):
         self._albedo = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     albedo = property(get_albedo, set_albedo)
     def get_useOpticalFactorMatrix(self): return self._useOpticalFactorMatrix
     def set_useOpticalFactorMatrix(self, value):
         self._useOpticalFactorMatrix = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     useOpticalFactorMatrix = property(get_useOpticalFactorMatrix, set_useOpticalFactorMatrix)
     def copy(self):
         obj_ = self.factory()
@@ -9358,15 +10440,20 @@ class create_AirFunctionMultiplicativeFactorForLut(GeneratedsSuper):
             obj_.build(child_)
             self.set_opticalFactorMatrix(obj_)
             obj_.original_tagname_ = 'opticalFactorMatrix'
-# end class create_AirFunctionMultiplicativeFactorForLut
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_AirFunctionMultiplicativeFactorForLut
 
 
 class create_Temperatures(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('ThermalFunction', '_ThermalFunction', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_ThermalFunction', u'name': u'ThermalFunction', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, ThermalFunction=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_Temperatures")
+        self.troot=get_gs_troot('coeff_diff','_Temperatures')
         self.attrib = ['']
         self.children = ['ThermalFunction']
         self.parent = None
@@ -9374,7 +10461,7 @@ class create_Temperatures(GeneratedsSuper):
             self._ThermalFunction = []
         else:
             self._ThermalFunction = ThermalFunction
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -9490,7 +10577,9 @@ class create_Temperatures(GeneratedsSuper):
             obj_.build(child_)
             self.add_ThermalFunction(obj_)
             obj_.original_tagname_ = 'ThermalFunction'
-# end class create_Temperatures
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Temperatures
 
 
 class create_ThermalFunction(GeneratedsSuper):
@@ -9512,11 +10601,20 @@ class create_ThermalFunction(GeneratedsSuper):
     temperature will be applied to both side of the surfaces, namely
     the maximum.\nOtherwise, each side may have a different
     temperature depending on their individual illumination."""
+    member_data_items_ = [
+        MemberSpec_('meanT', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('idTemperature', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('deltaT', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useOpticalFactorMatrix', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('override3DMatrix', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('singleTemperatureSurface', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {u'maxOccurs': u'1', u'type': u'_opticalFactorMatrix', u'name': u'opticalFactorMatrix', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, meanT=300.0, idTemperature='ThermalFunction290_310', deltaT=20.0, useOpticalFactorMatrix=0, override3DMatrix=0, singleTemperatureSurface=1, opticalFactorMatrix=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("coeff_diff","_ThermalFunction")
+        self.troot=get_gs_troot('coeff_diff','_ThermalFunction')
         self.attrib = ['meanT', 'idTemperature', 'deltaT', 'useOpticalFactorMatrix', 'override3DMatrix', 'singleTemperatureSurface']
         self.children = ['opticalFactorMatrix']
         self.parent = None
@@ -9527,7 +10625,7 @@ class create_ThermalFunction(GeneratedsSuper):
         self._override3DMatrix = _cast(int, override3DMatrix)
         self._singleTemperatureSurface = _cast(int, singleTemperatureSurface)
         self._opticalFactorMatrix = opticalFactorMatrix
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -9549,32 +10647,32 @@ class create_ThermalFunction(GeneratedsSuper):
     def get_meanT(self): return self._meanT
     def set_meanT(self, value):
         self._meanT = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     meanT = property(get_meanT, set_meanT)
     def get_idTemperature(self): return self._idTemperature
     def set_idTemperature(self, value):
         self._idTemperature = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     idTemperature = property(get_idTemperature, set_idTemperature)
     def get_deltaT(self): return self._deltaT
     def set_deltaT(self, value):
         self._deltaT = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     deltaT = property(get_deltaT, set_deltaT)
     def get_useOpticalFactorMatrix(self): return self._useOpticalFactorMatrix
     def set_useOpticalFactorMatrix(self, value):
         self._useOpticalFactorMatrix = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     useOpticalFactorMatrix = property(get_useOpticalFactorMatrix, set_useOpticalFactorMatrix)
     def get_override3DMatrix(self): return self._override3DMatrix
     def set_override3DMatrix(self, value):
         self._override3DMatrix = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     override3DMatrix = property(get_override3DMatrix, set_override3DMatrix)
     def get_singleTemperatureSurface(self): return self._singleTemperatureSurface
     def set_singleTemperatureSurface(self, value):
         self._singleTemperatureSurface = value
-        update_node(self,self.troot,"coeff_diff")
+        update_node(self,self.troot,'coeff_diff')
     singleTemperatureSurface = property(get_singleTemperatureSurface, set_singleTemperatureSurface)
     def copy(self):
         obj_ = self.factory()
@@ -9747,7 +10845,9 @@ class create_ThermalFunction(GeneratedsSuper):
             obj_.build(child_)
             self.set_opticalFactorMatrix(obj_)
             obj_.original_tagname_ = 'opticalFactorMatrix'
-# end class create_ThermalFunction
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ThermalFunction
 
 
 GDSClassesMapping = {
@@ -9909,7 +11009,10 @@ __all__ = [
     "create_Temperatures",
     "create_ThermalFunction",
     "create_UnderstoryMulti",
+    "create_UnderstoryMultiBottomModel",
     "create_UnderstoryMultiFunctions",
+    "create_UnderstoryMultiModel",
+    "create_UnderstoryMultiTopModel",
     "create_UserDefined",
     "create_WindProfileEta",
     "create_Yields",

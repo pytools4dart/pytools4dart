@@ -2,28 +2,30 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Wed Oct 31 15:06:23 2018 by generateDS.py version 2.29.25.
-# Python 2.7.15rc1 (default, Apr 15 2018, 21:51:34)  [GCC 7.3.0]
+# Generated Wed Jan  2 18:30:46 2019 by generateDS.py version 2.29.25.
+# Python 2.7.15rc1 (default, Nov 12 2018, 14:31:15)  [GCC 7.3.0]
 #
 # Command line options:
 #   ('-m', '')
+#   ('-f', '')
 #   ('--always-export-default', '')
 #   ('--export', 'write literal etree')
+#   ('-u', 'pytools4dart.core_ui.user_methods')
 #   ('-p', 'create')
-#   ('--post-attrib-setter', 'update_node(self,self.troot,"triangleFile")')
-#   ('--pre-ctor', 'self.troot=get_gs_troot("triangleFile","{classname}")')
-#   ('--post-ctor', 'update_node(self,self.troot,"triangleFile")')
+#   ('--post-attrib-setter', "update_node(self,self.troot,'triangleFile')")
+#   ('--pre-ctor', "self.troot=get_gs_troot('triangleFile','{classname}')")
+#   ('--post-ctor', "update_node(self,self.troot,'triangleFile')")
 #   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node')
-#   ('-o', '/home/claudia/tmp/triangleFile.py')
+#   ('-o', 'pytools4dart/core_ui/triangleFile.py')
 #
 # Command line arguments:
-#   /home/claudia/DEV/pytools4dartMTD/pytools4dart/core_ui/triangleFile.xsd
+#   pytools4dart/xsdschemas/triangleFile.xsd
 #
 # Command line:
-#   /home/claudia/DEV/pytools4dartMTD/venv/bin/generateDS.py -m --always-export-default --export="write literal etree" -p "create" --post-attrib-setter="update_node(self,self.troot,"triangleFile")" --pre-ctor="self.troot=get_gs_troot("triangleFile","{classname}")" --post-ctor="update_node(self,self.troot,"triangleFile")" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node" -o "/home/claudia/tmp/triangleFile.py" /home/claudia/DEV/pytools4dartMTD/pytools4dart/core_ui/triangleFile.xsd
+#   /home/boissieu/git/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "pytools4dart.core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'triangleFile')" --pre-ctor="self.troot=get_gs_troot('triangleFile','{classname}')" --post-ctor="update_node(self,self.troot,'triangleFile')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node" -o "pytools4dart/core_ui/triangleFile.py" pytools4dart/xsdschemas/triangleFile.xsd
 #
 # Current working directory (os.getcwd()):
-#   generateds
+#   pytools4dartMTD
 #
 
 import sys
@@ -739,17 +741,21 @@ def _cast(typ, value):
 
 
 class createDartFile(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('version', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('TriangleFile', '_TriangleFile', 0, 0, {u'maxOccurs': u'1', u'type': u'_TriangleFile', u'name': u'TriangleFile', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, version=None, TriangleFile=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("triangleFile","DartFile")
+        self.troot=get_gs_troot('triangleFile','DartFile')
         self.attrib = ['version']
         self.children = ['TriangleFile']
         self.parent = None
         self._version = _cast(None, version)
         self._TriangleFile = TriangleFile
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -771,7 +777,7 @@ class createDartFile(GeneratedsSuper):
     def get_version(self): return self._version
     def set_version(self, value):
         self._version = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     version = property(get_version, set_version)
     def copy(self):
         obj_ = self.factory()
@@ -864,15 +870,21 @@ class createDartFile(GeneratedsSuper):
             obj_.build(child_)
             self.set_TriangleFile(obj_)
             obj_.original_tagname_ = 'TriangleFile'
-# end class createDartFile
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class createDartFile
 
 
 class create_TriangleFile(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('triangleStorageMode', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Object', '_Object', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_Object', u'name': u'Object', u'minOccurs': u'0'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, triangleStorageMode=0, Object=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("triangleFile","_TriangleFile")
+        self.troot=get_gs_troot('triangleFile','_TriangleFile')
         self.attrib = ['triangleStorageMode']
         self.children = ['Object']
         self.parent = None
@@ -881,7 +893,7 @@ class create_TriangleFile(GeneratedsSuper):
             self._Object = []
         else:
             self._Object = Object
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -913,7 +925,7 @@ class create_TriangleFile(GeneratedsSuper):
     def get_triangleStorageMode(self): return self._triangleStorageMode
     def set_triangleStorageMode(self, value):
         self._triangleStorageMode = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     triangleStorageMode = property(get_triangleStorageMode, set_triangleStorageMode)
     def copy(self):
         obj_ = self.factory()
@@ -1015,15 +1027,27 @@ class create_TriangleFile(GeneratedsSuper):
             obj_.build(child_)
             self.add_Object(obj_)
             obj_.original_tagname_ = 'Object'
-# end class create_TriangleFile
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_TriangleFile
 
 
 class create_Object(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('height', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('modeDSM', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('forcedLAI', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('forcedLAI_Surface_Value', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('repeatedOnBorder', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Transformation', '_Transformation', 0, 0, {u'maxOccurs': u'1', u'type': u'_Transformation', u'name': u'Transformation', u'minOccurs': u'1'}, None),
+        MemberSpec_('BoundingBox', '_BoundingBox', 0, 0, {u'maxOccurs': u'1', u'type': u'_BoundingBox', u'name': u'BoundingBox', u'minOccurs': u'1'}, None),
+        MemberSpec_('TriangleList', '_TriangleList', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_TriangleList', u'name': u'TriangleList', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, height=None, modeDSM=0, forcedLAI=None, forcedLAI_Surface_Value=None, repeatedOnBorder=1, Transformation=None, BoundingBox=None, TriangleList=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("triangleFile","_Object")
+        self.troot=get_gs_troot('triangleFile','_Object')
         self.attrib = ['height', 'modeDSM', 'forcedLAI', 'forcedLAI_Surface_Value', 'repeatedOnBorder']
         self.children = ['Transformation', 'BoundingBox', 'TriangleList']
         self.parent = None
@@ -1038,7 +1062,7 @@ class create_Object(GeneratedsSuper):
             self._TriangleList = []
         else:
             self._TriangleList = TriangleList
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1084,27 +1108,27 @@ class create_Object(GeneratedsSuper):
     def get_height(self): return self._height
     def set_height(self, value):
         self._height = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     height = property(get_height, set_height)
     def get_modeDSM(self): return self._modeDSM
     def set_modeDSM(self, value):
         self._modeDSM = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     modeDSM = property(get_modeDSM, set_modeDSM)
     def get_forcedLAI(self): return self._forcedLAI
     def set_forcedLAI(self, value):
         self._forcedLAI = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     forcedLAI = property(get_forcedLAI, set_forcedLAI)
     def get_forcedLAI_Surface_Value(self): return self._forcedLAI_Surface_Value
     def set_forcedLAI_Surface_Value(self, value):
         self._forcedLAI_Surface_Value = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     forcedLAI_Surface_Value = property(get_forcedLAI_Surface_Value, set_forcedLAI_Surface_Value)
     def get_repeatedOnBorder(self): return self._repeatedOnBorder
     def set_repeatedOnBorder(self, value):
         self._repeatedOnBorder = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     repeatedOnBorder = property(get_repeatedOnBorder, set_repeatedOnBorder)
     def copy(self):
         obj_ = self.factory()
@@ -1304,15 +1328,31 @@ class create_Object(GeneratedsSuper):
             obj_.build(child_)
             self.add_TriangleList(obj_)
             obj_.original_tagname_ = 'TriangleList'
-# end class create_Object
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Object
 
 
 class create_Transformation(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('M00', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('M01', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('M02', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('M10', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('M11', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('M12', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('M20', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('M21', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('M22', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('M03_xPos', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('M13_yPos', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('M23_zPos', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, M00=None, M01=None, M02=None, M10=None, M11=None, M12=None, M20=None, M21=None, M22=None, M03_xPos=None, M13_yPos=None, M23_zPos=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("triangleFile","_Transformation")
+        self.troot=get_gs_troot('triangleFile','_Transformation')
         self.attrib = ['M00', 'M01', 'M02', 'M10', 'M11', 'M12', 'M20', 'M21', 'M22', 'M03_xPos', 'M13_yPos', 'M23_zPos']
         self.children = []
         self.parent = None
@@ -1328,7 +1368,7 @@ class create_Transformation(GeneratedsSuper):
         self._M03_xPos = _cast(float, M03_xPos)
         self._M13_yPos = _cast(float, M13_yPos)
         self._M23_zPos = _cast(float, M23_zPos)
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1343,62 +1383,62 @@ class create_Transformation(GeneratedsSuper):
     def get_M00(self): return self._M00
     def set_M00(self, value):
         self._M00 = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     M00 = property(get_M00, set_M00)
     def get_M01(self): return self._M01
     def set_M01(self, value):
         self._M01 = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     M01 = property(get_M01, set_M01)
     def get_M02(self): return self._M02
     def set_M02(self, value):
         self._M02 = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     M02 = property(get_M02, set_M02)
     def get_M10(self): return self._M10
     def set_M10(self, value):
         self._M10 = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     M10 = property(get_M10, set_M10)
     def get_M11(self): return self._M11
     def set_M11(self, value):
         self._M11 = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     M11 = property(get_M11, set_M11)
     def get_M12(self): return self._M12
     def set_M12(self, value):
         self._M12 = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     M12 = property(get_M12, set_M12)
     def get_M20(self): return self._M20
     def set_M20(self, value):
         self._M20 = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     M20 = property(get_M20, set_M20)
     def get_M21(self): return self._M21
     def set_M21(self, value):
         self._M21 = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     M21 = property(get_M21, set_M21)
     def get_M22(self): return self._M22
     def set_M22(self, value):
         self._M22 = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     M22 = property(get_M22, set_M22)
     def get_M03_xPos(self): return self._M03_xPos
     def set_M03_xPos(self, value):
         self._M03_xPos = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     M03_xPos = property(get_M03_xPos, set_M03_xPos)
     def get_M13_yPos(self): return self._M13_yPos
     def set_M13_yPos(self, value):
         self._M13_yPos = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     M13_yPos = property(get_M13_yPos, set_M13_yPos)
     def get_M23_zPos(self): return self._M23_zPos
     def set_M23_zPos(self, value):
         self._M23_zPos = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     M23_zPos = property(get_M23_zPos, set_M23_zPos)
     def copy(self):
         obj_ = self.factory()
@@ -1652,21 +1692,27 @@ class create_Transformation(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (M23_zPos): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_Transformation
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Transformation
 
 
 class create_BoundingBox(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('LowerCorner', '_LowerCorner', 0, 0, {u'maxOccurs': u'1', u'type': u'_LowerCorner', u'name': u'LowerCorner', u'minOccurs': u'1'}, None),
+        MemberSpec_('UpperCorner', '_UpperCorner', 0, 0, {u'maxOccurs': u'1', u'type': u'_UpperCorner', u'name': u'UpperCorner', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, LowerCorner=None, UpperCorner=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("triangleFile","_BoundingBox")
+        self.troot=get_gs_troot('triangleFile','_BoundingBox')
         self.attrib = ['']
         self.children = ['LowerCorner', 'UpperCorner']
         self.parent = None
         self._LowerCorner = LowerCorner
         self._UpperCorner = UpperCorner
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1790,22 +1836,29 @@ class create_BoundingBox(GeneratedsSuper):
             obj_.build(child_)
             self.set_UpperCorner(obj_)
             obj_.original_tagname_ = 'UpperCorner'
-# end class create_BoundingBox
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_BoundingBox
 
 
 class create_LowerCorner(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('x', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('y', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('z', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, x=0., y=0., z=0.):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("triangleFile","_LowerCorner")
+        self.troot=get_gs_troot('triangleFile','_LowerCorner')
         self.attrib = ['x', 'y', 'z']
         self.children = []
         self.parent = None
         self._x = _cast(float, x)
         self._y = _cast(float, y)
         self._z = _cast(float, z)
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1820,17 +1873,17 @@ class create_LowerCorner(GeneratedsSuper):
     def get_x(self): return self._x
     def set_x(self, value):
         self._x = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     x = property(get_x, set_x)
     def get_y(self): return self._y
     def set_y(self, value):
         self._y = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     y = property(get_y, set_y)
     def get_z(self): return self._z
     def set_z(self, value):
         self._z = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     z = property(get_z, set_z)
     def copy(self):
         obj_ = self.factory()
@@ -1940,22 +1993,29 @@ class create_LowerCorner(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (z): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_LowerCorner
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_LowerCorner
 
 
 class create_UpperCorner(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('x', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('y', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('z', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, x=0., y=0., z=0.):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("triangleFile","_UpperCorner")
+        self.troot=get_gs_troot('triangleFile','_UpperCorner')
         self.attrib = ['x', 'y', 'z']
         self.children = []
         self.parent = None
         self._x = _cast(float, x)
         self._y = _cast(float, y)
         self._z = _cast(float, z)
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1970,17 +2030,17 @@ class create_UpperCorner(GeneratedsSuper):
     def get_x(self): return self._x
     def set_x(self, value):
         self._x = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     x = property(get_x, set_x)
     def get_y(self): return self._y
     def set_y(self, value):
         self._y = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     y = property(get_y, set_y)
     def get_z(self): return self._z
     def set_z(self, value):
         self._z = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     z = property(get_z, set_z)
     def copy(self):
         obj_ = self.factory()
@@ -2090,15 +2150,34 @@ class create_UpperCorner(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (z): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_UpperCorner
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_UpperCorner
 
 
 class create_TriangleList(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('type_', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('nbTriangles', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('modeDSM', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('name', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('doubleFace', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('IsLAICalc', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('LeafPF', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ALASegmentation', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('forcedLAI', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('forcedLAI_Surface_Value', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('BackFaceOpticalPropertyLink', '_BackFaceOpticalPropertyLink', 0, 1, {u'maxOccurs': u'1', u'type': u'_BackFaceOpticalPropertyLink', u'name': u'BackFaceOpticalPropertyLink', u'minOccurs': u'0'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('BackFaceThermalPropertyLink', '_BackFaceThermalPropertyLink', 0, 1, {u'maxOccurs': u'1', u'type': u'_BackFaceThermalPropertyLink', u'name': u'BackFaceThermalPropertyLink', u'minOccurs': u'0'}, None),
+        MemberSpec_('TRIFileReference', '_TRIFileReference', 0, 0, {u'maxOccurs': u'1', u'type': u'_TRIFileReference', u'name': u'TRIFileReference', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, type_=None, nbTriangles=0, modeDSM=0, name=None, doubleFace=None, IsLAICalc=None, LeafPF=None, ALASegmentation=None, forcedLAI=None, forcedLAI_Surface_Value=None, OpticalPropertyLink=None, BackFaceOpticalPropertyLink=None, ThermalPropertyLink=None, BackFaceThermalPropertyLink=None, TRIFileReference=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("triangleFile","_TriangleList")
+        self.troot=get_gs_troot('triangleFile','_TriangleList')
         self.attrib = ['type_', 'nbTriangles', 'modeDSM', 'name', 'doubleFace', 'IsLAICalc', 'LeafPF', 'ALASegmentation', 'forcedLAI', 'forcedLAI_Surface_Value']
         self.children = ['OpticalPropertyLink', 'BackFaceOpticalPropertyLink', 'ThermalPropertyLink', 'BackFaceThermalPropertyLink', 'TRIFileReference']
         self.parent = None
@@ -2117,7 +2196,7 @@ class create_TriangleList(GeneratedsSuper):
         self._ThermalPropertyLink = ThermalPropertyLink
         self._BackFaceThermalPropertyLink = BackFaceThermalPropertyLink
         self._TRIFileReference = TRIFileReference
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2167,52 +2246,52 @@ class create_TriangleList(GeneratedsSuper):
     def get_type(self): return self._type_
     def set_type(self, value):
         self._type_ = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     type_ = property(get_type, set_type)
     def get_nbTriangles(self): return self._nbTriangles
     def set_nbTriangles(self, value):
         self._nbTriangles = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     nbTriangles = property(get_nbTriangles, set_nbTriangles)
     def get_modeDSM(self): return self._modeDSM
     def set_modeDSM(self, value):
         self._modeDSM = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     modeDSM = property(get_modeDSM, set_modeDSM)
     def get_name(self): return self._name
     def set_name(self, value):
         self._name = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     name = property(get_name, set_name)
     def get_doubleFace(self): return self._doubleFace
     def set_doubleFace(self, value):
         self._doubleFace = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     doubleFace = property(get_doubleFace, set_doubleFace)
     def get_IsLAICalc(self): return self._IsLAICalc
     def set_IsLAICalc(self, value):
         self._IsLAICalc = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     IsLAICalc = property(get_IsLAICalc, set_IsLAICalc)
     def get_LeafPF(self): return self._LeafPF
     def set_LeafPF(self, value):
         self._LeafPF = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     LeafPF = property(get_LeafPF, set_LeafPF)
     def get_ALASegmentation(self): return self._ALASegmentation
     def set_ALASegmentation(self, value):
         self._ALASegmentation = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     ALASegmentation = property(get_ALASegmentation, set_ALASegmentation)
     def get_forcedLAI(self): return self._forcedLAI
     def set_forcedLAI(self, value):
         self._forcedLAI = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     forcedLAI = property(get_forcedLAI, set_forcedLAI)
     def get_forcedLAI_Surface_Value(self): return self._forcedLAI_Surface_Value
     def set_forcedLAI_Surface_Value(self, value):
         self._forcedLAI_Surface_Value = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     forcedLAI_Surface_Value = property(get_forcedLAI_Surface_Value, set_forcedLAI_Surface_Value)
     def copy(self):
         obj_ = self.factory()
@@ -2517,21 +2596,27 @@ class create_TriangleList(GeneratedsSuper):
             obj_.build(child_)
             self.set_TRIFileReference(obj_)
             obj_.original_tagname_ = 'TRIFileReference'
-# end class create_TriangleList
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_TriangleList
 
 
 class create_OpticalPropertyLink(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('type_', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('indexFctPhase', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, type_=None, indexFctPhase=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("triangleFile","_OpticalPropertyLink")
+        self.troot=get_gs_troot('triangleFile','_OpticalPropertyLink')
         self.attrib = ['type_', 'indexFctPhase']
         self.children = []
         self.parent = None
         self._type_ = _cast(int, type_)
         self._indexFctPhase = _cast(int, indexFctPhase)
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2546,12 +2631,12 @@ class create_OpticalPropertyLink(GeneratedsSuper):
     def get_type(self): return self._type_
     def set_type(self, value):
         self._type_ = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     type_ = property(get_type, set_type)
     def get_indexFctPhase(self): return self._indexFctPhase
     def set_indexFctPhase(self, value):
         self._indexFctPhase = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     indexFctPhase = property(get_indexFctPhase, set_indexFctPhase)
     def copy(self):
         obj_ = self.factory()
@@ -2645,21 +2730,27 @@ class create_OpticalPropertyLink(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_OpticalPropertyLink
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_OpticalPropertyLink
 
 
 class create_BackFaceOpticalPropertyLink(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('type_', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('indexFctPhase', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, type_=None, indexFctPhase=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("triangleFile","_BackFaceOpticalPropertyLink")
+        self.troot=get_gs_troot('triangleFile','_BackFaceOpticalPropertyLink')
         self.attrib = ['type_', 'indexFctPhase']
         self.children = []
         self.parent = None
         self._type_ = _cast(int, type_)
         self._indexFctPhase = _cast(int, indexFctPhase)
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2674,12 +2765,12 @@ class create_BackFaceOpticalPropertyLink(GeneratedsSuper):
     def get_type(self): return self._type_
     def set_type(self, value):
         self._type_ = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     type_ = property(get_type, set_type)
     def get_indexFctPhase(self): return self._indexFctPhase
     def set_indexFctPhase(self, value):
         self._indexFctPhase = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     indexFctPhase = property(get_indexFctPhase, set_indexFctPhase)
     def copy(self):
         obj_ = self.factory()
@@ -2773,20 +2864,25 @@ class create_BackFaceOpticalPropertyLink(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_BackFaceOpticalPropertyLink
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_BackFaceOpticalPropertyLink
 
 
 class create_ThermalPropertyLink(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('indexIntervalle', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, indexIntervalle=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("triangleFile","_ThermalPropertyLink")
+        self.troot=get_gs_troot('triangleFile','_ThermalPropertyLink')
         self.attrib = ['indexIntervalle']
         self.children = []
         self.parent = None
         self._indexIntervalle = _cast(int, indexIntervalle)
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2801,7 +2897,7 @@ class create_ThermalPropertyLink(GeneratedsSuper):
     def get_indexIntervalle(self): return self._indexIntervalle
     def set_indexIntervalle(self, value):
         self._indexIntervalle = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     indexIntervalle = property(get_indexIntervalle, set_indexIntervalle)
     def copy(self):
         obj_ = self.factory()
@@ -2879,20 +2975,25 @@ class create_ThermalPropertyLink(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_ThermalPropertyLink
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ThermalPropertyLink
 
 
 class create_BackFaceThermalPropertyLink(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('indexIntervalle', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, indexIntervalle=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("triangleFile","_BackFaceThermalPropertyLink")
+        self.troot=get_gs_troot('triangleFile','_BackFaceThermalPropertyLink')
         self.attrib = ['indexIntervalle']
         self.children = []
         self.parent = None
         self._indexIntervalle = _cast(int, indexIntervalle)
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2907,7 +3008,7 @@ class create_BackFaceThermalPropertyLink(GeneratedsSuper):
     def get_indexIntervalle(self): return self._indexIntervalle
     def set_indexIntervalle(self, value):
         self._indexIntervalle = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     indexIntervalle = property(get_indexIntervalle, set_indexIntervalle)
     def copy(self):
         obj_ = self.factory()
@@ -2985,20 +3086,25 @@ class create_BackFaceThermalPropertyLink(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_BackFaceThermalPropertyLink
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_BackFaceThermalPropertyLink
 
 
 class create_TRIFileReference(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('fileName', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, fileName=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("triangleFile","_TRIFileReference")
+        self.troot=get_gs_troot('triangleFile','_TRIFileReference')
         self.attrib = ['fileName']
         self.children = []
         self.parent = None
         self._fileName = _cast(None, fileName)
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3013,7 +3119,7 @@ class create_TRIFileReference(GeneratedsSuper):
     def get_fileName(self): return self._fileName
     def set_fileName(self, value):
         self._fileName = value
-        update_node(self,self.troot,"triangleFile")
+        update_node(self,self.troot,'triangleFile')
     fileName = property(get_fileName, set_fileName)
     def copy(self):
         obj_ = self.factory()
@@ -3088,7 +3194,9 @@ class create_TRIFileReference(GeneratedsSuper):
             self.fileName = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_TRIFileReference
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_TRIFileReference
 
 
 GDSClassesMapping = {

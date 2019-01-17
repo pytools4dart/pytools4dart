@@ -2,28 +2,30 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Wed Oct 31 15:06:24 2018 by generateDS.py version 2.29.25.
-# Python 2.7.15rc1 (default, Apr 15 2018, 21:51:34)  [GCC 7.3.0]
+# Generated Wed Jan  2 18:30:48 2019 by generateDS.py version 2.29.25.
+# Python 2.7.15rc1 (default, Nov 12 2018, 14:31:15)  [GCC 7.3.0]
 #
 # Command line options:
 #   ('-m', '')
+#   ('-f', '')
 #   ('--always-export-default', '')
 #   ('--export', 'write literal etree')
+#   ('-u', 'pytools4dart.core_ui.user_methods')
 #   ('-p', 'create')
-#   ('--post-attrib-setter', 'update_node(self,self.troot,"maket")')
-#   ('--pre-ctor', 'self.troot=get_gs_troot("maket","{classname}")')
-#   ('--post-ctor', 'update_node(self,self.troot,"maket")')
+#   ('--post-attrib-setter', "update_node(self,self.troot,'maket')")
+#   ('--pre-ctor', "self.troot=get_gs_troot('maket','{classname}')")
+#   ('--post-ctor', "update_node(self,self.troot,'maket')")
 #   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node')
-#   ('-o', '/home/claudia/tmp/maket.py')
+#   ('-o', 'pytools4dart/core_ui/maket.py')
 #
 # Command line arguments:
-#   /home/claudia/DEV/pytools4dartMTD/pytools4dart/core_ui/maket.xsd
+#   pytools4dart/xsdschemas/maket.xsd
 #
 # Command line:
-#   /home/claudia/DEV/pytools4dartMTD/venv/bin/generateDS.py -m --always-export-default --export="write literal etree" -p "create" --post-attrib-setter="update_node(self,self.troot,"maket")" --pre-ctor="self.troot=get_gs_troot("maket","{classname}")" --post-ctor="update_node(self,self.troot,"maket")" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node" -o "/home/claudia/tmp/maket.py" /home/claudia/DEV/pytools4dartMTD/pytools4dart/core_ui/maket.xsd
+#   /home/boissieu/git/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "pytools4dart.core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'maket')" --pre-ctor="self.troot=get_gs_troot('maket','{classname}')" --post-ctor="update_node(self,self.troot,'maket')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node" -o "pytools4dart/core_ui/maket.py" pytools4dart/xsdschemas/maket.xsd
 #
 # Current working directory (os.getcwd()):
-#   generateds
+#   pytools4dartMTD
 #
 
 import sys
@@ -742,18 +744,23 @@ class createDartFile(GeneratedsSuper):
     """Version of the plots.xml file. Depends of the version on DART
     itself. Version of the plots.xml file. Depends of the version on
     DART itself."""
+    member_data_items_ = [
+        MemberSpec_('version', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('build_', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Maket', '_Maket', 0, 0, {u'maxOccurs': u'1', u'type': u'_Maket', u'name': u'Maket', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
-    def __init__(self, version='5.7.1', build_='0', Maket=None):
+    def __init__(self, version='5.7.4', build_='0', Maket=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("maket","DartFile")
+        self.troot=get_gs_troot('maket','DartFile')
         self.attrib = ['version', 'build_']
         self.children = ['Maket']
         self.parent = None
         self._version = _cast(None, version)
         self._build_ = _cast(None, build_)
         self._Maket = Maket
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -775,12 +782,12 @@ class createDartFile(GeneratedsSuper):
     def get_version(self): return self._version
     def set_version(self, value):
         self._version = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     version = property(get_version, set_version)
     def get_build(self): return self._build_
     def set_build(self, value):
         self._build_ = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     build_ = property(get_build, set_build)
     def copy(self):
         obj_ = self.factory()
@@ -886,7 +893,9 @@ class createDartFile(GeneratedsSuper):
             obj_.build(child_)
             self.set_Maket(obj_)
             obj_.original_tagname_ = 'Maket'
-# end class createDartFile
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class createDartFile
 
 
 class create_Maket(GeneratedsSuper):
@@ -903,22 +912,35 @@ class create_Maket(GeneratedsSuper):
     of juxtaposed patterns are equal or are shifted with values
     equal to altitude difference the scene edges. This option
     ensures the continuity of topography. It allows one to simulate
-    infinite slopes."""
+    infinite slopes. Use a random seed for random operations. Use a
+    random seed for random operations."""
+    member_data_items_ = [
+        MemberSpec_('dartZone', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('exactlyPeriodicScene', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('useRandomGenerationSeed', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('Scene', '_Scene', 0, 0, {u'maxOccurs': u'1', u'type': u'_Scene', u'name': u'Scene', u'minOccurs': u'1'}, None),
+        MemberSpec_('RandomGenerationParameters', '_RandomGenerationParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_RandomGenerationParameters', u'name': u'RandomGenerationParameters', u'minOccurs': u'1'}, None),
+        MemberSpec_('Soil', '_Soil', 0, 0, {u'maxOccurs': u'1', u'type': u'_Soil', u'name': u'Soil', u'minOccurs': u'1'}, None),
+        MemberSpec_('LatLon', '_LatLon', 0, 0, {u'maxOccurs': u'1', u'type': u'_LatLon', u'name': u'LatLon', u'minOccurs': u'1'}, None),
+        MemberSpec_('InfiniteSlopeProperties', '_InfiniteSlopeProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_InfiniteSlopeProperties', u'name': u'InfiniteSlopeProperties', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
-    def __init__(self, dartZone=0, exactlyPeriodicScene=1, Scene=None, Soil=None, LatLon=None, InfiniteSlopeProperties=None):
+    def __init__(self, dartZone=0, exactlyPeriodicScene=1, useRandomGenerationSeed=1, Scene=None, RandomGenerationParameters=None, Soil=None, LatLon=None, InfiniteSlopeProperties=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("maket","_Maket")
-        self.attrib = ['dartZone', 'exactlyPeriodicScene']
-        self.children = ['Scene', 'Soil', 'LatLon', 'InfiniteSlopeProperties']
+        self.troot=get_gs_troot('maket','_Maket')
+        self.attrib = ['dartZone', 'exactlyPeriodicScene', 'useRandomGenerationSeed']
+        self.children = ['Scene', 'RandomGenerationParameters', 'Soil', 'LatLon', 'InfiniteSlopeProperties']
         self.parent = None
         self._dartZone = _cast(int, dartZone)
         self._exactlyPeriodicScene = _cast(int, exactlyPeriodicScene)
+        self._useRandomGenerationSeed = _cast(int, useRandomGenerationSeed)
         self._Scene = Scene
+        self._RandomGenerationParameters = RandomGenerationParameters
         self._Soil = Soil
         self._LatLon = LatLon
         self._InfiniteSlopeProperties = InfiniteSlopeProperties
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -937,6 +959,13 @@ class create_Maket(GeneratedsSuper):
             value.parent = self
         self._Scene = value
     Scene = property(get_Scene, set_Scene)
+    def get_RandomGenerationParameters(self): return self._RandomGenerationParameters
+    def set_RandomGenerationParameters(self, value):
+        if value is not None:
+            checkclass(value, create_RandomGenerationParameters)
+            value.parent = self
+        self._RandomGenerationParameters = value
+    RandomGenerationParameters = property(get_RandomGenerationParameters, set_RandomGenerationParameters)
     def get_Soil(self): return self._Soil
     def set_Soil(self, value):
         if value is not None:
@@ -961,19 +990,25 @@ class create_Maket(GeneratedsSuper):
     def get_dartZone(self): return self._dartZone
     def set_dartZone(self, value):
         self._dartZone = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     dartZone = property(get_dartZone, set_dartZone)
     def get_exactlyPeriodicScene(self): return self._exactlyPeriodicScene
     def set_exactlyPeriodicScene(self, value):
         self._exactlyPeriodicScene = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     exactlyPeriodicScene = property(get_exactlyPeriodicScene, set_exactlyPeriodicScene)
+    def get_useRandomGenerationSeed(self): return self._useRandomGenerationSeed
+    def set_useRandomGenerationSeed(self, value):
+        self._useRandomGenerationSeed = value
+        update_node(self,self.troot,'maket')
+    useRandomGenerationSeed = property(get_useRandomGenerationSeed, set_useRandomGenerationSeed)
     def copy(self):
         obj_ = self.factory()
         return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
             self.Scene is not None or
+            self.RandomGenerationParameters is not None or
             self.Soil is not None or
             self.LatLon is not None or
             self.InfiniteSlopeProperties is not None
@@ -1009,6 +1044,9 @@ class create_Maket(GeneratedsSuper):
         if self.exactlyPeriodicScene is not None and 'exactlyPeriodicScene' not in already_processed:
             already_processed.add('exactlyPeriodicScene')
             outfile.write(' exactlyPeriodicScene="%s"' % self.gds_format_integer(self.exactlyPeriodicScene, input_name='exactlyPeriodicScene'))
+        if self.useRandomGenerationSeed is not None and 'useRandomGenerationSeed' not in already_processed:
+            already_processed.add('useRandomGenerationSeed')
+            outfile.write(' useRandomGenerationSeed="%s"' % self.gds_format_integer(self.useRandomGenerationSeed, input_name='useRandomGenerationSeed'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_Maket', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -1016,6 +1054,8 @@ class create_Maket(GeneratedsSuper):
             eol_ = ''
         if self.Scene is not None:
             self.Scene.export(outfile, level, namespaceprefix_, name_='Scene', pretty_print=pretty_print)
+        if self.RandomGenerationParameters is not None:
+            self.RandomGenerationParameters.export(outfile, level, namespaceprefix_, name_='RandomGenerationParameters', pretty_print=pretty_print)
         if self.Soil is not None:
             self.Soil.export(outfile, level, namespaceprefix_, name_='Soil', pretty_print=pretty_print)
         if self.LatLon is not None:
@@ -1031,9 +1071,14 @@ class create_Maket(GeneratedsSuper):
             element.set('dartZone', self.gds_format_integer(self.dartZone))
         if self.exactlyPeriodicScene is not None:
             element.set('exactlyPeriodicScene', self.gds_format_integer(self.exactlyPeriodicScene))
+        if self.useRandomGenerationSeed is not None:
+            element.set('useRandomGenerationSeed', self.gds_format_integer(self.useRandomGenerationSeed))
         if self.Scene is not None:
             Scene_ = self.Scene
             Scene_.to_etree(element, name_='Scene', mapping_=mapping_)
+        if self.RandomGenerationParameters is not None:
+            RandomGenerationParameters_ = self.RandomGenerationParameters
+            RandomGenerationParameters_.to_etree(element, name_='RandomGenerationParameters', mapping_=mapping_)
         if self.Soil is not None:
             Soil_ = self.Soil
             Soil_.to_etree(element, name_='Soil', mapping_=mapping_)
@@ -1061,11 +1106,21 @@ class create_Maket(GeneratedsSuper):
             already_processed.add('exactlyPeriodicScene')
             showIndent(outfile, level)
             outfile.write('exactlyPeriodicScene=%d,\n' % (self.exactlyPeriodicScene,))
+        if self.useRandomGenerationSeed is not None and 'useRandomGenerationSeed' not in already_processed:
+            already_processed.add('useRandomGenerationSeed')
+            showIndent(outfile, level)
+            outfile.write('useRandomGenerationSeed=%d,\n' % (self.useRandomGenerationSeed,))
     def exportLiteralChildren(self, outfile, level, name_):
         if self.Scene is not None:
             showIndent(outfile, level)
             outfile.write('Scene=model_._Scene(\n')
             self.Scene.exportLiteral(outfile, level, name_='Scene')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.RandomGenerationParameters is not None:
+            showIndent(outfile, level)
+            outfile.write('RandomGenerationParameters=model_._RandomGenerationParameters(\n')
+            self.RandomGenerationParameters.exportLiteral(outfile, level, name_='RandomGenerationParameters')
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.Soil is not None:
@@ -1108,12 +1163,24 @@ class create_Maket(GeneratedsSuper):
                 self.exactlyPeriodicScene = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('useRandomGenerationSeed', node)
+        if value is not None and 'useRandomGenerationSeed' not in already_processed:
+            already_processed.add('useRandomGenerationSeed')
+            try:
+                self.useRandomGenerationSeed = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Scene':
             obj_ = create_Scene.factory()
             obj_.build(child_)
             self.set_Scene(obj_)
             obj_.original_tagname_ = 'Scene'
+        elif nodeName_ == 'RandomGenerationParameters':
+            obj_ = create_RandomGenerationParameters.factory()
+            obj_.build(child_)
+            self.set_RandomGenerationParameters(obj_)
+            obj_.original_tagname_ = 'RandomGenerationParameters'
         elif nodeName_ == 'Soil':
             obj_ = create_Soil.factory()
             obj_.build(child_)
@@ -1129,22 +1196,29 @@ class create_Maket(GeneratedsSuper):
             obj_.build(child_)
             self.set_InfiniteSlopeProperties(obj_)
             obj_.original_tagname_ = 'InfiniteSlopeProperties'
-# end class create_Maket
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Maket
 
 
 class create_Scene(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('CellDimensions', '_CellDimensions', 0, 0, {u'maxOccurs': u'1', u'type': u'_CellDimensions', u'name': u'CellDimensions', u'minOccurs': u'1'}, None),
+        MemberSpec_('SceneDimensions', '_SceneDimensions', 0, 0, {u'maxOccurs': u'1', u'type': u'_SceneDimensions', u'name': u'SceneDimensions', u'minOccurs': u'1'}, None),
+        MemberSpec_('DartZoneProperties', '_DartZoneProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_DartZoneProperties', u'name': u'DartZoneProperties', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, CellDimensions=None, SceneDimensions=None, DartZoneProperties=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("maket","_Scene")
+        self.troot=get_gs_troot('maket','_Scene')
         self.attrib = ['']
         self.children = ['CellDimensions', 'SceneDimensions', 'DartZoneProperties']
         self.parent = None
         self._CellDimensions = CellDimensions
         self._SceneDimensions = SceneDimensions
         self._DartZoneProperties = DartZoneProperties
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1292,24 +1366,30 @@ class create_Scene(GeneratedsSuper):
             obj_.build(child_)
             self.set_DartZoneProperties(obj_)
             obj_.original_tagname_ = 'DartZoneProperties'
-# end class create_Scene
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Scene
 
 
 class create_CellDimensions(GeneratedsSuper):
     """Cell dimension along the x and y directions Cell dimension along the
     x and y directions Cell dimension along the z direction Cell
     dimension along the z direction"""
+    member_data_items_ = [
+        MemberSpec_('x', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('z', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, x=1, z=1):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("maket","_CellDimensions")
+        self.troot=get_gs_troot('maket','_CellDimensions')
         self.attrib = ['x', 'z']
         self.children = []
         self.parent = None
         self._x = _cast(float, x)
         self._z = _cast(float, z)
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1324,12 +1404,12 @@ class create_CellDimensions(GeneratedsSuper):
     def get_x(self): return self._x
     def set_x(self, value):
         self._x = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     x = property(get_x, set_x)
     def get_z(self): return self._z
     def set_z(self, value):
         self._z = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     z = property(get_z, set_z)
     def copy(self):
         obj_ = self.factory()
@@ -1423,24 +1503,30 @@ class create_CellDimensions(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (z): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_CellDimensions
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_CellDimensions
 
 
 class create_SceneDimensions(GeneratedsSuper):
     """Scene dimension along the y direction Scene dimension along the y
     direction Scene dimension along the x direction Scene dimension
     along the x direction"""
+    member_data_items_ = [
+        MemberSpec_('y', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('x', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, y=40.00, x=40.00):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("maket","_SceneDimensions")
+        self.troot=get_gs_troot('maket','_SceneDimensions')
         self.attrib = ['y', 'x']
         self.children = []
         self.parent = None
         self._y = _cast(float, y)
         self._x = _cast(float, x)
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1455,12 +1541,12 @@ class create_SceneDimensions(GeneratedsSuper):
     def get_y(self): return self._y
     def set_y(self, value):
         self._y = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     y = property(get_y, set_y)
     def get_x(self): return self._x
     def set_x(self, value):
         self._x = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     x = property(get_x, set_x)
     def copy(self):
         obj_ = self.factory()
@@ -1554,15 +1640,20 @@ class create_SceneDimensions(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (x): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_SceneDimensions
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_SceneDimensions
 
 
 class create_DartZoneProperties(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('Point2D', '_Point2D', 1, 0, {u'maxOccurs': u'2', u'type': u'_Point2D', u'name': u'Point2D', u'minOccurs': u'2'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, Point2D=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("maket","_DartZoneProperties")
+        self.troot=get_gs_troot('maket','_DartZoneProperties')
         self.attrib = ['']
         self.children = ['Point2D']
         self.parent = None
@@ -1570,7 +1661,7 @@ class create_DartZoneProperties(GeneratedsSuper):
             self._Point2D = []
         else:
             self._Point2D = Point2D
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1690,7 +1781,9 @@ class create_DartZoneProperties(GeneratedsSuper):
             obj_.build(child_)
             self.add_Point2D(obj_)
             obj_.original_tagname_ = 'Point2D'
-# end class create_DartZoneProperties
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_DartZoneProperties
 
 
 class create_Point2D(GeneratedsSuper):
@@ -1700,17 +1793,21 @@ class create_Point2D(GeneratedsSuper):
     upper left or lower right corner of the rectangular sub zone x
     coordinate of the upper left or lower right corner of the
     rectangular sub zone"""
+    member_data_items_ = [
+        MemberSpec_('y', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('x', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, y=1, x=1):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("maket","_Point2D")
+        self.troot=get_gs_troot('maket','_Point2D')
         self.attrib = ['y', 'x']
         self.children = []
         self.parent = None
         self._y = _cast(float, y)
         self._x = _cast(float, x)
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -1725,12 +1822,12 @@ class create_Point2D(GeneratedsSuper):
     def get_y(self): return self._y
     def set_y(self, value):
         self._y = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     y = property(get_y, set_y)
     def get_x(self): return self._x
     def set_x(self, value):
         self._x = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     x = property(get_x, set_x)
     def copy(self):
         obj_ = self.factory()
@@ -1824,15 +1921,136 @@ class create_Point2D(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (x): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_Point2D
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Point2D
+
+
+class create_RandomGenerationParameters(GeneratedsSuper):
+    """Random generation parameters Random generation parameters Seed for
+    random operations. Seed for random operations."""
+    member_data_items_ = [
+        MemberSpec_('generationSeed', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
+    subclass = None
+    superclass = None
+    def __init__(self, generationSeed=733426921):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot('maket','_RandomGenerationParameters')
+        self.attrib = ['generationSeed']
+        self.children = []
+        self.parent = None
+        self._generationSeed = _cast(int, generationSeed)
+        update_node(self,self.troot,'maket')
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, create_RandomGenerationParameters)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if create_RandomGenerationParameters.subclass:
+            return create_RandomGenerationParameters.subclass(*args_, **kwargs_)
+        else:
+            return create_RandomGenerationParameters(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_generationSeed(self): return self._generationSeed
+    def set_generationSeed(self, value):
+        self._generationSeed = value
+        update_node(self,self.troot,'maket')
+    generationSeed = property(get_generationSeed, set_generationSeed)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='_RandomGenerationParameters', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_RandomGenerationParameters')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_RandomGenerationParameters')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_RandomGenerationParameters', pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_RandomGenerationParameters'):
+        if self.generationSeed is not None and 'generationSeed' not in already_processed:
+            already_processed.add('generationSeed')
+            outfile.write(' generationSeed="%s"' % self.gds_format_integer(self.generationSeed, input_name='generationSeed'))
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_RandomGenerationParameters', fromsubclass_=False, pretty_print=True):
+        pass
+    def to_etree(self, parent_element=None, name_='_RandomGenerationParameters', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.generationSeed is not None:
+            element.set('generationSeed', self.gds_format_integer(self.generationSeed))
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_RandomGenerationParameters'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.generationSeed is not None and 'generationSeed' not in already_processed:
+            already_processed.add('generationSeed')
+            showIndent(outfile, level)
+            outfile.write('generationSeed=%d,\n' % (self.generationSeed,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('generationSeed', node)
+        if value is not None and 'generationSeed' not in already_processed:
+            already_processed.add('generationSeed')
+            try:
+                self.generationSeed = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_RandomGenerationParameters
 
 
 class create_Soil(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('Topography', '_Topography', 0, 0, {u'maxOccurs': u'1', u'type': u'_Topography', u'name': u'Topography', u'minOccurs': u'1'}, None),
+        MemberSpec_('DEM_properties', '_DEM_properties', 0, 0, {u'maxOccurs': u'1', u'type': u'_DEM_properties', u'name': u'DEM_properties', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, OpticalPropertyLink=None, ThermalPropertyLink=None, Topography=None, DEM_properties=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("maket","_Soil")
+        self.troot=get_gs_troot('maket','_Soil')
         self.attrib = ['']
         self.children = ['OpticalPropertyLink', 'ThermalPropertyLink', 'Topography', 'DEM_properties']
         self.parent = None
@@ -1840,7 +2058,7 @@ class create_Soil(GeneratedsSuper):
         self._ThermalPropertyLink = ThermalPropertyLink
         self._Topography = Topography
         self._DEM_properties = DEM_properties
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2012,7 +2230,9 @@ class create_Soil(GeneratedsSuper):
             obj_.build(child_)
             self.set_DEM_properties(obj_)
             obj_.original_tagname_ = 'DEM_properties'
-# end class create_Soil
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Soil
 
 
 class create_OpticalPropertyLink(GeneratedsSuper):
@@ -2024,18 +2244,23 @@ class create_OpticalPropertyLink(GeneratedsSuper):
     that are scattered within a solid angle along a given direction
     Type of phase function (lambertian, etc.) Type of phase function
     (lambertian, etc.)"""
+    member_data_items_ = [
+        MemberSpec_('indexFctPhase', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ident', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('type_', 'xsd:int', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, indexFctPhase=0, ident='Lambertian_Phase_Function_1', type_=0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("maket","_OpticalPropertyLink")
+        self.troot=get_gs_troot('maket','_OpticalPropertyLink')
         self.attrib = ['indexFctPhase', 'ident', 'type_']
         self.children = []
         self.parent = None
         self._indexFctPhase = _cast(int, indexFctPhase)
         self._ident = _cast(None, ident)
         self._type_ = _cast(int, type_)
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2050,17 +2275,17 @@ class create_OpticalPropertyLink(GeneratedsSuper):
     def get_indexFctPhase(self): return self._indexFctPhase
     def set_indexFctPhase(self, value):
         self._indexFctPhase = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     indexFctPhase = property(get_indexFctPhase, set_indexFctPhase)
     def get_ident(self): return self._ident
     def set_ident(self, value):
         self._ident = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     ident = property(get_ident, set_ident)
     def get_type(self): return self._type_
     def set_type(self, value):
         self._type_ = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     type_ = property(get_type, set_type)
     def copy(self):
         obj_ = self.factory()
@@ -2167,23 +2392,29 @@ class create_OpticalPropertyLink(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_OpticalPropertyLink
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_OpticalPropertyLink
 
 
 class create_ThermalPropertyLink(GeneratedsSuper):
     """indexTemperature indexTemperature Thermal Function ID Thermal
     Function ID"""
+    member_data_items_ = [
+        MemberSpec_('indexTemperature', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('idTemperature', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, indexTemperature=0, idTemperature='ThermalFunction290_310'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("maket","_ThermalPropertyLink")
+        self.troot=get_gs_troot('maket','_ThermalPropertyLink')
         self.attrib = ['indexTemperature', 'idTemperature']
         self.children = []
         self.parent = None
         self._indexTemperature = _cast(int, indexTemperature)
         self._idTemperature = _cast(None, idTemperature)
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2198,12 +2429,12 @@ class create_ThermalPropertyLink(GeneratedsSuper):
     def get_indexTemperature(self): return self._indexTemperature
     def set_indexTemperature(self, value):
         self._indexTemperature = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     indexTemperature = property(get_indexTemperature, set_indexTemperature)
     def get_idTemperature(self): return self._idTemperature
     def set_idTemperature(self, value):
         self._idTemperature = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     idTemperature = property(get_idTemperature, set_idTemperature)
     def copy(self):
         obj_ = self.factory()
@@ -2294,23 +2525,29 @@ class create_ThermalPropertyLink(GeneratedsSuper):
             self.idTemperature = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_ThermalPropertyLink
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_ThermalPropertyLink
 
 
 class create_Topography(GeneratedsSuper):
     """Presence or not of a Digital Elevation Model Presence or not of a
     Digital Elevation Model"""
+    member_data_items_ = [
+        MemberSpec_('presenceOfTopography', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('TopographyProperties', '_TopographyProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_TopographyProperties', u'name': u'TopographyProperties', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, presenceOfTopography=0, TopographyProperties=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("maket","_Topography")
+        self.troot=get_gs_troot('maket','_Topography')
         self.attrib = ['presenceOfTopography']
         self.children = ['TopographyProperties']
         self.parent = None
         self._presenceOfTopography = _cast(int, presenceOfTopography)
         self._TopographyProperties = TopographyProperties
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2332,7 +2569,7 @@ class create_Topography(GeneratedsSuper):
     def get_presenceOfTopography(self): return self._presenceOfTopography
     def set_presenceOfTopography(self, value):
         self._presenceOfTopography = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     presenceOfTopography = property(get_presenceOfTopography, set_presenceOfTopography)
     def copy(self):
         obj_ = self.factory()
@@ -2428,7 +2665,9 @@ class create_Topography(GeneratedsSuper):
             obj_.build(child_)
             self.set_TopographyProperties(obj_)
             obj_.original_tagname_ = 'TopographyProperties'
-# end class create_Topography
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_Topography
 
 
 class create_TopographyProperties(GeneratedsSuper):
@@ -2436,16 +2675,19 @@ class create_TopographyProperties(GeneratedsSuper):
     in float numbers (4 bytes /pixel) Name of the DEM (Digital
     Elevation Map). This is a raster map coded in float numbers (4
     bytes /pixel)"""
+    member_data_items_ = [
+        MemberSpec_('fileName', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, fileName='DEM.mp#'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("maket","_TopographyProperties")
+        self.troot=get_gs_troot('maket','_TopographyProperties')
         self.attrib = ['fileName']
         self.children = []
         self.parent = None
         self._fileName = _cast(None, fileName)
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2460,7 +2702,7 @@ class create_TopographyProperties(GeneratedsSuper):
     def get_fileName(self): return self._fileName
     def set_fileName(self, value):
         self._fileName = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     fileName = property(get_fileName, set_fileName)
     def copy(self):
         obj_ = self.factory()
@@ -2535,22 +2777,28 @@ class create_TopographyProperties(GeneratedsSuper):
             self.fileName = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_TopographyProperties
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_TopographyProperties
 
 
 class create_DEM_properties(GeneratedsSuper):
     """Create or Convert DEM Create or Convert DEM"""
+    member_data_items_ = [
+        MemberSpec_('createTopography', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('DEMGenerator', '_DEMGenerator', 0, 0, {u'maxOccurs': u'1', u'type': u'_DEMGenerator', u'name': u'DEMGenerator', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, createTopography=0, DEMGenerator=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("maket","_DEM_properties")
+        self.troot=get_gs_troot('maket','_DEM_properties')
         self.attrib = ['createTopography']
         self.children = ['DEMGenerator']
         self.parent = None
         self._createTopography = _cast(int, createTopography)
         self._DEMGenerator = DEMGenerator
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2572,7 +2820,7 @@ class create_DEM_properties(GeneratedsSuper):
     def get_createTopography(self): return self._createTopography
     def set_createTopography(self, value):
         self._createTopography = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     createTopography = property(get_createTopography, set_createTopography)
     def copy(self):
         obj_ = self.factory()
@@ -2668,16 +2916,27 @@ class create_DEM_properties(GeneratedsSuper):
             obj_.build(child_)
             self.set_DEMGenerator(obj_)
             obj_.original_tagname_ = 'DEMGenerator'
-# end class create_DEM_properties
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_DEM_properties
 
 
 class create_DEMGenerator(GeneratedsSuper):
     """caseDEM caseDEM outputFileName outputFileName"""
+    member_data_items_ = [
+        MemberSpec_('caseDEM', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('outputFileName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('DEM_1', '_DEM_1', 0, 0, {u'maxOccurs': u'1', u'type': u'_DEM_1', u'name': u'DEM_1', u'minOccurs': u'1'}, None),
+        MemberSpec_('DEM_2', '_DEM_2', 0, 0, {u'maxOccurs': u'1', u'type': u'_DEM_2', u'name': u'DEM_2', u'minOccurs': u'1'}, None),
+        MemberSpec_('DEM_3', '_DEM_3', 0, 0, {u'maxOccurs': u'1', u'type': u'_DEM_3', u'name': u'DEM_3', u'minOccurs': u'1'}, None),
+        MemberSpec_('DEM_4', '_DEM_4', 0, 0, {u'maxOccurs': u'1', u'type': u'_DEM_4', u'name': u'DEM_4', u'minOccurs': u'1'}, None),
+        MemberSpec_('DEM_5', '_DEM_5', 0, 0, {u'maxOccurs': u'1', u'type': u'_DEM_5', u'name': u'DEM_5', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, caseDEM=1, outputFileName='DEM.mp#', DEM_1=None, DEM_2=None, DEM_3=None, DEM_4=None, DEM_5=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("maket","_DEMGenerator")
+        self.troot=get_gs_troot('maket','_DEMGenerator')
         self.attrib = ['caseDEM', 'outputFileName']
         self.children = ['DEM_1', 'DEM_2', 'DEM_3', 'DEM_4', 'DEM_5']
         self.parent = None
@@ -2688,7 +2947,7 @@ class create_DEMGenerator(GeneratedsSuper):
         self._DEM_3 = DEM_3
         self._DEM_4 = DEM_4
         self._DEM_5 = DEM_5
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2738,12 +2997,12 @@ class create_DEMGenerator(GeneratedsSuper):
     def get_caseDEM(self): return self._caseDEM
     def set_caseDEM(self, value):
         self._caseDEM = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     caseDEM = property(get_caseDEM, set_caseDEM)
     def get_outputFileName(self): return self._outputFileName
     def set_outputFileName(self, value):
         self._outputFileName = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     outputFileName = property(get_outputFileName, set_outputFileName)
     def copy(self):
         obj_ = self.factory()
@@ -2920,16 +3179,26 @@ class create_DEMGenerator(GeneratedsSuper):
             obj_.build(child_)
             self.set_DEM_5(obj_)
             obj_.original_tagname_ = 'DEM_5'
-# end class create_DEMGenerator
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_DEMGenerator
 
 
 class create_DEM_1(GeneratedsSuper):
     """Theorical DEM curve shape Theorical DEM curve shape"""
+    member_data_items_ = [
+        MemberSpec_('curveShape', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('DEMproperties_0', '_DEMproperties_0', 0, 0, {u'maxOccurs': u'1', u'type': u'_DEMproperties_0', u'name': u'DEMproperties_0', u'minOccurs': u'1'}, None),
+        MemberSpec_('DEMproperties_1', '_DEMproperties_1', 0, 0, {u'maxOccurs': u'1', u'type': u'_DEMproperties_1', u'name': u'DEMproperties_1', u'minOccurs': u'1'}, None),
+        MemberSpec_('DEMproperties_3', '_DEMproperties_3', 0, 0, {u'maxOccurs': u'1', u'type': u'_DEMproperties_3', u'name': u'DEMproperties_3', u'minOccurs': u'1'}, None),
+        MemberSpec_('DEMproperties_5', '_DEMproperties_5', 0, 0, {u'maxOccurs': u'1', u'type': u'_DEMproperties_5', u'name': u'DEMproperties_5', u'minOccurs': u'1'}, None),
+        MemberSpec_('DEMproperties_6', '_DEMproperties_6', 0, 0, {u'maxOccurs': u'1', u'type': u'_DEMproperties_6', u'name': u'DEMproperties_6', u'minOccurs': u'1'}, None),
+    ]
     subclass = None
     superclass = None
     def __init__(self, curveShape=0, DEMproperties_0=None, DEMproperties_1=None, DEMproperties_3=None, DEMproperties_5=None, DEMproperties_6=None):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("maket","_DEM_1")
+        self.troot=get_gs_troot('maket','_DEM_1')
         self.attrib = ['curveShape']
         self.children = ['DEMproperties_0', 'DEMproperties_1', 'DEMproperties_3', 'DEMproperties_5', 'DEMproperties_6']
         self.parent = None
@@ -2939,7 +3208,7 @@ class create_DEM_1(GeneratedsSuper):
         self._DEMproperties_3 = DEMproperties_3
         self._DEMproperties_5 = DEMproperties_5
         self._DEMproperties_6 = DEMproperties_6
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -2989,7 +3258,7 @@ class create_DEM_1(GeneratedsSuper):
     def get_curveShape(self): return self._curveShape
     def set_curveShape(self, value):
         self._curveShape = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     curveShape = property(get_curveShape, set_curveShape)
     def copy(self):
         obj_ = self.factory()
@@ -3153,21 +3422,26 @@ class create_DEM_1(GeneratedsSuper):
             obj_.build(child_)
             self.set_DEMproperties_6(obj_)
             obj_.original_tagname_ = 'DEMproperties_6'
-# end class create_DEM_1
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_DEM_1
 
 
 class create_DEMproperties_0(GeneratedsSuper):
     """heightDEM heightDEM"""
+    member_data_items_ = [
+        MemberSpec_('heightDEM', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, heightDEM=3.5):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("maket","_DEMproperties_0")
+        self.troot=get_gs_troot('maket','_DEMproperties_0')
         self.attrib = ['heightDEM']
         self.children = []
         self.parent = None
         self._heightDEM = _cast(float, heightDEM)
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3182,7 +3456,7 @@ class create_DEMproperties_0(GeneratedsSuper):
     def get_heightDEM(self): return self._heightDEM
     def set_heightDEM(self, value):
         self._heightDEM = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     heightDEM = property(get_heightDEM, set_heightDEM)
     def copy(self):
         obj_ = self.factory()
@@ -3260,7 +3534,9 @@ class create_DEMproperties_0(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (heightDEM): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_DEMproperties_0
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_DEMproperties_0
 
 
 class create_DEMproperties_1(GeneratedsSuper):
@@ -3271,11 +3547,20 @@ class create_DEMproperties_1(GeneratedsSuper):
     of the second plateau Zenith angle of the second slope Zenith
     angle of the second slope Zenith angle of the first slope Zenith
     angle of the first slope"""
+    member_data_items_ = [
+        MemberSpec_('distance2', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('az_slope', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('distance1', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('heightPlateau1', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('heightPlateau2', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('z_slope_2', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('z_slope_1', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, distance2=5, az_slope=0, distance1=10, heightPlateau1=10, heightPlateau2=7, z_slope_2=33, z_slope_1=33):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("maket","_DEMproperties_1")
+        self.troot=get_gs_troot('maket','_DEMproperties_1')
         self.attrib = ['distance2', 'az_slope', 'distance1', 'heightPlateau1', 'heightPlateau2', 'z_slope_2', 'z_slope_1']
         self.children = []
         self.parent = None
@@ -3286,7 +3571,7 @@ class create_DEMproperties_1(GeneratedsSuper):
         self._heightPlateau2 = _cast(float, heightPlateau2)
         self._z_slope_2 = _cast(float, z_slope_2)
         self._z_slope_1 = _cast(float, z_slope_1)
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3301,37 +3586,37 @@ class create_DEMproperties_1(GeneratedsSuper):
     def get_distance2(self): return self._distance2
     def set_distance2(self, value):
         self._distance2 = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     distance2 = property(get_distance2, set_distance2)
     def get_az_slope(self): return self._az_slope
     def set_az_slope(self, value):
         self._az_slope = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     az_slope = property(get_az_slope, set_az_slope)
     def get_distance1(self): return self._distance1
     def set_distance1(self, value):
         self._distance1 = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     distance1 = property(get_distance1, set_distance1)
     def get_heightPlateau1(self): return self._heightPlateau1
     def set_heightPlateau1(self, value):
         self._heightPlateau1 = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     heightPlateau1 = property(get_heightPlateau1, set_heightPlateau1)
     def get_heightPlateau2(self): return self._heightPlateau2
     def set_heightPlateau2(self, value):
         self._heightPlateau2 = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     heightPlateau2 = property(get_heightPlateau2, set_heightPlateau2)
     def get_z_slope_2(self): return self._z_slope_2
     def set_z_slope_2(self, value):
         self._z_slope_2 = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     z_slope_2 = property(get_z_slope_2, set_z_slope_2)
     def get_z_slope_1(self): return self._z_slope_1
     def set_z_slope_1(self, value):
         self._z_slope_1 = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     z_slope_1 = property(get_z_slope_1, set_z_slope_1)
     def copy(self):
         obj_ = self.factory()
@@ -3505,7 +3790,9 @@ class create_DEMproperties_1(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (z_slope_1): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_DEMproperties_1
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_DEMproperties_1
 
 
 class create_DEMproperties_3(GeneratedsSuper):
@@ -3521,11 +3808,18 @@ class create_DEMproperties_3(GeneratedsSuper):
     is repeated if it extends beyond the scene) Deplacement along
     the Y of the origin of the gaussian bell (MNT is repeated if it
     extends beyond the scene)"""
+    member_data_items_ = [
+        MemberSpec_('amplitudeDEM', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('sigmaY', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('sigmaX', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('deplacementX', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('deplacementY', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, amplitudeDEM=3.5, sigmaY=10.0, sigmaX=10.0, deplacementX=0.0, deplacementY=0.0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("maket","_DEMproperties_3")
+        self.troot=get_gs_troot('maket','_DEMproperties_3')
         self.attrib = ['amplitudeDEM', 'sigmaY', 'sigmaX', 'deplacementX', 'deplacementY']
         self.children = []
         self.parent = None
@@ -3534,7 +3828,7 @@ class create_DEMproperties_3(GeneratedsSuper):
         self._sigmaX = _cast(float, sigmaX)
         self._deplacementX = _cast(float, deplacementX)
         self._deplacementY = _cast(float, deplacementY)
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3549,27 +3843,27 @@ class create_DEMproperties_3(GeneratedsSuper):
     def get_amplitudeDEM(self): return self._amplitudeDEM
     def set_amplitudeDEM(self, value):
         self._amplitudeDEM = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     amplitudeDEM = property(get_amplitudeDEM, set_amplitudeDEM)
     def get_sigmaY(self): return self._sigmaY
     def set_sigmaY(self, value):
         self._sigmaY = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     sigmaY = property(get_sigmaY, set_sigmaY)
     def get_sigmaX(self): return self._sigmaX
     def set_sigmaX(self, value):
         self._sigmaX = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     sigmaX = property(get_sigmaX, set_sigmaX)
     def get_deplacementX(self): return self._deplacementX
     def set_deplacementX(self, value):
         self._deplacementX = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     deplacementX = property(get_deplacementX, set_deplacementX)
     def get_deplacementY(self): return self._deplacementY
     def set_deplacementY(self, value):
         self._deplacementY = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     deplacementY = property(get_deplacementY, set_deplacementY)
     def copy(self):
         obj_ = self.factory()
@@ -3711,22 +4005,27 @@ class create_DEMproperties_3(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (deplacementY): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_DEMproperties_3
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_DEMproperties_3
 
 
 class create_DEMproperties_5(GeneratedsSuper):
     """maximum height of the gaussian bell maximum height of the gaussian
     bell"""
+    member_data_items_ = [
+        MemberSpec_('amplitudeDEM', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, amplitudeDEM=3.5):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("maket","_DEMproperties_5")
+        self.troot=get_gs_troot('maket','_DEMproperties_5')
         self.attrib = ['amplitudeDEM']
         self.children = []
         self.parent = None
         self._amplitudeDEM = _cast(float, amplitudeDEM)
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3741,7 +4040,7 @@ class create_DEMproperties_5(GeneratedsSuper):
     def get_amplitudeDEM(self): return self._amplitudeDEM
     def set_amplitudeDEM(self, value):
         self._amplitudeDEM = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     amplitudeDEM = property(get_amplitudeDEM, set_amplitudeDEM)
     def copy(self):
         obj_ = self.factory()
@@ -3819,23 +4118,29 @@ class create_DEMproperties_5(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (amplitudeDEM): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_DEMproperties_5
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_DEMproperties_5
 
 
 class create_DEMproperties_6(GeneratedsSuper):
     """Number of sine curve Number of sine curve maximum height of the
     gaussian bell maximum height of the gaussian bell"""
+    member_data_items_ = [
+        MemberSpec_('patternNumber', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('amplitudeDEM', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, patternNumber=1.0, amplitudeDEM=3.5):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("maket","_DEMproperties_6")
+        self.troot=get_gs_troot('maket','_DEMproperties_6')
         self.attrib = ['patternNumber', 'amplitudeDEM']
         self.children = []
         self.parent = None
         self._patternNumber = _cast(float, patternNumber)
         self._amplitudeDEM = _cast(float, amplitudeDEM)
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3850,12 +4155,12 @@ class create_DEMproperties_6(GeneratedsSuper):
     def get_patternNumber(self): return self._patternNumber
     def set_patternNumber(self, value):
         self._patternNumber = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     patternNumber = property(get_patternNumber, set_patternNumber)
     def get_amplitudeDEM(self): return self._amplitudeDEM
     def set_amplitudeDEM(self, value):
         self._amplitudeDEM = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     amplitudeDEM = property(get_amplitudeDEM, set_amplitudeDEM)
     def copy(self):
         obj_ = self.factory()
@@ -3949,7 +4254,9 @@ class create_DEMproperties_6(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (amplitudeDEM): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_DEMproperties_6
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_DEMproperties_6
 
 
 class create_DEM_2(GeneratedsSuper):
@@ -3958,18 +4265,23 @@ class create_DEM_2(GeneratedsSuper):
     of the spectral data base (text file) used to compute the
     spectral phase function(s). Name of the spectral data base (text
     file) used to compute the spectral phase function(s)."""
+    member_data_items_ = [
+        MemberSpec_('originY', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('originX', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('fileName', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, originY=0.0, originX=0.0, fileName='DEM.mp#'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("maket","_DEM_2")
+        self.troot=get_gs_troot('maket','_DEM_2')
         self.attrib = ['originY', 'originX', 'fileName']
         self.children = []
         self.parent = None
         self._originY = _cast(float, originY)
         self._originX = _cast(float, originX)
         self._fileName = _cast(None, fileName)
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -3984,17 +4296,17 @@ class create_DEM_2(GeneratedsSuper):
     def get_originY(self): return self._originY
     def set_originY(self, value):
         self._originY = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     originY = property(get_originY, set_originY)
     def get_originX(self): return self._originX
     def set_originX(self, value):
         self._originX = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     originX = property(get_originX, set_originX)
     def get_fileName(self): return self._fileName
     def set_fileName(self, value):
         self._fileName = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     fileName = property(get_fileName, set_fileName)
     def copy(self):
         obj_ = self.factory()
@@ -4101,7 +4413,9 @@ class create_DEM_2(GeneratedsSuper):
             self.fileName = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_DEM_2
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_DEM_2
 
 
 class create_DEM_3(GeneratedsSuper):
@@ -4110,18 +4424,23 @@ class create_DEM_3(GeneratedsSuper):
     of the spectral data base (text file) used to compute the
     spectral phase function(s). Name of the spectral data base (text
     file) used to compute the spectral phase function(s)."""
+    member_data_items_ = [
+        MemberSpec_('originY', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('originX', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('fileName', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, originY=0.0, originX=0.0, fileName='hills.txt'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("maket","_DEM_3")
+        self.troot=get_gs_troot('maket','_DEM_3')
         self.attrib = ['originY', 'originX', 'fileName']
         self.children = []
         self.parent = None
         self._originY = _cast(float, originY)
         self._originX = _cast(float, originX)
         self._fileName = _cast(None, fileName)
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4136,17 +4455,17 @@ class create_DEM_3(GeneratedsSuper):
     def get_originY(self): return self._originY
     def set_originY(self, value):
         self._originY = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     originY = property(get_originY, set_originY)
     def get_originX(self): return self._originX
     def set_originX(self, value):
         self._originX = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     originX = property(get_originX, set_originX)
     def get_fileName(self): return self._fileName
     def set_fileName(self, value):
         self._fileName = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     fileName = property(get_fileName, set_fileName)
     def copy(self):
         obj_ = self.factory()
@@ -4253,7 +4572,9 @@ class create_DEM_3(GeneratedsSuper):
             self.fileName = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_DEM_3
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_DEM_3
 
 
 class create_DEM_4(GeneratedsSuper):
@@ -4261,17 +4582,21 @@ class create_DEM_4(GeneratedsSuper):
     (text file) used to compute the spectral phase function(s). Name
     of the spectral data base (text file) used to compute the
     spectral phase function(s)."""
+    member_data_items_ = [
+        MemberSpec_('numberOfRotation', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('fileName', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, numberOfRotation=1, fileName='DEM.mp#'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("maket","_DEM_4")
+        self.troot=get_gs_troot('maket','_DEM_4')
         self.attrib = ['numberOfRotation', 'fileName']
         self.children = []
         self.parent = None
         self._numberOfRotation = _cast(int, numberOfRotation)
         self._fileName = _cast(None, fileName)
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4286,12 +4611,12 @@ class create_DEM_4(GeneratedsSuper):
     def get_numberOfRotation(self): return self._numberOfRotation
     def set_numberOfRotation(self, value):
         self._numberOfRotation = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     numberOfRotation = property(get_numberOfRotation, set_numberOfRotation)
     def get_fileName(self): return self._fileName
     def set_fileName(self, value):
         self._fileName = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     fileName = property(get_fileName, set_fileName)
     def copy(self):
         obj_ = self.factory()
@@ -4382,7 +4707,9 @@ class create_DEM_4(GeneratedsSuper):
             self.fileName = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_DEM_4
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_DEM_4
 
 
 class create_DEM_5(GeneratedsSuper):
@@ -4393,18 +4720,23 @@ class create_DEM_5(GeneratedsSuper):
     of the spectral data base (text file) used to compute the
     spectral phase function(s). Name of the spectral data base (text
     file) used to compute the spectral phase function(s)."""
+    member_data_items_ = [
+        MemberSpec_('dataEncoding', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('dataFormat', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('fileName', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, dataEncoding=0, dataFormat=8, fileName='Raster.img'):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("maket","_DEM_5")
+        self.troot=get_gs_troot('maket','_DEM_5')
         self.attrib = ['dataEncoding', 'dataFormat', 'fileName']
         self.children = []
         self.parent = None
         self._dataEncoding = _cast(int, dataEncoding)
         self._dataFormat = _cast(int, dataFormat)
         self._fileName = _cast(None, fileName)
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4419,17 +4751,17 @@ class create_DEM_5(GeneratedsSuper):
     def get_dataEncoding(self): return self._dataEncoding
     def set_dataEncoding(self, value):
         self._dataEncoding = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     dataEncoding = property(get_dataEncoding, set_dataEncoding)
     def get_dataFormat(self): return self._dataFormat
     def set_dataFormat(self, value):
         self._dataFormat = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     dataFormat = property(get_dataFormat, set_dataFormat)
     def get_fileName(self): return self._fileName
     def set_fileName(self, value):
         self._fileName = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     fileName = property(get_fileName, set_fileName)
     def copy(self):
         obj_ = self.factory()
@@ -4536,23 +4868,30 @@ class create_DEM_5(GeneratedsSuper):
             self.fileName = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_DEM_5
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_DEM_5
 
 
 class create_LatLon(GeneratedsSuper):
     """Latitude Latitude Altitude Altitude Longitude Longitude"""
+    member_data_items_ = [
+        MemberSpec_('latitude', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('altitude', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('longitude', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, latitude=0.0, altitude=0.0, longitude=0.0):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("maket","_LatLon")
+        self.troot=get_gs_troot('maket','_LatLon')
         self.attrib = ['latitude', 'altitude', 'longitude']
         self.children = []
         self.parent = None
         self._latitude = _cast(float, latitude)
         self._altitude = _cast(float, altitude)
         self._longitude = _cast(float, longitude)
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4567,17 +4906,17 @@ class create_LatLon(GeneratedsSuper):
     def get_latitude(self): return self._latitude
     def set_latitude(self, value):
         self._latitude = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     latitude = property(get_latitude, set_latitude)
     def get_altitude(self): return self._altitude
     def set_altitude(self, value):
         self._altitude = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     altitude = property(get_altitude, set_altitude)
     def get_longitude(self): return self._longitude
     def set_longitude(self, value):
         self._longitude = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     longitude = property(get_longitude, set_longitude)
     def copy(self):
         obj_ = self.factory()
@@ -4687,7 +5026,9 @@ class create_LatLon(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (longitude): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_LatLon
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_LatLon
 
 
 class create_InfiniteSlopeProperties(GeneratedsSuper):
@@ -4705,17 +5046,21 @@ class create_InfiniteSlopeProperties(GeneratedsSuper):
     the X axis to be replaced with a smooth transition between
     borders.\nWithout this smooth transition, abrupt cliffs will be
     generated to avoid holes in the scene."""
+    member_data_items_ = [
+        MemberSpec_('connectionPercentageY', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('connectionPercentageX', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
     subclass = None
     superclass = None
     def __init__(self, connectionPercentageY=5, connectionPercentageX=5):
         self.original_tagname_ = None
-        self.troot=get_gs_troot("maket","_InfiniteSlopeProperties")
+        self.troot=get_gs_troot('maket','_InfiniteSlopeProperties')
         self.attrib = ['connectionPercentageY', 'connectionPercentageX']
         self.children = []
         self.parent = None
         self._connectionPercentageY = _cast(float, connectionPercentageY)
         self._connectionPercentageX = _cast(float, connectionPercentageX)
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
             subclass = getSubclassFromModule_(
@@ -4730,12 +5075,12 @@ class create_InfiniteSlopeProperties(GeneratedsSuper):
     def get_connectionPercentageY(self): return self._connectionPercentageY
     def set_connectionPercentageY(self, value):
         self._connectionPercentageY = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     connectionPercentageY = property(get_connectionPercentageY, set_connectionPercentageY)
     def get_connectionPercentageX(self): return self._connectionPercentageX
     def set_connectionPercentageX(self, value):
         self._connectionPercentageX = value
-        update_node(self,self.troot,"maket")
+        update_node(self,self.troot,'maket')
     connectionPercentageX = property(get_connectionPercentageX, set_connectionPercentageX)
     def copy(self):
         obj_ = self.factory()
@@ -4829,7 +5174,9 @@ class create_InfiniteSlopeProperties(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (connectionPercentageX): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class create_InfiniteSlopeProperties
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+    # end class create_InfiniteSlopeProperties
 
 
 GDSClassesMapping = {
@@ -4980,6 +5327,7 @@ __all__ = [
     "create_Maket",
     "create_OpticalPropertyLink",
     "create_Point2D",
+    "create_RandomGenerationParameters",
     "create_Scene",
     "create_SceneDimensions",
     "create_Soil",
