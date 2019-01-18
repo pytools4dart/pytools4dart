@@ -1,4 +1,33 @@
 #  -*- coding: utf-8 -*-
+# ===============================================================================
+# PROGRAMMERS:
+#
+# Florian de Boissieu <florian.deboissieu@irstea.fr>
+# https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
+#
+#
+# This file is part of the pytools4dart package.
+#
+# pytools4dart is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+#
+#
+# ===============================================================================
+"""
+Functions used in core_ui modules:
+    - update new nodes with templates
+    -
+"""
 
 import pytools4dart as ptd
 import lxml.etree as etree
@@ -244,4 +273,49 @@ def get_gs_troot(module, xsdclass = 'DartFile'):
     #     'name']
     tnodename = xsdclass.replace('_','',1)
     return troot.xpath('//{}'.format(tnodename))[0]
+
+def get_nodes(corenode, dartnode):
+    """
+    get all the nodes corresponding to dartnode path
+
+    Parameters
+    ----------
+    corenode: any class of core_ui modules
+    dartnode: str
+        given by dart labels (cf get_labels)
+    Returns
+    -------
+        list
+    Examples
+    --------
+        import pytools4dart as ptd
+        simu = ptd.simulation('use_case_1')
+        dartnodes = ptd.xmlwriters.dartxml.get_labels('$Plots.*OpticalPropertyLink$')['dartnode']
+        corenode = simu.core.xsdobj['plots']
+        all_nodes = [get_nodes(cornode, dartnode) for dartnode in dartnodes]
+    """
+    dns = dartnode.split('.')
+    subdn = ''
+    dn = dns[0]
+    cn = eval('corenode.'+dn)
+    if cn is None:
+        return([])
+
+    if len(dns)== 1:
+        return(cn)
+
+
+    subdn = '.'.join(dns[1:])
+    if isinstance(cn, list):
+        l=[]
+        for subcn in cn:
+            n = get_nodes(subcn, subdn)
+            l.extend(n)
+
+        return(l)
+        # return([get_nodes(subcn, subdn) for subcn in cn])
+    n = get_nodes(cn, subdn)
+    if isinstance(n, list):
+        return(n)
+    return([n])
 

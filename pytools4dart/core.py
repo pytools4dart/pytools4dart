@@ -31,6 +31,9 @@ import os, glob, re
 import lxml.etree as etree
 import pandas as pd
 from os.path import join as pjoin
+import re
+import warnings
+
 
 import pytools4dart as ptd
 
@@ -288,8 +291,14 @@ class Core(object):
         return opt_props
 
     def get_optical_properties(self):
-        # PB with Understory top/bottom?
+        """
+        Get optical properties from coeff_diff
+        Returns
+        -------
+            pandas DataFrame with ident, index and type
 
+        """
+        # PB with Understory top/bottom?
         dartnodes = ptd.xmlwriters.dartxml.get_labels('Coeff_diff\.\w+\.\w+\.ident$')['dartnode']
 
         prop_type = []
@@ -298,7 +307,9 @@ class Core(object):
         for dn in dartnodes:
             # dn = dartnodes.iloc[0]
             head, function, multi, _=dn.split('.')
-            ptype = re.sub('Multi', '', multi)
+            # ptype = re.sub('Multi', '', multi)
+            print('.'.join([head, function]))
+            ptype = ptd.xmlwriters.dartxml.get_labels('^'+'.'.join([head, function])+'$')['label'].iloc[0]
             if function in self.xsdobjs["coeff_diff"].Coeff_diff.children:
                 prop_list = eval('self.xsdobjs["coeff_diff"].Coeff_diff.{function}.{multi}'.format(function=function, multi=multi))
                 for i, prop in enumerate(prop_list):
@@ -308,3 +319,96 @@ class Core(object):
 
         opt_props = pd.DataFrame(dict(type = prop_type, index = prop_index, ident = prop_ident))
         return opt_props
+
+    def get_thermal_properties(self):
+        """
+        Provides a DataFrame containing thermal properties names and indexes of thermal properties in coeff_diff module
+        th_props.id: location of thermal property in the thermal properties list
+        :return: DataFrame containing thermal properties names and indexes
+        """
+        thermal_props_dict = {"index": [], "idTemperature": []}
+        thermal_props_list = self.xsdobjs["coeff_diff"].Coeff_diff.Temperatures.ThermalFunction
+        for i,th_prop in enumerate(thermal_props_list):
+            thermal_props_dict["index"].append(i)
+            thermal_props_dict["idTemperature"].append(th_prop.idTemperature)
+        return pd.DataFrame(thermal_props_dict)
+
+    def get_optical_property_links(self):
+        dartnodes = ptd.xmlwriters.dartxml.get_labels('\.*OpticalPropertyLink$')['dartnode']
+        dartobject = pd.DataFrame({'corenode': [self.xsdobjs[dartnode.split('.')[0].lower()] for dartnode in dartnodes],
+                                   'dartnode': dartnodes})
+
+        # l=[get_nodes(row.corenode, row.dartnode)for row in dartobject.itertuples()]
+        optical_property_links = []
+        for row in dartobject.itertuples():
+            n = ptd.core_ui.utils.get_nodes(row.corenode, row.dartnode)
+            optical_property_links.extend(n)
+        l = []
+        for opl in optical_property_links:
+            if 'type_' in opl.attrib:
+                opl_type = opl_type_table[opl_type_table.type_int == opl.type_].type_str.iloc[0]
+            else:  # Vegetation
+                opl_type = re.sub('OpticalPropertyLink', '',
+                                  re.sub('create_', '', opl.__class__.__name__))
+
+            l.append({'ident': opl.ident, 'type': opl_type,
+                      'optical_property_link': opl})  # 'tindex':opl.indexFctPhase,
+
+        # Vegetation
+
+        return (pd.DataFrame(l))
+
+    def update_opl(self):
+        table_op = self.get_optical_properties()
+        table_opl = self.get_optical_property_links()
+        xtable_opl = pd.merge(table_opl, table_op, on=['ident', 'type'], how='left')
+
+        wrong_opl = []
+        for row in xtable_opl.itertuples():
+            if pd.isna(row.index):
+                wrong_opl.append(row.Index)
+            else:
+                row.optical_property_link.index = row.index
+        if len(wrong_opl):
+            warnings.warn('Optical Properties not found in "coeff_diff".')
+            return (table_opl.loc[wrong_opl])
+
+    def get_thermal_property_links(self):
+        dartnodes = ptd.xmlwriters.dartxml.get_labels('\.*ThermalPropertyLink$')['dartnode']
+        dartobject = pd.DataFrame(
+            {'corenode': [self.xsdobjs[dartnode.split('.')[0].lower()] for dartnode in dartnodes],
+             'dartnode': dartnodes})
+
+        # l=[get_nodes(row.corenode, row.dartnode)for row in dartobject.itertuples()]
+        thermal_property_links = []
+        for row in dartobject.itertuples():
+            n = ptd.core_ui.utils.get_nodes(row.corenode, row.dartnode)
+            thermal_property_links.extend(n)
+        l = []
+        for tpl in thermal_property_links:
+            l.append(
+                {'idTemperature': tpl.idTemperature,
+                 'thermal_property_link': tpl})  # 'tindex':opl.indexFctPhase,
+
+        return (pd.DataFrame(l))
+
+        # if isinstance(n, list):
+        #     l.extend(n)
+        # else:
+        #     l.append(n)
+        # l = [ptd.core.get_nodes(self.xsdnodes[])for dartnode in dartnodes]
+
+    def update_tpl(self):
+        table_tp = self.get_thermal_properties()
+        table_tpl = self.get_thermal_property_links()
+        xtable_tpl = pd.merge(table_tpl, table_tp, on=['idTemperature'], how='left')
+
+        wrong_tpl = []
+        for row in xtable_tpl.itertuples():
+            if pd.isna(row.index):
+                wrong_tpl.append(row.Index)
+            else:
+                row.thermal_property_link.index = row.index
+        if len(wrong_tpl):
+            warnings.warn('Thermal Properties not found in "coeff_diff".')
+            return (table_tpl.loc[wrong_tpl])

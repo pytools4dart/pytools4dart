@@ -160,3 +160,19 @@ def get_labels(pat=None, case=False, regex=False, column='dartnode'):
     labelsdf = labelsdf[['label', 'dartnode']]
 
     return labelsdf
+
+def write_labels(directory):
+    """
+    Extract DART xsd files and writes them in input directory
+
+    Parameters
+    ----------
+    directory: str
+        Path to write pytools4dart core directory (typically 'pytools4dart/xsdschemas')
+    """
+    labels = get_labels()
+    labels.to_csv(os.path.join(directory, 'dart_labels.txt'), sep='\t')
+    # for k, v in xmlschemas.iteritems():
+    #     filename=pjoin(os.path.abspath(directory), k+'.xsd')
+    #     with open(filename, 'w') as f:
+    #         f.write(v)
