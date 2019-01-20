@@ -290,7 +290,7 @@ def get_nodes(corenode, dartnode):
     --------
         import pytools4dart as ptd
         simu = ptd.simulation('use_case_1')
-        dartnodes = ptd.xmlwriters.dartxml.get_labels('$Plots.*OpticalPropertyLink$')['dartnode']
+        dartnodes = ptd.core_ui.utils.get_labels('$Plots.*OpticalPropertyLink$')['dartnode']
         corenode = simu.core.xsdobj['plots']
         all_nodes = [get_nodes(cornode, dartnode) for dartnode in dartnodes]
     """
@@ -319,3 +319,50 @@ def get_nodes(corenode, dartnode):
         return(n)
     return([n])
 
+def get_labels(pat=None, case=False, regex=True, column='dartnode'):
+    """
+    Extract DART labels and corresponding DART node from labels.tab.
+
+    Parameters
+    ----------
+
+    pat: str
+        Character sequence or regular expression.
+
+        See pandas.Series.str.contains.
+
+    case: bool
+        If True, case sensitive.
+
+        See pandas.Series.str.contains.
+
+    regex: bool
+        If True, assumes the pat is a regular expression.
+
+        If False, treats the pat as a literal string.
+
+        See pandas.Series.str.contains.
+
+    column: str
+        Column name to apply pattern filtering: 'label' or 'dartnode'.
+
+    Returns
+    -------
+        DataFrame
+
+    Examples
+    --------
+    # get all nodes finishing with OpticalPropertyLink
+    import pytools4dart as ptd
+    ptd.core_ui.utils.get_labels('OpticalPropertyLink$')
+    """
+    labelsFpath = os.path.join(ptd.__path__[0], 'labels','labels.tab')
+    if not os.path.exists(labelsFpath):
+        raise Exception('File not found:\n'+labelsFpath+
+                        '\n\nPlease reconfigure pytools4dart.')
+    labelsdf = pd.read_csv(labelsFpath, sep='\t')
+    if pat is not None:
+        labelsdf = labelsdf[labelsdf[column].str.contains(pat, case, regex=regex)]
+
+    labelsdf = labelsdf[['label', 'dartnode']]
+    return labelsdf

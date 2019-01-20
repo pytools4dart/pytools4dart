@@ -26,6 +26,7 @@
 """
 This module contains some useful constants.
 """
+import pandas as pd
 
 spbands_fields = ['wvl', 'fwhm']
 
@@ -42,3 +43,10 @@ plots_table_header = ['PLT_NUMBER', 'PLOT_SOURCE', 'PLT_TYPE', 'PT_1_X', 'PT_1_Y
                               'GRD_OPT_TYPE', 'GRD_OPT_NUMB', 'GRD_OPT_NAME', 'GRD_THERM_NUMB', 'GRD_THERM_NAME',
                               'PLT_OPT_NUMB', 'PLT_OPT_NAME', 'PLT_THERM_NUMB', 'PLT_THERM_NAME',
                               'PLT_BTM_HEI', 'PLT_HEI_MEA', 'PLT_STD_DEV', 'VEG_DENSITY_DEF', 'VEG_LAI', 'VEG_UL']
+
+# Optical property link type numbers
+opl_type_table = pd.DataFrame([[0, 'Lambertian'],
+                              [2, 'Hapke'],
+                              [3, 'Phase'],
+                              [4, 'RPV'],
+                              [8, 'Interface']], columns=['type_int', 'type_str'])

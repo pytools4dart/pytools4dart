@@ -351,6 +351,7 @@ def build_core(directory=None):
 
     templatesDpath = os.path.join(directory,'templates')
     xsdDpath = os.path.join(directory, 'xsdschemas')
+    labelsDpath = os.path.join(directory, 'labels')
 
     # remove templates and xsdschemas directory
     if os.path.exists(templatesDpath):
@@ -361,6 +362,11 @@ def build_core(directory=None):
         for s in os.listdir(xsdDpath):
             os.remove(os.path.join(xsdDpath, s))
         os.rmdir(xsdDpath)
+    if os.path.exists(labelsDpath):
+        for s in os.listdir(labelsDpath):
+            os.remove(os.path.join(labelsDpath, s))
+        os.rmdir(labelsDpath)
+
 
     try:
         os.mkdir(templatesDpath)
@@ -372,8 +378,15 @@ def build_core(directory=None):
     except:
         print("Directory ", xsdDpath, " already exists")
 
+    try:
+        os.mkdir(labelsDpath)
+    except:
+        print("Directory ", xsdDpath, " already exists")
+
+
     ptd.xmlwriters.dartxml.write_templates(templatesDpath)
     ptd.xmlwriters.dartxml.write_schemas(xsdDpath)
+    ptd.xmlwriters.dartxml.write_labels(labelsDpath)
 
     xsdnames = [s.split('.xsd')[0] for s in os.listdir(xsdDpath) if s.endswith('.xsd')]
     

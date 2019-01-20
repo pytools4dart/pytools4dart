@@ -388,7 +388,7 @@ class Add(object):
             databaseName: path to database
             ident: model name called in simulation, e.g. in plots.
 
-        Available arguments and default value are
+        Available arguments and default values are
             - Lambertian:
                 ModelName='reflect_equal_1_trans_equal_0_0',
                 databaseName='Lambertian_vegetation.db',
@@ -440,7 +440,7 @@ class Add(object):
 
         # TODO replace opt_property by optical_property and kwargs
 
-        # children are not available because they can generate conflict (not tested however):
+        # children variables are not available because they can generate conflict (not tested however):
         # Lambertian
         #     SpecularData = None,
         #     ProspectExternalModule = None,
@@ -468,7 +468,7 @@ class Add(object):
         #     understoryNodeMultiplicativeFactorForLUT = None
         # AirFunction
         #     AirFunctionNodeMultiplicativeFactorForLut = None
-        dartnode = ptd.xmlwriters.dartxml.get_labels(pat='{type}MultiplicativeFactorForLUT$'.format(type=type),case=False)['dartnode'].iloc[0]
+        dartnode = ptd.core_ui.utils.get_labels(pat='{type}MultiplicativeFactorForLUT$'.format(type=type),case=False)['dartnode'].iloc[0]
 
         self.simu.core.extract_sp_bands_table()
         nb_sp_bands = self.simu.bands.shape[0]
@@ -480,12 +480,12 @@ class Add(object):
             propargnames = [tmp.attrib, tmp.children]
             propargs = {k: v for k, v in kwargs.iteritems() if k in propargnames}
             modelargs = { k:v for k,v in kwargs.iteritems() if k not in propargnames}
-            model = eval('ptd.coeff_diff.create_{model}(**modelargs)'.format(model=model)) # optproplist_xmlpath.split(".")[1]
-            propargs['UnderstoryMultiModel']=model
+            new_model = eval('ptd.coeff_diff.create_{model}(**modelargs)'.format(model=model)) # optproplist_xmlpath.split(".")[1]
+            propargs['UnderstoryMultiModel']=new_model
             prop = eval('ptd.coeff_diff.create_{multi}(**propargs)'.format(multi=multi)) # optproplist_xmlpath.split(".")[1]
         else:
             module, fun, multi, node, factor = dartnode.split('.')
-            model = None
+            new_model = None
             prop = eval('ptd.coeff_diff.create_{multi}(**kwargs)'.format(multi=multi)) # optproplist_xmlpath.split(".")[1]
 
         # check if already exists

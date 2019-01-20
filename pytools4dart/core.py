@@ -299,7 +299,7 @@ class Core(object):
 
         """
         # PB with Understory top/bottom?
-        dartnodes = ptd.xmlwriters.dartxml.get_labels('Coeff_diff\.\w+\.\w+\.ident$')['dartnode']
+        dartnodes = ptd.core_ui.utils.get_labels('Coeff_diff\.\w+\.\w+\.ident$')['dartnode']
 
         prop_type = []
         prop_index = []
@@ -309,7 +309,7 @@ class Core(object):
             head, function, multi, _=dn.split('.')
             # ptype = re.sub('Multi', '', multi)
             print('.'.join([head, function]))
-            ptype = ptd.xmlwriters.dartxml.get_labels('^'+'.'.join([head, function])+'$')['label'].iloc[0]
+            ptype = ptd.core_ui.utils.get_labels('^'+'.'.join([head, function])+'$')['label'].iloc[0]
             if function in self.xsdobjs["coeff_diff"].Coeff_diff.children:
                 prop_list = eval('self.xsdobjs["coeff_diff"].Coeff_diff.{function}.{multi}'.format(function=function, multi=multi))
                 for i, prop in enumerate(prop_list):
@@ -334,7 +334,7 @@ class Core(object):
         return pd.DataFrame(thermal_props_dict)
 
     def get_optical_property_links(self):
-        dartnodes = ptd.xmlwriters.dartxml.get_labels('\.*OpticalPropertyLink$')['dartnode']
+        dartnodes = ptd.core_ui.utils.get_labels('\.*OpticalPropertyLink$')['dartnode']
         dartobject = pd.DataFrame({'corenode': [self.xsdobjs[dartnode.split('.')[0].lower()] for dartnode in dartnodes],
                                    'dartnode': dartnodes})
 
@@ -356,7 +356,7 @@ class Core(object):
 
         # Vegetation
 
-        return (pd.DataFrame(l))
+        return pd.DataFrame(l)
 
     def update_opl(self):
         table_op = self.get_optical_properties()
@@ -371,10 +371,10 @@ class Core(object):
                 row.optical_property_link.index = row.index
         if len(wrong_opl):
             warnings.warn('Optical Properties not found in "coeff_diff".')
-            return (table_opl.loc[wrong_opl])
+            return table_opl.loc[wrong_opl]
 
     def get_thermal_property_links(self):
-        dartnodes = ptd.xmlwriters.dartxml.get_labels('\.*ThermalPropertyLink$')['dartnode']
+        dartnodes = ptd.core_ui.utils.get_labels('\.*ThermalPropertyLink$')['dartnode']
         dartobject = pd.DataFrame(
             {'corenode': [self.xsdobjs[dartnode.split('.')[0].lower()] for dartnode in dartnodes],
              'dartnode': dartnodes})
@@ -390,7 +390,7 @@ class Core(object):
                 {'idTemperature': tpl.idTemperature,
                  'thermal_property_link': tpl})  # 'tindex':opl.indexFctPhase,
 
-        return (pd.DataFrame(l))
+        return  pd.DataFrame(l)
 
         # if isinstance(n, list):
         #     l.extend(n)

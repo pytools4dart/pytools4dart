@@ -120,24 +120,42 @@ def get_schemas():
     return schemas
 
 
-def get_labels(pat=None, case=False, regex=False, column='dartnode'):
+def get_labels(pat=None, case=False, regex=True, column='dartnode'):
     """
-    Extract DART labels and corresponding nodes from DARTIHMSimulationEditor.jar
+    Extract DART labels and corresponding DART node from DARTIHMSimulationEditor.jar.
+    Prefer to use ptd.core_ui.utils.get_labels for rapidty.
     Parameters
     ----------
+
     pat: str
         Character sequence or regular expression.
 
-    case: str
+        See pandas.Series.str.contains.
+
+    case: bool
         If True, case sensitive.
 
+        See pandas.Series.str.contains.
+
+    regex: bool
+        If True, assumes the pat is a regular expression.
+
+        If False, treats the pat as a literal string.
+
+        See pandas.Series.str.contains.
+
     column: str
-        Column name to apply pattern filtering: 'labels' or 'dartnode'.
+        Column name to apply pattern filtering: 'label' or 'dartnode'.
 
     Returns
     -------
         DataFrame
 
+    Examples
+    --------
+    # get all nodes finishing with OpticalPropertyLink
+    import pytools4dart as ptd
+    ptd.core_ui.utils.get_labels('OpticalPropertyLink$')
     """
 
     dartenv = getdartenv()
@@ -148,10 +166,10 @@ def get_labels(pat=None, case=False, regex=False, column='dartnode'):
 
     labels = labels.split('\n')
 
-    regex = re.compile(r'^(.+?)\s*=\s*(.*?)\s*$', re.M | re.I)
+    rx = re.compile(r'^(.+?)\s*=\s*(.*?)\s*$', re.M | re.I)
 
     labelsdf = pd.DataFrame(
-        [regex.findall(line)[0] for line in labels if len(regex.findall(line))],
+        [rx.findall(line)[0] for line in labels if len(rx.findall(line))],
     columns = ['dartnode', 'label'])
 
     if pat is not None:
@@ -171,8 +189,7 @@ def write_labels(directory):
         Path to write pytools4dart core directory (typically 'pytools4dart/xsdschemas')
     """
     labels = get_labels()
-    labels.to_csv(os.path.join(directory, 'dart_labels.txt'), sep='\t')
-    # for k, v in xmlschemas.iteritems():
-    #     filename=pjoin(os.path.abspath(directory), k+'.xsd')
-    #     with open(filename, 'w') as f:
-    #         f.write(v)
+    labels.to_csv(os.path.join(directory, 'labels.tab'), sep='\t', index=False)
+
+
+
