@@ -2,7 +2,8 @@
 # ===============================================================================
 # PROGRAMMERS:
 #
-# Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>
+# Florian de Boissieu <fdeboiss@gmail.com>
+# Eric Chraibi <eric.chraibi@irstea.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
 #
