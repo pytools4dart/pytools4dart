@@ -2,9 +2,8 @@
 # ===============================================================================
 # PROGRAMMERS:
 #
-# Claudia Lavalley <claudia.lavalley@cirad.fr>
+# Florian de Boissieu <florian.deboissieu@irstea.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
-#
 #
 # This file is part of the pytools4dart package.
 #
@@ -23,22 +22,30 @@
 #
 #
 # ===============================================================================
-"""
-This module contains the class "Core".
-"""
 
-class Update(object):
-    def __init__(self, simu):
-        self.simu = simu
-        self.lock_tabs = False
-        self.lock_core = False
+import timeit
+import pytools4dart as ptd
 
-    def tables(self): # update tables from core
-        self.simu.core.update()
-        self.lock_tabs = False
+# Build list of plots
+plots = ptd.plots.createDartFile()
+Plot = ptd.plots.create_Plot()
+plots.Plots.Plot=[]
 
-    def core(self): # update core from tables
-        self.simu.scene.update_xsdobjs()
-        self.simu.acquisition.update_xsdobjs()
-        self.lock_core = False
+tic=timeit.default_timer()
+for i in range(100):
+    plots.Plots.add_Plot(Plot.copy())
+toc=timeit.default_timer()
+print('elapsed time 1 = {}'.format(toc - tic))
 
+# Build simulation
+simu = ptd.simulation()
+simu.name = 'test_100plots'
+simu.core.xsdobjs['plots']=plots
+simu.core.update_simu() # updates simu.scene and simu.acquisition
+simu.add.optical_property('Vegetation')
+simu.scene.update_xsdobjs()
+simu.write(overwrite=True)
+try:
+    simu.run.full()
+except(Exception):
+    print(Exception.message)

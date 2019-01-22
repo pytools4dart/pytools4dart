@@ -50,3 +50,9 @@ opl_type_table = pd.DataFrame([[0, 'Lambertian'],
                               [3, 'Phase'],
                               [4, 'RPV'],
                               [8, 'Interface']], columns=['type_int', 'type_str'])
+
+plot_type_table =pd.DataFrame([[0, 'Ground'],
+                               [1, 'Vegetation'],
+                               [2, 'Ground + Vegetation'],
+                               [3, 'Fluid'],
+                               [4, 'Water']], columns=['type_int', 'type_str'])

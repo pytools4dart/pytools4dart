@@ -38,21 +38,22 @@ import warnings
 import pytools4dart as ptd
 
 from pytools4dart.helpers.constants import *
+from pytools4dart.core_ui.utils import get_labels, get_nodes
 
-from pytools4dart.core_ui.plots import createDartFile
-from pytools4dart.core_ui.phase import createDartFile
-from pytools4dart.core_ui.atmosphere import createDartFile
-from pytools4dart.core_ui.coeff_diff import createDartFile
-from pytools4dart.core_ui.directions import createDartFile
-from pytools4dart.core_ui.object_3d import createDartFile
-from pytools4dart.core_ui.maket import createDartFile
-from pytools4dart.core_ui.inversion import createDartFile
-from pytools4dart.core_ui.LUT import createDartFile
-from pytools4dart.core_ui.lut import createDartFile
-from pytools4dart.core_ui.trees import createDartFile
-from pytools4dart.core_ui.triangleFile import createDartFile
-from pytools4dart.core_ui.water import createDartFile
-from pytools4dart.core_ui.urban import createDartFile
+# from pytools4dart.core_ui.plots import createDartFile
+# from pytools4dart.core_ui.phase import createDartFile
+# from pytools4dart.core_ui.atmosphere import createDartFile
+# from pytools4dart.core_ui.coeff_diff import createDartFile
+# from pytools4dart.core_ui.directions import createDartFile
+# from pytools4dart.core_ui.object_3d import createDartFile
+# from pytools4dart.core_ui.maket import createDartFile
+# from pytools4dart.core_ui.inversion import createDartFile
+# from pytools4dart.core_ui.LUT import createDartFile
+# from pytools4dart.core_ui.lut import createDartFile
+# from pytools4dart.core_ui.trees import createDartFile
+# from pytools4dart.core_ui.triangleFile import createDartFile
+# from pytools4dart.core_ui.water import createDartFile
+# from pytools4dart.core_ui.urban import createDartFile
 
 class Core(object):
     def __init__(self, simu):
@@ -70,7 +71,13 @@ class Core(object):
         #if the simulation exists, populate xsd_core with simulation XML files contents
 
 
-    def update(self):
+    def update_simu(self):
+        """
+        updates simulation user friendly interface: scene and acquisition
+        Returns
+        -------
+
+        """
         self.simu.scene.properties = self.extract_properties_dict()  # dictionnary containing "opt_props" and "thermal_props" DataFrames
         self.simu.scene.plots = self.extract_plots_full_table()  # DataFrame containing Plots fields according to DART Plot.txt header*
         #self.simu.scene.trees = ToDo
@@ -116,7 +123,7 @@ class Core(object):
         """
 
         #extract XSDs objs plots:
-        plot_source = "XSD Plot"
+        plot_source = "Core"
         rows = []
 
         plots_list = self.xsdobjs["plots"].Plots.Plot
@@ -150,7 +157,7 @@ class Core(object):
                 th_prop_node_name = None
                 geom_node_name = None
 
-                if plt_type in [1,2]: # vegetation or veg+grd
+                if plt_type in [1,2]: # vegetation or vegetation+ground
                     opt_prop_node_name = "PlotVegetationProperties.VegetationOpticalPropertyLink"
                     th_prop_node_name = "PlotVegetationProperties.GroundThermalPropertyLink"
                     geom_node_name = "PlotVegetationProperties.VegetationGeometry"
@@ -191,11 +198,12 @@ class Core(object):
         #                       'PLT_BTM_HEI', 'PLT_HEI_MEA', 'PLT_STD_DEV', 'VEG_DENSITY_DEF', 'VEG_LAI', 'VEG_UL']
 
         plots_df = pd.DataFrame(rows, columns=plots_table_header)
+        plots_df.PLT_TYPE = plots_df.PLT_TYPE.astype('category').cat.set_categories(plot_type_table.type_int.values).cat.rename_categories(plot_type_table.type_str.values)
 
         if self.simu.is_plots_txt_file_considered():
             plotstxt_file_path = self.xsdobjs["plots"].Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName
             plotstxt_df = self.simu.read_dart_txt_file_with_header(file_path=plotstxt_file_path, sep_str=" ")
-            plotstxt_df['PLOT_SOURCE'] = "TXT Plot"
+            plotstxt_df['PLOT_SOURCE'] = plotstxt_file_path
             sLength = len(plotstxt_df['PLT_TYPE'])
 
             plt_num_col = dict(enumerate(range(sLength)))
@@ -227,7 +235,8 @@ class Core(object):
         self.simu.scene.properties = self.extract_properties_dict()
 
     def extract_properties_dict(self):
-        return {"opt_props": self.get_opt_props(), "thermal_props": self.get_thermal_props()}
+        return {"opt_props": self.get_opt_props(), "thermal_props": self.get_thermal_props(),
+                "optical": self.get_optical_properties(), "thermal": self.get_thermal_properties()}
 
     def get_thermal_props(self):
         """
@@ -308,7 +317,7 @@ class Core(object):
             # dn = dartnodes.iloc[0]
             head, function, multi, _=dn.split('.')
             # ptype = re.sub('Multi', '', multi)
-            print('.'.join([head, function]))
+            # OpticalPropertyLink type names are different from Coeff_diff type names, e.g. Vegetation <-> Understory
             ptype = ptd.core_ui.utils.get_labels('^'+'.'.join([head, function])+'$')['label'].iloc[0]
             if function in self.xsdobjs["coeff_diff"].Coeff_diff.children:
                 prop_list = eval('self.xsdobjs["coeff_diff"].Coeff_diff.{function}.{multi}'.format(function=function, multi=multi))
@@ -412,3 +421,44 @@ class Core(object):
         if len(wrong_tpl):
             warnings.warn('Thermal Properties not found in "coeff_diff".')
             return (table_tpl.loc[wrong_tpl])
+
+    def update_mf(self):
+        """
+        Update the number multiplicative factors for each optical property in coeff_diff module
+        is equal to the number of spectral bands in phase module
+
+        if spectral band multiplicative factors are missing in coeff_diff module,
+        default multiplicative factors are introduced for each missing spectral band
+
+        :return: True if the number of spectral bands in phase XSD module is equal to the number of spectral bandds in each optical property given in coeff_diff XSD module
+                      (including if this has been corrected)
+                 False otherwise
+        """
+
+        phase_spbands_nb = len(self.simu.core.xsdobjs["phase"].Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties)
+
+        dartnodes = get_labels('Coeff_diff.*\.useSameFactorForAllBands$')['dartnode']
+        for dartnode in dartnodes:
+            dn = '.'.join(dartnode.split('.')[:-1]) # parent dart node
+            cns = get_nodes(self.simu.core.xsdobjs['coeff_diff'], dn) # parent core node
+            for cn in cns:
+                multi = [c for c in cn.children if c.endswith('MultiplicativeFactorForLUT')][0]
+                if cn.useSameFactorForAllBands == 1 or \
+                        eval('len(cn.{multi})')!=phase_spbands_nb:
+                    multiargs={}
+                    for a in cn.attrib:
+                        if a.endswith('Factor'):
+                            multiargs[a]=eval('cn.' + a)
+                    # multiargs = {a:eval('cn.'+a) for a in cn.attrib if a.endswith('Factor')}
+                    new = eval('ptd.core_ui.coeff_diff.create_{multi}(**multiargs)'.format(multi=multi))
+                    for i in range(phase_spbands_nb-1):
+                        eval('cn.add_{multi}(new.copy())'.format(multi=multi))
+                else:
+                    # multiargs = {}
+                    # for a in cn.attrib:
+                    #     if a.endswith('Factor'):
+                    #         multiargs[a]=eval('cn.' + a)
+                    # # multiargs = {a: eval('cn.' + a) for a in cn.attrib if a.endswith('Factor')}
+                    # new = eval('ptd.core_ui.coeff_diff.create_{multi}(**multiargs)'.format(multi=multi))
+                    eval('cn.set_{multi}([])'.format(multi=multi))
+

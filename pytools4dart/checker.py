@@ -3,6 +3,7 @@
 # PROGRAMMERS:
 #
 # Claudia Lavalley <claudia.lavalley@cirad.fr>
+# Florian de Boissieu <florian.deboissieu@irstea.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
 #
@@ -28,6 +29,7 @@ This module contains the class "Checker".
 """
 
 import pandas as pd
+import warnings
 
 from pytools4dart.helpers.constants import *
 
@@ -71,16 +73,16 @@ class Checker(object):
         Att: In the case of plots.txt et trees.txt, we can only check if the given property index does exist
         :return:
         """
-        self.simu.core.update()
+        self.simu.core.update_simu()
         check_plots = self.plots_props()
-        check_scene = self.scene_props()
-        check_object3d = self.object_3d_props()
+        # check_scene = self.scene_props()
+        # check_object3d = self.object_3d_props()
         if self.is_tree_txt_file_considered():# if additional tree.txt like file is considered
             check_trees_txt_props = self.trees_txt_props()
         else:
             check_trees_txt_props = True  # has no impact on return value
 
-        return check_plots and check_scene and check_object3d and check_trees_txt_props
+        return check_plots and check_trees_txt_props # and check_scene and check_object3d
 
 
     def plots_props(self):
@@ -144,6 +146,8 @@ class Checker(object):
 
         return plots_by_plot_type
 
+
+
     def plots_opt_props(self):
         check = True
         opt_props = self.simu.scene.properties["opt_props"]
@@ -182,7 +186,7 @@ class Checker(object):
                         print("ERROR: indexes inconsistency, proceed to correction ")# TO Be TESTED!!
                         for i, eq_value in enumerate(eq_serie):
                             if eq_value == False:
-                                plot_number = cross_props["PLT_NUMB"]
+                                plot_number = cross_props["PLT_NUMBER"]
                                 prop_index = cross_props[i]["prop_index"]
                                 self.simu.scene.plots.iloc[plot_number]["PLT_OPT_NUMB"] = prop_index
                                 plot = self.simu.core.xsdobjs["plots"].Plots.Plot[plot_number]
@@ -258,115 +262,117 @@ class Checker(object):
                                 plot.GroundThermalPropertyLink.indexTemperature = prop_index
         return check
 
-    def scene_props(self):
-        """
-        check if optical property associated to soil exist in optical properties list
-        :return:True if associated properties are found in properties lists, False if not
-        """
-        check = True
-        #opt_prop
-        opt_prop = self.simu.core.xsdobjs["maket"].Maket.Soil.OpticalPropertyLink
-        opt_prop_name = opt_prop.ident
-        opt_prop_type = grd_opt_prop_types_dict[opt_prop.type_]
-        #index_opt_prop = self.checkandcorrect_opt_prop_exists(opt_prop_type,opt_prop_name,createProps)
-        index_opt_prop = self.simu.get_opt_prop_index(opt_prop_type,opt_prop_name)
-
-        th_prop = self.simu.core.xsdobjs["maket"].Maket.Soil.ThermalPropertyLink
-        th_prop_name = th_prop.idTemperature
-        #index_th_prop = self.checkandcorrect_th_prop_exists(th_prop_name, createProps)
-        index_th_prop = self.simu.get_thermal_prop_index(th_prop_name)
-
-        if index_opt_prop == None or index_th_prop == None:
-                print("ERROR: opt_prop %s or th_prop %s does not exist, please fix" % (opt_prop_name,th_prop_name))
-                return False
-        else:
-            if opt_prop.indexFctPhase != index_opt_prop:
-                print("warning:  opt_prop %s index inconsistency, correcting index" % opt_prop_name)
-                opt_prop.indexFctPhase = index_opt_prop
-            if th_prop.indexTemperature != index_th_prop:
-                print("warning:  th_prop %s index inconsistency, correcting index" % th_prop_name)
-                th_prop.indexTemperature = index_th_prop
-
-        return check
-
-    def object_3d_props(self):
-        """
-        check if optical/thermal properties associated to all 3d objects groups exist in optical properties list
-        if any optical/thermal proprerty does not exist, an Error message is displayed
-        :return: True if every property associated to 3D ojects exist in properties lists
-        """
-        check = True
-
-        obj3dList = self.simu.core.xsdobjs["object_3d"].object_3d.ObjectList.Object
-        for obj3d in obj3dList:
-            if obj3d.hasGroups == 1: # are there groups?
-                groups = obj3d.Groups.Group
-                for group in groups:
-                    opt_prop = group.GroupOpticalProperties.OpticalPropertyLink
-                    opt_prop_type = opt_prop.type_
-                    opt_prop_name = opt_prop.ident
-                    index_opt_prop = self.simu.get_opt_prop_index(grd_opt_prop_types_dict[opt_prop_type], opt_prop_name)
-
-                    th_prop = group.GroupOpticalProperties.ThermalPropertyLink
-                    th_prop_name = th_prop.idTemperature
-                    index_th_prop = self.simu.get_thermal_prop_index(th_prop_name)
-
-                    # error for front face
-                    if index_opt_prop == None or index_th_prop == None:
-                            print("ERROR: opt_prop %s or th_prop %s does not exist, please FIX" % (opt_prop_name,th_prop_name))
-                            return False
-                    else:
-                        if opt_prop.indexFctPhase != index_opt_prop:
-                            print("warning:  opt_prop %s index inconsistency, correcting index" % opt_prop_name)
-                            opt_prop.indexFctPhase = index_opt_prop
-                        if th_prop.indexTemperature != index_th_prop:
-                            print("warning:  th_prop %s index inconsistency, correcting index" % th_prop_name)
-                            th_prop.indexTemperature = index_th_prop
-
-                    if group.GroupOpticalProperties.doubleFace == 1:
-                        back_opt_prop = group.GroupOpticalProperties.BackFaceOpticalProperty.OpticalPropertyLink
-                        back_opt_prop_type = back_opt_prop.type_
-                        back_opt_prop_name = back_opt_prop.ident
-                        index_back_opt_prop = self.simu.get_opt_prop_index(grd_opt_prop_types_dict[back_opt_prop_type], back_opt_prop_name)
-
-
-                        back_th_prop = group.GroupOpticalProperties.BackFaceThermalProperty.ThermalPropertyLink
-                        back_th_prop_name = back_th_prop.idTemperature
-                        index_back_th_prop = self.simu.get_thermal_prop_index(back_th_prop_name)
-
-                        if index_back_opt_prop == None or index_back_th_prop == None:
-                            print("ERROR: opt_prop %s or th_prop %s does not exist, please FIX" % (
-                            opt_prop_name, th_prop_name))
-                            return False
-                        else:
-                            if back_opt_prop.indexFctPhase != index_back_opt_prop:
-                                print("warning:  opt_prop %s index inconsistency, correcting index" % back_opt_prop_name)
-                                opt_prop.indexFctPhase = index_back_opt_prop
-                            if back_th_prop.indexTemperature != index_back_th_prop:
-                                print("warning:  th_prop %s index inconsistency, correcting index" % back_th_prop_name)
-                                th_prop.indexTemperature = index_back_th_prop
-
-            else: # object without groups
-                opt_prop = obj3d.ObjectOpticalProperties.OpticalPropertyLink
-                opt_prop_type = opt_prop.type_
-                opt_prop_name = opt_prop.ident
-                index_opt_prop = self.simu.get_opt_prop_index(grd_opt_prop_types_dict[opt_prop_type], opt_prop_name)
-
-                th_prop = obj3d.ObjectOpticalProperties.ThermalPropertyLink
-                th_prop_name = th_prop.idTemperature
-                index_th_prop = self.simu.get_thermal_prop_index(th_prop_name)
-
-                if index_opt_prop == None or index_th_prop == None:
-                    print("ERROR: opt_prop %s or th_prop %s does not exist, please FIX" % (opt_prop_name, th_prop_name))
-                    return False
-                else:
-                    if opt_prop.indexFctPhase != index_opt_prop:
-                        print("warning:  opt_prop %s index inconsistency, correcting index" % opt_prop_name)
-                        opt_prop.indexFctPhase = index_opt_prop
-                    if th_prop.indexTemperature != index_th_prop:
-                        print("warning:  th_prop %s index inconsistency, correcting index" % th_prop_name)
-                        th_prop.indexTemperature = index_th_prop
-        return check
+    ## Done in core.update_opl
+    # def scene_props(self):
+    #     """
+    #     check if optical property associated to soil exist in optical properties list
+    #     :return:True if associated properties are found in properties lists, False if not
+    #     """
+    #     check = True
+    #     #opt_prop
+    #     opt_prop = self.simu.core.xsdobjs["maket"].Maket.Soil.OpticalPropertyLink
+    #     opt_prop_name = opt_prop.ident
+    #     opt_prop_type = grd_opt_prop_types_dict[opt_prop.type_]
+    #     #index_opt_prop = self.checkandcorrect_opt_prop_exists(opt_prop_type,opt_prop_name,createProps)
+    #     index_opt_prop = self.simu.get_opt_prop_index(opt_prop_type,opt_prop_name)
+    #
+    #     th_prop = self.simu.core.xsdobjs["maket"].Maket.Soil.ThermalPropertyLink
+    #     th_prop_name = th_prop.idTemperature
+    #     #index_th_prop = self.checkandcorrect_th_prop_exists(th_prop_name, createProps)
+    #     index_th_prop = self.simu.get_thermal_prop_index(th_prop_name)
+    #
+    #     if index_opt_prop == None or index_th_prop == None:
+    #             print("ERROR: opt_prop %s or th_prop %s does not exist, please fix" % (opt_prop_name,th_prop_name))
+    #             return False
+    #     else:
+    #         if opt_prop.indexFctPhase != index_opt_prop:
+    #             print("warning:  opt_prop %s index inconsistency, correcting index" % opt_prop_name)
+    #             opt_prop.indexFctPhase = index_opt_prop
+    #         if th_prop.indexTemperature != index_th_prop:
+    #             print("warning:  th_prop %s index inconsistency, correcting index" % th_prop_name)
+    #             th_prop.indexTemperature = index_th_prop
+    #
+    #     return check
+    #
+    ## Done in core.update_opl
+    # def object_3d_props(self):
+    #     """
+    #     check if optical/thermal properties associated to all 3d objects groups exist in optical properties list
+    #     if any optical/thermal proprerty does not exist, an Error message is displayed
+    #     :return: True if every property associated to 3D ojects exist in properties lists
+    #     """
+    #     check = True
+    #
+    #     obj3dList = self.simu.core.xsdobjs["object_3d"].object_3d.ObjectList.Object
+    #     for obj3d in obj3dList:
+    #         if obj3d.hasGroups == 1: # are there groups?
+    #             groups = obj3d.Groups.Group
+    #             for group in groups:
+    #                 opt_prop = group.GroupOpticalProperties.OpticalPropertyLink
+    #                 opt_prop_type = opt_prop.type_
+    #                 opt_prop_name = opt_prop.ident
+    #                 index_opt_prop = self.simu.get_opt_prop_index(grd_opt_prop_types_dict[opt_prop_type], opt_prop_name)
+    #
+    #                 th_prop = group.GroupOpticalProperties.ThermalPropertyLink
+    #                 th_prop_name = th_prop.idTemperature
+    #                 index_th_prop = self.simu.get_thermal_prop_index(th_prop_name)
+    #
+    #                 # error for front face
+    #                 if index_opt_prop == None or index_th_prop == None:
+    #                         print("ERROR: opt_prop %s or th_prop %s does not exist, please FIX" % (opt_prop_name,th_prop_name))
+    #                         return False
+    #                 else:
+    #                     if opt_prop.indexFctPhase != index_opt_prop:
+    #                         print("warning:  opt_prop %s index inconsistency, correcting index" % opt_prop_name)
+    #                         opt_prop.indexFctPhase = index_opt_prop
+    #                     if th_prop.indexTemperature != index_th_prop:
+    #                         print("warning:  th_prop %s index inconsistency, correcting index" % th_prop_name)
+    #                         th_prop.indexTemperature = index_th_prop
+    #
+    #                 if group.GroupOpticalProperties.doubleFace == 1:
+    #                     back_opt_prop = group.GroupOpticalProperties.BackFaceOpticalProperty.OpticalPropertyLink
+    #                     back_opt_prop_type = back_opt_prop.type_
+    #                     back_opt_prop_name = back_opt_prop.ident
+    #                     index_back_opt_prop = self.simu.get_opt_prop_index(grd_opt_prop_types_dict[back_opt_prop_type], back_opt_prop_name)
+    #
+    #
+    #                     back_th_prop = group.GroupOpticalProperties.BackFaceThermalProperty.ThermalPropertyLink
+    #                     back_th_prop_name = back_th_prop.idTemperature
+    #                     index_back_th_prop = self.simu.get_thermal_prop_index(back_th_prop_name)
+    #
+    #                     if index_back_opt_prop == None or index_back_th_prop == None:
+    #                         print("ERROR: opt_prop %s or th_prop %s does not exist, please FIX" % (
+    #                         opt_prop_name, th_prop_name))
+    #                         return False
+    #                     else:
+    #                         if back_opt_prop.indexFctPhase != index_back_opt_prop:
+    #                             print("warning:  opt_prop %s index inconsistency, correcting index" % back_opt_prop_name)
+    #                             opt_prop.indexFctPhase = index_back_opt_prop
+    #                         if back_th_prop.indexTemperature != index_back_th_prop:
+    #                             print("warning:  th_prop %s index inconsistency, correcting index" % back_th_prop_name)
+    #                             th_prop.indexTemperature = index_back_th_prop
+    #
+    #         else: # object without groups
+    #             opt_prop = obj3d.ObjectOpticalProperties.OpticalPropertyLink
+    #             opt_prop_type = opt_prop.type_
+    #             opt_prop_name = opt_prop.ident
+    #             index_opt_prop = self.simu.get_opt_prop_index(grd_opt_prop_types_dict[opt_prop_type], opt_prop_name)
+    #
+    #             th_prop = obj3d.ObjectOpticalProperties.ThermalPropertyLink
+    #             th_prop_name = th_prop.idTemperature
+    #             index_th_prop = self.simu.get_thermal_prop_index(th_prop_name)
+    #
+    #             if index_opt_prop == None or index_th_prop == None:
+    #                 print("ERROR: opt_prop %s or th_prop %s does not exist, please FIX" % (opt_prop_name, th_prop_name))
+    #                 return False
+    #             else:
+    #                 if opt_prop.indexFctPhase != index_opt_prop:
+    #                     print("warning:  opt_prop %s index inconsistency, correcting index" % opt_prop_name)
+    #                     opt_prop.indexFctPhase = index_opt_prop
+    #                 if th_prop.indexTemperature != index_th_prop:
+    #                     print("warning:  th_prop %s index inconsistency, correcting index" % th_prop_name)
+    #                     th_prop.indexTemperature = index_th_prop
+    #     return check
 
     def trees_txt_props(self):
         """
@@ -390,48 +396,49 @@ class Checker(object):
             if int(specie_id) > len(species_list) - 1:
                 print("Warning: specie_id %d does not exist in species list, please FIX" % int(specie_id))# launch warning, but allow simulation to go on, as in DART
 
-        for i, specie in enumerate(species_list):
-            trunk_opt_prop_link = specie.OpticalPropertyLink
-            trunk_th_prop_link = specie.ThermalPropertyLink
-
-            trunk_opt_idx = self.simu.get_opt_prop_index(grd_opt_prop_types_dict[trunk_opt_prop_link.type_] ,trunk_opt_prop_link.ident)
-            trunk_th_idx = self.simu.get_thermal_prop_index(trunk_th_prop_link.idTemperature)
-
-            if trunk_opt_idx == None:
-                print("trunk_opt_prop %s for specie %d do not exist, please FIX" % (trunk_opt_prop_link.ident, i) )
-                check = False
-
-            if trunk_th_idx == None:
-                print("trunk_th_prop %s for specie %d do not exist, please FIX" % (trunk_th_prop_link.idTemperature, i) )
-                check = False
-
-            crown_props_list = specie.CrownLevel
-            for j, crown_prop in enumerate(crown_props_list):
-                print("checking specie nb %d, crown level nb %d" % (i,j))
-                crown_opt_prop_link = crown_prop.OpticalPropertyLink
-                crown_th_prop_link = crown_prop.ThermalPropertyLink
-                crown_veg_prop_link = crown_prop.VegetationProperty.VegetationOpticalPropertyLink
-                crown_veg_th_link = crown_prop.VegetationProperty.ThermalPropertyLink
-                crown_opt_idx = self.simu.get_opt_prop_index(grd_opt_prop_types_dict[crown_opt_prop_link.type_] ,crown_opt_prop_link.ident)
-                crown_th_idx = self.simu.get_thermal_prop_index(crown_th_prop_link.idTemperature)
-                crown_veg_opt_idx = self.simu.get_opt_prop_index("vegetation" ,crown_veg_prop_link.ident)
-                crown_veg_th_idx = self.simu.get_thermal_prop_index(crown_veg_th_link.idTemperature)
-
-                if crown_opt_idx == None:
-                    print("crown_opt_prop %s for specie %d do not exist, please FIX" % (crown_opt_prop_link.ident, i) )
-                    check = False
-
-                if crown_th_idx == None:
-                    print("crown_th_prop %s for specie %d do not exist, please FIX" % (crown_th_prop_link.idTemperature, i) )
-                    check = False
-
-                if crown_veg_opt_idx == None:
-                    print("crown_veg_opt %s for specie %d do not exist, please FIX" % (crown_veg_prop_link.ident, i) )
-                    check = False
-
-                if crown_veg_th_idx == None:
-                    print("crown_veg_th %s for specie %d do not exist, please FIX" % (crown_veg_th_link.idTemperature,i) )
-                    check = False
+        ## Done in core.update_opl
+        # for i, specie in enumerate(species_list):
+        #     trunk_opt_prop_link = specie.OpticalPropertyLink
+        #     trunk_th_prop_link = specie.ThermalPropertyLink
+        #
+        #     trunk_opt_idx = self.simu.get_opt_prop_index(grd_opt_prop_types_dict[trunk_opt_prop_link.type_] ,trunk_opt_prop_link.ident)
+        #     trunk_th_idx = self.simu.get_thermal_prop_index(trunk_th_prop_link.idTemperature)
+        #
+        #     if trunk_opt_idx == None:
+        #         print("trunk_opt_prop %s for specie %d do not exist, please FIX" % (trunk_opt_prop_link.ident, i) )
+        #         check = False
+        #
+        #     if trunk_th_idx == None:
+        #         print("trunk_th_prop %s for specie %d do not exist, please FIX" % (trunk_th_prop_link.idTemperature, i) )
+        #         check = False
+        #
+        #     crown_props_list = specie.CrownLevel
+        #     for j, crown_prop in enumerate(crown_props_list):
+        #         print("checking specie nb %d, crown level nb %d" % (i,j))
+        #         crown_opt_prop_link = crown_prop.OpticalPropertyLink
+        #         crown_th_prop_link = crown_prop.ThermalPropertyLink
+        #         crown_veg_prop_link = crown_prop.VegetationProperty.VegetationOpticalPropertyLink
+        #         crown_veg_th_link = crown_prop.VegetationProperty.ThermalPropertyLink
+        #         crown_opt_idx = self.simu.get_opt_prop_index(grd_opt_prop_types_dict[crown_opt_prop_link.type_] ,crown_opt_prop_link.ident)
+        #         crown_th_idx = self.simu.get_thermal_prop_index(crown_th_prop_link.idTemperature)
+        #         crown_veg_opt_idx = self.simu.get_opt_prop_index("vegetation" ,crown_veg_prop_link.ident)
+        #         crown_veg_th_idx = self.simu.get_thermal_prop_index(crown_veg_th_link.idTemperature)
+        #
+        #         if crown_opt_idx == None:
+        #             print("crown_opt_prop %s for specie %d do not exist, please FIX" % (crown_opt_prop_link.ident, i) )
+        #             check = False
+        #
+        #         if crown_th_idx == None:
+        #             print("crown_th_prop %s for specie %d do not exist, please FIX" % (crown_th_prop_link.idTemperature, i) )
+        #             check = False
+        #
+        #         if crown_veg_opt_idx == None:
+        #             print("crown_veg_opt %s for specie %d do not exist, please FIX" % (crown_veg_prop_link.ident, i) )
+        #             check = False
+        #
+        #         if crown_veg_th_idx == None:
+        #             print("crown_veg_th %s for specie %d do not exist, please FIX" % (crown_veg_th_link.idTemperature,i) )
+        #             check = False
         return check
 
     def plots_txt_props(self):

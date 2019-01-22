@@ -97,7 +97,7 @@ class simulation(object):
 
         self.update = Update(self)
 
-        self.core.update()
+        self.core.update_simu()
 
     def getsimupath(self):
         """
@@ -182,18 +182,18 @@ class simulation(object):
     def is_plots_txt_file_considered(self):
         return self.core.xsdobjs["plots"].Plots.addExtraPlotsTextFile == 1
 
-    def get_multfacts_xmlpaths_dict(self):
-        """
-        get multiplicative factors xml nodes paths according to opt property types
-        :return:dictionnary containing xml paths for each opt property type
-        """
-        multfacts_xmlpaths_dict = {}
-        multfacts_xmlpaths_dict["vegetation"] = "understoryNodeMultiplicativeFactorForLUT.understoryMultiplicativeFactorForLUT"
-        multfacts_xmlpaths_dict["fluid"] = "AirFunctionNodeMultiplicativeFactorForLut.AirFunctionMultiplicativeFactorForLut"
-        multfacts_xmlpaths_dict["lambertian"] = "lambertianNodeMultiplicativeFactorForLUT.lambertianMultiplicativeFactorForLUT"
-        multfacts_xmlpaths_dict["hapke"] = "hapkeNodeMultiplicativeFactorForLUT.hapkeMultiplicativeFactorForLUT"
-        multfacts_xmlpaths_dict["rpv"] = "RPVNodeMultiplicativeFactorForLUT.RPVMultiplicativeFactorForLUT"
-        return multfacts_xmlpaths_dict
+    # def get_multfacts_xmlpaths_dict(self):
+    #     """
+    #     get multiplicative factors xml nodes paths according to opt property types
+    #     :return:dictionnary containing xml paths for each opt property type
+    #     """
+    #     multfacts_xmlpaths_dict = {}
+    #     multfacts_xmlpaths_dict["vegetation"] = "understoryNodeMultiplicativeFactorForLUT.understoryMultiplicativeFactorForLUT"
+    #     multfacts_xmlpaths_dict["fluid"] = "AirFunctionNodeMultiplicativeFactorForLut.AirFunctionMultiplicativeFactorForLut"
+    #     multfacts_xmlpaths_dict["lambertian"] = "lambertianNodeMultiplicativeFactorForLUT.lambertianMultiplicativeFactorForLUT"
+    #     multfacts_xmlpaths_dict["hapke"] = "hapkeNodeMultiplicativeFactorForLUT.hapkeMultiplicativeFactorForLUT"
+    #     multfacts_xmlpaths_dict["rpv"] = "RPVNodeMultiplicativeFactorForLUT.RPVMultiplicativeFactorForLUT"
+    #     return multfacts_xmlpaths_dict
 
     def get_opt_props_xmlpaths_dict(self):
         """

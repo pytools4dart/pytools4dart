@@ -302,7 +302,7 @@ def get_nodes(corenode, dartnode):
         return([])
 
     if len(dns)== 1:
-        return(cn)
+        return([cn])
 
 
     subdn = '.'.join(dns[1:])
