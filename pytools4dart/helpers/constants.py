@@ -2,7 +2,9 @@
 # ===============================================================================
 # PROGRAMMERS:
 #
-# Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>, Claudia Lavalley <claudia.lavalley@cirad.fr>
+# Eric Chraibi <eric.chraibi@irstea.fr>
+# Florian de Boissieu <fdeboiss@gmail.com>
+# Claudia Lavalley <claudia.lavalley@cirad.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
 #
