@@ -40,10 +40,9 @@ print('elapsed time 1 = {}'.format(toc - tic))
 # Build simulation
 simu = ptd.simulation()
 simu.name = 'test_100plots'
-simu.core.xsdobjs['plots']=plots
-simu.core.update_simu() # updates simu.scene and simu.acquisition
+simu.core.xsdobjs['plots'] = plots
+# simu.core.update_simu() # updates simu.scene and simu.acquisition
 simu.add.optical_property('Vegetation')
-simu.scene.update_xsdobjs()
 simu.write(overwrite=True)
 try:
     simu.run.full()

@@ -302,7 +302,10 @@ def get_nodes(corenode, dartnode):
         return([])
 
     if len(dns)== 1:
-        return([cn])
+        if isinstance(cn, list):
+            return(cn)
+        else:
+            return([cn])
 
 
     subdn = '.'.join(dns[1:])
@@ -366,3 +369,6 @@ def get_labels(pat=None, case=False, regex=True, column='dartnode'):
 
     labelsdf = labelsdf[['label', 'dartnode']]
     return labelsdf
+
+# def get_path(corenode):
+#     corenode.__class__

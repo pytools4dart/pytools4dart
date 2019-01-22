@@ -79,11 +79,19 @@ class Core(object):
         -------
 
         """
-        self.simu.scene.properties = self.extract_properties_dict()  # dictionnary containing "opt_props" and "thermal_props" DataFrames
-        self.simu.scene.plots = self.extract_plots_full_table()  # DataFrame containing Plots fields according to DART Plot.txt header*
+        # self.simu.scene.properties = self.extract_properties_dict()  # dictionnary containing "opt_props" and "thermal_props" DataFrames
+        # self.simu.scene.plots = self.extract_plots_full_table()  # DataFrame containing Plots fields according to DART Plot.txt header*
         #self.simu.scene.trees = ToDo
         #self.simu.scene.obj3d = ToDo
         self.simu.bands = self.extract_sp_bands_table()  # DataFrame containing a list of [wvl, dl] couples
+
+    def findall(self, pat, case=False, regex=True, column='dartnode'):
+        dartnodes = get_labels(pat, case, regex, column)['dartnode']
+        l = []
+        for dn in dartnodes:
+            cn = self.xsdobjs[dn.split('.')[0].lower()]
+            l.extend(get_nodes(cn, dn))
+        return l
 
     def get_xmlfile_names(self, dir_path):
         """
@@ -124,11 +132,11 @@ class Core(object):
         """
 
         #extract XSDs objs plots:
-        plot_source = "Core"
         rows = []
 
         plots_list = self.xsdobjs["plots"].Plots.Plot
         for i, plot in enumerate(plots_list):
+            plot_source = plot
             plt_btm_hei, plt_hei_mea, plt_std_dev = None, None, None
             veg_density_def, veg_lai, veg_ul = None, None, None
 
@@ -311,9 +319,12 @@ class Core(object):
         # PB with Understory top/bottom?
         dartnodes = ptd.core_ui.utils.get_labels('Coeff_diff\.\w+\.\w+\.ident$')['dartnode']
 
+        source = []
         prop_type = []
         prop_index = []
         prop_ident = []
+        prop_db = []
+        prop_name = []
         for dn in dartnodes:
             # dn = dartnodes.iloc[0]
             head, function, multi, _=dn.split('.')
@@ -323,11 +334,44 @@ class Core(object):
             if function in self.xsdobjs["coeff_diff"].Coeff_diff.children:
                 prop_list = eval('self.xsdobjs["coeff_diff"].Coeff_diff.{function}.{multi}'.format(function=function, multi=multi))
                 for i, prop in enumerate(prop_list):
+                    source.append(prop)
                     prop_type.append(ptype)
                     prop_index.append(i)
                     prop_ident.append(prop.ident)
 
-        opt_props = pd.DataFrame(dict(type = prop_type, index = prop_index, ident = prop_ident))
+                    # databaseName
+                    pat = 'Coeff_diff\.{function}\.{multi}\.*\w*\.databaseName'.format(function=function, multi=multi)
+                    subdns = get_labels(pat)['dartnode']
+                    multidn = 'Coeff_diff.{function}.{multi}.'.format(function=function, multi=multi)
+                    subdns = [re.sub( multidn, '', s) for s in subdns]
+                    subcn = []
+                    for sdn in subdns:
+                        subcn.extend(get_nodes(prop, sdn))
+                    if len(subcn) == 1:
+                        prop_db.append(subcn[0])
+                    elif len(subcn) > 1:
+                        prop_db.append('multiple')
+                    else:
+                        prop_db.append(None)
+
+                    # ModelName
+                    pat = 'Coeff_diff\.{function}\.{multi}\.*\w*\.ModelName'.format(function=function, multi=multi)
+                    subdns = get_labels(pat)['dartnode']
+                    multidn = 'Coeff_diff.{function}.{multi}.'.format(function=function, multi=multi)
+                    subdns = [re.sub(multidn, '', s) for s in subdns]
+                    subcn = []
+                    for sdn in subdns:
+                        subcn.extend(get_nodes(prop, sdn))
+                    if len(subcn) == 1:
+                        prop_name.append(subcn[0])
+                    elif len(subcn) > 1:
+                        prop_name.append('multiple')
+                    else:
+                        prop_name.append(None)
+
+
+        opt_props = pd.DataFrame(dict(type = prop_type, index = prop_index, ident = prop_ident,
+                                      databaseName = prop_db, ModelName = prop_name, source = source))
         return opt_props
 
     def get_thermal_properties(self):
@@ -336,12 +380,17 @@ class Core(object):
         th_props.id: location of thermal property in the thermal properties list
         :return: DataFrame containing thermal properties names and indexes
         """
-        thermal_props_dict = {"index": [], "idTemperature": []}
+        index, idTemperature, meanT, deltaT, source = [], [], [], [], []
         thermal_props_list = self.xsdobjs["coeff_diff"].Coeff_diff.Temperatures.ThermalFunction
         for i,th_prop in enumerate(thermal_props_list):
-            thermal_props_dict["index"].append(i)
-            thermal_props_dict["idTemperature"].append(th_prop.idTemperature)
-        return pd.DataFrame(thermal_props_dict)
+            index.append(i)
+            idTemperature.append(th_prop.idTemperature)
+            meanT.append(th_prop.meanT)
+            deltaT.append(th_prop.deltaT)
+            source.append(th_prop)
+
+        return pd.DataFrame(dict(index = index, idTemperature = idTemperature, meanT = meanT,
+                                 deltaT = deltaT, source = source))
 
     def get_optical_property_links(self):
         dartnodes = ptd.core_ui.utils.get_labels('\.*OpticalPropertyLink$')['dartnode']
@@ -418,7 +467,7 @@ class Core(object):
             if pd.isna(row.index):
                 wrong_tpl.append(row.Index)
             else:
-                row.thermal_property_link.index = row.index
+                row.thermal_property_link.indexTemperature = row.index
         if len(wrong_tpl):
             warnings.warn('Thermal Properties not found in "coeff_diff".')
             return (table_tpl.loc[wrong_tpl])
@@ -462,4 +511,33 @@ class Core(object):
                     # # multiargs = {a: eval('cn.' + a) for a in cn.attrib if a.endswith('Factor')}
                     # new = eval('ptd.core_ui.coeff_diff.create_{multi}(**multiargs)'.format(multi=multi))
                     eval('cn.set_{multi}([])'.format(multi=multi))
+
+    def get_object_3d_df(self):
+        corenodes = get_nodes(self.simu.core.xsdobjs['object_3d'], 'object_3d.ObjectList.Object')
+        source = []
+        name = []
+        size = []
+        position = []
+        groups = []
+        ident = []
+        for obj in corenodes:
+            source.append(obj)
+            g = obj.GeometricProperties
+            name.append(obj.name)
+            dim = g.Dimension3D
+            size.append([dim.xdim, dim.ydim, dim.zdim])
+            p = g.PositionProperties
+            position.append([p.xpos, p.ypos, p.zpos])
+            g_nodes = get_nodes(obj, 'Groups.Group')
+            groups.append(len(g_nodes))
+            # id = get_nodes(obj, 'ObjectOpticalProperties.OpticalPropertyLink.ident')
+            # if len(id)>0:
+            #     ident.append(id[0])
+            # else:
+            #     ident.append(None)
+
+        df = pd.DataFrame(dict(name = name, position = position, size = size, groups = groups, source = source))
+        return df
+
+
 

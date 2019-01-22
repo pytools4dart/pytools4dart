@@ -85,7 +85,7 @@ class simulation(object):
 
         self.core = Core(self)
 
-        self.scene = Scene(self)
+        self._scene = Scene(self)
 
         self.acquisition = Acquisition(self)
 
@@ -100,6 +100,10 @@ class simulation(object):
         self.update = Update(self)
 
         self.core.update_simu()
+
+    @property
+    def scene(self):
+        return self._scene
 
     def getsimupath(self):
         """
