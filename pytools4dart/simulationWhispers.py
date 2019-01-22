@@ -2,7 +2,7 @@
 # ===============================================================================
 # PROGRAMMERS:
 #
-# Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <florian.deboissieu@irstea.fr>
+# Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <fdeboiss@gmail.com>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
 #
@@ -325,7 +325,7 @@ class simulation(object):
         parameters can be found as 'dartnode' in:
         ```
         import pytools4dart as ptd
-        ptd.xmlwriters.dartxml.get_labels()
+        ptd.core_ui.utils.get_labels()
         ```
 
         As parameters are not very user-friendly, some parameters have acronym:

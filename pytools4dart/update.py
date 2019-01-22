@@ -2,6 +2,7 @@
 # ===============================================================================
 # PROGRAMMERS:
 #
+# Florian de Boissieu <fdeboiss@gmail.com>
 # Claudia Lavalley <claudia.lavalley@cirad.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
@@ -34,7 +35,7 @@ class Update(object):
         self.lock_core = False
 
     def tables(self): # update tables from core
-        self.simu.core.update()
+        self.simu.core.update_simu()
         self.lock_tabs = False
 
     def core(self): # update core from tables

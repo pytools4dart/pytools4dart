@@ -2,6 +2,7 @@
 # ===============================================================================
 # PROGRAMMERS:
 #
+# Florian de Boissieu <florian.deboissiu@irstea.fr>
 # Claudia Lavalley <claudia.lavalley@cirad.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
