@@ -99,8 +99,39 @@ class MethodSpec(object):
 #
 to_string = MethodSpec(name='__str__',
                      source='''\
+    
     def to_string(self, pretty_print=True):
         return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+        
+    ''',
+                     class_names=r'.*')
+
+path = MethodSpec(name='path',
+                     source='''\
+    
+    def path(self, index=True):
+        """
+        Get the dartnode path of the corenode
+        Parameters
+        ----------
+        corenode: object
+            a core object
+    
+        index: bool
+    
+            If True gets the dartnode path with index if list,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction[0]'
+    
+            If False gets the dartnode path without index,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction'
+    
+        Returns
+        -------
+            str
+        """
+
+        return get_path(self, index=index)
+        
     ''',
                      class_names=r'.*')
 
@@ -109,7 +140,7 @@ to_string = MethodSpec(name='__str__',
 #   This list of specifications must be named METHOD_SPECS.
 #
 
-METHOD_SPECS = [to_string]
+METHOD_SPECS = [to_string, path]
 
 def test():
     for spec in METHOD_SPECS:

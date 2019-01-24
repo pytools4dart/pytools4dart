@@ -35,6 +35,7 @@ from pytools4dart.xmlwriters.xmlhelpers import indent
 import pandas as pd
 import sys
 import os
+import re
 
 #### Fonctions pour l'interprétation du template
 def get_template_root(module):
@@ -370,5 +371,38 @@ def get_labels(pat=None, case=False, regex=True, column='dartnode'):
     labelsdf = labelsdf[['label', 'dartnode']]
     return labelsdf
 
-# def get_path(corenode):
-#     corenode.__class__
+def get_path(corenode, index=False):
+    """
+    Get the dartnode path of the corenode
+    Parameters
+    ----------
+    corenode: object
+        a core object
+
+    index: bool
+
+        If True gets the dartnode path with index if list,
+        e.g. 'Coeff_diff.AirMultiFunctions.AirFunction[0]'
+
+        If False gets the dartnode path without index,
+        e.g. 'Coeff_diff.AirMultiFunctions.AirFunction'
+
+    Returns
+    -------
+        str
+
+    """
+    if corenode.parent is None: # includes createDartFile class
+        return None
+
+    path = re.sub('create_', '', corenode.__class__.__name__)
+    ppath = get_path(corenode.parent, index)
+    if ppath is None:
+        return path
+
+    if index and isinstance(corenode.parent.__getattribute__(path), list):
+        i = corenode.parent.__getattribute__(path).index(corenode)
+        path = path+'[{}]'.format(i)
+
+    return '.'.join([ppath, path])
+
