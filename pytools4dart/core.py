@@ -71,20 +71,6 @@ class Core(object):
 
         #if the simulation exists, populate xsd_core with simulation XML files contents
 
-
-    def update_simu(self):
-        """
-        updates simulation user friendly interface: scene and acquisition
-        Returns
-        -------
-
-        """
-        # self.simu.scene.properties = self.extract_properties_dict()  # dictionnary containing "opt_props" and "thermal_props" DataFrames
-        # self.simu.scene.plots = self.extract_plots_full_table()  # DataFrame containing Plots fields according to DART Plot.txt header*
-        #self.simu.scene.trees = ToDo
-        #self.simu.scene.obj3d = ToDo
-        self.simu.bands = self.extract_sp_bands_table()  # DataFrame containing a list of [wvl, dl] couples
-
     def findall(self, pat, case=False, regex=True, column='dartnode'):
         dartnodes = get_labels(pat, case, regex, column)['dartnode']
         l = []
@@ -123,7 +109,7 @@ class Core(object):
         x4, y4 = center_x - side_x / 2.0, center_y + side_y / 2.0
         return x1, y1, x2, y2, x3, y3, x4, y4
 
-    def extract_plots_full_table(self):
+    def get_plots_df(self):
         """
         extract a DataFrame containing Plots information, directly from plots_obj (self.xdsobjs_dict["plots"])
         for each plot, the fields defined in DART plots.txt file header are provided
@@ -222,30 +208,26 @@ class Core(object):
 
         return plots_df
 
-
-    def extract_sp_bands_table(self):
+    def get_bands_df(self):
         """
-        Build a DataFrame contaning a list of [wvl,dl] pairs corresponding to spectral bands contained in Phase XSD Object
+        Extract a DataFrame of bands with wavelength,  pairs corresponding to spectral bands contained in Phase XSD Object
         :return: DataFrame contaning a list of [wvl,dl] pairs
         """
-        spbands_list = self.xsdobjs["phase"].Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties
 
-        rows_to_add = []
-        for sp_interval in spbands_list:
-            wvl, dl = sp_interval.meanLambda, sp_interval.deltaLambda
-            rows_to_add.append([wvl, dl])
+        bands = self.xsdobjs["phase"].Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties
+        rows_to_add = [[b.meanLambda, b.deltaLambda, b] for b in bands]
 
-        return pd.DataFrame(rows_to_add, columns = spbands_fields)
+        return pd.DataFrame(rows_to_add, columns = ['wavelength', 'bandwidth', 'source'])
 
-    def update_properties_dict(self):
-        """
-        updates self.properties_dict variable
-        """
-        self.simu.scene.properties = self.extract_properties_dict()
-
-    def extract_properties_dict(self):
-        return {"opt_props": self.get_opt_props(), "thermal_props": self.get_thermal_props(),
-                "optical": self.get_optical_properties(), "thermal": self.get_thermal_properties()}
+    def get_virtual_directions(self):
+        virtualDirs = []
+        dirsList = self.xsdobjs["directions"].Directions.AddedDirections
+        for dir in dirsList:
+            virtualDirs.append([dir.ZenithAzimuth.directionAzimuthalAngle,
+                                dir.ZenithAzimuth.directionZenithalAngle,
+                                dir])
+        df = pd.DataFrame(virtualDirs, columns = ['azimuth', 'zenith', 'source'])
+        return virtualDirs
 
     def get_thermal_props(self):
         """
@@ -268,6 +250,7 @@ class Core(object):
         For each optical property, the index and the name in the corresponding opt prop type list are provided
         :return: dictionnary containing, for each optical prop type, a DataFrame containing optical properties names and indexes
         """
+        # TODO: remove
         listnodes_paths = []
         opt_props = {}
         opt_props_DF_cols =  ["prop_index", "prop_name"]
@@ -417,21 +400,6 @@ class Core(object):
 
         return pd.DataFrame(l)
 
-    def update_opl(self):
-        table_op = self.get_optical_properties()
-        table_opl = self.get_optical_property_links()
-        xtable_opl = pd.merge(table_opl, table_op, on=['ident', 'type'], how='left')
-
-        wrong_opl = []
-        for row in xtable_opl.itertuples():
-            if pd.isna(row.index):
-                wrong_opl.append(row.Index)
-            else:
-                row.optical_property_link.index = row.index
-        if len(wrong_opl):
-            warnings.warn('Optical Properties not found in "coeff_diff".')
-            return table_opl.loc[wrong_opl]
-
     def get_thermal_property_links(self):
         dartnodes = ptd.core_ui.utils.get_labels('\.*ThermalPropertyLink$')['dartnode']
         dartobject = pd.DataFrame(
@@ -456,6 +424,27 @@ class Core(object):
         # else:
         #     l.append(n)
         # l = [ptd.core.get_nodes(self.xsdnodes[])for dartnode in dartnodes]
+
+    def update(self):
+        self.update_opl()
+        self.update_tpl()
+        self.update_mf()
+        self.update_bn()
+
+    def update_opl(self):
+        table_op = self.get_optical_properties()
+        table_opl = self.get_optical_property_links()
+        xtable_opl = pd.merge(table_opl, table_op, on=['ident', 'type'], how='left')
+
+        wrong_opl = []
+        for row in xtable_opl.itertuples():
+            if pd.isna(row.index):
+                wrong_opl.append(row.Index)
+            else:
+                row.optical_property_link.index = row.index
+        if len(wrong_opl):
+            warnings.warn('Optical Properties not found in "coeff_diff".')
+            return table_opl.loc[wrong_opl]
 
     def update_tpl(self):
         table_tp = self.get_thermal_properties()
@@ -512,6 +501,22 @@ class Core(object):
                     # new = eval('ptd.core_ui.coeff_diff.create_{multi}(**multiargs)'.format(multi=multi))
                     eval('cn.set_{multi}([])'.format(multi=multi))
 
+    def update_bn(self):
+        """
+        Update band number in the order they are found, starting from 0
+        """
+        bands = self.xsdobjs["phase"].Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties
+        for i, b in enumerate(bands):
+            b.bandNumber = i
+
+    def update_ir(self):
+        """
+        Remove supplementary spectral irradiance and SKYL
+        """
+        #TODO
+
+
+
     def get_object_3d_df(self):
         corenodes = get_nodes(self.simu.core.xsdobjs['object_3d'], 'object_3d.ObjectList.Object')
         source = []
@@ -540,4 +545,30 @@ class Core(object):
         return df
 
 
+
+    def update_properties_dict(self):
+        """
+        updates self.properties_dict variable
+        """
+        # TODO: remove
+        self.simu.scene.properties = self.extract_properties_dict()
+
+    def extract_properties_dict(self):
+        # TODO: remove
+        return {"opt_props": self.get_opt_props(), "thermal_props": self.get_thermal_props(),
+                "optical": self.get_optical_properties(), "thermal": self.get_thermal_properties()}
+
+    def update_simu(self):
+        """
+        updates simulation user friendly interface: scene and acquisition
+        Returns
+        -------
+
+        """
+        # TODO: remove
+        # self.simu.scene.properties = self.extract_properties_dict()  # dictionnary containing "opt_props" and "thermal_props" DataFrames
+        # self.simu.scene.plots = self.get_plots_df()  # DataFrame containing Plots fields according to DART Plot.txt header*
+        #self.simu.scene.trees = ToDo
+        #self.simu.scene.obj3d = ToDo
+        self.simu.bands = self.get_bands_df()  # DataFrame containing a list of [wvl, dl] couples
 
