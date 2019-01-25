@@ -434,7 +434,7 @@ class Add(object):
                 useMultiplicativeFactorForLUT=1,
                 ident='Lambertian_Phase_Function_1',
                 useSpecular=0,
-                roStDev=0.000,
+                roStDev=0.000
 
             - Hapke:
                 ModelName = 'all_equal_to_one',
@@ -444,7 +444,7 @@ class Add(object):
                 ident = 'Hapke_Phase_Function_1',
                 transmittanceModelName = 'reflect_equal_1_trans_equal_1_1',
                 databaseName = 'Hapke.db',
-                useMultiplicativeFactorForLUT = 1,
+                useMultiplicativeFactorForLUT = 1
 
             - RPV:
                 ModelName = 'basic',
@@ -461,7 +461,7 @@ class Add(object):
                 dimFoliar=0.01,
                 thermalHotSpotFactor=0.1,
                 lad=1,
-                useOpticalFactorMatrix=0,
+                useOpticalFactorMatrix=0
 
                 # with UnderstoryMultiModel options:
 
@@ -515,14 +515,14 @@ class Add(object):
         op_type = type_table.op_type[type_table.opl_type.str.contains(type, case=False)].iloc[0]
         dartnode = ptd.core_ui.utils.get_labels(pat='{type}MultiplicativeFactorForLUT$'.format(type=op_type),case=False)['dartnode'].iloc[0]
 
-        self.simu.core.extract_sp_bands_table()
+        self.simu.core.get_bands_df()
         nb_sp_bands = self.simu.bands.shape[0]
 
         # create optical property with specified arguments
         if op_type.lower() == "understory":
             module, fun, multi, model, node, factor = dartnode.split('.')
             tmp = ptd.coeff_diff.create_UnderstoryMulti()
-            propargnames = [tmp.attrib, tmp.children]
+            propargnames = tmp.attrib + tmp.children
             propargs = {k: v for k, v in kwargs.iteritems() if k in propargnames}
             modelargs = { k:v for k,v in kwargs.iteritems() if k not in propargnames}
             new_model = eval('ptd.coeff_diff.create_{model}(**modelargs)'.format(model=model)) # optproplist_xmlpath.split(".")[1]
@@ -534,30 +534,32 @@ class Add(object):
             prop = eval('ptd.coeff_diff.create_{multi}(**kwargs)'.format(multi=multi)) # optproplist_xmlpath.split(".")[1]
 
         # check if already exists
-        index = self.simu.get_opt_prop_index(type, prop.ident)
-        if not index: # new
+
+        idents = self.simu.core.findall('Coeff_diff\.\w+\.\w+\.ident$')
+        if prop.ident not in idents: # new
             eval('self.simu.core.xsdobjs["coeff_diff"].{fun}.add_{multi}(prop)'.format(
                 fun='.'.join(filter(None, [module, fun])), multi=multi))
         else:
             if replace:
+                op_df=self.simu.scene.optical
+                index = op_df.loc[op_df.ident==prop.ident, "index"]
                 eval('self.simu.core.xsdobjs["coeff_diff"].{fun}.replace_{multi}_at({index}, prop)'.format(
                     fun='.'.join(filter(None, [module, fun])), multi=multi, index=index))
             else:
-                raise Exception("ERROR: optical property of type %s named %s already exists, please change name" % (
-                    type, prop.ident))
+                raise ValueError("'{}' already used by other optical property."
+                                 "Please change 'ident' or set 'replace'.".format(prop.ident))
 
-        # update multiplicative factors
-        useMultiplicativeFactorForLUT = eval("{multi}.useMultiplicativeFactorForLUT".format(
-            multi='.'.join(filter(None, ['prop', model]))))
-
-        if useMultiplicativeFactorForLUT:
-            for i in range(nb_sp_bands-1): # one is set by default
-                eval('prop.{node}.add_{factor}(ptd.coeff_diff.create_{factor}())'.format(
-                    node='.'.join(filter(None, [model, node])), factor=factor))
+        # # update multiplicative factors
+        # useMultiplicativeFactorForLUT = eval("{multi}.useMultiplicativeFactorForLUT".format(
+        #     multi='.'.join(filter(None, ['prop', model]))))
+        #
+        # if useMultiplicativeFactorForLUT:
+        #     for i in range(nb_sp_bands-1): # one is set by default
+        #         eval('prop.{node}.add_{factor}(ptd.coeff_diff.create_{factor}())'.format(
+        #             node='.'.join(filter(None, [model, node])), factor=factor))
 
             #self.simu.core.update_properties_dict()
-        self.simu.update.lock_core = True #update locks management
-        return(prop)
+        return prop
 
 
     def thermal_property(self, replace=False, **kwargs):
@@ -571,35 +573,33 @@ class Add(object):
 
         kwargs: dict
             accepted arguments with default value:
-                meanT=300.0,
-                idTemperature='ThermalFunction290_310',
-                deltaT=20.0,
-                useOpticalFactorMatrix=0,
-                override3DMatrix=0,
-                singleTemperatureSurface=1,
-                opticalFactorMatrix=None
+
+                - meanT=300.0,
+                - idTemperature='ThermalFunction290_310',
+                - deltaT=20.0,
+                - useOpticalFactorMatrix=0,
+                - override3DMatrix=0,
+                - singleTemperatureSurface=1,
+                - opticalFactorMatrix=None
 
         Returns
         -------
             thermal property object reference
 
         """
-        # TODO replace th_property by thermal_property and kwargs
         prop = ptd.coeff_diff.create_ThermalFunction(**kwargs)
-        index = self.simu.get_thermal_prop_index(prop.idTemperature)
-        if not index:  # if thermal property does not exist, create
+        idents = self.simu.core.findall('Coeff_diff\.\w+\.\w+\.idTemperature$')
+        if prop.idTemperature not in idents: # new
             self.simu.core.xsdobjs["coeff_diff"].Coeff_diff.Temperatures.add_ThermalFunction(prop)
         else:
             if replace:
+                tp_df=self.simu.scene.thermal
+                index = tp_df.loc[tp_df.idTemperature==prop.idTemperature, "index"]
                 self.simu.core.xsdobjs["coeff_diff"].Coeff_diff.Temperatures.replace_ThermalFunction(index, prop)
             else:
-                raise Exception("ERROR: thermal property named %s already exists, please change name" % (prop.idTemperature))
-
-
-
-        #self.simu.core.update_properties_dict()
-        self.simu.update.lock_core = True #update locks management
-
+                raise ValueError("'{}' already used by other optical property."
+                                 "Please change 'ident' or set 'replace'.".format(prop.idTemperature))
+        return prop
 
     def multiplots(self, plots_list):
         """
@@ -619,10 +619,123 @@ class Add(object):
         self.simu.update.lock_core = True  # update locks management
 
 
-    # def plot_flo(self, PLT_TYPE = "Vegetation", plot_opt_prop_name = None, plot_therm_prop_name = None, grd_opt_prop_type = None, grd_opt_prop_name = None, grd_therm_prop_name = None, createProps = False):
-    #     print('not_done')
+    def plot(self, type = 'Vegetation',
+                 corners = None,
+                 baseheight = 0, height = 1,
+                 op_ident=None, tp_ident=None,
+                 grd_op_type=None, grd_op_ident=None,
+                 grd_tp_ident=None):
+        """
 
-    def plot(self, plot_type ="Vegetation", plot_form ="polygon", volume_info = None, plot_opt_prop_name = None, plot_therm_prop_name = None, grd_opt_prop_type = None, grd_opt_prop_name = None, grd_therm_prop_name = None, createProps = False):
+        Parameters
+        ----------
+        type: str
+            plot type: 'Ground', 'Vegetation', 'Ground + Vegetation', 'Fluid', 'Water'
+
+        corners: list of 4 list
+            list of 4 lists, each containing the x and y of a corner
+
+        baseheight: float
+            base height of plot
+            top height in case of water.
+
+        height: float
+            height of plot, depth in case of water
+
+        op_ident: str
+            optical property identification name.
+            It must be coherent with plot type (Vegetation or Fluid).
+
+        tp_ident: str
+            thermal property identification name.
+
+        grd_op_type: str
+            optical property type of ground:
+            'Lambertian', 'Hapke', 'Phase', 'RPV'
+
+        grd_op_ident: str
+            optical property identification name.
+            It must be coherent with grd_op_type.
+
+        grd_tp_ident: str
+            thermal property identification name.
+
+        Returns
+        -------
+            object of type 'create_Plot'
+
+        """
+
+        if not corners:
+            size = self.simu.scene.size
+            corners = [[size[0], size[1]],
+                       [size[0], 0],
+                       [0, 0],
+                       [0, size[1]]]
+
+        # 2D shape
+        Point2D = [ptd.plots.create_Point2D(x, y) for x,y in corners]
+        Polygon2D = ptd.plots.create_Polygon2D(Point2D=Point2D)
+
+
+        prop=opl=tpl=grd_opl=grd_tpl=None
+
+        # optical and thermal properties
+        plot_type = plot_type_table.type_int[type == plot_type_table.type_str].iloc[0]
+        if grd_op_type is not None:
+            grd_type = opl_type_table.type_int[grd_op_type == opl_type_table.type_str].iloc[0]
+
+        if plot_type in [0, 2]: # ground
+            args = {'ident':grd_op_ident, 'type_': grd_op_type}
+            args = {k:v for k,v in args.iteritems() if v is not None}
+            grd_opl = ptd.plots.create_GroundOpticalPropertyLink(**args)
+            if grd_tp_ident is not None: # otherwise default roperties will be set
+                grd_tpl = ptd.plots.create_GroundThermalPropertyLink(idTemperature=grd_tp_ident)
+
+        # optical property links
+        if op_ident is not None:
+            if plot_type in [1,2]:
+                opl = ptd.plots.create_VegetationOpticalPropertyLink(ident=op_ident)
+            elif plot_type == 3:
+                air_opl = ptd.plots.create_AirOpticalPropertyLink(ident=op_ident)
+                opl = ptd.plots.create_AirOpticalProperties(AirOpticalPropertyLink=air_opl)
+            elif plot_type == 4:
+                air_opl = ptd.plots.create_AirOpticalPropertyLink(ident=op_ident)
+                opl = ptd.plots.create_WaterOpticalProperties(AirOpticalPropertyLink=air_opl)
+
+        # thermal property links
+        if tp_ident is not None and plot_type in range(1,5):
+            tpl = ptd.plots.create_GroundThermalPropertyLink(idTemperature=tp_ident)
+
+        # properties and plot
+        if plot_type == 0:
+            plot = ptd.plots.create_Plot(Polygon2D=Polygon2D,
+                                         GroundOpticalPropertyLink=grd_opl, GroundThermalPropertyLink=grd_tpl)
+        elif plot_type in [1, 2]:
+            geom = ptd.plots.create_VegetationGeometry(height=height, baseheight=baseheight)
+            prop = ptd.plots.create_PlotVegetationProperties(VegetationOpticalPropertyLink=opl,
+                                                             GroundThermalPropertyLink=tpl,
+                                                             VegetationGeometry=geom)
+            plot = ptd.plots.create_Plot(Polygon2D=Polygon2D, PlotVegetationProperties=prop,
+                                         GroundOpticalPropertyLink=grd_opl, GroundThermalPropertyLink=grd_tpl)
+        elif plot_type == 3:
+            geom = ptd.plots.create_AirGeometry(height=height, baseheight=baseheight)
+            prop = ptd.plots.create_PlotAirProperties(VegetationOpticalPropertyLink=opl,
+                                                      GroundThermalPropertyLink=tpl,
+                                                      AirGeometry=geom)
+            plot = ptd.plots.create_Plot(Polygon2D=Polygon2D, PlotAirProperties=prop)
+        elif plot_type == 4:
+            prop = ptd.plots.create_PlotWaterProperties(VegetationOpticalPropertyLink=opl,
+                                                        GroundThermalPropertyLink=tpl,
+                                                        waterDepth=height, waterHeight=baseheight)
+            plot = ptd.plots.create_Plot(Polygon2D=Polygon2D, PlotWaterProperties=prop)
+
+        self.simu.core.xsdobjs['plots'].Plots.add_Plot(plot)
+
+        return plot
+
+
+    def plot_caludia(self, plot_type ="Vegetation", plot_form ="polygon", volume_info = None, plot_opt_prop_name = None, plot_therm_prop_name = None, grd_opt_prop_type = None, grd_opt_prop_name = None, grd_therm_prop_name = None, createProps = False):
         """
         Adds a plot in plots_obj (self.xsdsobjs_dict["plots"]), corresponding to the given parameters
         :param plot_type: type of plot in ["Ground","Vegetation","Ground + Vegetation","Fluid"]
@@ -749,19 +862,36 @@ class Add(object):
         self.simu.update.lock_core = True  # update locks management
         return True
 
-    def sp_bands_uf(self, spbands_list):
+    def band(self, wvl=0.56, bw=0.02, mode=0):
         """
-        add spectral bands, manages phase and coeff_diff modules interactions
-        no check of sp_bands unicity is made (as in DART interface)
-        :param spbands_list: list of spectral bands, each band containes [0]:mean_lambda and [1]: fwhm for lambda
+        add spectral band and the associated spectral irradiance
+
+        Parameters
+        ----------
+
+        wvl: float
+            central wavelength
+
+        bw: float
+            bandwidth
+
+        mode: int
+            0:'Mode R', 1:'Mode T+R', 2:'Mode T'
+
+        Returns
+        -------
+            two objects: new band and new spectral irradiance
         """
         #phase module modification
-        self.simu.add_sp_bands(spbands_list)
+        new_band = ptd.phase.create_SpectralIntervalsProperties(meanLambda=wvl, deltaLambda=bw, spectralDartMode=mode)
+        bands = self.simu.core.xsdobjs['phase'].Phase.DartInputParameters.SpectralIntervals
+        bands.add_SpectralIntervalsProperties(new_band)
 
-        #coeff_diff module modification
-        self.check_and_correct_sp_bands()
+        new_ir =  ptd.phase.create_SpectralIrradianceValue()
+        ir = self.simu.core.xsdobjs['phase'].Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance
+        ir.add_SpectralIrradianceValue(new_ir)
 
-        self.simu.update.lock_core = True  # update locks management
+        return new_band, new_ir
 
     def treestxtfile_reference(self, src_file_path, species_list, createProps = False):
         """
@@ -893,8 +1023,12 @@ class Add(object):
         self.simu.core.xsdobjs["plots"].Plots.addExtraPlotsTextFile = 1
         self.simu.core.xsdobjs["plots"].Plots.ExtraPlotsTextFileDefinition = ptd.plots.create_ExtraPlotsTextFileDefinition(extraPlotsFileName=src_file_path)
 
-        self.simu.update.lock_core = True  # update locks management
 
-
+    def virtual_direction (self, azimuth, zenith):
+        new = ptd.directions.create_ZenithAzimuth(directionAzimuthalAngle=azimuth,
+                                            directionZenithalAngle=zenith)
+        dir = ptd.directions.create_AddedDirections(ZenithAzimuth = new)
+        self.simu.core.xsdobjs["directions"].Directions.add_AddedDirections(dir)
+        return dir
 
 
