@@ -36,6 +36,7 @@ import re
 import warnings
 
 
+
 import pytools4dart as ptd
 
 from pytools4dart.helpers.constants import *
@@ -228,6 +229,16 @@ class Core(object):
                                 dir])
         df = pd.DataFrame(virtualDirs, columns = ['azimuth', 'zenith', 'source'])
         return virtualDirs
+
+    def get_sensors(self):
+        SensorImageSimulation = self.xsdobjs['phase'].Phase.SensorImageSimulation
+        sensors = []
+        for s in SensorImageSimulation.children:
+            sensors.extend(get_nodes(SensorImageSimulation, s))
+
+        s_type = [re.sub('create_', '', s.__class__.__name__) for s in sensors]
+        df = pd.DataFrame(dict(type=s_type, source=sensors))[['type', 'source']]
+        return df
 
     def get_thermal_props(self):
         """
@@ -588,7 +599,7 @@ class Core(object):
 
     def update_simu(self):
         """
-        updates simulation user friendly interface: scene and acquisition
+        updates simulation user friendly interface: scene and sensor
         Returns
         -------
 
