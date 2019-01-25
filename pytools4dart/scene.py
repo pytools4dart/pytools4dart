@@ -52,16 +52,15 @@ class Scene(object):
 
     def __repr__(self):
 
-        def __repr__(self):
-            description = '\n'.join(
-                ['scene size : {}'.format(self.size),
-                 'cell size : {}'.format(self.cell),
-                 'number of plots : {}'.format(self.plots.shape[0]),
-                 'number of object 3D : {}'.format(self.object3D.shape[0]),
-                 'number of optical properties : {}'.format(self.properties.optical.shape[0]),
-                 'number of thermal properties : {}'.format(self.properties.thermal.shape[0])])
+        description = '\n'.join(
+            ['scene size : {}'.format(self.size),
+             'cell size : {}'.format(self.cell),
+             'number of plots : {}'.format(self.plots.shape[0]),
+             'number of object 3D : {}'.format(self.object3D.shape[0]),
+             'number of optical properties : {}'.format(self.properties.optical.shape[0]),
+             'number of thermal properties : {}'.format(self.properties.thermal.shape[0])])
 
-            return description
+        return description
 
     @property
     def size(self):
@@ -89,26 +88,26 @@ class Scene(object):
 
     @property
     def plots(self):
-        return self.simu.core.extract_plots_full_table()
+        return self.simu.core.get_plots_df()
 
-    @plots.setter
-    def plots(self, value):
-        raise Exception('Element not settable.')
+    # @plots.setter
+    # def plots(self, value):
+    #     raise Exception('Element not settable.')
 
     @property
     def object3D(self):
         return self.simu.core.get_object_3d_df()
 
-    @object3D.setter
-    def object3D(self, value):
-        raise Exception('Element not settable.')
+    # @object3D.setter
+    # def object3D(self, value):
+    #     raise Exception('Element not settable.')
 
     @property
     def properties(self):
         return self._properties
-    @properties.setter
-    def properties(self, value):
-        raise Exception('Element not settable.')
+    # @properties.setter
+    # def properties(self, value):
+    #     raise Exception('Element not settable.')
 
 
     # def update_xsdobjs(self):
@@ -298,9 +297,10 @@ class Properties_(object):
         self.simu = simu
 
     def __repr__(self):
-        description = '\n'.join[
-            'number of optical properties: {}'.format(self.optical.type.value_counts().to_dict()),
-            'number of optical properties: {}'.format(self.thermal.shape[0])]
+        description = '\n'.join([
+            'optical properties: {}'.format(self.optical.type.value_counts().to_dict()),
+            'thermal properties: {}'.format(self.thermal.shape[0])
+        ])
         return description
 
     @property
