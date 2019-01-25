@@ -123,6 +123,7 @@ class Scene(object):
         updates scene.plots GRD_OPT_NUMB and PLT_OPT_NUMB columns with optical properties indexes
 
         """
+        # TODO: remove
         # PLT_TYPE = pd.DataFrame([[0, 'Ground'],
         #                                [1, 'Vegetation'],
         #                                [2, 'Vegetation+Ground'],
@@ -163,6 +164,7 @@ class Scene(object):
         updates scene.plots GRD_THERM_NUMB and PLT_THERM_NUMB columns with temperature properties indexes
 
         """
+        # TODO: remove
         # PLT_TYPE = pd.DataFrame([[0, 'Ground'],
         #                                [1, 'Vegetation'],
         #                                [2, 'Vegetation+Ground'],
