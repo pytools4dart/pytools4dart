@@ -862,7 +862,7 @@ class Add(object):
         self.simu.update.lock_core = True  # update locks management
         return True
 
-    def band(self, wvl=0.56, bw=0.02, mode=0):
+    def band(self, wvl=0.56, bw=0.02, mode=0, irradiance=1000, skyl=0):
         """
         add spectral band and the associated spectral irradiance
 
@@ -883,15 +883,19 @@ class Add(object):
             two objects: new band and new spectral irradiance
         """
         #phase module modification
-        new_band = ptd.phase.create_SpectralIntervalsProperties(meanLambda=wvl, deltaLambda=bw, spectralDartMode=mode)
         bands = self.simu.core.xsdobjs['phase'].Phase.DartInputParameters.SpectralIntervals
+        bandNumber = len(bands.SpectralIntervalsProperties)
+        new_band = ptd.phase.create_SpectralIntervalsProperties(bandNumber=bandNumber, meanLambda=wvl,
+                                                                deltaLambda=bw, spectralDartMode=mode)
         bands.add_SpectralIntervalsProperties(new_band)
 
-        new_ir =  ptd.phase.create_SpectralIrradianceValue()
+        new_ir =  ptd.phase.create_SpectralIrradianceValue(bandNumber=bandNumber, irradiance=irradiance, Skyl=skyl)
         ir = self.simu.core.xsdobjs['phase'].Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance
         ir.add_SpectralIrradianceValue(new_ir)
 
         return new_band, new_ir
+
+
 
     def treestxtfile_reference(self, src_file_path, species_list, createProps = False):
         """

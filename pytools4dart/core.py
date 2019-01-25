@@ -503,17 +503,45 @@ class Core(object):
 
     def update_bn(self):
         """
-        Update band number in the order they are found, starting from 0
+        Update band number of SpectralIntervalsProperties and SpectralIrradianceValue in the order they are found, starting from 0.
+        Removes SpectralIrradianceValue that have band number higher than SpectralIntervalsProperties
         """
-        bands = self.xsdobjs["phase"].Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties
-        for i, b in enumerate(bands):
-            b.bandNumber = i
+        DartInputParameters = self.xsdobjs["phase"].Phase.DartInputParameters
+        bands = DartInputParameters.SpectralIntervals.SpectralIntervalsProperties
+        bandNumbers = [b.bandNumber for b in bands]
+        band_df  = pd.DataFrame(dict(band=bands, bandNumber=bandNumbers))
+
+        irradiances = DartInputParameters.nodeIlluminationMode.SpectralIrradiance.SpectralIrradianceValue
+        ir_bandNumbers = [ir.bandNumber for ir in irradiances]
+        ir_df  = pd.DataFrame(dict(irradiance=irradiances, bandNumber=ir_bandNumbers))
+
+        # sort values
+        band_df = band_df.sort_values(by='bandNumber').reset_index()
+        ir_df = ir_df.sort_values(by='bandNumber').reset_index()
+
+        # renumber both
+        band_df.bandNumber = band_df.index
+        ir_df.bandNumber=ir_df.index
+
+        # remove wrongly numbered irradiances
+        bi_df = pd.merge(band_df, ir_df, how='left', on='bandNumber')
+
+        # affect bandNumber and create inexistant irradiances
+        for row in bi_df.itertuples():
+            if pd.isna(row.irradiance):
+                row.irradiance = ptd.phase.create_SpectralIrradianceValue()
+            row.irradiance.bandNumber = row.bandNumber
+            row.band.bandNumber = row.bandNumber
+
+        DartInputParameters.SpectralIntervals.SpectralIntervalsProperties = list(band_df.band)
+        DartInputParameters.nodeIlluminationMode.SpectralIrradiance.SpectralIrradianceValue = list(ir_df.irradiance)
+
 
     def update_ir(self):
         """
         Remove supplementary spectral irradiance and SKYL
         """
-        #TODO
+
 
 
 
