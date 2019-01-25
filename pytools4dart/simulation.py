@@ -65,7 +65,7 @@ from pytools4dart.core import Core
 from pytools4dart.scene import Scene
 from pytools4dart.checker import Checker
 from pytools4dart.add import Add
-from pytools4dart.acquisition import Acquisition
+from pytools4dart.sensor import Sensor
 from pytools4dart.source import Source
 from pytools4dart.update import Update
 
@@ -87,7 +87,7 @@ class simulation(object):
 
         self._scene = Scene(self)
 
-        self.acquisition = Acquisition(self)
+        self.sensor = Sensor(self)
 
         self.source = Source(self)
 

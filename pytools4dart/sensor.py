@@ -24,7 +24,7 @@
 #
 # ===============================================================================
 """
-This module contains the class "Acquisition".
+This module contains the class "Sensor".
 """
 
 #class Sensor(): ToDo
@@ -32,25 +32,26 @@ This module contains the class "Acquisition".
 import pytools4dart as ptd
 
 
-class Acquisition(object):
+class Sensor(object):
+    """
+    All that concerns the sensing: sensors, bands, etc.
+    """
 
     def __init__(self, simu):
         self.simu = simu
-        self.sensors = []
 
     @property
     def bands(self):
         return self.simu.core.get_bands_df()
-    @bands.setter
-    def bands(self, value):
-        raise Exception('Element not settable.')
 
     @property
     def virtualDirections(self):
         return self.simu.core.get_virtual_directions()
-    @virtualDirections.setter
-    def virtualDirections(self, value):
-        raise Exception('Element not settable.')
+
+    @property
+    def sensors(self):
+        return self.simu.core.get_sensors()
+
 
 
     def update_xsdobjs(self):
