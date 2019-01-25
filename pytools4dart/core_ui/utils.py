@@ -298,6 +298,9 @@ def get_nodes(corenode, dartnode):
     dns = dartnode.split('.')
     subdn = ''
     dn = dns[0]
+    if dn not in corenode.children+corenode.attrib:
+        return ([])
+
     cn = eval('corenode.'+dn)
     if cn is None:
         return([])
