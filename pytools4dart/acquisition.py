@@ -37,23 +37,21 @@ class Acquisition(object):
     def __init__(self, simu):
         self.simu = simu
         self.sensors = []
-        self.bands = self.simu.core.extract_sp_bands_table()
-        self.virtualDirections = self.get_virtual_directions()
 
-    def update_virtualDirections(self):
-        self.virtualDirections = self.get_virtual_directions()
+    @property
+    def bands(self):
+        return self.simu.core.get_bands_df()
+    @bands.setter
+    def bands(self, value):
+        raise Exception('Element not settable.')
 
-    def get_virtual_directions(self):
-        virtualDirs = []
-        dirsList = self.simu.core.xsdobjs["directions"].Directions.AddedDirections
-        for dir in dirsList:
-            virtualDirs.append([dir.ZenithAzimuth.directionAzimuthalAngle, dir.ZenithAzimuth.directionZenithalAngle])
-        return virtualDirs
+    @property
+    def virtualDirections(self):
+        return self.simu.core.get_virtual_directions()
+    @virtualDirections.setter
+    def virtualDirections(self, value):
+        raise Exception('Element not settable.')
 
-    def add_virtual_direction (self, dirAzimuthZenith):
-        dir = ptd.directions.create_AddedDirections(ZenithAzimuth = ptd.directions.create_ZenithAzimuth(directionAzimuthalAngle= dirAzimuthZenith[0], directionZenithalAngle=dirAzimuthZenith[1]))
-        self.simu.core.xsdobjs["directions"].Directions.add_AddedDirections(dir)
-        self.update_virtualDirections()
 
     def update_xsdobjs(self):
         print("ToBe Done: update des objets à partir des tables")
