@@ -141,25 +141,25 @@ class simulation(object):
         If module dependencies issues are detected, an Exception is raised
         :param name: name of the new(modified) simulation. If None
         """
-        check = self.checker.module_dependencies()
+        # check = self.checker.module_dependencies()
+        self.core.update()
 
         if not name:
             name = self.name
 
-        if check == True:
-            if name != None:
-                new_simu_path = pjoin(self.getsimusdir(), name)
-                if not os.path.isdir(new_simu_path):
-                    os.mkdir(new_simu_path)
-                    new_inputsimu_path = pjoin(new_simu_path, "input")
-                    os.mkdir(new_inputsimu_path)
-                elif overwrite == False:
-                    raise Exception("ERROR: requested new simulation already exists, files won't be written!")
+        if name != None:
+            new_simu_path = pjoin(self.getsimusdir(), name)
+            if not os.path.isdir(new_simu_path):
+                os.mkdir(new_simu_path)
+                new_inputsimu_path = pjoin(new_simu_path, "input")
+                os.mkdir(new_inputsimu_path)
+            elif overwrite == False:
+                raise Exception("ERROR: requested new simulation already exists, files won't be written!")
 
-            for fname, xsdobj in self.core.xsdobjs.iteritems():
-                self.write_xml_file(fname, xsdobj, name)
-        else:
-            raise Exception("ERROR: please correct dependencies issues, no files written")
+        for fname, xsdobj in self.core.xsdobjs.iteritems():
+            self.write_xml_file(fname, xsdobj, name)
+    # else:
+    #     raise Exception("ERROR: please correct dependencies issues, no files written")
 
     def is_tree_txt_file_considered(self):
         return self.core.xsdobjs["trees"].Trees.Trees_1 != None
