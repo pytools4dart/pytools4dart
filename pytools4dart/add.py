@@ -686,7 +686,7 @@ class Add(object):
             grd_type = opl_type_table.type_int[grd_op_type == opl_type_table.type_str].iloc[0]
 
         if plot_type in [0, 2]: # ground
-            args = {'ident':grd_op_ident, 'type_': grd_op_type}
+            args = {'ident':grd_op_ident, 'type_': grd_type}
             args = {k:v for k,v in args.iteritems() if v is not None}
             grd_opl = ptd.plots.create_GroundOpticalPropertyLink(**args)
             if grd_tp_ident is not None: # otherwise default roperties will be set
@@ -709,26 +709,26 @@ class Add(object):
 
         # properties and plot
         if plot_type == 0:
-            plot = ptd.plots.create_Plot(Polygon2D=Polygon2D,
+            plot = ptd.plots.create_Plot(type_= plot_type, Polygon2D=Polygon2D,
                                          GroundOpticalPropertyLink=grd_opl, GroundThermalPropertyLink=grd_tpl)
         elif plot_type in [1, 2]:
             geom = ptd.plots.create_VegetationGeometry(height=height, baseheight=baseheight)
             prop = ptd.plots.create_PlotVegetationProperties(VegetationOpticalPropertyLink=opl,
                                                              GroundThermalPropertyLink=tpl,
                                                              VegetationGeometry=geom)
-            plot = ptd.plots.create_Plot(Polygon2D=Polygon2D, PlotVegetationProperties=prop,
+            plot = ptd.plots.create_Plot(type_= plot_type, Polygon2D=Polygon2D, PlotVegetationProperties=prop,
                                          GroundOpticalPropertyLink=grd_opl, GroundThermalPropertyLink=grd_tpl)
         elif plot_type == 3:
             geom = ptd.plots.create_AirGeometry(height=height, baseheight=baseheight)
             prop = ptd.plots.create_PlotAirProperties(VegetationOpticalPropertyLink=opl,
                                                       GroundThermalPropertyLink=tpl,
                                                       AirGeometry=geom)
-            plot = ptd.plots.create_Plot(Polygon2D=Polygon2D, PlotAirProperties=prop)
+            plot = ptd.plots.create_Plot(type_= plot_type, Polygon2D=Polygon2D, PlotAirProperties=prop)
         elif plot_type == 4:
             prop = ptd.plots.create_PlotWaterProperties(VegetationOpticalPropertyLink=opl,
                                                         GroundThermalPropertyLink=tpl,
                                                         waterDepth=height, waterHeight=baseheight)
-            plot = ptd.plots.create_Plot(Polygon2D=Polygon2D, PlotWaterProperties=prop)
+            plot = ptd.plots.create_Plot(type_= plot_type, Polygon2D=Polygon2D, PlotWaterProperties=prop)
 
         self.simu.core.xsdobjs['plots'].Plots.add_Plot(plot)
 
@@ -980,6 +980,70 @@ class Add(object):
                     ThermalPropertyLink=veg_th_prop_link)
 
         self.simu.update.lock_core = True  # update locks management
+
+    def plots(self, data, file):
+        """
+
+        Parameters
+        ----------
+        data: pandas DataFrame
+            table of plots with following column expectations:
+
+            - PLT_TYPE : Type of plot (0 = Ground, 1 = Vegetation, 2 = Ground + Vegetation, 3 = Fluid, 4 = Water)
+
+            - BORDER_REPETITION : 1 if the fractions of the plot partially outside of the scene are to be copied back on the other side, 0 if they are to be removed {Default value = 0}
+
+            - For ALL plots, 4 anticlockwise corners need to be defined.
+                - PT_1_X : X coordinate for first plot corner
+                - PT_1_Y : Y coordinate for first plot corner
+                - PT_2_X : X coordinate for second plot corner
+                - PT_2_Y : Y coordinate for second plot corner
+                - PT_3_X : X coordinate for third plot corner
+                - PT_3_Y : Y coordinate for third plot corner
+                - PT_4_X : X coordinate for last plot corner
+                - PT_4_Y : Y coordinate for last plot corner
+
+            - For ground plots, this parameters need to be defined
+                - GRD_OPT_TYPE : Ground optical function type (0 = Lambertian, 2 = Hapke, 4 = RPV)
+                - GRD_OPT_NAME : Ground optical function identification name
+                - GRD_THERM_NAME : Ground thermal function identification name
+
+            - For vegetation plots, this parameters need to be defined
+                - PLT_OPT_NUMB : Vegetation, fluid or water optical function identification name
+                - PLT_THERM_NUMB : Vegetation, fluid or water thermal function identification name
+                - PLT_BTM_HEI : Vegetation or fluid bottom height
+                - PLT_HEI_MEA : Vegetation or fluid Height mean
+                - PLT_STD_DEV : Vegetation or fluid Standard deviation
+                - VEG_DENSITY_DEF : Vegetation density Definition (0=LAI or 1=UL)
+                - VEG_LAI : Vegetation LAI if VEG_DENSITY_DEF=0 (LAI)
+                - VEG_UL : Vegetation UL if VEG_DENSITY_DEF=1 (UL)
+                - VEG_AS_TRI : Generate the plot as a cloud of triangle (0 = false, 1 = true)
+                - VEG_TRI_DISTRIB : Distribution method of the triangle inside of the plot (0 = Random, 1 = Regular grid distribution)
+                - VEG_TRI_TRI_NUMB : Number of triangle desire in the plot "Triangle Cloud". Override the next option is present.
+                - VEG_TRI_TRI_AREA : Area of each individual leaf/triangle in the plot "Triangle Cloud".
+
+            - For ground + vegetation plots, parameters for ground and vegetation plots need to be defined
+
+            - For fluid plots, this parameters need to be defined
+                - PLT_OPT_NUMB : Vegetation, fluid or water optical function number
+                - PLT_THERM_NUMB : Vegetation, fluid or water thermal function number
+                - PLT_BTM_HEI : Vegetation or fluid bottom height
+                - PLT_HEI_MEA : Vegetation or fluid Height mean
+                - PLT_STD_DEV : Vegetation fluid, or water Standard deviation
+                - FLU_PAR_DEN : Fluid particle density (Only one gas or particle can be defined per plot, for multiple gas/particle, you may define same number of air/fluid plot than number of gas/particle).
+
+            - For water plots, this parameters need to be defined
+                - PLT_OPT_NUMB : Vegetation, fluid or water optical function number
+                - PLT_THERM_NUMB : Vegetation, fluid or water thermal function number
+                - WAT_DEPTH : Water depth
+                - WAT_HEIHT : Water Height level
+                - PLT_STD_DEV : Vegetation fluid, or water Standard deviation
+                - WAT_EXTINCT : Water extinction coefficient (Only one extinction coefficient can be defined per plot, for multiple extinction coefficient, you may define same number of water plot than number of extinction coefficient).
+
+        Returns
+        -------
+
+        """
 
     def plotstxtfile_reference(self, src_file_path):
         """
