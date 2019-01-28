@@ -6,39 +6,48 @@ import numpy as np
 from os.path import join as pjoin
 import pytools4dart as ptd
 
-# create an empty simulation
-simu = ptd.simulation(name = 'use_case_1')
+# create a new simulation
+simu = ptd.simulation()
+simu.name = 'use_case_1'
 
 # set scene size
-scene_dims = [10,10]
-simu.set_scene_size(scene_dims)
-
+simu.scene.size = [10,10]
 # add spectral RGB bands, e.g. B=0.485, G=0.555, R=0.655 nm
 # with 0.07 full width at half maximum
-simu.add_bands({'wvl':[0.485, 0.555, 0.655], 'fwhm':0.07})
+for wvl in [0.485, 0.555, 0.655]:
+    simu.add.band(wvl=wvl, bw=0.07)
 
 # define optical properties with prospect parameters
-propect_prop = {'CBrown': 0, 'Cab': 30, 'Car': 5,
-                'Cm': 0.01, 'Cw': 0.01, 'N': 1.8,
-                'anthocyanin': 0}
+op = simu.add.optical_property(type = 'Vegetation',
+                               ident='turbid_leaf',
+                               databaseName='prospect.db',
+                               ModelName='',
+                               prospect={'CBrown': 0, 'Cab': 30, 'Car': 5,
+                                         'Cm': 0.01, 'Cw': 0.01, 'N': 1.8,
+                                         'anthocyanin': 0})
 
-op_name ='op_prospect'
-op_vegetation = {'type':'vegetation',
-              'op_name': op_name,
-              'db_name':'prospect.db',
-              'op_name_in_db':'',
-              'lad': 1,
-              'prospect':propect_prop}
-
-simu.add_optical_property(op_vegetation)
-
+# propect_prop = {'CBrown': 0, 'Cab': 30, 'Car': 5,
+#                 'Cm': 0.01, 'Cw': 0.01, 'N': 1.8,
+#                 'anthocyanin': 0}
+#
+# op_name ='op_prospect'
+# op_vegetation = {'type':'vegetation',
+#               'op_name': op_name,
+#               'db_name':'prospect.db',
+#               'op_name_in_db':'',
+#               'lad': 1,
+#               'prospect':propect_prop}
+#
+# simu.add_optical_property(op_vegetation)
+#
 
 # add a turbid plot
-simu.add_single_plot(op_name=op_name)
+simu.add.plot(type='Vegetation', op_ident='turbid_leaf')
+# simu.add_single_plot(op_name=op_name)
 
-# define sequence
-simu.add_prospect_sequence({'Cab': range(0,30,10)}, 'op_prospect',
-                           name='prospect_sequence')
+# # define sequence
+# simu.add_prospect_sequence({'Cab': range(0,30,10)}, 'op_prospect',
+#                            name='prospect_sequence')
 
 # show simulation content
 print(simu)
