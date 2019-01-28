@@ -470,6 +470,12 @@ class Add(object):
                 databaseName='Lambertian_vegetation.db'
                 useMultiplicativeFactorForLUT=1
 
+                # prospect arguments (if None not used, default is None)
+                prospect = {'CBrown': '0.0', 'Cab': '30', 'Car': '12',
+                           'Cm': '0.01', 'Cw': '0.012', 'N': '1.8',
+                           'anthocyanin': '0'}
+
+
             - Fluid:
                 ident = 'Molecule',
                 ModelName = 'rayleigh_gas',
@@ -524,8 +530,16 @@ class Add(object):
             tmp = ptd.coeff_diff.create_UnderstoryMulti()
             propargnames = tmp.attrib + tmp.children
             propargs = {k: v for k, v in kwargs.iteritems() if k in propargnames}
-            modelargs = { k:v for k,v in kwargs.iteritems() if k not in propargnames}
+            modelargs = { k:v for k,v in kwargs.iteritems() if k not in propargnames and not 'prospect'}
+
+            if 'prospect' in kwargs.keys():
+                ProspectExternParameters = ptd.coeff_diff.create_ProspectExternParameters(**kwargs['prospect'])
+                ProspectExternalModule = ptd.coeff_diff.create_ProspectExternalModule(useProspectExternalModule=1,
+                                                                           ProspectExternParameters=ProspectExternParameters)
+                modelargs['ProspectExternalModule']=ProspectExternalModule
+
             new_model = eval('ptd.coeff_diff.create_{model}(**modelargs)'.format(model=model)) # optproplist_xmlpath.split(".")[1]
+
             propargs['UnderstoryMultiModel']=new_model
             prop = eval('ptd.coeff_diff.create_{multi}(**propargs)'.format(multi=multi)) # optproplist_xmlpath.split(".")[1]
         else:
