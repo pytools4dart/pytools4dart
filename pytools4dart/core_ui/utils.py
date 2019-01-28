@@ -100,6 +100,9 @@ def update_node(rnode, tnode, module):
     for k in rnode.children:
         mk = mapName(k)
         att = getattr(rnode, mk)
+        # update parent attribute of each child
+        if att is not None and not isinstance(att, list):
+            att.parent=rnode
         empty_rchilds[mapName(k)]= (att is None or
                                     (isinstance(att, list) and
                                      len(att) == 0))
