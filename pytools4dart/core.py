@@ -123,10 +123,15 @@ class Core(object):
 
         plots_list = self.xsdobjs["plots"].Plots.Plot
         for i, plot in enumerate(plots_list):
-            plot_source = plot
+            source = plot
+            # plt_opt_name = ptd.core_ui.utils.findall(plot, 'Vegetation.*ident$')
+            # plt_opt_numb = findall(plot, '.*indexFctPhase$')[0]
+            # plt_therm_name = findall(plot, '.*idTemperature$')[0]
+            # plt_therm_num = findall(plot, '\.\w+\.\w+.*indexTemperature$')[0]
+            # grd_therm_name = findall(plot, '.*indexTemperature$')[0]
             plt_btm_hei, plt_hei_mea, plt_std_dev = None, None, None
             veg_density_def, veg_lai, veg_ul = None, None, None
-
+            wat_height = wat_depth = wat_extinct = None
             plt_opt_number, plt_opt_name, plt_therm_number, plt_therm_name = None, None, None, None
 
             grd_opt_type, grd_opt_number, grd_opt_name, grd_therm_number, grd_therm_name = None, None, None, None, None
@@ -148,7 +153,7 @@ class Core(object):
             else:
                 raise Exception("plot.form value {} not valid".format(plot.form))
 
-            if plt_type in [1,2,3]:
+            if plt_type in [1,2,3,4]:
                 opt_prop_node_name = None
                 th_prop_node_name = None
                 geom_node_name = None
@@ -157,19 +162,37 @@ class Core(object):
                     opt_prop_node_name = "PlotVegetationProperties.VegetationOpticalPropertyLink"
                     th_prop_node_name = "PlotVegetationProperties.GroundThermalPropertyLink"
                     geom_node_name = "PlotVegetationProperties.VegetationGeometry"
+                    if plot.PlotVegetationProperties.LAIVegetation is None:
+                        veg_density_def = 1
+                        veg_ul = plot.PlotVegetationProperties.UFVegetation.UF
+                    else:
+                        veg_density_def = 0
+                        veg_lai = plot.PlotVegetationProperties.LAIVegetation.LAI
+                    plt_btm_hei, plt_hei_mea, plt_std_dev = eval('plot.{}.baseheight'.format(geom_node_name)), \
+                                                            eval('plot.{}.height'.format(geom_node_name)), \
+                                                            eval('plot.{}.stDev'.format(geom_node_name))
                 elif plt_type == 3:
                     opt_prop_node_name = "PlotAirProperties.AirOpticalProperties[0].AirOpticalPropertyLink"
                     th_prop_node_name = "PlotAirProperties.GroundThermalPropertyLink"
                     geom_node_name = "PlotAirProperties.AirGeometry"
+                    plt_btm_hei, plt_hei_mea, plt_std_dev = eval('plot.{}.baseheight'.format(geom_node_name)), \
+                                                            eval('plot.{}.height'.format(geom_node_name)), \
+                                                            eval('plot.{}.stDev'.format(geom_node_name))
+                elif plt_type == 4:
+                    opt_prop_node_name = "PlotWaterProperties.WaterOpticalProperties[0].AirOpticalPropertyLink"
+                    th_prop_node_name = "PlotWaterProperties.GroundThermalPropertyLink"
+                    wat_height = ptd.core_ui.utils.findall(plot, 'waterHeight$')[0]
+                    wat_depth = ptd.core_ui.utils.findall(plot, 'waterDepth$')[0]
+                    plt_std_dev = ptd.core_ui.utils.findall(plot, 'stDev$')[0]
+                    wat_extinct = ptd.core_ui.utils.findall(plot, 'extinctionCoefficient$')[0]
+                    # raise Exception('Water plots summary not ready')
 
                 plt_opt_number = eval('plot.{}.indexFctPhase'.format(opt_prop_node_name))
                 plt_opt_name = eval('plot.{}.ident'.format(opt_prop_node_name))
                 plt_therm_number = eval('plot.{}.indexTemperature'.format(th_prop_node_name))
                 plt_therm_name = eval('plot.{}.idTemperature'.format(th_prop_node_name))
 
-                plt_btm_hei, plt_hei_mea, plt_std_dev = eval('plot.{}.baseheight'.format(geom_node_name)),\
-                                                        eval('plot.{}.height'.format(geom_node_name)),\
-                                                        eval('plot.{}.stDev'.format(geom_node_name))
+
 
             if plt_type in [0, 2]:  # ground or vegetation+ground
                 grd_opt_type = plot.GroundOpticalPropertyLink.type_
@@ -178,10 +201,11 @@ class Core(object):
                 grd_therm_number = plot.GroundThermalPropertyLink.indexTemperature
                 grd_therm_name = plot.GroundThermalPropertyLink.idTemperature
 
-            row_to_add = [i, plot_source , plt_type, x1, y1, x2, y2, x3, y3, x4, y4,
+            row_to_add = [plt_type, x1, y1, x2, y2, x3, y3, x4, y4,
                           grd_opt_type, grd_opt_number, grd_opt_name, grd_therm_number, grd_therm_name,
                           plt_opt_number, plt_opt_name, plt_therm_number, plt_therm_name,
-                          plt_btm_hei, plt_hei_mea, plt_std_dev, veg_density_def, veg_lai, veg_ul]
+                          plt_btm_hei, plt_hei_mea, plt_std_dev, veg_density_def, veg_lai, veg_ul,
+                          wat_depth, wat_height, wat_extinct, source]
 
             rows.append(row_to_add)
 
@@ -191,7 +215,7 @@ class Core(object):
         #                       'PT_4_Y',
         #                       'GRD_OPT_TYPE', 'GRD_OPT_NUMB', 'GRD_OPT_NAME', 'GRD_THERM_NUMB', 'GRD_THERM_NAME',
         #                       'PLT_OPT_NUMB', 'PLT_OPT_NAME', 'PLT_THERM_NUMB', 'PLT_THERM_NAME',
-        #                       'PLT_BTM_HEI', 'PLT_HEI_MEA', 'PLT_STD_DEV', 'VEG_DENSITY_DEF', 'VEG_LAI', 'VEG_UL']
+        #                       'PLT_BTM_HEI', 'PLT_HEI_MEA', 'PLT_STD_DEV', 'VEG_DENSITY_DEF', 'VEG_LAI', 'VEG_UL', 'WAT_HEIGHT', 'WAT_DEPTH']
 
         plots_df = pd.DataFrame(rows, columns=plots_table_header)
         plots_df.PLT_TYPE = plots_df.PLT_TYPE.astype('category').cat.set_categories(plot_type_table.type_int.values).cat.rename_categories(plot_type_table.type_str.values)
