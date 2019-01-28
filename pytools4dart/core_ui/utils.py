@@ -404,8 +404,104 @@ def get_path(corenode, index=False):
         return path
 
     if index and isinstance(corenode.parent.__getattribute__(path), list):
-        i = corenode.parent.__getattribute__(path).index(corenode)
+        # i = corenode.parent.__getattribute__(path).index(corenode)
+        l = corenode.parent.__getattribute__(path)
+        i = [i for i, c in enumerate(l) if c is corenode][0]
         path = path+'[{}]'.format(i)
 
     return '.'.join([ppath, path])
 
+
+def findall(corenode, pat, case=False, regex=True, column='dartnode', path=False):
+    """
+    Find all the values with path
+    Parameters
+    ----------
+    corenode
+    pat
+    case
+    regex
+    column
+
+    Returns
+    -------
+
+    """
+    dartnode = corenode.path(index=False)
+    corepath = corenode.path(index=True)
+    # labelsdf = get_labels('^'+dartnode)
+    labelsdf = ptd.core_ui.utils.get_labels('^' + dartnode)
+    labelsdf = labelsdf[labelsdf[column].str.contains(pat, case, regex=regex)]
+    dartnodes = [re.sub(dartnode+'.', '', dn) for dn in labelsdf['dartnode']]
+    nodes = []
+    if path:
+        paths = []
+        for dn in dartnodes:
+            # l.extend(ptd.core_ui.utils.get_nodes(corenode, dn))
+            n, p=ptd.core_ui.utils.get_nodes_with_path(corenode, dn)
+            nodes.extend(n)
+            paths.extend(p)
+        return nodes, paths
+
+    for dn in dartnodes:
+        nodes.extend(ptd.core_ui.utils.get_nodes(corenode, dn))
+    return nodes
+
+# ptd.core_ui.utils.findall(simu.core.xsdobjs['plots'].Plots, '.*ident$')
+#
+# pat = '.*LAI$'
+
+
+def get_nodes_with_path(corenode, dartnode):
+    """
+    get all the nodes corresponding to dartnode path
+
+    Parameters
+    ----------
+    corenode: any class of core_ui modules
+    dartnode: str
+        given by dart labels (cf get_labels)
+    Returns
+    -------
+        list
+    Examples
+    --------
+        import pytools4dart as ptd
+        simu = ptd.simulation('use_case_1')
+        dartnodes = ptd.core_ui.utils.get_labels('$Plots.*OpticalPropertyLink$')['dartnode']
+        corenode = simu.core.xsdobj['plots']
+        all_nodes = [get_nodes(cornode, dartnode) for dartnode in dartnodes]
+    """
+    dns = dartnode.split('.')
+    subdn = ''
+    dn = dns[0]
+    if dn not in corenode.children+corenode.attrib:
+        return [], []
+
+    cn = eval('corenode.'+dn)
+    if cn is None:
+        return [], []
+
+    if len(dns)== 1:
+        if isinstance(cn, list):
+            path = [corenode.path()+'.'+dn+'[{}]'.format(i) for i in range(len(cn))]
+            return cn, path
+        else:
+            return [cn], [corenode.path()+'.'+dn]
+
+
+    subdn = '.'.join(dns[1:])
+    if isinstance(cn, list):
+        node=[]
+        path=[]
+        for subcn in cn:
+            n, p = get_nodes_with_path(subcn, subdn)
+            node.extend(n)
+            path.extend(p)
+
+        return node, path
+        # return([get_nodes(subcn, subdn) for subcn in cn])
+    node, path = get_nodes_with_path(cn, subdn)
+    # if isinstance(n, list):
+    #     return(n)
+    return node, path
