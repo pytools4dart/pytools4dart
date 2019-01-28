@@ -29,7 +29,7 @@ import pytools4dart as ptd
 # create an empty simulation
 simu = ptd.simulation()
 simu.name = 'use_case_0'
-simu.scene.properties
+print(simu.scene.properties)
 
 # set scene size
 simu.scene.size = [10,10]
