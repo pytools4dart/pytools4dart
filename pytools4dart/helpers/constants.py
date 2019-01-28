@@ -39,12 +39,12 @@ plot_types_inv_dict = {"ground": 0, "vegetation": 1, "veg_ground": 2, "fluid": 3
 plot_form_dict = {0: "polygon", 1: "rectangle"}
 plot_form_inv_dict = {"polygon": 0, "rectangle": 1}
 
-plots_table_header = ['PLT_NUMBER', 'PLOT_SOURCE', 'PLT_TYPE', 'PT_1_X', 'PT_1_Y', 'PT_2_X', 'PT_2_Y', 'PT_3_X', 'PT_3_Y',
+plots_table_header = ['PLT_TYPE', 'PT_1_X', 'PT_1_Y', 'PT_2_X', 'PT_2_Y', 'PT_3_X', 'PT_3_Y',
                               'PT_4_X',
                               'PT_4_Y',
                               'GRD_OPT_TYPE', 'GRD_OPT_NUMB', 'GRD_OPT_NAME', 'GRD_THERM_NUMB', 'GRD_THERM_NAME',
                               'PLT_OPT_NUMB', 'PLT_OPT_NAME', 'PLT_THERM_NUMB', 'PLT_THERM_NAME',
-                              'PLT_BTM_HEI', 'PLT_HEI_MEA', 'PLT_STD_DEV', 'VEG_DENSITY_DEF', 'VEG_LAI', 'VEG_UL']
+                              'PLT_BTM_HEI', 'PLT_HEI_MEA', 'PLT_STD_DEV', 'VEG_DENSITY_DEF', 'VEG_LAI', 'VEG_UL', 'WAT_DEPTH', 'WAT_HEIGHT', 'WAT_EXTINCT', 'SOURCE']
 
 # Optical property link type numbers
 opl_type_table = pd.DataFrame([[0, 'Lambertian'],
@@ -58,3 +58,7 @@ plot_type_table =pd.DataFrame([[0, 'Ground'],
                                [2, 'Ground + Vegetation'],
                                [3, 'Fluid'],
                                [4, 'Water']], columns=['type_int', 'type_str'])
+
+radiation_table = pd.DataFrame([[0, 'Flux Tracking'],
+                                [1, 'Monte-Carlo'],
+                                [2, 'LIDAR']], columns=['type_int', 'type_str'])

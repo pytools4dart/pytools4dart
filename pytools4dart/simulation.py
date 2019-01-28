@@ -85,7 +85,7 @@ class simulation(object):
 
         self.core = Core(self)
 
-        self._scene = Scene(self)
+        self.scene = Scene(self)
 
         self.sensor = Sensor(self)
 
@@ -101,9 +101,20 @@ class simulation(object):
 
         self.core.update_simu()
 
-    @property
-    def scene(self):
-        return self._scene
+    def __repr__(self):
+        description ='\n'.join(
+            ["\nSimulation '{}'".format(self.name),
+             '__________________________________',
+             'Sensor\n========',
+             '{}\n'.format(self.sensor),
+             # 'Source\n========',
+             # '{}\n'.format(self.source),
+             'Scene\n========',
+             '{}\n'.format(self.scene),
+             '__________________________________\n'])
+
+        return description
+
 
     def getsimupath(self):
         """

@@ -40,6 +40,13 @@ class Sensor(object):
     def __init__(self, simu):
         self.simu = simu
 
+    def __repr__(self):
+        description = '\n'.join([
+            'method: {}'.format(self.method),
+          'number of bands: {}'.format(self.bands.shape[0])
+        ])
+
+        return description
     @property
     def bands(self):
         return self.simu.core.get_bands_df()
@@ -52,7 +59,10 @@ class Sensor(object):
     def sensors(self):
         return self.simu.core.get_sensors()
 
-
+    @property
+    def method(self):
+        rt = ptd.helpers.constants.radiation_table
+        return rt.type_str[rt.type_int == self.simu.core.xsdobjs['phase'].Phase.calculatorMethod].iloc[0]
 
     def update_xsdobjs(self):
         print("ToBe Done: update des objets à partir des tables")
