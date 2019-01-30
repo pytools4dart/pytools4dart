@@ -41,29 +41,41 @@ op = simu.add.optical_property(type = 'Vegetation',
 # simu.add_optical_property(op_vegetation)
 #
 
+# ptd.core_ui.utils.findall(op, '.*Cab$', path=True)
+
 # add a turbid plot
-simu.add.plot(type='Vegetation', op_ident='turbid_leaf')
+plot = simu.add.plot(type='Vegetation', op_ident='turbid_leaf')
 # simu.add_single_plot(op_name=op_name)
 
 # # define sequence
 # simu.add_prospect_sequence({'Cab': range(0,30,10)}, 'op_prospect',
 #                            name='prospect_sequence')
 
-# show simulation content
+sequence = simu.add.sequence()
+sequence.name='prospect_sequence'
+# sequence = ptd.sequencer.Sequencer(simu, 'sequence_old')
 print(simu)
 
+
+# show simulation content
 # write simulation
 simu.write(overwrite=True)
 
 # run simulation
-simu.run.full()
+# simu.run.full()
+
+sequence.add_item(group='prospect', key='Cab', values=range(0,30,10), corenode=op)
+# sequence.add_item(group='prospect', key='Car', values=range(0,15,5), corenode=op)
+print(sequence)
+
+sequence.write(overwrite=True)
 
 # run sequence
 simu.run.sequence('prospect_sequence')
 
 # Figure of scene reflectance function of chlorophyll
-simu.get_sequence_db_path("prospect_sequence")
-conn = sqlite3.connect(simu.get_sequence_db_path("prospect_sequence"))
+# sequence.get_db_path()
+conn = sqlite3.connect(sequence.get_db_path())
 c=conn.cursor()
 
 ## extract reflectance and chlorophyll values
@@ -79,7 +91,7 @@ and P_Cab.idValueParameter = Combination.id_Cab
 group by valueParameter, valueCentralWavelength
 '''):
     result.append(row)
-
+print(result)
 df = pd.DataFrame(result, columns=['chl', 'wavelength', 'reflectance'])
 df.wavelength = 10**9*df.wavelength
 df.set_index('wavelength', inplace=True)
