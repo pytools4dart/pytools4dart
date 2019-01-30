@@ -64,9 +64,9 @@ class Core(object):
         if simu.name != None and os.path.isdir(self.simu.getsimupath()): # if name != None and dir doesnt exist, create Dir?
             self.load()
         else:
-            modulenames_list = self.get_xmlfile_names(pjoin(ptd.__path__[0], "templates"))#["plots", "phase", "atmosphere", "coeff_diff", "directions", "object_3d","maket","inversion","trees","water","urban"]
-            for modname in modulenames_list:
-                self.xsdobjs[modname] = eval('ptd.core_ui.{}.createDartFile()'.format(modname))
+            modules = self.get_modules_names()#["plots", "phase", "atmosphere", "coeff_diff", "directions", "object_3d","maket","inversion","trees","water","urban"]
+            for module in modules:
+                self.xsdobjs[module] = eval('ptd.core_ui.{}.createDartFile()'.format(module))
         # for xsdobj in self.xsdobjs.values():
         #     xsdobj.factory()
 
@@ -80,28 +80,27 @@ class Core(object):
             l.extend(get_nodes(cn, dn))
         return l
 
-    def get_xmlfile_names(self, dir_path):
+    def get_modules_names(self):
         """
         Provide file names (without xml extension) contained in the directory whose path is given in parameter
         :param dir_path: directory paty
         :return: list of file names
         """
-        xml_files_paths_list = glob.glob(pjoin(dir_path,"*.xml"))
-        fnames = []
-        for xml_file_path in xml_files_paths_list:
-            fname = (xml_file_path.split('/')[len(xml_file_path.split('/')) - 1]).split('.xml')[0]
-            fnames.append(fname)
-        return fnames
+        templatesDpath = pjoin(ptd.__path__[0], "templates")
+        templates = glob.glob(pjoin(templatesDpath, "*.xml"))
+        modules = [os.path.splitext(os.path.basename(f))[0] for f in templates]
+        modules = [m for m in modules if m is not 'sequence']
+        return modules
 
     def load(self):
         """
         Populate XSD Objects contained in xsd_core according to DART XML input files contents
         Update properties, sp_bands and plots tables after population of xsdobjs
         """
-        modulenames_list = self.get_xmlfile_names(pjoin(ptd.__path__[0], "templates"))
-        for modulename in modulenames_list:
-            filepath = pjoin(self.simu.getinputsimupath(), modulename+'.xml')
-            self.xsdobjs[modulename] = eval('ptd.{}.parse("{}",silence=True)'.format(modulename, filepath))
+        modules = self.get_modules_names()
+        for module in modules:
+            filepath = pjoin(self.simu.getinputsimupath(), module+'.xml')
+            self.xsdobjs[module] = eval('ptd.{}.parse("{}",silence=True)'.format(module, filepath))
 
     def get_corners_from_rectangle(self, center_x, center_y, side_x, side_y):
         x1, y1 = center_x - side_x / 2.0, center_y - side_y / 2.0
