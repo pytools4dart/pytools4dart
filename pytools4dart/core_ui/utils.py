@@ -244,6 +244,7 @@ def update_xsd(xsd_obj, troot):
     return
 
 def export_xsd_to_string(xsd_obj):
+    # TODO: remove
     return etree.tostring(xsd_obj.to_etree(), pretty_print=True)
     # old_stdout = sys.stdout
     # sys.stdout = mystdout = StringIO()
@@ -255,6 +256,7 @@ def export_xsd_to_string(xsd_obj):
 
 
 def export_xsd_to_tree(xsd_obj):
+    # TODO: remove
     rroot = xsd_obj.to_etree()
     # indent(rroot)
     return etree.ElementTree(rroot)
