@@ -30,6 +30,7 @@ This module contains the class "Adds".
 """
 
 import pytools4dart as ptd
+from pytools4dart.sequencer import Sequencer
 import re
 
 from pytools4dart.helpers.constants import *
@@ -534,8 +535,7 @@ class Add(object):
 
             if 'prospect' in kwargs.keys():
                 ProspectExternParameters = ptd.coeff_diff.create_ProspectExternParameters(**kwargs['prospect'])
-                ProspectExternalModule = ptd.coeff_diff.create_ProspectExternalModule(useProspectExternalModule=1,
-                                                                           ProspectExternParameters=ProspectExternParameters)
+                ProspectExternalModule = ptd.coeff_diff.create_ProspectExternalModule(useProspectExternalModule=1, ProspectExternParameters=ProspectExternParameters)
                 modelargs['ProspectExternalModule']=ProspectExternalModule
 
             new_model = eval('ptd.coeff_diff.create_{model}(**modelargs)'.format(model=model)) # optproplist_xmlpath.split(".")[1]
@@ -781,7 +781,22 @@ class Add(object):
 
         return new_band, new_ir
 
+    def sequence(self, name = None):
+        """
+        Add an empty sequence to simulation
+        Parameters
+        ----------
+        name: str
+            name of the sequence
 
+        Returns
+        -------
+            object of type Sequencer
+
+        """
+        new_sequence = Sequencer(self.simu, name)
+        self.simu.sequence.append(new_sequence)
+        return new_sequence
 
     def treestxtfile_reference(self, src_file_path, species_list, createProps = False):
         """
