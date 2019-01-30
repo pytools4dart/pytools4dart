@@ -99,9 +99,12 @@ class simulation(object):
 
         self.update = Update(self)
 
+        self.sequence = []
+
         self.core.update_simu()
 
     def __repr__(self):
+
         description ='\n'.join(
             ["\nSimulation '{}'".format(self.name),
              '__________________________________',
@@ -111,6 +114,9 @@ class simulation(object):
              # '{}\n'.format(self.source),
              'Scene\n========',
              '{}\n'.format(self.scene),
+             'Sequences',
+             '=========',
+             'number of sequences: {}\n'.format(len(self.sequence)),
              '__________________________________\n'])
 
         return description
@@ -144,7 +150,7 @@ class simulation(object):
     def get_database_dir(self):
         return pjoin(getdartdir(),"database")
 
-    def write(self, name = None, overwrite = False):
+    def write(self, overwrite = False):
         """
         Write XSD objects contents on DART XML input files in simulation input directory
         Warning: if name is None, initial simulation input directory is overwritten
@@ -155,22 +161,51 @@ class simulation(object):
         # check = self.checker.module_dependencies()
         self.core.update()
 
-        if not name:
-            name = self.name
+        if self.name is None:
+            raise Exception('Simulation name not defined.')
 
-        if name != None:
-            new_simu_path = pjoin(self.getsimusdir(), name)
-            if not os.path.isdir(new_simu_path):
-                os.mkdir(new_simu_path)
-                new_inputsimu_path = pjoin(new_simu_path, "input")
-                os.mkdir(new_inputsimu_path)
-            elif overwrite == False:
-                raise Exception("ERROR: requested new simulation already exists, files won't be written!")
+        # create directories
+        simuDpath = self.getsimupath()
+        # keep all that is in simuDpath
+        if not os.path.isdir(simuDpath):
+            os.mkdir(simuDpath)
 
+        inputDpath = self.getinputsimupath()
+        if os.path.isdir(inputDpath):
+            if overwrite: # remove file
+                # tempfile was considered however the plots.xml can be large if lots of plots,
+                # thus this option was further investigated
+                shutil.rmtree(inputDpath)
+            else:
+                raise Exception('Simulation already exists.')
+
+        os.mkdir(inputDpath)
+
+        # write inputs
         for fname, xsdobj in self.core.xsdobjs.iteritems():
-            self.write_xml_file(fname, xsdobj, name)
+            file = os.path.join(inputDpath, fname + '.xml')
+            with open(file, 'w') as f:
+                xsdobj.export(f, level=0)
+
+        # write sequence
+        for s in self.sequence:
+            s.write(overwrite=overwrite)
+
     # else:
     #     raise Exception("ERROR: please correct dependencies issues, no files written")
+
+    def write_xml_file(self, fname, obj, name = None):
+        # TODO: remove
+        xmlstr = etree.tostring(obj.to_etree(), pretty_print=True)
+        if name != None:
+            new_simu_path = pjoin(self.getsimusdir(),name)
+            new_inputsimu_path = pjoin(new_simu_path, "input")
+            xml_file_path = pjoin(new_inputsimu_path, fname + ".xml")
+        else:
+            xml_file_path = pjoin(self.getinputsimupath(), fname + ".xml")
+        xml_file = open(xml_file_path, "w")
+        xml_file.write(xmlstr)
+        xml_file.close()
 
     def is_tree_txt_file_considered(self):
         return self.core.xsdobjs["trees"].Trees.Trees_1 != None
@@ -224,18 +259,6 @@ class simulation(object):
         opt_props_xmlpaths_dict["hapke"] = "HapkeSpecularMultiFunctions.HapkeSpecularMulti"
         opt_props_xmlpaths_dict["rpv"] = "RPVMultiFunctions.RPVMulti"
         return opt_props_xmlpaths_dict
-
-    def write_xml_file(self, fname, obj, name = None):
-        xmlstr = etree.tostring(obj.to_etree(), pretty_print=True)
-        if name != None:
-            new_simu_path = pjoin(self.getsimusdir(),name)
-            new_inputsimu_path = pjoin(new_simu_path, "input")
-            xml_file_path = pjoin(new_inputsimu_path, fname + ".xml")
-        else:
-            xml_file_path = pjoin(self.getinputsimupath(), fname + ".xml")
-        xml_file = open(xml_file_path, "w")
-        xml_file.write(xmlstr)
-        xml_file.close()
 
     def add_sp_bands(self, spbands_list):
         """
