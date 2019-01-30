@@ -34,6 +34,7 @@ import os
 import platform
 import subprocess
 import glob
+import shutil
 import zipfile
 import pytools4dart as ptd
 
@@ -355,14 +356,19 @@ def build_core(directory=None):
 
     # remove templates and xsdschemas directory
     if os.path.exists(templatesDpath):
+        print("deleting '{}'".format(templatesDpath))
         for s in os.listdir(templatesDpath):
             os.remove(os.path.join(templatesDpath, s))
         os.rmdir(templatesDpath)
+
     if os.path.exists(xsdDpath):
+        print("deleting '{}'".format(xsdDpath))
         for s in os.listdir(xsdDpath):
             os.remove(os.path.join(xsdDpath, s))
         os.rmdir(xsdDpath)
+
     if os.path.exists(labelsDpath):
+        print("deleting '{}'".format(labelsDpath))
         for s in os.listdir(labelsDpath):
             os.remove(os.path.join(labelsDpath, s))
         os.rmdir(labelsDpath)
@@ -387,7 +393,8 @@ def build_core(directory=None):
     ptd.xmlwriters.dartxml.write_templates(templatesDpath)
     ptd.xmlwriters.dartxml.write_schemas(xsdDpath)
     ptd.xmlwriters.dartxml.write_labels(labelsDpath)
-
+    shutil.copyfile(os.path.join(directory,'sequence.xsd'),os.path.join(xsdDpath, 'sequence.xsd'))
+    shutil.copyfile(os.path.join(directory, 'sequence.xml'), os.path.join(templatesDpath, 'sequence.xml'))
     xsdnames = [s.split('.xsd')[0] for s in os.listdir(xsdDpath) if s.endswith('.xsd')]
     
     # change to pytools4dart site-package directory: necessary for user_methods
@@ -406,5 +413,5 @@ def build_core(directory=None):
                                                  pypath = os.path.join(directory, "core_ui", xsdname+'.py'),
                                                  xsdpath = os.path.join(directory, "xsdschemas", xsdname+'.xsd'))
         subprocess.call(cmd, shell=True)
-    
+
     os.chdir(cwd) # get back to original directory
