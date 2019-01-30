@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<!-- ==================================================================== -->
+<!-- ==                                                                == -->
+<!-- ==               Template Example de fichier SEQUENCE             == -->
+<!-- ==                                                                == -->
+<!-- ==================================================================== -->
+<DartDocumentTemplateNode type="header" version="1.0">
+    <DartFile version="1.0">
+        <DartSequencerDescriptor sequenceName="sequence;;sequence">
+            <DartSequencerDescriptorEntries>
+                <DartDocumentTemplateNode type="list" min="0">
+                    <DartSequencerDescriptorGroup groupName="group1">
+                        <DartDocumentTemplateNode type="list" min="0">
+                            <DartSequencerDescriptorEntry args="1;2;3" propertyName="Plots.Plot[0].Polygon2D.Point2D[0].x" type="enumerate"/>
+                        </DartDocumentTemplateNode>
+                    </DartSequencerDescriptorGroup>
+                </DartDocumentTemplateNode>
+            </DartSequencerDescriptorEntries>
+            <DartSequencerPreferences/>
+            <DartLutPreferences/>
+        </DartSequencerDescriptor>
+    </DartFile>
+</DartDocumentTemplateNode>
+<!--cast of boolean always true in python, i.e. bool('false')=True-->
+            <!--<DartSequencerPreferences atmosphereMaketLaunched="true"-->
+                <!--dartLaunched="true" deleteAll="false"-->
+                <!--deleteAtmosphere="false" deleteAtmosphereMaket="false"-->
+                <!--deleteDartLut="false" deleteDartSequenceur="false"-->
+                <!--deleteDartTxt="false" deleteDirection="false"-->
+                <!--deleteInputs="false" deleteLibPhase="false"-->
+                <!--deleteMaket="false" deleteMaketTreeResults="false"-->
+                <!--deleteTreePosition="false" deleteTriangles="false"-->
+                <!--demGeneratorLaunched="true" directionLaunched="true"-->
+                <!--displayEnabled="true" genMode="XML" hapkeLaunched="true"-->
+                <!--individualDisplayEnabled="false" maketLaunched="true"-->
+                <!--numberParallelThreads="4" phaseLaunched="true"-->
+                <!--prospectLaunched="false"-->
+                <!--triangleFileProcessorLaunched="true" useBroadBand="true"-->
+                <!--useSceneSpectra="true" vegetationLaunched="true" zippedResults="false"/>-->
+            <!--<DartLutPreferences addedDirection="false" atmosToa="false"-->
+                <!--atmosToaOrdre="false" coupl="true" fluorescence="true"-->
+                <!--generateLUT="true" iterx="true" luminance="true"-->
+                <!--maketCoverage="false" ordre="true" otherIter="true"-->
+                <!--productsPerType="false"-->
+                <!--reflectance="true" sensor="true" storeIndirect="false"-->
+                <!--toa="true"/>-->

@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="DARTXmlDoc.xsl" type="text/xsl"?>
 <!-- created with https://www.freeformatter.com/xsd-generator.html and modified manually -->
+<!-- rename ClassnameType with _Classname -->
+<!-- remove simpleContent and extension nodes -->
 <!-- xs:string to xs:boolean taken from version of https://www.liquid-technologies.com -->
 <!-- default taken from default sequence.xml file -->
 <!-- version type changed to string with default value 5-7-4 -->
-
-
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:element name="DartFile" type="DartFileType"/>
+  <xs:element name="DartFile" type="DartFile"/>
   <xs:complexType name="_DartSequencerDescriptorEntry">
-    <xs:simpleContent>
-      <xs:extension base="xs:string">
-        <xs:attribute type="xs:string" name="args" use="optional"/>
-        <xs:attribute type="xs:string" name="propertyName" use="optional"/>
-        <xs:attribute type="xs:string" name="type" use="optional"/>
-      </xs:extension>
-    </xs:simpleContent>
+    <xs:attribute type="xs:string" name="args" use="optional"/>
+    <xs:attribute type="xs:string" name="propertyName" use="optional"/>
+    <xs:attribute type="xs:string" name="type" use="optional"/>
   </xs:complexType>
   <xs:complexType name="_DartSequencerDescriptorGroup">
     <xs:sequence>
@@ -29,66 +25,58 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="_DartSequencerPreferences">
-    <xs:simpleContent>
-      <xs:extension base="xs:string">
-        <xs:attribute name="atmosphereMaketLaunched" type="xs:boolean" default="true" />
-        <xs:attribute name="dartLaunched" type="xs:boolean" default="true" />
-        <xs:attribute name="deleteAll" type="xs:boolean" default="false" />
-        <xs:attribute name="deleteAtmosphere" type="xs:boolean" default="true" />
-        <xs:attribute name="deleteAtmosphereMaket" type="xs:boolean" default="true" />
-        <xs:attribute name="deleteDartLut" type="xs:boolean" default="true" />
-        <xs:attribute name="deleteDartSequenceur" type="xs:boolean" default="true" />
-        <xs:attribute name="deleteDartTxt" type="xs:boolean" default="true" />
-        <xs:attribute name="deleteDirection" type="xs:boolean" default="false" />
-        <xs:attribute name="deleteInputs" type="xs:boolean" default="false" />
-        <xs:attribute name="deleteLibPhase" type="xs:boolean" default="true" />
-        <xs:attribute name="deleteMaket" type="xs:boolean" default="true" />
-        <xs:attribute name="deleteMaketTreeResults" type="xs:boolean" default="true" />
-        <xs:attribute name="deleteTreePosition" type="xs:boolean" default="true" />
-        <xs:attribute name="deleteTriangles" type="xs:boolean" default="true" />
-        <xs:attribute name="demGeneratorLaunched" type="xs:boolean" default="true" />
-        <xs:attribute name="directionLaunched" type="xs:boolean" default="true" />
-        <xs:attribute name="displayEnabled" type="xs:boolean" default="true" />
-        <xs:attribute name="genMode" type="xs:string" default="XML" />
-        <xs:attribute name="hapkeLaunched" type="xs:boolean" default="true" />
-        <xs:attribute name="individualDisplayEnabled" type="xs:boolean" default="false" />
-        <xs:attribute name="maketLaunched" type="xs:boolean" default="true" />
-        <xs:attribute name="numberParallelThreads" type="xs:unsignedByte" default="4" />
-        <xs:attribute name="phaseLaunched" type="xs:boolean" default="true" />
-        <xs:attribute name="prospectLaunched" type="xs:boolean" default="false" />
-        <xs:attribute name="triangleFileProcessorLaunched" type="xs:boolean" default="true" />
-        <xs:attribute name="useBroadBand" type="xs:boolean" default="true" />
-        <xs:attribute name="useSceneSpectra" type="xs:boolean" default="true" />
-        <xs:attribute name="vegetationLaunched" type="xs:boolean" default="true" />
-        <xs:attribute name="zippedResults" type="xs:boolean" default="false" />
-      </xs:extension>
-    </xs:simpleContent>
+    <xs:attribute name="atmosphereMaketLaunched" type="xs:boolean" default="true" />
+    <xs:attribute name="dartLaunched" type="xs:boolean" default="true" />
+    <xs:attribute name="deleteAll" type="xs:boolean" default="false" />
+    <xs:attribute name="deleteAtmosphere" type="xs:boolean" default="false" />
+    <xs:attribute name="deleteAtmosphereMaket" type="xs:boolean" default="true" />
+    <xs:attribute name="deleteDartLut" type="xs:boolean" default="true" />
+    <xs:attribute name="deleteDartSequenceur" type="xs:boolean" default="true" />
+    <xs:attribute name="deleteDartTxt" type="xs:boolean" default="true" />
+    <xs:attribute name="deleteDirection" type="xs:boolean" default="false" />
+    <xs:attribute name="deleteInputs" type="xs:boolean" default="false" />
+    <xs:attribute name="deleteLibPhase" type="xs:boolean" default="true" />
+    <xs:attribute name="deleteMaket" type="xs:boolean" default="true" />
+    <xs:attribute name="deleteMaketTreeResults" type="xs:boolean" default="true" />
+    <xs:attribute name="deleteTreePosition" type="xs:boolean" default="true" />
+    <xs:attribute name="deleteTriangles" type="xs:boolean" default="true" />
+    <xs:attribute name="demGeneratorLaunched" type="xs:boolean" default="true" />
+    <xs:attribute name="directionLaunched" type="xs:boolean" default="true" />
+    <xs:attribute name="displayEnabled" type="xs:boolean" default="true" />
+    <xs:attribute name="genMode" type="xs:string" default="XML" />
+    <xs:attribute name="hapkeLaunched" type="xs:boolean" default="true" />
+    <xs:attribute name="individualDisplayEnabled" type="xs:boolean" default="false" />
+    <xs:attribute name="maketLaunched" type="xs:boolean" default="true" />
+    <xs:attribute name="numberParallelThreads" type="xs:unsignedByte" default="4" />
+    <xs:attribute name="phaseLaunched" type="xs:boolean" default="true" />
+    <xs:attribute name="prospectLaunched" type="xs:boolean" default="false" />
+    <xs:attribute name="triangleFileProcessorLaunched" type="xs:boolean" default="true" />
+    <xs:attribute name="useBroadBand" type="xs:boolean" default="true" />
+    <xs:attribute name="useSceneSpectra" type="xs:boolean" default="true" />
+    <xs:attribute name="vegetationLaunched" type="xs:boolean" default="true" />
+    <xs:attribute name="zippedResults" type="xs:boolean" default="false" />
   </xs:complexType>
   <xs:complexType name="_DartLutPreferences">
-    <xs:simpleContent>
-      <xs:extension base="xs:string">
-        <xs:attribute name="addedDirection" type="xs:boolean" default="false" />
-        <xs:attribute name="atmosToa" type="xs:boolean" default="true" />
-        <xs:attribute name="atmosToaOrdre" type="xs:boolean" default="false" />
-        <xs:attribute name="coupl" type="xs:boolean" default="false" />
-        <xs:attribute name="fluorescence" type="xs:boolean" default="false" />
-        <xs:attribute name="generateLUT" type="xs:boolean" default="true" />
-        <xs:attribute name="iterx" type="xs:boolean" default="true" />
-        <xs:attribute name="luminance" type="xs:boolean" default="true" />
-        <xs:attribute name="maketCoverage" type="xs:boolean" default="false" />
-        <xs:attribute name="ordre" type="xs:boolean" default="false" />
-        <xs:attribute name="otherIter" type="xs:boolean" default="false" />
-        <xs:attribute name="phiMax" type="xs:float" use="optional" />
-        <xs:attribute name="phiMin" type="xs:float" use="optional" />
-        <xs:attribute name="productsPerType" type="xs:boolean" default="true" />
-        <xs:attribute name="reflectance" type="xs:boolean" default="false" />
-        <xs:attribute name="sensor" type="xs:boolean" default="true" />
-        <xs:attribute name="storeIndirect" type="xs:boolean" default="true" />
-        <xs:attribute name="thetaMax" type="xs:decimal" use="optional" />
-        <xs:attribute name="thetaMin" type="xs:decimal" use="optional" />
-        <xs:attribute name="toa" type="xs:boolean" default="true" />
-      </xs:extension>
-    </xs:simpleContent>
+    <xs:attribute name="addedDirection" type="xs:boolean" default="false" />
+    <xs:attribute name="atmosToa" type="xs:boolean" default="true" />
+    <xs:attribute name="atmosToaOrdre" type="xs:boolean" default="false" />
+    <xs:attribute name="coupl" type="xs:boolean" default="false" />
+    <xs:attribute name="fluorescence" type="xs:boolean" default="false" />
+    <xs:attribute name="generateLUT" type="xs:boolean" default="true" />
+    <xs:attribute name="iterx" type="xs:boolean" default="true" />
+    <xs:attribute name="luminance" type="xs:boolean" default="true" />
+    <xs:attribute name="maketCoverage" type="xs:boolean" default="false" />
+    <xs:attribute name="ordre" type="xs:boolean" default="false" />
+    <xs:attribute name="otherIter" type="xs:boolean" default="false" />
+    <xs:attribute name="phiMax" type="xs:float" use="optional" />
+    <xs:attribute name="phiMin" type="xs:float" use="optional" />
+    <xs:attribute name="productsPerType" type="xs:boolean" default="false" />
+    <xs:attribute name="reflectance" type="xs:boolean" default="true" />
+    <xs:attribute name="sensor" type="xs:boolean" default="true" />
+    <xs:attribute name="storeIndirect" type="xs:boolean" default="false" />
+    <xs:attribute name="thetaMax" type="xs:decimal" use="optional" />
+    <xs:attribute name="thetaMin" type="xs:decimal" use="optional" />
+    <xs:attribute name="toa" type="xs:boolean" default="true" />
   </xs:complexType>
   <xs:complexType name="_DartSequencerDescriptor">
     <xs:sequence>
@@ -98,11 +86,11 @@
     </xs:sequence>
     <xs:attribute type="xs:string" name="sequenceName"/>
   </xs:complexType>
-  <xs:complexType name="DartFileType">
+  <xs:complexType name="DartFile">
     <xs:sequence>
       <xs:element type="_DartSequencerDescriptor" name="DartSequencerDescriptor"/>
     </xs:sequence>
-    <xs:attribute name="version" type="xs:string" default="5.7.4"/>
+    <xs:attribute name="version" type="xs:string" default="1.0"/>
   </xs:complexType>
 </xs:schema>
 
