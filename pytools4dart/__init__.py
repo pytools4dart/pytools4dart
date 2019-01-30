@@ -29,6 +29,8 @@ from simulation import simulation
 from helpers import voxreader, hstools, dbtools, OBJtools
 import run
 import xmlwriters
-from core_ui import plots, plots_gdsCL, phase, coeff_diff, object_3d, trees, directions, inversion, atmosphere, maket, urban, water
+from core_ui import plots, plots_gdsCL, phase, coeff_diff, object_3d, trees, directions, inversion, atmosphere, maket, urban, water, sequence
+import core_ui
+import sequencer
 
 
