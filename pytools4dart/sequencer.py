@@ -67,6 +67,34 @@ class Sequencer(object):
         # args = pd.DataFrame
 
     def add_item(self, group, key, values, type='enumerate', corenode=None):
+        """
+        Add an item (Entry in Dart) to sequence group. Group is created if not existing.
+        Parameters
+        ----------
+        group: str
+            Sequence group name
+
+        key: str
+            Sequence parameter
+
+        values: list
+            Sequence values
+
+        type: str
+            Type of sequence, either 'enumerate' or 'linear'
+
+        corenode: simulation core object
+
+            If None, the full path of key in corresponding module must be given,
+            e.g. Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].UnderstoryMultiModel.ProspectExternalModule.ProspectExternParameters.Cab
+
+            Otherwise, the full path corresponding to key is searched in node. In that case, the key must be unique in node.
+
+
+        Returns
+        -------
+            create_DartSequencerDescriptorEntry
+        """
         if corenode is None:
             # check if key exists
             v = self.simu.core.findall('^'+key+'$')
@@ -84,17 +112,25 @@ class Sequencer(object):
         args = ";".join(map(str, values))
         new_item = ptd.sequence.create_DartSequencerDescriptorEntry(args=args, propertyName=key, type_=type)
 
-        groups, paths = ptd.core_ui.utils.get_nodes_with_path(self.core.DartSequencerDescriptor.DartSequencerDescriptorEntries, 'DartSequencerDescriptorGroup.groupName')
+        gnames, paths = ptd.core_ui.utils.get_nodes_with_path(self.core.DartSequencerDescriptor.DartSequencerDescriptorEntries, 'DartSequencerDescriptorGroup.groupName')
 
-        if group not in groups:
-            g = self.add_group(group)
-            g.path(index=True)
-            groups, paths = ptd.core_ui.utils.get_nodes_with_path(
-                self.core.DartSequencerDescriptor.DartSequencerDescriptorEntries,
-                'DartSequencerDescriptorGroup.groupName')
+        if group not in gnames:
+            gnode = self.add_group(group)
+            gpath = gnode.path(index=True)
+        else:
+            gpath = '.'.join(paths[gnames == group].split('.')[:-1])
+            gnode = eval('self.core.'+gpath)
+            # check if existing items have same
+            l = []
+            for e in gnode.DartSequencerDescriptorEntry+[new_item]:
+                if e.type_ is 'enumerate':
+                    l.append(len(e.args.split(';')))
+                else:
+                    l.append(int(e.args.split(';')[2]))
+            if len(set(l))>1:
+                raise Exception('Length of item different from length of group.')
 
-        dartnode = '.'.join(paths[groups == group].split('.')[:-1])
-        eval('self.core.'+dartnode+'.add_DartSequencerDescriptorEntry(new_item)')
+        gnode.add_DartSequencerDescriptorEntry(new_item)
         return new_item
 
     def get_sequence_df(self):
@@ -108,8 +144,12 @@ class Sequencer(object):
                 key = e.propertyName
                 values = map(float, e.args.split(';'))
                 type = e.type_
-                glist.append([group, key.split('.')[-1], values, type, os.path.splitext(key)[0], e])
-        columns = ['group', 'parameter', 'values', 'type', 'path', 'source']
+                if e.type_ is 'enumerate':
+                    length = len(e.args.split(';'))
+                else:
+                    length = int(e.args.split(';')[2])
+                glist.append([group, key.split('.')[-1], values, length, type, os.path.splitext(key)[0], e])
+        columns = ['group', 'parameter', 'values', 'length', 'type', 'path', 'source']
         df = pd.DataFrame(glist, columns=columns)[columns]
         return df
 
