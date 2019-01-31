@@ -58,15 +58,24 @@ from pytools4dart.core_ui.utils import get_labels, get_nodes, findall
 # from pytools4dart.core_ui.urban import createDartFile
 
 class Core(object):
-    def __init__(self, simu):
+    """
+    Dart core object.
+    """
+    def __init__(self, simu, empty = False):
         self.simu = simu
         self.xsdobjs = {}
-        if simu.name != None and os.path.isdir(self.simu.getsimupath()): # if name != None and dir doesnt exist, create Dir?
+        if simu.name is not None and not empty and os.path.isdir(self.simu.getsimupath()):
             self.load()
         else:
             modules = self.get_modules_names()#["plots", "phase", "atmosphere", "coeff_diff", "directions", "object_3d","maket","inversion","trees","water","urban"]
             for module in modules:
                 self.xsdobjs[module] = eval('ptd.core_ui.{}.createDartFile()'.format(module))
+
+            if empty:
+                # self.xsdobjs['coeff_diff'].Coeff_diff.LambertianMultiFunctions.LambertianMulti = []
+                self.xsdobjs['phase'].Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties = []
+                self.xsdobjs['phase'].Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance.SpectralIrradianceValue = []
+
         # for xsdobj in self.xsdobjs.values():
         #     xsdobj.factory()
 
@@ -564,7 +573,7 @@ class Core(object):
             if pd.isna(row.index):
                 wrong_opl.append(row.Index)
             else:
-                row.optical_property_link.index = row.index
+                row.optical_property_link.indexFctPhase = row.index
         if len(wrong_opl):
             warnings.warn("Optical Properties not found in 'coeff_diff': {}".format(', '.join(xtable_opl.ident[wrong_opl])))
             return table_opl.loc[wrong_opl]
