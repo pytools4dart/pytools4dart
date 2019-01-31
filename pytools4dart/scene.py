@@ -55,8 +55,12 @@ class Scene(object):
         description = '\n'.join(
             ['scene size : {}'.format(self.size),
              'cell size : {}'.format(self.cell),
+             'ground:',
+             '\tOptical property: {}'.format(self.ground.OpticalPropertyLink.ident),
+             '\tThermal property: {}'.format(self.ground.ThermalPropertyLink.idTemperature),
              'number of plots : {}'.format(self.plots.shape[0]),
              'number of object 3D : {}'.format(self.object3D.shape[0]),
+             'number of tree species : {}'.format(self.tree_species.shape[0]),
              'number of optical properties : {}'.format(self.properties.optical.shape[0]),
              'number of thermal properties : {}'.format(self.properties.thermal.shape[0])])
 
@@ -87,20 +91,24 @@ class Scene(object):
         self.simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions.z = size[1]
 
     @property
+    def ground(self):
+        return self.simu.core.xsdobjs['maket'].Maket.Soil
+
+    @property
     def plots(self):
         return self.simu.core.get_plots_df()
-
-    # @plots.setter
-    # def plots(self, value):
-    #     raise Exception('Element not settable.')
 
     @property
     def object3D(self):
         return self.simu.core.get_object_3d_df()
 
-    # @object3D.setter
-    # def object3D(self, value):
-    #     raise Exception('Element not settable.')
+    @property
+    def trees(self):
+        return self.simu.core.get_trees()
+
+    @property
+    def tree_species(self):
+        return self.simu.core.get_tree_species()
 
     @property
     def properties(self):
@@ -312,5 +320,4 @@ class Properties_(object):
     @property
     def thermal(self):
         return self.simu.core.get_thermal_properties()
-
 
