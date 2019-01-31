@@ -15,7 +15,9 @@ class Sequencer(object):
         if name is not None and os.path.isfile(os.path.join(self.simu.getsimupath(), name+'.xml')):
             self.core = ptd.sequence.parse(os.path.join(self.simu.getsimupath(), name+'.xml'), silence=True)
         else:
-            DartSequencerDescriptor = ptd.sequence.create_DartSequencerDescriptor(sequenceName="sequence;;sequence")
+            if name is None:
+                name = 'sequence'
+            DartSequencerDescriptor = ptd.sequence.create_DartSequencerDescriptor(sequenceName="sequence;;"+name)
             self.core = ptd.sequence.createDartFile(DartSequencerDescriptor=DartSequencerDescriptor)
 
     def __repr__(self):
@@ -107,7 +109,8 @@ class Sequencer(object):
             key = path[0]
 
         if 'Prospect' in key:
-            self.core.DartSequencerDescriptor.prospectLaunched=True
+            self.core.DartSequencerDescriptor.DartSequencerPreferences.prospectLaunched=True
+
 
         args = ";".join(map(str, values))
         new_item = ptd.sequence.create_DartSequencerDescriptorEntry(args=args, propertyName=key, type_=type)
