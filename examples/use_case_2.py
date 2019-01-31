@@ -3,13 +3,13 @@ from os.path import join as pjoin
 import pytools4dart as ptd
 
 
-simu = ptd.simulation()
+simu = ptd.simulation(empty=True)
 simu.name = 'use_case_2'
 
-# empty the simulation
-simu.core.xsdobjs['coeff_diff'].Coeff_diff.LambertianMultiFunctions.LambertianMulti=[]
-simu.core.xsdobjs['phase'].Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties=[]
-simu.core.xsdobjs['phase'].Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance.SpectralIrradianceValue=[]
+# # empty the simulation
+# simu.core.xsdobjs['coeff_diff'].Coeff_diff.LambertianMultiFunctions.LambertianMulti=[]
+# simu.core.xsdobjs['phase'].Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties=[]
+# simu.core.xsdobjs['phase'].Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance.SpectralIrradianceValue=[]
 
 simu.scene.ground.OpticalPropertyLink.ident='ground'
 
@@ -60,8 +60,6 @@ op_vegetation = {'type':'Vegetation',
               'prospect':propect_prop}
 
 op = simu.add.optical_property(**op_vegetation)
-
-simu.core.update()
 
 # load inventory
 db_dir = pjoin(ptd.settings.getdartdir(),'database')

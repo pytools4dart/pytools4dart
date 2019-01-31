@@ -7,8 +7,7 @@ from os.path import join as pjoin
 import pytools4dart as ptd
 
 # create a new simulation
-simu = ptd.simulation()
-simu.name = 'use_case_1'
+simu = ptd.simulation(name = 'use_case_1', empty=True)
 
 # set scene size
 simu.scene.size = [10,10]

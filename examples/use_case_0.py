@@ -27,7 +27,7 @@
 import pytools4dart as ptd
 
 # create an empty simulation
-simu = ptd.simulation()
+simu = ptd.simulation(empty=True)
 simu.name = 'use_case_0'
 print(simu.scene.properties)
 

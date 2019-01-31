@@ -2,15 +2,15 @@
 import pytools4dart as ptd
 
 # create an empty simulation
-simu = ptd.simulation(name = 'use_case_3')
+simu = ptd.simulation(name = 'use_case_3', empty=True)
 
 # set scene size
-scene_dims = [20,20]
-simu.set_scene_size(scene_dims)
+simu.scene.size = [20, 20]
 
 # add spectral RGB bands, e.g. B=0.485, G=0.555, R=0.655 nm
 # with 0.07 full width at half maximum
-simu.add_bands({'wvl':[0.485, 0.555, 0.655], 'fwhm':0.07})
+for wvl in [0.485, 0.555, 0.655]:
+    simu.add.band(wvl=wvl, bw=0.07)
 
 # define optical properties with prospect parameters
 propect_prop = {'CBrown': 0, 'Cab': 30, 'Car': 5,
@@ -19,13 +19,13 @@ propect_prop = {'CBrown': 0, 'Cab': 30, 'Car': 5,
 
 op_name ='op_prospect'
 op_vegetation = {'type':'vegetation',
-              'op_name': op_name,
-              'db_name':'prospect.db',
-              'op_name_in_db':'',
+              'ident': op_name,
+              'databaseName':'prospect.db',
+              'ModelName':'',
               'lad': 1,
               'prospect':propect_prop}
 
-simu.add_optical_property(op_vegetation)
+simu.add.optical_property(**op_vegetation)
 
 # add plots from voxelized data
 vox = ptd.voxreader.voxel().from_vox("../data/forest.vox")
