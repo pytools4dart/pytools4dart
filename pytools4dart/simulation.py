@@ -77,13 +77,25 @@ class simulation(object):
     properties_dict: dictionnary containing "opt_props" and "thermal_props" DataFrames, "opt_props" provides a DataFrame for each opt property type
     bands: DataFrame containing a list of [wvl, dl] couples
     """
-    def __init__(self, name = None):
+    def __init__(self, name = None, empty = False):
         """
-        :param name: The name of the simulation
+
+        Parameters
+        ----------
+        name: str
+            simulation name.
+
+            If empty is False and if simulation already exists in DART simulation directory,
+            the sismulation is automatically loaded.
+
+        empty: bool
+            New simulation in DART usually comes with a default spectral band.
+            If `empty` is True, this band is removed.
         """
+
         self.name = name
 
-        self.core = Core(self)
+        self.core = Core(self, empty)
 
         self.scene = Scene(self)
 
