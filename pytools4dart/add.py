@@ -32,6 +32,7 @@ This module contains the class "Adds".
 import pytools4dart as ptd
 from pytools4dart.sequencer import Sequencer
 import re
+import os
 
 from pytools4dart.helpers.constants import *
 from pytools4dart.core_ui.utils import get_labels, get_nodes
@@ -797,6 +798,177 @@ class Add(object):
         new_sequence = Sequencer(self.simu, name)
         self.simu.sequence.append(new_sequence)
         return new_sequence
+
+    def trees(self, data=None, file = None, append=False, overwrite=False, mkdir=False):
+        """
+
+        Parameters
+        ----------
+        data: DataFrame
+         trees data should have the DART format specified in DART_HOME/database/trees.txt
+
+        file: str
+            path to the file where to write
+
+        Returns
+        -------
+
+        Notes
+        -----
+
+        * DART Trees files (default values are used for eventual missing fields)
+        *
+        * Case "Exact location + random dimension". 3 fields must be defined:
+        * SPECIES_ID:   ID of the species (parameters (optical property,...) defined in the Simulation Editor)
+        * POS_X:        Position of tree in the X axis mock-up
+        * POS_Y:        Position of tree in the X axis mock-up
+        *
+        * Case "Exact location + exact dimension". The below fields must be defined:
+        * SPECIES_ID:   ID of the species (parameters (optical property,...) defined in the Simulation Editor)
+        * POS_X:        X coordinate of the tree
+        * POS_Y:        Y coordinate of the tree
+        * T_HEI_BELOW:  Trunk height below the crown
+        * T_HEI_WITHIN: Trunk height within the crown
+        * T_DIA_BELOW:  Trunk diameter below the crown
+        * T_ROT_NUT:    Trunk nutation rotation (°) (Euler angle)
+        * T_ROT_PRE:    Trunk precession rotation (°) (Euler angle)
+        * C_TYPE:       Crown type (0 = ellipsoid, 1=ellipsoid composed, 2=cone, 3=trapezoid, 5=cone composed)
+        * C_HEI:        Crown heigth
+        * LAI:  - If the field is ommited: the species LAI is defined in the GUI
+        *       - If positive: total leaf area of the tree species (m2)
+        *       - if negative: leaf volume density (m2/m3)
+        * C_ROT_INT:    Crown intrinsic rotation (°) (Euler angle)
+        * C_ROT_NUT:    Crown nutation rotation (°) (Euler angle)
+        * C_ROT_PRE:    Crown precession rotation (°) (Euler angle)
+        * C_GEO_1:      Crown geometry parameters:
+        *               - if crown type = ellipsoid or ellipsoid composed: C_GEO_1 = first axis
+        *               - if crown type = cone or cone composed: C_GEO_1 = bottom radius
+        *               - if crown type = trapezoid: C_GEO_1 = bottom length
+        * C_GEO_2:      Crown geometry parameters:
+        *               - if crown type = ellipsoid or ellipsoid composed: C_GEO_2 = second axis
+        *               - if crown type = cone or cone composed: C_GEO_2 = top radius
+        *               - if crown type = trapezoid: C_GEO_2 = bottom width
+        * C_GEO_3:      Crown geometry parameters:
+        *               - if crown type = ellipsoid composed: C_GEO_3 = half heigth of lower ellipsoid
+        *               - if crown type = cone composed: C_GEO_3 = cylinder heigth
+        *               - if crown type = trapezoid: C_GEO_3 = top length
+        *               - if other crown type: C_GEO_3 is undefined
+        * C_GEO_4:      Crown geometry parameters:
+        *               - if crown type = trapezoid: C_GEO_4 = top width
+        *               - if other crown type: C_GEO_4 is undefined
+
+
+        """
+
+        if file is None:
+            file = 'trees.txt'
+
+        mode = 'w'
+        header = True
+        if append:
+            mode='a'
+            header = False
+
+        # check if the dataframe has the good format
+        df = None
+        if data is not None:
+            expected_columns = ['SPECIES_ID', 'POS_X', 'POS_Y',
+                                'T_HEI_BELOW', 'T_HEI_WITHIN', 'T_DIA_BELOW',
+                                'T_ROT_NUT', 'T_ROT_PRE', 'C_TYPE', 'C_HEI', 'LAI',
+                                'C_ROT_INT', 'C_ROT_NUT', 'C_ROT_PRE', 'C_GEO_1',
+                                'C_GEO_2', 'C_GEO_3', 'C_GEO_4']
+            df = data[[c for c in data.columns if c in expected_columns]]
+            if not all([c for c in df.columns if c in ['SPECIES_ID', 'POS_X', 'POS_Y']]):
+                raise Exception("Mandatory colmuns 'SPECIES_ID', 'POS_X', 'POS_Y' not found.")
+
+            if os.path.basename(file) is file:
+                filepath = os.path.join(self.simu.getsimupath(), file)
+            else:
+                filepath = file
+
+            # check if append or overwrite
+            if os.path.isfile(filepath) and not append and not overwrite:
+                raise Exception('File already exist. Set append or overwrite to overpass.')
+
+            # create directory if not found
+            if not os.path.isdir(os.path.dirname(filepath)):
+                if not mkdir:
+                    raise Exception("Directory not found: '{}'"
+                                    "Set option 'mkdir' to create.".format(os.path.dirname(filepath)))
+                os.mkdir(os.path.dirname(filepath))
+
+            df.to_csv(filepath, sep='\t', index=False, mode=mode, header=header)
+
+        # add file to simulation
+        Trees = self.simu.core.xsdobjs['trees'].Trees
+        _, nodepath = ptd.core_ui.utils.findall(Trees, 'sceneParametersFileName', path=True)
+        if len(nodepath)!=1:
+            raise Exception('Multiple sceneParametersFileName found.')
+
+        exec(nodepath[0]+'=file')
+
+        return eval('.'.join(nodepath[0].split('.')[:-1]))
+        # add file to
+
+
+
+    def tree_species(self, lai=4.0,
+                     veg_op_ident='Turbid_Leaf_Deciduous_Phase_Function',
+                     veg_tp_ident = 'ThermalFunction290_310',
+                     trunk_op_type = 'Lambertian',
+                     trunk_op_ident = 'Lambertian_Phase_Function_1',
+                     trunk_tp_ident = 'ThermalFunction290_310'
+                     ):
+        """
+        Add a tree species with one crown level.
+        Parameters
+        ----------
+        type
+        lai
+        vegopt
+        vegtherm
+        trunkopt
+        trunktherm
+
+        Returns
+        -------
+
+        """
+
+        Trees = self.simu.core.xsdobjs['trees'].Trees
+
+        # Suffix for Tree_i and Specie_i
+        tname = 'Trees_{}'.format(Trees.sceneModelCharacteristic)
+        if Trees.sceneModelCharacteristic == 1:
+            sname = 'Specie'
+        else:
+            sname = 'Specie_{}'.format(Trees.sceneModelCharacteristic)
+
+        if  Trees.isTrees == 0:
+            # initialize and remove specie automaticaly created
+            Trees.isTrees=1
+            setattr(getattr(Trees, tname), sname, [])
+
+        Trees_i = getattr(Trees, tname)
+
+        # Trunk properties (same for crown and under)
+        trunk_opl = ptd.trees.create_OpticalPropertyLink(ident=trunk_op_ident,
+                                                        type_=opl_type_table.type_int[opl_type_table.type_str == trunk_op_type])
+        trunk_tpl = ptd.trees.create_ThermalPropertyLink(idTemperature=trunk_tp_ident)
+        # Crown properties
+        veg_opl = ptd.trees.create_VegetationOpticalPropertyLink(ident=veg_op_ident)
+        veg_tpl = ptd.trees.create_ThermalPropertyLink(idTemperature=veg_tp_ident)
+        veg_prop = ptd.trees.create_VegetationProperty(veg_opl, veg_tpl)
+
+        CrownLevel = ptd.trees.create_CrownLevel(OpticalPropertyLink=trunk_opl, ThermalPropertyLink=trunk_tpl,
+                                    VegetationProperty=veg_prop)
+
+        args = {'lai':lai, 'OpticalPropertyLink':trunk_opl, 'ThermalPropertyLink':trunk_tpl, 'CrownLevel':[CrownLevel]}
+        Species = eval('ptd.trees.create_{sname}(**args)'.format(sname=sname))
+        eval('Trees_i.add_{sname}(Species)'.format(sname=sname))
+
+        return Species
+
 
     def treestxtfile_reference(self, src_file_path, species_list, createProps = False):
         """
