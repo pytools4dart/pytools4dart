@@ -31,6 +31,7 @@ See DART_HOME/bin/tools/linux/*.sh or DART_HOME\\bin\\windows\\*.bat for details
 from settings import darttools, getdartdir, getdartenv
 import subprocess
 import os
+import pytools4dart as ptd
 
 
 def rundart(path, tool, options = []):
@@ -206,7 +207,10 @@ def colorCompositeBands(simu_name, red, green, blue, iteration, outdir):
     -------
         True if good
     '''
-    return rundart(simu_name, 'colorCompositeBands', [red, green, blue, iteration, outdir])
+    ans = rundart(simu_name, 'colorCompositeBands', [red, green, blue, iteration, outdir])
+    outpath = os.path.join(ptd.getsimupath(simu_name), 'output', outdir)
+    print("\nImages saved in '{}'\n".format(outpath))
+    return ans
 
 
 class runners(object):
