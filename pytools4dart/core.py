@@ -40,7 +40,7 @@ import warnings
 import pytools4dart as ptd
 
 from pytools4dart.helpers.constants import *
-from pytools4dart.core_ui.utils import get_labels, get_nodes
+from pytools4dart.core_ui.utils import get_labels, get_nodes, findall
 
 # from pytools4dart.core_ui.plots import createDartFile
 # from pytools4dart.core_ui.phase import createDartFile
@@ -123,7 +123,7 @@ class Core(object):
         plots_list = self.xsdobjs["plots"].Plots.Plot
         for i, plot in enumerate(plots_list):
             source = plot
-            # plt_opt_name = ptd.core_ui.utils.findall(plot, 'Vegetation.*ident$')
+            # plt_opt_name = findall(plot, 'Vegetation.*ident$')
             # plt_opt_numb = findall(plot, '.*indexFctPhase$')[0]
             # plt_therm_name = findall(plot, '.*idTemperature$')[0]
             # plt_therm_num = findall(plot, '\.\w+\.\w+.*indexTemperature$')[0]
@@ -180,10 +180,10 @@ class Core(object):
                 elif plt_type == 4:
                     opt_prop_node_name = "PlotWaterProperties.WaterOpticalProperties[0].AirOpticalPropertyLink"
                     th_prop_node_name = "PlotWaterProperties.GroundThermalPropertyLink"
-                    wat_height = ptd.core_ui.utils.findall(plot, 'waterHeight$')[0]
-                    wat_depth = ptd.core_ui.utils.findall(plot, 'waterDepth$')[0]
-                    plt_std_dev = ptd.core_ui.utils.findall(plot, 'stDev$')[0]
-                    wat_extinct = ptd.core_ui.utils.findall(plot, 'extinctionCoefficient$')[0]
+                    wat_height = findall(plot, 'waterHeight$')[0]
+                    wat_depth = findall(plot, 'waterDepth$')[0]
+                    plt_std_dev = findall(plot, 'stDev$')[0]
+                    wat_extinct = findall(plot, 'extinctionCoefficient$')[0]
                     # raise Exception('Water plots summary not ready')
 
                 plt_opt_number = eval('plot.{}.indexFctPhase'.format(opt_prop_node_name))
@@ -231,6 +231,86 @@ class Core(object):
             plots_df = pd.concat([plots_df,plotstxt_df], ignore_index = True, sort=False)
 
         return plots_df
+
+    def get_object_3d_df(self):
+        corenodes = get_nodes(self.simu.core.xsdobjs['object_3d'], 'object_3d.ObjectList.Object')
+        source = []
+        name = []
+        size = []
+        position = []
+        groups = []
+        ident = []
+        for obj in corenodes:
+            source.append(obj)
+            g = obj.GeometricProperties
+            name.append(obj.name)
+            dim = g.Dimension3D
+            size.append([dim.xdim, dim.ydim, dim.zdim])
+            p = g.PositionProperties
+            position.append([p.xpos, p.ypos, p.zpos])
+            g_nodes = get_nodes(obj, 'Groups.Group')
+            groups.append(len(g_nodes))
+            # id = get_nodes(obj, 'ObjectOpticalProperties.OpticalPropertyLink.ident')
+            # if len(id)>0:
+            #     ident.append(id[0])
+            # else:
+            #     ident.append(None)
+
+        df = pd.DataFrame(dict(name = name, position = position, size = size, groups = groups, source = source))
+        return df
+
+    def get_tree_species(self):
+        """
+        Get a DataFrame of the tree species
+        Returns
+        -------
+            DataFrame
+        """
+        Trees = self.simu.core.xsdobjs['trees'].Trees
+        tname = 'Trees_{}'.format(Trees.sceneModelCharacteristic)
+        if Trees.sceneModelCharacteristic == 1:
+            sname = 'Specie'
+        else:
+            sname = 'Specie_{}'.format(Trees.sceneModelCharacteristic)
+        species = findall(Trees, '\.'+sname+'$')
+
+        lai, source = [], []
+        trunk_op_ident, trunk_op_type, trunk_tp_ident = [], [], []
+        veg_op_ident, veg_tp_ident = [], []
+
+        for s in species:
+            lai.append(s.lai)
+            veg_op_ident.append(s.CrownLevel[0].VegetationProperty.VegetationOpticalPropertyLink.ident)
+            veg_tp_ident.append(s.CrownLevel[0].VegetationProperty.ThermalPropertyLink.idTemperature)
+            trunk_op_type.append(s.OpticalPropertyLink.type_)
+            trunk_op_ident.append(s.OpticalPropertyLink.ident)
+            trunk_tp_ident.append(s.ThermalPropertyLink.idTemperature)
+            source.append(s)
+
+        columns = ['LAI', 'VEG_OPT_NAME', 'VEG_THERM_NAME',
+                   'TRUNK_OPT_TYPE', 'TRUNK_OPT_NAME', 'TRUNK_THERM_NAME', 'SOURCE']
+
+        df = pd.DataFrame(dict(lai=lai, veg_op_ident=veg_op_ident, veg_tp_ident=veg_tp_ident,
+                               trunk_op_type=trunk_op_type, trunk_op_ident=trunk_op_ident,
+                               trunk_tp_ident=trunk_tp_ident, source=source))
+        return df
+
+    def get_trees(self):
+        Trees = self.simu.core.xsdobjs['trees'].Trees
+        file = findall(Trees, '\.sceneParametersFileName$')
+        if len(file) == 0:
+            return
+        file = file[0]
+        possible_paths = [
+            file,
+            pjoin(self.simu.getsimupath, file),
+            pjoin(ptd.getdartdir(), 'user_data', 'database', file),
+            pjoin(ptd.getdartdir(), 'database', file)]
+        filepath = next((p for p in possible_paths if os.path.isfile), None)
+        if filepath is None:
+            return
+
+        return pd.read_csv(filepath, sep='\t', comment='*')
 
     def get_bands_df(self):
         """
@@ -459,6 +539,15 @@ class Core(object):
         #     l.append(n)
         # l = [ptd.core.get_nodes(self.xsdnodes[])for dartnode in dartnodes]
 
+    # def get_op_index(self, ident):
+    # TODO
+    #     pd.DataFrame(ident)
+
+
+    #################
+    #    UPDATES    #
+    #################
+
     def update(self):
         self.update_opl()
         self.update_tpl()
@@ -477,7 +566,7 @@ class Core(object):
             else:
                 row.optical_property_link.index = row.index
         if len(wrong_opl):
-            warnings.warn('Optical Properties not found in "coeff_diff".')
+            warnings.warn("Optical Properties not found in 'coeff_diff': {}".format(', '.join(xtable_opl.ident[wrong_opl])))
             return table_opl.loc[wrong_opl]
 
     def update_tpl(self):
@@ -570,43 +659,10 @@ class Core(object):
         DartInputParameters.SpectralIntervals.SpectralIntervalsProperties = list(band_df.band)
         DartInputParameters.nodeIlluminationMode.SpectralIrradiance.SpectralIrradianceValue = list(ir_df.irradiance)
 
-
     def update_ir(self):
         """
         Remove supplementary spectral irradiance and SKYL
         """
-
-
-
-
-    def get_object_3d_df(self):
-        corenodes = get_nodes(self.simu.core.xsdobjs['object_3d'], 'object_3d.ObjectList.Object')
-        source = []
-        name = []
-        size = []
-        position = []
-        groups = []
-        ident = []
-        for obj in corenodes:
-            source.append(obj)
-            g = obj.GeometricProperties
-            name.append(obj.name)
-            dim = g.Dimension3D
-            size.append([dim.xdim, dim.ydim, dim.zdim])
-            p = g.PositionProperties
-            position.append([p.xpos, p.ypos, p.zpos])
-            g_nodes = get_nodes(obj, 'Groups.Group')
-            groups.append(len(g_nodes))
-            # id = get_nodes(obj, 'ObjectOpticalProperties.OpticalPropertyLink.ident')
-            # if len(id)>0:
-            #     ident.append(id[0])
-            # else:
-            #     ident.append(None)
-
-        df = pd.DataFrame(dict(name = name, position = position, size = size, groups = groups, source = source))
-        return df
-
-
 
     def update_properties_dict(self):
         """
