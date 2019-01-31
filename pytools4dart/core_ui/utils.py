@@ -437,7 +437,7 @@ def findall(corenode, pat, case=False, regex=True, column='dartnode', path=False
     # labelsdf = get_labels('^'+dartnode)
     labelsdf = ptd.core_ui.utils.get_labels('^' + dartnode)
     labelsdf = labelsdf[labelsdf[column].str.contains(pat, case, regex=regex)]
-    dartnodes = [re.sub(dartnode+'.', '', dn) for dn in labelsdf['dartnode']]
+    dartnodes = [re.sub(dartnode+'.', '', dn, count=1) for dn in labelsdf['dartnode']]
     nodes = []
     if path:
         paths = []
