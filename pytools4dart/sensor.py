@@ -2,7 +2,7 @@
 # ===============================================================================
 # PROGRAMMERS:
 #
-# Claudia Lavalley <claudia.lavalley@cirad.fr>
+# Florian de Boissieu <florian.deboissieu@irstea.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
 #
@@ -62,15 +62,5 @@ class Sensor(object):
     @property
     def method(self):
         rt = ptd.tools.constants.SIMU_TYPE
-        return rt.type_str[rt.type_int == self.simu.core.xsdobjs['phase'].Phase.calculatorMethod].iloc[0]
+        return rt.type_str[rt.type_int == self.simu.core.phase.Phase.calculatorMethod].iloc[0]
 
-    def update_xsdobjs(self):
-        print("ToBe Done: update des objets à partir des tables")
-        #update bands
-
-    def add_spband_in_DF(self):
-        """
-        TODo : add a spectral band in bands DF, independently from core spectral intervals
-        :return:
-        """
-        self.simu.update.lock_tabs = True

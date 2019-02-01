@@ -89,12 +89,12 @@ class Add(object):
 
         check = True
 
-        phase_spbands_nb = len(self.simu.core.xsdobjs["phase"].Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties)
+        phase_spbands_nb = len(self.simu.core.phase.Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties)
 
         dartnodes = get_labels('Coeff_diff.*\.useSameFactorForAllBands$')['dartnode']
         for dartnode in dartnodes:
             dn = '.'.join(dartnode.split('.')[:-1]) # parent dart node
-            cns = get_nodes(self.simu.core.xsdobjs['coeff_diff'], dn) # parent core node
+            cns = get_nodes(self.simu.core.coeff_diff, dn) # parent core node
             for cn in cns:
                 multi = [c for c in cn.children if c.endswith('MultiplicativeFactorForLUT')][0]
                 if cn.useSameFactorForAllBands == 1 or \
@@ -134,7 +134,7 @@ class Add(object):
         #
         # opt_prop_types = ["vegetation", "fluid", "lambertian", "hapke", "rpv"]
         # for opt_prop_type in opt_prop_types:
-        #     opt_props_list = eval( 'self.simu.core.xsdobjs["coeff_diff"].Coeff_diff.{}'.format(optproplists_xmlpaths_dict[opt_prop_type]) )
+        #     opt_props_list = eval( 'self.simu.core.coeff_diff.Coeff_diff.{}'.format(optproplists_xmlpaths_dict[opt_prop_type]) )
         #     for opt_prop in opt_props_list:
         #         if opt_prop.useMultiplicativeFactorForLUT == 1:
         #             coeff_spbands_nb = eval( 'len(opt_prop.{})'.format(multfactors_xmlpaths_dict[opt_prop_type]) )
@@ -399,7 +399,7 @@ class Add(object):
             # back_opt_prop_name = back_op_ident[i]
             # back_th_prop_name = back_th_prop_names_list[i]
 
-        self.simu.core.xsdobjs["object_3d"].object_3d.ObjectList.add_Object(obj)
+        self.simu.core.object_3d.object_3d.ObjectList.add_Object(obj)
 
         self.simu.update.lock_core = True
         return obj
@@ -552,13 +552,13 @@ class Add(object):
 
         idents = self.simu.core.findall('Coeff_diff\.\w+\.\w+\.ident$')
         if prop.ident not in idents: # new
-            eval('self.simu.core.xsdobjs["coeff_diff"].{fun}.add_{multi}(prop)'.format(
+            eval('self.simu.core.coeff_diff.{fun}.add_{multi}(prop)'.format(
                 fun='.'.join(filter(None, [module, fun])), multi=multi))
         else:
             if replace:
                 op_df=self.simu.scene.optical
                 index = op_df.loc[op_df.ident==prop.ident, "index"]
-                eval('self.simu.core.xsdobjs["coeff_diff"].{fun}.replace_{multi}_at({index}, prop)'.format(
+                eval('self.simu.core.coeff_diff.{fun}.replace_{multi}_at({index}, prop)'.format(
                     fun='.'.join(filter(None, [module, fun])), multi=multi, index=index))
             else:
                 raise ValueError("'{}' already used by other optical property."
@@ -605,12 +605,12 @@ class Add(object):
         prop = ptd.coeff_diff.create_ThermalFunction(**kwargs)
         idents = self.simu.core.findall('Coeff_diff\.\w+\.\w+\.idTemperature$')
         if prop.idTemperature not in idents: # new
-            self.simu.core.xsdobjs["coeff_diff"].Coeff_diff.Temperatures.add_ThermalFunction(prop)
+            self.simu.core.coeff_diff.Coeff_diff.Temperatures.add_ThermalFunction(prop)
         else:
             if replace:
                 tp_df=self.simu.scene.thermal
                 index = tp_df.loc[tp_df.idTemperature==prop.idTemperature, "index"]
-                self.simu.core.xsdobjs["coeff_diff"].Coeff_diff.Temperatures.replace_ThermalFunction(index, prop)
+                self.simu.core.coeff_diff.Coeff_diff.Temperatures.replace_ThermalFunction(index, prop)
             else:
                 raise ValueError("'{}' already used by other optical property."
                                  "Please change 'ident' or set 'replace'.".format(prop.idTemperature))
@@ -745,7 +745,7 @@ class Add(object):
                                                         waterDepth=height, waterHeight=baseheight)
             plot = ptd.plots.create_Plot(type_= plot_type, Polygon2D=Polygon2D, PlotWaterProperties=prop)
 
-        self.simu.core.xsdobjs['plots'].Plots.add_Plot(plot)
+        self.simu.core.plots.Plots.add_Plot(plot)
 
         return plot
 
@@ -809,7 +809,7 @@ class Add(object):
             print("\nPlots written in '{}'".format(filepath))
 
         # add file to simulation
-        Plots = self.simu.core.xsdobjs['plots'].Plots
+        Plots = self.simu.core.plots.Plots
         Plots.addExtraPlotsTextFile = 1
         Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName = filepath
 
@@ -916,7 +916,7 @@ class Add(object):
             df.to_csv(filepath, sep='\t', index=False, mode='a', header=header)
 
         # add file to simulation
-        Trees = self.simu.core.xsdobjs['trees'].Trees
+        Trees = self.simu.core.trees.Trees
         _, nodepath = ptd.core_ui.utils.findall(Trees, 'sceneParametersFileName', path=True)
         if len(nodepath)!=1:
             raise Exception('Multiple sceneParametersFileName found.')
@@ -949,7 +949,7 @@ class Add(object):
 
         """
 
-        Trees = self.simu.core.xsdobjs['trees'].Trees
+        Trees = self.simu.core.trees.Trees
 
         # Suffix for Tree_i and Specie_i
         tname = 'Trees_{}'.format(Trees.sceneModelCharacteristic)
@@ -1004,14 +1004,14 @@ class Add(object):
             two objects: new band and new spectral irradiance
         """
         #phase module modification
-        bands = self.simu.core.xsdobjs['phase'].Phase.DartInputParameters.SpectralIntervals
+        bands = self.simu.core.phase.Phase.DartInputParameters.SpectralIntervals
         bandNumber = len(bands.SpectralIntervalsProperties)
         new_band = ptd.phase.create_SpectralIntervalsProperties(bandNumber=bandNumber, meanLambda=wvl,
                                                                 deltaLambda=bw, spectralDartMode=mode)
         bands.add_SpectralIntervalsProperties(new_band)
 
         new_ir =  ptd.phase.create_SpectralIrradianceValue(bandNumber=bandNumber, irradiance=irradiance, Skyl=skyl)
-        ir = self.simu.core.xsdobjs['phase'].Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance
+        ir = self.simu.core.phase.Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance
         ir.add_SpectralIrradianceValue(new_ir)
 
         return new_band, new_ir
@@ -1056,8 +1056,8 @@ class Add(object):
             if int(specie_id) > len(species_list)-1:
                 raise Exception("specieID requested in {} file do not exist in species_list ".format(src_file_path))
 
-        self.simu.core.xsdobjs["trees"].Trees.isTrees = 1
-        self.simu.core.xsdobjs["trees"].Trees.Trees_1.sceneParametersFileName = src_file_path
+        self.simu.core.trees.Trees.isTrees = 1
+        self.simu.core.trees.Trees.Trees_1.sceneParametersFileName = src_file_path
         for spec_nb in range(len(species_list)):
             props = species_list[spec_nb]
             opt_name = props["opt_prop_name"]
@@ -1074,10 +1074,10 @@ class Add(object):
                 raise Exception('ERROR: th_property %s does not exist, please FIX or set createProps=True' % th_name)
 
 
-            if spec_nb > len(self.simu.core.xsdobjs["trees"].Trees.Trees_1.Specie) - 1:
+            if spec_nb > len(self.simu.core.trees.Trees.Trees_1.Specie) - 1:
                 specie = ptd.trees.create_Specie()
             else:
-                specie = self.simu.core.xsdobjs["trees"].Trees.Trees_1.Specie[spec_nb]
+                specie = self.simu.core.trees.Trees.Trees_1.Specie[spec_nb]
 
 
 
@@ -1224,15 +1224,15 @@ class Add(object):
             if len(th_props) < th_prop_index + 1:
                 raise Exception("ERROR in %s file column PLT_THERM_NUMB: thermal property index %d do not exist in properties list, please FIX" % (src_file_path, th_prop_index))
 
-        self.simu.core.xsdobjs["plots"].Plots.addExtraPlotsTextFile = 1
-        self.simu.core.xsdobjs["plots"].Plots.ExtraPlotsTextFileDefinition = ptd.plots.create_ExtraPlotsTextFileDefinition(extraPlotsFileName=src_file_path)
+        self.simu.core.plots.Plots.addExtraPlotsTextFile = 1
+        self.simu.core.plots.Plots.ExtraPlotsTextFileDefinition = ptd.plots.create_ExtraPlotsTextFileDefinition(extraPlotsFileName=src_file_path)
 
 
     def virtual_direction (self, azimuth, zenith):
         new = ptd.directions.create_ZenithAzimuth(directionAzimuthalAngle=azimuth,
                                             directionZenithalAngle=zenith)
         dir = ptd.directions.create_AddedDirections(ZenithAzimuth = new)
-        self.simu.core.xsdobjs["directions"].Directions.add_AddedDirections(dir)
+        self.simu.core.directions.Directions.add_AddedDirections(dir)
         return dir
 
     # def plot_claudia(self, plot_type ="Vegetation", plot_form ="polygon", volume_info = None, plot_opt_prop_name = None, plot_therm_prop_name = None, grd_opt_prop_type = None, grd_opt_prop_name = None, grd_therm_prop_name = None, createProps = False):
@@ -1355,7 +1355,7 @@ class Add(object):
     #                 geom_node.height = volume_info.hei_mea
     #                 geom_node.stDev = volume_info.std_dev
     #
-    #         self.simu.core.xsdobjs["plots"].Plots.add_Plot(Plot)
+    #         self.simu.core.plots.Plots.add_Plot(Plot)
     #     except ValueError:
     #         raise Exception("ERROR: create or add Plot failed")
     #

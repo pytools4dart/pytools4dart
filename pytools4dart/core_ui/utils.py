@@ -452,7 +452,7 @@ def findall(corenode, pat, case=False, regex=True, column='dartnode', path=False
         nodes.extend(ptd.core_ui.utils.get_nodes(corenode, dn))
     return nodes
 
-# ptd.core_ui.utils.findall(simu.core.xsdobjs['plots'].Plots, '.*ident$')
+# ptd.core_ui.utils.findall(simu.core.plots.Plots, '.*ident$')
 #
 # pat = '.*LAI$'
 

@@ -36,11 +36,11 @@ class Source(object):
         self.position = self.get_source_position()
 
     def get_source_position(self):
-        source_pos = [ self.simu.core.xsdobjs["directions"].Directions.SunViewingAngles.sunViewingAzimuthAngle, \
-                     self.simu.core.xsdobjs["directions"].Directions.SunViewingAngles.sunViewingZenithAngle ]
+        source_pos = [ self.simu.core.directions.Directions.SunViewingAngles.sunViewingAzimuthAngle, \
+                     self.simu.core.directions.Directions.SunViewingAngles.sunViewingZenithAngle ]
         return source_pos
 
     def set_source_position(self, source_pos_az_zenith):
-        self.simu.core.xsdobjs["directions"].Directions.SunViewingAngles.sunViewingAzimuthAngle = source_pos_az_zenith[0]
-        self.simu.core.xsdobjs["directions"].Directions.SunViewingAngles.sunViewingZenithAngle = source_pos_az_zenith[1]
+        self.simu.core.directions.Directions.SunViewingAngles.sunViewingAzimuthAngle = source_pos_az_zenith[0]
+        self.simu.core.directions.Directions.SunViewingAngles.sunViewingZenithAngle = source_pos_az_zenith[1]
         self.update_source_position()

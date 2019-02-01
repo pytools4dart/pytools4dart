@@ -194,10 +194,12 @@ class simulation(object):
         os.mkdir(inputDpath)
 
         # write inputs
-        for fname, xsdobj in self.core.xsdobjs.iteritems():
-            file = pjoin(inputDpath, fname + '.xml')
+        modules = self.core.get_modules_names()
+        for module in modules:
+            file = pjoin(inputDpath, module + '.xml')
+            obj = getattr(self.core, module)
             with open(file, 'w') as f:
-                xsdobj.export(f, level=0)
+                obj.export(f, level=0)
 
         # write sequence
         for s in self.sequence:
@@ -251,7 +253,7 @@ class simulation(object):
         xml_file.close()
 
     def is_tree_txt_file_considered(self):
-        return self.core.xsdobjs["trees"].Trees.Trees_1 != None
+        return self.core.trees.Trees.Trees_1 != None
 
     def read_dart_txt_file_with_header(self, file_path, sep_str):
         """
@@ -275,7 +277,7 @@ class simulation(object):
         return pd.DataFrame.from_records(list, columns=header.split(sep_str))
 
     def is_plots_txt_file_considered(self):
-        return self.core.xsdobjs["plots"].Plots.addExtraPlotsTextFile == 1
+        return self.core.plots.Plots.addExtraPlotsTextFile == 1
 
     # def get_multfacts_xmlpaths_dict(self):
     #     """
@@ -313,9 +315,9 @@ class simulation(object):
         #phase module modification
         for sp_band in spbands_list:
             sp_int_props = ptd.phase.create_SpectralIntervalsProperties(meanLambda=sp_band[0], deltaLambda=sp_band[1])
-            self.core.xsdobjs["phase"].Phase.DartInputParameters.SpectralIntervals.add_SpectralIntervalsProperties(sp_int_props)
+            self.core.phase.Phase.DartInputParameters.SpectralIntervals.add_SpectralIntervalsProperties(sp_int_props)
             sp_irr_value = ptd.phase.create_SpectralIrradianceValue()
-            self.core.xsdobjs["phase"].Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance.add_SpectralIrradianceValue(sp_irr_value)
+            self.core.phase.Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance.add_SpectralIrradianceValue(sp_irr_value)
 
     def get_default_opt_prop(self, opt_prop_type):
         """

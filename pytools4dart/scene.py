@@ -39,16 +39,16 @@ class Scene(object):
 
         self.simu = simu
 
-        self._size = self.simu.core.xsdobjs["maket"].Maket.Scene.SceneDimensions
+        self._size = self.simu.core.maket.Maket.Scene.SceneDimensions
 
-        self._cell = self.simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions
+        self._cell = self.simu.core.maket.Maket.Scene.CellDimensions
 
         self._properties = Properties_(self.simu)
         # self.trees = pd.DataFrame()
         # self.obj3d = pd.DataFrame()
         # self.update_dims()
-        # self.scene_dimensions = [self.simu.core.xsdobjs["maket"].Maket.Scene.SceneDimensions.x, self.simu.core.xsdobjs["maket"].Maket.Scene.SceneDimensions.y]
-        # self.cell_dimensions = [self.simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions.x, self.simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions.z]
+        # self.scene_dimensions = [self.simu.core.maket.Maket.Scene.SceneDimensions.x, self.simu.core.maket.Maket.Scene.SceneDimensions.y]
+        # self.cell_dimensions = [self.simu.core.maket.Maket.Scene.CellDimensions.x, self.simu.core.maket.Maket.Scene.CellDimensions.z]
 
     def __repr__(self):
 
@@ -70,29 +70,29 @@ class Scene(object):
     def size(self):
         return [self._size.x, self._size.y]
 
-        # return [self.simu.core.xsdobjs["maket"].Maket.Scene.SceneDimensions.x,
-        #         self.simu.core.xsdobjs["maket"].Maket.Scene.SceneDimensions.y]
+        # return [self.simu.core.maket.Maket.Scene.SceneDimensions.x,
+        #         self.simu.core.maket.Maket.Scene.SceneDimensions.y]
 
     @size.setter
     def size(self, size):
         self._size.x = size[0]
         self._size.y = size[1]
-        # self.simu.core.xsdobjs["maket"].Maket.Scene.SceneDimensions.x = size[0]
-        # self.simu.core.xsdobjs["maket"].Maket.Scene.SceneDimensions.y = size[1]
+        # self.simu.core.maket.Maket.Scene.SceneDimensions.x = size[0]
+        # self.simu.core.maket.Maket.Scene.SceneDimensions.y = size[1]
 
     @property
     def cell(self):
-        return [self.simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions.x,
-                self.simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions.z]
+        return [self.simu.core.maket.Maket.Scene.CellDimensions.x,
+                self.simu.core.maket.Maket.Scene.CellDimensions.z]
 
     @cell.setter
     def cell(self, size):
-        self.simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions.x = size[0]
-        self.simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions.z = size[1]
+        self.simu.core.maket.Maket.Scene.CellDimensions.x = size[0]
+        self.simu.core.maket.Maket.Scene.CellDimensions.z = size[1]
 
     @property
     def ground(self):
-        return self.simu.core.xsdobjs['maket'].Maket.Soil
+        return self.simu.core.maket.Maket.Soil
 
     @property
     def plots(self):
@@ -263,12 +263,12 @@ class Scene(object):
     #     self.update_cell_size()
     #
     # def update_scene_size(self):
-    #     self.scene_dimensions = [self.simu.core.xsdobjs["maket"].Maket.Scene.SceneDimensions.x,
-    #                              self.simu.core.xsdobjs["maket"].Maket.Scene.SceneDimensions.y]
+    #     self.scene_dimensions = [self.simu.core.maket.Maket.Scene.SceneDimensions.x,
+    #                              self.simu.core.maket.Maket.Scene.SceneDimensions.y]
     #
     # def update_cell_size(self):
-    #     self.cell_dimensions = [self.simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions.x,
-    #                             self.simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions.z]
+    #     self.cell_dimensions = [self.simu.core.maket.Maket.Scene.CellDimensions.x,
+    #                             self.simu.core.maket.Maket.Scene.CellDimensions.z]
     #
     # def update_properties_dict(self):
     #     """
@@ -281,8 +281,8 @@ class Scene(object):
     #     x = cell_size[0]
     #     z = cell_size[1]
     #
-    #     self.simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions.x = x
-    #     self.simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions.z = z
+    #     self.simu.core.maket.Maket.Scene.CellDimensions.x = x
+    #     self.simu.core.maket.Maket.Scene.CellDimensions.z = z
     #
     #     self.update_cell_size()
     #

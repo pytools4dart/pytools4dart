@@ -64,7 +64,7 @@ class Checker(object):
         return (check1 and check2)
 
     def is_tree_txt_file_considered(self):
-        return self.simu.core.xsdobjs["trees"].Trees.Trees_1 != None
+        return self.simu.core.trees.Trees.Trees_1 != None
 
 
     def properties_indexes(self, createProps = False):
@@ -189,7 +189,7 @@ class Checker(object):
                                 plot_number = cross_props["PLT_NUMBER"]
                                 prop_index = cross_props[i]["prop_index"]
                                 self.simu.scene.plots.iloc[plot_number]["PLT_OPT_NUMB"] = prop_index
-                                plot = self.simu.core.xsdobjs["plots"].Plots.Plot[plot_number]
+                                plot = self.simu.core.plots.Plots.Plot[plot_number]
                                 if opt_prop_type == "vegetation":
                                     plot.PlotVegetationProperties.VegetationOpticalPropertyLink.indexFctPhase = prop_index
                                 else: #if opt_prop_type == "fluid"
@@ -205,7 +205,7 @@ class Checker(object):
                                 prop_index = cross_props[i]["prop_index"]
                                 self.simu.scene.plots.iloc[plot_number]["GRD_OPT_NUMB"] = prop_index  # correct index in Plots DataFrame
                                 #correct index in PlotsObject:
-                                plot = self.simu.core.xsdobjs["plots"].Plots.Plot[plot_number]
+                                plot = self.simu.core.plots.Plots.Plot[plot_number]
                                 plot.GroundOpticalPropertyLink.indexFctPhase = prop_index
         return check
 
@@ -247,7 +247,7 @@ class Checker(object):
                                 plot_number = cross_props["PLT_NUMB"]
                                 prop_index = cross_props[i]["prop_index"]
                                 self.simu.scene.plots.iloc[plot_number]["PLT_THERM_NUMB"] = prop_index
-                                plot = self.simu.core.xsdobjs["plots"].Plots.Plot[plot_number]
+                                plot = self.simu.core.plots.Plots.Plot[plot_number]
                                 plot.PlotVegetationProperties.GroundThermalPropertyLink.indexTemperature = prop_index
                 else:  # plot_type == "ground"
                     eq_serie = cross_props["prop_index"].eq(cross_props["GRD_THERM_NUMB"])
@@ -258,7 +258,7 @@ class Checker(object):
                                 plot_number = cross_props["PLT_NUMB"]
                                 prop_index = cross_props[i]["prop_index"]
                                 self.simu.scene.plots.iloc[plot_number]["GRD_THERM_NUMB"] = prop_index
-                                plot = self.simu.core.xsdobjs["plots"].Plots.Plot[plot_number]
+                                plot = self.simu.core.plots.Plots.Plot[plot_number]
                                 plot.GroundThermalPropertyLink.indexTemperature = prop_index
         return check
 
@@ -270,13 +270,13 @@ class Checker(object):
     #     """
     #     check = True
     #     #opt_prop
-    #     opt_prop = self.simu.core.xsdobjs["maket"].Maket.Soil.OpticalPropertyLink
+    #     opt_prop = self.simu.core.maket.Maket.Soil.OpticalPropertyLink
     #     opt_prop_name = opt_prop.ident
     #     opt_prop_type = grd_opt_prop_types_dict[opt_prop.type_]
     #     #index_opt_prop = self.checkandcorrect_opt_prop_exists(opt_prop_type,opt_prop_name,createProps)
     #     index_opt_prop = self.simu.get_opt_prop_index(opt_prop_type,opt_prop_name)
     #
-    #     th_prop = self.simu.core.xsdobjs["maket"].Maket.Soil.ThermalPropertyLink
+    #     th_prop = self.simu.core.maket.Maket.Soil.ThermalPropertyLink
     #     th_prop_name = th_prop.idTemperature
     #     #index_th_prop = self.checkandcorrect_th_prop_exists(th_prop_name, createProps)
     #     index_th_prop = self.simu.get_thermal_prop_index(th_prop_name)
@@ -303,7 +303,7 @@ class Checker(object):
     #     """
     #     check = True
     #
-    #     obj3dList = self.simu.core.xsdobjs["object_3d"].object_3d.ObjectList.Object
+    #     obj3dList = self.simu.core.object_3d.object_3d.ObjectList.Object
     #     for obj3d in obj3dList:
     #         if obj3d.hasGroups == 1: # are there groups?
     #             groups = obj3d.Groups.Group
@@ -384,13 +384,13 @@ class Checker(object):
         veg_opt_props = self.simu.scene.properties["opt_props"]
         check = True
 
-        file_path = self.simu.core.xsdobjs["trees"].Trees.Trees_1.sceneParametersFileName
+        file_path = self.simu.core.trees.Trees.Trees_1.sceneParametersFileName
 
         trees_df = self.simu.read_dart_txt_file_with_header(file_path, "\t")
 
         species_ids = trees_df['SPECIES_ID'].drop_duplicates()
 
-        species_list = self.simu.core.xsdobjs["trees"].Trees.Trees_1.Specie
+        species_list = self.simu.core.trees.Trees.Trees_1.Specie
 
         for specie_id in species_ids:
             if int(specie_id) > len(species_list) - 1:
@@ -452,7 +452,7 @@ class Checker(object):
         th_props = self.simu.scene.properties["thermal_props"]
         check = True
 
-        file_path = self.simu.core.xsdobjs["plots"].Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName
+        file_path = self.simu.core.plots.Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName
 
         plots_df = self.simu.read_dart_txt_file_with_header(file_path, " ")
 

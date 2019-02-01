@@ -64,24 +64,18 @@ class Core(object):
     #TODO: replace xsdobj avec setattr
     def __init__(self, simu, empty = False):
         self.simu = simu
-        self.xsdobjs = {}
+
         if simu.name is not None and not empty and os.path.isdir(self.simu.getsimupath()):
             self.load()
         else:
             modules = self.get_modules_names()#["plots", "phase", "atmosphere", "coeff_diff", "directions", "object_3d","maket","inversion","trees","water","urban"]
             for module in modules:
-                self.xsdobjs[module] = eval('ptd.core_ui.{}.createDartFile()'.format(module))
-            #
-            # for module in modules:
-            #     setattr(self, module, eval('ptd.core_ui.{}.createDartFile()'.format(module)))
+                setattr(self, module, eval('ptd.core_ui.{}.createDartFile()'.format(module)))
 
             if empty:
-                # self.xsdobjs['coeff_diff'].Coeff_diff.LambertianMultiFunctions.LambertianMulti = []
-                self.xsdobjs['phase'].Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties = []
-                self.xsdobjs['phase'].Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance.SpectralIrradianceValue = []
-
-        # for xsdobj in self.xsdobjs.values():
-        #     xsdobj.factory()
+                # self.coeff_diff.Coeff_diff.LambertianMultiFunctions.LambertianMulti = []
+                self.phase.Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties = []
+                self.phase.Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance.SpectralIrradianceValue = []
 
         #if the simulation exists, populate xsd_core with simulation XML files contents
 
@@ -89,7 +83,7 @@ class Core(object):
         dartnodes = get_labels(pat, case, regex, column)['dartnode']
         l = []
         for dn in dartnodes:
-            cn = self.xsdobjs[dn.split('.')[0].lower()]
+            cn = eval('self.'+dn.split('.')[0].lower())
             l.extend(get_nodes(cn, dn))
         return l
 
@@ -113,7 +107,7 @@ class Core(object):
         modules = self.get_modules_names()
         for module in modules:
             filepath = pjoin(self.simu.getinputsimupath(), module+'.xml')
-            self.xsdobjs[module] = eval('ptd.{}.parse("{}",silence=True)'.format(module, filepath))
+            setattr(self, module, eval('ptd.{}.parse("{}",silence=True)'.format(module, filepath)))
 
     def get_corners_from_rectangle(self, center_x, center_y, side_x, side_y):
         x1, y1 = center_x - side_x / 2.0, center_y - side_y / 2.0
@@ -133,7 +127,7 @@ class Core(object):
         #extract XSDs objs plots:
         rows = []
 
-        plots_list = self.xsdobjs["plots"].Plots.Plot
+        plots_list = self.plots.Plots.Plot
         for i, plot in enumerate(plots_list):
             source = plot
             # plt_opt_name = findall(plot, 'Vegetation.*ident$')
@@ -233,7 +227,7 @@ class Core(object):
         plots_df.PLT_TYPE = plots_df.PLT_TYPE.astype('category').cat.set_categories(PLOT_TYPES.type_int.values).cat.rename_categories(PLOT_TYPES.type_str.values)
 
         if self.simu.is_plots_txt_file_considered():
-            plotstxt_file_path = self.xsdobjs["plots"].Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName
+            plotstxt_file_path = self.plots.Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName
             plotstxt_df = self.simu.read_dart_txt_file_with_header(file_path=plotstxt_file_path, sep_str=" ")
             plotstxt_df['PLOT_SOURCE'] = plotstxt_file_path
             sLength = len(plotstxt_df['PLT_TYPE'])
@@ -246,7 +240,7 @@ class Core(object):
         return plots_df
 
     def get_object_3d_df(self):
-        corenodes = get_nodes(self.simu.core.xsdobjs['object_3d'], 'object_3d.ObjectList.Object')
+        corenodes = get_nodes(self.simu.core.object_3d, 'object_3d.ObjectList.Object')
         source = []
         name = []
         size = []
@@ -279,7 +273,7 @@ class Core(object):
         -------
             DataFrame
         """
-        Trees = self.simu.core.xsdobjs['trees'].Trees
+        Trees = self.simu.core.trees.Trees
         tname = 'Trees_{}'.format(Trees.sceneModelCharacteristic)
         if Trees.sceneModelCharacteristic == 1:
             sname = 'Specie'
@@ -309,7 +303,7 @@ class Core(object):
         return df
 
     def get_trees(self):
-        Trees = self.simu.core.xsdobjs['trees'].Trees
+        Trees = self.simu.core.trees.Trees
         file = findall(Trees, '\.sceneParametersFileName$')
         if len(file) == 0:
             return
@@ -331,14 +325,14 @@ class Core(object):
         :return: DataFrame contaning a list of [wvl,dl] pairs
         """
 
-        bands = self.xsdobjs["phase"].Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties
+        bands = self.phase.Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties
         rows_to_add = [[b.meanLambda, b.deltaLambda, b] for b in bands]
 
         return pd.DataFrame(rows_to_add, columns = ['wavelength', 'bandwidth', 'source'])
 
     def get_virtual_directions(self):
         virtualDirs = []
-        dirsList = self.xsdobjs["directions"].Directions.AddedDirections
+        dirsList = self.directions.Directions.AddedDirections
         for dir in dirsList:
             virtualDirs.append([dir.ZenithAzimuth.directionAzimuthalAngle,
                                 dir.ZenithAzimuth.directionZenithalAngle,
@@ -347,7 +341,7 @@ class Core(object):
         return virtualDirs
 
     def get_sensors(self):
-        SensorImageSimulation = self.xsdobjs['phase'].Phase.SensorImageSimulation
+        SensorImageSimulation = self.phase.Phase.SensorImageSimulation
         sensors = []
         for s in SensorImageSimulation.children:
             sensors.extend(get_nodes(SensorImageSimulation, s))
@@ -363,7 +357,7 @@ class Core(object):
         :return: DataFrame containing thermal properties names and indexes
         """
         thermal_props_dict = {"prop_index": [], "prop_name": []}
-        thermal_props_list = self.xsdobjs["coeff_diff"].Coeff_diff.Temperatures.ThermalFunction
+        thermal_props_list = self.coeff_diff.Coeff_diff.Temperatures.ThermalFunction
         for i,th_prop in enumerate(thermal_props_list):
             thermal_props_dict["prop_index"].append(i)
             thermal_props_dict["prop_name"].append(th_prop.idTemperature)
@@ -382,33 +376,33 @@ class Core(object):
         opt_props = {}
         opt_props_DF_cols =  ["prop_index", "prop_name"]
 
-        if len(self.xsdobjs["coeff_diff"].Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti) > 0:
+        if len(self.coeff_diff.Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti) > 0:
             listnodes_paths.append(["vegetation","UnderstoryMultiFunctions.UnderstoryMulti"])
         else:
             opt_props["vegetation"] = pd.DataFrame(columns = opt_props_DF_cols)
 
-        if len(self.xsdobjs["coeff_diff"].Coeff_diff.LambertianMultiFunctions.LambertianMulti) > 0:
+        if len(self.coeff_diff.Coeff_diff.LambertianMultiFunctions.LambertianMulti) > 0:
             listnodes_paths.append(["lambertian","LambertianMultiFunctions.LambertianMulti"])
         else:
             opt_props["lambertian"] = pd.DataFrame(columns = opt_props_DF_cols)
 
-        if len(self.xsdobjs["coeff_diff"].Coeff_diff.HapkeSpecularMultiFunctions.HapkeSpecularMulti) > 0:
+        if len(self.coeff_diff.Coeff_diff.HapkeSpecularMultiFunctions.HapkeSpecularMulti) > 0:
             listnodes_paths.append(["hapke","HapkeSpecularMultiFunctions.HapkeSpecularMulti"])
         else:
             opt_props["hapke"] = pd.DataFrame(columns=opt_props_DF_cols)
 
-        if len(self.xsdobjs["coeff_diff"].Coeff_diff.RPVMultiFunctions.RPVMulti) > 0:
+        if len(self.coeff_diff.Coeff_diff.RPVMultiFunctions.RPVMulti) > 0:
             listnodes_paths.append(["rpv","RPVMultiFunctions.RPVMulti"])
         else:
             opt_props["rpv"] = pd.DataFrame(columns=opt_props_DF_cols)
 
-        if len(self.xsdobjs["coeff_diff"].Coeff_diff.AirMultiFunctions.AirFunction) > 0:
+        if len(self.coeff_diff.Coeff_diff.AirMultiFunctions.AirFunction) > 0:
             listnodes_paths.append(["fluid","AirMultiFunctions.AirFunction"])
         else:
             opt_props["fluid"] = pd.DataFrame(columns=opt_props_DF_cols)
 
         for listnode_path in listnodes_paths:
-            props_list = eval('self.xsdobjs["coeff_diff"].Coeff_diff.{}'.format(listnode_path[1]))
+            props_list = eval('self.coeff_diff.Coeff_diff.{}'.format(listnode_path[1]))
             prop_index_list = []
             prop_name_list = []
             for i, prop in enumerate(props_list):
@@ -441,8 +435,8 @@ class Core(object):
             # ptype = re.sub('Multi', '', multi)
             # OpticalPropertyLink type names are different from Coeff_diff type names, e.g. Vegetation <-> Understory
             ptype = ptd.core_ui.utils.get_labels('^'+'.'.join([head, function])+'$')['label'].iloc[0]
-            if function in self.xsdobjs["coeff_diff"].Coeff_diff.children:
-                prop_list = eval('self.xsdobjs["coeff_diff"].Coeff_diff.{function}.{multi}'.format(function=function, multi=multi))
+            if function in self.coeff_diff.Coeff_diff.children:
+                prop_list = eval('self.coeff_diff.Coeff_diff.{function}.{multi}'.format(function=function, multi=multi))
                 for i, prop in enumerate(prop_list):
                     source.append(prop)
                     prop_type.append(ptype)
@@ -491,7 +485,7 @@ class Core(object):
         :return: DataFrame containing thermal properties names and indexes
         """
         index, idTemperature, meanT, deltaT, source = [], [], [], [], []
-        thermal_props_list = self.xsdobjs["coeff_diff"].Coeff_diff.Temperatures.ThermalFunction
+        thermal_props_list = self.coeff_diff.Coeff_diff.Temperatures.ThermalFunction
         for i,th_prop in enumerate(thermal_props_list):
             index.append(i)
             idTemperature.append(th_prop.idTemperature)
@@ -504,7 +498,7 @@ class Core(object):
 
     def get_optical_property_links(self):
         dartnodes = ptd.core_ui.utils.get_labels('\.*OpticalPropertyLink$')['dartnode']
-        dartobject = pd.DataFrame({'corenode': [self.xsdobjs[dartnode.split('.')[0].lower()] for dartnode in dartnodes],
+        dartobject = pd.DataFrame({'corenode': [getattr(self, dartnode.split('.')[0].lower()) for dartnode in dartnodes],
                                    'dartnode': dartnodes})
 
         # l=[get_nodes(row.corenode, row.dartnode)for row in dartobject.itertuples()]
@@ -530,7 +524,7 @@ class Core(object):
     def get_thermal_property_links(self):
         dartnodes = ptd.core_ui.utils.get_labels('\.*ThermalPropertyLink$')['dartnode']
         dartobject = pd.DataFrame(
-            {'corenode': [self.xsdobjs[dartnode.split('.')[0].lower()] for dartnode in dartnodes],
+            {'corenode': [getattr(self, dartnode.split('.')[0].lower()) for dartnode in dartnodes],
              'dartnode': dartnodes})
 
         # l=[get_nodes(row.corenode, row.dartnode)for row in dartobject.itertuples()]
@@ -646,12 +640,12 @@ class Core(object):
                  False otherwise
         """
 
-        phase_spbands_nb = len(self.simu.core.xsdobjs["phase"].Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties)
+        phase_spbands_nb = len(self.simu.core.phase.Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties)
 
         dartnodes = get_labels('Coeff_diff.*\.useSameFactorForAllBands$')['dartnode']
         for dartnode in dartnodes:
             dn = '.'.join(dartnode.split('.')[:-1]) # parent dart node
-            cns = get_nodes(self.simu.core.xsdobjs['coeff_diff'], dn) # parent core node
+            cns = get_nodes(self.simu.core.coeff_diff, dn) # parent core node
             for cn in cns:
                 multi = [c for c in cn.children if c.endswith('MultiplicativeFactorForLUT')][0]
                 if cn.useSameFactorForAllBands == 1 or \
@@ -678,7 +672,7 @@ class Core(object):
         Update band number of SpectralIntervalsProperties and SpectralIrradianceValue in the order they are found, starting from 0.
         Removes SpectralIrradianceValue that have band number higher than SpectralIntervalsProperties
         """
-        DartInputParameters = self.xsdobjs["phase"].Phase.DartInputParameters
+        DartInputParameters = self.phase.Phase.DartInputParameters
         bands = DartInputParameters.SpectralIntervals.SpectralIntervalsProperties
         bandNumbers = [b.bandNumber for b in bands]
         band_df  = pd.DataFrame(dict(band=bands, bandNumber=bandNumbers))
