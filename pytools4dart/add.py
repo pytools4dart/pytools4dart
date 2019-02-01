@@ -680,7 +680,7 @@ class Add(object):
             object of type 'create_Plot'
 
         """
-
+        # TODO: repeat on border (see plots.txt)
         if not corners:
             size = self.simu.scene.size
             corners = [[size[0], size[1]],
@@ -748,6 +748,71 @@ class Add(object):
         self.simu.core.xsdobjs['plots'].Plots.add_Plot(plot)
 
         return plot
+
+    def plots(self, data, file=None, append = False, overwrite=False, mkdir=False):
+
+        if file is None:
+            file = 'plots.txt'
+
+        mode = 'w'
+        header = True
+        if append:
+            mode='a'
+            header = False
+
+        # check if the dataframe has the good format
+        df = None
+        if data is not None:
+            # check mandatory columns
+            mandatory_columns = ['PT_1_X', 'PT_1_Y', 'PT_2_X', 'PT_2_Y', 'PT_3_X', 'PT_3_Y', 'PT_4_X', 'PT_4_Y']
+            if not all([c for c in mandatory_columns if c in data.columns]):
+                raise Exception("Mandatory colmuns 'PT_1_X', 'PT_1_Y', 'PT_2_X', 'PT_2_Y', 'PT_3_X', 'PT_3_Y', "
+                                "'PT_4_X', 'PT_4_Y' not found.")
+
+            # subset expected columns
+            expected_columns = plots_table_header+['GRD_OPT_NAME', 'GRD_THERM_NAME', 'PLT_OPT_NAME', 'PLT_THERM_NAME']
+            df = data[[c for c in data.columns if c in expected_columns]]
+
+            # convert names to index
+            if 'PLT_OPT_NAME' in df.columns:
+                df['PLT_OPT_NUM'] = self.simu.core.get_op_index(df.PLT_OPT_NAME)
+            if 'PLT_THERM_NAME' in df.columns:
+                df['PLT_THERM_NUM'] = self.simu.core.get_tp_index(df.PLT_THERM_NAME)
+            if 'GRD_OPT_NAME' in df.columns:
+                df['GRD_OPT_NUM'] = self.simu.core.get_op_index(df.GRD_OPT_NAME)
+            if 'GRD_THERM_NAME' in df.columns:
+                df['GRD_THERM_NUM'] = self.simu.core.get_tp_index(df.GRD_THERM_NAME)
+
+            # remove names
+            df = df[[c for c in df.columns if 'NAME' not in c]]
+
+            if os.path.basename(file) is file:
+                filepath = os.path.join(self.simu.getsimupath(), file)
+            else:
+                filepath = file
+
+            # check if append or overwrite
+            if os.path.isfile(filepath) and not append and not overwrite:
+                raise Exception('File already exist. Set append or overwrite to overpass.')
+
+            # create directory if not found
+            if not os.path.isdir(os.path.dirname(filepath)):
+                if not mkdir:
+                    raise Exception("Directory not found: '{}'"
+                                    "Set option 'mkdir' to create.".format(os.path.dirname(filepath)))
+                os.mkdir(os.path.dirname(filepath))
+                print("Created directory: '{}'".format(os.path.dirname(filepath)))
+
+            df.to_csv(filepath, sep='\t', index=False, mode=mode, header=header)
+            print("\nPlots written in '{}'".format(filepath))
+
+        # add file to simulation
+        Plots = self.simu.core.xsdobjs['plots'].Plots
+        Plots.addExtraPlotsTextFile = 1
+        Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName = filepath
+
+        return Plots.ExtraPlotsTextFileDefinition
+
 
     def band(self, wvl=0.56, bw=0.02, mode=0, irradiance=1000, skyl=0):
         """
@@ -872,14 +937,16 @@ class Add(object):
         # check if the dataframe has the good format
         df = None
         if data is not None:
+            mandatory_columns = ['SPECIES_ID', 'POS_X', 'POS_Y']
+            if not all([c for c in mandatory_columns if c in data.columns]):
+                raise Exception("Mandatory colmuns 'SPECIES_ID', 'POS_X', 'POS_Y' not found.")
+
             expected_columns = ['SPECIES_ID', 'POS_X', 'POS_Y',
                                 'T_HEI_BELOW', 'T_HEI_WITHIN', 'T_DIA_BELOW',
                                 'T_ROT_NUT', 'T_ROT_PRE', 'C_TYPE', 'C_HEI', 'LAI',
                                 'C_ROT_INT', 'C_ROT_NUT', 'C_ROT_PRE', 'C_GEO_1',
                                 'C_GEO_2', 'C_GEO_3', 'C_GEO_4']
             df = data[[c for c in data.columns if c in expected_columns]]
-            if not all([c for c in df.columns if c in ['SPECIES_ID', 'POS_X', 'POS_Y']]):
-                raise Exception("Mandatory colmuns 'SPECIES_ID', 'POS_X', 'POS_Y' not found.")
 
             if os.path.basename(file) is file:
                 filepath = os.path.join(self.simu.getsimupath(), file)
