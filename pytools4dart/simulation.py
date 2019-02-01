@@ -195,13 +195,44 @@ class simulation(object):
 
         # write inputs
         for fname, xsdobj in self.core.xsdobjs.iteritems():
-            file = os.path.join(inputDpath, fname + '.xml')
+            file = pjoin(inputDpath, fname + '.xml')
             with open(file, 'w') as f:
                 xsdobj.export(f, level=0)
 
         # write sequence
         for s in self.sequence:
             s.write(overwrite=overwrite)
+
+    def stack_bands(self, zenith=0, azimuth=0):
+        """Stack bands into an ENVI .bil file
+
+        Parameters
+        ----------
+        zenith: float
+            Zenith viewing angle
+        azimuth: float
+            Azimuth viewing angle
+
+        Returns
+        -------
+            str: output file path
+        """
+
+        simu_input_dir = self.getinputsimupath()
+        simu_output_dir = pjoin(self.getsimupath(), 'output')
+
+        bands = get_bands_files(simu_output_dir, band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART'))
+
+        band_files=bands.path[(bands.zenith==0) & (bands.azimuth==0)]
+
+        wvl = get_wavelengths(simu_input_dir)
+
+        outputfile = pjoin(simu_output_dir, os.path.basename(band_files.iloc[0]).replace('.mpr','.bil'))
+
+        stack_dart_bands(band_files, outputfile, wavelengths=wvl.wavelength.values, fwhm=wvl.fwhm.values, verbose=True)
+
+        return outputfile
+
 
     # else:
     #     raise Exception("ERROR: please correct dependencies issues, no files written")
