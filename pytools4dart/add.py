@@ -696,9 +696,9 @@ class Add(object):
         prop=opl=tpl=grd_type=grd_opl=grd_tpl=None
 
         # optical and thermal properties
-        plot_type = plot_type_table.type_int[type == plot_type_table.type_str].iloc[0]
+        plot_type = PLOT_TYPES.type_int[type == PLOT_TYPES.type_str].iloc[0]
         if grd_op_type is not None:
-            grd_type = opl_type_table.type_int[grd_op_type == opl_type_table.type_str].iloc[0]
+            grd_type = OPL_TYPES.type_int[grd_op_type == OPL_TYPES.type_str].iloc[0]
 
         if plot_type in [0, 2]: # ground
             args = {'ident':grd_op_ident, 'type_': grd_type}
@@ -770,7 +770,7 @@ class Add(object):
                                 "'PT_4_X', 'PT_4_Y' not found.")
 
             # subset expected columns
-            expected_columns = plots_table_header+['GRD_OPT_NAME', 'GRD_THERM_NAME', 'PLT_OPT_NAME', 'PLT_THERM_NAME']
+            expected_columns = PLOTS_COLUMNS+['GRD_OPT_NAME', 'GRD_THERM_NAME', 'PLT_OPT_NAME', 'PLT_THERM_NAME']
             df = data[[c for c in data.columns if c in expected_columns]]
 
             # convert names to index
@@ -1020,7 +1020,7 @@ class Add(object):
 
         # Trunk properties (same for crown and under)
         trunk_opl = ptd.trees.create_OpticalPropertyLink(ident=trunk_op_ident,
-                                                        type_=opl_type_table.type_int[opl_type_table.type_str == trunk_op_type])
+                                                        type_=OPL_TYPES.type_int[OPL_TYPES.type_str == trunk_op_type])
         trunk_tpl = ptd.trees.create_ThermalPropertyLink(idTemperature=trunk_tp_ident)
         # Crown properties
         veg_opl = ptd.trees.create_VegetationOpticalPropertyLink(ident=veg_op_ident)
@@ -1260,7 +1260,7 @@ class Add(object):
     #     """
     #     # TODO: remove
     #     # optical_properties = self.simu.scene.properties['optical']
-    #     plot_type = plot_type_table.type_int[plot_type == plot_type_table.type_str].iloc[0]
+    #     plot_type = PLOT_TYPES.type_int[plot_type == PLOT_TYPES.type_str].iloc[0]
     #     if volume_info != None:
     #         if plot_type == 0: #'Ground'
     #             raise Exception("ground plot_type is not compatible with volume information, volume_information won't be considered")
@@ -1278,7 +1278,7 @@ class Add(object):
     #         raise Exception("no ground optical property name given for ground plot ")
     #
     #     plt_type_num = plot_type
-    #     # plt_type_num = plot_type_table.type_int[plot_type == plot_type_table.type_str].iloc[0]
+    #     # plt_type_num = PLOT_TYPES.type_int[plot_type == PLOT_TYPES.type_str].iloc[0]
     #     plt_form_num = plot_form_inv_dict[plot_form]
     #     if grd_opt_prop_type != None:
     #         grd_optprop_type_num = grd_opt_prop_types_inv_dict[grd_opt_prop_type]
