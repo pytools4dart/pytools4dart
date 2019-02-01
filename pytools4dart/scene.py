@@ -215,7 +215,7 @@ class Scene(object):
     #     """
     #     populates core plots according to scene.plots dataframe contents
     #     """
-    #     # plots_table_header = ['PLT_NUMBER', 'PLOT_SOURCE', 'PLT_TYPE', 'PT_1_X', 'PT_1_Y', 'PT_2_X', 'PT_2_Y', 'PT_3_X',
+    #     # PLOTS_COLUMNS = ['PLT_NUMBER', 'PLOT_SOURCE', 'PLT_TYPE', 'PT_1_X', 'PT_1_Y', 'PT_2_X', 'PT_2_Y', 'PT_3_X',
     #     #                       'PT_3_Y',
     #     #                       'PT_4_X',
     #     #                       'PT_4_Y',
@@ -223,7 +223,7 @@ class Scene(object):
     #     #                       'PLT_OPT_NUMB', 'PLT_OPT_NAME', 'PLT_THERM_NUMB', 'PLT_THERM_NAME',
     #     #                       'PLT_BTM_HEI', 'PLT_HEI_MEA', 'PLT_STD_DEV', 'VEG_DENSITY_DEF', 'VEG_LAI', 'VEG_UL']
     #
-    #     plots_header = constants.plots_table_header
+    #     plots_header = constants.PLOTS_COLUMNS
     #     for plot in self.plots.itertuples():
     #         polygon_corners = Poly_corners(x1 = plot.PT_1_X, y1 = plot.PT_1_Y, x2 = plot.PT_2_X, y2 = plot.PT_2_Y,
     #                                        x3 = plot.PT_3_X, y3 = plot.PT_3_Y, x4 = plot.PT_4_X, y4 = plot.PT_4_Y)
