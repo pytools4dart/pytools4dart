@@ -61,7 +61,7 @@ class Sensor(object):
 
     @property
     def method(self):
-        rt = ptd.helpers.constants.SIMU_TYPE
+        rt = ptd.tools.constants.SIMU_TYPE
         return rt.type_str[rt.type_int == self.simu.core.xsdobjs['phase'].Phase.calculatorMethod].iloc[0]
 
     def update_xsdobjs(self):

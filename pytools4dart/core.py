@@ -39,7 +39,7 @@ import warnings
 
 import pytools4dart as ptd
 
-from pytools4dart.helpers.constants import *
+from pytools4dart.tools.constants import *
 from pytools4dart.core_ui.utils import get_labels, get_nodes, findall
 
 # from pytools4dart.core_ui.plots import createDartFile
@@ -71,6 +71,9 @@ class Core(object):
             modules = self.get_modules_names()#["plots", "phase", "atmosphere", "coeff_diff", "directions", "object_3d","maket","inversion","trees","water","urban"]
             for module in modules:
                 self.xsdobjs[module] = eval('ptd.core_ui.{}.createDartFile()'.format(module))
+            #
+            # for module in modules:
+            #     setattr(self, module, eval('ptd.core_ui.{}.createDartFile()'.format(module)))
 
             if empty:
                 # self.xsdobjs['coeff_diff'].Coeff_diff.LambertianMultiFunctions.LambertianMulti = []

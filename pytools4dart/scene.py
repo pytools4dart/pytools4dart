@@ -31,7 +31,7 @@ This module contains the class "Scene".
 import pandas as pd
 import warnings
 import pytools4dart as ptd
-from pytools4dart.helpers import constants
+from pytools4dart.tools import constants
 from pytools4dart.add import Poly_corners, Polygone_plot_vol_info
 
 class Scene(object):

@@ -46,11 +46,11 @@ import warnings
 
 # local imports
 import xmlwriters as dxml
-from helpers.voxreader import voxel
-from helpers.hstools import read_ENVI_hdr, get_hdr_bands, get_bands_files, get_wavelengths, stack_dart_bands
+from tools.voxreader import voxel
+from tools.hstools import read_ENVI_hdr, get_hdr_bands, get_bands_files, get_wavelengths, stack_dart_bands
 from settings import getsimupath, get_simu_input_path, get_simu_output_path
 import pytools4dart.run as run
-import helpers.dbtools as dbtools
+import tools.dbtools as dbtools
 
 class simulation(object):
     """Simulation object corresponding to a DART simulation.
@@ -523,7 +523,7 @@ class simulation(object):
         Parameters
         ---------
             vox: object of class voxel
-                lidar voxelized data, see pytools4dart.helpers.voxreader
+                lidar voxelized data, see pytools4dart.tools.voxreader
             densitydef: str
                 'lai' or 'ul'
         """

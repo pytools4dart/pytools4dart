@@ -31,7 +31,7 @@ This module contains the class "Checker".
 import pandas as pd
 import warnings
 
-from pytools4dart.helpers.constants import *
+from pytools4dart.tools.constants import *
 
 class Checker(object):
 
