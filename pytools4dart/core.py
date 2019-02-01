@@ -219,15 +219,15 @@ class Core(object):
             rows.append(row_to_add)
 
 
-        # plots_table_header = ['PLT_NUMBER', 'PLOT_SOURCE', 'PLT_TYPE', 'PT_1_X', 'PT_1_Y', 'PT_2_X', 'PT_2_Y', 'PT_3_X', 'PT_3_Y',
+        # PLOTS_COLUMNS = ['PLT_NUMBER', 'PLOT_SOURCE', 'PLT_TYPE', 'PT_1_X', 'PT_1_Y', 'PT_2_X', 'PT_2_Y', 'PT_3_X', 'PT_3_Y',
         #                       'PT_4_X',
         #                       'PT_4_Y',
         #                       'GRD_OPT_TYPE', 'GRD_OPT_NUMB', 'GRD_OPT_NAME', 'GRD_THERM_NUMB', 'GRD_THERM_NAME',
         #                       'PLT_OPT_NUMB', 'PLT_OPT_NAME', 'PLT_THERM_NUMB', 'PLT_THERM_NAME',
         #                       'PLT_BTM_HEI', 'PLT_HEI_MEA', 'PLT_STD_DEV', 'VEG_DENSITY_DEF', 'VEG_LAI', 'VEG_UL', 'WAT_HEIGHT', 'WAT_DEPTH']
 
-        plots_df = pd.DataFrame(rows, columns=plots_table_header)
-        plots_df.PLT_TYPE = plots_df.PLT_TYPE.astype('category').cat.set_categories(plot_type_table.type_int.values).cat.rename_categories(plot_type_table.type_str.values)
+        plots_df = pd.DataFrame(rows, columns=PLOTS_COLUMNS+['SOURCE'])
+        plots_df.PLT_TYPE = plots_df.PLT_TYPE.astype('category').cat.set_categories(PLOT_TYPES.type_int.values).cat.rename_categories(PLOT_TYPES.type_str.values)
 
         if self.simu.is_plots_txt_file_considered():
             plotstxt_file_path = self.xsdobjs["plots"].Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName
@@ -512,7 +512,7 @@ class Core(object):
         l = []
         for opl in optical_property_links:
             if 'type_' in opl.attrib:
-                opl_type = opl_type_table[opl_type_table.type_int == opl.type_].type_str.iloc[0]
+                opl_type = OPL_TYPES[OPL_TYPES.type_int == opl.type_].type_str.iloc[0]
             else:  # Vegetation
                 opl_type = re.sub('OpticalPropertyLink', '',
                                   re.sub('create_', '', opl.__class__.__name__))
