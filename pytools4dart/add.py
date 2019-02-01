@@ -754,10 +754,8 @@ class Add(object):
         if file is None:
             file = 'plots.txt'
 
-        mode = 'w'
         header = True
         if append:
-            mode='a'
             header = False
 
         # check if the dataframe has the good format
@@ -803,7 +801,11 @@ class Add(object):
                 os.mkdir(os.path.dirname(filepath))
                 print("Created directory: '{}'".format(os.path.dirname(filepath)))
 
-            df.to_csv(filepath, sep='\t', index=False, mode=mode, header=header)
+            if not append:
+                with open(filepath, mode='w') as f:
+                    f.write(PLOTS_HEADER)
+
+            df.to_csv(filepath, sep='\t', index=False, mode='a', header=header)
             print("\nPlots written in '{}'".format(filepath))
 
         # add file to simulation
@@ -812,57 +814,6 @@ class Add(object):
         Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName = filepath
 
         return Plots.ExtraPlotsTextFileDefinition
-
-
-    def band(self, wvl=0.56, bw=0.02, mode=0, irradiance=1000, skyl=0):
-        """
-        add spectral band and the associated spectral irradiance
-
-        Parameters
-        ----------
-
-        wvl: float
-            central wavelength
-
-        bw: float
-            bandwidth
-
-        mode: int
-            0:'Mode R', 1:'Mode T+R', 2:'Mode T'
-
-        Returns
-        -------
-            two objects: new band and new spectral irradiance
-        """
-        #phase module modification
-        bands = self.simu.core.xsdobjs['phase'].Phase.DartInputParameters.SpectralIntervals
-        bandNumber = len(bands.SpectralIntervalsProperties)
-        new_band = ptd.phase.create_SpectralIntervalsProperties(bandNumber=bandNumber, meanLambda=wvl,
-                                                                deltaLambda=bw, spectralDartMode=mode)
-        bands.add_SpectralIntervalsProperties(new_band)
-
-        new_ir =  ptd.phase.create_SpectralIrradianceValue(bandNumber=bandNumber, irradiance=irradiance, Skyl=skyl)
-        ir = self.simu.core.xsdobjs['phase'].Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance
-        ir.add_SpectralIrradianceValue(new_ir)
-
-        return new_band, new_ir
-
-    def sequence(self, name = None):
-        """
-        Add an empty sequence to simulation
-        Parameters
-        ----------
-        name: str
-            name of the sequence
-
-        Returns
-        -------
-            object of type Sequencer
-
-        """
-        new_sequence = Sequencer(self.simu, name)
-        self.simu.sequence.append(new_sequence)
-        return new_sequence
 
     def trees(self, data=None, file = None, append=False, overwrite=False, mkdir=False):
         """
@@ -928,10 +879,8 @@ class Add(object):
         if file is None:
             file = 'trees.txt'
 
-        mode = 'w'
         header = True
         if append:
-            mode='a'
             header = False
 
         # check if the dataframe has the good format
@@ -941,11 +890,7 @@ class Add(object):
             if not all([c for c in mandatory_columns if c in data.columns]):
                 raise Exception("Mandatory colmuns 'SPECIES_ID', 'POS_X', 'POS_Y' not found.")
 
-            expected_columns = ['SPECIES_ID', 'POS_X', 'POS_Y',
-                                'T_HEI_BELOW', 'T_HEI_WITHIN', 'T_DIA_BELOW',
-                                'T_ROT_NUT', 'T_ROT_PRE', 'C_TYPE', 'C_HEI', 'LAI',
-                                'C_ROT_INT', 'C_ROT_NUT', 'C_ROT_PRE', 'C_GEO_1',
-                                'C_GEO_2', 'C_GEO_3', 'C_GEO_4']
+            expected_columns = TREES_COLUMNS
             df = data[[c for c in data.columns if c in expected_columns]]
 
             if os.path.basename(file) is file:
@@ -964,7 +909,11 @@ class Add(object):
                                     "Set option 'mkdir' to create.".format(os.path.dirname(filepath)))
                 os.mkdir(os.path.dirname(filepath))
 
-            df.to_csv(filepath, sep='\t', index=False, mode=mode, header=header)
+            if not append:
+                with open(filepath, mode='w') as f:
+                    f.write(TREES_HEADER)
+
+            df.to_csv(filepath, sep='\t', index=False, mode='a', header=header)
 
         # add file to simulation
         Trees = self.simu.core.xsdobjs['trees'].Trees
@@ -976,8 +925,6 @@ class Add(object):
 
         return eval('.'.join(nodepath[0].split('.')[:-1]))
         # add file to
-
-
 
     def tree_species(self, lai=4.0,
                      veg_op_ident='Turbid_Leaf_Deciduous_Phase_Function',
@@ -1036,6 +983,55 @@ class Add(object):
 
         return Species
 
+    def band(self, wvl=0.56, bw=0.02, mode=0, irradiance=1000, skyl=0):
+        """
+        add spectral band and the associated spectral irradiance
+
+        Parameters
+        ----------
+
+        wvl: float
+            central wavelength
+
+        bw: float
+            bandwidth
+
+        mode: int
+            0:'Mode R', 1:'Mode T+R', 2:'Mode T'
+
+        Returns
+        -------
+            two objects: new band and new spectral irradiance
+        """
+        #phase module modification
+        bands = self.simu.core.xsdobjs['phase'].Phase.DartInputParameters.SpectralIntervals
+        bandNumber = len(bands.SpectralIntervalsProperties)
+        new_band = ptd.phase.create_SpectralIntervalsProperties(bandNumber=bandNumber, meanLambda=wvl,
+                                                                deltaLambda=bw, spectralDartMode=mode)
+        bands.add_SpectralIntervalsProperties(new_band)
+
+        new_ir =  ptd.phase.create_SpectralIrradianceValue(bandNumber=bandNumber, irradiance=irradiance, Skyl=skyl)
+        ir = self.simu.core.xsdobjs['phase'].Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance
+        ir.add_SpectralIrradianceValue(new_ir)
+
+        return new_band, new_ir
+
+    def sequence(self, name = None):
+        """
+        Add an empty sequence to simulation
+        Parameters
+        ----------
+        name: str
+            name of the sequence
+
+        Returns
+        -------
+            object of type Sequencer
+
+        """
+        new_sequence = Sequencer(self.simu, name)
+        self.simu.sequence.append(new_sequence)
+        return new_sequence
 
     def treestxtfile_reference(self, src_file_path, species_list, createProps = False):
         """
