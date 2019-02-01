@@ -51,9 +51,8 @@ propect_prop = {'CBrown': 0, 'Cab': 30, 'Car': 5,
                 'Cm': 0.01, 'Cw': 0.01, 'N': 1.8,
                 'anthocyanin': 0}
 
-op_name ='leaf'
 op_vegetation = {'type':'Vegetation',
-              'ident': op_name,
+              'ident': 'leaf',
               'databaseName':'prospect.db',
               'ModelName':'',
               'lad': 1,
@@ -84,21 +83,6 @@ simu.add.tree_species(lai=-0.5,
 
 # trees to scene
 simu.add.trees(inventory, overwrite=True, mkdir=True)
-
-# # define species
-# simu.add_tree_species(lai=-1, holes=0,
-#                    trunkopt='trunk',
-#                    trunktherm='ThermalFunction290_310',
-#                    vegopt='leaf',
-#                    vegtherm='ThermalFunction290_310')
-#
-# simu.add_tree_species(lai=-0.5, holes=0,
-#                    trunkopt='trunk',
-#                    trunktherm='ThermalFunction290_310',
-#                    vegopt='leaf',
-#                    vegtherm='ThermalFunction290_310')
-
-
 
 # add sequence of chlorophyll
 Cab = range(0,30,10)
