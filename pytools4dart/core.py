@@ -61,6 +61,7 @@ class Core(object):
     """
     Dart core object.
     """
+    #TODO: replace xsdobj avec setattr
     def __init__(self, simu, empty = False):
         self.simu = simu
         self.xsdobjs = {}
@@ -548,10 +549,46 @@ class Core(object):
         #     l.append(n)
         # l = [ptd.core.get_nodes(self.xsdnodes[])for dartnode in dartnodes]
 
-    # def get_op_index(self, ident):
-    # TODO
-    #     pd.DataFrame(ident)
+    def get_op_index(self, ident):
+        """
+        Get Optical Properties indexes from identification names
+        Parameters
+        ----------
+        ident: str or list of str
+            identification names, e.g. 'Lambertian_Phase_Function_1'.
+        Returns
+        -------
+            pandas Series
 
+        """
+        # convert string to list
+        if isinstance(ident, str):
+            ident = [ident]
+
+        ident_df = pd.DataFrame(dict(ident=ident))
+        op = self.get_optical_properties()
+        indexes = pd.merge(ident_df, op[['ident', 'index']], on='ident', how='left')
+        return indexes['index']
+
+    def get_tp_index(self, ident):
+        """
+        Get Thermal Properties indexes from identification names
+        Parameters
+        ----------
+        ident: str or list of str
+            identification names, e.g. 'ThermalFunction290_310'.
+        Returns
+        -------
+            pandas Series
+        """
+        # convert string to list
+        if isinstance(ident, str):
+            ident = [ident]
+
+        ident_df = pd.DataFrame(dict(idTemperature=ident))
+        tp = self.get_thermal_properties()
+        indexes = pd.merge(ident_df, tp[['idTemperature', 'index']], on='idTemperature', how='left')
+        return indexes['index']
 
     #################
     #    UPDATES    #
