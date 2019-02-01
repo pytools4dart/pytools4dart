@@ -972,7 +972,7 @@ class Add(object):
         if len(nodepath)!=1:
             raise Exception('Multiple sceneParametersFileName found.')
 
-        exec(nodepath[0]+'=file')
+        exec(nodepath[0]+'=filepath')
 
         return eval('.'.join(nodepath[0].split('.')[:-1]))
         # add file to
