@@ -102,7 +102,7 @@ class simulation(object):
                            'Cw', 'N', 'anthocyanin']
         self.prossequence = 0
 
-        self.run = run.runners(self)
+        self.run = run.Run(self)
 
         print ('New Simulation initiated')
         print('--------------\n')

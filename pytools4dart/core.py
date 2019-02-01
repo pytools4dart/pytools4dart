@@ -101,8 +101,7 @@ class Core(object):
 
     def load(self):
         """
-        Populate XSD Objects contained in xsd_core according to DART XML input files contents
-        Update properties, sp_bands and plots tables after population of xsdobjs
+        Load DART XML input files into core
         """
         modules = self.get_modules_names()
         for module in modules:

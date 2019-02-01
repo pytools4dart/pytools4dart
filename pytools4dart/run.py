@@ -213,7 +213,7 @@ def colorCompositeBands(simu_name, red, green, blue, iteration, outdir):
     return ans
 
 
-class runners(object):
+class Run(object):
 
     def __init__(self, simu):
         self.simu = simu

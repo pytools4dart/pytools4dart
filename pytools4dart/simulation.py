@@ -2,8 +2,8 @@
 # ===============================================================================
 # PROGRAMMERS:
 #
-# Eric Chraibi <eric.chraibi@irstea.fr>
 # Florian de Boissieu <fdeboiss@gmail.com>
+# Eric Chraibi <eric.chraibi@irstea.fr>
 # Claudia Lavalley <claudia.lavalley@cirad.fr>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
@@ -63,7 +63,6 @@ from pytools4dart.tools.constants import *
 
 from pytools4dart.core import Core
 from pytools4dart.scene import Scene
-from pytools4dart.checker import Checker
 from pytools4dart.add import Add
 from pytools4dart.sensor import Sensor
 from pytools4dart.source import Source
@@ -103,13 +102,9 @@ class simulation(object):
 
         self.source = Source(self)
 
-        self.checker = Checker(self)
-
-        self.run = run.runners(self)
+        self.run = run.Run(self)
 
         self.add = Add(self)
-
-        self.update = Update(self)
 
         self.sequence = []
 
@@ -234,23 +229,6 @@ class simulation(object):
         stack_dart_bands(band_files, outputfile, wavelengths=wvl.wavelength.values, fwhm=wvl.fwhm.values, verbose=True)
 
         return outputfile
-
-
-    # else:
-    #     raise Exception("ERROR: please correct dependencies issues, no files written")
-
-    def write_xml_file(self, fname, obj, name = None):
-        # TODO: remove
-        xmlstr = etree.tostring(obj.to_etree(), pretty_print=True)
-        if name != None:
-            new_simu_path = pjoin(self.getsimusdir(),name)
-            new_inputsimu_path = pjoin(new_simu_path, "input")
-            xml_file_path = pjoin(new_inputsimu_path, fname + ".xml")
-        else:
-            xml_file_path = pjoin(self.getinputsimupath(), fname + ".xml")
-        xml_file = open(xml_file_path, "w")
-        xml_file.write(xmlstr)
-        xml_file.close()
 
     def is_tree_txt_file_considered(self):
         return self.core.trees.Trees.Trees_1 != None

@@ -27,6 +27,7 @@
 """
 This module contains the class "Core".
 """
+# TODO: remove module
 
 class Update(object):
     def __init__(self, simu):

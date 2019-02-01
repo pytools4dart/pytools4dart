@@ -796,7 +796,7 @@ class Add(object):
             # create directory if not found
             if not os.path.isdir(os.path.dirname(filepath)):
                 if not mkdir:
-                    raise Exception("Directory not found: '{}'"
+                    raise Exception("Directory not found: '{}'. "
                                     "Set option 'mkdir' to create.".format(os.path.dirname(filepath)))
                 os.mkdir(os.path.dirname(filepath))
                 print("Created directory: '{}'".format(os.path.dirname(filepath)))

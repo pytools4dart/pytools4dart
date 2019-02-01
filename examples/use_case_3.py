@@ -31,7 +31,7 @@ simu.add.optical_property(**op_vegetation)
 vox = ptd.voxreader.voxel().from_vox("../data/forest.vox")
 plots = vox.to_plots()
 plots['PLT_OPT_NAME'] = 'op_prospect'
-simu.add.plots(plots, overwrite=True)
+simu.add.plots(plots, mkdir=True, overwrite=True)
 
 # write simulation
 simu.write(overwrite=True)
