@@ -66,17 +66,32 @@ from pytools4dart.scene import Scene
 from pytools4dart.add import Add
 from pytools4dart.sensor import Sensor
 from pytools4dart.source import Source
-from pytools4dart.update import Update
 
 class simulation(object):
-    """Simulation object corresponding to a DART simulation.
-    It allows for storing and editing parameters, and running simulation
-    xsd_core: contains objects built according to XSD modules specification, access is given through a key which matches with XSDfile name
-                if the simulation whose name can be given as parameter exists, xsdobjs_dic is populated with simulation XML files contents
-    properties_dict: dictionnary containing "opt_props" and "thermal_props" DataFrames, "opt_props" provides a DataFrame for each opt property type
-    bands: DataFrame containing a list of [wvl, dl] couples
     """
-    def __init__(self, name = None, empty = False):
+    Simulation object corresponding to a DART simulation.
+    It allows for storing and editing parameters, and running simulation.
+    Memebers are:
+
+        - core: objects built according to DART XML files (coeff_diff, directions, phase, ...) each corresponding to a part of DART GUI.
+        As in DART GUI, changes propagates automatically to subnodes.
+        All available parameters are listed in pytools4dart.core_ui.utils.get_labels() or in the file labels/labels.tab of the package.
+
+        - scene: summary and fast access to the main elements of the mockup scene : size, resolution,
+        properties (optical, thermal), plots, object_3d, trees.
+
+        - sensor: summary and fast access to the main element of acquisition: bands, sensors, etc.
+
+        - source: summary and fast access to the main elements of the source definition.
+
+        - sequences: the list of sequences that have been added. Each contains its own core, and adders to add groups and items.
+
+        - add: list of user friendly adders to add elements to scene, acquisition, source and sequence.
+
+        - run: list of available runners, full, step by step, composites, sequences.
+
+    """
+    def __init__(self, name=None, method=0, empty=False):
         """
 
         Parameters
@@ -87,6 +102,13 @@ class simulation(object):
             If empty is False and if simulation already exists in DART simulation directory,
             the sismulation is automatically loaded.
 
+        method: int
+            simulation methods are:
+
+                - 0: Flux Tracking
+                - 1: Lidar
+                - 2: Monte-Carlo
+
         empty: bool
             New simulation in DART usually comes with a default spectral band.
             If `empty` is True, this band is removed.
@@ -94,7 +116,7 @@ class simulation(object):
 
         self.name = name
 
-        self.core = Core(self, empty)
+        self.core = Core(self, type, empty)
 
         self.scene = Scene(self)
 
@@ -106,7 +128,7 @@ class simulation(object):
 
         self.add = Add(self)
 
-        self.sequence = []
+        self.sequences = []
 
         self.core.update_simu()
 
@@ -123,7 +145,7 @@ class simulation(object):
              '{}\n'.format(self.scene),
              'Sequences',
              '=========',
-             'number of sequences: {}\n'.format(len(self.sequence)),
+             'number of sequences: {}\n'.format(len(self.sequences)),
              '__________________________________\n'])
 
         return description
@@ -197,7 +219,7 @@ class simulation(object):
                 obj.export(f, level=0)
 
         # write sequence
-        for s in self.sequence:
+        for s in self.sequences:
             s.write(overwrite=overwrite)
 
     def stack_bands(self, zenith=0, azimuth=0):

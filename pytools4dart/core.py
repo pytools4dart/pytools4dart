@@ -61,8 +61,7 @@ class Core(object):
     """
     Dart core object.
     """
-    #TODO: replace xsdobj avec setattr
-    def __init__(self, simu, empty = False):
+    def __init__(self, simu, method = 0, empty = False):
         self.simu = simu
 
         if simu.name is not None and not empty and os.path.isdir(self.simu.getsimupath()):
@@ -72,6 +71,7 @@ class Core(object):
             for module in modules:
                 setattr(self, module, eval('ptd.core_ui.{}.createDartFile()'.format(module)))
 
+            self.phase.Phase.calculatorMethod = method
             if empty:
                 # self.coeff_diff.Coeff_diff.LambertianMultiFunctions.LambertianMulti = []
                 self.phase.Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties = []

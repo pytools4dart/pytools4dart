@@ -37,177 +37,13 @@ import os
 from pytools4dart.tools.constants import *
 from pytools4dart.core_ui.utils import get_labels, get_nodes
 
-class Rectangle_dims(object):
-    def __init__(self, center_x = 5.0, center_y=5.0, side_x=10.0, side_y=10.0):
-        self.center_x = center_x
-        self.center_y = center_y
-        self.side_x = side_x
-        self.side_y = side_y
-
-class Rectangle_plot_vol_info(object):
-    def __init__(self, rect_dims, btm_hei = 0.0, hei_mea = 1.0, std_dev = 0.0):
-        self.rect_dims = rect_dims
-        self.btm_hei = btm_hei
-        self.hei_mea = hei_mea
-        self.std_dev = std_dev
-
-class Polygone_plot_vol_info(object):
-    def __init__(self, poly_corners, btm_hei = 0.0, hei_mea = 1.0, std_dev = 0.0):
-        self.corners = poly_corners
-        self.btm_hei = btm_hei
-        self.hei_mea = hei_mea
-        self.std_dev = std_dev
-
-class Poly_corners(object):
-    def __init__(self, x1 = 0.0, y1= 0.0, x2=10.0, y2=0.0, x3=10.0, y3=10.0, x4=0.0, y4=10.0):
-        self.x1 = x1
-        self.y1 = y1
-        self.x2 = x2
-        self.y2 = y2
-        self.x3 = x3
-        self.y3 = y3
-        self.x4 = x4
-        self.y4 = y4
-
 class Add(object):
 
     def __init__(self, simu):
         self.simu = simu
 
-    def check_and_correct_sp_bands(self):
-        """
-        check if the number of number multiplicative factors for each optical property in coeff_diff module
-        is equal to the number of spectral bands in phase module
-
-        if spectral band multiplicative factors are missing in coeff_diff module,
-        default multiplicative factors are introduced for each missing spectral band
-
-        :return: True if the number of spectral bands in phase XSD module is equal to the number of spectral bandds in each optical property given in coeff_diff XSD module
-                      (including if this has been corrected)
-                 False otherwise
-        """
-
-        check = True
-
-        phase_spbands_nb = len(self.simu.core.phase.Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties)
-
-        dartnodes = get_labels('Coeff_diff.*\.useSameFactorForAllBands$')['dartnode']
-        for dartnode in dartnodes:
-            dn = '.'.join(dartnode.split('.')[:-1]) # parent dart node
-            cns = get_nodes(self.simu.core.coeff_diff, dn) # parent core node
-            for cn in cns:
-                multi = [c for c in cn.children if c.endswith('MultiplicativeFactorForLUT')][0]
-                if cn.useSameFactorForAllBands == 1 or \
-                        eval('len(cn.{multi})')!=phase_spbands_nb:
-                    multiargs={}
-                    for a in cn.attrib:
-                        if a.endswith('Factor'):
-                            multiargs[a]=eval('cn.' + a)
-                    # multiargs = {a:eval('cn.'+a) for a in cn.attrib if a.endswith('Factor')}
-                    new = eval('ptd.core_ui.coeff_diff.create_{multi}(**multiargs)'.format(multi=multi))
-                    for i in range(phase_spbands_nb-1):
-                        eval('cn.add_{multi}(new.copy())'.format(multi=multi))
-                else:
-                    # multiargs = {}
-                    # for a in cn.attrib:
-                    #     if a.endswith('Factor'):
-                    #         multiargs[a]=eval('cn.' + a)
-                    # # multiargs = {a: eval('cn.' + a) for a in cn.attrib if a.endswith('Factor')}
-                    # new = eval('ptd.core_ui.coeff_diff.create_{multi}(**multiargs)'.format(multi=multi))
-                    eval('cn.set_{multi}([])'.format(multi=multi))
 
 
-
-
-
-
-                    # ab_dartnodes = get_labels(dn+'\.\w+.\.useSameFactorForAllBands')['dartnode'] # all bands
-                    # for ab_dartnode in ab_dartnodes:
-                    #     ab_dn = re.sub(dn+'.', '', '.'.join(ab_dartnode.split('.')[:-1])) #parent sub node
-                    #     ab_cn = get_nodes(cn, ab_dn)
-                    #     for ab_dn
-
-
-        #
-        # optproplists_xmlpaths_dict = self.simu.get_opt_props_xmlpaths_dict()
-        # multfactors_xmlpaths_dict = self.simu.get_multfacts_xmlpaths_dict()
-        #
-        # opt_prop_types = ["vegetation", "fluid", "lambertian", "hapke", "rpv"]
-        # for opt_prop_type in opt_prop_types:
-        #     opt_props_list = eval( 'self.simu.core.coeff_diff.Coeff_diff.{}'.format(optproplists_xmlpaths_dict[opt_prop_type]) )
-        #     for opt_prop in opt_props_list:
-        #         if opt_prop.useMultiplicativeFactorForLUT == 1:
-        #             coeff_spbands_nb = eval( 'len(opt_prop.{})'.format(multfactors_xmlpaths_dict[opt_prop_type]) )
-        #             if coeff_spbands_nb < phase_spbands_nb:
-        #                 print('adding {} multiplicative factors to opt property {}'.format(phase_spbands_nb - coeff_spbands_nb , opt_prop.ident))
-        #             for i in range( phase_spbands_nb - coeff_spbands_nb):
-        #                 check = check and self.multipl_factor(opt_props_list, opt_prop_type)
-
-        return check
-
-    def checkandcorrect_opt_prop_exists(self, type, ident, create = False):
-        """
-        Check if opt_prop exists
-        This is used only in "user friendly" methods
-        If it doesn't exist, and createOptProps == True, creates the missing optical property
-        If it doesn't exist, and createOptProps == False, prints ERROR Message
-        :param type: type of optical property in ["vegetation", "fluid", "lambertian", "hapke", "rpv"]
-        :param ident: name of optical property to be checked
-        :param create: boolean, if True, a missing optical property will be created
-        :return: index in the corresponding list, None if missing  : TOBE DONE
-        """
-        self.simu.core.update_properties_dict()
-        index = self.simu.get_opt_prop_index(type, ident)
-        if index == None:
-            if create == True:
-                print("creating {} optical property named {}".format(type, ident))
-                self.optical_property(type, ident=ident)
-                self.simu.core.update_properties_dict()
-                opt_prop_list = self.simu.scene.properties["opt_props"][type]
-                index = opt_prop_list[opt_prop_list["prop_name"] == ident].index.tolist()[0]# unicity of prop_name
-            else:
-                print("ERROR: %s optical property %s does not exist, please FIX or set createOptProps to TRUE" % (
-                    type, ident))
-                return index
-        return index
-
-    def checkandcorrect_th_prop_exists(self, th_prop_name, createProps = False):
-        """
-        Check if thermal_prop exists
-        If it doesn't exist, and createOptProps == True, creates the missing optical property
-        If it doesn't exist, and createOptProps == False, prints ERROR Message
-        :param th_prop_name: thermal property name
-        :param createOptProps: boolean, if True, a missing thermal property will be created
-        :return:index in the corresponding list, None if missing
-        """
-        self.simu.core.update_properties_dict()
-        index = self.simu.get_thermal_prop_index(th_prop_name)
-        if index == None:
-            if createProps == True:
-                print("creating thermal property named {}".format(th_prop_name))
-                self.th_property(th_prop_name)
-                self.simu.core.update_properties_dict()
-                th_prop_list = self.simu.scene.properties["thermal_props"]
-                index = th_prop_list[th_prop_list["prop_name"] == th_prop_name].index.tolist()[0]#unicity of th_prop_name
-            else:
-                print("ERROR: thermal property %s does not exist, please FIX or set createOptProps to TRUE" % (
-                    th_prop_name))
-                return index
-        return index
-
-    # def multipl_factor(self, opt_props_list, opt_prop_type):
-    #     multfactpath = self.simu.get_multfacts_xmlpaths_dict()[opt_prop_type]
-    #
-    #     try:
-    #         for opt_prop in opt_props_list:
-    #             eval('opt_prop.{}.add_{}(ptd.coeff_diff.create_{}())'.format(multfactpath.split(".")[0],
-    #                                                                        multfactpath.split(".")[1],
-    #                                                                        multfactpath.split(".")[1]))
-    #         return True
-    #
-    #     except ValueError:
-    #         print("ERROR: multiplicative factor add failed")
-    #         return False
 
     # object_3d:
     #     objectDEMMode=0,
@@ -576,7 +412,6 @@ class Add(object):
             #self.simu.core.update_properties_dict()
         return prop
 
-
     def thermal_property(self, replace=False, **kwargs):
         """
         Add a new thermal property to core.coeff_diff
@@ -615,24 +450,6 @@ class Add(object):
                 raise ValueError("'{}' already used by other optical property."
                                  "Please change 'ident' or set 'replace'.".format(prop.idTemperature))
         return prop
-
-    def multiplots(self, plots_list):
-        """
-        Add several plots.  Warning: For the moment, this method does not allow to specify the volume of the plot: corners and height
-        :param plots_list: list of plots parameters, considered fields are ["plot_type", "plot_form", "plot_opt_prop_name", "plot_therm_prop_name", "grd_opt_prop_type",
-                         "grd_opt_prop_name", "grd_therm_prop_name", "createProps"]
-        """
-        # plots_fields = ["plot_type", "plot_form", "plot_opt_prop_name", "plot_therm_prop_name", "grd_opt_prop_type",
-        #                 "grd_opt_prop_name", "grd_therm_prop_name", "createProps"]
-        for plot_params in plots_list:
-            self.plot(plot_type = plot_params[0], plot_form = plot_params[1],
-                      plot_opt_prop_name = plot_params[2], plot_therm_prop_name = plot_params[3],
-                      grd_opt_prop_type = plot_params[4], grd_opt_prop_name = plot_params[5],
-                      grd_therm_prop_name = plot_params[6], createProps = plot_params[7]
-                      )
-
-        self.simu.update.lock_core = True  # update locks management
-
 
     def plot(self, type = 'Vegetation',
                  corners = None,
@@ -749,7 +566,87 @@ class Add(object):
 
         return plot
 
-    def plots(self, data, file=None, append = False, overwrite=False, mkdir=False):
+    def plots(self, data=None, file=None, append = False, overwrite=False, mkdir=False):
+        """
+        add plots DataFrame to a plot file and add file to simulation
+        Parameters
+        ----------
+        data: DataFrame
+            see notes for specifications.
+
+        file: str
+            File name or file path added to the simulation.
+
+        append: bool
+            If True and file exists, appends to end of file.
+
+        overwrite: bool
+            If True, overwrite existing file
+
+        mkdir: bool
+            Creates the directory if does not exist.
+
+        Returns
+        -------
+            DataFrame
+
+        Notes
+        -----
+
+        data must ba a pandas DataFrame of plots with following column expectations:
+
+            - PLT_TYPE : Type of plot (0 = Ground, 1 = Vegetation, 2 = Ground + Vegetation, 3 = Fluid, 4 = Water)
+
+            - BORDER_REPETITION : 1 if the fractions of the plot partially outside of the scene are to be copied back on the other side, 0 if they are to be removed {Default value = 0}
+
+            For ALL plots, 4 anticlockwise corners need to be defined.
+                - PT_1_X : X coordinate for first plot corner
+                - PT_1_Y : Y coordinate for first plot corner
+                - PT_2_X : X coordinate for second plot corner
+                - PT_2_Y : Y coordinate for second plot corner
+                - PT_3_X : X coordinate for third plot corner
+                - PT_3_Y : Y coordinate for third plot corner
+                - PT_4_X : X coordinate for last plot corner
+                - PT_4_Y : Y coordinate for last plot corner
+
+            For ground plots, this parameters need to be defined
+                - GRD_OPT_TYPE : Ground optical function type (0 = Lambertian, 2 = Hapke, 4 = RPV)
+                - GRD_OPT_NAME : Ground optical function identification name
+                - GRD_THERM_NAME : Ground thermal function identification name
+
+            For vegetation plots, this parameters need to be defined
+                - PLT_OPT_NUMB : Vegetation, fluid or water optical function identification name
+                - PLT_THERM_NUMB : Vegetation, fluid or water thermal function identification name
+                - PLT_BTM_HEI : Vegetation or fluid bottom height
+                - PLT_HEI_MEA : Vegetation or fluid Height mean
+                - PLT_STD_DEV : Vegetation or fluid Standard deviation
+                - VEG_DENSITY_DEF : Vegetation density Definition (0=LAI or 1=UL)
+                - VEG_LAI : Vegetation LAI if VEG_DENSITY_DEF=0 (LAI)
+                - VEG_UL : Vegetation UL if VEG_DENSITY_DEF=1 (UL)
+                - VEG_AS_TRI : Generate the plot as a cloud of triangle (0 = false, 1 = true)
+                - VEG_TRI_DISTRIB : Distribution method of the triangle inside of the plot (0 = Random, 1 = Regular grid distribution)
+                - VEG_TRI_TRI_NUMB : Number of triangle desire in the plot "Triangle Cloud". Override the next option is present.
+                - VEG_TRI_TRI_AREA : Area of each individual leaf/triangle in the plot "Triangle Cloud".
+
+            For ground + vegetation plots, parameters for ground and vegetation plots need to be defined
+
+            For fluid plots, this parameters need to be defined
+                - PLT_OPT_NUMB : Vegetation, fluid or water optical function number
+                - PLT_THERM_NUMB : Vegetation, fluid or water thermal function number
+                - PLT_BTM_HEI : Vegetation or fluid bottom height
+                - PLT_HEI_MEA : Vegetation or fluid Height mean
+                - PLT_STD_DEV : Vegetation fluid, or water Standard deviation
+                - FLU_PAR_DEN : Fluid particle density (Only one gas or particle can be defined per plot, for multiple gas/particle, you may define same number of air/fluid plot than number of gas/particle).
+
+            For water plots, this parameters need to be defined
+                - PLT_OPT_NUMB : Vegetation, fluid or water optical function number
+                - PLT_THERM_NUMB : Vegetation, fluid or water thermal function number
+                - WAT_DEPTH : Water depth
+                - WAT_HEIHT : Water Height level
+                - PLT_STD_DEV : Vegetation fluid, or water Standard deviation
+                - WAT_EXTINCT : Water extinction coefficient (Only one extinction coefficient can be defined per plot, for multiple extinction coefficient, you may define same number of water plot than number of extinction coefficient).
+
+        """
 
         if file is None:
             file = 'plots.txt'
@@ -1018,7 +915,7 @@ class Add(object):
 
     def sequence(self, name = None):
         """
-        Add an empty sequence to simulation
+        Appends an empty sequence to simulation sequences
         Parameters
         ----------
         name: str
@@ -1030,202 +927,19 @@ class Add(object):
 
         """
         new_sequence = Sequencer(self.simu, name)
-        self.simu.sequence.append(new_sequence)
+        self.simu.sequences.append(new_sequence)
         return new_sequence
-
-    def treestxtfile_reference(self, src_file_path, species_list, createProps = False):
-        """
-        includes a trees.txt-like file reference to add lollypop trees to the simulation
-        the number of species requested in src_file MUST be the same than in species_list
-        species_list contains for each specie, a dictionnary structured as follows:
-        keys = ["opt_prop_name", "opt_prop_type","th_prop_name","crown_props"]
-        values_types = [string, string, string, pandas.dataframe]
-        crown_props is a pandas.dataframe structured as follows (each rows corredsponds to each crownLevel XML Element):
-        crown_props.columns = ["crown_opt_prop_type", "crown_opt_prop_name", "crown_th_prop_name"
-                                "crown_veg_opt_prop_name", "crown_veg_th_prop_name"]
-
-        :param src_file_path: file with lollypop-trees description, according to DART trees.txt structure
-        :param species_list: opt/thermal properties for all the species
-        :param createProps:  optional. If True, missing optical/thermal properties will be created
-        :return: None
-        """
-
-        trees_df = self.simu.read_dart_txt_file_with_header(src_file_path, "\t")
-        species_ids = trees_df['SPECIES_ID'].drop_duplicates()
-        for specie_id in species_ids:
-            if int(specie_id) > len(species_list)-1:
-                raise Exception("specieID requested in {} file do not exist in species_list ".format(src_file_path))
-
-        self.simu.core.trees.Trees.isTrees = 1
-        self.simu.core.trees.Trees.Trees_1.sceneParametersFileName = src_file_path
-        for spec_nb in range(len(species_list)):
-            props = species_list[spec_nb]
-            opt_name = props["opt_prop_name"]
-            opt_type = props["opt_prop_type"]
-            th_name = props["th_prop_name"]
-
-            opt_prop_index = self.checkandcorrect_opt_prop_exists(opt_type, opt_name, createProps)
-            th_prop_index = self.checkandcorrect_th_prop_exists(th_name, createProps)
-
-            if opt_prop_index == None:
-                raise Exception('ERROR: opt_property %s does not exist, please FIX or set createProps=True' % opt_name)
-
-            if th_prop_index == None:
-                raise Exception('ERROR: th_property %s does not exist, please FIX or set createProps=True' % th_name)
-
-
-            if spec_nb > len(self.simu.core.trees.Trees.Trees_1.Specie) - 1:
-                specie = ptd.trees.create_Specie()
-            else:
-                specie = self.simu.core.trees.Trees.Trees_1.Specie[spec_nb]
-
-
-
-            specie.OpticalPropertyLink = ptd.trees.create_OpticalPropertyLink(type_=grd_opt_prop_types_inv_dict[opt_type], ident=opt_name)
-            specie.ThermalPropertyLink = ptd.trees.create_ThermalPropertyLink(idTemperature=th_name)
-            nb_of_crowns = props["crown_props"].shape[0]
-            for crown_nb in range(nb_of_crowns):
-                crown_props = props["crown_props"].iloc[crown_nb]
-                if (crown_nb > len(specie.CrownLevel) - 1):
-                    crown = ptd.trees.create_CrownLevel()
-                else:
-                    crown = specie.CrownLevel[crown_nb]
-
-                crown_opt_prop_index = self.checkandcorrect_opt_prop_exists(crown_props["crown_opt_prop_type"], crown_props["crown_opt_prop_name"], createProps)
-                crown_th_prop_index = self.checkandcorrect_th_prop_exists(crown_props["crown_th_prop_name"], createProps)
-                crown_veg_opt_prop_index = self.checkandcorrect_opt_prop_exists("vegetation", crown_props["crown_veg_opt_prop_name"], createProps)
-                crown_veg_th_prop_index = self.checkandcorrect_th_prop_exists(crown_props["crown_veg_th_prop_name"],createProps)
-
-                if crown_opt_prop_index == None:
-                    raise Exception('ERROR: opt_property %s does not exist, please FIX or set createProps=True' % crown_props["crown_opt_prop_name"])
-                if crown_th_prop_index == None:
-                    raise Exception('ERROR: th_property %s does not exist, please FIX or set createProps=True' % crown_props["crown_th_prop_name"])
-                if crown_veg_opt_prop_index == None:
-                    raise Exception('ERROR: opt_property %s does not exist, please FIX or set createProps=True' % crown_props["crown_veg_opt_prop_name"])
-                if crown_veg_th_prop_index == None:
-                    raise Exception('ERROR: th_property %s does not exist, please FIX or set createProps=True' % crown_props["crown_veg_th_prop_name"])
-
-                crown.OpticalPropertyLink = ptd.trees.create_OpticalPropertyLink(
-                    type_= grd_opt_prop_types_inv_dict[crown_props["crown_opt_prop_type"]],
-                    ident = crown_props["crown_opt_prop_name"])
-                crown.ThermalPropertyLink = ptd.trees.create_ThermalPropertyLink(idTemperature = crown_props["crown_th_prop_name"])
-                veg_opt_prop_link = ptd.trees.create_VegetationOpticalPropertyLink(ident = crown_props["crown_veg_opt_prop_name"])
-                veg_th_prop_link = ptd.trees.create_ThermalPropertyLink(idTemperature = crown_props["crown_veg_th_prop_name"])
-                crown.VegetationProperty = ptd.trees.create_VegetationProperty(
-                    VegetationOpticalPropertyLink=veg_opt_prop_link,
-                    ThermalPropertyLink=veg_th_prop_link)
-
-        self.simu.update.lock_core = True  # update locks management
 
     # def plots(self, data, file):
     #     """
     #
     #     Parameters
     #     ----------
-    #     data: pandas DataFrame
-    #         table of plots with following column expectations:
-    #
-    #         - PLT_TYPE : Type of plot (0 = Ground, 1 = Vegetation, 2 = Ground + Vegetation, 3 = Fluid, 4 = Water)
-    #
-    #         - BORDER_REPETITION : 1 if the fractions of the plot partially outside of the scene are to be copied back on the other side, 0 if they are to be removed {Default value = 0}
-    #
-    #         - For ALL plots, 4 anticlockwise corners need to be defined.
-    #             - PT_1_X : X coordinate for first plot corner
-    #             - PT_1_Y : Y coordinate for first plot corner
-    #             - PT_2_X : X coordinate for second plot corner
-    #             - PT_2_Y : Y coordinate for second plot corner
-    #             - PT_3_X : X coordinate for third plot corner
-    #             - PT_3_Y : Y coordinate for third plot corner
-    #             - PT_4_X : X coordinate for last plot corner
-    #             - PT_4_Y : Y coordinate for last plot corner
-    #
-    #         - For ground plots, this parameters need to be defined
-    #             - GRD_OPT_TYPE : Ground optical function type (0 = Lambertian, 2 = Hapke, 4 = RPV)
-    #             - GRD_OPT_NAME : Ground optical function identification name
-    #             - GRD_THERM_NAME : Ground thermal function identification name
-    #
-    #         - For vegetation plots, this parameters need to be defined
-    #             - PLT_OPT_NUMB : Vegetation, fluid or water optical function identification name
-    #             - PLT_THERM_NUMB : Vegetation, fluid or water thermal function identification name
-    #             - PLT_BTM_HEI : Vegetation or fluid bottom height
-    #             - PLT_HEI_MEA : Vegetation or fluid Height mean
-    #             - PLT_STD_DEV : Vegetation or fluid Standard deviation
-    #             - VEG_DENSITY_DEF : Vegetation density Definition (0=LAI or 1=UL)
-    #             - VEG_LAI : Vegetation LAI if VEG_DENSITY_DEF=0 (LAI)
-    #             - VEG_UL : Vegetation UL if VEG_DENSITY_DEF=1 (UL)
-    #             - VEG_AS_TRI : Generate the plot as a cloud of triangle (0 = false, 1 = true)
-    #             - VEG_TRI_DISTRIB : Distribution method of the triangle inside of the plot (0 = Random, 1 = Regular grid distribution)
-    #             - VEG_TRI_TRI_NUMB : Number of triangle desire in the plot "Triangle Cloud". Override the next option is present.
-    #             - VEG_TRI_TRI_AREA : Area of each individual leaf/triangle in the plot "Triangle Cloud".
-    #
-    #         - For ground + vegetation plots, parameters for ground and vegetation plots need to be defined
-    #
-    #         - For fluid plots, this parameters need to be defined
-    #             - PLT_OPT_NUMB : Vegetation, fluid or water optical function number
-    #             - PLT_THERM_NUMB : Vegetation, fluid or water thermal function number
-    #             - PLT_BTM_HEI : Vegetation or fluid bottom height
-    #             - PLT_HEI_MEA : Vegetation or fluid Height mean
-    #             - PLT_STD_DEV : Vegetation fluid, or water Standard deviation
-    #             - FLU_PAR_DEN : Fluid particle density (Only one gas or particle can be defined per plot, for multiple gas/particle, you may define same number of air/fluid plot than number of gas/particle).
-    #
-    #         - For water plots, this parameters need to be defined
-    #             - PLT_OPT_NUMB : Vegetation, fluid or water optical function number
-    #             - PLT_THERM_NUMB : Vegetation, fluid or water thermal function number
-    #             - WAT_DEPTH : Water depth
-    #             - WAT_HEIHT : Water Height level
-    #             - PLT_STD_DEV : Vegetation fluid, or water Standard deviation
-    #             - WAT_EXTINCT : Water extinction coefficient (Only one extinction coefficient can be defined per plot, for multiple extinction coefficient, you may define same number of water plot than number of extinction coefficient).
     #
     #     Returns
     #     -------
     #
     #     """
-
-    def plotstxtfile_reference(self, src_file_path):
-        """
-        includes a plots.txt-like file reference to add multiple plots to the simulation
-        checks if every opt/thermal property index does already exist in properties lists, if not, Exception is raised
-        It is let to user's responsibility to create appropriate opt/th properties if missing (index is the only property information given)
-        :param src_file_path: plots.txt-like file path
-        :return: None
-        """
-
-        self.simu.core.update_properties_dict()
-        opt_props = self.simu.scene.properties["opt_props"]
-        th_props = self.simu.scene.properties["thermal_props"]
-
-        plots_df = self.simu.read_dart_txt_file_with_header(src_file_path, " ")
-
-        #GRD_OPT_TYPE GRD_OPT_NUMB GRD_THERM_NUMB PLT_OPT_NUMB PLT_THERM_NUMB
-        grd_opt_props = plots_df[['GRD_OPT_TYPE','GRD_OPT_NUMB']].drop_duplicates()
-        grd_therm_numbs = plots_df['GRD_THERM_NUMB'].drop_duplicates()
-        plt_opt_numbs = plots_df['PLT_OPT_NUMB'].drop_duplicates()
-        plt_therm_numbs = plots_df['PLT_THERM_NUMB'].drop_duplicates()
-
-        for i, grd_opt_prop in grd_opt_props.iterrows():
-            opt_prop_type = grd_opt_prop_types_dict[int(grd_opt_prop['GRD_OPT_TYPE'])]
-            opt_prop_index = int(grd_opt_prop['GRD_OPT_NUMB'])
-            if len(opt_props[opt_prop_type]) < opt_prop_index + 1:
-                raise Exception("ERROR in %s file column GRD_OPT_NUMB: %s optical property index %d do not exist in properties list, please FIX" % (src_file_path, opt_prop_type, opt_prop_index))
-
-        for grd_therm_num in grd_therm_numbs:
-            th_prop_index = int(grd_therm_num)
-            if len(th_props) < th_prop_index + 1:
-                raise Exception("ERROR in %s file column GRD_THERM_NUMB: thermal property index %d do not exist in properties list, please FIX" % (src_file_path, th_prop_index))
-
-        for plt_opt_num in plt_opt_numbs:
-            opt_prop_type = "vegetation"
-            opt_prop_index = int(plt_opt_num)
-            if len(opt_props[opt_prop_type]) < opt_prop_index + 1:
-                raise Exception("ERROR in %s file column PLT_OPT_NUMB: %s optical property index %d do not exist in properties list, please FIX" % (src_file_path, opt_prop_type, opt_prop_index))
-
-        for plt_therm_num in plt_therm_numbs:
-            th_prop_index = int(plt_therm_num)
-            if len(th_props) < th_prop_index + 1:
-                raise Exception("ERROR in %s file column PLT_THERM_NUMB: thermal property index %d do not exist in properties list, please FIX" % (src_file_path, th_prop_index))
-
-        self.simu.core.plots.Plots.addExtraPlotsTextFile = 1
-        self.simu.core.plots.Plots.ExtraPlotsTextFileDefinition = ptd.plots.create_ExtraPlotsTextFileDefinition(extraPlotsFileName=src_file_path)
 
 
     def virtual_direction (self, azimuth, zenith):
@@ -1235,130 +949,3 @@ class Add(object):
         self.simu.core.directions.Directions.add_AddedDirections(dir)
         return dir
 
-    # def plot_claudia(self, plot_type ="Vegetation", plot_form ="polygon", volume_info = None, plot_opt_prop_name = None, plot_therm_prop_name = None, grd_opt_prop_type = None, grd_opt_prop_name = None, grd_therm_prop_name = None, createProps = False):
-    #     """
-    #     Adds a plot in plots_obj (self.xsdsobjs_dict["plots"]), corresponding to the given parameters
-    #     :param plot_type: type of plot in ["Ground","Vegetation","Ground + Vegetation","Fluid"]
-    #     :param plot_form: ["polygon", "rectangle"]
-    #     :param volume_info: plot Corners and height information, corresponding to attributes of Volume_info and Corners classes contained in this file
-    #     :param plot_opt_prop_name: name of vegetation optical property, can be None (if plot type = ground)
-    #     :param plot_therm_prop_name: name of plot_ground thermal property, can be None (if plot type = ground)
-    #     :param grd_opt_prop_type: ground optical property type in ["lambertian","hapke","rpv"]
-    #     :param grd_opt_prop_name: name of ground optical property name.  Can be None (if plot_type = vegetation or fluid)
-    #     :param grd_therm_prop_name: name of ground thermal property name. Can be None (if plot_type = vegetation or fluid)
-    #     :param createOptProps: optional. If True, missing optical/thermal properties will be created
-    #
-    #     either (plot_opt_prop_name and plot_therm_prop_name) or (grd_opt_prop_type and grd_opt_prop_name and grd_therm_prop_name) must be != None
-    #     if they are not given by user, default properties (comming from default DART property links) are taken (vegetation plot)
-    #
-    #     :return True if plot could be added, False if not
-    #     Raise Exception if opt/th property does not exist and createProps is set to False
-    #     """
-    #     # TODO: remove
-    #     # optical_properties = self.simu.scene.properties['optical']
-    #     plot_type = PLOT_TYPES.type_int[plot_type == PLOT_TYPES.type_str].iloc[0]
-    #     if volume_info != None:
-    #         if plot_type == 0: #'Ground'
-    #             raise Exception("ground plot_type is not compatible with volume information, volume_information won't be considered")
-    #         if (plot_form == "polygon" and not isinstance(volume_info, Polygone_plot_vol_info)) or (plot_form == "rectangle" and not isinstance(volume_info, Rectangle_plot_vol_info)):
-    #             raise Exception("mismatch between plot_form and volume_info parameteres")
-    #
-    #     if ( (plot_opt_prop_name == None or plot_therm_prop_name == None) and (grd_opt_prop_type == None or grd_opt_prop_name == None or grd_opt_prop_type == None)): # default case
-    #         plot_type = 1 #"Vegetation"
-    #         plot_opt_prop_name = self.simu.get_default_opt_prop(plot_type).ident
-    #         plot_therm_prop_name = self.simu.get_default_th_prop().idTemperature
-    #
-    #     if plot_type in range(1,5) and plot_opt_prop_name == None: #  ["vegetation", "veg_ground and","fluid"] range(1,5)
-    #         raise Exception("no plot optical property name given for volume plot")
-    #     if plot_type == 0 and grd_opt_prop_name == None: # "ground"
-    #         raise Exception("no ground optical property name given for ground plot ")
-    #
-    #     plt_type_num = plot_type
-    #     # plt_type_num = PLOT_TYPES.type_int[plot_type == PLOT_TYPES.type_str].iloc[0]
-    #     plt_form_num = plot_form_inv_dict[plot_form]
-    #     if grd_opt_prop_type != None:
-    #         grd_optprop_type_num = grd_opt_prop_types_inv_dict[grd_opt_prop_type]
-    #
-    #     plt_vegetation_properties = None
-    #     plt_air_properties = None
-    #     plt_water_properties = None
-    #     grd_opt_prop = None
-    #     grd_therm_prop = None
-    #
-    #     if plt_type_num in [1,2]:
-    #         # plot_opt_prop_type = "Vegetation"
-    #         # update afterwards
-    #         # plot_opt_prop_index = optical_properties[optical_properties.ident==plot_opt_prop_name]#self.checkandcorrect_opt_prop_exists(plot_opt_prop_type, plot_opt_prop_name, createProps)
-    #         # plot_th_prop_index = self.checkandcorrect_th_prop_exists(plot_therm_prop_name, createProps)
-    #         plt_opt_prop = ptd.plots.create_VegetationOpticalPropertyLink(ident=plot_opt_prop_name)
-    #         plt_therm_prop = ptd.plots.create_GroundThermalPropertyLink(idTemperature=plot_therm_prop_name)
-    #         plt_vegetation_properties = ptd.plots.create_PlotVegetationProperties(
-    #             VegetationOpticalPropertyLink=plt_opt_prop, GroundThermalPropertyLink=plt_therm_prop)
-    #
-    #     elif plt_type_num == 3:
-    #         # plot_opt_prop_type = "Fluid"
-    #         # plot_opt_prop_index = self.checkandcorrect_opt_prop_exists(plot_opt_prop_type, plot_opt_prop_name,
-    #         #                                                            createProps)
-    #         # plot_th_prop_index = self.checkandcorrect_th_prop_exists(plot_therm_prop_name, createProps)
-    #         # if plot_opt_prop_index != None and plot_th_prop_index != None:
-    #         plt_opt_prop = ptd.plots.create_AirOpticalPropertyLink(ident=plot_opt_prop_name)
-    #         plt_air_properties = ptd.plots.create_AirOpticalProperties(AirOpticalPropertyLink=plt_opt_prop)
-    #         # else:  #either opt_prop or th_prop does not exist
-    #         #     print("ERROR opt_prop or thermal prop does not exist, please FIX or set createProps = True")
-    #         #     return False
-    #     elif plt_type_num == 4:
-    #         plt_opt_prop = ptd.plots.create_AirOpticalPropertyLink(ident=plot_opt_prop_name)
-    #         plt_op_water = ptd.plots.create_WaterOpticalProperties(AirOpticalPropertyLink=plt_opt_prop)
-    #         plt_water_properties = ptd.plots.create_PlotWaterProperties( nbComponents = 1, waterDepth = 10.0, waterHeight = 0.0, stDev = 0.0, WaterOpticalProperties = plt_op_water, GroundThermalPropertyLink = None)
-    #
-    #     if plt_type_num in [0,2]: #ground or ground+veg
-    #         # grd_opt_prop_index = self.checkandcorrect_opt_prop_exists(grd_opt_prop_type, grd_opt_prop_name, createProps)
-    #         # grd_th_prop_index = self.checkandcorrect_th_prop_exists(grd_therm_prop_name, createProps)
-    #         # if grd_opt_prop_index != None and grd_th_prop_index != None:
-    #         grd_opt_prop = ptd.plots.create_GroundOpticalPropertyLink(type_=grd_optprop_type_num,
-    #                                                                   ident=grd_opt_prop_name)
-    #         grd_therm_prop = ptd.plots.create_GroundThermalPropertyLink(idTemperature=grd_therm_prop_name)
-    #         # else: # either opt_prop or th prop does not exist
-    #         #     raise Exception("ERROR opt_prop or thermal prop does not exist, please FIX or set createProps = True")
-    #         #     return False
-    #
-    #     try:
-    #         Plot = ptd.plots.create_Plot(type_=plt_type_num, form = plt_form_num,
-    #                               PlotVegetationProperties= plt_vegetation_properties, PlotAirProperties=plt_air_properties,
-    #                               PlotWaterProperties=plt_water_properties,
-    #                               GroundOpticalPropertyLink=grd_opt_prop, GroundThermalPropertyLink=grd_therm_prop)
-    #
-    #         if volume_info != None and plot_type != 0: # only plot_type in ["vegetation", "veg/ground"; "fluid"] supose volume information
-    #             if plot_form == "polygon":
-    #                 if volume_info.corners != None:
-    #                     points_list = Plot.Polygon2D.Point2D
-    #                     points_list[0].x = volume_info.corners.x1
-    #                     points_list[0].y = volume_info.corners.y1
-    #                     points_list[1].x = volume_info.corners.x2
-    #                     points_list[1].y = volume_info.corners.y2
-    #                     points_list[2].x = volume_info.corners.x3
-    #                     points_list[2].y = volume_info.corners.y3
-    #                     points_list[3].x = volume_info.corners.x4
-    #                     points_list[3].y = volume_info.corners.y4
-    #             elif plot_form == "rectangle":
-    #                 if volume_info.rect_dims != None:
-    #                     Plot.Rectangle2D.centreX = volume_info.rect_dims.center_x
-    #                     Plot.Rectangle2D.centreY = volume_info.rect_dims.center_y
-    #                     Plot.Rectangle2D.coteX = volume_info.rect_dims.side_x
-    #                     Plot.Rectangle2D.coteY = volume_info.rect_dims.side_y
-    #
-    #             if volume_info.btm_hei != None and volume_info.hei_mea !=None and volume_info.std_dev != None:
-    #                 geom_node = Plot.PlotVegetationProperties.VegetationGeometry #plt_type_num in [1,2] vegetation or veg/ground
-    #                 if plt_type_num == 3: #fluid
-    #                     geom_node = Plot.PlotAirProperties.AirGeometry
-    #                 geom_node.baseheight = volume_info.btm_hei
-    #                 geom_node.height = volume_info.hei_mea
-    #                 geom_node.stDev = volume_info.std_dev
-    #
-    #         self.simu.core.plots.Plots.add_Plot(Plot)
-    #     except ValueError:
-    #         raise Exception("ERROR: create or add Plot failed")
-    #
-    #     self.simu.update.lock_core = True  # update locks management
-    #     return True
-    #
