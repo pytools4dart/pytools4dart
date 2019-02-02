@@ -614,12 +614,12 @@ class Add(object):
                 - PT_4_X : X coordinate for last plot corner
                 - PT_4_Y : Y coordinate for last plot corner
 
-            For ground plots, this parameters need to be defined
+            For ground plots, these parameters need to be defined
                 - GRD_OPT_TYPE : Ground optical function type (0 = Lambertian, 2 = Hapke, 4 = RPV)
                 - GRD_OPT_NAME : Ground optical function identification name
                 - GRD_THERM_NAME : Ground thermal function identification name
 
-            For vegetation plots, this parameters need to be defined
+            For vegetation plots, these parameters need to be defined
                 - PLT_OPT_NUMB : Vegetation, fluid or water optical function identification name
                 - PLT_THERM_NUMB : Vegetation, fluid or water thermal function identification name
                 - PLT_BTM_HEI : Vegetation or fluid bottom height
@@ -635,7 +635,7 @@ class Add(object):
 
             For ground + vegetation plots, parameters for ground and vegetation plots need to be defined
 
-            For fluid plots, this parameters need to be defined
+            For fluid plots, these parameters need to be defined
                 - PLT_OPT_NUMB : Vegetation, fluid or water optical function number
                 - PLT_THERM_NUMB : Vegetation, fluid or water thermal function number
                 - PLT_BTM_HEI : Vegetation or fluid bottom height
@@ -643,7 +643,7 @@ class Add(object):
                 - PLT_STD_DEV : Vegetation fluid, or water Standard deviation
                 - FLU_PAR_DEN : Fluid particle density (Only one gas or particle can be defined per plot, for multiple gas/particle, you may define same number of air/fluid plot than number of gas/particle).
 
-            For water plots, this parameters need to be defined
+            For water plots, these parameters need to be defined
                 - PLT_OPT_NUMB : Vegetation, fluid or water optical function number
                 - PLT_THERM_NUMB : Vegetation, fluid or water thermal function number
                 - WAT_DEPTH : Water depth
