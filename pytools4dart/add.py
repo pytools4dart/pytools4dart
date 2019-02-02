@@ -42,9 +42,6 @@ class Add(object):
     def __init__(self, simu):
         self.simu = simu
 
-
-
-
     # object_3d:
     #     objectDEMMode=0,
     #     name='Object',
@@ -593,7 +590,15 @@ class Add(object):
         Notes
         -----
 
-        data must ba a pandas DataFrame of plots with following column expectations:
+        data must ba a pandas DataFrame of plots, at which were added properties name columns to simplify index number attribution.
+        If column is present, then corresponding index column is created/updated based on name
+
+            - PLT_OPT_NAME --> PLT_OPT_NUMB
+            - PLT_THERM_NAME --> PLT_THERM_NUMB
+            - GRD_OPT_NAME --> GRD_OPT_NUMB
+            - GRD_THERM_NAME --> GRD_THERM_NUMB
+
+        with following column expectations
 
             - PLT_TYPE : Type of plot (0 = Ground, 1 = Vegetation, 2 = Ground + Vegetation, 3 = Fluid, 4 = Water)
 
@@ -887,7 +892,7 @@ class Add(object):
 
     def band(self, wvl=0.56, bw=0.02, mode=0, irradiance=1000, skyl=0):
         """
-        add spectral band and the associated spectral irradiance
+        add spectral band, and the associated spectral irradiance if simulation method is Flux Tracking
 
         Parameters
         ----------
@@ -912,9 +917,10 @@ class Add(object):
                                                                 deltaLambda=bw, spectralDartMode=mode)
         bands.add_SpectralIntervalsProperties(new_band)
 
-        new_ir =  ptd.phase.create_SpectralIrradianceValue(bandNumber=bandNumber, irradiance=irradiance, Skyl=skyl)
-        ir = self.simu.core.phase.Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance
-        ir.add_SpectralIrradianceValue(new_ir)
+        if self.simu.core.phase.Phase.calculatorMethod != 2:
+            new_ir =  ptd.phase.create_SpectralIrradianceValue(bandNumber=bandNumber, irradiance=irradiance, Skyl=skyl)
+            ir = self.simu.core.phase.Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance
+            ir.add_SpectralIrradianceValue(new_ir)
 
         return new_band, new_ir
 
@@ -934,7 +940,6 @@ class Add(object):
         new_sequence = Sequencer(self.simu, name)
         self.simu.sequences.append(new_sequence)
         return new_sequence
-
 
     def virtual_direction (self, azimuth, zenith):
         new = ptd.directions.create_ZenithAzimuth(directionAzimuthalAngle=azimuth,
