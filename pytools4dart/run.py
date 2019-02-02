@@ -31,7 +31,9 @@ See DART_HOME/bin/tools/linux/*.sh or DART_HOME\\bin\\windows\\*.bat for details
 from settings import darttools, getdartdir, getdartenv
 import subprocess
 import os
+import os.path.join as pjoin
 import pytools4dart as ptd
+
 
 
 def rundart(path, tool, options = []):
@@ -158,7 +160,7 @@ def sequence(simu_name, sequence_name, option='-start'):
     -------
         True if good
     '''
-    return rundart(os.path.join(simu_name, sequence_name+'.xml'), 'sequence', [option])
+    return rundart(pjoin(simu_name, sequence_name+'.xml'), 'sequence', [option])
 
 def colorComposite(simu_name, red, green, blue, pngfile):
     '''
@@ -208,10 +210,40 @@ def colorCompositeBands(simu_name, red, green, blue, iteration, outdir):
         True if good
     '''
     ans = rundart(simu_name, 'colorCompositeBands', [red, green, blue, iteration, outdir])
-    outpath = os.path.join(ptd.getsimupath(simu_name), 'output', outdir)
+    outpath = pjoin(ptd.getsimupath(simu_name), 'output', outdir)
     print("\nImages saved in '{}'\n".format(outpath))
     return ans
 
+def stack_bands(simu_name, zenith=0, azimuth=0):
+    """
+    Stack bands into an ENVI .bil file
+
+    Parameters
+    ----------
+    zenith: float
+        Zenith viewing angle (°)
+    azimuth: float
+        Azimuth viewing angle (°)
+
+    Returns
+    -------
+        str: output file path
+    """
+
+    simu_input_dir = ptd.getinputsimupath(simu_name)
+    simu_output_dir = pjoin(ptd.getsimupath(simu_name), 'output')
+
+    bands = ptd.hstools.get_bands_files(simu_output_dir, band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART'))
+
+    band_files=bands.path[(bands.zenith==zenith) & (bands.azimuth==azimuth)]
+
+    wvl = ptd.hstools.get_wavelengths(simu_input_dir)
+
+    outputfile = pjoin(simu_output_dir, os.path.basename(band_files.iloc[0]).replace('.mpr','.bil'))
+
+    ptd.hstools.stack_dart_bands(band_files, outputfile, wavelengths=wvl.wavelength.values, fwhm=wvl.fwhm.values, verbose=True)
+
+    return outputfile
 
 class Run(object):
 
@@ -238,5 +270,8 @@ class Run(object):
 
     def colorCompositeBands(self, red, green, blue, iteration, outdir):
         colorCompositeBands(self.simu.name, red, green, blue, iteration, outdir)
+
+    def stack_bands(self, zenith=0, azimuth=0):
+        stack_bands(self.simu.name, zenith=0, azimuth=0)
 
 
