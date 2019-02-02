@@ -106,8 +106,8 @@ class simulation(object):
             simulation methods are:
 
                 - 0: Flux Tracking
-                - 1: Lidar
-                - 2: Monte-Carlo
+                - 1: Monte-Carlo
+                - 2: LIDAR
 
         empty: bool
             New simulation in DART usually comes with a default spectral band.
