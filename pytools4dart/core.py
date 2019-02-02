@@ -75,7 +75,8 @@ class Core(object):
             if empty:
                 # self.coeff_diff.Coeff_diff.LambertianMultiFunctions.LambertianMulti = []
                 self.phase.Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties = []
-                self.phase.Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance.SpectralIrradianceValue = []
+                if method !=2:
+                    self.phase.Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance.SpectralIrradianceValue = []
 
         #if the simulation exists, populate xsd_core with simulation XML files contents
 
@@ -225,15 +226,10 @@ class Core(object):
         plots_df = pd.DataFrame(rows, columns=PLOTS_COLUMNS+['SOURCE'])
         plots_df.PLT_TYPE = plots_df.PLT_TYPE.astype('category').cat.set_categories(PLOT_TYPES.type_int.values).cat.rename_categories(PLOT_TYPES.type_str.values)
 
-        if self.simu.is_plots_txt_file_considered():
-            plotstxt_file_path = self.plots.Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName
-            plotstxt_df = self.simu.read_dart_txt_file_with_header(file_path=plotstxt_file_path, sep_str=" ")
-            plotstxt_df['PLOT_SOURCE'] = plotstxt_file_path
-            sLength = len(plotstxt_df['PLT_TYPE'])
-
-            plt_num_col = dict(enumerate(range(sLength)))
-            plotstxt_df['PLT_NUMBER'] = plt_num_col
-
+        if self.plots.Plots.addExtraPlotsTextFile:
+            filepath = self.plots.Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName
+            plotstxt_df = pd.read_csv(filepath, sep='\t', comment='*')
+            plotstxt_df['SOURCE'] = filepath
             plots_df = pd.concat([plots_df,plotstxt_df], ignore_index = True, sort=False)
 
         return plots_df
