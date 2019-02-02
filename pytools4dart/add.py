@@ -930,17 +930,6 @@ class Add(object):
         self.simu.sequences.append(new_sequence)
         return new_sequence
 
-    # def plots(self, data, file):
-    #     """
-    #
-    #     Parameters
-    #     ----------
-    #
-    #     Returns
-    #     -------
-    #
-    #     """
-
 
     def virtual_direction (self, azimuth, zenith):
         new = ptd.directions.create_ZenithAzimuth(directionAzimuthalAngle=azimuth,
