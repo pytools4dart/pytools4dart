@@ -648,6 +648,8 @@ class Add(object):
 
         """
 
+        # TODO: file name should go to input directory --> overwriting simulation should be specific to xml inputs?
+
         if file is None:
             file = 'plots.txt'
 
@@ -729,14 +731,14 @@ class Add(object):
         Notes
         -----
 
-        * DART Trees files (default values are used for eventual missing fields)
-        *
-        * Case "Exact location + random dimension". 3 fields must be defined:
+        DART Trees files (default values are used for eventual missing fields)
+
+        Case "Exact location + random dimension". 3 fields must be defined:
         * SPECIES_ID:   ID of the species (parameters (optical property,...) defined in the Simulation Editor)
         * POS_X:        Position of tree in the X axis mock-up
         * POS_Y:        Position of tree in the X axis mock-up
-        *
-        * Case "Exact location + exact dimension". The below fields must be defined:
+
+        Case "Exact location + exact dimension". The below fields must be defined:
         * SPECIES_ID:   ID of the species (parameters (optical property,...) defined in the Simulation Editor)
         * POS_X:        X coordinate of the tree
         * POS_Y:        Y coordinate of the tree
@@ -747,28 +749,29 @@ class Add(object):
         * T_ROT_PRE:    Trunk precession rotation (°) (Euler angle)
         * C_TYPE:       Crown type (0 = ellipsoid, 1=ellipsoid composed, 2=cone, 3=trapezoid, 5=cone composed)
         * C_HEI:        Crown heigth
-        * LAI:  - If the field is ommited: the species LAI is defined in the GUI
-        *       - If positive: total leaf area of the tree species (m2)
-        *       - if negative: leaf volume density (m2/m3)
+        * LAI:
+            - If the field is ommited: the species LAI is defined in the GUI
+            - If positive: total leaf area of the tree species (m2)
+            - if negative: leaf volume density (m2/m3)
         * C_ROT_INT:    Crown intrinsic rotation (°) (Euler angle)
         * C_ROT_NUT:    Crown nutation rotation (°) (Euler angle)
         * C_ROT_PRE:    Crown precession rotation (°) (Euler angle)
         * C_GEO_1:      Crown geometry parameters:
-        *               - if crown type = ellipsoid or ellipsoid composed: C_GEO_1 = first axis
-        *               - if crown type = cone or cone composed: C_GEO_1 = bottom radius
-        *               - if crown type = trapezoid: C_GEO_1 = bottom length
+            - if crown type = ellipsoid or ellipsoid composed: C_GEO_1 = first axis
+            - if crown type = cone or cone composed: C_GEO_1 = bottom radius
+            - if crown type = trapezoid: C_GEO_1 = bottom length
         * C_GEO_2:      Crown geometry parameters:
-        *               - if crown type = ellipsoid or ellipsoid composed: C_GEO_2 = second axis
-        *               - if crown type = cone or cone composed: C_GEO_2 = top radius
-        *               - if crown type = trapezoid: C_GEO_2 = bottom width
+            - if crown type = ellipsoid or ellipsoid composed: C_GEO_2 = second axis
+            - if crown type = cone or cone composed: C_GEO_2 = top radius
+            - if crown type = trapezoid: C_GEO_2 = bottom width
         * C_GEO_3:      Crown geometry parameters:
-        *               - if crown type = ellipsoid composed: C_GEO_3 = half heigth of lower ellipsoid
-        *               - if crown type = cone composed: C_GEO_3 = cylinder heigth
-        *               - if crown type = trapezoid: C_GEO_3 = top length
-        *               - if other crown type: C_GEO_3 is undefined
+            - if crown type = ellipsoid composed: C_GEO_3 = half heigth of lower ellipsoid
+            - if crown type = cone composed: C_GEO_3 = cylinder heigth
+            - if crown type = trapezoid: C_GEO_3 = top length
+            - if other crown type: C_GEO_3 is undefined
         * C_GEO_4:      Crown geometry parameters:
-        *               - if crown type = trapezoid: C_GEO_4 = top width
-        *               - if other crown type: C_GEO_4 is undefined
+            - if crown type = trapezoid: C_GEO_4 = top width
+            - if other crown type: C_GEO_4 is undefined
 
 
         """
