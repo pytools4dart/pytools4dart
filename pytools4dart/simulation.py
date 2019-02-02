@@ -116,7 +116,7 @@ class simulation(object):
 
         self.name = name
 
-        self.core = Core(self, type, empty)
+        self.core = Core(self, method, empty)
 
         self.scene = Scene(self)
 
@@ -135,7 +135,7 @@ class simulation(object):
     def __repr__(self):
 
         description ='\n'.join(
-            ["\nSimulation '{}'".format(self.name),
+            ["\nSimulation '{}': {}".format(self.name, self.method),
              '__________________________________',
              'Sensor\n========',
              '{}\n'.format(self.sensor),
@@ -150,6 +150,9 @@ class simulation(object):
 
         return description
 
+    @property
+    def method(self):
+        return SIMU_TYPE.type_str[SIMU_TYPE.type_int == self.core.phase.Phase.calculatorMethod].iloc[0]
 
     def getsimupath(self):
         """
@@ -221,160 +224,5 @@ class simulation(object):
         # write sequence
         for s in self.sequences:
             s.write(overwrite=overwrite)
-
-    def stack_bands(self, zenith=0, azimuth=0):
-        """Stack bands into an ENVI .bil file
-
-        Parameters
-        ----------
-        zenith: float
-            Zenith viewing angle
-        azimuth: float
-            Azimuth viewing angle
-
-        Returns
-        -------
-            str: output file path
-        """
-
-        simu_input_dir = self.getinputsimupath()
-        simu_output_dir = pjoin(self.getsimupath(), 'output')
-
-        bands = get_bands_files(simu_output_dir, band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART'))
-
-        band_files=bands.path[(bands.zenith==0) & (bands.azimuth==0)]
-
-        wvl = get_wavelengths(simu_input_dir)
-
-        outputfile = pjoin(simu_output_dir, os.path.basename(band_files.iloc[0]).replace('.mpr','.bil'))
-
-        stack_dart_bands(band_files, outputfile, wavelengths=wvl.wavelength.values, fwhm=wvl.fwhm.values, verbose=True)
-
-        return outputfile
-
-    def is_tree_txt_file_considered(self):
-        return self.core.trees.Trees.Trees_1 != None
-
-    def read_dart_txt_file_with_header(self, file_path, sep_str):
-        """
-        read a dart txt file like with header mark "*"
-        :param file_path: file path
-        :return: a data frame with file contents and columns matching file header
-        """
-        if not "/" in file_path:
-            file_path = pjoin(self.get_database_dir(),file_path)
-
-        list = []
-        f = open(file_path, 'r')
-        l = f.readline()
-        while l[0] == "*": #skip file comments
-            l = f.readline()
-        header = l.split("\n")[0]
-        for line in f:
-            if line != '\n':
-                list.append(line.split('\n')[0].split(sep_str))
-        f.close()
-        return pd.DataFrame.from_records(list, columns=header.split(sep_str))
-
-    def is_plots_txt_file_considered(self):
-        return self.core.plots.Plots.addExtraPlotsTextFile == 1
-
-    # def get_multfacts_xmlpaths_dict(self):
-    #     """
-    #     get multiplicative factors xml nodes paths according to opt property types
-    #     :return:dictionnary containing xml paths for each opt property type
-    #     """
-    #     multfacts_xmlpaths_dict = {}
-    #     multfacts_xmlpaths_dict["vegetation"] = "understoryNodeMultiplicativeFactorForLUT.understoryMultiplicativeFactorForLUT"
-    #     multfacts_xmlpaths_dict["fluid"] = "AirFunctionNodeMultiplicativeFactorForLut.AirFunctionMultiplicativeFactorForLut"
-    #     multfacts_xmlpaths_dict["lambertian"] = "lambertianNodeMultiplicativeFactorForLUT.lambertianMultiplicativeFactorForLUT"
-    #     multfacts_xmlpaths_dict["hapke"] = "hapkeNodeMultiplicativeFactorForLUT.hapkeMultiplicativeFactorForLUT"
-    #     multfacts_xmlpaths_dict["rpv"] = "RPVNodeMultiplicativeFactorForLUT.RPVMultiplicativeFactorForLUT"
-    #     return multfacts_xmlpaths_dict
-
-    def get_opt_props_xmlpaths_dict(self):
-        """
-        get optical properties lists xml nodes paths according to opt property types
-        :return: dictionnary containing xml paths for each opt property type
-        """
-        opt_props_xmlpaths_dict = {}
-        opt_props_xmlpaths_dict["vegetation"] = "UnderstoryMultiFunctions.UnderstoryMulti"
-        opt_props_xmlpaths_dict["fluid"] = "AirMultiFunctions.AirFunction"
-        opt_props_xmlpaths_dict["lambertian"] = "LambertianMultiFunctions.LambertianMulti"
-        opt_props_xmlpaths_dict["hapke"] = "HapkeSpecularMultiFunctions.HapkeSpecularMulti"
-        opt_props_xmlpaths_dict["rpv"] = "RPVMultiFunctions.RPVMulti"
-        return opt_props_xmlpaths_dict
-
-    def add_sp_bands(self, spbands_list):
-        """
-        add spectral intervals defined by (mean_lambda, fwhm)
-        no check of sp_bands unicity is made (as in DART interface)
-        :param spbands_list:
-        :return:
-        """
-        #phase module modification
-        for sp_band in spbands_list:
-            sp_int_props = ptd.phase.create_SpectralIntervalsProperties(meanLambda=sp_band[0], deltaLambda=sp_band[1])
-            self.core.phase.Phase.DartInputParameters.SpectralIntervals.add_SpectralIntervalsProperties(sp_int_props)
-            sp_irr_value = ptd.phase.create_SpectralIrradianceValue()
-            self.core.phase.Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance.add_SpectralIrradianceValue(sp_irr_value)
-
-    def get_default_opt_prop(self, opt_prop_type):
-        """
-        get default optical property (with default attributes) for the opt_prop_type given
-        :param opt_prop_type:
-        :return:
-        """
-        opt_prop = None
-
-        opt_props_list = self.get_opt_props_xmlpaths_dict()
-        opt_prop_types = opt_props_list.keys()
-        if not (opt_prop_type in opt_prop_types):
-            raise Exception("optical property type not valid")
-
-        opt_prop = eval('ptd.coeff_diff.create_{}()'.format( opt_props_list[opt_prop_type].split(".")[1] ))
-
-        return opt_prop
-
-    def get_default_th_prop(self):
-        return(ptd.coeff_diff.create_ThermalFunction())
-
-    def get_opt_prop_index(self, type, name):
-        """
-        gets index of optical property given as parameter, using opt_props DataFrame
-        :param type: optical proprety type in ["vegetation", "fluid", "lambertian", "hapke", "rpv"]
-        :param name: optical property name
-        :return: index on DataFrame corresponding to the type, None if property does not exist
-        """
-        self.core.update_properties_dict()
-        index = None
-        opt_prop_list = self.scene.properties["opt_props"][type.lower()]
-        # For future ue of simu.core.get_optical_properties()
-        # df = self.scene.properties["opt_props"]
-        # opt_prop_list = df[df.type.str.contains(type, case=False) & (df.ident==name)]
-
-
-        if opt_prop_list.shape[0] > 0:
-            if len(opt_prop_list[opt_prop_list["prop_name"] == name]) > 0: #property exists
-                index = opt_prop_list[opt_prop_list["prop_name"] == name].index.tolist()[0]
-        return index
-
-    def get_thermal_prop_index(self, th_prop_name):
-        """
-        gets index of thermal property given as parameter, using thermal_props DataFrame
-        :param th_prop_name: thermal property name
-        :return: index on th_props DataFrame, None if property does not exist
-        """
-        self.core.update_properties_dict()
-        index = None
-        th_prop_list = self.scene.properties["thermal_props"]
-        if th_prop_list.shape[0] > 0:
-            if len(th_prop_list[th_prop_list["prop_name"] == th_prop_name]) > 0: #property exists
-                index = th_prop_list[th_prop_list["prop_name"] == th_prop_name].index.tolist()[0]
-        return index
-
-    #ToDo
-    #refreshObjFromTables(auto=True) : aimed to be launched automatically after each Table Modification, or manually
-    #add_sequence()
 
 
