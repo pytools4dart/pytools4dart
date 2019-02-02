@@ -39,6 +39,6 @@ simu.write(overwrite=True)
 simu.run.full()
 
 # stack bands
-simu.stack_bands()
+simu.run.stack_bands()
 simu.run.colorCompositeBands(red=2, green=1, blue=0, iteration='X', outdir='rgb')
 
