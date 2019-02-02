@@ -32,7 +32,6 @@ import pandas as pd
 import warnings
 import pytools4dart as ptd
 from pytools4dart.tools import constants
-from pytools4dart.add import Poly_corners, Polygone_plot_vol_info
 
 class Scene(object):
     def __init__(self, simu):
@@ -126,89 +125,6 @@ class Scene(object):
     #     #self.update_trees() this summary table is not yet available
     #     #self.update_obj3d  this summary table is not yet available
 
-    def update_plots_op_index(self):
-        """
-        updates scene.plots GRD_OPT_NUMB and PLT_OPT_NUMB columns with optical properties indexes
-
-        """
-        # TODO: remove
-        # PLT_TYPE = pd.DataFrame([[0, 'Ground'],
-        #                                [1, 'Vegetation'],
-        #                                [2, 'Vegetation+Ground'],
-        #                                [3, 'Fluid'],
-        #                                [4, 'Water']], columns=['type_int', 'type_str'])
-        properties = self.simu.scene.properties["optical"]
-        op_duplicates = properties.duplicated('ident')
-        if any(op_duplicates):
-            properties = properties.copy()[~op_duplicates]
-            warnings.warn('Optical properties contains "ident" duplicates.')
-
-        plots = self.simu.scene.plots
-        ground = plots.PLT_TYPE.cat.codes.isin([0,2])
-        turbid = plots.PLT_TYPE.cat.codes.isin([1,2,3,4])
-
-        if any(ground):
-            index = pd.merge(plots[ground], properties,
-                     left_on=['GRD_OPT_TYPE', 'GRD_OPT_NAME'],
-                     right_on=['type', 'ident'], how='left')['index']
-            if (any(index.isna())):  # signal optical properties not found
-                warnings.warn('Optical properties "ident" not found: {}'.format(
-                    ', '.join(plots[ground].PLT_OPT_NAME[index.isna()].unique())))
-            plots.loc[ground, 'GRD_OPT_NUMB'] = index
-
-        if any(turbid):
-            index=pd.merge(
-                plots[turbid],
-                properties, # [properties.type.isin(['Vegetation', 'Fluid', 'Water'])]
-                     left_on=['PLT_OPT_NAME'],
-                     right_on=['ident'], how='left')['index']
-            if(any(index.isna())): # signal optical properties not found
-                warnings.warn('Optical properties "ident" not found: {}'.format(
-                    ', '.join(plots[turbid].PLT_OPT_NAME[index.isna()].unique())))
-            plots.loc[turbid, 'PLT_OPT_NUMB'] = index
-
-    def update_plots_tp_index(self):
-        """
-        updates scene.plots GRD_THERM_NUMB and PLT_THERM_NUMB columns with temperature properties indexes
-
-        """
-        # TODO: remove
-        # PLT_TYPE = pd.DataFrame([[0, 'Ground'],
-        #                                [1, 'Vegetation'],
-        #                                [2, 'Vegetation+Ground'],
-        #                                [3, 'Fluid'],
-        #                                [4, 'Water']], columns=['type_int', 'type_str'])
-        properties = self.simu.scene.properties["thermal"]
-        tp_duplicates = properties.duplicated('idTemperature')
-        if any(tp_duplicates):
-            properties = properties.copy()[~tp_duplicates]
-            warnings.warn('Thermal properties contains "idTemperature" duplicates.')
-
-        plots = self.simu.scene.plots
-        ground = plots.PLT_TYPE.cat.codes.isin([0, 2])
-        turbid = plots.PLT_TYPE.cat.codes.isin([1, 2, 3, 4])
-        # plots.PLT_TYPE = PLT_TYPE_table
-        # cross PLT_TYPE=1 GROUND
-        if any(ground):
-            index = pd.merge(plots[ground], properties,
-                     left_on=['GRD_OPT_TYPE', 'GRD_THERM_NAME'],
-                     right_on=['idTemperature'], how='left')['index']
-            if (any(index.isna())):  # signal thermal properties not found
-                warnings.warn('Thermal properties "idTemperature" not found: {}'.format(
-                    ', '.join(plots[ground].PLT_THERM_NAME[index.isna()].unique())))
-            plots.loc[ground, 'GRD_THERM_NUMB'] = index
-
-
-        if any(turbid):
-            index = pd.merge(
-                plots[turbid],
-                properties,  # [properties.type.isin(['Vegetation', 'Fluid', 'Water'])]
-                left_on=['PLT_THERM_NAME'],
-                right_on=['idTemperature'], how='left')['index']
-            if (any(index.isna())):  # signal thermal properties not found
-                warnings.warn('Thermal properties "idTemperature" not found: {}'.format(
-                    ', '.join(plots[turbid].PLT_THERM_NAME[index.isna()].unique())))
-            plots.loc[turbid, 'PLT_THERM_NUMB'] = index
 
 
     # def update_plots_obj(self):
