@@ -28,11 +28,6 @@
 This module contains the class "Scene".
 """
 
-import pandas as pd
-import warnings
-import pytools4dart as ptd
-from pytools4dart.tools import constants
-
 class Scene(object):
     def __init__(self, simu):
 
@@ -43,11 +38,6 @@ class Scene(object):
         self._cell = self.simu.core.maket.Maket.Scene.CellDimensions
 
         self._properties = Properties_(self.simu)
-        # self.trees = pd.DataFrame()
-        # self.obj3d = pd.DataFrame()
-        # self.update_dims()
-        # self.scene_dimensions = [self.simu.core.maket.Maket.Scene.SceneDimensions.x, self.simu.core.maket.Maket.Scene.SceneDimensions.y]
-        # self.cell_dimensions = [self.simu.core.maket.Maket.Scene.CellDimensions.x, self.simu.core.maket.Maket.Scene.CellDimensions.z]
 
     def __repr__(self):
 
@@ -69,15 +59,10 @@ class Scene(object):
     def size(self):
         return [self._size.x, self._size.y]
 
-        # return [self.simu.core.maket.Maket.Scene.SceneDimensions.x,
-        #         self.simu.core.maket.Maket.Scene.SceneDimensions.y]
-
     @size.setter
     def size(self, size):
         self._size.x = size[0]
         self._size.y = size[1]
-        # self.simu.core.maket.Maket.Scene.SceneDimensions.x = size[0]
-        # self.simu.core.maket.Maket.Scene.SceneDimensions.y = size[1]
 
     @property
     def cell(self):
