@@ -42,7 +42,6 @@ class Sensor(object):
 
     def __repr__(self):
         description = '\n'.join([
-            'method: {}'.format(self.method),
           'number of bands: {}'.format(self.bands.shape[0])
         ])
 
@@ -59,8 +58,4 @@ class Sensor(object):
     def sensors(self):
         return self.simu.core.get_sensors()
 
-    @property
-    def method(self):
-        rt = ptd.tools.constants.SIMU_TYPE
-        return rt.type_str[rt.type_int == self.simu.core.phase.Phase.calculatorMethod].iloc[0]
 
