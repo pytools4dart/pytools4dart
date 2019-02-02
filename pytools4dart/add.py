@@ -734,11 +734,13 @@ class Add(object):
         DART Trees files (default values are used for eventual missing fields)
 
         Case "Exact location + random dimension". 3 fields must be defined:
+
         * SPECIES_ID:   ID of the species (parameters (optical property,...) defined in the Simulation Editor)
         * POS_X:        Position of tree in the X axis mock-up
         * POS_Y:        Position of tree in the X axis mock-up
 
         Case "Exact location + exact dimension". The below fields must be defined:
+
         * SPECIES_ID:   ID of the species (parameters (optical property,...) defined in the Simulation Editor)
         * POS_X:        X coordinate of the tree
         * POS_Y:        Y coordinate of the tree
