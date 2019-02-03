@@ -130,8 +130,6 @@ class simulation(object):
 
         self.sequences = []
 
-        self.core.update_simu()
-
     def __repr__(self):
 
         description ='\n'.join(
