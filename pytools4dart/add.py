@@ -234,7 +234,6 @@ class Add(object):
 
         self.simu.core.object_3d.object_3d.ObjectList.add_Object(obj)
 
-        self.simu.update.lock_core = True
         return obj
 
     def optical_property(self, type='Lambertian', replace=False, **kwargs):
@@ -357,7 +356,7 @@ class Add(object):
         dartnode = ptd.core_ui.utils.get_labels(pat='{type}MultiplicativeFactorForLUT$'.format(type=op_type),case=False)['dartnode'].iloc[0]
 
         self.simu.core.get_bands_df()
-        nb_sp_bands = self.simu.bands.shape[0]
+        nb_sp_bands = self.simu.sensor.bands.shape[0]
 
         # create optical property with specified arguments
         if op_type.lower() == "understory":
@@ -908,7 +907,7 @@ class Add(object):
 
         Returns
         -------
-            two objects: new band and new spectral irradiance
+            new band, new spectral irradiance depending on simulation method
         """
         #phase module modification
         bands = self.simu.core.phase.Phase.DartInputParameters.SpectralIntervals
@@ -921,8 +920,9 @@ class Add(object):
             new_ir =  ptd.phase.create_SpectralIrradianceValue(bandNumber=bandNumber, irradiance=irradiance, Skyl=skyl)
             ir = self.simu.core.phase.Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance
             ir.add_SpectralIrradianceValue(new_ir)
+            return new_band, new_ir
 
-        return new_band, new_ir
+        return new_band
 
     def sequence(self, name = None):
         """
