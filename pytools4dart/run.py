@@ -31,7 +31,7 @@ See DART_HOME/bin/tools/linux/*.sh or DART_HOME\\bin\\windows\\*.bat for details
 from settings import darttools, getdartdir, getdartenv
 import subprocess
 import os
-import os.path.join as pjoin
+from os.path import join as pjoin
 import pytools4dart as ptd
 
 
