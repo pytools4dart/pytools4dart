@@ -676,13 +676,13 @@ class Add(object):
 
             # convert names to index
             if 'PLT_OPT_NAME' in df.columns:
-                df['PLT_OPT_NUM'] = self.simu.core.get_op_index(df.PLT_OPT_NAME)
+                df['PLT_OPT_NUMB'] = self.simu.core.get_op_index(df.PLT_OPT_NAME)
             if 'PLT_THERM_NAME' in df.columns:
-                df['PLT_THERM_NUM'] = self.simu.core.get_tp_index(df.PLT_THERM_NAME)
+                df['PLT_THERM_NUMB'] = self.simu.core.get_tp_index(df.PLT_THERM_NAME)
             if 'GRD_OPT_NAME' in df.columns:
-                df['GRD_OPT_NUM'] = self.simu.core.get_op_index(df.GRD_OPT_NAME)
+                df['GRD_OPT_NUMB'] = self.simu.core.get_op_index(df.GRD_OPT_NAME)
             if 'GRD_THERM_NAME' in df.columns:
-                df['GRD_THERM_NUM'] = self.simu.core.get_tp_index(df.GRD_THERM_NAME)
+                df['GRD_THERM_NUMB'] = self.simu.core.get_tp_index(df.GRD_THERM_NAME)
 
             # remove names
             df = df[[c for c in df.columns if 'NAME' not in c]]
