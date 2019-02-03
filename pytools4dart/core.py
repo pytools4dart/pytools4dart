@@ -29,11 +29,8 @@ This module contains the class "Core".
 """
 
 import os, glob, re
-import lxml.etree as etree
-import pandas as pd
 from os.path import join as pjoin
 import re
-import warnings
 
 
 
@@ -41,21 +38,6 @@ import pytools4dart as ptd
 
 from pytools4dart.tools.constants import *
 from pytools4dart.core_ui.utils import get_labels, get_nodes, findall
-
-# from pytools4dart.core_ui.plots import createDartFile
-# from pytools4dart.core_ui.phase import createDartFile
-# from pytools4dart.core_ui.atmosphere import createDartFile
-# from pytools4dart.core_ui.coeff_diff import createDartFile
-# from pytools4dart.core_ui.directions import createDartFile
-# from pytools4dart.core_ui.object_3d import createDartFile
-# from pytools4dart.core_ui.maket import createDartFile
-# from pytools4dart.core_ui.inversion import createDartFile
-# from pytools4dart.core_ui.LUT import createDartFile
-# from pytools4dart.core_ui.lut import createDartFile
-# from pytools4dart.core_ui.trees import createDartFile
-# from pytools4dart.core_ui.triangleFile import createDartFile
-# from pytools4dart.core_ui.water import createDartFile
-# from pytools4dart.core_ui.urban import createDartFile
 
 class Core(object):
     """
@@ -587,12 +569,18 @@ class Core(object):
     #################
 
     def update(self):
+        """
+        Update optical and thermal property link indexes, multiplicative factors and band numbers.
+        """
         self.update_opl()
         self.update_tpl()
         self.update_mf()
         self.update_bn()
 
     def update_opl(self):
+        """
+        Update optical property link index based on identification name
+        """
         table_op = self.get_optical_properties()
         table_opl = self.get_optical_property_links()
         xtable_opl = pd.merge(table_opl, table_op, on=['ident', 'type'], how='left')
@@ -604,10 +592,13 @@ class Core(object):
             else:
                 row.optical_property_link.indexFctPhase = row.index
         if len(wrong_opl):
-            warnings.warn("Optical Properties not found in 'coeff_diff': {}".format(', '.join(xtable_opl.ident[wrong_opl])))
+            raise Exception("Optical Properties not found in 'coeff_diff': {}".format(', '.join(xtable_opl.ident[wrong_opl])))
             return table_opl.loc[wrong_opl]
 
     def update_tpl(self):
+        """
+        Update thermal property link index based on identification name
+        """
         table_tp = self.get_thermal_properties()
         table_tpl = self.get_thermal_property_links()
         xtable_tpl = pd.merge(table_tpl, table_tp, on=['idTemperature'], how='left')
@@ -619,7 +610,7 @@ class Core(object):
             else:
                 row.thermal_property_link.indexTemperature = row.index
         if len(wrong_tpl):
-            warnings.warn('Thermal Properties not found in "coeff_diff".')
+            raise Exception("Optical Properties not found in 'coeff_diff': {}".format(', '.join(xtable_tpl.ident[wrong_tpl])))
             return (table_tpl.loc[wrong_tpl])
 
     def update_mf(self):
@@ -671,60 +662,34 @@ class Core(object):
         bands = DartInputParameters.SpectralIntervals.SpectralIntervalsProperties
         bandNumbers = [b.bandNumber for b in bands]
         band_df  = pd.DataFrame(dict(band=bands, bandNumber=bandNumbers))
-
-        irradiances = DartInputParameters.nodeIlluminationMode.SpectralIrradiance.SpectralIrradianceValue
-        ir_bandNumbers = [ir.bandNumber for ir in irradiances]
-        ir_df  = pd.DataFrame(dict(irradiance=irradiances, bandNumber=ir_bandNumbers))
-
         # sort values
         band_df = band_df.sort_values(by='bandNumber').reset_index()
-        ir_df = ir_df.sort_values(by='bandNumber').reset_index()
-
-        # renumber both
+        # renumber
         band_df.bandNumber = band_df.index
-        ir_df.bandNumber=ir_df.index
 
-        # remove wrongly numbered irradiances
-        bi_df = pd.merge(band_df, ir_df, how='left', on='bandNumber')
-
-        # affect bandNumber and create inexistant irradiances
-        for row in bi_df.itertuples():
-            if pd.isna(row.irradiance):
-                row.irradiance = ptd.phase.create_SpectralIrradianceValue()
-            row.irradiance.bandNumber = row.bandNumber
+        # affect band number
+        for row in band_df.itertuples():
             row.band.bandNumber = row.bandNumber
 
         DartInputParameters.SpectralIntervals.SpectralIntervalsProperties = list(band_df.band)
-        DartInputParameters.nodeIlluminationMode.SpectralIrradiance.SpectralIrradianceValue = list(ir_df.irradiance)
 
-    def update_ir(self):
-        """
-        Remove supplementary spectral irradiance and SKYL
-        """
 
-    def update_properties_dict(self):
-        """
-        updates self.properties_dict variable
-        """
-        # TODO: remove
-        self.simu.scene.properties = self.extract_properties_dict()
+        if self.phase.Phase.calculatorMethod!=2:
+            irradiances = DartInputParameters.nodeIlluminationMode.SpectralIrradiance.SpectralIrradianceValue
+            ir_bandNumbers = [ir.bandNumber for ir in irradiances]
+            ir_df  = pd.DataFrame(dict(irradiance=irradiances, bandNumber=ir_bandNumbers))
 
-    def extract_properties_dict(self):
-        # TODO: remove
-        return {"opt_props": self.get_opt_props(), "thermal_props": self.get_thermal_props(),
-                "optical": self.get_optical_properties(), "thermal": self.get_thermal_properties()}
+            ir_df = ir_df.sort_values(by='bandNumber').reset_index()
 
-    def update_simu(self):
-        """
-        updates simulation user friendly interface: scene and sensor
-        Returns
-        -------
+            ir_df.bandNumber=ir_df.index
 
-        """
-        # TODO: remove
-        # self.simu.scene.properties = self.extract_properties_dict()  # dictionnary containing "opt_props" and "thermal_props" DataFrames
-        # self.simu.scene.plots = self.get_plots_df()  # DataFrame containing Plots fields according to DART Plot.txt header*
-        #self.simu.scene.trees = ToDo
-        #self.simu.scene.obj3d = ToDo
-        self.simu.bands = self.get_bands_df()  # DataFrame containing a list of [wvl, dl] couples
+            # remove wrongly numbered irradiances
+            bi_df = pd.merge(band_df, ir_df, how='left', on='bandNumber')
 
+            # affect bandNumber and create inexistant irradiances
+            for row in bi_df.itertuples():
+                if pd.isna(row.irradiance):
+                    row.irradiance = ptd.phase.create_SpectralIrradianceValue()
+                row.irradiance.bandNumber = row.bandNumber
+
+            DartInputParameters.nodeIlluminationMode.SpectralIrradiance.SpectralIrradianceValue = list(ir_df.irradiance)
