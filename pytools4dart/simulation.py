@@ -51,7 +51,6 @@ import warnings
 #warnings.warn("deprecated", DeprecationWarning)
 
 # local imports
-import xmlwriters as dxml
 from tools.voxreader import voxel
 from tools.hstools import read_ENVI_hdr, get_hdr_bands, get_bands_files, get_wavelengths, stack_dart_bands
 from settings import getsimupath, get_simu_input_path, getdartdir

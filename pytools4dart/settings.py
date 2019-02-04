@@ -36,6 +36,7 @@ import subprocess
 import glob
 import shutil
 import zipfile
+import pandas as pd
 import pytools4dart as ptd
 
 def default_dartdir():
@@ -390,9 +391,9 @@ def build_core(directory=None):
         print("Directory ", xsdDpath, " already exists")
 
 
-    ptd.xmlwriters.dartxml.write_templates(templatesDpath)
-    ptd.xmlwriters.dartxml.write_schemas(xsdDpath)
-    ptd.xmlwriters.dartxml.write_labels(labelsDpath)
+    write_templates(templatesDpath)
+    write_schemas(xsdDpath)
+    write_labels(labelsDpath)
     shutil.copyfile(os.path.join(directory,'sequence.xsd'),os.path.join(xsdDpath, 'sequence.xsd'))
     shutil.copyfile(os.path.join(directory, 'sequence.xml'), os.path.join(templatesDpath, 'sequence.xml'))
     xsdnames = [s.split('.xsd')[0] for s in os.listdir(xsdDpath) if s.endswith('.xsd')]
@@ -441,3 +442,136 @@ def build_core(directory=None):
 #     filelist.append(pjoin(getdartdir(dartdir), 'database', filename))
 #
 #     return filelist
+
+
+
+
+def get_templates():
+    """
+    Extract DART xml templates from DARTDocument.jar
+
+    Returns
+    -------
+        dict
+
+    """
+    dartenv = getdartenv()
+    jarfile = pjoin(dartenv['DART_HOME'], 'bin',  'DARTDocument.jar')
+
+    with zipfile.ZipFile(jarfile, "r") as j:
+        templates = {s.split('/')[3] : j.read(s) for s in j.namelist()
+                          if re.match(r'cesbio/dart/documents/.*/ressources/Template.xml', s)}
+
+    return templates
+
+def get_schemas():
+    """
+    Extracts DART xsd schemas from DARTEnv.jar
+
+    Returns
+    -------
+        dict
+
+    """
+    dartenv = getdartenv()
+    jarfile = pjoin(dartenv['DART_HOME'], 'bin',  'DARTEnv.jar')
+
+    with zipfile.ZipFile(jarfile, "r") as j:
+        schemas = {os.path.basename(s).replace('.xsd', '') : j.read(s) for s in j.namelist()
+                          if re.match(r'schemaXml/.*\.xsd', s)}
+
+    return schemas
+
+def get_labels(pat=None, case=False, regex=True, column='dartnode'):
+    """
+    Extract DART labels and corresponding DART node from DARTIHMSimulationEditor.jar.
+    Prefer to use ptd.core_ui.utils.get_labels for rapidty.
+    Parameters
+    ----------
+
+    pat: str
+        Character sequence or regular expression.
+
+        See pandas.Series.str.contains.
+
+    case: bool
+        If True, case sensitive.
+
+        See pandas.Series.str.contains.
+
+    regex: bool
+        If True, assumes the pat is a regular expression.
+
+        If False, treats the pat as a literal string.
+
+        See pandas.Series.str.contains.
+
+    column: str
+        Column name to apply pattern filtering: 'label' or 'dartnode'.
+
+    Returns
+    -------
+        DataFrame
+
+    Examples
+    --------
+    # get all nodes finishing with OpticalPropertyLink
+    import pytools4dart as ptd
+    ptd.core_ui.utils.get_labels('OpticalPropertyLink$')
+    """
+
+    dartenv = getdartenv()
+    jarfile = pjoin(dartenv['DART_HOME'], 'bin',  'DARTIHMSimulationEditor.jar')
+    labelsfile = 'cesbio/dart/ihm/DartSimulationEditor/ressources/DartIhmSimulationLabel_en.properties'
+    with zipfile.ZipFile(jarfile, "r") as j:
+        labels = j.read(labelsfile)
+
+    labels = labels.split('\n')
+
+    rx = re.compile(r'^(.+?)\s*=\s*(.*?)\s*$', re.M | re.I)
+
+    labelsdf = pd.DataFrame(
+        [rx.findall(line)[0] for line in labels if len(rx.findall(line))],
+    columns = ['dartnode', 'label'])
+
+    if pat is not None:
+        labelsdf = labelsdf[labelsdf[column].str.contains(pat, case, regex=regex)]
+
+    labelsdf = labelsdf[['label', 'dartnode']]
+
+    return labelsdf
+
+def write_templates(directory):
+    xml_templates = get_templates()
+    for k, v in xml_templates.iteritems():
+        filename=pjoin(os.path.abspath(directory), k+'.xml')
+        with open(filename, 'w') as f:
+            f.write(v)
+
+def write_schemas(directory):
+    """
+    Extract DART xsd files and writes them in input directory
+
+    Parameters
+    ----------
+    directory: str
+        Path to write pytools4dart core directory (typically 'pytools4dart/xsdschemas')
+    """
+    xmlschemas = get_schemas()
+    for k, v in xmlschemas.iteritems():
+        filename=pjoin(os.path.abspath(directory), k+'.xsd')
+        with open(filename, 'w') as f:
+            f.write(v)
+
+def write_labels(directory):
+    """
+    Extract DART xsd files and writes them in input directory
+
+    Parameters
+    ----------
+    directory: str
+        Path to write pytools4dart core directory (typically 'pytools4dart/xsdschemas')
+    """
+    labels = get_labels()
+    labels.to_csv(os.path.join(directory, 'labels.tab'), sep='\t', index=False)
+

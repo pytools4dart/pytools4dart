@@ -230,7 +230,7 @@ def stack_bands(simu_name, zenith=0, azimuth=0):
         str: output file path
     """
 
-    simu_input_dir = ptd.getinputsimupath(simu_name)
+    simu_input_dir = pjoin(ptd.getsimupath(simu_name), 'input')
     simu_output_dir = pjoin(ptd.getsimupath(simu_name), 'output')
 
     bands = ptd.hstools.get_bands_files(simu_output_dir, band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART'))
