@@ -2,30 +2,30 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Wed Jan  2 18:30:48 2019 by generateDS.py version 2.29.25.
-# Python 2.7.15rc1 (default, Nov 12 2018, 14:31:15)  [GCC 7.3.0]
+# Generated Wed Jan 30 01:18:12 2019 by generateDS.py version 2.29.25.
+# Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
 #
 # Command line options:
 #   ('-m', '')
 #   ('-f', '')
 #   ('--always-export-default', '')
 #   ('--export', 'write literal etree')
-#   ('-u', 'pytools4dart.core_ui.user_methods')
+#   ('-u', 'core_ui.user_methods')
 #   ('-p', 'create')
 #   ('--post-attrib-setter', "update_node(self,self.troot,'inversion')")
 #   ('--pre-ctor', "self.troot=get_gs_troot('inversion','{classname}')")
 #   ('--post-ctor', "update_node(self,self.troot,'inversion')")
-#   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node')
-#   ('-o', 'pytools4dart/core_ui/inversion.py')
+#   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path')
+#   ('-o', '/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/inversion.py')
 #
 # Command line arguments:
-#   pytools4dart/xsdschemas/inversion.xsd
+#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/inversion.xsd
 #
 # Command line:
-#   /home/boissieu/git/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "pytools4dart.core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'inversion')" --pre-ctor="self.troot=get_gs_troot('inversion','{classname}')" --post-ctor="update_node(self,self.troot,'inversion')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node" -o "pytools4dart/core_ui/inversion.py" pytools4dart/xsdschemas/inversion.xsd
+#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'inversion')" --pre-ctor="self.troot=get_gs_troot('inversion','{classname}')" --post-ctor="update_node(self,self.troot,'inversion')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path" -o "/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/inversion.py" /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/inversion.xsd
 #
 # Current working directory (os.getcwd()):
-#   pytools4dartMTD
+#   pytools4dart
 #
 
 import sys
@@ -37,7 +37,7 @@ try:
     from lxml import etree as etree_
 except ImportError:
     from xml.etree import ElementTree as etree_
-from pytools4dart.core_ui.utils import get_gs_troot, update_node
+from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path
 
 
 Validate_simpletypes_ = True
@@ -893,8 +893,34 @@ class createDartFile(GeneratedsSuper):
             obj_.build(child_)
             self.set_DartInversion(obj_)
             obj_.original_tagname_ = 'DartInversion'
+    
     def to_string(self, pretty_print=True):
         return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+        
+        
+    def path(self, index=True):
+        """
+        Get the dartnode path of the corenode
+        Parameters
+        ----------
+        corenode: object
+            a core object
+    
+        index: bool
+    
+            If True gets the dartnode path with index if list,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction[0]'
+    
+            If False gets the dartnode path without index,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction'
+    
+        Returns
+        -------
+            str
+        """
+
+        return get_path(self, index=index)
+        
     # end class createDartFile
 
 
@@ -1059,8 +1085,34 @@ class create_DartInversion(GeneratedsSuper):
             obj_.build(child_)
             self.set_Inversion(obj_)
             obj_.original_tagname_ = 'Inversion'
+    
     def to_string(self, pretty_print=True):
         return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+        
+        
+    def path(self, index=True):
+        """
+        Get the dartnode path of the corenode
+        Parameters
+        ----------
+        corenode: object
+            a core object
+    
+        index: bool
+    
+            If True gets the dartnode path with index if list,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction[0]'
+    
+            If False gets the dartnode path without index,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction'
+    
+        Returns
+        -------
+            str
+        """
+
+        return get_path(self, index=index)
+        
     # end class create_DartInversion
 
 
@@ -1243,8 +1295,34 @@ class create_InversionImages(GeneratedsSuper):
             obj_.build(child_)
             self.add_ImageProperties(obj_)
             obj_.original_tagname_ = 'ImageProperties'
+    
     def to_string(self, pretty_print=True):
         return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+        
+        
+    def path(self, index=True):
+        """
+        Get the dartnode path of the corenode
+        Parameters
+        ----------
+        corenode: object
+            a core object
+    
+        index: bool
+    
+            If True gets the dartnode path with index if list,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction[0]'
+    
+            If False gets the dartnode path without index,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction'
+    
+        Returns
+        -------
+            str
+        """
+
+        return get_path(self, index=index)
+        
     # end class create_InversionImages
 
 
@@ -1352,8 +1430,34 @@ class create_MaskProperties(GeneratedsSuper):
             self.dataMaskFile = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
+    
     def to_string(self, pretty_print=True):
         return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+        
+        
+    def path(self, index=True):
+        """
+        Get the dartnode path of the corenode
+        Parameters
+        ----------
+        corenode: object
+            a core object
+    
+        index: bool
+    
+            If True gets the dartnode path with index if list,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction[0]'
+    
+            If False gets the dartnode path without index,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction'
+    
+        Returns
+        -------
+            str
+        """
+
+        return get_path(self, index=index)
+        
     # end class create_MaskProperties
 
 
@@ -1557,8 +1661,34 @@ class create_ImageProperties(GeneratedsSuper):
             obj_.build(child_)
             self.set_SunViewAngleProperties(obj_)
             obj_.original_tagname_ = 'SunViewAngleProperties'
+    
     def to_string(self, pretty_print=True):
         return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+        
+        
+    def path(self, index=True):
+        """
+        Get the dartnode path of the corenode
+        Parameters
+        ----------
+        corenode: object
+            a core object
+    
+        index: bool
+    
+            If True gets the dartnode path with index if list,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction[0]'
+    
+            If False gets the dartnode path without index,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction'
+    
+        Returns
+        -------
+            str
+        """
+
+        return get_path(self, index=index)
+        
     # end class create_ImageProperties
 
 
@@ -1741,8 +1871,34 @@ class create_SunViewAngleProperties(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (sunAzimuthalAngle): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
+    
     def to_string(self, pretty_print=True):
         return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+        
+        
+    def path(self, index=True):
+        """
+        Get the dartnode path of the corenode
+        Parameters
+        ----------
+        corenode: object
+            a core object
+    
+        index: bool
+    
+            If True gets the dartnode path with index if list,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction[0]'
+    
+            If False gets the dartnode path without index,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction'
+    
+        Returns
+        -------
+            str
+        """
+
+        return get_path(self, index=index)
+        
     # end class create_SunViewAngleProperties
 
 
@@ -1938,8 +2094,34 @@ class create_Inversion(GeneratedsSuper):
             obj_.build(child_)
             self.set_InversionParameters(obj_)
             obj_.original_tagname_ = 'InversionParameters'
+    
     def to_string(self, pretty_print=True):
         return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+        
+        
+    def path(self, index=True):
+        """
+        Get the dartnode path of the corenode
+        Parameters
+        ----------
+        corenode: object
+            a core object
+    
+        index: bool
+    
+            If True gets the dartnode path with index if list,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction[0]'
+    
+            If False gets the dartnode path without index,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction'
+    
+        Returns
+        -------
+            str
+        """
+
+        return get_path(self, index=index)
+        
     # end class create_Inversion
 
 
@@ -2111,8 +2293,34 @@ class create_InversionDatabase(GeneratedsSuper):
             self.InversionCoefficientModelName = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
+    
     def to_string(self, pretty_print=True):
         return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+        
+        
+    def path(self, index=True):
+        """
+        Get the dartnode path of the corenode
+        Parameters
+        ----------
+        corenode: object
+            a core object
+    
+        index: bool
+    
+            If True gets the dartnode path with index if list,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction[0]'
+    
+            If False gets the dartnode path without index,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction'
+    
+        Returns
+        -------
+            str
+        """
+
+        return get_path(self, index=index)
+        
     # end class create_InversionDatabase
 
 
@@ -2249,8 +2457,34 @@ class create_InversionInterpolation(GeneratedsSuper):
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
+    
     def to_string(self, pretty_print=True):
         return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+        
+        
+    def path(self, index=True):
+        """
+        Get the dartnode path of the corenode
+        Parameters
+        ----------
+        corenode: object
+            a core object
+    
+        index: bool
+    
+            If True gets the dartnode path with index if list,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction[0]'
+    
+            If False gets the dartnode path without index,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction'
+    
+        Returns
+        -------
+            str
+        """
+
+        return get_path(self, index=index)
+        
     # end class create_InversionInterpolation
 
 
@@ -2488,8 +2722,34 @@ class create_InversionSimplexConvergence(GeneratedsSuper):
             obj_.build(child_)
             self.set_ThresholdRelativeError(obj_)
             obj_.original_tagname_ = 'ThresholdRelativeError'
+    
     def to_string(self, pretty_print=True):
         return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+        
+        
+    def path(self, index=True):
+        """
+        Get the dartnode path of the corenode
+        Parameters
+        ----------
+        corenode: object
+            a core object
+    
+        index: bool
+    
+            If True gets the dartnode path with index if list,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction[0]'
+    
+            If False gets the dartnode path without index,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction'
+    
+        Returns
+        -------
+            str
+        """
+
+        return get_path(self, index=index)
+        
     # end class create_InversionSimplexConvergence
 
 
@@ -2600,8 +2860,34 @@ class create_ThresholdRelativeError(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (errorValueThreshold): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
+    
     def to_string(self, pretty_print=True):
         return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+        
+        
+    def path(self, index=True):
+        """
+        Get the dartnode path of the corenode
+        Parameters
+        ----------
+        corenode: object
+            a core object
+    
+        index: bool
+    
+            If True gets the dartnode path with index if list,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction[0]'
+    
+            If False gets the dartnode path without index,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction'
+    
+        Returns
+        -------
+            str
+        """
+
+        return get_path(self, index=index)
+        
     # end class create_ThresholdRelativeError
 
 
@@ -2738,8 +3024,34 @@ class create_InversionParameters(GeneratedsSuper):
             obj_.build(child_)
             self.add_freeParameters(obj_)
             obj_.original_tagname_ = 'freeParameters'
+    
     def to_string(self, pretty_print=True):
         return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+        
+        
+    def path(self, index=True):
+        """
+        Get the dartnode path of the corenode
+        Parameters
+        ----------
+        corenode: object
+            a core object
+    
+        index: bool
+    
+            If True gets the dartnode path with index if list,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction[0]'
+    
+            If False gets the dartnode path without index,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction'
+    
+        Returns
+        -------
+            str
+        """
+
+        return get_path(self, index=index)
+        
     # end class create_InversionParameters
 
 
@@ -3052,8 +3364,34 @@ class create_freeParameters(GeneratedsSuper):
             obj_.build(child_)
             self.set_InversionSpectra3(obj_)
             obj_.original_tagname_ = 'InversionSpectra3'
+    
     def to_string(self, pretty_print=True):
         return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+        
+        
+    def path(self, index=True):
+        """
+        Get the dartnode path of the corenode
+        Parameters
+        ----------
+        corenode: object
+            a core object
+    
+        index: bool
+    
+            If True gets the dartnode path with index if list,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction[0]'
+    
+            If False gets the dartnode path without index,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction'
+    
+        Returns
+        -------
+            str
+        """
+
+        return get_path(self, index=index)
+        
     # end class create_freeParameters
 
 
@@ -3165,8 +3503,34 @@ class create_freeParameterGlobalValue(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (ParamValue): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
+    
     def to_string(self, pretty_print=True):
         return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+        
+        
+    def path(self, index=True):
+        """
+        Get the dartnode path of the corenode
+        Parameters
+        ----------
+        corenode: object
+            a core object
+    
+        index: bool
+    
+            If True gets the dartnode path with index if list,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction[0]'
+    
+            If False gets the dartnode path without index,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction'
+    
+        Returns
+        -------
+            str
+        """
+
+        return get_path(self, index=index)
+        
     # end class create_freeParameterGlobalValue
 
 
@@ -3301,8 +3665,34 @@ class create_freeParameterValue(GeneratedsSuper):
                 raise ValueError('Bad float/double attribute (ImageNumber_coef): %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
+    
     def to_string(self, pretty_print=True):
         return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+        
+        
+    def path(self, index=True):
+        """
+        Get the dartnode path of the corenode
+        Parameters
+        ----------
+        corenode: object
+            a core object
+    
+        index: bool
+    
+            If True gets the dartnode path with index if list,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction[0]'
+    
+            If False gets the dartnode path without index,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction'
+    
+        Returns
+        -------
+            str
+        """
+
+        return get_path(self, index=index)
+        
     # end class create_freeParameterValue
 
 
@@ -3431,8 +3821,34 @@ class create_InversionSpectra(GeneratedsSuper):
             self.databaseName = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
+    
     def to_string(self, pretty_print=True):
         return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+        
+        
+    def path(self, index=True):
+        """
+        Get the dartnode path of the corenode
+        Parameters
+        ----------
+        corenode: object
+            a core object
+    
+        index: bool
+    
+            If True gets the dartnode path with index if list,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction[0]'
+    
+            If False gets the dartnode path without index,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction'
+    
+        Returns
+        -------
+            str
+        """
+
+        return get_path(self, index=index)
+        
     # end class create_InversionSpectra
 
 
@@ -3561,8 +3977,34 @@ class create_InversionSpectra1(GeneratedsSuper):
             self.databaseName = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
+    
     def to_string(self, pretty_print=True):
         return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+        
+        
+    def path(self, index=True):
+        """
+        Get the dartnode path of the corenode
+        Parameters
+        ----------
+        corenode: object
+            a core object
+    
+        index: bool
+    
+            If True gets the dartnode path with index if list,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction[0]'
+    
+            If False gets the dartnode path without index,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction'
+    
+        Returns
+        -------
+            str
+        """
+
+        return get_path(self, index=index)
+        
     # end class create_InversionSpectra1
 
 
@@ -3711,8 +4153,34 @@ class create_InversionSpectra2(GeneratedsSuper):
             self.spectra2 = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
+    
     def to_string(self, pretty_print=True):
         return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+        
+        
+    def path(self, index=True):
+        """
+        Get the dartnode path of the corenode
+        Parameters
+        ----------
+        corenode: object
+            a core object
+    
+        index: bool
+    
+            If True gets the dartnode path with index if list,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction[0]'
+    
+            If False gets the dartnode path without index,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction'
+    
+        Returns
+        -------
+            str
+        """
+
+        return get_path(self, index=index)
+        
     # end class create_InversionSpectra2
 
 
@@ -3882,8 +4350,34 @@ class create_InversionSpectra3(GeneratedsSuper):
             self.spectra3 = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
+    
     def to_string(self, pretty_print=True):
         return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+        
+        
+    def path(self, index=True):
+        """
+        Get the dartnode path of the corenode
+        Parameters
+        ----------
+        corenode: object
+            a core object
+    
+        index: bool
+    
+            If True gets the dartnode path with index if list,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction[0]'
+    
+            If False gets the dartnode path without index,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction'
+    
+        Returns
+        -------
+            str
+        """
+
+        return get_path(self, index=index)
+        
     # end class create_InversionSpectra3
 
 
