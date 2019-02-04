@@ -22,9 +22,14 @@
 #
 #
 # ===============================================================================
-
+"""
+Test the time to add 100 plots
+"""
+# TODO: update code
 import timeit
 import pytools4dart as ptd
+import numpy as np
+
 
 # Build list of plots
 plots = ptd.plots.createDartFile()
@@ -37,11 +42,22 @@ for i in range(100):
 toc=timeit.default_timer()
 print('elapsed time 1 = {}'.format(toc - tic))
 
+## Modification of Plots coordinates
+X, Y = np.meshgrid(range(10), range(10))
+I = [0, 1, 1, 0]
+J = [0, 0, 1, 1]
+for iplot, (x, y) in enumerate(zip(X.ravel(), Y.ravel())):
+    for ipoint, (ix, iy) in enumerate(zip(I, J)):
+        plots.Plots.Plot[iplot].Polygon2D.Point2D[ipoint].x = x + ix
+        plots.Plots.Plot[iplot].Polygon2D.Point2D[ipoint].y = y + iy
+
 # Build simulation
 simu = ptd.simulation()
 simu.name = 'test_100plots'
-simu.core.xsdobjs['plots'] = plots
-# simu.core.update_simu() # updates simu.scene and simu.acquisition
+simu.core.plots = plots
+simu.core.plots = plots
+
+# simu.core.update_simu() # updates simu.scene and simu.sensor
 simu.add.optical_property('Vegetation')
 simu.write(overwrite=True)
 try:
