@@ -38,6 +38,7 @@ import pytools4dart as ptd
 
 from pytools4dart.tools.constants import *
 from pytools4dart.core_ui.utils import get_labels, get_nodes, findall
+from pytools4dart.settings import input_file_paths
 
 class Core(object):
     """
@@ -693,3 +694,83 @@ class Core(object):
                 row.irradiance.bandNumber = row.bandNumber
 
             DartInputParameters.nodeIlluminationMode.SpectralIrradiance.SpectralIrradianceValue = list(ir_df.irradiance)
+
+# class Plot_file(object):
+#     def __init__(self, simu, data = None, file = None):
+#         self.simu = simu
+#         self._data = data
+#         self.file = file
+#         self.exists = False
+#
+#     @property
+#     def in_memory(self):
+#         return self._data is not None
+#
+#     @property
+#     def file(self):
+#         filename = get_nodes(self.simu.core.plots.Plots, 'ExtraPlotsTextFileDefinition.extraPlotsFileName')
+#         if len(filename)>0:
+#             return filename[0]
+#
+#     @file.setter
+#     def file(self, value):
+#         if value is not None:
+#             self.filepath = value
+#             self.simu.core.plots.Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName = value
+#
+#     @property
+#     def filepath(self):
+#         return self._filepath
+#
+#     @filepath.setter
+#     def filepath(self, value):
+#         if value is None:
+#             self._filepath = None
+#
+#
+#
+#         filelist = input_file_paths(self.simu.name, value)
+#         if self._data is None:
+#             for f in filelist:
+#                 if os.path.isfile(f):
+#                     self._filepath = f
+#                     self.read()
+#                     return
+#
+#         if os.path.basename(self.file) is self.file:
+#             self._filepath = filelist[1]
+#         else:
+#             self._filepath = filelist[0]
+#
+#
+#     @property
+#     def data(self):
+#         if not self.in_memory and os.path.isfile(self.filepath):
+#             # check if exists
+#             self.read()
+#
+#         return self._data
+#
+#     def read(self):
+#         if self._filepath is not None and os.path.isfile(self._filepath):
+#             self._data = pd.read_csv(self._filepath)
+#
+#     def write(self, filepath = None, overwrite=False):
+#         if self._data is None:
+#             return
+#
+#         if filepath is None:
+#             filepath = self.filepath
+#
+#         # create directory if not found
+#         if not os.path.isdir(os.path.dirname(filepath)):
+#             raise Exception("Directory not found: '{}'. ")
+#
+#         if os.path.isfile(filepath) and not overwrite:
+#             raise Exception('File already exist. Set overwrite to overpass.')
+#
+#         with open(filepath, mode='w') as f:
+#             f.write(PLOTS_HEADER)
+#
+#         self.data.to_csv(filepath, sep='\t', index=False, mode='a', header=True)
+#         print("\nPlots written in '{}'".format(filepath))
