@@ -415,3 +415,29 @@ def build_core(directory=None):
         subprocess.call(cmd, shell=True)
 
     os.chdir(cwd) # get back to original directory
+
+# def input_file_paths(simu_name, filename, dartdir=None):
+#     """
+#     list all possible file input paths for DART .txt files
+#     Parameters
+#     ----------
+#     simu_name
+#     filename
+#     dartdir
+#
+#     Returns
+#     -------
+#
+#     """
+#     filelist = [filename]
+#
+#     # input directories
+#     spath = os.path.split(getsimupath(simu_name, dartdir))
+#     for i in range(len(spath)):
+#         filelist.append(spath[:-i] + ['input', filename])
+#
+#     # database
+#     filelist.append(pjoin(getdartdir(dartdir), 'user_data', 'database', filename))
+#     filelist.append(pjoin(getdartdir(dartdir), 'database', filename))
+#
+#     return filelist
