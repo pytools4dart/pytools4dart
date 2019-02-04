@@ -38,7 +38,7 @@ import pytools4dart as ptd
 
 from pytools4dart.tools.constants import *
 from pytools4dart.core_ui.utils import get_labels, get_nodes, findall
-from pytools4dart.settings import input_file_paths
+# from pytools4dart.settings import input_file_paths
 
 class Core(object):
     """
