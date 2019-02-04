@@ -31,25 +31,23 @@ Functions used in core_ui modules:
 
 import pytools4dart as ptd
 import lxml.etree as etree
-from pytools4dart.xmlwriters.xmlhelpers import indent
 import pandas as pd
-import sys
 import os
 import re
 
 #### Fonctions pour l'interprétation du template
-def get_template_root(module):
-    template_string = ptd.xmlwriters.dartxml.get_templates()[module]
-    troot = etree.fromstring(template_string)
-
-    # remove comments:
-    comments = troot.xpath('//comment()')
-    for c in comments:
-        p = c.getparent()
-        if p is not None:
-            p.remove(c)
-    return troot
-
+# def get_template_root(module):
+#     template_string = ptd.xmlwriters.dartxml.get_templates()[module]
+#     troot = etree.fromstring(template_string)
+#
+#     # remove comments:
+#     comments = troot.xpath('//comment()')
+#     for c in comments:
+#         p = c.getparent()
+#         if p is not None:
+#             p.remove(c)
+#     return troot
+#
 
 # def update_node(rnode, tnode):
 #     # temp = plots_temp_root
@@ -233,40 +231,40 @@ def eval_test(xmlnode, test):
 
 
 #### Foncions pour les object issus des module générés par generateDSs
-def update_xsd(xsd_obj, troot):
-    xsd_string = export_xsd_to_string(xsd_obj)
-    rroot = etree.fromstring(xsd_string)
-    update_node(rroot, troot.getchildren()[0])
-    # indent(rroot)
-    # tree = etree.ElementTree(rroot)
-    # tree_string = etree.tostring(tree)
-    xsd_obj.build(rroot)
-    return
+# def update_xsd(xsd_obj, troot):
+#     xsd_string = export_xsd_to_string(xsd_obj)
+#     rroot = etree.fromstring(xsd_string)
+#     update_node(rroot, troot.getchildren()[0])
+#     # indent(rroot)
+#     # tree = etree.ElementTree(rroot)
+#     # tree_string = etree.tostring(tree)
+#     xsd_obj.build(rroot)
+#     return
 
-def export_xsd_to_string(xsd_obj):
-    # TODO: remove
-    return etree.tostring(xsd_obj.to_etree(), pretty_print=True)
-    # old_stdout = sys.stdout
-    # sys.stdout = mystdout = StringIO()
-    # plots.export(sys.stdout, level=0)
-    # sys.stdout = old_stdout
-    # return mystdout.getvalue()
-
-
+# def export_xsd_to_string(xsd_obj):
+#     # TODO: remove
+#     return etree.tostring(xsd_obj.to_etree(), pretty_print=True)
+#     # old_stdout = sys.stdout
+#     # sys.stdout = mystdout = StringIO()
+#     # plots.export(sys.stdout, level=0)
+#     # sys.stdout = old_stdout
+#     # return mystdout.getvalue()
 
 
-def export_xsd_to_tree(xsd_obj):
-    # TODO: remove
-    rroot = xsd_obj.to_etree()
-    # indent(rroot)
-    return etree.ElementTree(rroot)
+#
+#
+# def export_xsd_to_tree(xsd_obj):
+#     # TODO: remove
+#     rroot = xsd_obj.to_etree()
+#     # indent(rroot)
+#     return etree.ElementTree(rroot)
 
 #####
 
-def get_xsd_root(module):
-    xsd_string = ptd.xmlwriters.dartxml.get_schemas()[module]
-    xsdroot = etree.fromstring(xsd_string)
-    return xsdroot
+# def get_xsd_root(module):
+#     xsd_string = ptd.settings.get_schemas()[module]
+#     xsdroot = etree.fromstring(xsd_string)
+#     return xsdroot
 
 def get_gs_troot(module, xsdclass = 'DartFile'):
     # troot = get_template_root(module)
