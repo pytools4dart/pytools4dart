@@ -1,14 +1,16 @@
+
+# TODO: update code
 import pytools4dart as ptd
 # import lxml.etree as etree
 import pandas as pd
 
 simu = ptd.simulation()
-simu.core.xsdobjs["maket"].Maket.Scene.SceneDimensions.x=10
-simu.core.xsdobjs["maket"].Maket.Scene.SceneDimensions.y=10
-simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions.x=0.1
-simu.core.xsdobjs["maket"].Maket.Scene.CellDimensions.y=0.1
-simu.core.xsdobjs["maket"].Maket.Soil.OpticalPropertyLink.ident="loam_gravelly_brown_dark_clean_smooth"
-simu.core.xsdobjs["maket"].Maket.Soil.OpticalPropertyLink.indexFctPhase=2
+simu.core.maket.Maket.Scene.SceneDimensions.x=10
+simu.core.maket.Maket.Scene.SceneDimensions.y=10
+simu.core.maket.Maket.Scene.CellDimensions.x=0.1
+simu.core.maket.Maket.Scene.CellDimensions.y=0.1
+simu.core.maket.Maket.Soil.OpticalPropertyLink.ident="loam_gravelly_brown_dark_clean_smooth"
+simu.core.maket.Maket.Soil.OpticalPropertyLink.indexFctPhase=2
 merisier = simu.add.object_3d('/home/boissieu/DART_5-7-4_v1083/database/3D_Objects/Tree/Accurate_Trees/Cherry_tree/Merisier_Adulte.obj',
                               xpos=5, ypos=5, zpos=0,
                               xscale=3, yscale=3, zscale=3)
