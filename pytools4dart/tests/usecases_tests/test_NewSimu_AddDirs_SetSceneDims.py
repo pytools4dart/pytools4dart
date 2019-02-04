@@ -8,7 +8,7 @@ simu.scene.set_scene_size([30, 30])
 
 simu.scene.set_cell_size([0.5, 0.5])
 
-simu.acquisition.add_virtual_direction([30.0, 30.0])
+simu.sensor.add_virtual_direction([30.0, 30.0])
 
 simu.source.set_source_position([40.0,50.0])
 
