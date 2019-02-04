@@ -3,7 +3,7 @@
 # ===============================================================================
 # PROGRAMMERS:
 #
-# Florian de Boissieu <florian.deboissieu@irstea.fr>
+# Florian de Boissieu <fdeboiss@gmail.com>
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
 #
