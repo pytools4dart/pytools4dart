@@ -38,6 +38,7 @@ import shutil
 import zipfile
 import pandas as pd
 import pytools4dart as ptd
+import traceback
 
 def default_dartdir():
     '''
@@ -113,6 +114,7 @@ def configure(dartdir=None):
         build_core()
         print('\npytools4dart configured: please restart python.')
     except:
+	print(traceback.format_exc())
         raise ValueError('\nCould not manage to configure pytools4dart. Please contact support.')
 
 

@@ -80,7 +80,7 @@ class Core(object):
         templatesDpath = pjoin(ptd.__path__[0], "templates")
         templates = glob.glob(pjoin(templatesDpath, "*.xml"))
         modules = [os.path.splitext(os.path.basename(f))[0] for f in templates]
-        modules = [m for m in modules if m is not 'sequence']
+        modules = [m for m in modules if m != 'sequence']
         return modules
 
     def load(self):
