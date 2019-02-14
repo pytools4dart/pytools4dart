@@ -167,7 +167,7 @@ class voxel(object):
         else:
             return (pd.merge(self.data, intersectDF, on=("i", "j"), how="left"))
 
-    def to_plots(self, density_type = 'UL'):
+    def to_plots(self, density_type = 'UL', keep_columns = None):
         """
         Convert to DART plots DataFrame
         Parameters
@@ -215,5 +215,8 @@ class voxel(object):
         data = pd.DataFrame(voxlist, columns=['PLT_TYPE', 'PT_1_X', 'PT_1_Y', 'PT_2_X', 'PT_2_Y', 'PT_3_X', 'PT_3_Y',
                                               'PT_4_X', 'PT_4_Y', 'PLT_BTM_HEI', 'PLT_HEI_MEA',
                                               'VEG_DENSITY_DEF', density_column])
+
+        if keep_columns is not None and len(keep_columns) > 0:
+            data = pd.concat([data, self.data[self.data.PadBVTotal != 0][keep_columns]].reset_index(drop=True), axis=1)
 
         return data
