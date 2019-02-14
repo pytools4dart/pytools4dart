@@ -173,9 +173,6 @@ class simulation(object):
         """
         return get_simu_input_path(self.name)
 
-    def getsimusdir(self):
-        return pjoin(getdartdir(),"user_data","simulations")
-
     def get_database_dir(self):
         return pjoin(getdartdir(),"database")
 
