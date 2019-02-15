@@ -53,7 +53,7 @@ import warnings
 # local imports
 from tools.voxreader import voxel
 from tools.hstools import read_ENVI_hdr, get_hdr_bands, get_bands_files, get_wavelengths, stack_dart_bands
-from settings import getsimupath, get_simu_input_path, getdartdir
+from settings import getsimupath, get_simu_input_path, getdartdir, get_input_file_path
 import pytools4dart.run as run
 import tools.dbtools as dbtools
 
@@ -172,6 +172,9 @@ class simulation(object):
 
         """
         return get_simu_input_path(self.name)
+
+    def get_input_file_path(self, filename):
+        return get_input_file_path(self.name, filename)
 
     def get_database_dir(self):
         return pjoin(getdartdir(),"database")

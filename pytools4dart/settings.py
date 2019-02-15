@@ -419,32 +419,56 @@ def build_core(directory=None):
 
     os.chdir(cwd) # get back to original directory
 
-# def get_input_file_paths(simu_name, filename, dartdir=None):
-#     """
-#     list all possible file input paths for DART .txt files
-#     Parameters
-#     ----------
-#     simu_name
-#     filename
-#     dartdir
-#
-#     Returns
-#     -------
-#
-#     """
-#     filelist = [filename]
-#
-#     # input directories
-#     spath = os.path.split(getsimupath(simu_name, dartdir))
-#     for i in range(len(spath)):
-#         filelist.append(spath[:-i] + ['input', filename])
-#
-#     # database
-#     filelist.append(pjoin(getdartdir(dartdir), 'user_data', 'database', filename))
-#     filelist.append(pjoin(getdartdir(dartdir), 'database', filename))
-#
-#     return filelist
-#
+def get_input_file_path(simu_name, filename, dartdir=None):
+    """
+    Get the absolute file path if exists.
+    Parameters
+    ----------
+    simu_name
+    filename
+    dartdir
+
+    Returns
+    -------
+        str
+
+    Notes
+    -----
+    Below is the order in which DART will search file:
+      - filename if absolute path
+      - otherwise, first that exists in the following list:
+         - input/filename starting from $DART_HOME/user_data/simulations and getting down until root
+         - $DART_HOME/user_data/database
+         - $DART_HOME/database
+    If none of these file is found, first path of the list is returned, i.e. absolute path if it is the case,
+    $DART_HOME/user_data/simulations/input/filename otherwise
+    """
+
+    if os.path.abspath(filename) == filename:
+        return filename
+
+    if os.path.basename(filename)==filename:
+        filelist = []
+    else:
+        filelist = [filename]
+
+
+    # input directories
+    spath = os.path.split(getsimupath(simu_name, dartdir))
+    for i in range(len(spath)):
+        filelist.append(spath[:-i] + ['input', filename])
+
+    # database
+    filelist.append(pjoin(getdartdir(dartdir), 'user_data', 'database', filename))
+    filelist.append(pjoin(getdartdir(dartdir), 'database', filename))
+
+    for f in filelist:
+        if os.path.isfile(f):
+            return f
+
+    # if none exists default is first
+    return filelist[0]
+
 
 
 

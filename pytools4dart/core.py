@@ -280,9 +280,14 @@ class Core(object):
                                trunk_tp_ident=trunk_tp_ident, source=source))
         return df
 
-    def get_trees(self):
+    def get_tree_file(self):
         Trees = self.simu.core.trees.Trees
         file = findall(Trees, '\.sceneParametersFileName$')
+        ptd.settings.get_input_file_path(file)
+        return file
+
+    def get_trees(self):
+        file = self.get_tree_file()
         if len(file) == 0:
             return
         file = file[0]

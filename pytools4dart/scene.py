@@ -48,8 +48,10 @@ class Scene(object):
              '\tOptical property: {}'.format(self.ground.OpticalPropertyLink.ident),
              '\tThermal property: {}'.format(self.ground.ThermalPropertyLink.idTemperature),
              'number of plots : {}'.format(self.plots.shape[0]),
+             'plot file: {}'.format(self.plot_file),
              'number of object 3D : {}'.format(self.object3D.shape[0]),
              'number of tree species : {}'.format(self.tree_species.shape[0]),
+             'tree file: {}'.format(self.simu.core.get_tree_file()),
              'number of optical properties : {}'.format(self.properties.optical.shape[0]),
              'number of thermal properties : {}'.format(self.properties.thermal.shape[0])])
 
