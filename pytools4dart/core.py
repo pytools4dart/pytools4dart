@@ -38,7 +38,7 @@ import pytools4dart as ptd
 
 from pytools4dart.tools.constants import *
 from pytools4dart.core_ui.utils import get_labels, get_nodes, findall
-# from pytools4dart.settings import input_file_paths
+# from pytools4dart.settings import get_input_file_paths
 
 class Core(object):
     """
@@ -696,27 +696,65 @@ class Core(object):
             DartInputParameters.nodeIlluminationMode.SpectralIrradiance.SpectralIrradianceValue = list(ir_df.irradiance)
 
 # class Plot_file(object):
-#     def __init__(self, simu, data = None, file = None):
+#     # This class was supposed to stand for plot file management
+#     # However it raises lots of question on how to do it
+#     # In the following what has been thought until now, with D as data, F as filepath
+#     # At initialization:
+#     #     - D is None and F is None:
+#     #         get F from core (absolute path)
+#     #         load D from F
+#     #     - D is None and F is not None
+#     #         set F to core
+#     #         load D from F
+#     #     - D is not None and F is None
+#     #         set F as default
+#     #         set F to core
+#     #     - D is not None and F is not None
+#     #         set F to core
+#     #
+#     # After initialization, when change:
+#     #     - F:nothing happens
+#     #     - core F: should it be reloaded to D??? How can it be done???
+#     #     - D: write ???
+#     #     - F content: ???
+#     #
+#     # At simu write:
+#     #     - if F and core F different
+#     #     ....
+#     # Thus this option was left away for the moment
+#     def __init__(self, simu, data = None, filepath = None):
 #         self.simu = simu
 #         self._data = data
-#         self.file = file
+#         self.filepath = filepath
+#         self._filepath
 #         self.exists = False
+#
+#         # check si filepath exist et si oui normalise
+#         if self.filepath != get_input_file_path(self.filepath):
+#             self.filepath = get_input_file_path(self.filepath)
+#
+#         if self.data is None:
+#             self.load()
+#
+#     def load(self):
+#         if self.filepath is not None and os.path.isfile(self.filepath):
+#             self.data = pd.read_csv(self.filepath)
+#
 #
 #     @property
 #     def in_memory(self):
 #         return self._data is not None
 #
 #     @property
-#     def file(self):
-#         filename = get_nodes(self.simu.core.plots.Plots, 'ExtraPlotsTextFileDefinition.extraPlotsFileName')
-#         if len(filename)>0:
-#             return filename[0]
+#     def filepath(self):
+#         corefilepath = get_nodes(self.simu.core.plots.Plots, 'ExtraPlotsTextFileDefinition.extraPlotsFileName')
+#         if len(corefilepath)>0:
+#             return corefilepath[0]
 #
 #     @file.setter
-#     def file(self, value):
+#     def filepath(self, value):
 #         if value is not None:
-#             self.filepath = value
-#             self.simu.core.plots.Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName = value
+#             self.simu.core.plots.Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName = get_input_file_path(value)
 #
 #     @property
 #     def filepath(self):
@@ -751,9 +789,6 @@ class Core(object):
 #
 #         return self._data
 #
-#     def read(self):
-#         if self._filepath is not None and os.path.isfile(self._filepath):
-#             self._data = pd.read_csv(self._filepath)
 #
 #     def write(self, filepath = None, overwrite=False):
 #         if self._data is None:

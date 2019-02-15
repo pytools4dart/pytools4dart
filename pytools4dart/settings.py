@@ -419,7 +419,7 @@ def build_core(directory=None):
 
     os.chdir(cwd) # get back to original directory
 
-# def input_file_paths(simu_name, filename, dartdir=None):
+# def get_input_file_paths(simu_name, filename, dartdir=None):
 #     """
 #     list all possible file input paths for DART .txt files
 #     Parameters
@@ -444,7 +444,7 @@ def build_core(directory=None):
 #     filelist.append(pjoin(getdartdir(dartdir), 'database', filename))
 #
 #     return filelist
-
+#
 
 
 
