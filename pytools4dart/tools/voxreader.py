@@ -176,6 +176,9 @@ class voxel(object):
             If 'UL' PadBVTotal is considered as a Plant Area Density (m2/m3)
             If 'LAI' PadBVTotal is considered as a Plant Area Index (m2/m2)
 
+        keep_columns: str or list of str
+            Columns from data to keep in plots DataFrame. If 'all',
+
         Returns
         -------
             DataFrame
@@ -216,7 +219,13 @@ class voxel(object):
                                               'PT_4_X', 'PT_4_Y', 'PLT_BTM_HEI', 'PLT_HEI_MEA',
                                               'VEG_DENSITY_DEF', density_column])
 
+        if keep_columns == 'all':
+            keep_columns = self.data.columns
+        elif isinstance(keep_columns, str):
+            keep_columns = [keep_columns]
+
         if keep_columns is not None and len(keep_columns) > 0:
+            keep_columns = [c for c in keep_columns if c in self.data.columns]
             data = pd.concat([data, self.data[self.data.PadBVTotal != 0][keep_columns]].reset_index(drop=True), axis=1)
 
         return data
