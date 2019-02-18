@@ -100,6 +100,10 @@ class Scene(object):
     def properties(self):
         return self._properties
 
+    @property
+    def plot_file(self):
+        return self.simu.core.get_plot_file()
+
 
 class Properties_(object):
     def __init__(self, simu):
