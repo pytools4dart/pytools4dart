@@ -364,7 +364,7 @@ class Add(object):
             tmp = ptd.coeff_diff.create_UnderstoryMulti()
             propargnames = tmp.attrib + tmp.children
             propargs = {k: v for k, v in kwargs.iteritems() if k in propargnames}
-            modelargs = { k:v for k,v in kwargs.iteritems() if k not in propargnames and not 'prospect'}
+            modelargs = { k:v for k,v in kwargs.iteritems() if k not in propargnames and k != 'prospect'}
 
             if 'prospect' in kwargs.keys():
                 ProspectExternParameters = ptd.coeff_diff.create_ProspectExternParameters(**kwargs['prospect'])
@@ -673,6 +673,8 @@ class Add(object):
             # subset expected columns
             expected_columns = PLOTS_COLUMNS+['GRD_OPT_NAME', 'GRD_THERM_NAME', 'PLT_OPT_NAME', 'PLT_THERM_NAME']
             df = data[[c for c in data.columns if c in expected_columns]]
+
+            self.simu.core.update()
 
             # convert names to index
             if 'PLT_OPT_NAME' in df.columns:
