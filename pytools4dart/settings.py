@@ -443,6 +443,8 @@ def get_input_file_path(simu_name, filename, dartdir=None):
     If none of these file is found, first path of the list is returned, i.e. absolute path if it is the case,
     $DART_HOME/user_data/simulations/input/filename otherwise
     """
+    if filename is None:
+        return
 
     if os.path.abspath(filename) == filename:
         return filename
@@ -454,9 +456,10 @@ def get_input_file_path(simu_name, filename, dartdir=None):
 
 
     # input directories
-    spath = os.path.split(getsimupath(simu_name, dartdir))
-    for i in range(len(spath)):
-        filelist.append(spath[:-i] + ['input', filename])
+    if simu_name is not None:
+        spath = os.path.split(getsimupath(simu_name, dartdir))
+        for i in range(len(spath)):
+            filelist.append(spath[:-i] + ['input', filename])
 
     # database
     filelist.append(pjoin(getdartdir(dartdir), 'user_data', 'database', filename))
