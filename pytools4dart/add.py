@@ -317,8 +317,6 @@ class Add(object):
                 useMultiplicativeFactorForLUT = 1,
         """
 
-        # TODO replace opt_property by optical_property and kwargs
-
         # children variables are not available because they can generate conflict (not tested however):
         # Lambertian
         #     SpecularData = None,
@@ -347,12 +345,12 @@ class Add(object):
         #     understoryNodeMultiplicativeFactorForLUT = None
         # AirFunction
         #     AirFunctionNodeMultiplicativeFactorForLut = None
-        type_table = pd.DataFrame([['Lambertian', 'Lambertian'],
-                                      ['Hapke', 'Hapke'],
-                                      ['RPV', 'RPV'],
-                                      ['Vegetation', 'Understory'],
-                                      ['Fluid', 'AirFunction']], columns=['opl_type', 'op_type'])
-        op_type = type_table.op_type[type_table.opl_type.str.contains(type, case=False)].iloc[0]
+        # OP_TYPES = pd.DataFrame([['Lambertian', 'Lambertian'],
+        #                               ['Hapke', 'Hapke'],
+        #                               ['RPV', 'RPV'],
+        #                               ['Vegetation', 'Understory'],
+        #                               ['Fluid', 'AirFunction']], columns=['opl_type', 'op_type'])
+        op_type = OP_TYPES.name[OP_TYPES.fun.str.contains(type, case=False)].iloc[0]
         dartnode = ptd.core_ui.utils.get_labels(pat='{type}MultiplicativeFactorForLUT$'.format(type=op_type),case=False)['dartnode'].iloc[0]
 
         self.simu.core.get_bands_df()

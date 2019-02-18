@@ -218,6 +218,8 @@ class simulation(object):
             with open(file, 'w') as f:
                 obj.export(f, level=0)
 
+        self.scene.plot_file.write(overwrite=overwrite)
+
         # write sequence
         for s in self.sequences:
             s.write(overwrite=overwrite)

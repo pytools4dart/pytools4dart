@@ -38,7 +38,7 @@ import pytools4dart as ptd
 
 from pytools4dart.tools.constants import *
 from pytools4dart.core_ui.utils import get_labels, get_nodes, findall
-# from pytools4dart.settings import get_input_file_paths
+# from pytools4dart.settings import get_input_file_path
 
 class Core(object):
     """
@@ -209,11 +209,11 @@ class Core(object):
         plots_df = pd.DataFrame(rows, columns=PLOTS_COLUMNS+['SOURCE'])
         plots_df.PLT_TYPE = plots_df.PLT_TYPE.astype('category').cat.set_categories(PLOT_TYPES.type_int.values).cat.rename_categories(PLOT_TYPES.type_str.values)
 
-        if self.plots.Plots.addExtraPlotsTextFile:
-            filepath = self.plots.Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName
-            plotstxt_df = pd.read_csv(filepath, sep='\t', comment='*')
-            plotstxt_df['SOURCE'] = filepath
-            plots_df = pd.concat([plots_df,plotstxt_df], ignore_index = True, sort=False)
+        # if self.plots.Plots.addExtraPlotsTextFile:
+        #     filepath = self.plots.Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName
+        #     plotstxt_df = pd.read_csv(filepath, sep='\t', comment='*')
+        #     plotstxt_df['SOURCE'] = filepath
+        #     plots_df = pd.concat([plots_df,plotstxt_df], ignore_index = True, sort=False)
 
         return plots_df
 
@@ -575,6 +575,60 @@ class Core(object):
         indexes = pd.merge(ident_df, tp[['idTemperature', 'index']], on='idTemperature', how='left')
         return indexes['index']
 
+    def get_op_ident(self, index, type):
+        """
+        Get Optical Properties identification names from indexes
+        Parameters
+        ----------
+        index: int or list of int
+            property indexes, e.g. [0, 2, 1, 2]
+
+        type: str or list of str
+            optical property type, e.g. ['Lambertian', 'Vegetation', 'Fluid', 'Hapke']
+
+        Returns
+        -------
+            pandas Series
+
+        """
+        # convert string to list
+        if isinstance(type, str):
+            type = [type]
+
+        if isinstance(index, int):
+            index = [index]
+
+        index_df = pd.DataFrame(dict(index=index, type=type))
+        op = self.get_optical_properties()
+        indexes = pd.merge(index_df, op[['ident', 'index', 'type']], on=['index', 'type'], how='left')
+
+        return indexes['ident']
+
+    def get_tp_ident(self, index):
+        """
+        Get Optical Properties identification names from indexes
+        Parameters
+        ----------
+        index: int or list of int
+            property indexes, e.g. [0, 2, 1, 2]
+
+        type: str or list of str
+            optical property type, e.g. ['Lambertian', 'Vegetation', 'Fluid', 'Hapke']
+
+        Returns
+        -------
+            pandas Series
+
+        """
+        # convert string to list
+        if isinstance(index, int):
+            ident = [index]
+
+        index_df = pd.DataFrame(dict(index=index))
+        tp = self.get_thermal_properties()
+        indexes = pd.merge(index_df, tp[['idTemperature', 'index']], on='index', how='left')
+        return indexes['idTemperature']
+
     #################
     #    UPDATES    #
     #################
@@ -705,117 +759,3 @@ class Core(object):
 
             DartInputParameters.nodeIlluminationMode.SpectralIrradiance.SpectralIrradianceValue = list(ir_df.irradiance)
 
-# class Plot_file(object):
-#     # This class was supposed to stand for plot file management
-#     # However it raises lots of question on how to do it
-#     # In the following what has been thought until now, with D as data, F as filepath
-#     # At initialization:
-#     #     - D is None and F is None:
-#     #         get F from core (absolute path)
-#     #         load D from F
-#     #     - D is None and F is not None
-#     #         set F to core
-#     #         load D from F
-#     #     - D is not None and F is None
-#     #         set F as default
-#     #         set F to core
-#     #     - D is not None and F is not None
-#     #         set F to core
-#     #
-#     # After initialization, when change:
-#     #     - F:nothing happens
-#     #     - core F: should it be reloaded to D??? How can it be done???
-#     #     - D: write ???
-#     #     - F content: ???
-#     #
-#     # At simu write:
-#     #     - if F and core F different
-#     #     ....
-#     # Thus this option was left away for the moment
-#     def __init__(self, simu, data = None, filepath = None):
-#         self.simu = simu
-#         self._data = data
-#         self.filepath = filepath
-#         self._filepath
-#         self.exists = False
-#
-#         # check si filepath exist et si oui normalise
-#         if self.filepath != get_input_file_path(self.filepath):
-#             self.filepath = get_input_file_path(self.filepath)
-#
-#         if self.data is None:
-#             self.load()
-#
-#     def load(self):
-#         if self.filepath is not None and os.path.isfile(self.filepath):
-#             self.data = pd.read_csv(self.filepath)
-#
-#
-#     @property
-#     def in_memory(self):
-#         return self._data is not None
-#
-#     @property
-#     def filepath(self):
-#         corefilepath = get_nodes(self.simu.core.plots.Plots, 'ExtraPlotsTextFileDefinition.extraPlotsFileName')
-#         if len(corefilepath)>0:
-#             return corefilepath[0]
-#
-#     @file.setter
-#     def filepath(self, value):
-#         if value is not None:
-#             self.simu.core.plots.Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName = get_input_file_path(value)
-#
-#     @property
-#     def filepath(self):
-#         return self._filepath
-#
-#     @filepath.setter
-#     def filepath(self, value):
-#         if value is None:
-#             self._filepath = None
-#
-#
-#
-#         filelist = input_file_paths(self.simu.name, value)
-#         if self._data is None:
-#             for f in filelist:
-#                 if os.path.isfile(f):
-#                     self._filepath = f
-#                     self.read()
-#                     return
-#
-#         if os.path.basename(self.file) is self.file:
-#             self._filepath = filelist[1]
-#         else:
-#             self._filepath = filelist[0]
-#
-#
-#     @property
-#     def data(self):
-#         if not self.in_memory and os.path.isfile(self.filepath):
-#             # check if exists
-#             self.read()
-#
-#         return self._data
-#
-#
-#     def write(self, filepath = None, overwrite=False):
-#         if self._data is None:
-#             return
-#
-#         if filepath is None:
-#             filepath = self.filepath
-#
-#         # create directory if not found
-#         if not os.path.isdir(os.path.dirname(filepath)):
-#             raise Exception("Directory not found: '{}'. ")
-#
-#         if os.path.isfile(filepath) and not overwrite:
-#             raise Exception('File already exist. Set overwrite to overpass.')
-#
-#         with open(filepath, mode='w') as f:
-#             f.write(PLOTS_HEADER)
-#
-#         self.data.to_csv(filepath, sep='\t', index=False, mode='a', header=True)
-#         print("\nPlots written in '{}'".format(filepath))

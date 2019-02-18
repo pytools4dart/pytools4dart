@@ -151,18 +151,26 @@ TREES_HEADER = '''* DART Trees files (default values are used for eventual missi
 * First line is the header. It defines the order of input of the parameters (any order is possible)
 '''
 
+OP_TYPES = pd.DataFrame([['Lambertian', 'Lambertian'],
+                           ['Hapke', 'Hapke'],
+                           ['RPV', 'RPV'],
+                           ['Vegetation', 'Understory'],
+                           ['Fluid', 'AirFunction']], columns=['name', 'prefix'])
+
 # Optical property link type numbers
 OPL_TYPES = pd.DataFrame([[0, 'Lambertian'],
+                          # [1, 'Vegetation'],
                           [2, 'Hapke'],
                           [3, 'Phase'],
                           [4, 'RPV'],
+                          # [5, 'Fluid'],
                           [8, 'Interface']], columns=['type_int', 'type_str'])
 
-PLOT_TYPES =pd.DataFrame([[0, 'Ground'],
-                          [1, 'Vegetation'],
-                          [2, 'Ground + Vegetation'],
-                          [3, 'Fluid'],
-                          [4, 'Water']], columns=['type_int', 'type_str'])
+PLOT_TYPES =pd.DataFrame([[0, 'Ground', None],
+                          [1, 'Vegetation', 'Vegetation'],
+                          [2, 'Ground + Vegetation', 'Vegetation'],
+                          [3, 'Fluid', 'Fluid'],
+                          [4, 'Water', 'Fluid']], columns=['type_int', 'type_str', 'op_type'])
 
 SIMU_TYPE = pd.DataFrame([[0, 'Flux Tracking'],
                           [1, 'Monte-Carlo'],
