@@ -179,7 +179,7 @@ class simulation(object):
     def get_database_dir(self):
         return pjoin(getdartdir(),"database")
 
-    def write(self, overwrite = False):
+    def write(self, overwrite=False, verbose=True):
         """
         Write XSD objects contents on DART XML input files in simulation input directory
         Warning: if name is None, initial simulation input directory is overwritten
@@ -188,7 +188,7 @@ class simulation(object):
         :param name: name of the new(modified) simulation. If None
         """
         # check = self.checker.module_dependencies()
-        self.core.update()
+        self.core.update(verbose)
 
         if self.name is None:
             raise Exception('Simulation name not defined.')

@@ -350,7 +350,7 @@ class Add(object):
         #                               ['RPV', 'RPV'],
         #                               ['Vegetation', 'Understory'],
         #                               ['Fluid', 'AirFunction']], columns=['opl_type', 'op_type'])
-        op_type = OP_TYPES.name[OP_TYPES.fun.str.contains(type, case=False)].iloc[0]
+        op_type = OP_TYPES.prefix[OP_TYPES.name.str.contains(type, case=False)].iloc[0]
         dartnode = ptd.core_ui.utils.get_labels(pat='{type}MultiplicativeFactorForLUT$'.format(type=op_type),case=False)['dartnode'].iloc[0]
 
         self.simu.core.get_bands_df()
@@ -386,8 +386,8 @@ class Add(object):
                 fun='.'.join(filter(None, [module, fun])), multi=multi))
         else:
             if replace:
-                op_df=self.simu.scene.optical
-                index = op_df.loc[op_df.ident==prop.ident, "index"]
+                op_df=self.simu.scene.properties.optical
+                index = op_df.loc[op_df.ident==prop.ident, "index"].iloc[0]
                 eval('self.simu.core.coeff_diff.{fun}.replace_{multi}_at({index}, prop)'.format(
                     fun='.'.join(filter(None, [module, fun])), multi=multi, index=index))
             else:
@@ -653,7 +653,7 @@ class Add(object):
         # TODO: file name should go to input directory --> overwriting simulation should be specific to xml inputs?
 
         if file is None:
-            file = 'plots.txt'
+            file = os.path.join(self.simu.getinputsimupath(),'plots.txt')
 
         header = True
         if append:
@@ -672,51 +672,57 @@ class Add(object):
             expected_columns = PLOTS_COLUMNS+['GRD_OPT_NAME', 'GRD_THERM_NAME', 'PLT_OPT_NAME', 'PLT_THERM_NAME']
             df = data[[c for c in data.columns if c in expected_columns]]
 
-            self.simu.core.update()
+            # self.simu.core.update()
 
-            # convert names to index
-            if 'PLT_OPT_NAME' in df.columns:
-                df['PLT_OPT_NUMB'] = self.simu.core.get_op_index(df.PLT_OPT_NAME)
-            if 'PLT_THERM_NAME' in df.columns:
-                df['PLT_THERM_NUMB'] = self.simu.core.get_tp_index(df.PLT_THERM_NAME)
-            if 'GRD_OPT_NAME' in df.columns:
-                df['GRD_OPT_NUMB'] = self.simu.core.get_op_index(df.GRD_OPT_NAME)
-            if 'GRD_THERM_NAME' in df.columns:
-                df['GRD_THERM_NUMB'] = self.simu.core.get_tp_index(df.GRD_THERM_NAME)
+            # # convert names to index
+            # if 'PLT_OPT_NAME' in df.columns:
+            #     df['PLT_OPT_NUMB'] = self.simu.core.get_op_index(df.PLT_OPT_NAME)
+            # if 'PLT_THERM_NAME' in df.columns:
+            #     df['PLT_THERM_NUMB'] = self.simu.core.get_tp_index(df.PLT_THERM_NAME)
+            # if 'GRD_OPT_NAME' in df.columns:
+            #     df['GRD_OPT_NUMB'] = self.simu.core.get_op_index(df.GRD_OPT_NAME)
+            # if 'GRD_THERM_NAME' in df.columns:
+            #     df['GRD_THERM_NUMB'] = self.simu.core.get_tp_index(df.GRD_THERM_NAME)
 
             # remove names
-            df = df[[c for c in df.columns if 'NAME' not in c]]
-
-            if os.path.basename(file) is file:
-                filepath = os.path.join(self.simu.getsimupath(), file)
+            # df = df[[c for c in df.columns if 'NAME' not in c]]
+            if append:
+                self.simu.scene.plot_file.data = pd.concat([self.simu.scene.plot_file.data, df], ignore_index=True, sort=False)
             else:
-                filepath = file
+                self.simu.scene.plot_file.data = df
+                
+            self.simu.scene.plot_file.filepath = file
 
-            # check if append or overwrite
-            if os.path.isfile(filepath) and not append and not overwrite:
-                raise Exception('File already exist. Set append or overwrite to overpass.')
+        #     if os.path.basename(file) is file:
+        #         filepath = os.path.join(self.simu.getsimupath(), file)
+        #     else:
+        #         filepath = file
+        #
+        #     # check if append or overwrite
+        #     if os.path.isfile(filepath) and not append and not overwrite:
+        #         raise Exception('File already exist. Set append or overwrite to overpass.')
+        #
+        #     # create directory if not found
+        #     if not os.path.isdir(os.path.dirname(filepath)):
+        #         if not mkdir:
+        #             raise Exception("Directory not found: '{}'. "
+        #                             "Set option 'mkdir' to create.".format(os.path.dirname(filepath)))
+        #         os.mkdir(os.path.dirname(filepath))
+        #         print("Created directory: '{}'".format(os.path.dirname(filepath)))
+        #
+        #     if not append:
+        #         with open(filepath, mode='w') as f:
+        #             f.write(PLOTS_HEADER)
+        #
+        #     df.to_csv(filepath, sep='\t', index=False, mode='a', header=header)
+        #     print("\nPlots written in '{}'".format(filepath))
+        #
+        # # add file to simulation
+        # Plots = self.simu.core.plots.Plots
+        # Plots.addExtraPlotsTextFile = 1
+        # Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName = filepath
 
-            # create directory if not found
-            if not os.path.isdir(os.path.dirname(filepath)):
-                if not mkdir:
-                    raise Exception("Directory not found: '{}'. "
-                                    "Set option 'mkdir' to create.".format(os.path.dirname(filepath)))
-                os.mkdir(os.path.dirname(filepath))
-                print("Created directory: '{}'".format(os.path.dirname(filepath)))
-
-            if not append:
-                with open(filepath, mode='w') as f:
-                    f.write(PLOTS_HEADER)
-
-            df.to_csv(filepath, sep='\t', index=False, mode='a', header=header)
-            print("\nPlots written in '{}'".format(filepath))
-
-        # add file to simulation
-        Plots = self.simu.core.plots.Plots
-        Plots.addExtraPlotsTextFile = 1
-        Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName = filepath
-
-        return Plots.ExtraPlotsTextFileDefinition
+        return self.simu.scene.plot_file
 
     def trees(self, data=None, file = None, append=False, overwrite=False, mkdir=False):
         """

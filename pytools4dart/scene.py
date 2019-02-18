@@ -56,7 +56,9 @@ class Scene(object):
              '\tOptical property: {}'.format(self.ground.OpticalPropertyLink.ident),
              '\tThermal property: {}'.format(self.ground.ThermalPropertyLink.idTemperature),
              'number of plots : {}'.format(self.plots.shape[0]),
-             'plot file: {}'.format(self.plot_file.filepath),
+             'plot file:',
+             '\tpath: {}'.format(self.plot_file.filepath),
+             '\tnumber of plots: {}'.format(self.plot_file.shape[0]),
              'number of object 3D : {}'.format(self.object3D.shape[0]),
              'number of tree species : {}'.format(self.tree_species.shape[0]),
              'tree file: {}'.format(self.simu.core.get_tree_file()),
@@ -186,14 +188,20 @@ class Plot_file(object):
         #
         # if self.data is None:
         #     self.load()
+    @property
+    def shape(self):
+        if self.data is None:
+            return (0, 0)
+        else:
+            return self.data.shape
 
     def load(self):
         self.filepath = self.filepath
         if self.filepath is not None and os.path.isfile(self.filepath):
             self.data = pd.read_csv(self.filepath, sep='\t', comment='*')
-            self.update_indexes()
+            self.update_names()
 
-    def update_indexes(self):
+    def update_names(self):
         df = self.data
         if 'PLT_OPT_NUMB' in df.columns:
             PLT_OPT_TYPE = pd.merge(df[['PLT_TYPE']], PLOT_TYPES, left_on= 'PLT_TYPE', right_on='type_int', how='left')['op_type']
@@ -206,7 +214,7 @@ class Plot_file(object):
         if 'GRD_THERM_NUMB' in df.columns:
             df['GRD_THERM_NAME'] = self.simu.core.get_tp_ident(df.GRD_THERM_NAME)
 
-    def update_names(self):
+    def update_indexes(self):
         df = self.data
         if 'PLT_OPT_NAME' in df.columns:
             df['PLT_OPT_NUMB'] = self.simu.core.get_op_index(df.PLT_OPT_NAME)
@@ -242,6 +250,7 @@ class Plot_file(object):
     @data.setter
     def data(self, value):
         self._data = value
+        self.update_indexes()
 
     def write(self, filepath = None, overwrite=False):
         """

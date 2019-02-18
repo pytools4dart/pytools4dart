@@ -633,19 +633,21 @@ class Core(object):
     #    UPDATES    #
     #################
 
-    def update(self):
+    def update(self, verbose=True):
         """
         Update optical and thermal property link indexes, multiplicative factors and band numbers.
         """
-        self.update_opl()
+        self.update_opl(verbose=verbose)
         self.update_tpl()
         self.update_mf()
         self.update_bn()
 
-    def update_opl(self):
+    def update_opl(self, verbose=True):
         """
         Update optical property link index based on identification name
         """
+        if verbose:
+            print('Updating optical properties indexes...')
         table_op = self.get_optical_properties()
         table_opl = self.get_optical_property_links()
         xtable_opl = pd.merge(table_opl, table_op, on=['ident', 'type'], how='left')
@@ -660,10 +662,12 @@ class Core(object):
             raise Exception("Optical Properties not found in 'coeff_diff': {}".format(', '.join(xtable_opl.ident[wrong_opl])))
             return table_opl.loc[wrong_opl]
 
-    def update_tpl(self):
+    def update_tpl(self, verbose=True):
         """
         Update thermal property link index based on identification name
         """
+        if verbose:
+            print('Updating thermal properties indexes...')
         table_tp = self.get_thermal_properties()
         table_tpl = self.get_thermal_property_links()
         xtable_tpl = pd.merge(table_tpl, table_tp, on=['idTemperature'], how='left')
@@ -678,7 +682,7 @@ class Core(object):
             raise Exception("Optical Properties not found in 'coeff_diff': {}".format(', '.join(xtable_tpl.ident[wrong_tpl])))
             return (table_tpl.loc[wrong_tpl])
 
-    def update_mf(self):
+    def update_mf(self, verbose=True):
         """
         Update the number multiplicative factors for each optical property in coeff_diff module
         is equal to the number of spectral bands in phase module
@@ -690,7 +694,8 @@ class Core(object):
                       (including if this has been corrected)
                  False otherwise
         """
-
+        if verbose:
+            print('Updating spectral multiplicative factors...')
         phase_spbands_nb = len(self.simu.core.phase.Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties)
 
         dartnodes = get_labels('Coeff_diff.*\.useSameFactorForAllBands$')['dartnode']
@@ -718,11 +723,13 @@ class Core(object):
                     # new = eval('ptd.core_ui.coeff_diff.create_{multi}(**multiargs)'.format(multi=multi))
                     eval('cn.set_{multi}([])'.format(multi=multi))
 
-    def update_bn(self):
+    def update_bn(self, verbose=True):
         """
         Update band number of SpectralIntervalsProperties and SpectralIrradianceValue in the order they are found, starting from 0.
         Removes SpectralIrradianceValue that have band number higher than SpectralIntervalsProperties
         """
+        if verbose:
+            print('Updating band numbers...')
         DartInputParameters = self.phase.Phase.DartInputParameters
         bands = DartInputParameters.SpectralIntervals.SpectralIntervalsProperties
         bandNumbers = [b.bandNumber for b in bands]

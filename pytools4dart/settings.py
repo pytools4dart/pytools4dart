@@ -457,9 +457,12 @@ def get_input_file_path(simu_name, filename, dartdir=None):
 
     # input directories
     if simu_name is not None:
-        spath = os.path.split(getsimupath(simu_name, dartdir))
-        for i in range(len(spath)):
-            filelist.append(spath[:-i] + ['input', filename])
+        spath = getsimupath(simu_name, dartdir).split(os.path.sep)
+        ppieces = spath + ['input', filename]
+        filelist.append(os.path.sep.join(ppieces))
+        for i in range(1, len(spath)):
+            ppieces = spath[:-i] + ['input', filename]
+            filelist.append(os.path.sep.join(ppieces))
 
     # database
     filelist.append(pjoin(getdartdir(dartdir), 'user_data', 'database', filename))
