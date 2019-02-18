@@ -217,6 +217,11 @@ class Core(object):
 
         return plots_df
 
+    def get_plot_file(self):
+        corefilepath = get_nodes(self.simu.core.plots.Plots, 'ExtraPlotsTextFileDefinition.extraPlotsFileName')
+        if len(corefilepath)>0:
+            return self.simu.get_input_file_path(corefilepath[0])
+
     def get_object_3d_df(self):
         corenodes = get_nodes(self.simu.core.object_3d, 'object_3d.ObjectList.Object')
         source = []
@@ -282,9 +287,9 @@ class Core(object):
 
     def get_tree_file(self):
         Trees = self.simu.core.trees.Trees
-        file = findall(Trees, '\.sceneParametersFileName$')
-        ptd.settings.get_input_file_path(file)
-        return file
+        corefilepath = findall(Trees, '\.sceneParametersFileName$')
+        if len(corefilepath)>0:
+            return self.simu.get_input_file_path(corefilepath[0])
 
     def get_trees(self):
         file = self.get_tree_file()
