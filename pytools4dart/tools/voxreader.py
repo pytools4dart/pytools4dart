@@ -120,14 +120,14 @@ class voxel(object):
                                     (j + 1) * self.header["res"][0] + self.header["min_corner"][1]))
         self.grid = gpd.GeoDataFrame({'geometry': polygons})
 
-    def intersect(self, shapefile, inplace=False):
+    def intersect(self, polygons, inplace=False):
         """
         Intersection of voxel grid with shapefile.
         Parameters
         ----------
 
-        shapefile: str
-            path to a shapefile
+        polygons: GeoPandas DataFrame
+            GeoPandas DataFrame with polygon geometries.
 
         inplace: bool
             If True adds interecting ID and attributes to data otherwise returns dataframe.
@@ -138,7 +138,7 @@ class voxel(object):
 
         """
         # read shapefile
-        polygons = gpd.read_file(shapefile)
+        # polygons = gpd.read_file(shapefile)
         grid_spatial_index = self.grid.sindex
         rows = self.header["split"][0]
         intersectList = []
@@ -226,6 +226,6 @@ class voxel(object):
 
         if keep_columns is not None and len(keep_columns) > 0:
             keep_columns = [c for c in keep_columns if c in self.data.columns]
-            data = pd.concat([data, self.data[self.data.PadBVTotal != 0][keep_columns]].reset_index(drop=True), axis=1)
+            data = pd.concat([data, self.data[self.data.PadBVTotal != 0][keep_columns].reset_index(drop=True)], axis=1)
 
         return data
