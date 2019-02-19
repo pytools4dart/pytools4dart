@@ -140,6 +140,8 @@ class simulation(object):
              # '{}\n'.format(self.source),
              'Scene\n========',
              '{}\n'.format(self.scene),
+             'Source\n========',
+             '{}\n'.format(self.source),
              'Sequences',
              '=========',
              'number of sequences: {}\n'.format(len(self.sequences)),

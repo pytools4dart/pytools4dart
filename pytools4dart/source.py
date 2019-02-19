@@ -26,21 +26,29 @@
 """
 This module contains the class "Source".
 """
+from pytools4dart.core_ui.utils import findall
 
 class Source(object):
     def __init__(self, simu):
         self.simu = simu
-        self.update_source_position()
 
-    def update_source_position(self):
-        self.position = self.get_source_position()
+    def __repr__(self):
+        if self.simu.method == 'LIDAR':
+            return
 
-    def get_source_position(self):
-        source_pos = [ self.simu.core.directions.Directions.SunViewingAngles.sunViewingAzimuthAngle, \
-                     self.simu.core.directions.Directions.SunViewingAngles.sunViewingZenithAngle ]
-        return source_pos
+        description = '\n'.join(
+            ['sun viewing angles (Azimuth, Zenith) : {}'.format(self.position)])
 
-    def set_source_position(self, source_pos_az_zenith):
+        return description
+
+    @property
+    def position(self):
+        if len(findall(self.simu.core.directions.Directions, '\.SunViewingAngles$'))>0:
+            return [self.simu.core.directions.Directions.SunViewingAngles.sunViewingAzimuthAngle,
+                    self.simu.core.directions.Directions.SunViewingAngles.sunViewingZenithAngle]
+
+    @position.setter
+    def position(self, source_pos_az_zenith):
         self.simu.core.directions.Directions.SunViewingAngles.sunViewingAzimuthAngle = source_pos_az_zenith[0]
         self.simu.core.directions.Directions.SunViewingAngles.sunViewingZenithAngle = source_pos_az_zenith[1]
-        self.update_source_position()
+
