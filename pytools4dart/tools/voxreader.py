@@ -156,7 +156,7 @@ class voxel(object):
                 intersectList.append(
                     pd.DataFrame({'cell': icell, 'j': irow,
                                   'i': icol, 'ID': polygon.Index, 'intersected_area': areas}))
-        intersection = pd.concat(intersectList, axis=0)
+        intersection = pd.concat(intersectList, axis=0, sort=False)
 
         # keep polygon with max area
         intersect_max = intersection.sort_values('intersected_area', ascending=False).drop_duplicates(['cell'])
