@@ -82,7 +82,7 @@ simu.add.tree_species(lai=-0.5,
 
 
 # trees to scene
-simu.add.trees(inventory, overwrite=True, mkdir=True)
+trees = simu.add.trees(inventory)
 
 # add sequence of chlorophyll
 Cab = range(0,30,10)

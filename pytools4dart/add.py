@@ -560,7 +560,7 @@ class Add(object):
 
         return plot
 
-    def plots(self, data=None, file=None, append = False, overwrite=False, mkdir=False):
+    def plots(self, data=None, file=None, append = False):
         """
         add plots DataFrame to a plot file and add file to simulation
         Parameters
@@ -650,77 +650,21 @@ class Add(object):
 
         """
 
-        # TODO: file name should go to input directory --> overwriting simulation should be specific to xml inputs?
-
         if file is None:
             file = os.path.join(self.simu.getinputsimupath(),'plots.txt')
 
-        header = True
-        if append:
-            header = False
-
         # check if the dataframe has the good format
-        df = None
         if data is not None:
             # check mandatory columns
-            mandatory_columns = ['PT_1_X', 'PT_1_Y', 'PT_2_X', 'PT_2_Y', 'PT_3_X', 'PT_3_Y', 'PT_4_X', 'PT_4_Y']
-            if not all([c for c in mandatory_columns if c in data.columns]):
-                raise Exception("Mandatory colmuns 'PT_1_X', 'PT_1_Y', 'PT_2_X', 'PT_2_Y', 'PT_3_X', 'PT_3_Y', "
-                                "'PT_4_X', 'PT_4_Y' not found.")
-
-            # subset expected columns
-            expected_columns = PLOTS_COLUMNS+['GRD_OPT_NAME', 'GRD_THERM_NAME', 'PLT_OPT_NAME', 'PLT_THERM_NAME']
-            df = data[[c for c in data.columns if c in expected_columns]]
-
-            # self.simu.core.update()
-
-            # # convert names to index
-            # if 'PLT_OPT_NAME' in df.columns:
-            #     df['PLT_OPT_NUMB'] = self.simu.core.get_op_index(df.PLT_OPT_NAME)
-            # if 'PLT_THERM_NAME' in df.columns:
-            #     df['PLT_THERM_NUMB'] = self.simu.core.get_tp_index(df.PLT_THERM_NAME)
-            # if 'GRD_OPT_NAME' in df.columns:
-            #     df['GRD_OPT_NUMB'] = self.simu.core.get_op_index(df.GRD_OPT_NAME)
-            # if 'GRD_THERM_NAME' in df.columns:
-            #     df['GRD_THERM_NUMB'] = self.simu.core.get_tp_index(df.GRD_THERM_NAME)
 
             # remove names
             # df = df[[c for c in df.columns if 'NAME' not in c]]
             if append:
-                self.simu.scene.plot_file.data = pd.concat([self.simu.scene.plot_file.data, df], ignore_index=True, sort=False)
+                self.simu.scene.plot_file.append(data)
             else:
-                self.simu.scene.plot_file.data = df
-                
-            self.simu.scene.plot_file.filepath = file
+                self.simu.scene.plot_file.data = data
 
-        #     if os.path.basename(file) is file:
-        #         filepath = os.path.join(self.simu.getsimupath(), file)
-        #     else:
-        #         filepath = file
-        #
-        #     # check if append or overwrite
-        #     if os.path.isfile(filepath) and not append and not overwrite:
-        #         raise Exception('File already exist. Set append or overwrite to overpass.')
-        #
-        #     # create directory if not found
-        #     if not os.path.isdir(os.path.dirname(filepath)):
-        #         if not mkdir:
-        #             raise Exception("Directory not found: '{}'. "
-        #                             "Set option 'mkdir' to create.".format(os.path.dirname(filepath)))
-        #         os.mkdir(os.path.dirname(filepath))
-        #         print("Created directory: '{}'".format(os.path.dirname(filepath)))
-        #
-        #     if not append:
-        #         with open(filepath, mode='w') as f:
-        #             f.write(PLOTS_HEADER)
-        #
-        #     df.to_csv(filepath, sep='\t', index=False, mode='a', header=header)
-        #     print("\nPlots written in '{}'".format(filepath))
-        #
-        # # add file to simulation
-        # Plots = self.simu.core.plots.Plots
-        # Plots.addExtraPlotsTextFile = 1
-        # Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName = filepath
+            self.simu.scene.plot_file.filepath = file
 
         return self.simu.scene.plot_file
 
@@ -789,53 +733,57 @@ class Add(object):
         """
 
         if file is None:
-            file = 'trees.txt'
-
-        header = True
-        if append:
-            header = False
+            file = os.path.join(self.simu.getinputsimupath(), 'trees.txt')
 
         # check if the dataframe has the good format
-        df = None
         if data is not None:
-            mandatory_columns = ['SPECIES_ID', 'POS_X', 'POS_Y']
-            if not all([c for c in mandatory_columns if c in data.columns]):
-                raise Exception("Mandatory colmuns 'SPECIES_ID', 'POS_X', 'POS_Y' not found.")
-
-            expected_columns = TREES_COLUMNS
-            df = data[[c for c in data.columns if c in expected_columns]]
-
-            if os.path.basename(file) is file:
-                filepath = os.path.join(self.simu.getsimupath(), file)
+            if append:
+                self.simu.scene.tree_file.append(data)
             else:
-                filepath = file
+                self.simu.scene.tree_file.data = data
 
-            # check if append or overwrite
-            if os.path.isfile(filepath) and not append and not overwrite:
-                raise Exception('File already exist. Set append or overwrite to overpass.')
+            self.simu.scene.tree_file.filepath = file
 
-            # create directory if not found
-            if not os.path.isdir(os.path.dirname(filepath)):
-                if not mkdir:
-                    raise Exception("Directory not found: '{}'"
-                                    "Set option 'mkdir' to create.".format(os.path.dirname(filepath)))
-                os.mkdir(os.path.dirname(filepath))
+        return self.simu.scene.tree_file
 
-            if not append:
-                with open(filepath, mode='w') as f:
-                    f.write(TREES_HEADER)
+        # mandatory_columns = ['SPECIES_ID', 'POS_X', 'POS_Y']
+            # if not all([c for c in mandatory_columns if c in data.columns]):
+            #     raise Exception("Mandatory colmuns 'SPECIES_ID', 'POS_X', 'POS_Y' not found.")
+            #
+            # expected_columns = TREES_COLUMNS
+            # df = data[[c for c in data.columns if c in expected_columns]]
 
-            df.to_csv(filepath, sep='\t', index=False, mode='a', header=header)
+            # if os.path.basename(file) is file:
+            #     filepath = os.path.join(self.simu.getsimupath(), file)
+            # else:
+            #     filepath = file
+            #
+            # # check if append or overwrite
+            # if os.path.isfile(filepath) and not append and not overwrite:
+            #     raise Exception('File already exist. Set append or overwrite to overpass.')
 
-        # add file to simulation
-        Trees = self.simu.core.trees.Trees
-        _, nodepath = ptd.core_ui.utils.findall(Trees, 'sceneParametersFileName', path=True)
-        if len(nodepath)!=1:
-            raise Exception('Multiple sceneParametersFileName found.')
+            # # create directory if not found
+            # if not os.path.isdir(os.path.dirname(filepath)):
+            #     if not mkdir:
+            #         raise Exception("Directory not found: '{}'"
+            #                         "Set option 'mkdir' to create.".format(os.path.dirname(filepath)))
+            #     os.mkdir(os.path.dirname(filepath))
 
-        exec(nodepath[0]+'=filepath')
-
-        return eval('.'.join(nodepath[0].split('.')[:-1]))
+        #     if not append:
+        #         with open(filepath, mode='w') as f:
+        #             f.write(TREES_HEADER)
+        #
+        #     df.to_csv(filepath, sep='\t', index=False, mode='a', header=header)
+        #
+        # # add file to simulation
+        # Trees = self.simu.core.trees.Trees
+        # _, nodepath = ptd.core_ui.utils.findall(Trees, 'sceneParametersFileName', path=True)
+        # if len(nodepath)!=1:
+        #     raise Exception('Multiple Tree files found.')
+        #
+        # exec(nodepath[0]+'=filepath')
+        #
+        # return eval('.'.join(nodepath[0].split('.')[:-1]))
         # add file to
 
     def tree_species(self, lai=4.0,

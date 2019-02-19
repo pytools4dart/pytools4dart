@@ -203,12 +203,13 @@ class simulation(object):
         if os.path.isdir(inputDpath):
             if overwrite: # remove file
                 # tempfile was considered however the plots.xml can be large if lots of plots,
-                # thus this option was further investigated
-                shutil.rmtree(inputDpath)
+                # thus this option wasn't further investigated
+                for f in glob.glob(os.path.join(self.getinputsimupath(), '*.xml')):
+                    os.remove(f)
             else:
                 raise Exception('Simulation already exists.')
-
-        os.mkdir(inputDpath)
+        else:
+            os.mkdir(inputDpath)
 
         # write inputs
         modules = self.core.get_modules_names()
@@ -219,6 +220,7 @@ class simulation(object):
                 obj.export(f, level=0)
 
         self.scene.plot_file.write(overwrite=overwrite)
+        self.scene.tree_file.write(overwrite=overwrite)
 
         # write sequence
         for s in self.sequences:

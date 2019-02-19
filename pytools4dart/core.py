@@ -291,22 +291,6 @@ class Core(object):
         if len(corefilepath)>0:
             return self.simu.get_input_file_path(corefilepath[0])
 
-    def get_trees(self):
-        file = self.get_tree_file()
-        if len(file) == 0:
-            return
-        file = file[0]
-        possible_paths = [
-            file,
-            pjoin(self.simu.getsimupath, file),
-            pjoin(ptd.getdartdir(), 'user_data', 'database', file),
-            pjoin(ptd.getdartdir(), 'database', file)]
-        filepath = next((p for p in possible_paths if os.path.isfile), None)
-        if filepath is None:
-            return
-
-        return pd.read_csv(filepath, sep='\t', comment='*')
-
     def get_bands_df(self):
         """
         Extract a DataFrame of bands with wavelength,  pairs corresponding to spectral bands contained in Phase XSD Object
@@ -638,9 +622,9 @@ class Core(object):
         Update optical and thermal property link indexes, multiplicative factors and band numbers.
         """
         self.update_opl(verbose=verbose)
-        self.update_tpl()
-        self.update_mf()
-        self.update_bn()
+        self.update_tpl(verbose=verbose)
+        self.update_mf(verbose=verbose)
+        self.update_bn(verbose=verbose)
 
     def update_opl(self, verbose=True):
         """
@@ -765,4 +749,6 @@ class Core(object):
                 row.irradiance.bandNumber = row.bandNumber
 
             DartInputParameters.nodeIlluminationMode.SpectralIrradiance.SpectralIrradianceValue = list(ir_df.irradiance)
+
+
 
