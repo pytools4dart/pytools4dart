@@ -121,14 +121,14 @@ class Add(object):
             ScaleProperties=ptd.object_3d.create_ScaleProperties(xscale=xscale, yscale=yscale, zscale=zscale)
         )
 
-        if len(gnames)==0:
-            hasGroups = 0
-        else:
+        hasGroups = 0
+        Groups = None
+        if len(gnames)>1:
             hasGroups=1
             groups=list()
             for gindex, gname in enumerate(gnames):
                 groups.append(ptd.object_3d.create_Group(num=gindex+1, name=gname))
-        Groups = ptd.object_3d.create_Groups(Group=groups)
+            Groups = ptd.object_3d.create_Groups(Group=groups)
         obj = ptd.object_3d.create_Object(file_src=file_src, hasGroups=hasGroups,
                                           GeometricProperties=GeometricProperties, Groups=Groups)
         # # if opt/thermal props are not given, default values are given
