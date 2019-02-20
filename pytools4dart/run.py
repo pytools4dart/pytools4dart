@@ -269,7 +269,7 @@ class Run(object):
         return dart(self.simu.name)
 
     def sequence(self, sequence_name, option='-start'):
-        sequence(self.simu.name, sequence_name, option)
+        return sequence(self.simu.name, sequence_name, option)
 
     def colorCompositeBands(self, red, green, blue, iteration, outdir):
         return colorCompositeBands(self.simu.name, red, green, blue, iteration, outdir)
