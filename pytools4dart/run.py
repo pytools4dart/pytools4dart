@@ -211,7 +211,10 @@ def colorCompositeBands(simu_name, red, green, blue, iteration, outdir):
     '''
     ans = rundart(simu_name, 'colorCompositeBands', [red, green, blue, iteration, outdir])
     outpath = pjoin(ptd.getsimupath(simu_name), 'output', outdir)
-    print("\nImages saved in '{}'\n".format(outpath))
+    if ans:
+        print("\nImages saved in '{}'\n".format(outpath))
+        return outpath
+
     return ans
 
 def stack_bands(simu_name, zenith=0, azimuth=0):
@@ -251,27 +254,27 @@ class Run(object):
         self.simu = simu
 
     def full(self):
-        full(self.simu.name)
+        return full(self.simu.name)
 
     def direction(self):
-        direction(self.simu.name)
+        return direction(self.simu.name)
 
     def phase(self):
-        phase(self.simu.name)
+        return phase(self.simu.name)
 
     def maket(self):
-        maket(self.simu.name)
+        return maket(self.simu.name)
 
     def dart(self):
-        dart(self.simu.name)
+        return dart(self.simu.name)
 
     def sequence(self, sequence_name, option='-start'):
         sequence(self.simu.name, sequence_name, option)
 
     def colorCompositeBands(self, red, green, blue, iteration, outdir):
-        colorCompositeBands(self.simu.name, red, green, blue, iteration, outdir)
+        return colorCompositeBands(self.simu.name, red, green, blue, iteration, outdir)
 
     def stack_bands(self, zenith=0, azimuth=0):
-        stack_bands(self.simu.name, zenith=0, azimuth=0)
+        return stack_bands(self.simu.name, zenith=0, azimuth=0)
 
 
