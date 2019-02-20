@@ -30,6 +30,7 @@ import sys
 import os
 import pytools4dart as ptd
 import re
+from plyfile import PlyData
 
 def read(file_src):
     sys.path.append(os.path.join(ptd.getdartdir(), "bin", "python_script", "DAO"))
@@ -62,3 +63,64 @@ def get_dims(obj):
     zdim = bbox.height()
 
     return xdim, ydim, zdim
+
+def ply2obj(ply, obj, order = ['x', 'y', 'z'], color=False):
+    """
+    Convert ply file to obj
+    Parameters
+    ----------
+    ply: str
+        file path to readable ply by plyfile
+    obj: str
+        file path to writable obj
+
+    color: bool
+        if True color is added at the end vertex coordinates line
+
+    Returns
+    -------
+
+    """
+    normals = ['n' + c for c in order]
+    textures = ['s', 't']
+
+    ply = PlyData.read(ply)
+    verteces = ply['vertex']
+    properties = [p.name for p in verteces.properties]
+
+    with open(obj, 'w') as f:
+        f.write("# OBJ file\n")
+
+        for v in verteces:
+            p = [v[order[0]], v[order[1]], v[order[2]]]
+            if color:
+                c = [v['red'] / 256, v['green'] / 256, v['blue'] / 256]
+                a = p + c
+                f.write("v %.6f %.6f %.6f %.6f %.6f %.6f \n" % tuple(a))
+            else:
+                f.write("v %.6f %.6f %.6f\n" % tuple(p))
+
+
+        if all([n in properties for n in normals]):
+            for v in verteces:
+                n = [v['n'+order[0]], v['n'+order[1]], v['n'+order[2]]]
+                f.write("vn %.6f %.6f %.6f\n" % tuple(n))
+
+        if all([t in properties for t in textures]):
+            for v in verteces:
+                t = [v['s'], v['t']]
+                f.write("vt %.6f %.6f\n" % tuple(t))
+
+        if 'face' in ply:
+
+            vertex_indices = next((p.name for p in ply['face'].properties if p.name in ['vertex_indices', 'vertex_index']), None)
+            for i in ply['face'][vertex_indices]:
+                f.write("f")
+                for j in range(i.size):
+                    if all([n in properties for n in normals]) and all([t in properties for t in textures]):
+                        ii = [i[j] + 1, i[j] + 1, i[j] + 1]
+                        f.write(" %d/%d/%d" % tuple(ii))
+                    else:
+                        ii = [ i[j]+1 ]
+                        f.write(" %d" % tuple(ii))
+                f.write("\n")
