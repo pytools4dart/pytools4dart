@@ -33,6 +33,7 @@ import os
 from pytools4dart.settings import getdartdir, getdartenv
 import tempfile
 import subprocess
+import re
 
 def import2db(dbFpath, name, wavelength, reflectance, direct_transmittance, diffuse_transmittance,
               type='Lambertian', comments = ["# Software: pytools4dart", "# Date: date"], verbose=False):
@@ -64,6 +65,8 @@ def import2db(dbFpath, name, wavelength, reflectance, direct_transmittance, diff
 
     dartDBmanager = os.path.join(getdartdir(), "bin", "python_script", "DatabaseManager", "main.py")
     python27DART = os.path.join(getdartdir(), "bin", "python", "python")
+    clean = lambda varStr: re.sub('\W|^(?=\d)', '_', varStr)
+    nname = clean(name)
 
     if type is 'Lambertian':
         prefix = '2D-LAM'
@@ -72,7 +75,7 @@ def import2db(dbFpath, name, wavelength, reflectance, direct_transmittance, diff
 
     try:
         tmpdir = tempfile.mkdtemp()
-        tmpfile = os.path.join(tmpdir, prefix+'_'+name+'.txt')
+        tmpfile = os.path.join(tmpdir, prefix+'_'+nname+'.txt')
 
         # write file
         df = pd.DataFrame(dict(wavelength=wavelength, reflectance=reflectance,
@@ -100,6 +103,8 @@ def import2db(dbFpath, name, wavelength, reflectance, direct_transmittance, diff
         os.remove(tmpfile)
         os.rmdir(tmpdir)
         raise Exception('Problem')
+
+    return nname
 
 
 def get_models(dbname, search=True):
