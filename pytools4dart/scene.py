@@ -409,7 +409,7 @@ class Tree_file(object):
 
     @property
     def data(self):
-        if not self.in_memory and os.path.isfile(self.filepath):
+        if not self.in_memory and self.filepath is not None and os.path.isfile(self.filepath):
             # check if exists
             self.load()
 
