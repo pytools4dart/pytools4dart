@@ -1,3 +1,4 @@
+# LIDAR simulation
 import pytools4dart as ptd
 
 simu = ptd.simulation('use_case_4', method=2, empty=True)
