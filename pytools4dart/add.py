@@ -35,7 +35,7 @@ import re
 import os
 
 from pytools4dart.tools.constants import *
-from pytools4dart.core_ui.utils import get_labels, get_nodes
+from pytools4dart.core_ui.utils import get_labels, get_nodes, findall
 
 class Add(object):
 
@@ -304,17 +304,16 @@ class Add(object):
                 databaseName='Lambertian_vegetation.db'
                 useMultiplicativeFactorForLUT=1
 
-                # prospect arguments (if None not used, default is None)
-                prospect = {'CBrown': '0.0', 'Cab': '30', 'Car': '12',
-                           'Cm': '0.01', 'Cw': '0.012', 'N': '1.8',
-                           'anthocyanin': '0'}
-
-
             - Fluid:
                 ident = 'Molecule',
                 ModelName = 'rayleigh_gas',
                 databaseName = 'Fluid.db',
                 useMultiplicativeFactorForLUT = 1,
+
+            # prospect arguments (if None not used, default is None)
+            prospect = {'CBrown': '0.0', 'Cab': '30', 'Car': '12',
+                        'Cm': '0.01', 'Cw': '0.012', 'N': '1.8',
+                        'anthocyanin': '0'}
         """
 
         # children variables are not available because they can generate conflict (not tested however):
@@ -363,12 +362,6 @@ class Add(object):
             propargnames = tmp.attrib + tmp.children
             propargs = {k: v for k, v in kwargs.iteritems() if k in propargnames}
             modelargs = { k:v for k,v in kwargs.iteritems() if k not in propargnames and k != 'prospect'}
-
-            if 'prospect' in kwargs.keys():
-                ProspectExternParameters = ptd.coeff_diff.create_ProspectExternParameters(**kwargs['prospect'])
-                ProspectExternalModule = ptd.coeff_diff.create_ProspectExternalModule(useProspectExternalModule=1, ProspectExternParameters=ProspectExternParameters)
-                modelargs['ProspectExternalModule']=ProspectExternalModule
-
             new_model = eval('ptd.coeff_diff.create_{model}(**modelargs)'.format(model=model)) # optproplist_xmlpath.split(".")[1]
 
             propargs['UnderstoryMultiModel']=new_model
@@ -376,7 +369,12 @@ class Add(object):
         else:
             module, fun, multi, node, factor = dartnode.split('.')
             new_model = None
-            prop = eval('ptd.coeff_diff.create_{multi}(**kwargs)'.format(multi=multi)) # optproplist_xmlpath.split(".")[1]
+            propargs = {k: v for k, v in kwargs.iteritems() if k != 'prospect'}
+            prop = eval('ptd.coeff_diff.create_{multi}(**propargs)'.format(multi=multi)) # optproplist_xmlpath.split(".")[1]
+
+            # ProspectExternalModule = ptd.coeff_diff.create_ProspectExternalModule(useProspectExternalModule=1,
+            #                                                                       ProspectExternParameters=ProspectExternParameters)
+            # modelargs['ProspectExternalModule'] = ProspectExternalModule
 
         # check if already exists
 
@@ -393,6 +391,15 @@ class Add(object):
             else:
                 raise ValueError("'{}' already used by other optical property."
                                  "Please change 'ident' or set 'replace'.".format(prop.ident))
+
+        if 'prospect' in kwargs.keys():
+            ProspectExternalModule = findall(prop, '\.ProspectExternalModule$')
+            if len(ProspectExternalModule)==1:
+                ProspectExternParameters = ptd.coeff_diff.create_ProspectExternParameters(**kwargs['prospect'])
+                ProspectExternalModule[0].useProspectExternalModule = 1
+                ProspectExternalModule[0].ProspectExternParameters = ProspectExternParameters
+            else:
+                raise Exception('Prospect option not found.')
 
         # # update multiplicative factors
         # useMultiplicativeFactorForLUT = eval("{multi}.useMultiplicativeFactorForLUT".format(
