@@ -19,28 +19,11 @@ for wvl in [0.485, 0.555, 0.655]:
 # define optical properties with prospect parameters
 op = simu.add.optical_property(type = 'Vegetation',
                                ident='turbid_leaf',
-                               databaseName='prospect.db',
+                               databaseName='ProspectVegetation.db',
                                ModelName='',
                                prospect={'CBrown': 0, 'Cab': 30, 'Car': 5,
                                          'Cm': 0.01, 'Cw': 0.01, 'N': 1.8,
                                          'anthocyanin': 0})
-
-# propect_prop = {'CBrown': 0, 'Cab': 30, 'Car': 5,
-#                 'Cm': 0.01, 'Cw': 0.01, 'N': 1.8,
-#                 'anthocyanin': 0}
-#
-# op_name ='op_prospect'
-# op_vegetation = {'type':'vegetation',
-#               'op_name': op_name,
-#               'db_name':'prospect.db',
-#               'op_name_in_db':'',
-#               'lad': 1,
-#               'prospect':propect_prop}
-#
-# simu.add_optical_property(op_vegetation)
-#
-
-# ptd.core_ui.utils.findall(op, '.*Cab$', path=True)
 
 # add a turbid plot
 plot = simu.add.plot(type='Vegetation', op_ident='turbid_leaf')

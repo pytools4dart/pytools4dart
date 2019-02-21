@@ -53,7 +53,7 @@ propect_prop = {'CBrown': 0, 'Cab': 30, 'Car': 5,
 
 op_vegetation = {'type':'Vegetation',
               'ident': 'leaf',
-              'databaseName':'prospect.db',
+              'databaseName':'ProspectVegetation.db',
               'ModelName':'',
               'lad': 1,
               'prospect':propect_prop}
