@@ -329,6 +329,61 @@ def get_nodes(corenode, dartnode):
         return(n)
     return([n])
 
+def get_nodes_with_path(corenode, dartnode):
+    """
+    get all the nodes corresponding to dartnode path
+
+    Parameters
+    ----------
+    corenode: any class of core_ui modules
+    dartnode: str
+        given by dart labels (cf get_labels)
+    Returns
+    -------
+        list
+    Examples
+    --------
+        import pytools4dart as ptd
+        simu = ptd.simulation('use_case_1')
+        dartnodes = ptd.core_ui.utils.get_labels('$Plots.*OpticalPropertyLink$')['dartnode']
+        corenode = simu.core.xsdobj['plots']
+        all_nodes = [get_nodes(cornode, dartnode) for dartnode in dartnodes]
+    """
+    dns = dartnode.split('.')
+    subdn = ''
+    dn = dns[0]
+    if dn not in corenode.children+corenode.attrib:
+        return [], []
+
+    cn = eval('corenode.'+dn)
+    if cn is None:
+        return [], []
+
+    if len(dns)== 1:
+        if isinstance(cn, list):
+            path = [corenode.path()+'.'+dn+'[{}]'.format(i) for i in range(len(cn))]
+            return cn, path
+        else:
+            return [cn], [corenode.path()+'.'+dn]
+
+
+    subdn = '.'.join(dns[1:])
+    if isinstance(cn, list):
+        node=[]
+        path=[]
+        for subcn in cn:
+            n, p = get_nodes_with_path(subcn, subdn)
+            node.extend(n)
+            path.extend(p)
+
+        return node, path
+        # return([get_nodes(subcn, subdn) for subcn in cn])
+    node, path = get_nodes_with_path(cn, subdn)
+    # if isinstance(n, list):
+    #     return(n)
+    return node, path
+
+
 def get_labels(pat=None, case=False, regex=True, column='dartnode'):
     """
     Extract DART labels and corresponding DART node from labels.tab.
@@ -437,7 +492,6 @@ def findall(corenode, pat, case=False, regex=True, column='dartnode', path=False
     # This is a pb from generateds it seems.
     # Another pb is that it is not completly the same, e.g.
     # findall(simu.core.phase, 'Phase', path=True, use_labels=False) != findall(simu.core.phase.Phase, 'Phase', path=True)
-    # A third difference: if path=True, use_labels=True gives full, while use_labels=False gives relative path
 
     dartnode = corenode.path(index=False)
     # corepath = corenode.path(index=True)
@@ -482,9 +536,10 @@ def findall(corenode, pat, case=False, regex=True, column='dartnode', path=False
 
 def set_nodes(corenode, **kwargs):
     for key, value in kwargs.iteritems():
-        _, dartnodes = findall(corenode, pat=key+'$', path=True)
+        # _, dartnodes = findall(corenode, pat=key+'$', path=True, use_labels=False)
+        dartnodes = findnodes(corenode, pat=key+'$')
         if len(dartnodes)==1:
-            exec('corenode.'+dartnodes[0]+'=value')
+            exec('corenode.'+dartnodes.iloc[0]+'=value')
         else:
             df = pd.DataFrame(dict(attr=dartnodes, value=value))
             for row in df.itertuples():
@@ -507,61 +562,12 @@ def subnodes(corenode):
 
     return cpath
 
+def findnodes(corenode, pat, case=False, regex=True):
+    paths = pd.Series(subnodes(corenode))
+    return paths[paths.str.contains(pat, case, regex=regex)]
+
 # ptd.core_ui.utils.findall(simu.core.plots.Plots, '.*ident$')
 #
 # pat = '.*LAI$'
 
 
-def get_nodes_with_path(corenode, dartnode):
-    """
-    get all the nodes corresponding to dartnode path
-
-    Parameters
-    ----------
-    corenode: any class of core_ui modules
-    dartnode: str
-        given by dart labels (cf get_labels)
-    Returns
-    -------
-        list
-    Examples
-    --------
-        import pytools4dart as ptd
-        simu = ptd.simulation('use_case_1')
-        dartnodes = ptd.core_ui.utils.get_labels('$Plots.*OpticalPropertyLink$')['dartnode']
-        corenode = simu.core.xsdobj['plots']
-        all_nodes = [get_nodes(cornode, dartnode) for dartnode in dartnodes]
-    """
-    dns = dartnode.split('.')
-    subdn = ''
-    dn = dns[0]
-    if dn not in corenode.children+corenode.attrib:
-        return [], []
-
-    cn = eval('corenode.'+dn)
-    if cn is None:
-        return [], []
-
-    if len(dns)== 1:
-        if isinstance(cn, list):
-            path = [corenode.path()+'.'+dn+'[{}]'.format(i) for i in range(len(cn))]
-            return cn, path
-        else:
-            return [cn], [corenode.path()+'.'+dn]
-
-
-    subdn = '.'.join(dns[1:])
-    if isinstance(cn, list):
-        node=[]
-        path=[]
-        for subcn in cn:
-            n, p = get_nodes_with_path(subcn, subdn)
-            node.extend(n)
-            path.extend(p)
-
-        return node, path
-        # return([get_nodes(subcn, subdn) for subcn in cn])
-    node, path = get_nodes_with_path(cn, subdn)
-    # if isinstance(n, list):
-    #     return(n)
-    return node, path
