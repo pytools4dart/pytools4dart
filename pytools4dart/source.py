@@ -42,6 +42,7 @@ class Source(object):
 
     @property
     def position(self):
+        # TODO: Only works for viewing angles
         if hasattr(self.simu.core.directions.Directions, 'SunViewingAngles'):
             return [self.simu.core.directions.Directions.SunViewingAngles.sunViewingAzimuthAngle,
                     self.simu.core.directions.Directions.SunViewingAngles.sunViewingZenithAngle]
