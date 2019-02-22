@@ -430,6 +430,15 @@ def findall(corenode, pat, case=False, regex=True, column='dartnode', path=False
     -------
 
     """
+    # TODO: change/check that findall use_labels can be removed
+    # using subnodes instead of labels shows that it is much faster (10-100x)
+    # However,
+    # there is a pb with nodes having attrib=[''], e.g. create_DartInputParameters in phase.py, see subnodes.
+    # This is a pb from generateds it seems.
+    # Another pb is that it is not completly the same, e.g.
+    # findall(simu.core.phase, 'Phase', path=True, use_labels=False) != findall(simu.core.phase.Phase, 'Phase', path=True)
+    # A third difference: if path=True, use_labels=True gives full, while use_labels=False gives relative path
+
     dartnode = corenode.path(index=False)
     # corepath = corenode.path(index=True)
     if dartnode is None:
@@ -457,7 +466,6 @@ def findall(corenode, pat, case=False, regex=True, column='dartnode', path=False
     else:
         dartnodes = pd.Series(subnodes(corenode)).drop_duplicates()
         dartnodes = dartnodes[dartnodes.str.contains(pat, case, regex=regex)]
-        dartnodes = dartnodes[~dartnodes.str.contains('\.$', case, regex=regex)]
         nodes=[]
         for dn in dartnodes:
             nodes.append(eval('corenode.{}'.format(dn)))
@@ -485,7 +493,8 @@ def set_nodes(corenode, **kwargs):
 def subnodes(corenode):
     cpath = []
     if hasattr(corenode, 'attrib'):
-        cpath.extend(corenode.attrib)
+        if corenode.attrib != ['']:
+            cpath.extend(corenode.attrib)
     if hasattr(corenode, 'children'):
         cpath.extend(corenode.children)
         for cname in corenode.children:
