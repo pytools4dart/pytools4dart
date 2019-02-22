@@ -535,6 +535,30 @@ def findall(corenode, pat, case=False, regex=True, column='dartnode', path=False
     return nodes
 
 def set_nodes(corenode, **kwargs):
+    """
+    Set the value of a subnode or a subnode attribute
+    Parameters
+    ----------
+    corenode: object
+        object of class of core modules
+    kwargs:
+        any attribute, subnode or subnode attribute
+
+    Returns
+    -------
+
+    Examples
+    --------
+
+    import pytools4dart as ptd
+    simu = ptd.simulation()
+    simu.scene.properties.optical
+    ptd.core_ui.utils.set_nodes(simu.core.coeff_diff, ident='leaf', ModelName='leaf_deciduous', databaseName='Lambertian_vegetation.db')
+    simu.scene.properties.optical
+    simu.core.coeff_diff.set_nodes(ident='leaf_bis', ModelName='leaf_deciduous', databaseName='Lambertian_vegetation.db')
+    simu.scene.properties.optical
+
+    """
     for key, value in kwargs.iteritems():
         # _, dartnodes = findall(corenode, pat=key+'$', path=True, use_labels=False)
         dartnodes = findnodes(corenode, pat=key+'$')
