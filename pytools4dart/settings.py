@@ -409,7 +409,7 @@ def build_core(directory=None):
                         '-p "create" --post-attrib-setter="update_node(self,self.troot,\'{xsdname}\')"',
                         '--pre-ctor="self.troot=get_gs_troot(\'{xsdname}\',\'{{classname}}\')"',
                         '--post-ctor="update_node(self,self.troot,\'{xsdname}\')"',
-                        '--imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path"',
+                        '--imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findnodes, subnodes, set_nodes"',
                         '-o "{pypath}"',
                         '{xsdpath}']).format(user_methods = 'core_ui.user_methods',
                                                 xsdname = xsdname,
