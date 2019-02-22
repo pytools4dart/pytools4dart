@@ -205,7 +205,10 @@ At the moment only part of DART simulator features are supported:
     - sequence
     - colorCompositeBands
 - hyperspectral tools: read ENVI .hdr files, extract wavelengths and bandwidths, stack results to ENVI file
-- lidar tools: read voxelized scene 
+- lidar tools: read voxelized scene
+
+Notebooks with examples are available in directory `doc`.
+Use cases examples are also available in directory `examples`.
 
 
 ###### Create simulation
