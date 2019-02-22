@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Wed Jan 30 01:18:10 2019 by generateDS.py version 2.29.25.
+# Generated Fri Feb 22 20:59:45 2019 by generateDS.py version 2.29.25.
 # Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
 #
 # Command line options:
@@ -15,14 +15,14 @@
 #   ('--post-attrib-setter', "update_node(self,self.troot,'directions')")
 #   ('--pre-ctor', "self.troot=get_gs_troot('directions','{classname}')")
 #   ('--post-ctor', "update_node(self,self.troot,'directions')")
-#   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path')
+#   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes')
 #   ('-o', '/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/directions.py')
 #
 # Command line arguments:
 #   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/directions.xsd
 #
 # Command line:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'directions')" --pre-ctor="self.troot=get_gs_troot('directions','{classname}')" --post-ctor="update_node(self,self.troot,'directions')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path" -o "/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/directions.py" /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/directions.xsd
+#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'directions')" --pre-ctor="self.troot=get_gs_troot('directions','{classname}')" --post-ctor="update_node(self,self.troot,'directions')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/directions.py" /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/directions.xsd
 #
 # Current working directory (os.getcwd()):
 #   pytools4dart
@@ -37,7 +37,7 @@ try:
     from lxml import etree as etree_
 except ImportError:
     from xml.etree import ElementTree as etree_
-from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path
+from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes
 
 
 Validate_simpletypes_ = True
@@ -921,6 +921,18 @@ class createDartFile(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class createDartFile
 
 
@@ -1434,6 +1446,18 @@ class create_Directions(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_Directions
 
 
@@ -1771,6 +1795,18 @@ class create_AddedDirections(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_AddedDirections
 
 
@@ -1939,6 +1975,18 @@ class create_ZenithAzimuth(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_ZenithAzimuth
 
 
@@ -2123,6 +2171,18 @@ class create_LatLon(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_LatLon
 
 
@@ -2287,6 +2347,18 @@ class create_Rectangle(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_Rectangle
 
 
@@ -2505,6 +2577,18 @@ class create_Square(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_Square
 
 
@@ -2643,6 +2727,18 @@ class create_DefineOmega(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_DefineOmega
 
 
@@ -2782,6 +2878,18 @@ class create_DefineDeltaPhi(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_DefineDeltaPhi
 
 
@@ -2921,6 +3029,18 @@ class create_DefineDeltaTheta(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_DefineDeltaTheta
 
 
@@ -3308,6 +3428,18 @@ class create_Region(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_Region
 
 
@@ -3548,6 +3680,18 @@ class create_OversampledPlane(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_OversampledPlane
 
 
@@ -3710,6 +3854,18 @@ class create_thetaRange(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_thetaRange
 
 
@@ -3909,6 +4065,18 @@ class create_Sun(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_Sun
 
 
@@ -4242,6 +4410,18 @@ class create_ExactDateHour(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_ExactDateHour
 
 
@@ -4441,6 +4621,18 @@ class create_SunViewingAngles(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_SunViewingAngles
 
 
@@ -4737,6 +4929,18 @@ class create_HotSpotProperties(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_HotSpotProperties
 
 
@@ -4901,6 +5105,18 @@ class create_HotSpotUpwardRegion(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_HotSpotUpwardRegion
 
 
@@ -5065,6 +5281,18 @@ class create_HotSpotDownwardRegion(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_HotSpotDownwardRegion
 
 
@@ -5231,6 +5459,18 @@ class create_HotSpotOversampledPlane(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_HotSpotOversampledPlane
 
 
@@ -5425,6 +5665,18 @@ class create_Penumbra(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_Penumbra
 
 
@@ -5568,6 +5820,18 @@ class create_SunSphere(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_SunSphere
 
 
@@ -5714,6 +5978,18 @@ class create_SunIcoSphere(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_SunIcoSphere
 
 
@@ -5882,6 +6158,18 @@ class create_AzimuthalOffset(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_AzimuthalOffset
 
 
@@ -6058,6 +6346,18 @@ class create_ExpertModeZone(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_ExpertModeZone
 
 

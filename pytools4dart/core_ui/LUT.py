@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Wed Jan 30 01:18:12 2019 by generateDS.py version 2.29.25.
+# Generated Fri Feb 22 20:59:49 2019 by generateDS.py version 2.29.25.
 # Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
 #
 # Command line options:
@@ -15,14 +15,14 @@
 #   ('--post-attrib-setter', "update_node(self,self.troot,'LUT')")
 #   ('--pre-ctor', "self.troot=get_gs_troot('LUT','{classname}')")
 #   ('--post-ctor', "update_node(self,self.troot,'LUT')")
-#   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path')
+#   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes')
 #   ('-o', '/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/LUT.py')
 #
 # Command line arguments:
 #   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/LUT.xsd
 #
 # Command line:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'LUT')" --pre-ctor="self.troot=get_gs_troot('LUT','{classname}')" --post-ctor="update_node(self,self.troot,'LUT')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path" -o "/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/LUT.py" /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/LUT.xsd
+#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'LUT')" --pre-ctor="self.troot=get_gs_troot('LUT','{classname}')" --post-ctor="update_node(self,self.troot,'LUT')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/LUT.py" /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/LUT.xsd
 #
 # Current working directory (os.getcwd()):
 #   pytools4dart
@@ -37,7 +37,7 @@ try:
     from lxml import etree as etree_
 except ImportError:
     from xml.etree import ElementTree as etree_
-from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path
+from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes
 
 
 Validate_simpletypes_ = True
@@ -898,6 +898,18 @@ class createDartFile(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class createDartFile
 
 
@@ -1298,6 +1310,18 @@ class create_DartLUT(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_DartLUT
 
 
@@ -1461,6 +1485,18 @@ class create_DataFile(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_DataFile
 
 
@@ -1595,6 +1631,18 @@ class create_Property(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_Property
 
 
@@ -1758,6 +1806,18 @@ class create_SpectralIntervals(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_SpectralIntervals
 
 
@@ -1921,6 +1981,18 @@ class create_StaticLUTReflectanceParameters(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_StaticLUTReflectanceParameters
 
 
@@ -2084,6 +2156,18 @@ class create_StaticLUTCoefficientParameters(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_StaticLUTCoefficientParameters
 
 
@@ -2247,6 +2331,18 @@ class create_FreeParametersLUTReflectance(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_FreeParametersLUTReflectance
 
 
@@ -2447,6 +2543,18 @@ class create_LUTProperty(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_LUTProperty
 
 
@@ -2610,6 +2718,18 @@ class create_FreeParametersLUTCoefficient(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_FreeParametersLUTCoefficient
 
 
@@ -2793,6 +2913,18 @@ class createSpectralIntervalsPropertiesType(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class createSpectralIntervalsPropertiesType
 
 

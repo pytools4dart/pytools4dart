@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Wed Jan 30 01:18:09 2019 by generateDS.py version 2.29.25.
+# Generated Fri Feb 22 20:59:44 2019 by generateDS.py version 2.29.25.
 # Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
 #
 # Command line options:
@@ -15,14 +15,14 @@
 #   ('--post-attrib-setter', "update_node(self,self.troot,'water')")
 #   ('--pre-ctor', "self.troot=get_gs_troot('water','{classname}')")
 #   ('--post-ctor', "update_node(self,self.troot,'water')")
-#   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path')
+#   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes')
 #   ('-o', '/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/water.py')
 #
 # Command line arguments:
 #   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/water.xsd
 #
 # Command line:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'water')" --pre-ctor="self.troot=get_gs_troot('water','{classname}')" --post-ctor="update_node(self,self.troot,'water')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path" -o "/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/water.py" /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/water.xsd
+#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'water')" --pre-ctor="self.troot=get_gs_troot('water','{classname}')" --post-ctor="update_node(self,self.troot,'water')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/water.py" /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/water.xsd
 #
 # Current working directory (os.getcwd()):
 #   pytools4dart
@@ -37,7 +37,7 @@ try:
     from lxml import etree as etree_
 except ImportError:
     from xml.etree import ElementTree as etree_
-from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path
+from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes
 
 
 Validate_simpletypes_ = True
@@ -921,6 +921,18 @@ class createDartFile(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class createDartFile
 
 
@@ -1137,6 +1149,18 @@ class create_Water(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_Water
 
 
@@ -1301,6 +1325,18 @@ class create_Lakes(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_Lakes
 
 
@@ -1549,6 +1585,18 @@ class create_Lake(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_Lake
 
 
@@ -1720,6 +1768,18 @@ class create_Ellipse2D(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_Ellipse2D
 
 
@@ -1885,6 +1945,18 @@ class create_Point2D(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_Point2D
 
 
@@ -2050,6 +2122,18 @@ class create_HalfAxes(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_HalfAxes
 
 
@@ -2240,6 +2324,18 @@ class create_OpticalPropertyLink(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_OpticalPropertyLink
 
 
@@ -2399,6 +2495,18 @@ class create_ThermalPropertyLink(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_ThermalPropertyLink
 
 
@@ -2563,6 +2671,18 @@ class create_Rivers(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_Rivers
 
 
@@ -2811,6 +2931,18 @@ class create_River(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_River
 
 
@@ -2995,6 +3127,18 @@ class create_Path2D(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_Path2D
 
 

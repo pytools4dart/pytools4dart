@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Wed Jan 30 01:18:10 2019 by generateDS.py version 2.29.25.
+# Generated Fri Feb 22 20:59:45 2019 by generateDS.py version 2.29.25.
 # Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
 #
 # Command line options:
@@ -15,14 +15,14 @@
 #   ('--post-attrib-setter', "update_node(self,self.troot,'urban')")
 #   ('--pre-ctor', "self.troot=get_gs_troot('urban','{classname}')")
 #   ('--post-ctor', "update_node(self,self.troot,'urban')")
-#   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path')
+#   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes')
 #   ('-o', '/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/urban.py')
 #
 # Command line arguments:
 #   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/urban.xsd
 #
 # Command line:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'urban')" --pre-ctor="self.troot=get_gs_troot('urban','{classname}')" --post-ctor="update_node(self,self.troot,'urban')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path" -o "/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/urban.py" /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/urban.xsd
+#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'urban')" --pre-ctor="self.troot=get_gs_troot('urban','{classname}')" --post-ctor="update_node(self,self.troot,'urban')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/urban.py" /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/urban.xsd
 #
 # Current working directory (os.getcwd()):
 #   pytools4dart
@@ -37,7 +37,7 @@ try:
     from lxml import etree as etree_
 except ImportError:
     from xml.etree import ElementTree as etree_
-from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path
+from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes
 
 
 Validate_simpletypes_ = True
@@ -921,6 +921,18 @@ class createDartFile(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class createDartFile
 
 
@@ -1118,6 +1130,18 @@ class create_Urban(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_Urban
 
 
@@ -1282,6 +1306,18 @@ class create_Buildings(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_Buildings
 
 
@@ -1576,6 +1612,18 @@ class create_Building(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_Building
 
 
@@ -1821,6 +1869,18 @@ class create_WallProperties(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_WallProperties
 
 
@@ -2010,6 +2070,18 @@ class create_ExternalFacesOpticalPropertyLink(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_ExternalFacesOpticalPropertyLink
 
 
@@ -2170,6 +2242,18 @@ class create_ExternalFacesThermalPropertyLink(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_ExternalFacesThermalPropertyLink
 
 
@@ -2359,6 +2443,18 @@ class create_InternalFacesOpticalPropertyLink(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_InternalFacesOpticalPropertyLink
 
 
@@ -2519,6 +2615,18 @@ class create_InternalFacesThermalPropertyLink(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_InternalFacesThermalPropertyLink
 
 
@@ -2764,6 +2872,18 @@ class create_RoofProperties(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_RoofProperties
 
 
@@ -3073,6 +3193,18 @@ class create_House(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_House
 
 
@@ -3322,6 +3454,18 @@ class create_Wall(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_Wall
 
 
@@ -3490,6 +3634,18 @@ class create_Polygon3D(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_Polygon3D
 
 
@@ -3681,6 +3837,18 @@ class create_Point3D(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_Point3D
 
 
@@ -3849,6 +4017,18 @@ class create_OpticalProperties(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_OpticalProperties
 
 
@@ -4035,6 +4215,18 @@ class create_OpticalPropertyLink(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_OpticalPropertyLink
 
 
@@ -4203,6 +4395,18 @@ class create_ThermalProperties(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_ThermalProperties
 
 
@@ -4362,6 +4566,18 @@ class create_ThermalPropertyLink(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_ThermalPropertyLink
 
 
@@ -4530,6 +4746,18 @@ class create_InnerOpticalProperties(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_InnerOpticalProperties
 
 
@@ -4698,6 +4926,18 @@ class create_InnerThermalProperties(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_InnerThermalProperties
 
 
@@ -4921,6 +5161,18 @@ class create_RoofNone(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_RoofNone
 
 
@@ -5170,6 +5422,18 @@ class create_RoofClassic(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_RoofClassic
 
 
@@ -5416,6 +5680,18 @@ class create_RoofPlate(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_RoofPlate
 
 
@@ -5665,6 +5941,18 @@ class create_RoofComplex(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_RoofComplex
 
 
@@ -5829,6 +6117,18 @@ class create_Roads(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_Roads
 
 
@@ -6077,6 +6377,18 @@ class create_Road(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_Road
 
 
@@ -6261,6 +6573,18 @@ class create_Path2D(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_Path2D
 
 
@@ -6424,6 +6748,18 @@ class create_Point2D(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_Point2D
 
 
@@ -6588,6 +6924,18 @@ class create_SmallWalls(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_SmallWalls
 
 
@@ -6914,6 +7262,18 @@ class create_SmallWall(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_SmallWall
 
 

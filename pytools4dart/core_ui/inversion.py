@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Wed Jan 30 01:18:12 2019 by generateDS.py version 2.29.25.
+# Generated Fri Feb 22 20:59:48 2019 by generateDS.py version 2.29.25.
 # Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
 #
 # Command line options:
@@ -15,14 +15,14 @@
 #   ('--post-attrib-setter', "update_node(self,self.troot,'inversion')")
 #   ('--pre-ctor', "self.troot=get_gs_troot('inversion','{classname}')")
 #   ('--post-ctor', "update_node(self,self.troot,'inversion')")
-#   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path')
+#   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes')
 #   ('-o', '/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/inversion.py')
 #
 # Command line arguments:
 #   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/inversion.xsd
 #
 # Command line:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'inversion')" --pre-ctor="self.troot=get_gs_troot('inversion','{classname}')" --post-ctor="update_node(self,self.troot,'inversion')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path" -o "/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/inversion.py" /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/inversion.xsd
+#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'inversion')" --pre-ctor="self.troot=get_gs_troot('inversion','{classname}')" --post-ctor="update_node(self,self.troot,'inversion')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/inversion.py" /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/inversion.xsd
 #
 # Current working directory (os.getcwd()):
 #   pytools4dart
@@ -37,7 +37,7 @@ try:
     from lxml import etree as etree_
 except ImportError:
     from xml.etree import ElementTree as etree_
-from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path
+from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes
 
 
 Validate_simpletypes_ = True
@@ -921,6 +921,18 @@ class createDartFile(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class createDartFile
 
 
@@ -1113,6 +1125,18 @@ class create_DartInversion(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_DartInversion
 
 
@@ -1323,6 +1347,18 @@ class create_InversionImages(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_InversionImages
 
 
@@ -1458,6 +1494,18 @@ class create_MaskProperties(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_MaskProperties
 
 
@@ -1689,6 +1737,18 @@ class create_ImageProperties(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_ImageProperties
 
 
@@ -1899,6 +1959,18 @@ class create_SunViewAngleProperties(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_SunViewAngleProperties
 
 
@@ -2122,6 +2194,18 @@ class create_Inversion(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_Inversion
 
 
@@ -2321,6 +2405,18 @@ class create_InversionDatabase(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_InversionDatabase
 
 
@@ -2485,6 +2581,18 @@ class create_InversionInterpolation(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_InversionInterpolation
 
 
@@ -2750,6 +2858,18 @@ class create_InversionSimplexConvergence(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_InversionSimplexConvergence
 
 
@@ -2888,6 +3008,18 @@ class create_ThresholdRelativeError(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_ThresholdRelativeError
 
 
@@ -3052,6 +3184,18 @@ class create_InversionParameters(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_InversionParameters
 
 
@@ -3392,6 +3536,18 @@ class create_freeParameters(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_freeParameters
 
 
@@ -3531,6 +3687,18 @@ class create_freeParameterGlobalValue(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_freeParameterGlobalValue
 
 
@@ -3693,6 +3861,18 @@ class create_freeParameterValue(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_freeParameterValue
 
 
@@ -3849,6 +4029,18 @@ class create_InversionSpectra(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_InversionSpectra
 
 
@@ -4005,6 +4197,18 @@ class create_InversionSpectra1(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_InversionSpectra1
 
 
@@ -4181,6 +4385,18 @@ class create_InversionSpectra2(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_InversionSpectra2
 
 
@@ -4378,6 +4594,18 @@ class create_InversionSpectra3(GeneratedsSuper):
 
         return get_path(self, index=index)
         
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
     # end class create_InversionSpectra3
 
 

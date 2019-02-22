@@ -135,29 +135,29 @@ path = MethodSpec(name='path',
     ''',
                      class_names=r'.*')
 
-findnodes = MethodSpec(name='path',
+findpaths = MethodSpec(name='path',
                      source='''\
                      
-    def findnodes(self, pat, case=False, regex=True):
-        return findnodes(self, pat, case=False, regex=True)
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
     
     ''',
                        class_names=r'.*')
 
-subnodes = MethodSpec(name='path',
+subpaths = MethodSpec(name='path',
                        source='''\
 
-    def subnodes(self):
-        return subnodes(self)
+    def subpaths(self):
+        return subpaths(self)
 
     ''',
                        class_names=r'.*')
 
-setnodes = MethodSpec(name='path',
+set_nodes = MethodSpec(name='path',
                        source='''\
 
-    def setnodes(self, **kwargs):
-        return set_nodes(self)
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
 
     ''',
                        class_names=r'.*')
@@ -168,7 +168,7 @@ setnodes = MethodSpec(name='path',
 #   This list of specifications must be named METHOD_SPECS.
 #
 
-METHOD_SPECS = [to_string, path, findnodes, subnodes, set_nodes]
+METHOD_SPECS = [to_string, path, findpaths, subpaths, set_nodes]
 
 def test():
     for spec in METHOD_SPECS:
