@@ -26,7 +26,6 @@
 """
 This module contains the class "Source".
 """
-from pytools4dart.core_ui.utils import findall
 
 class Source(object):
     def __init__(self, simu):
@@ -43,7 +42,7 @@ class Source(object):
 
     @property
     def position(self):
-        if len(findall(self.simu.core.directions.Directions, '\.SunViewingAngles$'))>0:
+        if hasattr(self.simu.core.directions.Directions, 'SunViewingAngles'):
             return [self.simu.core.directions.Directions.SunViewingAngles.sunViewingAzimuthAngle,
                     self.simu.core.directions.Directions.SunViewingAngles.sunViewingZenithAngle]
 
