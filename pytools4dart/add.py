@@ -310,12 +310,15 @@ class Add(object):
                 databaseName = 'Fluid.db',
                 useMultiplicativeFactorForLUT = 1,
 
-            # prospect arguments (if None not used, default is None)
+
+            Prospect module can be called for Lambertian and Vegetation modules. It can be set argument `prospect`
+            like in thefollowing example:
+
             prospect = {'CBrown': '0.0', 'Cab': '30', 'Car': '12',
                         'Cm': '0.01', 'Cw': '0.012', 'N': '1.8',
                         'anthocyanin': '0'}
         """
-
+        # TODO: change code using set_nodes
         # children variables are not available because they can generate conflict (not tested however):
         # Lambertian
         #     SpecularData = None,
