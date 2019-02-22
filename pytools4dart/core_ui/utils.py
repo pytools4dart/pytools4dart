@@ -415,7 +415,7 @@ def get_path(corenode, index=False):
     return '.'.join([ppath, path])
 
 
-def findall(corenode, pat, case=False, regex=True, column='dartnode', path=False):
+def findall(corenode, pat, case=False, regex=True, column='dartnode', path=False, use_labels=True):
     """
     Find all the values with path
     Parameters
@@ -431,24 +431,72 @@ def findall(corenode, pat, case=False, regex=True, column='dartnode', path=False
 
     """
     dartnode = corenode.path(index=False)
-    corepath = corenode.path(index=True)
-    # labelsdf = get_labels('^'+dartnode)
-    labelsdf = ptd.core_ui.utils.get_labels('^' + dartnode)
-    labelsdf = labelsdf[labelsdf[column].str.contains(pat, case, regex=regex)]
-    dartnodes = [re.sub(dartnode+'.', '', dn, count=1) for dn in labelsdf['dartnode']]
-    nodes = []
-    if path:
-        paths = []
-        for dn in dartnodes:
-            # l.extend(ptd.core_ui.utils.get_nodes(corenode, dn))
-            n, p=ptd.core_ui.utils.get_nodes_with_path(corenode, dn)
-            nodes.extend(n)
-            paths.extend(p)
-        return nodes, paths
+    # corepath = corenode.path(index=True)
+    if dartnode is None:
+        dartnode = re.sub('create_', '', corenode.__class__.__name__)
 
-    for dn in dartnodes:
-        nodes.extend(ptd.core_ui.utils.get_nodes(corenode, dn))
+    if use_labels:
+        labelsdf = get_labels('(^|\.)'+dartnode)
+        labelsdf = labelsdf[labelsdf[column].str.contains(pat, case, regex=regex)]
+        labelsdf['dartnode'] = [re.sub('^(?:.*\.)?' + dartnode + '\.', '', dn) for dn in labelsdf['dartnode']]
+        dartnodes = labelsdf['dartnode'].drop_duplicates()
+
+        nodes = []
+        if path:
+            paths = []
+            for dn in dartnodes:
+                # l.extend(ptd.core_ui.utils.get_nodes(corenode, dn))
+                n, p = ptd.core_ui.utils.get_nodes_with_path(corenode, dn)
+                nodes.extend(n)
+                paths.extend(p)
+            return nodes, paths
+
+        for dn in dartnodes:
+            nodes.extend(ptd.core_ui.utils.get_nodes(corenode, dn))
+
+    else:
+        dartnodes = pd.Series(subnodes(corenode)).drop_duplicates()
+        dartnodes = dartnodes[dartnodes.str.contains(pat, case, regex=regex)]
+        dartnodes = dartnodes[~dartnodes.str.contains('\.$', case, regex=regex)]
+        nodes=[]
+        for dn in dartnodes:
+            nodes.append(eval('corenode.{}'.format(dn)))
+        index = [n is not None and not (isinstance(n, list) and len(n)==0) for n in nodes]
+        nodes = [n for n, i in zip(nodes, index) if i]
+        if path:
+            paths = [d for d, i in zip(dartnodes, index) if i]
+            return nodes, paths
+
+
+
+    # dartnodes = [re.sub(dartnode+'.', '', dn, count=1) for dn in labelsdf['dartnode']]
     return nodes
+
+def set_nodes(corenode, **kwargs):
+    for key, value in kwargs.iteritems():
+        _, dartnodes = findall(corenode, pat=key+'$', path=True)
+        if len(dartnodes)==1:
+            exec('corenode.'+dartnodes[0]+'=value')
+        else:
+            df = pd.DataFrame(dict(attr=dartnodes, value=value))
+            for row in df.itertuples():
+                exec('corenode.'+row.attr+'=row.value')
+
+def subnodes(corenode):
+    cpath = []
+    if hasattr(corenode, 'attrib'):
+        cpath.extend(corenode.attrib)
+    if hasattr(corenode, 'children'):
+        cpath.extend(corenode.children)
+        for cname in corenode.children:
+            c = getattr(corenode, cname)
+            if isinstance(c, list):
+                for i in range(len(c)):
+                    cpath.extend([cname+'[{}].'.format(i) + s for s in subnodes(c[i])])
+            else:
+                cpath.extend([cname+'.'+ s for s in subnodes(c)])
+
+    return cpath
 
 # ptd.core_ui.utils.findall(simu.core.plots.Plots, '.*ident$')
 #
