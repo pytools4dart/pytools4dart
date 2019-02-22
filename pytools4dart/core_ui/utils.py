@@ -561,7 +561,7 @@ def set_nodes(corenode, **kwargs):
     """
     for key, value in kwargs.iteritems():
         # _, dartnodes = findall(corenode, pat=key+'$', path=True, use_labels=False)
-        dartnodes = findnodes(corenode, pat=key+'$')
+        dartnodes = findpaths(corenode, pat=key+'$')
         if len(dartnodes)==1:
             exec('corenode.'+dartnodes.iloc[0]+'=value')
         else:
@@ -569,7 +569,7 @@ def set_nodes(corenode, **kwargs):
             for row in df.itertuples():
                 exec('corenode.'+row.attr+'=row.value')
 
-def subnodes(corenode):
+def subpaths(corenode):
     cpath = []
     if hasattr(corenode, 'attrib'):
         if corenode.attrib != ['']:
@@ -580,15 +580,16 @@ def subnodes(corenode):
             c = getattr(corenode, cname)
             if isinstance(c, list):
                 for i in range(len(c)):
-                    cpath.extend([cname+'[{}].'.format(i) + s for s in subnodes(c[i])])
+                    cpath.extend([cname+'[{}].'.format(i) + s for s in subpaths(c[i])])
             else:
-                cpath.extend([cname+'.'+ s for s in subnodes(c)])
+                cpath.extend([cname+'.'+ s for s in subpaths(c)])
 
     return cpath
 
-def findnodes(corenode, pat, case=False, regex=True):
-    paths = pd.Series(subnodes(corenode))
+def findpaths(corenode, pat, case=False, regex=True):
+    paths = pd.Series(subpaths(corenode))
     return paths[paths.str.contains(pat, case, regex=regex)]
+
 
 # ptd.core_ui.utils.findall(simu.core.plots.Plots, '.*ident$')
 #
