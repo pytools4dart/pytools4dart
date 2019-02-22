@@ -35,7 +35,7 @@ import re
 import os
 
 from pytools4dart.tools.constants import *
-from pytools4dart.core_ui.utils import get_labels, get_nodes, findall
+from pytools4dart.core_ui.utils import get_labels, get_nodes, findall, set_nodes, subnodes
 
 class Add(object):
 
@@ -378,6 +378,19 @@ class Add(object):
 
         # check if already exists
 
+        if 'prospect' in kwargs.keys():
+            ProspectExternalModule = findall(prop, '\.ProspectExternalModule$')
+            set_nodes(prop, useProspectExternalModule=1)
+            set_nodes(prop, **kwargs['prospect'])
+            # subnodes(prop)
+            # if len(ProspectExternalModule)==1:
+            #     ProspectExternParameters = ptd.coeff_diff.create_ProspectExternParameters(**kwargs['prospect'])
+            #     ProspectExternalModule[0].useProspectExternalModule = 1
+            #     ProspectExternalModule[0].ProspectExternParameters = ProspectExternParameters
+            # else:
+            #     raise Exception('Prospect option not found.')
+
+
         idents = self.simu.core.findall('Coeff_diff\.\w+\.\w+\.ident$')
         if prop.ident not in idents: # new
             eval('self.simu.core.coeff_diff.{fun}.add_{multi}(prop)'.format(
@@ -391,15 +404,6 @@ class Add(object):
             else:
                 raise ValueError("'{}' already used by other optical property."
                                  "Please change 'ident' or set 'replace'.".format(prop.ident))
-
-        if 'prospect' in kwargs.keys():
-            ProspectExternalModule = findall(prop, '\.ProspectExternalModule$')
-            if len(ProspectExternalModule)==1:
-                ProspectExternParameters = ptd.coeff_diff.create_ProspectExternParameters(**kwargs['prospect'])
-                ProspectExternalModule[0].useProspectExternalModule = 1
-                ProspectExternalModule[0].ProspectExternParameters = ProspectExternParameters
-            else:
-                raise Exception('Prospect option not found.')
 
         # # update multiplicative factors
         # useMultiplicativeFactorForLUT = eval("{multi}.useMultiplicativeFactorForLUT".format(
