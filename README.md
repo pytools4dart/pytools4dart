@@ -183,8 +183,8 @@ Installation can be done from the `pytools4dartMTD` directory:
 python setup.py install
 ```
 
-DART paths have to be configured with method `configure`. These lines must be executed outside `pytools4dartMTD`,
-directory, thus run python from another directory.
+DART paths have to be configured with method `configure`. These lines must be executed outside `pytools4dartMTD`
+directory, otherwise it would import the , thus run python from another directory.
 
 ```python
 import pytools4dart as ptd

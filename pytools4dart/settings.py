@@ -351,7 +351,7 @@ def getdartversion(dartdir=None):
 
 def build_core(directory=None):
     if not directory:
-        directory = ptd.__path__[0]
+        directory = os.path.abspath(ptd.__path__[0])
 
     templatesDpath = os.path.join(directory,'templates')
     xsdDpath = os.path.join(directory, 'xsdschemas')
