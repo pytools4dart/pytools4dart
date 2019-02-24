@@ -194,7 +194,8 @@ python setup.py install
 DART paths can also be configured afterwards it has been installed or when changing DART version. 
 In that case, it must be done from outside `pytools4dartMTD` directory, 
 otherwise it would configure the git cloned directory and not the installed one. 
-Thus run the python session from another directory, or change directory with `os.chdir()` before importing `pytools4dart`.
+Thus run the python session from another directory and execute the configuration python line. It should automatically 
+update the core API of the installed package `pytools4dart`.
 
 ## Features
 At the moment only part of DART simulator features are supported:
