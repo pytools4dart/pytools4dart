@@ -177,20 +177,24 @@ python setup.py install
 ```
 
 ## Install
-Installation can be done from the `pytools4dartMTD` directory:
+Installation can be done from the `pytools4dartMTD` directory.
 
-```commandline
-python setup.py install
-```
-
-DART paths have to be configured with method `configure`. These lines must be executed outside `pytools4dartMTD`
-directory, otherwise it would import the , thus run python from another directory.
+DART paths and corresponding API have to be configured first with method `configure` in a python session:
 
 ```python
 import pytools4dart as ptd
 ptd.configure('specific_path_to_DART')
 ```
 
+Then the package can be installed from command line:
+```commandline
+python setup.py install
+```
+
+DART paths can also be configured afterwards it has been installed or when changing DART version. 
+In that case, it must be done from outside `pytools4dartMTD` directory, 
+otherwise it would configure the git cloned directory and not the installed one. 
+Thus run the python session from another directory, or change directory with `os.chdir()`.
 
 ## Features
 At the moment only part of DART simulator features are supported:
