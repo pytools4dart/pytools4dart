@@ -56,7 +56,7 @@ setup(
     url='https://gitlab.irstea.fr/florian.deboissieu/pytools4dartMTD',
 
     # Author details
-    author='Florian de Boissieu, Eric Chraibi, Claudia Lavalley, Dav Ebengo, Yinjie Wang, Jean-Baptiste Féret',
+    author='Florian de Boissieu, Eric Chraibi, Claudia Lavalley, Dav Ebengo, Jean-Baptiste Féret',
     author_email='florian.deboissieu@irstea.fr',
 
     # License
