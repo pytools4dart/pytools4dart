@@ -38,7 +38,7 @@ import pytools4dart as ptd
 
 from pytools4dart.tools.constants import *
 from pytools4dart.core_ui.utils import get_labels, get_nodes, findall
-# from pytools4dart.settings import get_input_file_path
+from pytools4dart.settings import check_xmlfile_version
 
 class Core(object):
     """
@@ -83,13 +83,24 @@ class Core(object):
         modules = [m for m in modules if m != 'sequence']
         return modules
 
-    def load(self):
+    def load(self, check_version = True):
         """
         Load DART XML input files into core
+        Parameters
+        ----------
+        check_version: bool
+            If True returns error if DART and file version and build are not the same.
+
+        Returns
+        -------
+
         """
         modules = self.get_modules_names()
         for module in modules:
             filepath = pjoin(self.simu.getinputsimupath(), module+'.xml')
+            # check version
+            if check_version:
+                check_xmlfile_version(filepath)
             setattr(self, module, eval('ptd.{}.parse("{}",silence=True)'.format(module, filepath)))
 
     def get_corners_from_rectangle(self, center_x, center_y, side_x, side_y):

@@ -39,6 +39,7 @@ import zipfile
 import pandas as pd
 import pytools4dart as ptd
 import traceback
+import lxml.etree as etree
 
 def default_dartdir():
     '''
@@ -345,6 +346,60 @@ def getdartversion(dartdir=None):
     version = version.replace('-','.')
 
     return version, releasedate, build
+
+def get_xmlfile_version(xmlfile):
+    """
+    Get DART version and build with which the file was created.
+    Parameters
+    ----------
+    xmlfile: str
+        File path to the XML file
+
+    Returns
+    -------
+        dict
+
+    """
+    tree = etree.parse(xmlfile)
+    root = tree.getroot()
+    if any([a not in root.attrib.keys() for a in ['version', 'build']]):
+        raise Exception('version or build not found.\n{} might not be DART xml file.'.format(xmlfile))
+
+    return root.attrib
+
+def check_xmlfile_version(xmlfile, dartdir = None):
+    """
+    Check if version is the same as the
+    Parameters
+    ----------
+    xmlfile
+    dartdir
+
+    Returns
+    -------
+
+    """
+    fversion = get_xmlfile_version(xmlfile)
+    version, releasedate, build = getdartversion(dartdir)
+    build_int = int(build.replace('v',''))
+    fbuild_int = int(fversion['build'].replace('v', ''))
+
+    if version > fversion['version'] or build_int > fbuild_int :
+        raise Exception('Input file created with DART: {fversion} {fbuild}.\n'
+                        'Current DART is: {version} {build}.\n'
+                        'Upgrade simulation with pytools3dart.run.upgrade before use.'.format(
+            fversion = fversion['version'], fbuild = fversion['build'],
+            version=version, build=build
+        ))
+    elif version < fversion['version'] or build_int < fbuild_int:
+        raise Exception('Input file created with DART: {fversion} {fbuild}.\n'
+                        'Current DART is: {version} {build}.\n'
+                        'Upgrade DART before continuing.'.format(
+            fversion=fversion['version'], fbuild=fversion['build'],
+            version=version, build=build
+        ))
+
+
 
 def build_core(directory=None):
     if not directory:

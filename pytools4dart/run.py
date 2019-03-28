@@ -248,6 +248,20 @@ def stack_bands(simu_name, zenith=0, azimuth=0):
 
     return outputfile
 
+def upgrade(simu_name):
+    """
+    Upgrade the simulation to current DART version with DART XMLUpgrader
+    Parameters
+    ----------
+    simu_name: str
+        Simulation name or path expected to be in 'user_data/simulations' directory
+
+    Returns
+    -------
+
+    """
+    rundart(simu_name, 'XMLUpgrader')
+
 class Run(object):
 
     def __init__(self, simu):

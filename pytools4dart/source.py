@@ -33,7 +33,7 @@ class Source(object):
 
     def __repr__(self):
         if self.simu.method == 'LIDAR':
-            return
+            return ''
 
         description = '\n'.join(
             ['sun viewing angles (Azimuth, Zenith) : {}'.format(self.position)])
