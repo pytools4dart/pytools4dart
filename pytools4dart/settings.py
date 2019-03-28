@@ -254,11 +254,8 @@ def darttools(dartdir=None):
 
     toolsdir = pjoin(dartenv['DART_HOME'], 'tools', darttools)
 
-    darttoolspaths = glob.glob(pjoin(toolsdir, 'dart-*.' + bashext))
-
-    darttoolspattern = re.compile("dart-(.*?)." + bashext, re.MULTILINE)
-    dtools = {re.findall(darttoolspattern, p)[0] : p
-                          for p in darttoolspaths}
+    darttoolspaths = glob.glob(pjoin(toolsdir, '*.' + bashext))
+    dtools = {os.path.splitext(os.path.basename(p))[0].replace('dart-', ''):p for p in darttoolspaths}
 
     return dtools
 
