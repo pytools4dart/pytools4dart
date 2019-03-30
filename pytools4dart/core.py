@@ -38,7 +38,7 @@ import pytools4dart as ptd
 
 from pytools4dart.tools.constants import *
 from pytools4dart.core_ui.utils import get_labels, get_nodes, findall
-from pytools4dart.settings import check_xmlfile_version
+from pytools4dart.settings import check_xmlfile_version, getdartversion
 
 class Core(object):
     """
@@ -46,13 +46,15 @@ class Core(object):
     """
     def __init__(self, simu, method = 0, empty = False):
         self.simu = simu
+        self.dartversion = getdartversion()
+        self.children = self.get_modules_names()
 
         if simu.name is not None and not empty and os.path.isdir(self.simu.getsimupath()):
             self.load()
         else:
             modules = self.get_modules_names()#["plots", "phase", "atmosphere", "coeff_diff", "directions", "object_3d","maket","inversion","trees","water","urban"]
             for module in modules:
-                setattr(self, module, eval('ptd.core_ui.{}.createDartFile()'.format(module)))
+                setattr(self, module, eval('ptd.core_ui.{}.createDartFile(build_="{}")'.format(module, self.dartversion['build'])))
 
             self.phase.Phase.calculatorMethod = method
             if empty:
