@@ -223,9 +223,9 @@ def checkdartdir(dartdir = None):
         print('DART configuration file not found: ' + pjoin(dartconfig))
         return False
 
-    version,_,build = getdartversion(dartdir)
-    if version < '5.7.1':
-        print('DART version is too old: '+version)
+    dartversion = getdartversion(dartdir)
+    if dartversion['version'] < '5.7.1':
+        print('DART version is too old: '+dartversion['version'])
         return False
 
     return True
@@ -345,7 +345,7 @@ def getdartversion(dartdir=None):
     version, releasedate, build = versionstr.rstrip().split('_')
     version = version.replace('-','.')
 
-    return version, releasedate, build
+    return {'version':version, 'build':build, 'releasedate':releasedate}
 
 def get_xmlfile_version(xmlfile):
     """
@@ -380,23 +380,23 @@ def check_xmlfile_version(xmlfile, dartdir = None):
 
     """
     fversion = get_xmlfile_version(xmlfile)
-    version, releasedate, build = getdartversion(dartdir)
-    build_int = int(build.replace('v',''))
+    dversion = getdartversion(dartdir)
+    build_int = int(dversion['build'].replace('v',''))
     fbuild_int = int(fversion['build'].replace('v', ''))
 
-    if version > fversion['version'] or build_int > fbuild_int :
+    if dversion['version'] > fversion['version'] : # or build_int > fbuild_int
         raise Exception('Input file created with DART: {fversion} {fbuild}.\n'
                         'Current DART is: {version} {build}.\n'
                         'Upgrade simulation with pytools3dart.run.upgrade before use.'.format(
             fversion = fversion['version'], fbuild = fversion['build'],
-            version=version, build=build
+            version=dversion['version'], build=dversion['build']
         ))
-    elif version < fversion['version'] or build_int < fbuild_int:
+    elif dversion['version'] < fversion['version'] : # or build_int < fbuild_int
         raise Exception('Input file created with DART: {fversion} {fbuild}.\n'
                         'Current DART is: {version} {build}.\n'
                         'Upgrade DART before continuing.'.format(
             fversion=fversion['version'], fbuild=fversion['build'],
-            version=version, build=build
+            version=dversion['version'], build=dversion['build']
         ))
 
 
