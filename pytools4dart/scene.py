@@ -54,6 +54,7 @@ class Scene(object):
         description = '\n'.join(
             ['scene size : {}'.format(self.size),
              'cell size : {}'.format(self.cell),
+             'scene periodicity: {}'.format(self.periodicity),
              'ground:',
              '\tOptical property: {}'.format(self.ground.OpticalPropertyLink.ident),
              '\tThermal property: {}'.format(self.ground.ThermalPropertyLink.idTemperature),
@@ -89,6 +90,14 @@ class Scene(object):
     def cell(self, size):
         self.simu.core.maket.Maket.Scene.CellDimensions.x = size[0]
         self.simu.core.maket.Maket.Scene.CellDimensions.z = size[1]
+
+    @property
+    def periodicity(self):
+        return self.simu.core.maket.Maket.exactlyPeriodicScene
+
+    @periodicity.setter
+    def periodicity(self, value):
+        self.simu.core.maket.Maket.exactlyPeriodicScene=value
 
     @property
     def ground(self):
