@@ -12,7 +12,7 @@ class Sequencer(object):
     def __init__(self, simu, name = None, empty=False):
         self.simu = simu
         self.core = None
-        if empty and name is not None and os.path.isfile(os.path.join(self.simu.getsimupath(), name+'.xml')):
+        if not empty and name is not None and os.path.isfile(os.path.join(self.simu.getsimupath(), name+'.xml')):
             self.core = ptd.sequence.parse(os.path.join(self.simu.getsimupath(), name+'.xml'), silence=True)
         else:
             if name is None:
@@ -68,7 +68,7 @@ class Sequencer(object):
         # name='group1'
         # args = pd.DataFrame
 
-    def add_item(self, group, key, values, type='enumerate', corenode=None):
+    def add_item(self, group, key, values, type='enumerate', corenode=None, replace=False):
         """
         Add an item (Entry in Dart) to sequence group. Group is created if not existing.
         Parameters
@@ -92,6 +92,8 @@ class Sequencer(object):
 
             Otherwise, the full path corresponding to key is searched in node. In that case, the key must be unique in node.
 
+        replace: bool
+            If True, replace existing item by new one.
 
         Returns
         -------
@@ -128,13 +130,19 @@ class Sequencer(object):
         else:
             gpath = '.'.join(paths[group].split('.')[:-1])
             gnode = eval('self.core.'+gpath)
-            # check if existing items have same
+
+            # check if item exists
+            if not replace and new_item.propertyName in [e.propertyName for e in gnode.DartSequencerDescriptorEntry]:
+                raise Exception('Item already exist in group, use "replace" option to override.')
+            # check if existing items have same length
             l = []
             for e in gnode.DartSequencerDescriptorEntry+[new_item]:
-                if e.type_ is 'enumerate':
+                if e.type_ == 'enumerate':
                     l.append(len(e.args.split(';')))
-                else:
+                elif e.type_ == 'linear':
                     l.append(int(e.args.split(';')[2]))
+                else:
+                    raise Exception('Type "{}" is not valid.'.format(e.type_))
             if len(set(l))>1:
                 raise Exception('Length of item different from length of group.')
 
