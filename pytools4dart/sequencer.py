@@ -9,10 +9,10 @@ class Sequencer(object):
     Sequence builder
     """
 
-    def __init__(self, simu, name = None):
+    def __init__(self, simu, name = None, empty=False):
         self.simu = simu
         self.core = None
-        if name is not None and os.path.isfile(os.path.join(self.simu.getsimupath(), name+'.xml')):
+        if empty and name is not None and os.path.isfile(os.path.join(self.simu.getsimupath(), name+'.xml')):
             self.core = ptd.sequence.parse(os.path.join(self.simu.getsimupath(), name+'.xml'), silence=True)
         else:
             if name is None:
@@ -97,16 +97,21 @@ class Sequencer(object):
         -------
             create_DartSequencerDescriptorEntry
         """
-        if corenode is None:
-            # check if key exists
-            v = self.simu.core.findall('^'+key+'$')
-            if len(v)!=1:
-                raise Exception('Either multiple or none value found: key "{}" is not valid'.format(key))
-        else:
-            _, path = ptd.core_ui.utils.findall(corenode, key, path=True)
+        if corenode is not None:
+            # get key from corenode
+            path = corenode.findpaths(key)
             if len(path)!=1:
                 raise Exception('Either multiple or none value found: key "{}" is not valid'.format(key))
-            key = path[0]
+            key = path.iloc[0]
+
+        # check if key exists
+        skey = key.split('.')
+        if not eval('"{}" in self.simu.core.{}.{}.attrib'.format(skey[-1], skey[0].lower(), '.'.join(skey[:-1]))):
+            raise Exception('Key "{}" not found', key)
+
+        v = eval('self.simu.core.{}.{}'.format(skey[0].lower(), key))
+        if v is None:
+            raise Exception('Key value "{}" is None'.format(key))
 
         if 'Prospect' in key:
             self.core.DartSequencerDescriptor.DartSequencerPreferences.prospectLaunched=True
@@ -116,12 +121,12 @@ class Sequencer(object):
         new_item = ptd.sequence.create_DartSequencerDescriptorEntry(args=args, propertyName=key, type_=type)
 
         gnames, paths = ptd.core_ui.utils.get_nodes_with_path(self.core.DartSequencerDescriptor.DartSequencerDescriptorEntries, 'DartSequencerDescriptorGroup.groupName')
-
+        paths = {gn:p for gn, p in zip(gnames, paths)}
         if group not in gnames:
             gnode = self.add_group(group)
             gpath = gnode.path(index=True)
         else:
-            gpath = '.'.join(paths[gnames == group].split('.')[:-1])
+            gpath = '.'.join(paths[group].split('.')[:-1])
             gnode = eval('self.core.'+gpath)
             # check if existing items have same
             l = []
@@ -147,7 +152,7 @@ class Sequencer(object):
                 key = e.propertyName
                 values = map(float, e.args.split(';'))
                 type = e.type_
-                if e.type_ is 'enumerate':
+                if e.type_ == 'enumerate':
                     length = len(e.args.split(';'))
                 else:
                     length = int(e.args.split(';')[2])

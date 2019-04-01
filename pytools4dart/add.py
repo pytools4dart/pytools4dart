@@ -884,20 +884,22 @@ class Add(object):
 
         return new_band
 
-    def sequence(self, name = None):
+    def sequence(self, name = None, empty=False):
         """
-        Appends an empty sequence to simulation sequences
+        Appends a new sequence to simulation sequences
         Parameters
         ----------
         name: str
             name of the sequence
+        empty: bool
+            if False (default), loads the corresponding sequence if file exists.
 
         Returns
         -------
             object of type Sequencer
 
         """
-        new_sequence = Sequencer(self.simu, name)
+        new_sequence = Sequencer(self.simu, name, empty)
         self.simu.sequences.append(new_sequence)
         return new_sequence
 
