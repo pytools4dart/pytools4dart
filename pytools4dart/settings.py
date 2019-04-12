@@ -92,7 +92,7 @@ def configure(dartdir=None):
     ----------
     dartdir : str
         Path of the DART directory containing dart executable
-        e.g. '/home/username/DART' or r'C:\Users\username\DART'
+        e.g. '/home/username/DART' or 'C:\\Users\\username\\DART'
 
     Returns
     -------
