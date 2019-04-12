@@ -85,7 +85,8 @@ def getdartdir(dartdir=None):
     return dartdir
 
 def configure(dartdir=None):
-    '''Configure path to DART directory
+    """
+    Configure path to DART directory
 
     Parameters
     ----------
@@ -95,8 +96,7 @@ def configure(dartdir=None):
 
     Returns
     -------
-        None
-    '''
+    """
 
     if not dartdir:
         dartdir = default_dartdir()
