@@ -62,7 +62,7 @@ class UseCase0Test(unittest.TestCase):
         ref_inputdir_path = os.path.join(current_dir, "refData/use_case_0/input/")
 
         if (os.path.isdir(ref_inputdir_path) != True):
-            print "WARNING: Reference Dir for test_use_case_0 does not exist"
+            print("WARNING: Reference Dir for test_use_case_0 does not exist")
 
     # def tearDown(self):
     #     shutil.rmtree(self.test_simu_path)
