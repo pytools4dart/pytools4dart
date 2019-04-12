@@ -92,7 +92,7 @@ def configure(dartdir=None):
     ----------
     dartdir : str
         Path of the DART directory containing dart executable
-        e.g. '/home/username/DART' or 'C:\Users\username\DART'
+        e.g. '/home/username/DART' or r'C:\Users\username\DART'
 
     Returns
     -------
@@ -205,7 +205,7 @@ def checkdartdir(dartdir = None):
     ----------
     dartdir : str
         Path of the DART directory containing dart executable
-        e.g. '/home/username/DART' or 'C:\Users\username\DART'
+        e.g. '/home/username/DART' or r'C:\Users\username\DART'
 
 
     Returns
@@ -239,7 +239,7 @@ def darttools(dartdir=None):
     ----------
     dartdir : str
         Path of the DART directory containing dart executable
-        e.g. '/home/username/DART' or 'C:\Users\username\DART'
+        e.g. '/home/username/DART' or r'C:\Users\username\DART'
 
     Returns
     -------
@@ -270,7 +270,7 @@ def getsimupath(simu_name, dartdir=None):
     simu_name: str
     dartdir : str
         Path of the DART directory containing dart executable
-        e.g. '/home/username/DART' or 'C:\Users\username\DART'
+        e.g. '/home/username/DART' or r'C:\Users\username\DART'
 
     Returns
     -------
@@ -289,7 +289,7 @@ def get_simu_input_path(simu_name, dartdir=None):
     simu_name: str
     dartdir : str
         Path of the DART directory containing dart executable
-        e.g. '/home/username/DART' or 'C:\Users\username\DART'
+        e.g. '/home/username/DART' or r'C:\Users\username\DART'
 
     Returns
     -------
@@ -310,7 +310,7 @@ def get_simu_output_path(simu_name, dartdir=None):
     simu_name: str
     dartdir : str
         Path of the DART directory containing dart executable
-        e.g. '/home/username/DART' or 'C:\Users\username\DART'
+        e.g. '/home/username/DART' or r'C:\Users\username\DART'
 
     Returns
     -------
@@ -330,7 +330,7 @@ def getdartversion(dartdir=None):
     ----------
     dartdir : str
         Path of the DART directory containing dart executable
-        e.g. '/home/username/DART' or 'C:\Users\username\DART'
+        e.g. '/home/username/DART' or r'C:\Users\username\DART'
 
     Returns
     -------
