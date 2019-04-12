@@ -269,7 +269,7 @@ class DART2LAS(object):
             receiveWaveGain=float(self.maxOutput)/waveMax
             print('Calculated gain according to maximum normalization: ', receiveWaveGain)
 
-        print ("nbPulses:", nbPulses)
+        print("nbPulses:{}".format(nbPulses))
         for cnt in range(nbPulses):
             dartfile.seek(tmp)
             try:
@@ -385,7 +385,7 @@ class DART2LAS(object):
                         elif self.typeOut == 4: # Intensity in the RIEGL way: waveform=I*e^((t-u)/sigma^2)
                             intensity = ptsAmp / (ptsSigma * math.sqrt(2 * math.pi))
                         else:
-                            print ('Error: the output type option is not supported')
+                            print('Error: the output type option is not supported')
                             quit()
 
 
@@ -424,7 +424,7 @@ class DART2LAS(object):
                 tmpIndicatorNew = int(cnt / feedback)
                 for i in range(tmpIndicatorPast, tmpIndicatorNew):
                     print('pulse info: %f %f %f' % (pulse_info[6], pulse_info[7], pulse_info[8]))
-                    print (i*10, '%')
+                    print('{}%'.format(i*10))
                     sys.stdout.flush()
                 tmpIndicatorPast=tmpIndicatorNew
 
@@ -576,7 +576,7 @@ class DART2LAS(object):
         
         if args.typeOut:
             if args.typeOut not in [1, 2, 3, 4]:
-                print ('Error: Unkown option for type of output', args.typeOut)
+                print('Error: Unkown option for type of output {}'.format(args.typeOut))
                 exit()
             self.typeOut = args.typeOut
             print('Output type: ', args.typeOut)
@@ -592,4 +592,4 @@ if __name__ == '__main__':
     obj.run()
 
 
-    print ('Done!')
+    print('Done!')

@@ -170,7 +170,7 @@ def get_dart_env_linux(dartrcpath, verbose = False):
     for line in proc.stdout:
       (key, _, value) = line.rstrip().partition("=")
       if verbose:
-            print "%s=%s"%(key, value)
+            print("{}={}".format(key, value))
       dartenv[key] = value
 
     return {k: dartenv[k] for k in ('DART_HOME', 'DART_LOCAL', 'DART_JAVA_MAX_MEMORY',
@@ -191,7 +191,7 @@ def get_dart_env_win(dartrcpath, verbose = False):
         VarName=SetEnvMatch[0]
         VarValue=SetEnvMatch[1]
         if verbose:
-            print "%s=%s"%(VarName,VarValue)
+            print("{}={}".format(VarName,VarValue))
         dartenv[VarName] = VarValue
 
     return dartenv
