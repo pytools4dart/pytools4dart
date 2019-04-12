@@ -269,7 +269,7 @@ class DART2LAS(object):
             receiveWaveGain=float(self.maxOutput)/waveMax
             print('Calculated gain according to maximum normalization: ', receiveWaveGain)
 
-        print("nbPulses:{}".format(nbPulses))
+        print("nbPulses: {}".format(nbPulses))
         for cnt in range(nbPulses):
             dartfile.seek(tmp)
             try:
