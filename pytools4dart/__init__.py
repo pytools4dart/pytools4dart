@@ -23,12 +23,12 @@
 #
 # ===============================================================================
 
-from _version import __version__
-from settings import configure,getdartenv,darttools,getdartversion,getsimupath,checkdartdir,getdartdir
-from simulation import simulation
-from tools import voxreader, hstools, dbtools, OBJtools, DART2LAS
+from ._version import __version__
+from .settings import configure,getdartenv,darttools,getdartversion,getsimupath,checkdartdir,getdartdir
+from .simulation import simulation
+from .tools import voxreader, hstools, dbtools, OBJtools, DART2LAS
 import run
-from core_ui import plots, phase, coeff_diff, object_3d, trees, directions, inversion, atmosphere, maket, urban, water, sequence
+from .core_ui import plots, phase, coeff_diff, object_3d, trees, directions, inversion, atmosphere, maket, urban, water, sequence
 import core_ui
 import sequencer
 
