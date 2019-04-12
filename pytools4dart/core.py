@@ -39,7 +39,6 @@ import pytools4dart as ptd
 from pytools4dart.tools.constants import *
 from pytools4dart.core_ui.utils import get_labels, get_nodes, findall
 from pytools4dart.settings import check_xmlfile_version, getdartversion, get_input_file_path
-from pytools4dart.tools.OBJtools import get_gnames_dart_order
 
 class Core(object):
     """

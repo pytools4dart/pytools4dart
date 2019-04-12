@@ -51,10 +51,9 @@ def get_gnames(obj):
     gnames = []
     for group in obj._OBJloader__objects[0].groups:
         gnames.append(group.name)
-
-    return gnames_dart_order(gnames)
-
+    gnames = gnames_dart_order(gnames)
     return gnames
+
 def gnames_dart_order(group_names):
     """
     Returns group names in DART order
