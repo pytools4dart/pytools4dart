@@ -51,20 +51,20 @@ import warnings
 #warnings.warn("deprecated", DeprecationWarning)
 
 # local imports
-from tools.voxreader import voxel
-from tools.hstools import read_ENVI_hdr, get_hdr_bands, get_bands_files, get_wavelengths, stack_dart_bands
-from settings import getsimupath, get_simu_input_path, getdartdir, get_input_file_path
+from .tools.voxreader import voxel
+from .tools.hstools import read_ENVI_hdr, get_hdr_bands, get_bands_files, get_wavelengths, stack_dart_bands
+from .settings import getsimupath, get_simu_input_path, getdartdir, get_input_file_path
 import pytools4dart.run as run
 import tools.dbtools as dbtools
 
 import pytools4dart as ptd
-from pytools4dart.tools.constants import *
+from .tools.constants import *
 
-from pytools4dart.core import Core
-from pytools4dart.scene import Scene
-from pytools4dart.add import Add
-from pytools4dart.sensor import Sensor
-from pytools4dart.source import Source
+from .core import Core
+from .scene import Scene
+from .add import Add
+from .sensor import Sensor
+from .source import Source
 
 class simulation(object):
     """

@@ -30,8 +30,8 @@ This module contains the class "Scene".
 
 import pandas as pd
 import os
-from pytools4dart.tools.constants import *
-from pytools4dart.core_ui.utils import get_nodes, findall
+from .tools.constants import *
+from .core_ui.utils import get_nodes, findall
 
 
 class Scene(object):

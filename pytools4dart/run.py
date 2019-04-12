@@ -28,7 +28,7 @@ Module of DART runners, i.e. functions for subprocess calls to DART tools to run
 DART simulation, sequence or make color composites image.
 See DART_HOME/bin/tools/linux/*.sh or DART_HOME\\bin\\windows\\*.bat for details.
 """
-from settings import darttools, getdartdir, getdartenv
+from .settings import darttools, getdartdir, getdartenv
 import subprocess
 import os
 from os.path import join as pjoin
