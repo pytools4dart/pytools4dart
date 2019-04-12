@@ -52,6 +52,37 @@ def get_gnames(obj):
     for group in obj._OBJloader__objects[0].groups:
         gnames.append(group.name)
 
+    return gnames_dart_order(gnames)
+
+    return gnames
+def gnames_dart_order(group_names):
+    """
+    Returns group names in DART order
+    Parameters
+    ----------
+    group_names: list
+        group names in the order it is found in obj file
+
+    Examples
+    -------
+        group_names = []
+        with open(oFpath, 'r') as f:
+            for ln in f:
+                if ln.startswith('g '):
+                    # hm.put(ln.rstrip().split(' ')[1], 1)
+                    group_names.append(ln.rstrip().replace('^g ', '')
+
+        gnames_dart_order(group_names)
+
+    """
+    from jnius import autoclass
+    gnames = []
+    if len(group_names) > 0:
+        HashMap = autoclass('java.util.HashMap')
+        hm = HashMap()
+        for gn in group_names:
+            hm.put(gn.rstrip(), 1)
+        gnames = hm.keySet().toArray()
     return gnames
 
 def get_dims(obj):
@@ -124,3 +155,4 @@ def ply2obj(ply, obj, order = ['x', 'y', 'z'], color=False):
                         ii = [ i[j]+1 ]
                         f.write(" %d" % tuple(ii))
                 f.write("\n")
+

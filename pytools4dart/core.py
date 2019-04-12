@@ -31,14 +31,15 @@ This module contains the class "Core".
 import os, glob, re
 from os.path import join as pjoin
 import re
-
+import platform
 
 
 import pytools4dart as ptd
 
 from pytools4dart.tools.constants import *
 from pytools4dart.core_ui.utils import get_labels, get_nodes, findall
-from pytools4dart.settings import check_xmlfile_version, getdartversion
+from pytools4dart.settings import check_xmlfile_version, getdartversion, get_input_file_path
+from pytools4dart.tools.OBJtools import get_gnames_dart_order
 
 class Core(object):
     """
@@ -762,6 +763,56 @@ class Core(object):
                 row.irradiance.bandNumber = row.bandNumber
 
             DartInputParameters.nodeIlluminationMode.SpectralIrradiance.SpectralIrradianceValue = list(ir_df.irradiance)
+
+    def update_objn(self, verbose=False):
+        """
+        Update object group number
+        Parameters
+        ----------
+        verbose
+
+        Returns
+        -------
+
+        """
+        from jnius import autoclass
+        import subprocess
+        HashMap = autoclass('java.util.HashMap')
+
+        object_3d = self.object_3d.object_3d
+        for o in object_3d.ObjectList.Object:
+            oFpath = get_input_file_path(o.file_src)
+
+            if verbose:
+                print(oFpath+'\n')
+
+            # get object names by order (important for java HashMap)
+            group_names = []
+            if platform.system() == 'Linux':
+                # Processing time: 10 s.
+                cmd = 'grep "g " {}'.format(oFpath)
+                process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+                group_names = process.communicate()[0][:-1].split('g ')[1:]
+            else:
+                # Processing time: 20 s.
+                with open(oFpath, 'r') as f:
+                    hm = HashMap()
+                    for ln in f:
+                        if ln.startswith('g '):
+                            # hm.put(ln.rstrip().split(' ')[1], 1)
+                            group_names.append(ln.rstrip().replace('^g ', ''), 1)
+            group_names = get_gnames_dart_order(group_names)
+            # if len(group_names)>0:
+            #     hm = HashMap()
+            #     for gn in group_names:
+            #         hm.put(gn.rstrip(), 1)
+            #     group_names = hm.keySet().toArray()
+
+            for i, gn in enumerate(group_names):
+                for g in o.Groups.Group:
+                    if g.name == gn:
+                        # print("{}: {} > {}\n".format(g.name, g.num, i))
+                        g.num = i + 1
 
 
 
