@@ -781,7 +781,7 @@ class Core(object):
 
         object_3d = self.object_3d.object_3d
         for o in object_3d.ObjectList.Object:
-            oFpath = get_input_file_path(o.file_src)
+            oFpath = self.simu.get_input_file_path(o.file_src)
 
             if verbose:
                 print(oFpath+'\n')
