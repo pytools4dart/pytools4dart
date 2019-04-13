@@ -39,6 +39,7 @@ import pytools4dart as ptd
 from pytools4dart.tools.constants import *
 from pytools4dart.core_ui.utils import get_labels, get_nodes, findall
 from pytools4dart.settings import check_xmlfile_version, getdartversion, get_input_file_path
+from pytools4dart.tools.OBJtools import gnames_dart_order
 
 class Core(object):
     """
@@ -774,9 +775,9 @@ class Core(object):
         -------
 
         """
-        from jnius import autoclass
+        # from jnius import autoclass
         import subprocess
-        HashMap = autoclass('java.util.HashMap')
+        # HashMap = autoclass('java.util.HashMap')
 
         object_3d = self.object_3d.object_3d
         for o in object_3d.ObjectList.Object:
@@ -795,12 +796,12 @@ class Core(object):
             else:
                 # Processing time: 20 s.
                 with open(oFpath, 'r') as f:
-                    hm = HashMap()
+                    # hm = HashMap()
                     for ln in f:
                         if ln.startswith('g '):
                             # hm.put(ln.rstrip().split(' ')[1], 1)
                             group_names.append(ln.rstrip().replace('^g ', ''), 1)
-            group_names = get_gnames_dart_order(group_names)
+            group_names = gnames_dart_order(group_names)
             # if len(group_names)>0:
             #     hm = HashMap()
             #     for gn in group_names:
