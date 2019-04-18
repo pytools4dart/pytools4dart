@@ -130,7 +130,11 @@ class Sequencer(object):
             path = corenode.findpaths(key)
             if len(path)!=1:
                 raise Exception('Either multiple or none value found: key "{}" is not valid'.format(key))
-            key = path.iloc[0]
+            if corenode.parent is None:
+                key = path.iloc[0]
+            else:
+                key = '.'.join([corenode.path(), path.iloc[0]])
+
 
         # check if key exists
         skey = key.split('.')
