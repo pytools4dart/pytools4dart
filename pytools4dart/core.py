@@ -84,6 +84,7 @@ class Core(object):
         templates = glob.glob(pjoin(templatesDpath, "*.xml"))
         modules = [os.path.splitext(os.path.basename(f))[0] for f in templates]
         modules = [m for m in modules if m != 'sequence']
+        modules.sort()
         return modules
 
     def load(self, check_version = True):
