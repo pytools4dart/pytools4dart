@@ -40,6 +40,7 @@ import pandas as pd
 import pytools4dart as ptd
 import traceback
 import lxml.etree as etree
+import sys
 
 def default_dartdir():
     '''
@@ -169,10 +170,15 @@ def get_dart_env_linux(dartrcpath, verbose = False):
 
     dartenv = {}
     for line in proc.stdout:
-      (key, _, value) = line.rstrip().partition("=")
-      if verbose:
-            print("{}={}".format(key, value))
-      dartenv[key] = value
+        if sys.version_info[0] == 2 :
+            (key, _, value) = line.rstrip().partition("=")
+        else:
+            (key, _, value) = line.decode('unicode_escape').rstrip().partition("=")
+
+        if verbose:
+          print("{}={}".format(key, value))
+
+        dartenv[key] = value
 
     return {k: dartenv[k] for k in ('DART_HOME', 'DART_LOCAL', 'DART_JAVA_MAX_MEMORY',
                     'PATH', 'LD_LIBRARY_PATH')}
@@ -544,8 +550,12 @@ def get_templates():
     jarfile = pjoin(dartenv['DART_HOME'], 'bin',  'DARTDocument.jar')
 
     with zipfile.ZipFile(jarfile, "r") as j:
-        templates = {s.split('/')[3] : j.read(s) for s in j.namelist()
-                          if re.match(r'cesbio/dart/documents/.*/ressources/Template.xml', s)}
+        if sys.version_info[0] == 2:
+            templates = {s.split('/')[3] : j.read(s) for s in j.namelist()
+                              if re.match(r'cesbio/dart/documents/.*/ressources/Template.xml', s)}
+        else:
+            templates = {s.split('/')[3] : j.read(s).decode('unicode_escape') for s in j.namelist()
+                              if re.match(r'cesbio/dart/documents/.*/ressources/Template.xml', s)}
 
     return templates
 
@@ -562,8 +572,12 @@ def get_schemas():
     jarfile = pjoin(dartenv['DART_HOME'], 'bin',  'DARTEnv.jar')
 
     with zipfile.ZipFile(jarfile, "r") as j:
-        schemas = {os.path.basename(s).replace('.xsd', '') : j.read(s) for s in j.namelist()
-                          if re.match(r'schemaXml/.*\.xsd', s)}
+        if sys.version_info[0] == 2:
+            schemas = {os.path.basename(s).replace('.xsd', '') : j.read(s) for s in j.namelist()
+                              if re.match(r'schemaXml/.*\.xsd', s)}
+        else:
+            schemas = {os.path.basename(s).replace('.xsd', ''): j.read(s).decode('unicode_escape') for s in j.namelist()
+                       if re.match(r'schemaXml/.*\.xsd', s)}
 
     return schemas
 
@@ -609,7 +623,10 @@ def get_labels(pat=None, case=False, regex=True, column='dartnode'):
     jarfile = pjoin(dartenv['DART_HOME'], 'bin',  'DARTIHMSimulationEditor.jar')
     labelsfile = 'cesbio/dart/ihm/DartSimulationEditor/ressources/DartIhmSimulationLabel_en.properties'
     with zipfile.ZipFile(jarfile, "r") as j:
-        labels = j.read(labelsfile)
+        if sys.version_info[0] == 2:
+            labels = j.read(labelsfile)
+        else:
+            labels = j.read(labelsfile).decode('unicode_escape')
 
     labels = labels.split('\n')
 
