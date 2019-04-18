@@ -3,6 +3,7 @@
 # PROGRAMMERS:
 #
 # Florian de Boissieu <fdeboiss@gmail.com>
+# Eric Chavanon <eric.chavanon@cesbio.cnes.fr> : contribution for python 3 compatibility
 # https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
 #
 #
