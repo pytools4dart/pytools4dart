@@ -91,6 +91,7 @@ plt.show()
 ```
 
 ## objectDEMMode
+
 Setting object option `objectDEMMode=2` tells DART to 'Ignore DEM' for the vertical position of this object. 
 
 By default, the options is `objectDEMMode=0` corresponding to 'Put on DEM', that is setting objects $z_{min}$ to $z_{ground}$.

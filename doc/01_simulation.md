@@ -30,3 +30,12 @@ scene, acquisition, source and sequence.
 
   - run: list of available runners,
 full, step by step, composites, sequences.
+
+The following code shows the elements of the content of these different elements:
+
+```python
+import pytools4dart as ptd
+
+simu = ptd.simulation('simulationTest')
+
+```

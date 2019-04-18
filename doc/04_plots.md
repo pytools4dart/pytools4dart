@@ -1,22 +1,18 @@
 This notebooks shows the several ways of adding plots to a simulation. Indeed,
 there aer three ways of adding plots that will depend on the objective:
 
-  1.
-fast and user-friendly interface: `add.plot`.
-    - pros: easy for common
-options
-    - cons: limited to certain parameters, not addapted for more than a
+  1. fast and user-friendly interface: `add.plot`.
+   - pros: easy for common options
+   - cons: limited to certain parameters, not addapted for more than a
 thousand plots (10 s)
 	
-  2. raw interface:
-`core.xsdobjs['plots'].Plots.add_Plot()`
-    - pros: all parameters accessible
-- cons: not addapted for more than a thousand plots (10 s.)
+  2. raw interface: `core.xsdobjs['plots'].Plots.add_Plot()`
+   - pros: all parameters accessible
+   - cons: not addapted for more than a thousand plots (10 s.)
 	
   3. plots file:
-- pros: addapted for large number of plots, accelerates DART mockup generation
-(much faster than with `plots.xml`)
-    - cons: limited to certain parameters.
+   - pros: addapted for large number of plots, accelerates DART mockup generation (much faster than with `plots.xml`)
+   - cons: limited to certain parameters.
 
 
 

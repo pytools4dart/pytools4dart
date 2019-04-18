@@ -17,7 +17,9 @@ the following modules:
 - trees, 
 - urban, 
 - water,
-- and sequence if there is one added. 
+- and sequence if there was one added. 
+
+The list of these modules is avaible through `core.children`:
 
 ```python
 import pytools4dart as ptd
@@ -29,7 +31,7 @@ Each `module` of core is a tree of objects corresponding to DART xml configurati
 Most of the available nodes can be found within the label table, that can be extracted with:
 
 ```python
-ptd.core_ui.utils.get_labels()
+ptd.utils.get_labels()
 ```
 
 In order to explore the content of these modules, each node has the methods:
@@ -40,20 +42,21 @@ In order to explore the content of these modules, each node has the methods:
   - `set_nodes()`: set a value to a subnode.
 
 
-Other useful functions for core exploration are in utils:
+Other useful functions for core exploration are in `core_ui.utils`:
   - `get_nodes()`: get the subnodes corresponding to a subpath.
   - `findall()`: get all the subnodes values and paths corresonding to a regular expression.
+  - `diff()`: print the difference between core nodes or subnodes
 
 ```python
-from pytools4dart.core_ui.utils import get_nodes, findall, set_nodes
+from pytools4dart.core_ui.utils import get_nodes, findall, set_nodes, diff
 
-print(simu.core.phase.to_string())    
+print(simu.core.coeff_diff.to_string())    
 
 # list all subpaths
-simu.core.phase.subpaths()
+simu.core.coeff_diff.subpaths()
 
 # find paths ending with '.ident'
-simu.core.phase.findpaths('\.ident$')
+simu.core.coeff_diff.findpaths('\.ident$')
 
 # change ident of the default lambertian property 
 print(simu.scene.properties.optical)
@@ -72,9 +75,22 @@ print(simu.core.coeff_diff.to_string())
 op.set_nodes(ModelName=['maple_top', 'maple_top_bf'])
 findall(simu.core.coeff_diff.Coeff_diff, 'ModelName$', path=True)
 
+# get the values of nodes ending with LambertianMulti.ident
 get_nodes(simu.core.coeff_diff.Coeff_diff.LambertianMultiFunctions, 'LambertianMulti.ident')
+
+# convert to simple face
 set_nodes(op, hasDifferentModelForBottom=0)
+# Warning, changing to simple face will change the model
+# to default turbid Vegetation model: leaf_deciduous
 findall(simu.core.coeff_diff.Coeff_diff, 'ModelName$', path=True)
+
+# find all nodes ending with [0]."something".ModelName
+findall(simu.core.coeff_diff.Coeff_diff, '\[0\]\..+ModelName$', path=True, use_labels=False)
+
+
+# difference between simu and simuTest
+simuTest = ptd.simulation('simulationTest')
+diff(simu.core, simuTest.core)
 ```
 
 Core also contains several getters and updaters. Getters allow to extract
