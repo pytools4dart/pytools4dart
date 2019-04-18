@@ -381,7 +381,7 @@ class Add(object):
 
         # check if already exists
 
-        if 'prospect' in kwargs.keys():
+        if 'prospect' in kwargs:
             set_nodes(prop, useProspectExternalModule=1)
             set_nodes(prop, **kwargs['prospect'])
 

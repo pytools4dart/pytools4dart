@@ -89,7 +89,7 @@ class voxel(object):
 
         header = dict(map(lambda s: map(lambda s: s.strip(), s.split(':')), tmp2))
 
-        for col in header.keys():
+        for col in header:
             if(col in ["max_corner", "min_corner", "split", "res"]):
                 header[col] = map(float, header[col].split(" "))
 

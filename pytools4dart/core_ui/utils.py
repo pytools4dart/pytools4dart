@@ -107,7 +107,7 @@ def update_node(rnode, tnode, module):
 
     for tchild in tnode.getchildren():
         if (tchild.tag == 'DartDocumentTemplateNode'):
-            if any('test'==s for s in tchild.attrib.keys()):
+            if 'test' in tchild.attrib:
                 test = tchild.attrib['test']
                 try: # when created rnode may not have the parents necessary for test
                     test_res = eval_test(rnode, test)
@@ -117,11 +117,11 @@ def update_node(rnode, tnode, module):
                         setattr(rnode, tchild.getchildren()[0].tag, None)
                 except:
                     pass
-            elif any('type' == s for s in tchild.attrib.keys()):
+            elif 'type' in tchild.attrib:
                 if tchild.attrib['type']=='list':
                     # TODO la gestion de l'attribut static='1'
                     list_len = len(getattr(rnode, tchild.getchildren()[0].tag))
-                    if ('min' in tchild.attrib.keys()):
+                    if 'min' in tchild.attrib:
                         min_list_len =  pd.to_numeric(tchild.attrib['min'])
                     else:# case attribute min does not exist
                         min_list_len = 0

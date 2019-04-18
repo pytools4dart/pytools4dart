@@ -56,7 +56,7 @@ def rundart(path, tool, options = []):
     '''
 
     dtools = darttools()
-    if tool not in dtools.keys():
+    if tool not in list(dtools):
         raise ValueError('DART tool not found.')
 
     # simulationName = re.findall(re.compile("^" + ))

@@ -206,14 +206,14 @@ def read_ENVI_hdr(path, dartlabels = False):
      "byte order", "default bands", "data ignore value",
      "wavelength", "fwhm", "data gain values"]
 
-    for k in composed.keys():
+    for k in composed:
         if k in numerics:
             composed[k] = pd.to_numeric(composed[k])
 
     return composed
 
 def get_hdr_bands(hdr, nm_to_um=True):
-    data = pd.DataFrame({k:hdr[k] for k in ['wavelength', 'fwhm'] if k in hdr.keys()})
+    data = pd.DataFrame({k:hdr[k] for k in ['wavelength', 'fwhm'] if k in hdr})
     if nm_to_um:
         data *= 0.001
 

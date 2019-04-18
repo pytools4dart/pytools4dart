@@ -363,7 +363,7 @@ def get_xmlfile_version(xmlfile):
     """
     tree = etree.parse(xmlfile)
     root = tree.getroot()
-    if any([a not in root.attrib.keys() for a in ['version', 'build']]):
+    if any([a not in root.attrib for a in ['version', 'build']]):
         raise Exception('version or build not found.\n{} might not be DART xml file.'.format(xmlfile))
 
     return root.attrib
