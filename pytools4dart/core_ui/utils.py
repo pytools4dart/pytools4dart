@@ -518,7 +518,7 @@ def findall(corenode, pat, case=False, regex=True, column='dartnode', path=False
             nodes.extend(ptd.core_ui.utils.get_nodes(corenode, dn))
 
     else:
-        dartnodes = pd.Series(subnodes(corenode)).drop_duplicates()
+        dartnodes = pd.Series(subpaths(corenode)).drop_duplicates()
         dartnodes = dartnodes[dartnodes.str.contains(pat, case, regex=regex)]
         nodes=[]
         for dn in dartnodes:
@@ -590,6 +590,52 @@ def findpaths(corenode, pat, case=False, regex=True):
     paths = pd.Series(subpaths(corenode))
     return paths[paths.str.contains(pat, case, regex=regex)]
 
+
+def diff(corenode1, corenode2):
+    """
+    Print the differences between the core nodes of two simulations
+    Parameters
+    ----------
+    corenode1: object
+        core node of a simulation or any subnode
+
+    corenode2: object
+        core node of a simulation or any subnode
+
+    Returns
+    -------
+
+    """
+    # TODO: test with differences in attrinbutes and cores
+
+    # compare attributes
+    if hasattr(corenode1, 'attrib'):
+        for a in corenode1.attrib:
+            if a != '':
+                a1 = getattr(corenode1, a)
+                a2 = getattr(corenode2, a)
+                if a1 != a2:
+                    print('{}.{}={}'.format(corenode1.path(), a, a1))
+                    print('{}.{}={}'.format(corenode2.path(), a, a2))
+
+    # compare children
+    if hasattr(corenode1, 'children'):
+        for c in corenode1.children:
+            c1 = getattr(corenode1, c)
+            c2 = getattr(corenode2, c)
+
+            if isinstance(c1, list) and isinstance(c2, list):
+                if len(c1) != len(c2):
+                    print('{}.{}={}'.format(corenode1.path(), c, c1))
+                    print('{}.{}={}'.format(corenode2.path(), c, c2))
+                else:
+                    for c1i, c2i in zip(c1, c2):
+                        diff(c1i, c2i)
+            elif (c1 is None and c2 is not None) or (c2 is None and c1 is not None):
+                print('{}.{}={}'.format(corenode1.path(), c, c1))
+                print('{}.{}={}'.format(corenode2.path(), c, c2))
+            elif c1 is not None and c2 is not None:
+                diff(c1, c2)
 
 # ptd.core_ui.utils.findall(simu.core.plots.Plots, '.*ident$')
 #
