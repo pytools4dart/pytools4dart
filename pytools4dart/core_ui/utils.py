@@ -133,7 +133,7 @@ def update_node(rnode, tnode, module):
         else:
             rchild_value = getattr(rnode, tchild.tag)
             if empty_rchilds[tchild.tag]:
-                tchild_args = ', '.join([mapName(k) + '=' + "'"+v+"'" for k, v in tchild.attrib.iteritems()])
+                tchild_args = ', '.join([mapName(k) + '=' + "'"+v+"'" for k, v in tchild.attrib.items()])
                 new_rchild = eval('ptd.core_ui.{}.create_{}({})'.format(module, tchild.tag, tchild_args))
                 if isinstance(rchild_value, list):
                     eval('rnode.add_{}(new_rchild)'.format(tchild.tag))
@@ -559,7 +559,7 @@ def set_nodes(corenode, **kwargs):
     simu.scene.properties.optical
 
     """
-    for key, value in kwargs.iteritems():
+    for key, value in kwargs.items():
         # _, dartnodes = findall(corenode, pat=key+'$', path=True, use_labels=False)
         dartnodes = findpaths(corenode, pat=key+'$')
         if len(dartnodes)==1:

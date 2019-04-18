@@ -363,8 +363,8 @@ class Add(object):
             module, fun, multi, model, node, factor = dartnode.split('.')
             tmp = ptd.coeff_diff.create_UnderstoryMulti()
             propargnames = tmp.attrib + tmp.children
-            propargs = {k: v for k, v in kwargs.iteritems() if k in propargnames}
-            modelargs = { k:v for k,v in kwargs.iteritems() if k not in propargnames and k != 'prospect'}
+            propargs = {k: v for k, v in kwargs.items() if k in propargnames}
+            modelargs = { k:v for k,v in kwargs.items() if k not in propargnames and k != 'prospect'}
             new_model = eval('ptd.coeff_diff.create_{model}(**modelargs)'.format(model=model)) # optproplist_xmlpath.split(".")[1]
 
             propargs['UnderstoryMultiModel']=new_model
@@ -372,7 +372,7 @@ class Add(object):
         else:
             module, fun, multi, node, factor = dartnode.split('.')
             new_model = None
-            propargs = {k: v for k, v in kwargs.iteritems() if k != 'prospect'}
+            propargs = {k: v for k, v in kwargs.items() if k != 'prospect'}
             prop = eval('ptd.coeff_diff.create_{multi}(**propargs)'.format(multi=multi)) # optproplist_xmlpath.split(".")[1]
 
             # ProspectExternalModule = ptd.coeff_diff.create_ProspectExternalModule(useProspectExternalModule=1,
@@ -519,7 +519,7 @@ class Add(object):
 
         if plot_type in [0, 2]: # ground
             args = {'ident':grd_op_ident, 'type_': grd_type}
-            args = {k:v for k,v in args.iteritems() if v is not None}
+            args = {k:v for k,v in args.items() if v is not None}
             grd_opl = ptd.plots.create_GroundOpticalPropertyLink(**args)
             if grd_tp_ident is not None: # otherwise default roperties will be set
                 grd_tpl = ptd.plots.create_GroundThermalPropertyLink(idTemperature=grd_tp_ident)

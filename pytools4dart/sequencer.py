@@ -87,7 +87,7 @@ class Sequencer(object):
         # param={'Cab':range(0,30,10)}
         # param={'Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].UnderstoryMultiModel.ProspectExternalModule.ProspectExternParameters.Cab':range(0,30,10)}
         # param = pd.DataFrame(param)
-        # for k, v in param.iteritems():
+        # for k, v in param.items():
         #     _, path=ptd.core_ui.utils.findall(corenode, k, path=True)
         #     if len(path) > 1:
         #         raise Exception('Parameter not unique. Specify key or node'.format())

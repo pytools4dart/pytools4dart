@@ -628,7 +628,7 @@ def get_labels(pat=None, case=False, regex=True, column='dartnode'):
 
 def write_templates(directory):
     xml_templates = get_templates()
-    for k, v in xml_templates.iteritems():
+    for k, v in xml_templates.items():
         filename=pjoin(os.path.abspath(directory), k+'.xml')
         with open(filename, 'w') as f:
             f.write(v)
@@ -643,7 +643,7 @@ def write_schemas(directory):
         Path to write pytools4dart core directory (typically 'pytools4dart/xsdschemas')
     """
     xmlschemas = get_schemas()
-    for k, v in xmlschemas.iteritems():
+    for k, v in xmlschemas.items():
         filename=pjoin(os.path.abspath(directory), k+'.xsd')
         with open(filename, 'w') as f:
             f.write(v)

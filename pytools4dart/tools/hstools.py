@@ -200,7 +200,7 @@ def read_ENVI_hdr(path, dartlabels = False):
     # info for bands :
     # pof = dict(zip(res['wavelength'],res['fwhm']))
     if dartlabels:
-        composed = {v: k for k, v in composed.iteritems()}
+        composed = {v: k for k, v in composed.items()}
 
     numerics = ["samples", "lines", "bands", "header offset", "data type",
      "byte order", "default bands", "data ignore value",
