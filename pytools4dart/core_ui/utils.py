@@ -561,7 +561,7 @@ def set_nodes(corenode, **kwargs):
     """
     for key, value in kwargs.items():
         # _, dartnodes = findall(corenode, pat=key+'$', path=True, use_labels=False)
-        dartnodes = findpaths(corenode, pat=key+'$')
+        dartnodes = findpaths(corenode, pat='\.' + key + '$', case=True)
         if len(dartnodes)==1:
             exec('corenode.'+dartnodes.iloc[0]+'=value')
         else:
