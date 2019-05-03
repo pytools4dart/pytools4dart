@@ -34,11 +34,13 @@ i.e. output file of AMAPVox lidar voxelization software.
 # Set work directory
 
 import pandas as pd
+import os
 # import pprint
 # import re
-# import numpy as np
+import numpy as np
 import geopandas as gpd
 from shapely.geometry import box, Polygon
+from shapely.affinity import affine_transform
 
 
 # path="/media/DATA/DATA/SIMULATION_P1_P9/MaquettesALS_INRAP1P9_2016"
@@ -60,7 +62,7 @@ class voxel(object):
     @classmethod
     def from_vox(cls, filename):
         newVoxel = cls()
-        newVoxel.inputfile = filename
+        newVoxel.inputfile = os.path.expanduser(filename)
         newVoxel.read_vox_header() # description de la scène voxelisées
         newVoxel.read_vox_data()  # description de chaque voxel
         newVoxel.create_grid()
@@ -110,6 +112,8 @@ class voxel(object):
          Creates a geopandas dataframe with one grid cell in each row.
         """
         polygons = []
+        I = []
+        J = []
         for i in range(int(self.header["split"][
                                0])):  # ici chaque voxel est transformée en grille (coordonnées réelles de la scène
             for j in range(int(self.header["split"][1])):
@@ -118,7 +122,46 @@ class voxel(object):
                                     j * self.header["res"][0] + self.header["min_corner"][1],
                                     (i + 1) * self.header["res"][0] + self.header["min_corner"][0],
                                     (j + 1) * self.header["res"][0] + self.header["min_corner"][1]))
-        self.grid = gpd.GeoDataFrame({'geometry': polygons})
+                # xmin = i * self.header["res"][0] + self.header["min_corner"][0]
+                # ymin = j * self.header["res"][0] + self.header["min_corner"][1]
+                # xmax = (i + 1) * self.header["res"][0] + self.header["min_corner"][0]
+                # ymax = (j + 1) * self.header["res"][0] + self.header["min_corner"][1]
+                #
+                # import numpy as np
+                # coorners =  []
+                # Polygon(np.array([[0, 1], [1, 1], [1, 0], [0, 0]]))
+                #
+                # polygons.append(Polygon([
+                #                     # les corners et la résolution (res) dans self.header
+                #                     ,
+                #                     ,
+                #                     )
+                I.append(i)
+                J.append(j)
+
+        self.grid = gpd.GeoDataFrame({'i':I, 'j':J, 'geometry': polygons})
+
+    def affine_transform(self, matrix, inplace=True):
+        """Returns a transformed geometry using an affine transformation matrix.
+        The coefficient matrix is provided as a list or tuple with 6 items
+        for 2D transformations.
+        For 2D affine transformations, the 6 parameter matrix is::
+            [a, b, d, e, xoff, yoff]
+        which represents the augmented matrix::
+            [x']   / a  b xoff \ [x]
+            [y'] = | d  e yoff | [y]
+            [1 ]   \ 0  0   1  / [1]
+        or the equations for the transformed coordinates::
+            x' = a * x + b * y + xoff
+            y' = d * x + e * y + yoff
+        """
+        new_geometry = gpd.GeoSeries([affine_transform(s, matrix) for s in self.grid.geometry])
+        if inplace:
+            self.grid.geometry = new_geometry
+        else:
+            grid = self.grid.copy()
+            grid.geometry = new_geometry
+            return grid
 
     def intersect(self, polygons, inplace=False):
         """
@@ -185,7 +228,7 @@ class voxel(object):
 
         """
 
-        voxlist = []
+
         res = self.header["res"][0]
 
         # set density parameters
@@ -199,25 +242,26 @@ class voxel(object):
         # itertuples is 10x faster than apply (already faster than iterrows)
         # operation was tested
         # remove Ul=0 value, as it means empty voxel
-        for row in self.data[self.data.PadBVTotal != 0].itertuples():
-            i = row.i  # voxel x
-            j = row.j  # voxel y
-            k = row.k  # voxel z
-            density = row.PadBVTotal  # voxel density
+        # extract plots coordinates from grid
+        voxlist=[]
+        for row in self.grid.itertuples():
+         voxlist.append(np.array(row.geometry.exterior.coords.xy)[:,:-1].ravel().tolist())
+        points=pd.concat([self.grid.loc[:,['i', 'j']], pd.DataFrame(voxlist, columns = [ 'PT_1_X', 'PT_2_X', 'PT_3_X',
+                                          'PT_4_X', 'PT_1_Y', 'PT_2_Y', 'PT_3_Y', 'PT_4_Y'])], axis=1, sort=False)
+        # merge points with data and add other parameters
+        data = self.data[self.data.PadBVTotal != 0].loc[:,['i', 'j', 'k', 'PadBVTotal']]
+        data = data.merge(points, how='left', on=['i', 'j'])
+        data['PLT_BTM_HEI'] = data.k*res
+        data['PLT_HEI_MEA'] = res
+        data['VEG_DENSITY_DEF'] = densitydef
+        data.rename(columns={'PadBVTotal': density_column}, inplace=True)
+        data['PLT_TYPE'] = 1
 
-            corners = [i * res, j * res,
-                       (i + 1) * res, j * res,
-                       (i + 1) * res, (j + 1) * res,
-                       i * res, (j + 1) * res]
-
-            height = res
-            baseheight = k * height  # voxel height
-
-            voxlist.append([1] + corners + [baseheight, res, densitydef, density])
-
-        data = pd.DataFrame(voxlist, columns=['PLT_TYPE', 'PT_1_X', 'PT_1_Y', 'PT_2_X', 'PT_2_Y', 'PT_3_X', 'PT_3_Y',
+        # drop index
+        data.drop(['i', 'j', 'k'], axis=1, inplace=True)
+        data = data.reindex(['PLT_TYPE', 'PT_1_X', 'PT_1_Y', 'PT_2_X', 'PT_2_Y', 'PT_3_X', 'PT_3_Y',
                                               'PT_4_X', 'PT_4_Y', 'PLT_BTM_HEI', 'PLT_HEI_MEA',
-                                              'VEG_DENSITY_DEF', density_column])
+                                              'VEG_DENSITY_DEF', density_column], axis=1, copy=False)
 
         if keep_columns == 'all':
             keep_columns = self.data.columns
