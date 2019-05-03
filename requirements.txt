@@ -7,3 +7,5 @@ rtree
 plyfile
 matplotlib
 scipy
+cython
+jnius
