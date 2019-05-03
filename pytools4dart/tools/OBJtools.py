@@ -52,6 +52,7 @@ def get_gnames(obj):
     for group in obj._OBJloader__objects[0].groups:
         gnames.append(group.name)
     gnames = gnames_dart_order(gnames)
+
     return gnames
 
 def gnames_dart_order(group_names):
@@ -74,14 +75,17 @@ def gnames_dart_order(group_names):
         gnames_dart_order(group_names)
 
     """
+    if len(group_names) <= 1:
+        return group_names
+
     from jnius import autoclass
     gnames = []
-    if len(group_names) > 0:
-        HashMap = autoclass('java.util.HashMap')
-        hm = HashMap()
-        for gn in group_names:
-            hm.put(gn.rstrip(), 1)
-        gnames = hm.keySet().toArray()
+    HashMap = autoclass('java.util.HashMap')
+    hm = HashMap()
+    for gn in group_names:
+        hm.put(gn.rstrip(), '1')
+    gnames = hm.keySet().toArray()
+
     return gnames
 
 def get_dims(obj):
