@@ -249,7 +249,7 @@ class voxel(object):
         points=pd.concat([self.grid.loc[:,['i', 'j']], pd.DataFrame(voxlist, columns = [ 'PT_1_X', 'PT_2_X', 'PT_3_X',
                                           'PT_4_X', 'PT_1_Y', 'PT_2_Y', 'PT_3_Y', 'PT_4_Y'])], axis=1, sort=False)
         # merge points with data and add other parameters
-        data = self.data[self.data.PadBVTotal != 0].loc[:,['i', 'j', 'k', 'PadBVTotal']]
+        data = self.data[self.data.PadBVTotal != 0 & pd.notna(self.data.PadBVTotal)].loc[:,['i', 'j', 'k', 'PadBVTotal']]
         data = data.merge(points, how='left', on=['i', 'j'])
         data['PLT_BTM_HEI'] = data.k*res
         data['PLT_HEI_MEA'] = res
