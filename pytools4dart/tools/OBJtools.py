@@ -31,29 +31,75 @@ import os
 import pytools4dart as ptd
 import re
 from plyfile import PlyData
-
-def read(file_src):
-    sys.path.append(os.path.join(ptd.getdartdir(), "bin", "python_script", "DAO"))
-    import dao
-
-    obj = dao.OBJloader(file_src)
-    obj.load()
-
-    return obj
+try:
+    import tinyobj
+    import numpy as np
 
 
-def get_gnames(obj):
+    def read(file_src):
+        obj = tinyobj.ObjReader()
+        obj.ParseFromFile(file_src)
 
-    # gregex = re.compile(r'^g\s*(.*?)\n$')
-    # gnames = []
-    # gnames = [' '.join(gregex.findall(line)) for line in open(file_src) if line.startswith('g')]  # group names
+        return obj
 
-    gnames = []
-    for group in obj._OBJloader__objects[0].groups:
-        gnames.append(group.name)
-    gnames = gnames_dart_order(gnames)
+    def get_gnames(obj):
 
-    return gnames
+        # gregex = re.compile(r'^g\s*(.*?)\n$')
+        # gnames = []
+        # gnames = [' '.join(gregex.findall(line)) for line in open(file_src) if line.startswith('g')]  # group names
+
+        gnames = []
+        for group in obj.GetShapes():
+            gnames.append(group.name)
+        gnames = gnames_dart_order(gnames)
+
+        return gnames
+
+
+    def get_dims(obj):
+
+        vertices = np.array(obj.GetAttrib()).reshape((-1,3))
+
+        ydim = np.max(vertices[:,0])-np.min(vertices[:,0])
+        zdim = np.max(vertices[:,1])-np.min(vertices[:,1])
+        xdim = np.max(vertices[:,2])-np.min(vertices[:,2])
+
+        return xdim, ydim, zdim
+
+except:
+    def read(file_src):
+        sys.path.append(os.path.join(ptd.getdartdir(), "bin", "python_script", "DAO"))
+        import dao
+
+        obj = dao.OBJloader(file_src)
+        obj.load()
+
+        return obj
+
+
+    def get_gnames(obj):
+
+        # gregex = re.compile(r'^g\s*(.*?)\n$')
+        # gnames = []
+        # gnames = [' '.join(gregex.findall(line)) for line in open(file_src) if line.startswith('g')]  # group names
+
+        gnames = []
+        for group in obj._OBJloader__objects[0].groups:
+            gnames.append(group.name)
+        gnames = gnames_dart_order(gnames)
+
+        return gnames
+
+    def get_dims(obj):
+
+        bbox = obj.getBounds()
+
+        xdim = bbox.width()
+        ydim = bbox.depth()
+        zdim = bbox.height()
+
+        return xdim, ydim, zdim
+
 
 def gnames_dart_order(group_names):
     """
@@ -88,15 +134,6 @@ def gnames_dart_order(group_names):
 
     return gnames
 
-def get_dims(obj):
-
-    bbox = obj.getBounds()
-
-    xdim = bbox.width()
-    ydim = bbox.depth()
-    zdim = bbox.height()
-
-    return xdim, ydim, zdim
 
 def ply2obj(ply, obj, order = ['x', 'y', 'z'], color=False):
     """
