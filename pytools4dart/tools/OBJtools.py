@@ -58,7 +58,7 @@ try:
 
     def get_dims(obj):
 
-        vertices = np.array(obj.GetAttrib()).reshape((-1,3))
+        vertices = np.array(obj.GetAttrib().vertices).reshape((-1,3))
 
         ydim = np.max(vertices[:,0])-np.min(vertices[:,0])
         zdim = np.max(vertices[:,1])-np.min(vertices[:,1])
