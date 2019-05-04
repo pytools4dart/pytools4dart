@@ -9,3 +9,6 @@ matplotlib
 scipy
 cython
 jnius
+pybind11
+git+https://gitlab.irstea.fr/florian.deboissieu/generateds.git
+git+https://gitlab.irstea.fr/florian.deboissieu/tinyobj.git
