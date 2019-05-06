@@ -108,8 +108,10 @@ class DART2LAS(object):
         else:  # check format if not empty
             if (self.ifWriteWaveform and (self.lasFormat not in [4, 9])) or (
                     (not self.ifWriteWaveform) and (self.lasFormat not in [1, 6])):
-                print("Error: LAS format not coherent with ifWriteWaveform")
-                exit()
+                raise ValueError("LAS format not coherent with ifWriteWaveform:\n"
+                                 "ifWriteWaveform must be True for formats 4 and 9,"
+                                 "the opposit for formats 1 and 6,\n"
+                                 "Other formats are not supported at the moment.")
 
         if self.lasVersion is None:
             self.lasVersion = 1.3
