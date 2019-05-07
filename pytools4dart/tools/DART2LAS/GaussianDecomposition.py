@@ -8,28 +8,40 @@ import pprint
 def findZeroCrossingPeaks(y, intThreshold=5, min_dist=3):
     '''Detecte Zero Crossing Peaks'''
     peak_list = []
-    if len(y)>0:
+    if len(y)>0 and any(y>0):
         waveformLengthLess1 = len(y) - 1
         gradients = []
-        for i in range(waveformLengthLess1):
-            gradients.append(y[i+1]-y[i])
+        gradients = y[1:]-y[0:-1]
+        # for i in range(waveformLengthLess1):
+        #     gradients.append(y[i+1]-y[i])
 #         firstPeak = True
 #         peakInt = 0
 #         peakTime = 0
 #         timeDiff = 0
 #         calcThreshold = .0
-        
-        for i in range(waveformLengthLess1-1):
-            for j in range(i+1,waveformLengthLess1):
-                if gradients[i] == 0:
-                    break
-                if (not gradients[j] == 0) and gradients[i]>0 and gradients[j]<0:
-#                     print j, gradients[i], gradients[j]
-                    if y[i+1]>intThreshold:
-                        peak_list.append(i+1)
-                    break
-                elif (not gradients[j] == 0):
-                    break
+
+        for i in range(waveformLengthLess1 - 1):
+            if gradients[i] > 0 and y[i + 1] > intThreshold:
+                # gradients[gradients[i+1:]<0]
+                for j in range(i + 1, waveformLengthLess1):
+                    if gradients[j] < 0:
+                        #                     print j, gradients[i], gradients[j]
+                        peak_list.append(i + 1)
+                        break
+                    elif (not gradients[j] == 0):
+                        break
+#
+#         for i in range(waveformLengthLess1-1):
+#             for j in range(i+1,waveformLengthLess1):
+#                 if gradients[i] == 0:
+#                     break
+#                 if (not gradients[j] == 0) and gradients[i]>0 and gradients[j]<0:
+# #                     print j, gradients[i], gradients[j]
+#                     if y[i+1]>intThreshold:
+#                         peak_list.append(i+1)
+#                     break
+#                 elif (not gradients[j] == 0):
+#                     break
     peaks = np.array(peak_list)
     if peaks.size > 1 and min_dist > 1:
         highest = peaks[np.argsort(y[peaks])][::-1]
@@ -133,7 +145,7 @@ def gaussian_decomposition(x, y, indexes_peaks):
     mod = None
     for i in range(0, len(indexes_peaks)):
         model_prefix = 'g' + str(i) + '_'
-        gauss_component = lmfit.models.GaussianModel(prefix=model_prefix)
+        gauss_component = lmfit.models.GaussianModel(prefix=model_prefix) # around 10ms
 
 #         print 'par', y[inter[i][0]:inter[i][1] + 1], x[inter[i][0]:inter[i][1] + 1]
         if pars is None:

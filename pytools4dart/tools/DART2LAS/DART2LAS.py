@@ -272,6 +272,9 @@ class DART2LAS(object):
             print('Calculated gain according to maximum normalization: ', receiveWaveGain)
 
         print("nbPulses: {}".format(nbPulses))
+        import time
+        start = time.time()
+        print('start time: {}'.format(start))
         for cnt in range(nbPulses):
             dartfile.seek(tmp)
             try:
@@ -287,137 +290,139 @@ class DART2LAS(object):
                 tb = sys.exc_info()[2]
                 raise IOError("Reading failed on input DART LIDARIMAGE file while reading waveform of each pulse" + dartFileName, tb)
             #end try
-            wave_data = list(struct.unpack(waveIterFormat %nbBinsConvolved, wave))
+            wave_data = np.array(list(struct.unpack(waveIterFormat %nbBinsConvolved, wave)))
+            if any(wave_data>0):
+                y_decomp = (wave_data[:nbBinsConvolved] * receiveWaveGain).astype(int)
+                if any(y_decomp > 0):
+                    y_decomp[y_decomp > self.maxOutput] = self.maxOutput
+                    # for i in range(nbBinsConvolved):
+                    #     c=int(wave_data[i]*receiveWaveGain)  #approximated count < 128
+                    #     if c>self.maxOutput:
+                    #         c=self.maxOutput
+                    #     y_decomp.append(c)
 
-            if (self.ifOutputNbPhotonPerPulse):
-                sum_wave_data = 0
-                for j in range(len(wave_data)):
-                    sum_wave_data += wave_data[j]
-                self.addToNbPhotonPerPulseMap(pulse_info[12], pulse_info[13], sum_wave_data);
+                    if (self.ifOutputNbPhotonPerPulse):
+                        sum_wave_data = 0
+                        for j in range(len(wave_data)):
+                            sum_wave_data += wave_data[j]
+                        self.addToNbPhotonPerPulseMap(pulse_info[12], pulse_info[13], sum_wave_data);
 
-#             #ajust the gain and output regarding automatic gain control per pulse.
-#             maxCount=1e-8
-#             for j in range(len(wave_data)):
-#                 if self.ifSolarNoise:
-#                     wave_data[j]+=self.snMap[pulse_info[12]][pulse_info[13]]
-#                 if not wave_data[j] == 0.0 and wave_data[j]>maxCount:
-#                     maxCount=wave_data[j]
-# 
-#             if maxCount==1e-8:
-#                 tmp = dartfile.tell() #saves current position in input file before jump to the data of the next waveform
-#                 tmp += posOffsetPerPulse
-#                 continue
-# 
-#             if (maxCntGlobe<maxCount):
-#                 maxCntGlobe=maxCount
+        #             #ajust the gain and output regarding automatic gain control per pulse.
+        #             maxCount=1e-8
+        #             for j in range(len(wave_data)):
+        #                 if self.ifSolarNoise:
+        #                     wave_data[j]+=self.snMap[pulse_info[12]][pulse_info[13]]
+        #                 if not wave_data[j] == 0.0 and wave_data[j]>maxCount:
+        #                     maxCount=wave_data[j]
+        #
+        #             if maxCount==1e-8:
+        #                 tmp = dartfile.tell() #saves current position in input file before jump to the data of the next waveform
+        #                 tmp += posOffsetPerPulse
+        #                 continue
+        #
+        #             if (maxCntGlobe<maxCount):
+        #                 maxCntGlobe=maxCount
 
 
-            nbBinsToCenterFOV = pulse_info[11]
-            distToCenterFOV = nbBinsToCenterFOV*distStep
+                    nbBinsToCenterFOV = pulse_info[11]
+                    distToCenterFOV = nbBinsToCenterFOV*distStep
 
-            distToBeginWave=distToCenterFOV+speedOfLightPerNS*pulse_info[9] #pulse_info[10] is negative
-            
-            #!!!!!!!!!!!!!!!!!!Making the vector looking upward (z_t>0) for ALS device to keep consistent with LAS format
-            x_t = -pulse_info[3]
-            y_t = -pulse_info[4]
-            z_t = -pulse_info[5]
+                    distToBeginWave=distToCenterFOV+speedOfLightPerNS*pulse_info[9] #pulse_info[10] is negative
 
-            x0_abs = pulse_info[6] - x_t/2*distToBeginWave #Divided by 2 change from distance to waveform (2 way)
-            y0_abs = pulse_info[7] - y_t/2*distToBeginWave
-            z0_abs = pulse_info[8] - z_t/2*distToBeginWave
+                    #!!!!!!!!!!!!!!!!!!Making the vector looking upward (z_t>0) for ALS device to keep consistent with LAS format
+                    x_t = -pulse_info[3]
+                    y_t = -pulse_info[4]
+                    z_t = -pulse_info[5]
 
-            gpsTime = float(pulse_info[14]) / self.prf
-            
-            scan_angle_rank = int(round(pulse_info[0]))
-            scan_angle = int(round(pulse_info[0]/ANGLE_INC))
-            
-            x_per_bin = x_t * distStep / 2
-            y_per_bin = y_t * distStep / 2
-            z_per_bin = z_t * distStep / 2
-            
-            
-            if self.ifWriteWaveform:
-                x_t_pico_second = x_per_bin / timeStep_in_pico_second
-                y_t_pico_second = y_per_bin / timeStep_in_pico_second
-                z_t_pico_second = z_per_bin / timeStep_in_pico_second
-            
-            if self.ifWriteWaveform:
-                currentWritingPosWave = waveformfile.tell()
+                    x0_abs = pulse_info[6] - x_t/2*distToBeginWave #Divided by 2 change from distance to waveform (2 way)
+                    y0_abs = pulse_info[7] - y_t/2*distToBeginWave
+                    z0_abs = pulse_info[8] - z_t/2*distToBeginWave
 
-            y_decomp=[]
-            for i in range(nbBinsConvolved):
-                c=int(wave_data[i]*receiveWaveGain)  #approximated count < 128
-                if c>self.maxOutput:
-                    c=self.maxOutput
-                y_decomp.append(c)
-                
-            y_decomp_arr = np.array(y_decomp)
-            indexes_peaks = findZeroCrossingPeaks(y_decomp_arr, self.waveNoiseThreshold)
-            
-            ###Gaussian Decomposition 
-            if len(indexes_peaks)>0:
-                in_x = np.array(range(len(y_decomp)))+0.5
-                out = gaussian_decomposition(in_x, y_decomp_arr, indexes_peaks)
-                if out.success:
-                    # print len(out.best_values)/3, out.best_values['g0_amplitude']
+                    gpsTime = float(pulse_info[14]) / self.prf
+
+                    scan_angle_rank = int(round(pulse_info[0]))
+                    scan_angle = int(round(pulse_info[0]/ANGLE_INC))
+
+                    x_per_bin = x_t * distStep / 2
+                    y_per_bin = y_t * distStep / 2
+                    z_per_bin = z_t * distStep / 2
+
+
                     if self.ifWriteWaveform:
-                        for c in y_decomp:
-                            waveformfile.write(struct.pack('<'+self.waveformAmplitudeFomat,c))            
-                    countPulses+=1
-                    pulsesInBuffer+=1  
-                    nbPointsDecomp = len(out.best_values)//3
-
-                    for i in range(nbPointsDecomp):
-                        ptsPrefix = 'g' + str(i) + '_'
-                        ptsAmp = out.best_values[ptsPrefix+'amplitude']
-                        ptsSigma = out.best_values[ptsPrefix+'sigma']
-                        ptsCenter = out.best_values[ptsPrefix+'center']
-#                         print ptsAmp,   ptsCenter, x0, y0, z0, x_t, y_t, z_t
-                        
-                        x_abs = x0_abs-x_per_bin*ptsCenter
-                        y_abs = y0_abs-y_per_bin*ptsCenter
-                        z_abs = z0_abs-z_per_bin*ptsCenter
-
-                        if self.typeOut == 1:  # Peak amplitude of the Gaussian profile
-                            intensity = ptsAmp/ptsSigma
-                        elif self.typeOut == 2:# Integral of the Gaussian profile
-                            intensity = ptsAmp
-                        elif self.typeOut == 3:# Standard deviation of the Gaussian profile
-                            intensity = ptsSigma * 10.0 #To not making the value too small
-                        elif self.typeOut == 4: # Intensity in the RIEGL way: waveform=I*e^((t-u)/sigma^2)
-                            intensity = ptsAmp / (ptsSigma * math.sqrt(2 * math.pi))
-                        else:
-                            print('Error: the output type option is not supported')
-                            quit()
+                        x_t_pico_second = x_per_bin / timeStep_in_pico_second
+                        y_t_pico_second = y_per_bin / timeStep_in_pico_second
+                        z_t_pico_second = z_per_bin / timeStep_in_pico_second
+                        currentWritingPosWave = waveformfile.tell()
 
 
-                        # All formats variables
-                        x_v.append(int(round( x_abs / self.scale)))
-                        y_v.append(int(round( y_abs / self.scale)))
-                        z_v.append(int(round( z_abs / self.scale)))
-                        intensity_v.append(intensity)
-                        if self.lasFormat in range(6, 10):
-                            scan_angle_v.append(scan_angle)
-                        else:
-                            scan_angle_rank_v.append(scan_angle_rank)
-                        gpstime_v.append(gpsTime)
-                        return_num_v.append(i+1)
-                        num_returns_v.append(nbPointsDecomp)
+                    # y_decomp_arr = np.array(y_decomp)
+                    y_decomp_arr = y_decomp
+                    indexes_peaks = findZeroCrossingPeaks(y_decomp_arr, self.waveNoiseThreshold)
+
+                    ###Gaussian Decomposition
+                    if len(indexes_peaks)>0:
+                        in_x = np.array(range(len(y_decomp)))+0.5
+                        out = gaussian_decomposition(in_x, y_decomp_arr, indexes_peaks)
+                        if out.success:
+                            # print len(out.best_values)/3, out.best_values['g0_amplitude']
+                            if self.ifWriteWaveform:
+                                for c in y_decomp:
+                                    waveformfile.write(struct.pack('<'+self.waveformAmplitudeFomat,c))
+                            countPulses+=1
+                            pulsesInBuffer+=1
+                            nbPointsDecomp = len(out.best_values)//3
+
+                            for i in range(nbPointsDecomp):
+                                ptsPrefix = 'g' + str(i) + '_'
+                                ptsAmp = out.best_values[ptsPrefix+'amplitude']
+                                ptsSigma = out.best_values[ptsPrefix+'sigma']
+                                ptsCenter = out.best_values[ptsPrefix+'center']
+        #                         print ptsAmp,   ptsCenter, x0, y0, z0, x_t, y_t, z_t
+
+                                x_abs = x0_abs-x_per_bin*ptsCenter
+                                y_abs = y0_abs-y_per_bin*ptsCenter
+                                z_abs = z0_abs-z_per_bin*ptsCenter
+
+                                if self.typeOut == 1:  # Peak amplitude of the Gaussian profile
+                                    intensity = ptsAmp/ptsSigma
+                                elif self.typeOut == 2:# Integral of the Gaussian profile
+                                    intensity = ptsAmp
+                                elif self.typeOut == 3:# Standard deviation of the Gaussian profile
+                                    intensity = ptsSigma * 10.0 #To not making the value too small
+                                elif self.typeOut == 4: # Intensity in the RIEGL way: waveform=I*e^((t-u)/sigma^2)
+                                    intensity = ptsAmp / (ptsSigma * math.sqrt(2 * math.pi))
+                                else:
+                                    print('Error: the output type option is not supported')
+                                    quit()
 
 
-                        # Extra Bytes
-                        if self.extra_bytes:
-                            pulse_width_v.append(ptsSigma * (2 * math.sqrt(2 * math.log(2)))) # Full Width at Half Maximum
-                            amplitude_v.append(10*math.log10(intensity/self.minimumIntensity))
+                                # All formats variables
+                                x_v.append(int(round( x_abs / self.scale)))
+                                y_v.append(int(round( y_abs / self.scale)))
+                                z_v.append(int(round( z_abs / self.scale)))
+                                intensity_v.append(intensity)
+                                if self.lasFormat in range(6, 10):
+                                    scan_angle_v.append(scan_angle)
+                                else:
+                                    scan_angle_rank_v.append(scan_angle_rank)
+                                gpstime_v.append(gpsTime)
+                                return_num_v.append(i+1)
+                                num_returns_v.append(nbPointsDecomp)
 
-                        # Waveform
-                        if self.ifWriteWaveform:
-                            byte_offset_to_waveform_data_v.append(currentWritingPosWave)
-                            waveform_packet_size_v.append(nbBinsConvolved * self.nbBytePerWaveAmplitude)
-                            return_point_waveform_loc_v.append(ptsCenter * timeStep_in_pico_second)
-                            x_t_v.append(x_t_pico_second)
-                            y_t_v.append(y_t_pico_second)
-                            z_t_v.append(z_t_pico_second)
+
+                                # Extra Bytes
+                                if self.extra_bytes:
+                                    pulse_width_v.append(ptsSigma * (2 * math.sqrt(2 * math.log(2)))) # Full Width at Half Maximum
+                                    amplitude_v.append(10*math.log10(intensity/self.minimumIntensity))
+
+                                # Waveform
+                                if self.ifWriteWaveform:
+                                    byte_offset_to_waveform_data_v.append(currentWritingPosWave)
+                                    waveform_packet_size_v.append(nbBinsConvolved * self.nbBytePerWaveAmplitude)
+                                    return_point_waveform_loc_v.append(ptsCenter * timeStep_in_pico_second)
+                                    x_t_v.append(x_t_pico_second)
+                                    y_t_v.append(y_t_pico_second)
+                                    z_t_v.append(z_t_pico_second)
 
             tmp = dartfile.tell() #saves current position in input file before jump to the data of the next waveform
             tmp += posOffsetPerPulse;
@@ -426,6 +431,7 @@ class DART2LAS(object):
                 tmpIndicatorNew = int(cnt / feedback)
                 for i in range(tmpIndicatorPast, tmpIndicatorNew):
                     print('pulse info: %f %f %f' % (pulse_info[6], pulse_info[7], pulse_info[8]))
+                    print('elapsed time: {}'.format(time.time()-start))
                     print('{}%'.format(i*10))
                     sys.stdout.flush()
                 tmpIndicatorPast=tmpIndicatorNew
