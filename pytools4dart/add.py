@@ -60,13 +60,15 @@ class Add(object):
     # GeometricProperties
     #     xpos, ypos, zpos
 
-    def object_3d(self, file_src, xpos=2., ypos=2., zpos=0., xscale=1., yscale=1., zscale=1.):
+    def object_3d(self, file_src, name='Object', xpos=2., ypos=2., zpos=0., xscale=1., yscale=1., zscale=1.):
         """
 
         Parameters
         ----------
         file_src: str
             path to obj file
+        name: str
+            name to give to object
         xpos, ypos, zpos: float
             coordinates of the position of the object
         xscale, yscale, zscale: float
