@@ -49,7 +49,7 @@ class DART2LAS(object):
         Constructor
         '''
         self.ifFixedGain = False
-        self.typeOut = 2 # Default to output integration of decomposed Gaussian profile
+        self.typeOut = 4 # Default to output integration of decomposed Gaussian profile
         self.fixedGain = 1.0
         self.receiveWaveOffset = 0
         self.waveNoiseThreshold = 2
@@ -67,7 +67,7 @@ class DART2LAS(object):
         self.lasFormat = None
         self.lasVersion = None
         self.minimumIntensity = 1 # sensor lower detection threshold. There should also be a maximumDetectionThreshold
-        self.extra_bytes = False # if True writes the Pulse width and Amplitude as RIEGL Extra Bytes
+        self.extra_bytes = True # if True writes the Pulse width and Amplitude as RIEGL Extra Bytes
 
         ### available formats
         ### difference between 1 and 6 (or 4 and 9) is the number of bits in Return Number (see LAS v1.4 specs)
@@ -446,6 +446,8 @@ class DART2LAS(object):
         outFile.header.set_systemid('DART5                           ')   # length of 32!!!
         outFile.header.set_softwareid('DART2LAS.py                     ')   # length of 32!!!
 
+        digitizer_gain = 1 / receiveWaveGain
+        digitizer_offset = 0
 
         if self.extra_bytes:
             outFile.define_new_dimension(name="Pulse width",
@@ -455,6 +457,7 @@ class DART2LAS(object):
                                          description="Echo signal amplitude [dB]",
                                          data_type=9)
             outFile.header.vlrs[0].description = "RIEGL Extra Bytes."
+
 
         if self.ifWriteWaveform:
             outFile.header.set_waveform_data_packets_external(1)
@@ -469,8 +472,6 @@ class DART2LAS(object):
             # add vlr
             waveform_compression_type = 0
             temporal_time_spacing = int(timeStep_in_pico_second)  # integer of picosecond
-            digitizer_gain = 1 / receiveWaveGain
-            digitizer_offset = 0
             wave_packet_desc_index_v = [1]*len(x_v)  # 1 is record_id-99, here record_id is 100
 
             self.digitizer_gain = digitizer_gain

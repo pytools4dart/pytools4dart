@@ -43,7 +43,7 @@ def findZeroCrossingPeaks(y, intThreshold=5, min_dist=3):
                 rem[peak] = False
 
         peaks = np.arange(y.size)[~rem]
-        print(peaks)
+        # print(peaks)
     return peaks
 
 
