@@ -167,7 +167,7 @@ def get_wavelengths(simu_input_dir):
         band number, wavelength, full width at half maximum.
 
     """
-    phasefile = pjoin(simuinputpath,'phase.xml')
+    phasefile = pjoin(simu_input_dir,'phase.xml')
     phase = etree.parse(phasefile)
 
     root = phase.getroot()
