@@ -516,12 +516,14 @@ def get_input_file_path(simu_name, filename, dartdir=None):
 
 
     # input directories
+    # check in input directory recursively until reaches DART simulations directory
     if simu_name is not None:
-        spath = getsimupath(simu_name, dartdir).split(os.path.sep)
-        ppieces = spath + ['input', filename]
-        filelist.append(os.path.sep.join(ppieces))
+        base_dir = pjoin(getdartenv(dartdir)['DART_LOCAL'], 'simulations')
+        spath = simu_name.split(os.path.sep)
+        mainpath = base_dir + spath + ['input', filename]
+        filelist.append(os.path.sep.join(mainpath))
         for i in range(1, len(spath)):
-            ppieces = spath[:-i] + ['input', filename]
+            ppieces = base_dir + spath[:-i] + ['input', filename]
             filelist.append(os.path.sep.join(ppieces))
 
     # database
