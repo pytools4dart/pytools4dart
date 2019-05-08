@@ -257,7 +257,8 @@ class Plot_file(object):
     def filepath(self, value):
         if value is not None:
             self.simu.core.plots.Plots.addExtraPlotsTextFile = 1
-            self.simu.core.plots.Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName = self.simu.get_input_file_path(value)
+            # self.simu.core.plots.Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName = self.simu.get_input_file_path(value)
+            self.simu.core.plots.Plots.ExtraPlotsTextFileDefinition.extraPlotsFileName = value
 
     @property
     def data(self):
@@ -412,8 +413,8 @@ class Tree_file(object):
             if len(nodepath) != 1:
                 raise Exception('Multiple Tree files found.')
 
-            filepath = self.simu.get_input_file_path(value)
-            exec (nodepath[0] + '=filepath')
+            # filepath = self.simu.get_input_file_path(value)
+            exec (nodepath[0] + '=value')
 
 
     @property
