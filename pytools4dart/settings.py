@@ -524,7 +524,7 @@ def get_input_file_path(simu_name, filename, dartdir=None):
         mainpath = [base_dir] + spath + ['input', filename]
         filelist.append(os.path.sep.join(mainpath))
         for i in range(1, len(spath)):
-            ppieces = base_dir + spath[:-i] + ['input', filename]
+            ppieces = [base_dir] + spath[:-i] + ['input', filename]
             filelist.append(os.path.sep.join(ppieces))
 
     # database
