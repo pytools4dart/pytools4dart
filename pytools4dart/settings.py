@@ -521,7 +521,7 @@ def get_input_file_path(simu_name, filename, dartdir=None):
     if simu_name is not None:
         base_dir = pjoin(getdartenv(dartdir)['DART_LOCAL'], 'simulations')
         spath = simu_name.split(os.path.sep)
-        mainpath = base_dir + spath + ['input', filename]
+        mainpath = [base_dir] + spath + ['input', filename]
         filelist.append(os.path.sep.join(mainpath))
         for i in range(1, len(spath)):
             ppieces = base_dir + spath[:-i] + ['input', filename]
