@@ -32,7 +32,9 @@ from .settings import darttools, getdartdir, getdartenv
 import subprocess
 import os
 from os.path import join as pjoin
+import sys
 import pytools4dart as ptd
+
 
 
 
@@ -54,7 +56,7 @@ def rundart(path, tool, options = []):
     -------
         True if good
     '''
-
+    sys.stdout.flush()
     dtools = darttools()
     if tool not in list(dtools):
         raise ValueError('DART tool not found.')
