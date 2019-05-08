@@ -73,18 +73,24 @@ def get_bands_files(simu_output_dir, band_sub_dir = None):
 
     return images
 
-
 def stack_dart_bands(band_files, outputfile, wavelengths=None, fwhm=None, verbose=False):
     '''
+    Stack simulated bands into an ENVI file.
 
     Parameters
     ----------
-    band_files
+    band_files: list
+        list of DART file paths to stack into the output ENVI file.
     outputfile: str
-        file path to be written. Output format is ENVI thus file should be with .bil extension
-    wavelengths
-    fwhm
-    verbose
+        file path to be written. Output format is ENVI thus file should be with .bil extension.
+    wavelengths: list
+        list of wavelength values (in nm) corresponding to the bands (in the same order).
+        They will be written in .hdr file.
+    fwhm: list
+        list of Full Width at Half Maximum (in nm) corresponding to the bands (in the same order).
+        They will be written in .hdr file.
+    verbose: bool
+        if True, it gives a message when files are written.
 
     Returns
     -------
@@ -116,15 +122,12 @@ def stack_dart_bands(band_files, outputfile, wavelengths=None, fwhm=None, verbos
     ds = None
 
     output_hdr = re.sub(r'.bil$', '', outputfile)+'.hdr'
-    complete_hdr(output_hdr, wavelengths, fwhm)
+    _complete_hdr(output_hdr, wavelengths, fwhm)
 
     if verbose:
         print('Bands stacked in : ' + outputfile)
 
-
-
-
-def complete_hdr(hdrfile, wavelengths, fwhms):
+def _complete_hdr(hdrfile, wavelengths, fwhms):
     '''
     This function completes the hdr file of .bil file.
     It deletes false data and adds informations about the bands' characteristics
@@ -149,8 +152,21 @@ def complete_hdr(hdrfile, wavelengths, fwhms):
             hdr = hdr + 'fwhm   = {' + ", ".join([np.str(fwhm) for fwhm in fwhms]) + '}'
         f.write(hdr)
 
+def get_wavelengths(simu_input_dir):
+    """
+    Get the band wavelength values of a simulation.
 
-def get_wavelengths(simuinputpath):
+    Parameters
+    ----------
+    simu_input_dir: str
+        path to the input directory.
+
+    Returns
+    -------
+    : DataFrame
+        band number, wavelength, full width at half maximum.
+
+    """
     phasefile = pjoin(simuinputpath,'phase.xml')
     phase = etree.parse(phasefile)
 
@@ -166,6 +182,20 @@ def get_wavelengths(simuinputpath):
     return df
 
 def read_ENVI_hdr(path, dartlabels = False):
+    """
+    Read hyperspectral ENVI file header
+
+    Parameters
+    ----------
+    path: str
+        Path to .hdr file.
+    dartlabels: bool
+        ???
+
+    Returns
+    -------
+
+    """
     with open(path, 'r') as myfile:
         hdr = myfile.read().replace("\r", "")
     try:
@@ -213,6 +243,21 @@ def read_ENVI_hdr(path, dartlabels = False):
     return composed
 
 def get_hdr_bands(hdr, nm_to_um=True):
+    """
+    Extract band specifications from .hdr file.
+
+    Parameters
+    ----------
+    hdr: DataFrame
+        in the format given by function read_ENVI_hdr.
+    nm_to_um: bool
+        to convert wavelengths and bandwidth from nm and µm,
+        which are the default units for wavelengths in ENVI files and DART respectively
+
+    Returns
+    -------
+
+    """
     data = pd.DataFrame({k:hdr[k] for k in ['wavelength', 'fwhm'] if k in hdr})
     if nm_to_um:
         data *= 0.001
