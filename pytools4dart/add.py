@@ -668,7 +668,7 @@ class Add(object):
             # remove names
             # df = df[[c for c in df.columns if 'NAME' not in c]]
             if append:
-                self.simu.scene.plot_file.append(data)
+                self.simu.scene.plot_file.data = pd.concat(self.simu.scene.plot_file.data, data, ignore_index=True)
             else:
                 self.simu.scene.plot_file.data = data
 
