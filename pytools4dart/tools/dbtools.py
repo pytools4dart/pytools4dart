@@ -38,6 +38,7 @@ import re
 def import2db(dbFpath, name, wavelength, reflectance, direct_transmittance, diffuse_transmittance,
               type='Lambertian', comments = ["# Software: pytools4dart", "# Date: date"], verbose=False):
     """
+    Add optical properties to a DART database.
 
     Parameters
     ----------
@@ -108,8 +109,7 @@ def import2db(dbFpath, name, wavelength, reflectance, direct_transmittance, diff
 
 
 def get_models(dbname, search=True):
-    '''
-
+    '''Get the list of models of a DART database.
     Parameters
     ----------
     dbname: str
@@ -130,7 +130,6 @@ def get_models(dbname, search=True):
     .. code-block::
 
         import pytools4dart as ptd
-        from os.path import join as pjoin
         dbfile = 'Lambertian_vegetation.db'
         ptd.tools.dbtools.get_models(dbfile)
 
