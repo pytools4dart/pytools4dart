@@ -299,6 +299,6 @@ if __name__ == '__main__':
     """
     path = "/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr"
 
-    res = hdrtodict(path)
+    res = read_ENVI_hdr(path)
     print(type(res))
     print(res)
