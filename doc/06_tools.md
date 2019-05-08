@@ -9,8 +9,8 @@ package
 Submodule `dbtools` is a toolbox of functions to manage and explore DART databases. 
 At the moment there is only a small number of functions:
 
-- `import2db` : add optical properties to database
-- `get_models` : explore the 
+- `import2db` : add optical properties to database, **limited to Lambertian database** at the moment.
+- `get_models` : list the models available in a DART database. 
 
 
 ```python
