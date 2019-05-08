@@ -509,11 +509,12 @@ def get_input_file_path(simu_name, filename, dartdir=None):
     if os.path.abspath(filename) == filename:
         return filename
 
-    if os.path.basename(filename)==filename:
-        filelist = []
-    else:
-        filelist = [filename]
-
+    ### DO NOT SEE ORIGINAL OJECTIVE OF THIS BLOCK ###
+    # if os.path.basename(filename)==filename:
+    #     filelist = []
+    # else:
+    #     filelist = [filename]
+    filelist = []
 
     # input directories
     # check in input directory recursively until reaches DART simulations directory
