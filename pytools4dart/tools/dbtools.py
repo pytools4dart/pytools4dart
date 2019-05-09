@@ -81,6 +81,9 @@ def import2db(dbFpath, name, wavelength, reflectance, direct_transmittance, diff
         # write file
         df = pd.DataFrame(dict(wavelength=wavelength, reflectance=reflectance,
                           direct_transmittance=direct_transmittance, diffuse_transmittance=diffuse_transmittance))
+
+        # reorder columns to avoid wrong db internal reordering at along reflectance instead of wavelength
+        df = df.reindex(['wavelength', 'reflectance', 'direct_transmittance', 'diffuse_transmittance'], axis=1, copy=False)
         with open(tmpfile, 'w') as f:
             f.write('\n'.join(comments)+'\n')
             df.to_csv(f, sep=';', encoding='utf8', header=True, index=False)
