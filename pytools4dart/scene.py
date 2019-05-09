@@ -284,9 +284,10 @@ class Plot_file(object):
             raise Exception("Mandatory colmuns 'PT_1_X', 'PT_1_Y', 'PT_2_X', 'PT_2_Y', 'PT_3_X', 'PT_3_Y', "
                             "'PT_4_X', 'PT_4_Y' not found.")
 
-        # subset expected columns
-        expected_columns = PLOTS_COLUMNS + ['GRD_OPT_NAME', 'GRD_THERM_NAME', 'PLT_OPT_NAME', 'PLT_THERM_NAME']
-        return value[[c for c in value.columns if c in expected_columns]]
+        # # subset expected columns
+        # expected_columns = PLOTS_COLUMNS + ['GRD_OPT_NAME', 'GRD_THERM_NAME', 'PLT_OPT_NAME', 'PLT_THERM_NAME']
+        # return value[[c for c in value.columns if c in expected_columns]]
+        return value
 
     def append(self, value):
         if value is None:
