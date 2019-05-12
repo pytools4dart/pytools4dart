@@ -35,11 +35,39 @@ try:
     import tinyobj
     import numpy as np
 
+    class objreader(object):
+        """
+        class to bind tinyobj, as shape elements
+        not kept correctly (lost) when getting out of a method
+        """
+        def __init__(self, file_src):
+            obj = tinyobj.ObjReader()
+            obj.ParseFromFile(file_src)
+            # names are lost
+            self._file = file_src
+            self._names = [g.name for g in obj.GetShapes()]
+
+            # vertices not used elsewhere thus not kept
+            vertices = np.array(obj.GetAttrib().vertices).reshape((-1, 3))
+            self._dims = [np.max(vertices[:, 0]) - np.min(vertices[:, 0]),
+                         np.max(vertices[:, 1]) - np.min(vertices[:, 1]),
+                         np.max(vertices[:, 2]) - np.min(vertices[:, 2])]
+
+
+        @property
+        def vertices(self):
+            return np.array(self._obj.GetAttrib().vertices).reshape((-1,3))
+
+        @property
+        def names(self):
+            return self._names
+
+        @property
+        def dims(self):
+            return self._dims
 
     def read(file_src):
-        obj = tinyobj.ObjReader()
-        obj.ParseFromFile(file_src)
-
+        obj = objreader(file_src)
         return obj
 
     def get_gnames(obj):
@@ -48,21 +76,14 @@ try:
         # gnames = []
         # gnames = [' '.join(gregex.findall(line)) for line in open(file_src) if line.startswith('g')]  # group names
 
-        gnames = []
-        for group in obj.GetShapes():
-            gnames.append(group.name)
-        gnames = gnames_dart_order(gnames)
+        gnames = gnames_dart_order(obj.names)
 
         return gnames
 
 
     def get_dims(obj):
 
-        vertices = np.array(obj.GetAttrib().vertices).reshape((-1,3))
-
-        ydim = np.max(vertices[:,0])-np.min(vertices[:,0])
-        zdim = np.max(vertices[:,1])-np.min(vertices[:,1])
-        xdim = np.max(vertices[:,2])-np.min(vertices[:,2])
+        ydim, zdim, xdim = obj.dims
 
         return xdim, ydim, zdim
 
@@ -121,6 +142,7 @@ def gnames_dart_order(group_names):
         gnames_dart_order(group_names)
 
     """
+    # TODO : check python 3
     if len(group_names) <= 1:
         return group_names
 
@@ -129,7 +151,11 @@ def gnames_dart_order(group_names):
     HashMap = autoclass('java.util.HashMap')
     hm = HashMap()
     for gn in group_names:
-        hm.put(gn.rstrip(), '1')
+        ##### WARINING: unicode not well put in hm
+        # thus converted to str in python 2
+        # maybe a pb in python 3 as str is unicode
+        # TODO: check python 3
+        hm.put(str(gn).rstrip(), '1')
     gnames = hm.keySet().toArray()
 
     return gnames
