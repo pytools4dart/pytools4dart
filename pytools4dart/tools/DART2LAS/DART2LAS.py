@@ -241,7 +241,7 @@ class DART2LAS(object):
         y_t_v=[]
         z_t_v=[]
         
-        receiveWaveGain = 0
+        receiveWaveGain = 1
 
         if (self.ifFixedGain):
             receiveWaveGain=float(self.fixedGain)
@@ -292,7 +292,7 @@ class DART2LAS(object):
             #end try
             wave_data = np.array(list(struct.unpack(waveIterFormat %nbBinsConvolved, wave)))
             if any(wave_data>0):
-                y_decomp = (wave_data[:nbBinsConvolved] * receiveWaveGain).astype(int)
+                y_decomp = (wave_data * receiveWaveGain).astype(int)
                 if any(y_decomp > 0):
                     y_decomp[y_decomp > self.maxOutput] = self.maxOutput
                     # for i in range(nbBinsConvolved):
