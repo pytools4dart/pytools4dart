@@ -54,9 +54,9 @@ try:
                          np.max(vertices[:, 2]) - np.min(vertices[:, 2])]
 
 
-        @property
-        def vertices(self):
-            return np.array(self._obj.GetAttrib().vertices).reshape((-1,3))
+        # @property
+        # def vertices(self):
+        #     return np.array(self._obj.GetAttrib().vertices).reshape((-1,3))
 
         @property
         def names(self):
