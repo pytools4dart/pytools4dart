@@ -506,6 +506,7 @@ class DART2LAS(object):
 
 
 ##################POINTS#################
+        # remove returns more than maximum (2^3 for formats 1-5)
         if self.lasFormat in range(6, 10):
             valid_returns = np.array(return_num_v) <= 2**4
         else:
