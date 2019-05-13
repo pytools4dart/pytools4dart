@@ -251,7 +251,7 @@ class voxel(object):
         # merge points with data and add other parameters
         data = self.data[(self.data.PadBVTotal != 0) & pd.notna(self.data.PadBVTotal)].loc[:,['i', 'j', 'k', 'PadBVTotal']]
         data = data.merge(points, how='left', on=['i', 'j'])
-        data['PLT_BTM_HEI'] = data.k*res
+        data['PLT_BTM_HEI'] = data.k*res+self.header["min_corner"][2]
         data['PLT_HEI_MEA'] = res
         data['VEG_DENSITY_DEF'] = densitydef
         data.rename(columns={'PadBVTotal': density_column}, inplace=True)
