@@ -506,35 +506,40 @@ class DART2LAS(object):
 
 
 ##################POINTS#################
+        if self.lasFormat in range(6, 10):
+            valid_returns = np.array(return_num_v) <= 2**4
+        else:
+            valid_returns = np.array(return_num_v) <= 2**3
+
 
         # All formats variables
-        outFile.set_x(x_v)
-        outFile.set_y(y_v)
-        outFile.set_z(z_v)
-        outFile.set_intensity(intensity_v)
-        outFile.set_return_num(return_num_v)
-        outFile.set_num_returns(num_returns_v)
+        outFile.set_x(np.array(x_v)[valid_returns])
+        outFile.set_y(np.array(y_v)[valid_returns])
+        outFile.set_z(np.array(z_v)[valid_returns])
+        outFile.set_intensity(np.array(intensity_v)[valid_returns])
+        outFile.set_return_num(np.array(return_num_v)[valid_returns])
+        outFile.set_num_returns(np.array(num_returns_v)[valid_returns])
 
         # Scan angle
         if self.lasFormat in range(6, 10):
-            outFile.set_scan_angle(scan_angle_v)
+            outFile.set_scan_angle(np.array(scan_angle_v)[valid_returns])
         else:
-            outFile.set_scan_angle_rank(scan_angle_rank_v)
+            outFile.set_scan_angle_rank(np.array(scan_angle_rank_v)[valid_returns])
 
         # Extra Bytes
         if self.extra_bytes:
-            outFile.pulse_width=pulse_width_v
-            outFile.amplitude=amplitude_v
+            outFile.pulse_width=np.array(pulse_width_v)[valid_returns]
+            outFile.amplitude=np.array(amplitude_v)[valid_returns]
 
         # Waveforms
         if self.ifWriteWaveform:
-            outFile.set_wave_packet_desc_index(wave_packet_desc_index_v)
-            outFile.set_byte_offset_to_waveform_data(byte_offset_to_waveform_data_v)
-            outFile.set_waveform_packet_size(waveform_packet_size_v)
-            outFile.set_return_point_waveform_loc(return_point_waveform_loc_v)
-            outFile.set_x_t(x_t_v)
-            outFile.set_y_t(y_t_v)
-            outFile.set_z_t(z_t_v)
+            outFile.set_wave_packet_desc_index(np.array(wave_packet_desc_index_v)[valid_returns])
+            outFile.set_byte_offset_to_waveform_data(np.array(byte_offset_to_waveform_data_v)[valid_returns])
+            outFile.set_waveform_packet_size(np.array(waveform_packet_size_v)[valid_returns])
+            outFile.set_return_point_waveform_loc(np.array(return_point_waveform_loc_v)[valid_returns])
+            outFile.set_x_t(np.array(x_t_v)[valid_returns])
+            outFile.set_y_t(np.array(y_t_v)[valid_returns])
+            outFile.set_z_t(np.array(z_t_v)[valid_returns])
 
 
         outFile.close() 
