@@ -522,7 +522,7 @@ class DART2LAS(object):
 
 
         # All formats variables
-        outFile.set_gps_time(gpstime_v)
+        outFile.set_gps_time(np.array(gpstime_v)[valid_returns])
         outFile.set_x(np.array(x_v)[valid_returns])
         outFile.set_y(np.array(y_v)[valid_returns])
         outFile.set_z(np.array(z_v)[valid_returns])
