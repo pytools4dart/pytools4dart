@@ -275,7 +275,7 @@ class DART2LAS(object):
         import time
         start = time.time()
         print('start time: {}'.format(start))
-        for cnt in range(10):# range(nbPulses):
+        for cnt in range(nbPulses):
             dartfile.seek(tmp)
             try:
                 pulseInfo = dartfile.read(waveform_parameter_length)
