@@ -275,7 +275,7 @@ class DART2LAS(object):
         import time
         start = time.time()
         print('start time: {}'.format(start))
-        for cnt in range(nbPulses):
+        for cnt in range(10):# range(nbPulses):
             dartfile.seek(tmp)
             try:
                 pulseInfo = dartfile.read(waveform_parameter_length)
@@ -457,12 +457,12 @@ class DART2LAS(object):
         digitizer_offset = 0
 
         if self.extra_bytes:
-            outFile.define_new_dimension(name="Pulse width",
+            outFile.define_new_dimension(name="pulse_width",
                                          description="Full width at half maximum [ns]",
-                                         data_type=9)
-            outFile.define_new_dimension(name="Amplitude",
+                                         data_type=10)
+            outFile.define_new_dimension(name="amplitude",
                                          description="Echo signal amplitude [dB]",
-                                         data_type=9)
+                                         data_type=10)
             outFile.header.vlrs[0].description = "RIEGL Extra Bytes."
 
 
@@ -522,6 +522,7 @@ class DART2LAS(object):
 
 
         # All formats variables
+        outFile.set_gps_time(gpstime_v)
         outFile.set_x(np.array(x_v)[valid_returns])
         outFile.set_y(np.array(y_v)[valid_returns])
         outFile.set_z(np.array(z_v)[valid_returns])
