@@ -77,7 +77,7 @@ class DART2LAS(object):
 
         
         self.scale = 0.001
-        self.prf = 500000.0
+        self.prf = 500000.0 # pulse rate
         self.byteOption = 1 # False for 8 bits to represent waveform amplitude, True for 16 bits to represent waveform amplitude
         self.nbBytePerWaveAmplitude = 2
         self.waveformAmplitudeFomat = 'H'
@@ -338,7 +338,8 @@ class DART2LAS(object):
                     y0_abs = pulse_info[7] - y_t/2*distToBeginWave
                     z0_abs = pulse_info[8] - z_t/2*distToBeginWave
 
-                    gpsTime = float(pulse_info[14]) / self.prf
+                    # gpsTime = float(pulse_info[14]) / self.prf
+                    gpsTime = float(pulse_info[14]) # pulse ID (0-based)
 
                     scan_angle_rank = int(round(pulse_info[0]))
                     scan_angle = int(round(pulse_info[0]/ANGLE_INC))
@@ -508,9 +509,16 @@ class DART2LAS(object):
 ##################POINTS#################
         # remove returns more than maximum (2^3 for formats 1-5)
         if self.lasFormat in range(6, 10):
-            valid_returns = np.array(return_num_v) < 2**4
+            Nmax = 2**4-1
         else:
-            valid_returns = np.array(return_num_v) < 2**3
+            Nmax = 2**3-1
+
+        num_returns_v = np.array(num_returns_v)
+        num_returns_v[num_returns_v>Nmax]=Nmax
+        # remove the echoes with return number superior to Nmax
+        # this strategy does not ake into account there value, maybe only the greatest intensity echoes
+        # should be kept, renumbering them.
+        valid_returns = np.array(return_num_v) <= Nmax
 
 
         # All formats variables
