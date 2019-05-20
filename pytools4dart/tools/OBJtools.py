@@ -49,9 +49,8 @@ try:
 
             # vertices not used elsewhere thus not kept
             vertices = np.array(obj.GetAttrib().vertices).reshape((-1, 3))
-            self._dims = [np.max(vertices[:, 0]) - np.min(vertices[:, 0]),
-                         np.max(vertices[:, 1]) - np.min(vertices[:, 1]),
-                         np.max(vertices[:, 2]) - np.min(vertices[:, 2])]
+            self._ymin, self._zmin, self._xmin = np.amin(vertices, axis=0)
+            self._ymax, self._zmax, self._xmax = np.amax(vertices, axis=0)
 
 
         # @property
@@ -63,8 +62,12 @@ try:
             return self._names
 
         @property
+        def extent(self):
+            return ((self._xmin, self._xmax), (self._ymin,self._ymax), (self._zmin, self._zmax))
+
+        @property
         def dims(self):
-            return self._dims
+            return (self._xmax-self._xmin, self._ymax-self._ymin, self._zmax-self._zmin)
 
     def read(file_src):
         obj = objreader(file_src)
@@ -87,7 +90,7 @@ try:
 
         return xdim, ydim, zdim
 
-except:
+except ImportError:
     def read(file_src):
         sys.path.append(os.path.join(ptd.getdartdir(), "bin", "python_script", "DAO"))
         import dao
