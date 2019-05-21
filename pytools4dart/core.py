@@ -776,9 +776,7 @@ class Core(object):
         -------
 
         """
-        # from jnius import autoclass
         import subprocess
-        # HashMap = autoclass('java.util.HashMap')
 
         object_3d = self.object_3d.object_3d
         for o in object_3d.ObjectList.Object:
@@ -797,7 +795,6 @@ class Core(object):
             else:
                 # Processing time: 20 s.
                 with open(oFpath, 'r') as f:
-                    # hm = HashMap()
                     for ln in f:
                         if ln.startswith('g '):
                             # hm.put(ln.rstrip().split(' ')[1], 1)

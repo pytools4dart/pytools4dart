@@ -149,17 +149,23 @@ def gnames_dart_order(group_names):
     if len(group_names) <= 1:
         return group_names
 
-    from jnius import autoclass
-    gnames = []
-    HashMap = autoclass('java.util.HashMap')
-    hm = HashMap()
-    for gn in group_names:
-        ##### WARINING: unicode not well put in hm
-        # thus converted to str in python 2
-        # maybe a pb in python 3 as str is unicode
-        # TODO: check python 3
-        hm.put(str(gn).rstrip(), '1')
-    gnames = hm.keySet().toArray()
+    dartbuild = int(ptd.getdartversion()['build'].split('v')[1])
+    if dartbuild<1111:
+        # order made with Java HashMap keySet
+        from jnius import autoclass
+        gnames = []
+        HashMap = autoclass('java.util.HashMap')
+        hm = HashMap()
+        for gn in group_names:
+            ##### WARINING: unicode not well put in hm
+            # thus converted to str in python 2
+            # maybe a pb in python 3 as str is unicode
+            # TODO: check python 3
+            hm.put(str(gn).rstrip(), '1')
+        gnames = hm.keySet().toArray()
+    else:
+        gnames = [g for g in group_names]
+        gnames.sort()
 
     return gnames
 
