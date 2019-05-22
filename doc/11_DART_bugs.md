@@ -17,14 +17,11 @@ in this order, otherwise the data is wrongly interpreted, and makes wrong simula
  
 
 ## v1121
-### Changes
-* obj group name order changed from HashMap keySet to alphabetic order
-
 ### Fix
 * memory leak in DART Lidar: overloads memory for a simulation of 10e6 pulses (with scene of 7e6 triangles).
   **should be fixed since february 2019, checked on v1121**
 
-
-## v1083
-
+## v1111
+### Changes
+* obj group name order changed from HashMap keySet to alphabetic order
 
