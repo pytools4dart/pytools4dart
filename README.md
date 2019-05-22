@@ -20,6 +20,13 @@ If not change mode with (replace DART_HOME with the DART directory)
 chmod +x DART_HOME/tools/linux/*.sh
 ```
 
+For a use on a server without display, the excution might lead to error.
+To fix it, add the java flag `-Djava.awt.headless=true` to the java executions in the batch tools of DART:
+```commandline
+cd $DART_HOME/tools/linux
+sed -i 's/\$DART_HOME\/bin\/jre\/bin\/java/$DART_HOME\/bin\/jre\/bin\/java\ -Djava.awt.headless=true/g' dart-*.sh
+```
+
 ### Virtual environment
 We recommend use of a virtual environment to create an environment specific to the project.
 Packages will be installed in this virtual environment and avoid conflict with locally installed packages of other projects.
@@ -119,6 +126,7 @@ Download the wheels (latest version is prefered) of
 [Shapely](https://www.lfd.uci.edu/~gohlke/pythonlibs/#shapely),
 [pyproj](https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyproj) and
 [Fiona](https://www.lfd.uci.edu/~gohlke/pythonlibs/#fiona),
+[Cython](https://www.lfd.uci.edu/~gohlke/pythonlibs/#cython)
 and install them in the virtual environement.
 Make sure to be in the directory where the wheels have been downloaded.
 ```commandline
@@ -127,6 +135,8 @@ pip install Shapely-1.6.4.post1-cp27-cp27m-win_amd64.whl
 pip install pyproj-1.9.5.1-cp27-cp27m-win_amd64.whl
 pip install Fiona-1.7.13-cp27-cp27m-win_amd64.whl
 pip install geopandas
+pip install Cython‑0.29.7‑cp27‑cp27m‑win_amd64.whl
+pip install pybind11
 ```
 
 #### Linux
