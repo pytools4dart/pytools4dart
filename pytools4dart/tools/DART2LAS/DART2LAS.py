@@ -486,7 +486,8 @@ class DART2LAS(object):
             outFile.define_new_dimension(name="amplitude",
                                          description="Echo signal amplitude [dB]",
                                          data_type=10)
-            outFile.header.vlrs[0].description = "RIEGL Extra Bytes."
+            description = "RIEGL Extra Bytes."
+            outFile.header.vlrs[0].description = description + "\x00"*(32-len(description))
 
 
         if self.ifWriteWaveform:
@@ -559,11 +560,6 @@ class DART2LAS(object):
         else:
             outFile.set_scan_angle_rank(np.array(scan_angle_rank_v)[valid_returns])
 
-        # Extra Bytes
-        if self.extra_bytes:
-            outFile.pulse_width=np.array(pulse_width_v)[valid_returns]
-            outFile.amplitude=np.array(amplitude_v)[valid_returns]
-
         # Waveforms
         if self.ifWriteWaveform:
             outFile.set_wave_packet_desc_index(np.array(wave_packet_desc_index_v)[valid_returns])
@@ -574,9 +570,14 @@ class DART2LAS(object):
             outFile.set_y_t(np.array(y_t_v)[valid_returns])
             outFile.set_z_t(np.array(z_t_v)[valid_returns])
 
+        # Extra Bytes
+        if self.extra_bytes:
+            outFile.pulse_width=np.array(pulse_width_v)[valid_returns]
+            outFile.amplitude=np.array(amplitude_v)[valid_returns]
 
-        outFile.close() 
-                       
+
+        outFile.close()
+
         dartfile.close()
 
         if self.ifWriteWaveform:
