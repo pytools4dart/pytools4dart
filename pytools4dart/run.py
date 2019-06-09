@@ -266,29 +266,61 @@ def upgrade(simu_name):
     """
     rundart(simu_name, 'XMLUpgrader')
 
-def dart2las(simudir, lasVersion=1.4, lasFormat=1, typeOut=4, extra_bytes=True):
-    d2l = DART2LAS.DART2LAS()
-    # obj.run()
-    d2l.lasVersion = lasVersion  # a modifier selon la version
-    d2l.lasFormat = lasFormat  # a modifier selon le format
-    d2l.ifWriteWaveform = (lasFormat in [4, 9])  # True = Waveforme, FALSE = Que les pts
-    d2l.typeOut = typeOut  # have Gaussian max peak as intensity
-    d2l.extra_bytes = extra_bytes  # record Amplitude and Pulse width as given in RIEGL Whitepaper.
-    d2l.maxOutput = int(2**16)-1
-    dgain = []
-    doffset = []
+def dart2las(simudir, type='bin', lasFormat=1, extra_bytes=True):
+    """
+    convert lidar dart output to LAS
+    Parameters
+    ----------
+    simudir
+    type: str
+        Either 'bin' to convert 'LIDAR_IMAGE_FILE.binary' or 'dp' to convert 'DetectedPoints.txt'.
+    lasFormat: int
+        See specifications of LAS 1.4
+    extra_bytes
 
-    InputFile = os.path.join(simudir, 'output', 'LIDAR_IMAGE_FILE.binary')
-    OutputFile = os.path.join(simudir, 'output', 'LIDAR_IMAGE_FILE.las')
+    Returns
+    -------
 
-    print('Converting binary to LAS:\n {} --> {}'.format(InputFile, OutputFile))
-    digitizer_offset, digitizer_gain = d2l.readDARTBinaryFileAndConvert2LAS(InputFile, OutputFile)
-    sys.stdout.flush()
-    dgain.append(digitizer_gain)
-    doffset.append(digitizer_offset)
-    # export gain values
-    df = pd.DataFrame(dict(gain=dgain, offset=doffset))
-    df.to_csv(os.path.join(simudir, 'output', 'waveform2las_gains.txt'), sep='\t', index=False)
+    """
+    outputDpath = os.path.join(simudir, 'output')
+    if not os.path.isfile(outputDpath):
+        raise ValueError('Simulation output directory not found: {}'.format(outputDpath))
+
+    if type=='bin':
+        InputFile = os.path.join(outputDpath, 'LIDAR_IMAGE_FILE.binary')
+        OutputFile = os.path.join(outputDpath, 'LIDAR_IMAGE_FILE.las')
+
+        if not os.path.isfile(InputFile):
+            raise ValueError('LIDAR_IMAGE_FILE.binary not found in {}'.format(outputDpath))
+
+
+
+        d2l = DART2LAS.DART2LAS()
+        # obj.run()
+        d2l.lasVersion = 1.4  # a modifier selon la version
+        d2l.lasFormat = lasFormat  # a modifier selon le format
+        d2l.ifWriteWaveform = (lasFormat in [4, 9])  # True = Waveforme, FALSE = Que les pts
+        d2l.typeOut = 4  # have Gaussian max peak as intensity
+        d2l.extra_bytes = extra_bytes  # record Amplitude and Pulse width as given in RIEGL Whitepaper.
+        d2l.maxOutput = int(2**16)-1
+        dgain = []
+        doffset = []
+
+        print('Converting binary to LAS:\n {} --> {}'.format(InputFile, OutputFile))
+        digitizer_offset, digitizer_gain = d2l.readDARTBinaryFileAndConvert2LAS(InputFile, OutputFile)
+        sys.stdout.flush()
+        dgain.append(digitizer_gain)
+        doffset.append(digitizer_offset)
+        # export gain values
+        df = pd.DataFrame(dict(gain=dgain, offset=doffset))
+        df.to_csv(os.path.join(simudir, 'output', 'waveform2las_gains.txt'), sep='\t', index=False)
+
+    elif type=='dp':
+        InputFile = os.path.join(outputDpath, 'DetectedPoints.txt')
+        OutputFile = os.path.join(outputDpath, 'DetectedPoints.las')
+        print('{} --> {}'.format(InputFile, OutputFile))
+        DART2LAS.DP2LAS(InputFile, OutputFile, lasFormat=lasFormat)
+        print('Done.')
 
 
 class Run(object):
