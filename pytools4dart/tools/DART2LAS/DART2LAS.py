@@ -632,6 +632,80 @@ class DART2LAS(object):
 
         self.readDARTBinaryFileAndConvert2LAS(args.inputFile, args.outputFile)
 
+# inputFile=os.path.expanduser('~/DetectedPoints.txt')
+# outputFile=os.path.expanduser('~/DetectedPoints.las')
+def DP2LAS(inputFile, outputFile, lasFormat = 6):
+    """
+    Converts DetectedPoints.txt to a LAS file
+    Parameters
+    ----------
+    inputFile: str
+        path to DART output file DetectedPoints.txt
+    outputFile: str
+        path to the LAS file
+    lasFormat: int
+        Either 1 or 6. LAS Format 1 has a maximum of 7 returns by pulse, while LAS Format 6 has a maximum of 15 returns.
+        See LAS 1.4 specifications for details.
+
+    Returns
+    -------
+
+    """
+
+    lasVersion = 1.4
+    scale = 0.001
+
+    import pandas as pd
+    import laspy
+    data = pd.read_csv(inputFile, sep='\t', index_col=False)
+    extra_col = data.columns[6:]
+
+    ### Write header
+    newh = laspy.header.Header(lasVersion, lasFormat)
+    outFile = laspy.file.File(outputFile, mode="w", header=newh)
+
+    outFile.header.set_scale([scale] * 3)
+    outFile.header.set_systemid('DART5                           ')  # length of 32!!!
+    outFile.header.set_softwareid('DART2LAS.py                     ')  # length of 32!!!
+
+    # digitizer_gain = 1 / receiveWaveGain
+    # digitizer_offset = 0
+
+    for c in extra_col:
+
+        outFile.define_new_dimension(name=c.lower(),
+                                     description=c.lower(),
+                                     data_type=10)
+
+    description = "DART Extra Bytes."
+    outFile.header.vlrs[0].description = description + "\x00" * (32 - len(description))
+
+    ### Write data
+    if lasFormat in range(6, 10):
+        Nmax = 2 ** 4 - 1
+    else:
+        Nmax = 2 ** 3 - 1
+
+    data.loc[data['NumberReturns'] > Nmax,'NumberReturns'] = Nmax
+    # remove the echoes with return number superior to Nmax
+    # this strategy does not ake into account there value, maybe only the greatest intensity echoes
+    # should be kept, renumbering them.
+    data = data.loc[data['ReturnIndx']<=Nmax]
+
+    # All formats variables
+    # outFile.set_gps_time(np.array(gpstime_v)[valid_returns])
+    outFile.set_x(data['X(m)']/scale)
+    outFile.set_y(data['Y(m)']/scale)
+    outFile.set_z(data['Z(m)']/scale)
+    # outFile.set_intensity(np.array(intensity_v)[valid_returns])
+    outFile.set_return_num(data['ReturnIndx'])
+    outFile.set_num_returns(data['NumberReturns'])
+
+    for c in extra_col:
+        setattr(outFile, c.lower(), data[c])
+
+    outFile.close()
+
 if __name__ == '__main__':
 
     print("hello")

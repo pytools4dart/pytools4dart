@@ -8,9 +8,9 @@ plyfile
 matplotlib
 scipy
 cython
-laspy
-lmfit
 git+https://gitlab.irstea.fr/florian.deboissieu/generateds.git
 git+https://gitlab.irstea.fr/florian.deboissieu/tinyobj.git
 git+https://gitlab.irstea.fr/florian.deboissieu/gdecomp.git
+git+https://github.com/floriandeboissieu/laspy.git@patch-1
+
 
