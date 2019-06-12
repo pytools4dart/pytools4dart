@@ -11,7 +11,8 @@
 
 
 #### Linux 
-Make sure that the DART batch scripts are executable (i.e. mode x should be activated for user at least):
+DART batch scripts are used in the runners of pytools4dart.
+Therefore one should make sure they are executable (i.e. mode x should be activated for user at least):
 ```commandline
 ls -al DART_HOME/tools/linux/*.sh 
 ```
@@ -32,8 +33,8 @@ sed -i 's/\$DART_HOME\/bin\/jre\/bin\/java/$DART_HOME\/bin\/jre\/bin\/java\ -Dja
 We recommend use of a virtual environment to create an environment specific to the project.
 Packages will be installed in this virtual environment and avoid conflict with locally installed packages of other projects.
 
-The virtual environment can be created with Anaconda (if you already use it for Spyder python IDE)
-or with virtualenvwrapper-win
+The virtual environment can be created with Anaconda (usually used for Spyder python IDE)
+or with virtualenv. In the following, the documentation will focus on virtualenv.
 
 #### Anaconda
 If Anaconda is already used for spyder, create a new environment:
@@ -139,6 +140,10 @@ pip install geopandas
 pip install Cython‑0.29.7‑cp27‑cp27m‑win_amd64.whl
 pip install pybind11
 ```
+Within the requirements.txt of pytools4dart, package [tinyobj](https://gitlab.irstea.fr/florian.deboissieu/tinyobj.git)
+is a binding of C++ code binded with pybind11. On python 2.7 for Windows it needs MS Visual C++ compiler, 
+see installation details in the README page of that package.  
+
 
 #### Linux
 On Linux it can be installed in command line with:
