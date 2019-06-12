@@ -463,8 +463,13 @@ def build_core(directory=None):
     # change to pytools4dart site-package directory: necessary for user_methods
     cwd = os.getcwd()
     os.chdir(directory)
+    if platform.system().lower() == 'windows':
+        generateDS='generateDS.exe' # shebang line not working on certain windows platform...
+    else:
+        generateDS = 'generateDS.py'
+
     for xsdname in xsdnames:
-        cmd = ' '.join(['generateDS.py -m -f --always-export-default --export="write literal etree"',
+        cmd = ' '.join([generateDS, '-m -f --always-export-default --export="write literal etree"',
                         '-u "{user_methods}"',
                         '-p "create" --post-attrib-setter="update_node(self,self.troot,\'{xsdname}\')"',
                         '--pre-ctor="self.troot=get_gs_troot(\'{xsdname}\',\'{{classname}}\')"',
