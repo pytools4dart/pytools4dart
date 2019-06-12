@@ -8,7 +8,6 @@ plyfile
 matplotlib
 scipy
 cython
-jnius
 laspy
 lmfit
 git+https://gitlab.irstea.fr/florian.deboissieu/generateds.git

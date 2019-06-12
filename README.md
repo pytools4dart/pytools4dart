@@ -9,6 +9,7 @@
 **pytools4dart** is based on [DART](http://www.cesbio.ups-tlse.fr/dart/index.php#/) radiative transfer software that has to be installed (before or after installing pytools4dart).
 [DART](http://www.cesbio.ups-tlse.fr/dart/index.php#/) is free software under proprietary license. It is available for Linux (32/64 bits) and Windows (32/64 bits). To download DART software please [sign up](http://www.cesbio.ups-tlse.fr/dart/index.php#/getDart), login and fill the license resquest in GET DART section of [DART website](http://www.cesbio.ups-tlse.fr/dart/index.php#/).
 
+
 #### Linux 
 Make sure that the DART batch scripts are executable (i.e. mode x should be activated for user at least):
 ```commandline
@@ -175,6 +176,10 @@ that can be installed from command line with:
 ```commandline
 pip install -r requirements.txt
 ```
+
+#### For DART build < v1111
+
+Package [pyjnius](https://github.com/kivy/pyjnius) is needed to have a correct 3D object group ordering.
 
 ### generateDS
 `generateDS` is necessary for generating DART core python interface.
