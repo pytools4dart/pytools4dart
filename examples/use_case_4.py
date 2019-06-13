@@ -30,7 +30,7 @@ op_trunk = {'type':'Lambertian',
 
 simu.add.optical_property(**op_trunk)
 
-tree = simu.add.object_3d('/home/boissieu/DART_5-7-4_v1083/database/3D_Objects/Tree/Accurate_Trees/Cherry_tree/Merisier_Adulte.obj', xpos=2.5, ypos=2.5, xscale=3, yscale=3, zscale=3)
+tree = simu.add.object_3d('/home/boissieu/DART/database/3D_Objects/Tree/Accurate_Trees/Cherry_tree/Merisier_Adulte.obj', xpos=2.5, ypos=2.5, xscale=3, yscale=3, zscale=3)
 tree.Groups.Group[0].GroupOpticalProperties.OpticalPropertyLink.ident='leaf'
 tree.Groups.Group[0].GroupOpticalProperties.BackFaceOpticalProperty.OpticalPropertyLink.ident='leaf'
 tree.Groups.Group[1].GroupOpticalProperties.OpticalPropertyLink.ident='trunk'
@@ -68,32 +68,13 @@ calculatedSwath.ImageParameters.resolutionRange = .1
 # parameters to make it faster to compute
 simu.core.phase.Phase.ExpertModeZone.nbThreads=8
 simu.core.phase.Phase.ExpertModeZone.nbTrianglesWithinVoxelAcceleration=0
-Lidar.LidarIlluminationIntensity.numberofPhotons = 10000
-Lidar.LidarIlluminationIntensity.shortAxisSubdivitionIllum = 10
+Lidar.LidarIlluminationIntensity.numberofPhotons = 1000
+Lidar.LidarIlluminationIntensity.shortAxisSubdivitionIllum = 5
 
 print(simu)
 
 simu.write(overwrite=True)
 
 simu.run.full()
+ptd.run.dart2las(simu.getsimupath(), type='bin')
 
-# import sys
-# import os
-#
-# D2L_Location = os.path.abspath('/home/boissieu/git/SmallToLargeFP')
-# sys.path.append(D2L_Location)
-# from DART2LAS.DART2LAS import DART2LAS
-#
-# # DART to LAS converter
-# d2l = DART2LAS()
-# #obj.run()
-# d2l.lasVersion = 1.3 # a modifier selon la version
-# d2l.lasFormat = 1 # a modifier selon le format
-# d2l.ifWriteWaveform = False              # True = Waveforme, FALSE = Que les pts
-# simuDpath = simu.getsimupath()
-# InputFile = os.path.join(simuDpath, 'output/LIDAR_IMAGE_FILE.binary')
-# OutputFile = os.path.join(simuDpath, 'output/LIDAR_IMAGE_FILE.las')
-# digitizer_offset, digitizer_gain = d2l.readDARTBinaryFileAndConvert2LAS(InputFile, OutputFile)
-#
-#
-#
