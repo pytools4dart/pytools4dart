@@ -283,7 +283,7 @@ def dart2las(simudir, type='bin', lasFormat=1, extra_bytes=True):
 
     """
     outputDpath = os.path.join(simudir, 'output')
-    if not os.path.isfile(outputDpath):
+    if not os.path.isdir(outputDpath):
         raise ValueError('Simulation output directory not found: {}'.format(outputDpath))
 
     if type=='bin':
@@ -321,6 +321,8 @@ def dart2las(simudir, type='bin', lasFormat=1, extra_bytes=True):
         print('{} --> {}'.format(InputFile, OutputFile))
         DART2LAS.DP2LAS(InputFile, OutputFile, lasFormat=lasFormat)
         print('Done.')
+
+    return(OutputFile)
 
 
 class Run(object):
