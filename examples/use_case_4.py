@@ -48,7 +48,7 @@ Lidar = simu.core.phase.Phase.DartInputParameters.Lidar
 Lidar.simulateImage = 1
 # sensor height in km
 LidarGeometry = Lidar.LidarGeometry
-LidarGeometry.ALS.sensorHeight=1
+LidarGeometry.ALS.sensorHeight=1 # 1km
 # define footprint with divergence angles
 LidarGeometry.fp_fovDef=1
 LidarGeometry.FootPrintAndFOVDispersions.dispersionFootprint=0.00025
@@ -68,13 +68,13 @@ calculatedSwath.ImageParameters.resolutionRange = .1
 # parameters to make it faster to compute
 simu.core.phase.Phase.ExpertModeZone.nbThreads=8
 simu.core.phase.Phase.ExpertModeZone.nbTrianglesWithinVoxelAcceleration=0
-Lidar.LidarIlluminationIntensity.numberofPhotons = 1000
-Lidar.LidarIlluminationIntensity.shortAxisSubdivitionIllum = 5
+Lidar.LidarIlluminationIntensity.numberofPhotons = 10000
+Lidar.LidarIlluminationIntensity.shortAxisSubdivitionIllum = 10
 
 print(simu)
 
 simu.write(overwrite=True)
 
 simu.run.full()
-ptd.run.dart2las(simu.getsimupath(), type='bin')
+ptd.run.dart2las(simu.getsimupath(), type='bin', lasFormat=1)
 
