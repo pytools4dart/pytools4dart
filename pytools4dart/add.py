@@ -107,8 +107,8 @@ class Add(object):
         # Raise exception if any opt/thermal property does not exist and createProps is set to False
         # :return:
         # """
-
-        obj = ptd.OBJtools.read(file_src)
+        file_src_fullpath = self.simu.get_input_file_path(file_src)
+        obj = ptd.OBJtools.read(file_src_fullpath)
 
         gnames = ptd.OBJtools.get_gnames(obj)
         xdim, ydim, zdim = ptd.OBJtools.get_dims(obj)
