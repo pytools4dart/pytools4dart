@@ -106,11 +106,10 @@ class DART2LAS(object):
             else:
                 self.lasFormat = 1
         else:  # check format if not empty
-            if (self.ifWriteWaveform and (self.lasFormat not in [4, 9])) or (
-                    (not self.ifWriteWaveform) and (self.lasFormat not in [1, 6])):
+            if (self.ifWriteWaveform and (self.lasFormat not in [4, 5, 9, 10])) or (
+                    (not self.ifWriteWaveform) and (self.lasFormat in [4, 5, 9, 10])):
                 raise ValueError("LAS format not coherent with ifWriteWaveform:\n"
-                                 "ifWriteWaveform must be True for formats 4 and 9,"
-                                 "the opposit for formats 1 and 6,\n"
+                                 "ifWriteWaveform must be True for formats 4, 5, 9 or 10"
                                  "Other formats are not supported at the moment.")
 
         if self.lasVersion is None:
@@ -275,7 +274,7 @@ class DART2LAS(object):
         import time
         start = time.time()
         print('start time: {}'.format(start))
-        for cnt in range(nbPulses):
+        for cnt in range(10):#range(nbPulses):
             dartfile.seek(tmp)
             try:
                 pulseInfo = dartfile.read(waveform_parameter_length)
@@ -423,7 +422,7 @@ class DART2LAS(object):
                             y_v.append(int(round( y_abs / self.scale)))
                             z_v.append(int(round( z_abs / self.scale)))
                             intensity_v.append(intensity)
-                            if self.lasFormat in range(6, 10):
+                            if self.lasFormat in range(6, 11):
                                 scan_angle_v.append(scan_angle)
                             else:
                                 scan_angle_rank_v.append(scan_angle_rank)
@@ -532,7 +531,7 @@ class DART2LAS(object):
 
 ##################POINTS#################
         # remove returns more than maximum (2^3 for formats 1-5)
-        if self.lasFormat in range(6, 10):
+        if self.lasFormat in range(6, 11):
             Nmax = 2**4-1
         else:
             Nmax = 2**3-1
@@ -546,7 +545,8 @@ class DART2LAS(object):
 
 
         # All formats variables
-        outFile.set_gps_time(np.array(gpstime_v)[valid_returns])
+        if self.lasFormat not in [0, 2]:
+            outFile.set_gps_time(np.array(gpstime_v)[valid_returns])
         outFile.set_x(np.array(x_v)[valid_returns])
         outFile.set_y(np.array(y_v)[valid_returns])
         outFile.set_z(np.array(z_v)[valid_returns])
@@ -555,7 +555,7 @@ class DART2LAS(object):
         outFile.set_num_returns(np.array(num_returns_v)[valid_returns])
 
         # Scan angle
-        if self.lasFormat in range(6, 10):
+        if self.lasFormat in range(6, 11):
             outFile.set_scan_angle(np.array(scan_angle_v)[valid_returns])
         else:
             outFile.set_scan_angle_rank(np.array(scan_angle_rank_v)[valid_returns])
@@ -681,7 +681,7 @@ def DP2LAS(inputFile, outputFile, lasFormat = 6):
     outFile.header.vlrs[0].description = description + "\x00" * (32 - len(description))
 
     ### Write data
-    if lasFormat in range(6, 10):
+    if lasFormat in range(6, 11):
         Nmax = 2 ** 4 - 1
     else:
         Nmax = 2 ** 3 - 1
