@@ -329,13 +329,13 @@ class DART2LAS(object):
                     distToBeginWave=distToCenterFOV+speedOfLightPerNS*pulse_info[9] #pulse_info[10] is negative
 
                     #!!!!!!!!!!!!!!!!!!Making the vector looking upward (z_t>0) for ALS device to keep consistent with LAS format
-                    x_t = -pulse_info[3]
-                    y_t = -pulse_info[4]
-                    z_t = -pulse_info[5]
+                    x_t = pulse_info[3]
+                    y_t = pulse_info[4]
+                    z_t = pulse_info[5]
 
-                    x0_abs = pulse_info[6] - x_t/2*distToBeginWave #Divided by 2 change from distance to waveform (2 way)
-                    y0_abs = pulse_info[7] - y_t/2*distToBeginWave
-                    z0_abs = pulse_info[8] - z_t/2*distToBeginWave
+                    x0_abs = pulse_info[6] + x_t/2*distToBeginWave #Divided by 2 change from distance to waveform (2 way)
+                    y0_abs = pulse_info[7] + y_t/2*distToBeginWave
+                    z0_abs = pulse_info[8] + z_t/2*distToBeginWave
 
                     # gpsTime = float(pulse_info[14]) / self.prf
                     gpsTime = float(pulse_info[14]) # pulse ID (0-based)
@@ -400,9 +400,9 @@ class DART2LAS(object):
                             ptsAmp = out[i, 0]
                             ptsSigma = out[i, 2]
                             ptsCenter = out[i, 1]+0.5
-                            x_abs = x0_abs-x_per_bin*ptsCenter
-                            y_abs = y0_abs-y_per_bin*ptsCenter
-                            z_abs = z0_abs-z_per_bin*ptsCenter
+                            x_abs = x0_abs + x_per_bin*ptsCenter
+                            y_abs = y0_abs + y_per_bin*ptsCenter
+                            z_abs = z0_abs + z_per_bin*ptsCenter
 
                             if self.typeOut == 1:  # Peak amplitude of the Gaussian profile
                                 intensity = ptsAmp/ptsSigma
