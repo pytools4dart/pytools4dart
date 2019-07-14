@@ -684,5 +684,5 @@ def write_labels(directory):
         Path to write pytools4dart core directory (typically 'pytools4dart/xsdschemas')
     """
     labels = get_labels()
-    labels.to_csv(os.path.join(directory, 'labels.tab'), sep='\t', index=False)
+    labels.to_csv(os.path.join(directory, 'labels.tab'), sep='\t', index=False, encoding='utf-8')
 
