@@ -425,7 +425,7 @@ def get_labels(pat=None, case=False, regex=True, column='dartnode'):
     if not os.path.exists(labelsFpath):
         raise Exception('File not found:\n'+labelsFpath+
                         '\n\nPlease reconfigure pytools4dart.')
-    labelsdf = pd.read_csv(labelsFpath, sep='\t')
+    labelsdf = pd.read_csv(labelsFpath, sep='\t', encoding='utf-8')
     if pat is not None:
         labelsdf = labelsdf[labelsdf[column].str.contains(pat, case, regex=regex)]
 
