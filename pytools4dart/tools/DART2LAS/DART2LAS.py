@@ -20,7 +20,7 @@ import laspy
 from pprint import pprint
 import datetime
 import numpy as np
-from GaussianDecomposition import *
+from .GaussianDecomposition import *
 from gdecomp import GaussianDecomposition
 
 speedOfLightPerNS=0.299792458
