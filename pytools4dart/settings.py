@@ -632,9 +632,6 @@ def get_labels(pat=None, case=False, regex=True, column='dartnode'):
     jarfile = pjoin(dartenv['DART_HOME'], 'bin',  'DARTIHMSimulationEditor.jar')
     labelsfile = 'cesbio/dart/ihm/DartSimulationEditor/ressources/DartIhmSimulationLabel_en.properties'
     with zipfile.ZipFile(jarfile, "r") as j:
-        if sys.version_info[0] == 2:
-            labels = j.read(labelsfile)
-        else:
             labels = j.read(labelsfile).decode('unicode_escape')
 
     labels = labels.split('\n')
@@ -649,6 +646,7 @@ def get_labels(pat=None, case=False, regex=True, column='dartnode'):
         labelsdf = labelsdf[labelsdf[column].str.contains(pat, case, regex=regex)]
 
     labelsdf = labelsdf[['label', 'dartnode']]
+
 
     return labelsdf
 
