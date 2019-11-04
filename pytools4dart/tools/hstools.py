@@ -24,7 +24,7 @@
 #
 # ===============================================================================
 """
-This module contains the function "hdrtodict".
+This module contains the functions to stasck simulated bands into an ENVI HDR file.
 It allows to read .hdr file and returns a dictionary.
 """
 

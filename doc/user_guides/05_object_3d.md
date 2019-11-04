@@ -1,3 +1,5 @@
+# Object 3D
+
 This notebook aims at showing the ways of including objects into the mockup.
 
 ```python
@@ -10,7 +12,7 @@ import pytools4dart as ptd
 
 Through a simple example, it presents the way to manage 3D objects as well as a few considéreations about DART functionning with objects.
 
-# Construction of object file
+## Construction of object file
 
 First thing first, at the construction of an .obj file, one has to know that DART considers the object to be in a X forward, Y up system. In other words, the
 vertex coordintaes must be written in the following order inside the .obj file:
@@ -37,7 +39,7 @@ with open(objFpath, mode='w') as f:
     f.write(obj_str)
 ```
 
-# Simple simulation
+## Simple simulation
 
 The folloowing code produces a simple RGB simulation with that rectangle 3m over the
 ground.
@@ -90,7 +92,7 @@ plt.imshow(image)
 plt.show()
 ```
 
-## objectDEMMode
+### objectDEMMode
 
 Setting object option `objectDEMMode=2` tells DART to 'Ignore DEM' for the vertical position of this object. 
 
@@ -112,7 +114,7 @@ plt.show()
 
 ```
 
-## Normal orientation
+### Normal orientation
 
 Another issue that may occure is the wrong orientation of the face normals. 
 DART considers the face normal vector to define which is the "front face" (same direction as the face normal) and which is the back face (opposit direction to the face normal).
@@ -177,7 +179,7 @@ plt.imshow(image)
 plt.show()
 ```
 
-# Object with group
+## Object with group
 
 Objects can contain groups. In that case, optical and thermal properties can be set at te scale of the object (option `sameOPObject=1`), 
 or at the scale of the of the group (option `sameOPObject=0`).

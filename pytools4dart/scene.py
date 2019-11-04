@@ -206,6 +206,9 @@ class Plot_file(object):
             return self.data.shape
 
     def load(self):
+        """
+        Load plot file
+        """
         self.filepath = self.filepath
         if self.filepath is not None and os.path.isfile(self.filepath):
             self.data = pd.read_csv(self.filepath, sep='\t', comment='*')
@@ -305,10 +308,6 @@ class Plot_file(object):
             if None self.filepath is taken.
         overwrite: bool
             if True and file exists, it is overwritten
-
-        Returns
-        -------
-
         """
         if self._data is None: # does not load it if not already done.
             return

@@ -1,3 +1,5 @@
+# Simulation
+
 Simulation object is corresponding to a DART simulation.
 It allows for storing
 and editing parameters, and running simulation.

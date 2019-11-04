@@ -61,7 +61,7 @@ class Add(object):
     #     xpos, ypos, zpos
 
     def object_3d(self, file_src, name='Object', xpos=2., ypos=2., zpos=0., xscale=1., yscale=1., zscale=1.):
-        """
+        """Add 3D object files (.obj) to scene mockup
 
         Parameters
         ----------

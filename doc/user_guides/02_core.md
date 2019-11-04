@@ -1,7 +1,8 @@
+# Core
 This notebooks describes the structure and methods of core.
 
-1 Core content
-==============
+## Core content
+
 
 The core contains all the input xml files of
 DART, loaded into python objects. For DART version 5-7-4, it typically contains
@@ -102,8 +103,8 @@ coeff_diff) and optical property links (in plots, object_3d, trees, etc.).
 print(simu.core.get_optical_properties())
 ```
 
-2 Modules
-=========
+## Modules
+
 
 Inside the modules, each node contains anywhere in the hierarchy has three essential attributes:
   - children: names of the children, i.e. subnodes.

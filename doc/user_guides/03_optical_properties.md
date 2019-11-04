@@ -1,6 +1,7 @@
+# Optical Properties
 This notebook shows examples on the management of optical properties
 
-# 1 Top and bottom vegetation properties
+## Top and bottom vegetation properties
 
 DART gives the possibility to define a
 vegetation optical property with different properties for top and bottom of a
@@ -24,7 +25,7 @@ op.UnderstoryMultiBottomModel.ModelName = 'maple_top_bf' # bottom face
 print(op.to_string())
 ```
 
-# 2 Prospect
+## Prospect
 
 Prospect module is used to generate a spectral signature based on
 physcho-chemichal properties like the concentrations of Chlorophylle (Cab),

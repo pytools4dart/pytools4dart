@@ -1,3 +1,5 @@
+# Plots
+
 This notebooks shows the several ways of adding plots to a simulation. Indeed,
 there aer three ways of adding plots that will depend on the objective:
 
@@ -16,8 +18,7 @@ thousand plots (10 s)
 
 
 
-1 User-friendly interface
-=========================
+## User-friendly interface
 
 The user-friendly
 interface to plot is the method `simulation.add.plot`. It is the easiest way to
@@ -57,8 +58,7 @@ simu.run.full()
 
 ```
 
-2 Raw interface
-===============
+## Raw interface
 
 The raw interface, `core_ui` allows the access
 to any parameter. 
