@@ -1,17 +1,26 @@
 # generate website with the following:
 # portray as_html -c pyproject.toml
 
+[[tool.portray.extra_markdown_extensions]]
+    [tool.portray.extra_markdown_extensions.toc]
+        toc_depth = "2-5"
+        # toc_depth = "2-5" # for bootstrap
+
 [tool.portray]
-docs_dir = "doc"
+#    docs_dir = "docs"
 # output_dir = "site"
 # modules = ["pytools4dart"]
-modules = ["pytools4dart.add", "pytools4dart.core", "pytools4dart.labels", "pytools4dart.run", "pytools4dart.scene", "pytools4dart.sensor", "pytools4dart.sequencer", "pytools4dart.settings", "pytools4dart.simulation", "pytools4dart.source", "pytools4dart.scene", "pytools4dart.tools"]
-# 
+    modules = ["pytools4dart.add", "pytools4dart.core", "pytools4dart.core_ui", "pytools4dart.run", "pytools4dart.scene", "pytools4dart.sensor", "pytools4dart.sequencer", "pytools4dart.settings", "pytools4dart.simulation", "pytools4dart.source", "pytools4dart.scene", "pytools4dart.tools"]
 
 [tool.portray.pdocs]
 # name = "API"
 exclude_source = 1
+template_dir = "templates/pdocs"
 
 [tool.portray.mkdocs]
-site_name = "pytools4dart"
+    site_name = "pytools4dart"
+    extra_css = ['docs/style.css']
+#    extra_javascript = ['docs/menu.js']
+#     [tool.portray.mkdocs.theme]
+#         name = "bootstrap"
 
