@@ -36,7 +36,6 @@ before_script:
 pages:
   stage: deploy
   script:
-    - rm -r site
     - portray as_html -c pyproject.toml
     - mv site public
   artifacts:
