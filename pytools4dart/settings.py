@@ -654,7 +654,7 @@ def write_templates(directory):
     xml_templates = get_templates()
     for k, v in xml_templates.items():
         filename=pjoin(os.path.abspath(directory), k+'.xml')
-        with open(filename, 'w') as f:
+        with open(filename, 'w', encoding="utf-8") as f:
             f.write(v)
 
 def write_schemas(directory):
@@ -669,7 +669,7 @@ def write_schemas(directory):
     xmlschemas = get_schemas()
     for k, v in xmlschemas.items():
         filename=pjoin(os.path.abspath(directory), k+'.xsd')
-        with open(filename, 'w') as f:
+        with open(filename, 'w', encoding="utf-8") as f:
             f.write(v)
 
 def write_labels(directory):
