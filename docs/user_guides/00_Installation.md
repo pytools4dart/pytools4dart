@@ -1,8 +1,8 @@
 
-# Install
+## 1 Install
 
 Package __pytools4dart__ is a python API to DART, thus DART must be installed to make it work.
-If not already done, please refer to section [DART](#dart) for installation.
+If not already done, please refer to section [DART](#4-dart) for installation.
 
 We recommend use of a virtual environment to create an environment specific to your project.
 This way, packages will be installed in this virtual environment and avoid conflict with locally installed packages of other projects.
@@ -10,11 +10,11 @@ This way, packages will be installed in this virtual environment and avoid confl
 The virtual environment can be created with [Anaconda](https://www.anaconda.com/distribution)
 or with virtualenv. Python 3 version is recommended, as python 2 will soon not be maintained anymore.
 
-## With Anaconda (recommended)
+### 1.1 With Anaconda (recommended)
 
 
-If not Already installed, see [Ananconda documentation](https://www.anaconda.com/distribution) 
-for installation instruction. Python 3 version is recommended, as python 2 will soon not be supported anymore.
+If not already installed, see [Ananconda documentation](https://www.anaconda.com/distribution) 
+for installation instructions. Python 3 version is recommended, as python 2 will soon not be maintained anymore.
  
 Once conda is installed, copy and paste the following in a yaml file, e.g. `environment.yml`.
 
@@ -53,11 +53,11 @@ Activate the new environment:
 conda activate venv
 ``` 
 
-_Note: in case an error occurs, see section [Known errors](#known-errors)._
+Once it is done, [configure] the package.
 
-## With virtualenv 
+_Note: in case an error occurs, see section [Known errors](#5-known-errors)._
 
-### Linux (tested on Ubuntu only)
+### 1.2 With virtualenv (tested on Ubuntu only)
 
 Install `virtualenv` and libraries required for `pytools4dart` dependencies:
 ```commandline
@@ -94,7 +94,7 @@ Install package `pytools4dart`:
 pip install git+https://gitlab.com/pytools4dart/pytools4dart.git 
 ```
 
-# Configure
+## 2 Configure
 
 The API of `pytools4dart` is generated automatically depending on DART version.
 This is done within a python session with the following command line, 
@@ -109,7 +109,7 @@ The API of pytools4dart can be re-configured at any time (e.g. changing DART ver
 with the two commands above.
 
 
-# Test installation
+## 3 Test installation
 
 The installation can be tested with the package examples (use_case_0-4.py).   
 
@@ -121,7 +121,7 @@ python use_case_2.py
 ```
 They should execute without error.
 
-# DART
+## 4 DART
 
 **pytools4dart** is based on [DART](http://www.cesbio.ups-tlse.fr/dart/index.php#/) radiative transfer software that has to be installed (before or after installing pytools4dart).
 [DART](http://www.cesbio.ups-tlse.fr/dart/index.php#/) is free software under proprietary license. It is available for Linux (32/64 bits) and Windows (32/64 bits). To download DART software please [sign up](http://www.cesbio.ups-tlse.fr/dart/index.php#/getDart), login and fill the license resquest in GET DART section of [DART website](http://www.cesbio.ups-tlse.fr/dart/index.php#/).
@@ -144,7 +144,7 @@ cd $DART_HOME/tools/linux
 sed -i 's/\$DART_HOME\/bin\/jre\/bin\/java/$DART_HOME\/bin\/jre\/bin\/java\ -Djava.awt.headless=true/g' dart-*.sh
 ```
 
-# Uninstall
+# 5 Uninstall
 
 To uninstall package:
 ```commandline
@@ -161,14 +161,14 @@ rm -r venv
 ```
 
 
-# Known errors
+## 5 Known errors
 
-## Error on rc.exe
+### Error on rc.exe
 
 If there is a failure that `rc.exe` cannot be found, add the appropriate WindowKits binary path to PATH.
 More info on this [here](https://stackoverflow.com/questions/14372706/visual-studio-cant-build-due-to-rc-exe).
 
-## Error on Python.h
+### Error on Python.h
 
 If install throws an error on `Python.h`, e.g.
 ```
@@ -179,7 +179,7 @@ install package python development package, e.g. on Ubuntu:
 sudo apt-get install python-dev
 ```
 
-## For DART build < v1111
+### For DART build < v1111
 
 Package [pyjnius](https://github.com/kivy/pyjnius) is needed to have a correct 3D object group ordering.
 
