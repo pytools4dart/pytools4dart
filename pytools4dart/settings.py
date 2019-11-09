@@ -467,10 +467,11 @@ def build_core(directory=None):
     # if platform.system().lower() == 'windows':
     #     generateDS='generateDS.exe' # shebang line not working on certain windows platform...
     # else:
-    generateDS = 'generateDS.py'
+    import generateDS
+    generateDS_script = generateDS.__file__ #'generateDS.py'
 
     for xsdname in xsdnames:
-        cmd = ' '.join([sys.executable, generateDS, '-m -f --always-export-default --export="write literal etree"',
+        cmd = ' '.join([sys.executable, generateDS_script, '-m -f --always-export-default --export="write literal etree"',
                         '-u "{user_methods}"',
                         '-p "create" --post-attrib-setter="update_node(self,self.troot,\'{xsdname}\')"',
                         '--pre-ctor="self.troot=get_gs_troot(\'{xsdname}\',\'{{classname}}\')"',
