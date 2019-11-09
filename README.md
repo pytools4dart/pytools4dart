@@ -1,11 +1,14 @@
-![licence](https://img.shields.io/badge/Licence-GPL--3-blue.svg) 
+[![licence](https://img.shields.io/badge/Licence-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
+![licence](https://img.shields.io/badge/Python-3-blue.svg)
 
 # pytools4dart: python API for [DART](http://www.cesbio.ups-tlse.fr/dart/index.php#/) simulator
 
+The API is supported under python 3. It might also work under python 2 although it is not maintained anymore.
 
 ## Installation
 
-All installation details are available in the [installation guide](https://gitlab.com/pytools4dart/pytools4dart).
+All installation details are available in the 
+[installation guide](https://pytools4dart.gitlab.io/pytools4dart/docs/user_guides/00_Installation/).
 
 ## Features
 
@@ -45,6 +48,14 @@ interacted with by the user.
 
 Check [website](https://pytools4dart.gitlab.io/pytools4dart) for details and user guides.
 Use cases are also available in directory `examples`.
+
+## Citation
+
+If you use __pytools4dart__, please cite the following references:
+
+Florian de Boissieu, Eric Chraibi, Claudia Lavalley, and Jean-Baptiste Féret, 2019, 
+pytools4dart: Python API to DART Radiative Transfer Simulator. https://gitlab.com/pytools4dart/pytools4dartMTD.
+
 
 ## Authors
 
