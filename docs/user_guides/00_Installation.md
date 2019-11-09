@@ -8,13 +8,15 @@ We recommend use of a virtual environment to create an environment specific to y
 This way, packages will be installed in this virtual environment and avoid conflict with locally installed packages of other projects.
 
 The virtual environment can be created with [Anaconda](https://www.anaconda.com/distribution)
-or with virtualenv.
+or with virtualenv. Python 3 version is recommended, as python 2 will soon not be maintained anymore.
 
 ## With Anaconda (recommended)
 
-Although it could work, the conda environment has not been tested yet. Here are a few commanlines to make a try.
-See [Ananconda documentation](https://www.anaconda.com/distribution) for installation details.
-Copy and paste the following in a yaml file, e.g. `environment.yml`.
+
+If not Already installed, see [Ananconda documentation](https://www.anaconda.com/distribution) 
+for installation instruction. Python 3 version is recommended, as python 2 will soon not be supported anymore.
+ 
+Once conda is installed, copy and paste the following in a yaml file, e.g. `environment.yml`.
 
 ```
 channels:
