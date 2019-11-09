@@ -1,3 +1,4 @@
+# Installation & Configuration
 
 ## 1 Install
 
@@ -11,7 +12,6 @@ The virtual environment can be created with [Anaconda](https://www.anaconda.com/
 or with virtualenv. Python 3 version is recommended, as python 2 will soon not be maintained anymore.
 
 ### 1.1 With Anaconda (recommended)
-
 
 If not already installed, see [Ananconda documentation](https://www.anaconda.com/distribution) 
 for installation instructions. Python 3 version is recommended, as python 2 will soon not be maintained anymore.
@@ -93,6 +93,7 @@ Install package `pytools4dart`:
 ```commanline
 pip install git+https://gitlab.com/pytools4dart/pytools4dart.git 
 ```
+
 
 ## 2 Configure
 
