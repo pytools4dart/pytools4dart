@@ -2,7 +2,7 @@
 ## 1 Install
 
 Package __pytools4dart__ is a python API to DART, thus DART must be installed to make it work.
-If not already done, please refer to section [DART](#4-dart) for installation.
+If not already done, please refer to [section 4](#4-dart) for installation.
 
 We recommend use of a virtual environment to create an environment specific to your project.
 This way, packages will be installed in this virtual environment and avoid conflict with locally installed packages of other projects.
@@ -163,12 +163,12 @@ rm -r venv
 
 ## 5 Known errors
 
-### Error on rc.exe
+### 5.1 Error on rc.exe
 
 If there is a failure that `rc.exe` cannot be found, add the appropriate WindowKits binary path to PATH.
 More info on this [here](https://stackoverflow.com/questions/14372706/visual-studio-cant-build-due-to-rc-exe).
 
-### Error on Python.h
+### 5.2 Error on Python.h
 
 If install throws an error on `Python.h`, e.g.
 ```
@@ -179,7 +179,7 @@ install package python development package, e.g. on Ubuntu:
 sudo apt-get install python-dev
 ```
 
-### For DART build < v1111
+### 5.3 For DART build < v1111
 
 Package [pyjnius](https://github.com/kivy/pyjnius) is needed to have a correct 3D object group ordering.
 
