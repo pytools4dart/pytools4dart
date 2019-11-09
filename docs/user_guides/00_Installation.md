@@ -145,7 +145,7 @@ cd $DART_HOME/tools/linux
 sed -i 's/\$DART_HOME\/bin\/jre\/bin\/java/$DART_HOME\/bin\/jre\/bin\/java\ -Djava.awt.headless=true/g' dart-*.sh
 ```
 
-# 5 Uninstall
+## 5 Uninstall
 
 To uninstall package:
 ```commandline
@@ -162,9 +162,9 @@ rm -r venv
 ```
 
 
-## 5 Known errors
+## 6 Known errors
 
-### 5.1 Error on rc.exe
+### 6.1 Error on rc.exe
 
 If there is a failure that `rc.exe` cannot be found, add the appropriate WindowKits binary path to PATH.
 More info on this [here](https://stackoverflow.com/questions/14372706/visual-studio-cant-build-due-to-rc-exe).
@@ -176,7 +176,7 @@ where rc.exe
 
 Add this path to the environment variable `Path` (Windows menu > modify system variables > environment variables )
 
-### 5.2 Error on Python.h
+### 6.2 Error on Python.h
 
 If install throws an error on `Python.h`, e.g.
 ```
@@ -187,7 +187,7 @@ install package python development package, e.g. on Ubuntu:
 sudo apt-get install python-dev
 ```
 
-### 5.3 For DART build < v1111
+### 6.3 For DART build < v1111
 
 Package [pyjnius](https://github.com/kivy/pyjnius) is needed to have a correct 3D object group ordering.
 
