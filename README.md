@@ -8,12 +8,21 @@
 All installation details are available in the [installation guide](https://gitlab.com/pytools4dart/pytools4dart).
 
 ## Features
-At the moment only part of DART simulator features are supported:
-- create 'flux' simulation
-- scene and cell size definition
-- bands, plots, optical properties management
-- simulation sequence generator
-- DART xml writers
+
+The python API covers most of DART features and more:
+
+- DART simulation reader/writer
+- full parametrisation of any type of simulation
+- several proxies and summaries to most used parameters:
+    - scene 
+        - scene and cell size, 
+        - plots, objects, trees, 
+        - optical and thermic properties,
+    - sensor
+        - bands wavelength and bandwidth
+    - source:
+        - sun angles
+- sequence generator
 - DART runners:
     - direction
     - phase
@@ -22,48 +31,30 @@ At the moment only part of DART simulator features are supported:
     - full
     - sequence
     - colorCompositeBands
-- hyperspectral tools: read ENVI .hdr files, extract wavelengths and bandwidths, stack results to ENVI file
-- lidar tools: read voxelized scene
+- pre/post-processing tools:
+    - hyperspectral tools (hstools): read ENVI .hdr files, extract wavelengths and bandwidths, stack results to ENVI file
+    - voxreader :
+        - read voxelised scene in AMAPvox file
+        - intersect voxels with polygons to define properties
+    - DART2LAS: 
+        - extract returns with gaussian decomposition (accelerated with C++ backend)
+        - convert lidar simulation results to LAS files (full-waveform and returns only)
+        
+Many variables are pandas DataFrame objects, and can be directly 
+interacted with by the user.        
 
 Check [website](https://pytools4dart.gitlab.io/pytools4dart) for details and user guides.
-Use cases examples are also available in directory `examples`.
-
-
-###### Create simulation
-
-`simulation` creates an object with methods and variables to ease 
-the synthesis and understanding of the general properties of a given 
-simulation.
-
-Many variables are pandas DataFrame objects, and can be directly 
-interacted with by the user.
-
-To create a new simulation:
-```python
-import pytools4dart as ptd
-simu = ptd.simulation('new_simulation')
-print(simu)
-```
-
-Parameters of `simu` are in:
-```python
-simu.bands # spectral products
-simu.optprops # optical properties of mokup elements
-simu.scene # scene size
-simu.cell # cell size
-simu.plots # turbid plots
-self.trees # lollipop trees
-```
-
-See help pages and `examples` for more details.
+Use cases are also available in directory `examples`.
 
 ## Authors
+
 Florian de Boissieu <florian.deboissieu@irstea.fr>
 Eric Chraibi <eric.chraibi@irstea.fr>
 Claudia Lavalley <claudia.lavalley@irstea.fr>
 Jean-Baptiste Féret <jean-baptiste.feret@irstea.fr>
 
 ## License
+
 *pytools4dart* is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
