@@ -481,7 +481,7 @@ def build_core(directory=None):
                                                 xsdname = xsdname,
                                                  pypath = os.path.join(directory, "core_ui", xsdname+'.py'),
                                                  xsdpath = os.path.join(directory, "xsdschemas", xsdname+'.xsd'))
-        subprocess.call(cmd, shell=True)
+        subprocess.run(cmd, shell=True)
 
     os.chdir(cwd) # get back to original directory
 
