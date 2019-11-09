@@ -3,7 +3,7 @@
 
 [[tool.portray.extra_markdown_extensions]]
     [tool.portray.extra_markdown_extensions.toc]
-        toc_depth = "2-5"
+        toc_depth = 5
         # toc_depth = "2-5" # for bootstrap
 
 [tool.portray]
