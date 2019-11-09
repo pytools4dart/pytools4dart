@@ -169,6 +169,13 @@ rm -r venv
 If there is a failure that `rc.exe` cannot be found, add the appropriate WindowKits binary path to PATH.
 More info on this [here](https://stackoverflow.com/questions/14372706/visual-studio-cant-build-due-to-rc-exe).
 
+The following command line should give the path of `rc.exe`:
+```commandline
+where rc.exe
+```
+
+Add this path to the environment variable `Path` (Windows menu > modify system variables > environment variables )
+
 ### 5.2 Error on Python.h
 
 If install throws an error on `Python.h`, e.g.
