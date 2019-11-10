@@ -1,3 +1,5 @@
+# test website locally:
+# portray in_browser -c pyproject.toml
 # generate website with the following:
 # portray as_html -c pyproject.toml
 

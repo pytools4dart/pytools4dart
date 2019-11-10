@@ -5,3 +5,9 @@ Sinon renommer le fichier zzz.css pour que ce soit le dernier pris en compte
 .md-typeset h5 {
     text-transform: none !important;
 }
+
+/* numbering sections
+See https://stackoverflow.com/questions/48029165/is-there-a-way-to-make-the-headings-sections-and-subsections-numbering-in-markd
+However it numbers only the content and not the TOC, and it numbers also the API references which is not wanted.
+Thus, it is numbered manually at the moment.
+*/
