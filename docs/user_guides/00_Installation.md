@@ -1,9 +1,9 @@
 # Installation & Configuration
 
-## 1 Install
+## Install
 
 Package __pytools4dart__ is a python API to DART, thus DART must be installed to make it work.
-If not already done, please refer to [section 4](#4-dart) for installation.
+If not already done, please refer to [DART section](#dart) for installation.
 
 We recommend use of a virtual environment to create an environment specific to your project.
 This way, packages will be installed in this virtual environment and avoid conflict with locally installed packages of other projects.
@@ -11,7 +11,7 @@ This way, packages will be installed in this virtual environment and avoid confl
 The virtual environment can be created with [Anaconda](https://www.anaconda.com/distribution)
 or with virtualenv. Python 3 version is recommended, as python 2 will soon not be maintained anymore.
 
-### 1.1 With Anaconda (recommended)
+### With Anaconda (recommended)
 
 If not already installed, see [Ananconda documentation](https://www.anaconda.com/distribution) 
 for installation instructions. Python 3 version is recommended, as python 2 will soon not be maintained anymore.
@@ -53,11 +53,17 @@ Activate the new environment:
 conda activate venv
 ``` 
 
-Once it is done, [configure] the package.
+Once it is done, [configure](#configure) the package.
 
-_Note: in case an error occurs, see section [Known errors](#5-known-errors)._
+If anything goes wrong, `venv` (change accordingly) can be removed with the following command, 
+leaving your computer in the state it was before installation:
+```bash
+conda env remove --name venv
+``` 
 
-### 1.2 With virtualenv (tested on Ubuntu only)
+_Note: in case an error occurs, see section [Known errors](#known-errors)._
+
+### With virtualenv (tested on Ubuntu only)
 
 Install `virtualenv` and libraries required for `pytools4dart` dependencies:
 ```commandline
@@ -95,7 +101,7 @@ pip install git+https://gitlab.com/pytools4dart/pytools4dart.git
 ```
 
 
-## 2 Configure
+## Configure
 
 The API of `pytools4dart` is generated automatically depending on DART version.
 This is done within a python session with the following command line, 
@@ -110,9 +116,9 @@ The API of pytools4dart can be re-configured at any time (e.g. changing DART ver
 with the two commands above.
 
 
-## 3 Test installation
+## Test installation
 
-The installation can be tested with the package examples (use_case_0-4.py).   
+The installation can be tested with the package [examples](https://gitlab.com/pytools4dart/pytools4dart/tree/master/examples).   
 
 After copying the examples to local files, within the terminal (or Anaconda prompt) try:
 ```commandline
@@ -122,7 +128,7 @@ python use_case_2.py
 ```
 They should execute without error.
 
-## 4 DART
+## DART
 
 **pytools4dart** is based on [DART](http://www.cesbio.ups-tlse.fr/dart/index.php#/) radiative transfer software that has to be installed (before or after installing pytools4dart).
 [DART](http://www.cesbio.ups-tlse.fr/dart/index.php#/) is free software under proprietary license. It is available for Linux (32/64 bits) and Windows (32/64 bits). To download DART software please [sign up](http://www.cesbio.ups-tlse.fr/dart/index.php#/getDart), login and fill the license resquest in GET DART section of [DART website](http://www.cesbio.ups-tlse.fr/dart/index.php#/).
@@ -145,7 +151,7 @@ cd $DART_HOME/tools/linux
 sed -i 's/\$DART_HOME\/bin\/jre\/bin\/java/$DART_HOME\/bin\/jre\/bin\/java\ -Djava.awt.headless=true/g' dart-*.sh
 ```
 
-## 5 Uninstall
+## Uninstall
 
 To uninstall package:
 ```commandline
@@ -162,9 +168,9 @@ rm -r venv
 ```
 
 
-## 6 Known errors
+## Known errors
 
-### 6.1 Error on rc.exe
+### Error on rc.exe
 
 If there is a failure that `rc.exe` cannot be found, add the appropriate WindowKits binary path to PATH.
 More info on this [here](https://stackoverflow.com/questions/14372706/visual-studio-cant-build-due-to-rc-exe).
@@ -173,10 +179,15 @@ The following command line should give the path of `rc.exe`:
 ```commandline
 where rc.exe
 ```
+It should return something like :
+```
+C:\Program Files (x86)\Windows Kits\10\bin\10.0.17763.0\x64\rc.exe
+```
 
-Add this path to the environment variable `Path` (Windows menu > modify system variables > environment variables )
+Add this path to the environment variable `Path` (Windows menu > modify system variables > environment variables ).
+If this error has occured at the creation of the virtual environment, remove the environment and restart installation. 
 
-### 6.2 Error on Python.h
+### Error on Python.h
 
 If install throws an error on `Python.h`, e.g.
 ```
@@ -187,7 +198,7 @@ install package python development package, e.g. on Ubuntu:
 sudo apt-get install python-dev
 ```
 
-### 6.3 For DART build < v1111
+### For DART build < v1111
 
 Package [pyjnius](https://github.com/kivy/pyjnius) is needed to have a correct 3D object group ordering.
 
