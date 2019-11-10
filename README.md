@@ -1,7 +1,7 @@
+# pytools4dart: python API for [DART](http://www.cesbio.ups-tlse.fr/dart/index.php#/) simulator
 [![licence](https://img.shields.io/badge/Licence-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
 ![licence](https://img.shields.io/badge/Python-3-blue.svg)
 
-# pytools4dart: python API for [DART](http://www.cesbio.ups-tlse.fr/dart/index.php#/) simulator
 
 The API is supported under python 3. It might also work under python 2 although it is not maintained anymore.
 
