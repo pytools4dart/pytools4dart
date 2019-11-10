@@ -1,3 +1,11 @@
+# 1.1
+
+## Change
+- python 3 compatibility
+
+## Add
+- documentation website 
+
 # 1.0
 
 ## Bug fix

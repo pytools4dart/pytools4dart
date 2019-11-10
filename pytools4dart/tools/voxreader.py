@@ -24,8 +24,9 @@
 #
 # ===============================================================================
 """
-This module contains tools to read .vox file,
-i.e. output file of AMAPVox lidar voxelization software.
+This module contains tools to read .vox file (output from AMAPvox),
+intersect with polygons and export to data.frame ready for
+DART simulation plots file.
 """
 # File.vox is text file containing detail on voxelized scene
 
@@ -50,7 +51,7 @@ from shapely.affinity import affine_transform
 
 class voxel(object):
     """
-    description
+    AMAPvox data reader and transformer
     """
 
     def __init__(self):
@@ -71,8 +72,11 @@ class voxel(object):
     def read_vox_header(self, skiprows=1):
         """
         read header of .vox file from AMAPVox.
-        :param skiprows:
-        :return:
+        Parameters
+        ----------
+
+        skiprows: int
+            number of rows to skip before parameters
         """
         tmp=[]
         tmp2=[]
@@ -100,8 +104,12 @@ class voxel(object):
     def read_vox_data(self, skiprows=1):
         """
         read data of .vox file from AMAPVox
-        :param skiprows:
-        :return:
+
+        Parameters
+        ----------
+
+        skiprows: int
+            number of rows to skip before parameters
         """
 
         data = pd.read_csv(self.inputfile, sep=" ", comment="#", skiprows=skiprows)
@@ -142,7 +150,8 @@ class voxel(object):
         self.grid = gpd.GeoDataFrame({'i':I, 'j':J, 'geometry': polygons})
 
     def affine_transform(self, matrix, inplace=True):
-        """Returns a transformed geometry using an affine transformation matrix.
+        """Apply an affine transformation to the voxel grid, like with shapely.affinity.affine_transform.
+
         The coefficient matrix is provided as a list or tuple with 6 items
         for 2D transformations.
         For 2D affine transformations, the 6 parameter matrix is::
@@ -154,6 +163,34 @@ class voxel(object):
         or the equations for the transformed coordinates::
             x' = a * x + b * y + xoff
             y' = d * x + e * y + yoff
+
+        Parameters
+        ----------
+
+        matrix: list or tuple
+            [a, b, d, e, xoff, yoff]
+        inplace: bool
+            If True, the grid is updated by reference, otherwise the transformed grid is returned.
+
+        Examples
+        --------
+
+        >>> import pytools4dart as ptd
+        >>> vox = ptd.voxreader.voxel().from_vox("../data/forest.vox")
+
+        Get the xy coordinates of the first cell of voxel grid
+
+        >>> print(np.array(vox.grid.geometry.iloc[1].exterior.coords.xy))
+        array([[11., 11., 10., 10., 11.],
+       [21., 22., 22., 21., 21.]])
+
+       Make a translation of the grid coordinates x+10 and y-12
+
+        >>> vox.affine_transform((1, 0, 0, 1, 10, -12))
+        >>> np.array(vox.grid.geometry.iloc[1].exterior.coords.xy)
+        array([[21., 21., 20., 20., 21.],
+       [ 9., 10., 10.,  9.,  9.]])
+
         """
         new_geometry = gpd.GeoSeries([affine_transform(s, matrix) for s in self.grid.geometry])
         if inplace:
@@ -166,6 +203,7 @@ class voxel(object):
     def intersect(self, polygons, inplace=False):
         """
         Intersection of voxel grid with shapefile.
+
         Parameters
         ----------
 
