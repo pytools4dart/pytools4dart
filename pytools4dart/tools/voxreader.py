@@ -176,20 +176,19 @@ class voxel(object):
         --------
 
         >>> import pytools4dart as ptd
+        >>> import numpy as np
         >>> vox = ptd.voxreader.voxel().from_vox("../data/forest.vox")
 
         Get the xy coordinates of the first cell of voxel grid
 
-        >>> print(np.array(vox.grid.geometry.iloc[1].exterior.coords.xy))
-        array([[11., 11., 10., 10., 11.],
-       [21., 22., 22., 21., 21.]])
-
-       Make a translation of the grid coordinates x+10 and y-12
-
-        >>> vox.affine_transform((1, 0, 0, 1, 10, -12))
         >>> np.array(vox.grid.geometry.iloc[1].exterior.coords.xy)
-        array([[21., 21., 20., 20., 21.],
-       [ 9., 10., 10.,  9.,  9.]])
+        array([[11., 11., 10., 10., 11.], [21., 22., 22., 21., 21.]])
+
+        Make a translation of the grid coordinates x-10 and y-20
+
+        >>> vox.affine_transform((1, 0, 0, 1, -10, -20))
+        >>> np.array(vox.grid.geometry.iloc[1].exterior.coords.xy)
+        array([[1., 1., 0., 0., 1.], [1., 2., 2., 1., 1.]])
 
         """
         new_geometry = gpd.GeoSeries([affine_transform(s, matrix) for s in self.grid.geometry])
@@ -217,6 +216,14 @@ class voxel(object):
         -------
              DataFrame or None
 
+        Examples
+        --------
+
+        >>> import pytools4dart as ptd
+        >>> vox = ptd.voxreader.voxel().from_vox("../data/forest.vox")
+        >>> p1
+        >>> vox.intersect()
+
         """
         # read shapefile
         # polygons = gpd.read_file(shapefile)
@@ -228,12 +235,12 @@ class voxel(object):
             possible_matches_index = list(grid_spatial_index.intersection(polygon.geometry.bounds))
             possible_matches = self.grid.iloc[possible_matches_index]
             precise_matches = possible_matches[possible_matches.intersects(polygon.geometry)]
-            areas = map(lambda r: r.intersection(polygon.geometry).area, precise_matches['geometry'])
+            areas = list(map(lambda r: r.intersection(polygon.geometry).area, precise_matches['geometry']))
 
             if len(areas) > 0:
                 icell = precise_matches.index
-                irow = map(lambda x: x % rows, icell)
-                icol = map(lambda x: int(x / rows), icell)
+                irow = list(map(lambda x: x % rows, icell))
+                icol = list(map(lambda x: int(x / rows), icell))
                 intersectList.append(
                     pd.DataFrame({'cell': icell, 'j': irow,
                                   'i': icol, 'ID': polygon.Index, 'intersected_area': areas}))
