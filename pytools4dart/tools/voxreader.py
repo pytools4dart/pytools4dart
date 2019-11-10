@@ -93,7 +93,7 @@ class voxel(object):
 
         for col in header:
             if(col in ["max_corner", "min_corner", "split", "res"]):
-                header[col] = map(float, header[col].split(" "))
+                header[col] = list(map(float, header[col].split(" ")))
 
         self.header = header
 
