@@ -9,7 +9,7 @@ The API is supported under python 3. It might also work under python 2 although 
 ## Installation
 
 All installation details are available in the 
-[installation guide](https://pytools4dart.gitlab.io/pytools4dart/docs/user_guides/00_Installation/).
+[installation guide](https://pytools4dart.gitlab.io/pytools4dart/docs/user_guides/00_installation/).
 
 ## Features
 
