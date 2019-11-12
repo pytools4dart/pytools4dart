@@ -32,8 +32,14 @@ test:
   stage: test
   script:
   # this configures Django application to use attached postgres database that is run on `postgres` host
+  - ptd=$(pwd)
+  - cd ../
   - curl -u $DART_AUTH $DART_URL -o dart.tar.gz
   - tar -xzf dart.tar.gz
+  - dest=$(pwd)/$(ls -d DART_*)
+  - cd $dest
+  - ./install-text.sh $HOME/DART
+  - cat $HOME/.dartrc
 
 pages:
   stage: deploy
