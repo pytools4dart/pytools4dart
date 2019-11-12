@@ -39,7 +39,18 @@ test:
   - dest=$(pwd)/$(ls -d DART_*)
   - cd $dest
   - ./install-text.sh $HOME/DART
-  - cat $HOME/.dartrc
+  - cd $ptd
+  - apt-get update -qy
+  - python -V  # Print out python version for debugging
+  - pip install virtualenv
+  - virtualenv venv
+  - source venv/bin/activate
+    #- mkdir -v $APT_CACHE_DIR
+  - apt-get install -y libudunits2-dev libnetcdf-dev libproj-dev libgeos-dev libgdal-dev gfortran libspatialindex-dev # -o dir::cache::archives="$APT_CACHE_DIR"
+  - pip install pybind11 pygdal==2.4.0.5 geopandas Cython
+  - pip install -r requirements.txt
+  - pip install .
+
 
 pages:
   stage: deploy
