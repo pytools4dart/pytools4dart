@@ -4,7 +4,7 @@
 ![licence](https://img.shields.io/badge/Python-3-blue.svg)
 ![build status](https://gitlab.com/pytools4dart/pytools4dart/badges/master/pipeline.svg)
 
-The API is supported under python 3. It might also work under python 2 although it is not maintained anymore.
+The API is maintained under python 3, although it may also work under python 2 although it is not maintained anymore.
 
 ## Installation
 

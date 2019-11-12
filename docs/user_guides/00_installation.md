@@ -8,40 +8,15 @@ If not already done, please refer to [DART section](#dart) for installation.
 We recommend use of a virtual environment to create an environment specific to your project.
 This way, packages will be installed in this virtual environment and avoid conflict with locally installed packages of other projects.
 
-The virtual environment can be created with [Anaconda](https://www.anaconda.com/distribution)
+The virtual environment can be created with Anaconda
 or with virtualenv. Python 3 version is recommended, as python 2 will soon not be maintained anymore.
 
 ### With Anaconda (recommended)
 
 If not already installed, see [Ananconda documentation](https://www.anaconda.com/distribution) 
-for installation instructions. Python 3 version is recommended, as python 2 will soon not be maintained anymore.
+for installation instructions.
  
-Once conda is installed, copy and paste the following in a yaml file, e.g. `environment.yml`.
-
-```
-channels:
-    - conda-forge
-dependencies:
-  - gdal
-  - libspatialindex
-  - rtree
-  - geopandas
-  - lxml
-  - matplotlib
-  - plyfile
-  - scipy
-  - pybind11
-  - cython
-  - lmfit
-  - pip
-  - ipython
-  - pip:
-      - git+https://gitlab.irstea.fr/florian.deboissieu/generateds.git
-      - git+https://gitlab.irstea.fr/florian.deboissieu/tinyobj.git
-      - git+https://gitlab.irstea.fr/florian.deboissieu/gdecomp.git
-      - git+https://github.com/floriandeboissieu/laspy.git@patch-1
-      - git+https://gitlab.com/pytools4dart/pytools4dart.git
-```
+Once conda is installed, download file [environment.yml](https://gitlab.com/pytools4dart/pytools4dart/blob/master/environment.yml). 
 
 From a terminal (or Anaconda prompt in Windows), create the new environment (answer yes if asked), 
 replacing `venv` by the wanted environment name in the following command lines:
@@ -52,6 +27,13 @@ Activate the new environment:
 ```commandline
 conda activate venv
 ``` 
+
+_For Windows users allergic to command line:_
+1. open Anaconda Navigator
+2. go to menu Environments
+3. click on import and select the file environment.yml
+4. choose the name of the environment (default is pytools4dart)
+5. open your new environment ipython
 
 Once it is done, [configure](#configure) the package.
 
