@@ -23,7 +23,9 @@ stages:
   - deploy
 
 before_script:
+  - echo $(pwd)
   - ls pytools4dart
+
 
 
 test:
@@ -32,9 +34,6 @@ test:
   # this configures Django application to use attached postgres database that is run on `postgres` host
   - curl -u $DART_AUTH $DART_URL -o dart.tar.gz
   - tar -xzf dart.tar.gz
-  - echo $(ls -d $HOME/DART*)
-  - dest=$(ls -d $HOME/DART*)
-  - echo $dest
 
 pages:
   stage: deploy
