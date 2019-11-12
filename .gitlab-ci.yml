@@ -18,6 +18,8 @@ cache:
   paths:
     - .cache/pip
     - venv/
+stages:
+  - test
 
 before_script:
   - ls pytools4dart
@@ -32,6 +34,13 @@ before_script:
   - pip install -r requirements.txt
   - pip install portray
 
+test:
+  stage: test
+  script:
+  # this configures Django application to use attached postgres database that is run on `postgres` host
+  - curl -u $DART_AUTH $DART_URL -o dart.tar.gz
+  - tar -xzf dart.tar.gz
+  - echo $(ls)
 
 pages:
   stage: deploy
