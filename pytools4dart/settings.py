@@ -478,7 +478,7 @@ def build_core(directory=None):
         generateDS_script = 'generateDS.py'
 
     for xsdname in xsdnames:
-        cmd = ' '.join([sys.executable, generateDS_script, '-m -f --always-export-default --export="write literal etree"',
+        cmd = ' '.join([generateDS_script, '-m -f --always-export-default --export="write literal etree"',
                         '-u "{user_methods}"',
                         '-p "create" --post-attrib-setter="update_node(self,self.troot,\'{xsdname}\')"',
                         '--pre-ctor="self.troot=get_gs_troot(\'{xsdname}\',\'{{classname}}\')"',
