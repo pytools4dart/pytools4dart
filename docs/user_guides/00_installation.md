@@ -29,11 +29,12 @@ conda activate venv
 ``` 
 
 _For Windows users allergic to command line:_
+
 1. open Anaconda Navigator
-2. go to menu Environments
-3. click on import and select the file environment.yml
-4. choose the name of the environment (default is pytools4dart)
-5. open your new environment ipython
+1. go to menu Environments
+1. click on import and select the file environment.yml
+1. choose the name of the environment (default is pytools4dart)
+1. open your new environment ipython
 
 Once it is done, [configure](#configure) the package.
 
