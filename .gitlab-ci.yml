@@ -24,8 +24,7 @@ stages:
 
 before_script:
   - ls pytools4dart
-  - apt-get update -qy
-  - python -V  # Print out python version for debugging
+
 
 test:
   stage: test
@@ -33,12 +32,15 @@ test:
   # this configures Django application to use attached postgres database that is run on `postgres` host
   - curl -u $DART_AUTH $DART_URL -o dart.tar.gz
   - tar -xzf dart.tar.gz
-  - echo $(ls)
-  - echo $HOME
+  - echo $(ls -d DART*)
+  - dest=$HOME/$(ls -d DART*)
+  - echo $dest
 
 pages:
   stage: deploy
   script:
+    - apt-get update -qy
+    - python -V  # Print out python version for debugging
     - pip install virtualenv
     - virtualenv venv
     - source venv/bin/activate
