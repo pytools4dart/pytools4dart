@@ -11,12 +11,34 @@ This way, packages will be installed in this virtual environment and avoid confl
 The virtual environment can be created with Anaconda
 or with virtualenv. Python 3 version is recommended, as python 2 will soon not be maintained anymore.
 
-### With Anaconda (recommended)
+### Anaconda install (recommended)
 
-If not already installed, see [Ananconda documentation](https://www.anaconda.com/distribution) 
-for installation instructions.
+See [Ananconda documentation](https://www.anaconda.com/distribution) 
+for installation instructions if not already installed.
  
 Once conda is installed, download file [environment.yml](https://gitlab.com/pytools4dart/pytools4dart/blob/master/environment.yml). 
+
+#### Anaconda Navigator install (Windows only)
+
+For Windows users allergic to command line:
+
+1. open Anaconda Navigator
+1. go to menu Environments
+1. click on import and select the file environment.yml
+1. choose the name of the environment (default is pytools4dart)
+1. open your new environment ipython
+
+Once it is done, [configure](#configure) the package.
+
+If anything goes wrong, `venv` (change accordingly) can be removed with the following command, 
+leaving your computer in the state it was before installation:
+```bash
+conda env remove --name venv
+``` 
+
+_Note: in case an error occurs, see section [Known errors](#known-errors)._
+
+#### Command line install
 
 From a terminal (or Anaconda prompt in Windows), create the new environment (answer yes if asked), 
 replacing `venv` by the wanted environment name in the following command lines:
@@ -27,15 +49,6 @@ Activate the new environment:
 ```commandline
 conda activate venv
 ``` 
-
-_For Windows users allergic to command line:_
-
-1. open Anaconda Navigator
-1. go to menu Environments
-1. click on import and select the file environment.yml
-1. choose the name of the environment (default is pytools4dart)
-1. open your new environment ipython
-
 Once it is done, [configure](#configure) the package.
 
 If anything goes wrong, `venv` (change accordingly) can be removed with the following command, 
