@@ -20,6 +20,7 @@ cache:
     - venv/
 stages:
   - test
+  - deploy
 
 before_script:
   - ls pytools4dart
