@@ -473,7 +473,7 @@ def build_core(directory=None):
     # else:
     if platform.system() == "Windows":
         import generateDS
-        generateDS_script = generateDS.__file__ #'generateDS.py'
+        generateDS_script = ' '.join([sys.executable, generateDS.__file__]) #'generateDS.py'
     else:
         generateDS_script = 'generateDS.py'
 
