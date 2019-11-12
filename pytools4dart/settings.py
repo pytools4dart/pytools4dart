@@ -43,6 +43,7 @@ import traceback
 import lxml.etree as etree
 import sys
 
+
 def default_dartdir():
     '''
     Default DART directory
@@ -106,9 +107,12 @@ def configure(dartdir=None):
 
     dartdir = expanduser(dartdir)
     if checkdartdir(dartdir):
-        with open(pytools4dartrc(), 'w') as pt4drc:
-            pt4drc.write(dartdir)
-
+        if sys.version_info[0] == 2:
+            with open(pytools4dartrc(), 'w') as pt4drc:
+                pt4drc.write(dartdir)
+        else:
+            with open(pytools4dartrc(), 'w', encoding='utf-8') as pt4drc:
+                pt4drc.write(dartdir)
         print('\n pytools4dart configured with:\nDART = ' + dartdir)
     else:
         print('Please (re)configure.')
@@ -483,7 +487,10 @@ def build_core(directory=None):
                                                  pypath = os.path.join(directory, "core_ui", xsdname+'.py'),
                                                  xsdpath = os.path.join(directory, "xsdschemas", xsdname+'.xsd'))
         # print('\n'+cmd+'\n')
-        subprocess.run(cmd, shell=True)
+        if sys.version_info[0] == 2:
+            subprocess.call(cmd, shell=True)
+        else:
+            subprocess.run(cmd, shell=True)
 
     os.chdir(cwd) # get back to original directory
 
@@ -657,8 +664,13 @@ def write_templates(directory):
     xml_templates = get_templates()
     for k, v in xml_templates.items():
         filename=pjoin(os.path.abspath(directory), k+'.xml')
-        with open(filename, 'w', encoding="utf-8") as f:
-            f.write(v)
+        if sys.version_info[0] == 2:
+            with open(filename, 'w') as f:
+                f.write(v)
+        else:
+            with open(filename, 'w', encoding='utf-8') as f:
+                f.write(v)
+
 
 def write_schemas(directory):
     """
@@ -672,8 +684,13 @@ def write_schemas(directory):
     xmlschemas = get_schemas()
     for k, v in xmlschemas.items():
         filename=pjoin(os.path.abspath(directory), k+'.xsd')
-        with open(filename, 'w', encoding="utf-8") as f:
-            f.write(v)
+        if sys.version_info[0] == 2:
+            with open(filename, 'w') as f:
+                f.write(v)
+        else:
+            with open(filename, 'w', encoding='utf-8') as f:
+                f.write(v)
+
 
 def write_labels(directory):
     """
