@@ -1,0 +1,23 @@
+name: pytools4dart
+channels:
+    - conda-forge
+dependencies:
+  - gdal
+  - libspatialindex
+  - rtree
+  - geopandas
+  - lxml
+  - matplotlib
+  - plyfile
+  - scipy
+  - pybind11
+  - cython
+  - lmfit
+  - ipython
+  - pip
+  - pip:
+      - git+https://gitlab.irstea.fr/florian.deboissieu/generateds.git
+      - git+https://gitlab.irstea.fr/florian.deboissieu/tinyobj.git
+      - git+https://gitlab.irstea.fr/florian.deboissieu/gdecomp.git
+      - git+https://github.com/floriandeboissieu/laspy.git@patch-1
+      - git+https://gitlab.com/pytools4dart/pytools4dart.git
