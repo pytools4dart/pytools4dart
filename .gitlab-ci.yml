@@ -26,6 +26,7 @@ build:conda:
   stage: test
   image: continuumio/miniconda3:latest
   script:
+    - apt install gcc
     - conda env create -f environment.yml
     - conda activate pytools4dart
     - cd examples
