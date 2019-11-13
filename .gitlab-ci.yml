@@ -39,6 +39,7 @@ test:
   - dest=$(pwd)/$(ls -d DART_*)
   - cd $dest
   - ./install-text.sh $HOME/DART
+  - ls ~/DART/tools/linux/*.sh | xargs sed -i 's#$DART_HOME/bin/jre/bin/java#$DART_HOME/bin/jre/bin/java -Djava.awt.headless=true#g'
   - cd $ptd
   - apt-get update -qy
   - python -V  # Print out python version for debugging
