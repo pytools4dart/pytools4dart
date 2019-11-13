@@ -21,17 +21,23 @@ stages:
   - test
   - deploy
 
-
 build:conda:
   stage: test
   image: conda/miniconda3:latest
   script:
+    - ptd=$(pwd)
     - apt-get update -qy
     - apt-get install -y gcc g++ git
     - conda env create -f environment.yml
     - conda init bash
     - source ~/.bashrc
     - conda activate pytools4dart
+    - curl -u $DART_AUTH $DART_URL -o dart.tar.gz
+    - tar -xzf dart.tar.gz
+    - dest=$(pwd)/$(ls -d DART_*)
+    - cd $dest
+    - ./install-text.sh $HOME/DART
+    - cd $ptd
     - cd examples
     - python -c 'import pytools4dart as ptd;ptd.configure("~/DART")'
     - python use_case_0.py
@@ -39,8 +45,6 @@ build:conda:
     - python use_case_2.py
     - python use_case_3.py
     - python use_case_4.py
-
-
 
 build:pip:
   stage: test
