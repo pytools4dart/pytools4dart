@@ -30,7 +30,7 @@ op_trunk = {'type':'Lambertian',
 
 simu.add.optical_property(**op_trunk)
 
-tree = simu.add.object_3d('/home/boissieu/DART/database/3D_Objects/Tree/Accurate_Trees/Cherry_tree/Merisier_Adulte.obj', xpos=2.5, ypos=2.5, xscale=3, yscale=3, zscale=3)
+tree = simu.add.object_3d(ptd.getdartdir()+'/database/3D_Objects/Tree/Accurate_Trees/Cherry_tree/Merisier_Adulte.obj', xpos=2.5, ypos=2.5, xscale=3, yscale=3, zscale=3)
 tree.Groups.Group[0].GroupOpticalProperties.OpticalPropertyLink.ident='leaf'
 tree.Groups.Group[0].GroupOpticalProperties.BackFaceOpticalProperty.OpticalPropertyLink.ident='leaf'
 tree.Groups.Group[1].GroupOpticalProperties.OpticalPropertyLink.ident='trunk'

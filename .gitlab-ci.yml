@@ -56,7 +56,7 @@ test:
 #  - python use_case_0.py
 #  - python use_case_1.py
 #  - python use_case_2.py
-  - python use_case_3.py
+#  - python use_case_3.py
   - python use_case_4.py
 
 
