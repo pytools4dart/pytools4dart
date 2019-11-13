@@ -27,7 +27,7 @@ build:conda:
   image: conda/miniconda3:latest
   script:
     - apt-get update -qy
-    - apt-get install -y gcc g++
+    - apt-get install -y gcc g++ git
     - conda env create -f environment.yml
     - conda init bash
     - source ~/.bashrc
