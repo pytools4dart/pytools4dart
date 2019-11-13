@@ -26,7 +26,7 @@ build:conda:
   stage: test
   image: conda/miniconda3:latest
   script:
-    - apt install -y gcc
+    - apt install -y gcc g++
     - conda env create -f environment.yml
     - conda activate pytools4dart
     - cd examples
