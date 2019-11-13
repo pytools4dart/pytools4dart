@@ -30,6 +30,7 @@ build:conda:
     - apt-get install -y gcc g++
     - conda env create -f environment.yml
     - conda init bash
+    - source ~/.bashrc
     - conda activate pytools4dart
     - cd examples
     - python -c 'import pytools4dart as ptd;ptd.configure("~/DART")'
