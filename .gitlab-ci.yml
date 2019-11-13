@@ -24,7 +24,7 @@ stages:
 
 build:conda:
   stage: test
-  image: continuumio/miniconda3:latest
+  image: conda/miniconda3:latest
   script:
     - apt install -y gcc
     - conda env create -f environment.yml
