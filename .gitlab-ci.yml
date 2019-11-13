@@ -27,7 +27,7 @@ build:conda:
   script:
     - ptd=$(pwd)
     - apt-get update -qy
-    - apt-get install -y gcc g++ git unzip
+    - apt-get install -y gcc g++ git unzip libgtk2.0-0
     - conda env create -f environment.yml
     - conda init bash
     - source ~/.bashrc
