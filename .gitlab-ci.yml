@@ -1,7 +1,6 @@
 # This file is a template, and might need editing before it works on your project.
 # Official language image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/python/tags/
-image: python:3.6
 
 # Change pip's cache directory to be inside the project directory since we can
 # only cache local items.
@@ -22,14 +21,26 @@ stages:
   - test
   - deploy
 
-before_script:
-  - echo $(pwd)
-  - ls pytools4dart
 
-
-
-test:
+build:conda:
   stage: test
+  image: continuumio/miniconda3:latest
+  script:
+    - conda env create -f environment.yml
+    - conda activate pytools4dart
+    - cd examples
+    - python -c 'import pytools4dart as ptd;ptd.configure("~/DART")'
+    - python use_case_0.py
+    - python use_case_1.py
+    - python use_case_2.py
+    - python use_case_3.py
+    - python use_case_4.py
+
+
+
+build:pip:
+  stage: test
+  image: python:3.6
   script:
   # this configures Django application to use attached postgres database that is run on `postgres` host
   - ptd=$(pwd)
@@ -39,7 +50,6 @@ test:
   - dest=$(pwd)/$(ls -d DART_*)
   - cd $dest
   - ./install-text.sh $HOME/DART
-  - ls ~/DART/tools/linux/*.sh | xargs sed -i 's#$DART_HOME/bin/jre/bin/java#$DART_HOME/bin/jre/bin/java -Djava.awt.headless=true#g'
   - cd $ptd
   - apt-get update -qy
   - python -V  # Print out python version for debugging
@@ -58,6 +68,8 @@ test:
 #  - python use_case_2.py
 #  - python use_case_3.py
   - python use_case_4.py
+  only:
+    - schedules
 
 
 pages:
