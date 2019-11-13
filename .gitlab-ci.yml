@@ -47,15 +47,15 @@ test:
   - virtualenv venv
   - source venv/bin/activate
     #- mkdir -v $APT_CACHE_DIR
-  - apt-get install -y libudunits2-dev libnetcdf-dev libproj-dev libgeos-dev libgdal-dev gfortran libspatialindex-dev # -o dir::cache::archives="$APT_CACHE_DIR"
+  - apt-get install -y libudunits2-dev libnetcdf-dev libproj-dev libgeos-dev libgdal-dev gfortran libspatialindex-dev libgtk2.0-0 # -o dir::cache::archives="$APT_CACHE_DIR"
   - pip install pybind11 pygdal==2.4.0.5 geopandas Cython
   - pip install -r requirements.txt
   - pip install .
   - cd examples
   - python -c 'import pytools4dart as ptd;ptd.configure("~/DART")'
-  - python use_case_0.py
-  - python use_case_1.py
-  - python use_case_2.py
+#  - python use_case_0.py
+#  - python use_case_1.py
+#  - python use_case_2.py
   - python use_case_3.py
   - python use_case_4.py
 
