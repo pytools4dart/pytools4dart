@@ -82,6 +82,7 @@ build:pip:
 
 pages:
   stage: deploy
+  image: python:3.6
   script:
     - apt-get update -qy
     - python -V  # Print out python version for debugging
