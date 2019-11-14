@@ -45,7 +45,9 @@ build:conda:
     # - python use_case_2.py
     - python use_case_3.py
     - python use_case_4.py
-
+  only:
+    - schedules
+    
 build:pip:
   stage: test
   image: python:3.6
