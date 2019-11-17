@@ -351,7 +351,7 @@ def getdartversion(dartdir=None):
 
     versionfile = pjoin(dartdir, 'bin', 'version')
 
-    with open(versionfile)as f:
+    with open(versionfile) as f:
         versionstr = f.readlines()[0]
 
     version, releasedate, build = versionstr.rstrip().split('_')
