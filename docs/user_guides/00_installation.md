@@ -19,27 +19,9 @@ for installation instructions if not already installed.
 Once conda is installed, download file [environment.yml](https://gitlab.com/pytools4dart/pytools4dart/blob/master/environment.yml)
 and follow install instructions in one of the following section. 
 
-#### Anaconda Navigator install (Windows only)
-
-For Windows users allergic to command line:
-
-1. open Anaconda Navigator
-1. go to menu Environments
-1. click on import and select the file environment.yml
-1. choose the name of the environment (default is pytools4dart)
-1. open your new environment ipython
-
-Once it is done, [configure](#configure) the package.
-
-If anything goes wrong, `venv` (change accordingly) can be removed with the following command, 
-leaving your computer in the state it was before installation:
-```bash
-conda env remove --name venv
-``` 
-
-_Note: in case an error occurs, see section [Known errors](#known-errors)._
-
 #### Command line install (Linux, Mac & Windows)
+
+For Windows users allergic to command line see next section.
 
 From a terminal (or Anaconda prompt in Windows), create the new environment (answer yes if asked), 
 replacing `venv` by the wanted environment name in the following command lines
@@ -60,6 +42,29 @@ conda env remove --name venv
 ``` 
 
 _Note: in case an error occurs, see section [Known errors](#known-errors)._
+
+
+#### Anaconda Navigator install (Windows only)
+
+On windows, pytools4dart can also be installed in an Anaconda environment
+using Anaconda Navigator graphical interface:
+
+1. open Anaconda Navigator
+1. go to menu Environments
+1. click on import and select the file environment.yml
+1. choose the name of the environment (default is pytools4dart)
+1. open your new environment ipython
+
+Once it is done, [configure](#configure) the package.
+
+If anything goes wrong, `venv` (change accordingly) can be removed with the following command, 
+leaving your computer in the state it was before installation:
+```bash
+conda env remove --name venv
+``` 
+
+_Note: in case an error occurs, see section [Known errors](#known-errors)._
+
 
 ### With virtualenv (tested on Ubuntu only)
 
@@ -97,6 +102,18 @@ Install the python requirements:
 pip install pybind11 pygdal geopandas Cython
 pip install -r requirements.txt
 ```
+
+If install of `pygdal` throws an error on gdal version:
+```
+__main__.GDALConfigError: Version mismatch 2.1.3 != 2.3.1
+```
+specify the version corresponding installed gdal:
+```commandline
+gdal-config --version
+# 2.1.3
+pip install pygdal==2.1.3.3
+``` 
+
 
 Install package `pytools4dart`:
 ```commanline
@@ -189,6 +206,7 @@ C:\Program Files (x86)\Windows Kits\10\bin\10.0.17763.0\x64\rc.exe
 
 Add this path to the environment variable `Path` (Windows menu > modify system variables > environment variables ).
 If this error has occured at the creation of the virtual environment, remove the environment and restart installation. 
+
 
 ### Error on Python.h
 
