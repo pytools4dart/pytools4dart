@@ -16,7 +16,8 @@ or with virtualenv. Python 3 version is recommended, as python 2 will soon not b
 See [Ananconda documentation](https://www.anaconda.com/distribution) 
 for installation instructions if not already installed.
  
-Once conda is installed, download file [environment.yml](https://gitlab.com/pytools4dart/pytools4dart/blob/master/environment.yml). 
+Once conda is installed, download file [environment.yml](https://gitlab.com/pytools4dart/pytools4dart/blob/master/environment.yml)
+and follow install instructions in one of the following section. 
 
 #### Anaconda Navigator install (Windows only)
 
@@ -38,10 +39,11 @@ conda env remove --name venv
 
 _Note: in case an error occurs, see section [Known errors](#known-errors)._
 
-#### Command line install
+#### Command line install (Linux, Mac & Windows)
 
 From a terminal (or Anaconda prompt in Windows), create the new environment (answer yes if asked), 
-replacing `venv` by the wanted environment name in the following command lines:
+replacing `venv` by the wanted environment name in the following command lines
+(if no name is given, the default name is `pytools4dart`):
 ```commandline
 conda env create -f environment.yml --name venv
 ```
@@ -53,13 +55,17 @@ Once it is done, [configure](#configure) the package.
 
 If anything goes wrong, `venv` (change accordingly) can be removed with the following command, 
 leaving your computer in the state it was before installation:
-```bash
+```commandline
 conda env remove --name venv
 ``` 
 
 _Note: in case an error occurs, see section [Known errors](#known-errors)._
 
 ### With virtualenv (tested on Ubuntu only)
+
+There are several way to install a python virtual environment (see [here](https://docs.python.org/3/library/venv.html)
+and [here](https://stackoverflow.com/questions/1534210/use-different-python-version-with-virtualenv)). Here the `virtualenv`
+method applicable for python2 and python3 is described.  
 
 Install `virtualenv` and libraries required for `pytools4dart` dependencies:
 ```commandline
@@ -73,7 +79,8 @@ mkdir myproject
 cd myproject
 ```
 
-Create a virtual environment, e.g. named `venv`:
+Create a virtual environment, e.g. named `venv` (use `-p` option to choose your python version as described
+[here](https://stackoverflow.com/questions/1534210/use-different-python-version-with-virtualenv)):
 ```commandline
 virtualenv venv
 ```

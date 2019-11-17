@@ -2,7 +2,20 @@
 This section aims at listing the bugs that were noticed with DART, solved or not.
 
 ## current bugs
-In parenthesis is the DART version on which it has been observed. 
+In parenthesis is the DART version on which it has been observed.
+
+* (v1083) pytools4dart executed on headless server (i.e. without display) leads to an error:
+
+    `Exception in thread "main" java.awt.AWTError: Can't connect to X11 window server using ':0' as the value of the DISPLAY variable.`
+     
+     The solution is to activate awt headless:
+     
+     `ls ~/DART/tools/linux/*.sh | xargs sed -i 's#$DART_HOME/bin/jre/bin/java#$DART_HOME/bin/jre/bin/java -Djava.awt.headless=true#g'`
+     
+
+ 
+
+ 
 * (v1083) column order is important in database imports. 
 As an example, 2D-LAM_xxx.txt must have columns 'wavelength', 'reflectance', 'direct transmittance', 'diffuse transmittance' 
 in this order, otherwise the data is wrongly interpreted, and makes wrong simulations in flux-tracking and lidar,
