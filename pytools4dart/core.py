@@ -105,7 +105,7 @@ class Core(object):
             # check version
             if check_version:
                 check_xmlfile_version(filepath)
-            setattr(self, module, eval('ptd.{}.parse("{}",silence=True)'.format(module, filepath)))
+            setattr(self, module, eval('ptd.{}.parse(r"{}",silence=True)'.format(module, filepath)))
 
     def get_corners_from_rectangle(self, center_x, center_y, side_x, side_y):
         x1, y1 = center_x - side_x / 2.0, center_y - side_y / 2.0
