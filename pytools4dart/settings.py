@@ -443,23 +443,30 @@ def build_core(directory=None):
 
     try:
         os.mkdir(templatesDpath)
+        print('extracting templates to ', templatesDpath)
     except:
         print("Directory ", templatesDpath, " already exists")
 
+    write_templates(templatesDpath)
+
+
     try:
         os.mkdir(xsdDpath)
+        print('extracting schemas to ', xsdDpath)
     except:
         print("Directory ", xsdDpath, " already exists")
+
+    write_schemas(xsdDpath)
+
 
     try:
         os.mkdir(labelsDpath)
+        print('extracting labels to ', labelsDpath)
     except:
-        print("Directory ", xsdDpath, " already exists")
+        print("Directory ", labelsDpath, " already exists")
 
-
-    write_templates(templatesDpath)
-    write_schemas(xsdDpath)
     write_labels(labelsDpath)
+
     shutil.copyfile(os.path.join(directory,'sequence.xsd'),os.path.join(xsdDpath, 'sequence.xsd'))
     shutil.copyfile(os.path.join(directory, 'sequence.xml'), os.path.join(templatesDpath, 'sequence.xml'))
     xsdnames = [s.split('.xsd')[0] for s in os.listdir(xsdDpath) if s.endswith('.xsd')]
@@ -686,13 +693,15 @@ def write_schemas(directory):
     """
     xmlschemas = get_schemas()
     for k, v in xmlschemas.items():
-        filename=pjoin(os.path.abspath(directory), k+'.xsd')
-        if sys.version_info[0] == 2:
-            with open(filename, 'w') as f:
-                f.write(v)
-        else:
-            with open(filename, 'w', encoding='utf-8') as f:
-                f.write(v)
+        if k not in ['LUT']: # patch for DART <= v1141
+            filename=pjoin(os.path.abspath(directory), k+'.xsd')
+            if sys.version_info[0] == 2:
+                with open(filename, 'w') as f:
+                    f.write(v)
+            else:
+                with open(filename, 'w', encoding='utf-8') as f:
+                    f.write(v)
+
 
 
 def write_labels(directory):

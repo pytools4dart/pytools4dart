@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 import pytools4dart as ptd
 
+# Path of voxelization file
+voxfile = "../data/forest.vox"
+
 # create an empty simulation
 simu = ptd.simulation(name = 'use_case_3', empty=True)
 
@@ -28,7 +31,7 @@ op_vegetation = {'type':'vegetation',
 simu.add.optical_property(**op_vegetation)
 
 # add plots from voxelized data
-vox = ptd.voxreader.voxel().from_vox("../data/forest.vox")
+vox = ptd.voxreader.voxel().from_vox(voxfile)
 plots = vox.to_plots()
 plots['PLT_OPT_NAME'] = 'op_prospect'
 simu.add.plots(plots)

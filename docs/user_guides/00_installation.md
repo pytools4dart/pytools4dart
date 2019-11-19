@@ -3,7 +3,12 @@
 ## Install
 
 Package __pytools4dart__ is a python API to DART, thus DART must be installed to make it work.
-If not already done, please refer to [DART section](#dart) for installation.
+It can be done before or after pytools4dart installation. Please refer to [DART section](#dart) for DART installation.
+
+__Before install, Windows users__ will need Visual Studio C++11 compiler to install package `tinyobj`, which a dependency of `pytools4dart`.
+(for details see [here](https://gitlab.irstea.fr/florian.deboissieu/tinyobj) and [here](https://pybind11.readthedocs.io/en/stable/basics.html)).
+Install [Visual Studio installer](https://visualstudio.microsoft.com/downloads/) (version 2015 or upper is necessary, community edition is sufficient).
+Within the VS installer select C++ Development Desktop (only MSVC and Kit SDK Windows are necessary, occupying 5 GB still...).
 
 We recommend use of a virtual environment to create an environment specific to your project.
 This way, packages will be installed in this virtual environment and avoid conflict with locally installed packages of other projects.
@@ -24,22 +29,19 @@ and follow install instructions in one of the following section.
 For Windows users allergic to command line see next section.
 
 From a terminal (or Anaconda prompt in Windows), create the new environment (answer yes if asked), 
-replacing `venv` by the wanted environment name in the following command lines
-(if no name is given, the default name is `pytools4dart`):
+replacing `ptdvenv` by the wanted environment name in the following command lines
+(if no name is given, the default name is `ptdvenv`):
 ```commandline
-conda env create -f environment.yml --name venv
+conda env create -f environment.yml --name ptdvenv
 ```
 Activate the new environment:
 ```commandline
-conda activate venv
+conda activate ptdvenv
 ``` 
-Once it is done, [configure](#configure) the package.
 
-If anything goes wrong, `venv` (change accordingly) can be removed with the following command, 
-leaving your computer in the state it was before installation:
-```commandline
-conda env remove --name venv
-``` 
+Once it is done, [check environment](#check-environment) and [configure](#configure) the package.
+
+If anything goes wrong, the created environment can be removed with the following [Uninstall](#uninstall).
 
 _Note: in case an error occurs, see section [Known errors](#known-errors)._
 
@@ -52,15 +54,15 @@ using Anaconda Navigator graphical interface:
 1. open Anaconda Navigator
 1. go to menu Environments
 1. click on import and select the file environment.yml
-1. choose the name of the environment (default is pytools4dart)
+1. choose the name of the environment (default is `ptdvenv`)
 1. open your new environment ipython
 
 Once it is done, [configure](#configure) the package.
 
-If anything goes wrong, `venv` (change accordingly) can be removed with the following command, 
+If anything goes wrong, `ptdvenv` (change accordingly) can be removed with the following command, 
 leaving your computer in the state it was before installation:
-```bash
-conda env remove --name venv
+```commandline
+conda env remove --name ptdvenv
 ``` 
 
 _Note: in case an error occurs, see section [Known errors](#known-errors)._
@@ -87,13 +89,13 @@ cd myproject
 Create a virtual environment, e.g. named `venv` (use `-p` option to choose your python version as described
 [here](https://stackoverflow.com/questions/1534210/use-different-python-version-with-virtualenv)):
 ```commandline
-virtualenv venv
+virtualenv ptdvenv
 ```
-The virtual environment is contained in the directory `venv`.
+The virtual environment is contained in the directory `ptdvenv`.
 
 To activate it just execute script `activate`:
 ```commandline
-source venv/bin/activate
+source ptdvenv/bin/activate
 ```
 
 Install the python requirements:
@@ -121,6 +123,25 @@ pip install git+https://gitlab.com/pytools4dart/pytools4dart.git
 ```
 
 
+## Check environment
+
+Anaconda does not display any message when a pip package is not well installed.
+Thus, after activating the environment, it is recommended to check if the environment is complete,
+loading the pip packages within a python session:
+```python
+import generateDS
+import tinyobj
+import gdecomp
+import laspy
+import pytools4dart
+```
+If any of these package is cannot be imported correctly, it should be uninstalled and installed again, e.g. for generateDS
+(see [environment.yml](https://gitlab.com/pytools4dart/pytools4dart/blob/master/environment.yml) for the other packages):
+```commandline
+pip uninstall generateDS
+pip install git+https://gitlab.irstea.fr/florian.deboissieu/generateds.git
+```
+
 ## Configure
 
 The API of `pytools4dart` is generated automatically depending on DART version.
@@ -129,24 +150,32 @@ where `DART_directory` is the path to DART directory (usually `~/DART`):
 
 ```python
 import pytools4dart as ptd
-ptd.configure('DART_directory')
+ptd.configure(r'DART_directory')
 ```
 
 The API of pytools4dart can be re-configured at any time (e.g. changing DART version)
 with the two commands above.
 
 
-## Test installation
+## Test configuration
 
-The installation can be tested with the package [examples](https://gitlab.com/pytools4dart/pytools4dart/tree/master/examples).   
+The configuration can be tested with the package [examples](https://gitlab.com/pytools4dart/pytools4dart/tree/master/examples).   
 
-After copying the examples to local files, within the terminal (or Anaconda prompt) try:
+After downloading the examples, within the terminal (or Anaconda prompt) try:
 ```commandline
 python use_case_0.py
 python use_case_1.py
 python use_case_2.py
+python use_case_4.py
 ```
 They should execute without error.
+
+File [`forest.vox`](https://gitlab.com/pytools4dart/pytools4dart/tree/master/data/forest.vox)
+is needed to run `use_case_3.py`. Download file and define its path in variable `voxfile` within `use_case_3.py`.
+Then run script as usual:
+```commandline
+python use_case_3.py
+```  
 
 ## DART
 
@@ -173,18 +202,24 @@ sed -i 's/\$DART_HOME\/bin\/jre\/bin\/java/$DART_HOME\/bin\/jre\/bin\/java\ -Dja
 
 ## Uninstall
 
-To uninstall package:
+To uninstall package (and keep environment):
 ```commandline
 pip uninstall pytools4dart
 ```
 
-To uninstall environment, remove virtual environment directory.
+To uninstall environment (leaving your computer in the state it was before installation)
+remove virtual environment directory.
 
-- in conda: 
-- in virtualenv: deactivate `venv` and suppress the directory `venv`
+- in conda: deactivate `ptdvenv` environment and remove it 
+```commandline
+conda deactivate
+conda env remove -n ptdvenv
+
+```
+- in virtualenv: deactivate `ptdvenv` and suppress the environment directory `ptdvenv`
 ```commandline
 deactivate
-rm -r venv
+rm -r ptdvenv
 ```
 
 
