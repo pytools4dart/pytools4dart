@@ -1,20 +1,21 @@
-name: pytools4dart
+name: ptdvenv
 channels:
-    - conda-forge
+  - conda-forge
 dependencies:
+  - cython
   - gdal
-  - libspatialindex
-  - rtree
   - geopandas
+  - git
+  - ipython
+  - libspatialindex
+  - lmfit
   - lxml
   - matplotlib
-  - plyfile
-  - scipy
-  - pybind11
-  - cython
-  - lmfit
-  - ipython
   - pip
+  - plyfile
+  - pybind11
+  - rtree
+  - scipy
   - pip:
       - git+https://gitlab.irstea.fr/florian.deboissieu/generateds.git
       - git+https://gitlab.irstea.fr/florian.deboissieu/tinyobj.git
