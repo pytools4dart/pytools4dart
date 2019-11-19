@@ -3,8 +3,11 @@
 # PROGRAMMERS:
 #
 # Eric Chraibi <eric.chraibi@irstea.fr>
-# https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
+# https://gitlab.com/pytools4dart/pytools4dart
 #
+# COPYRIGHT:
+#
+# Copyright 2018-2019 Florian de Boissieu
 #
 # This file is part of the pytools4dart package.
 #

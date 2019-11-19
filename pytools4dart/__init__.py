@@ -1,9 +1,13 @@
+# -*- coding: utf-8 -*-
 # ===============================================================================
 # PROGRAMMERS:
 #
-# Eric Chraibi <eric.chraibi@irstea.fr>, Florian de Boissieu <fdeboiss@gmail.com>
-# https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
+# Florian de Boissieu <fdeboiss@gmail.com>, Eric Chraibi <eric.chraibi@irstea.fr>
+# https://gitlab.com/pytools4dart/pytools4dart
 #
+# COPYRIGHT:
+#
+# Copyright 2018-2019 Florian de Boissieu
 #
 # This file is part of the pytools4dart package.
 #

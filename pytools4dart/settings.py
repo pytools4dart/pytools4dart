@@ -4,8 +4,11 @@
 #
 # Florian de Boissieu <fdeboiss@gmail.com>
 # Eric Chavanon <eric.chavanon@cesbio.cnes.fr> : contribution for python 3 compatibility
-# https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
+# https://gitlab.com/pytools4dart/pytools4dart
 #
+# COPYRIGHT:
+#
+# Copyright 2018-2019 Florian de Boissieu
 #
 # This file is part of the pytools4dart package.
 #
