@@ -4,8 +4,11 @@
 # 
 # Florian de Boissieu <florian.deboissieu@irstea.fr>
 # Eric Chraibi <eric.chraibi@irstea.fr>
-# https://gitlab.irstea.fr/florian.deboissieu/pytools4dart
+# https://gitlab.com/pytools4dart/pytools4dart
 #
+# COPYRIGHT:
+#
+# Copyright 2018-2019 Florian de Boissieu
 #
 # This file is part of the pytools4dart package.
 #
@@ -53,11 +56,11 @@ setup(
     long_description='Python API for [DART radiative transfer simulator](http://www.cesbio.ups-tlse.fr/dart/index.php#/)',
 
     # Project's main homepage.
-    url='https://gitlab.irstea.fr/florian.deboissieu/pytools4dartMTD',
+    url='https://gitlab..com/pytools4dart/pytools4dart',
 
     # Author details
     author='Florian de Boissieu, Eric Chraibi, Claudia Lavalley, Dav Ebengo, Jean-Baptiste Féret',
-    author_email='florian.deboissieu@irstea.fr',
+    author_email='fdeboiss@gmail.com',
 
     # License
     license='GPLv3',
