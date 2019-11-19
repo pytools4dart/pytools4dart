@@ -1,11 +1,12 @@
-# 1.1
+# 1.1.0
 
 ## Fix
 - python 2 and 3 compatibility
 - windows compatibility
 
 ## Add
-- documentation website 
+- documentation website
+- configuration tests 
 
 
 # 1.0
@@ -16,7 +17,6 @@
 ## Change
 - change DART DAO .obj reader for C++ [tinyobj](https://gitlab.irstea.fr/florian.deboissieu/tinyobj.git),
 reads .obj x10 faster. Compatibility maintained without it.
-
 
 ## Add
 - 2D rotation and translation of voxel grid

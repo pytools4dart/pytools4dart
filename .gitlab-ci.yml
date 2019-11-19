@@ -38,7 +38,7 @@ build:conda:
     - cd $dest
     - ./install-text.sh $HOME/DART
     - cd $ptd
-    - cd examples
+    - cd pytools4dart/examples
     - python -c 'import pytools4dart as ptd;ptd.configure("~/DART")'
     - python use_case_0.py
     - python use_case_1.py
@@ -71,7 +71,7 @@ build:pip:
   - pip install pybind11 pygdal==2.4.0.5 geopandas Cython
   - pip install -r requirements.txt
   - pip install .
-  - cd examples
+  - cd pytools4dart/examples
   - python -c 'import pytools4dart as ptd;ptd.configure("~/DART")'
   - python use_case_0.py
   - python use_case_1.py

@@ -159,23 +159,26 @@ with the two commands above.
 
 ## Test configuration
 
-The configuration can be tested with the package [examples](https://gitlab.com/pytools4dart/pytools4dart/tree/master/examples).   
+The configuration can be tested within the terminal (or Anaconda prompt):
+```commandline
+py.test --pyargs pytools4dart -s
+```
+It will run all [examples](https://gitlab.com/pytools4dart/pytools4dart/tree/master/pytools4dart/examples).
+It should end with a test passed and a warning on `imp` package. 
 
-After downloading the examples, within the terminal (or Anaconda prompt) try:
+
+Otherwise, each use case can be run downloading the scripts and executing them in the terminal (or Anaconda prompt) try:
 ```commandline
 python use_case_0.py
 python use_case_1.py
 python use_case_2.py
+python use_case_3.py
 python use_case_4.py
 ```
 They should execute without error.
 
 File [`forest.vox`](https://gitlab.com/pytools4dart/pytools4dart/tree/master/data/forest.vox)
 is needed to run `use_case_3.py`. Download file and define its path in variable `voxfile` within `use_case_3.py`.
-Then run script as usual:
-```commandline
-python use_case_3.py
-```  
 
 ## DART
 

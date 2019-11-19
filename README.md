@@ -48,7 +48,7 @@ Many variables are pandas DataFrame objects, and can be directly
 interacted with by the user.        
 
 Check [website](https://pytools4dart.gitlab.io/pytools4dart) for details and user guides.
-Use cases are also available in directory `examples`.
+Example scripts are available in [here](https://gitlab.com/pytools4dart/pytools4dart/pytools4dart/examples).
 
 ## Citation
 
@@ -60,10 +60,10 @@ pytools4dart: Python API to DART Radiative Transfer Simulator. https://gitlab.co
 
 ## Authors
 
-Florian de Boissieu <florian.deboissieu@irstea.fr>
-Eric Chraibi <eric.chraibi@irstea.fr>
-Claudia Lavalley <claudia.lavalley@irstea.fr>
-Jean-Baptiste Féret <jean-baptiste.feret@irstea.fr>
+- Florian de Boissieu <florian.deboissieu@irstea.fr>
+- Eric Chraibi <eric.chraibi@irstea.fr>
+- Claudia Lavalley <claudia.lavalley@irstea.fr>
+- Jean-Baptiste Féret <jean-baptiste.feret@irstea.fr>
 
 ## License
 

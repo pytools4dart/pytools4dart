@@ -16,6 +16,7 @@ dependencies:
   - pybind11
   - rtree
   - scipy
+  - pytest
   - pip:
       - git+https://gitlab.irstea.fr/florian.deboissieu/generateds.git
       - git+https://gitlab.irstea.fr/florian.deboissieu/tinyobj.git
