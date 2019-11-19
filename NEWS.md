@@ -1,4 +1,4 @@
-# 1.1.0
+# 1.1
 
 ## Fix
 - python 2 and 3 compatibility
