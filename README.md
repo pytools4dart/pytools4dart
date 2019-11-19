@@ -55,12 +55,12 @@ Example scripts are available in [here](https://gitlab.com/pytools4dart/pytools4
 If you use __pytools4dart__, please cite the following references:
 
 Florian de Boissieu, Eric Chraibi, Claudia Lavalley, and Jean-Baptiste Féret, 2019, 
-pytools4dart: Python API to DART Radiative Transfer Simulator. https://gitlab.com/pytools4dart/pytools4dartMTD.
+pytools4dart: Python API to DART Radiative Transfer Simulator. https://gitlab.com/pytools4dart/pytools4dart.
 
 
 ## Authors
 
-- Florian de Boissieu <florian.deboissieu@irstea.fr>
+- Florian de Boissieu <fdeboiss@gmail.com>
 - Eric Chraibi <eric.chraibi@irstea.fr>
 - Claudia Lavalley <claudia.lavalley@irstea.fr>
 - Jean-Baptiste Féret <jean-baptiste.feret@irstea.fr>
