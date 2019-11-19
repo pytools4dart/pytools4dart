@@ -58,28 +58,6 @@ Florian de Boissieu, Eric Chraibi, Claudia Lavalley, and Jean-Baptiste Féret, 2
 pytools4dart: Python API to DART Radiative Transfer Simulator. https://gitlab.com/pytools4dart/pytools4dart.
 
 
-## Authors
-
-- Florian de Boissieu <fdeboiss@gmail.com>
-- Eric Chraibi <eric.chraibi@irstea.fr>
-- Claudia Lavalley <claudia.lavalley@irstea.fr>
-- Jean-Baptiste Féret <jean-baptiste.feret@irstea.fr>
-
-## License
-
-*pytools4dart* is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>
-
 ## Acknowledgments
 
 The development was partially supported by CNES TOSCA program for Hypertropik project,
