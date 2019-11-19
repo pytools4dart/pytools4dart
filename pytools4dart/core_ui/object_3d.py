@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Sun Mar 31 19:31:20 2019 by generateDS.py version 2.29.25.
-# Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
+# Generated Tue Nov 19 15:08:17 2019 by generateDS.py version 2.29.25.
+# Python 3.6.7 | packaged by conda-forge | (default, Nov  6 2019, 16:19:42)  [GCC 7.3.0]
 #
 # Command line options:
 #   ('-m', '')
@@ -16,13 +16,13 @@
 #   ('--pre-ctor', "self.troot=get_gs_troot('object_3d','{classname}')")
 #   ('--post-ctor', "update_node(self,self.troot,'object_3d')")
 #   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes')
-#   ('-o', '/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/object_3d.py')
+#   ('-o', '/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/object_3d.py')
 #
 # Command line arguments:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/object_3d.xsd
+#   /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/object_3d.xsd
 #
 # Command line:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'object_3d')" --pre-ctor="self.troot=get_gs_troot('object_3d','{classname}')" --post-ctor="update_node(self,self.troot,'object_3d')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/object_3d.py" /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/object_3d.xsd
+#   /home/boissieu/anaconda3/envs/pytools4dart/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'object_3d')" --pre-ctor="self.troot=get_gs_troot('object_3d','{classname}')" --post-ctor="update_node(self,self.troot,'object_3d')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/object_3d.py" /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/object_3d.xsd
 #
 # Current working directory (os.getcwd()):
 #   pytools4dart
@@ -747,11 +747,11 @@ class createDartFile(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('version', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('build_', 'xsd:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('object_3d', '_object_3d', 0, 0, {u'maxOccurs': u'1', u'type': u'_object_3d', u'name': u'object_3d', u'minOccurs': u'1'}, None),
+        MemberSpec_('object_3d', '_object_3d', 0, 0, {'name': 'object_3d', 'type': '_object_3d', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
-    def __init__(self, version='5.7.4', build_='0', object_3d=None):
+    def __init__(self, version='5.7.5', build_='0', object_3d=None):
         self.original_tagname_ = None
         self.troot=get_gs_troot('object_3d','DartFile')
         self.attrib = ['version', 'build_']
@@ -941,9 +941,9 @@ class create_object_3d(GeneratedsSuper):
     objects triangles file as an XML file."""
     member_data_items_ = [
         MemberSpec_('generateTriangleFileXML', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Types', '_Types', 0, 0, {u'maxOccurs': u'1', u'type': u'_Types', u'name': u'Types', u'minOccurs': u'1'}, None),
-        MemberSpec_('ObjectList', '_ObjectList', 0, 0, {u'maxOccurs': u'1', u'type': u'_ObjectList', u'name': u'ObjectList', u'minOccurs': u'1'}, None),
-        MemberSpec_('ObjectFields', '_ObjectFields', 0, 0, {u'maxOccurs': u'1', u'type': u'_ObjectFields', u'name': u'ObjectFields', u'minOccurs': u'1'}, None),
+        MemberSpec_('Types', '_Types', 0, 0, {'name': 'Types', 'type': '_Types', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ObjectList', '_ObjectList', 0, 0, {'name': 'ObjectList', 'type': '_ObjectList', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ObjectFields', '_ObjectFields', 0, 0, {'name': 'ObjectFields', 'type': '_ObjectFields', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -1168,8 +1168,8 @@ class create_object_3d(GeneratedsSuper):
 
 class create_Types(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('DefaultTypes', '_DefaultTypes', 0, 0, {u'maxOccurs': u'1', u'type': u'_DefaultTypes', u'name': u'DefaultTypes', u'minOccurs': u'1'}, None),
-        MemberSpec_('CustomTypes', '_CustomTypes', 0, 0, {u'maxOccurs': u'1', u'type': u'_CustomTypes', u'name': u'CustomTypes', u'minOccurs': u'1'}, None),
+        MemberSpec_('DefaultTypes', '_DefaultTypes', 0, 0, {'name': 'DefaultTypes', 'type': '_DefaultTypes', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('CustomTypes', '_CustomTypes', 0, 0, {'name': 'CustomTypes', 'type': '_CustomTypes', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -1350,7 +1350,7 @@ class create_Types(GeneratedsSuper):
 
 class create_DefaultTypes(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('DefaultType', '_DefaultType', 1, 0, {u'maxOccurs': u'2', u'type': u'_DefaultType', u'name': u'DefaultType', u'minOccurs': u'2'}, None),
+        MemberSpec_('DefaultType', '_DefaultType', 1, 0, {'name': 'DefaultType', 'type': '_DefaultType', 'minOccurs': '2', 'maxOccurs': '2'}, None),
     ]
     subclass = None
     superclass = None
@@ -1722,7 +1722,7 @@ class create_DefaultType(GeneratedsSuper):
 
 class create_CustomTypes(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('Type', '_Type', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_Type', u'name': u'Type', u'minOccurs': u'0'}, None),
+        MemberSpec_('Type', '_Type', 1, 1, {'name': 'Type', 'type': '_Type', 'minOccurs': '0', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -2090,7 +2090,7 @@ class create_Type(GeneratedsSuper):
 
 class create_ObjectList(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('Object', '_Object', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_Object', u'name': u'Object', u'minOccurs': u'0'}, None),
+        MemberSpec_('Object', '_Object', 1, 1, {'name': 'Object', 'type': '_Object', 'minOccurs': '0', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -2268,9 +2268,9 @@ class create_Object(GeneratedsSuper):
     element of the DEM. Defines how this object behaves toward the
     DEM, including being an element of the DEM. Object's name.
     (optional) Object's name. (optional) Objects's positions are
-    taken from the position file.\nDesactivate this option if you
+    taken from the position file. Desactivate this option if you
     experience some slowdown. Objects's positions are taken from the
-    position file.\nDesactivate this option if you experience some
+    position file. Desactivate this option if you experience some
     slowdown. DO NOT MODIFY! DO NOT MODIFY! Identifier designing
     this object in this object's internal 3D representation.
     Identifier designing this object in this object's internal 3D
@@ -2281,15 +2281,15 @@ class create_Object(GeneratedsSuper):
     Editor's 2D view. Does not affect the results from the software.
     Color of this object in the Editor's 2D view. Does not affect
     the results from the software. If you select this option, this
-    object 3d are not use in all DART modules, \n it's useful if you
+    object 3d are not use in all DART modules, it's useful if you
     want conserve object 3d properties backup without delete this
     for tests If you select this option, this object 3d are not use
-    in all DART modules, \n it's useful if you want conserve object
-    3d properties backup without delete this for tests If part of
-    the object goes beyond the border of the scene, this part is
-    copied on the other side of the scene. If part of the object
-    goes beyond the border of the scene, this part is copied on the
-    other side of the scene."""
+    in all DART modules, it's useful if you want conserve object 3d
+    properties backup without delete this for tests If part of the
+    object goes beyond the border of the scene, this part is copied
+    on the other side of the scene. If part of the object goes
+    beyond the border of the scene, this part is copied on the other
+    side of the scene."""
     member_data_items_ = [
         MemberSpec_('objectDEMMode', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('name', 'xsd:string', 0, 1, {'use': 'optional'}),
@@ -2300,10 +2300,10 @@ class create_Object(GeneratedsSuper):
         MemberSpec_('objectColor', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('hidden', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('repeatedOnBorder', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('GeometricProperties', '_GeometricProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_GeometricProperties', u'name': u'GeometricProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('ObjectOpticalProperties', '_ObjectOpticalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_ObjectOpticalProperties', u'name': u'ObjectOpticalProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('ObjectTypeProperties', '_ObjectTypeProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_ObjectTypeProperties', u'name': u'ObjectTypeProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('Groups', '_Groups', 0, 0, {u'maxOccurs': u'1', u'type': u'_Groups', u'name': u'Groups', u'minOccurs': u'1'}, None),
+        MemberSpec_('GeometricProperties', '_GeometricProperties', 0, 0, {'name': 'GeometricProperties', 'type': '_GeometricProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ObjectOpticalProperties', '_ObjectOpticalProperties', 0, 0, {'name': 'ObjectOpticalProperties', 'type': '_ObjectOpticalProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ObjectTypeProperties', '_ObjectTypeProperties', 0, 0, {'name': 'ObjectTypeProperties', 'type': '_ObjectTypeProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Groups', '_Groups', 0, 0, {'name': 'Groups', 'type': '_Groups', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -2720,10 +2720,10 @@ class create_Object(GeneratedsSuper):
 
 class create_GeometricProperties(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('PositionProperties', '_PositionProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_PositionProperties', u'name': u'PositionProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('Dimension3D', '_Dimension3D', 0, 0, {u'maxOccurs': u'1', u'type': u'_Dimension3D', u'name': u'Dimension3D', u'minOccurs': u'1'}, None),
-        MemberSpec_('ScaleProperties', '_ScaleProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_ScaleProperties', u'name': u'ScaleProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('RotationProperties', '_RotationProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_RotationProperties', u'name': u'RotationProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('PositionProperties', '_PositionProperties', 0, 0, {'name': 'PositionProperties', 'type': '_PositionProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Dimension3D', '_Dimension3D', 0, 0, {'name': 'Dimension3D', 'type': '_Dimension3D', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ScaleProperties', '_ScaleProperties', 0, 0, {'name': 'ScaleProperties', 'type': '_ScaleProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('RotationProperties', '_RotationProperties', 0, 0, {'name': 'RotationProperties', 'type': '_RotationProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -3151,21 +3151,20 @@ class create_PositionProperties(GeneratedsSuper):
 
 
 class create_Dimension3D(GeneratedsSuper):
-    """Object's original dimension on the Z axis, before scaling.\n To
+    """Object's original dimension on the Z axis, before scaling. To
     multiply by the scaling factor on the Z axis to get the final
     dimension in Maket. Object's original dimension on the Z axis,
-    before scaling.\n To multiply by the scaling factor on the Z
-    axis to get the final dimension in Maket. Object's original
-    dimension on the Y axis, before scaling.\n To multiply by the
-    scaling factor on the Y axis to get the final dimension in
-    Maket. Object's original dimension on the Y axis, before
-    scaling.\n To multiply by the scaling factor on the Y axis to
-    get the final dimension in Maket. Object's original dimension on
-    the X axis, before scaling.\n To multiply by the scaling factor
-    on the X axis to get the final dimension in Maket. Object's
-    original dimension on the X axis, before scaling.\n To multiply
-    by the scaling factor on the X axis to get the final dimension
-    in Maket."""
+    before scaling. To multiply by the scaling factor on the Z axis
+    to get the final dimension in Maket. Object's original dimension
+    on the Y axis, before scaling. To multiply by the scaling factor
+    on the Y axis to get the final dimension in Maket. Object's
+    original dimension on the Y axis, before scaling. To multiply by
+    the scaling factor on the Y axis to get the final dimension in
+    Maket. Object's original dimension on the X axis, before
+    scaling. To multiply by the scaling factor on the X axis to get
+    the final dimension in Maket. Object's original dimension on the
+    X axis, before scaling. To multiply by the scaling factor on the
+    X axis to get the final dimension in Maket."""
     member_data_items_ = [
         MemberSpec_('zdim', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('ydim', 'xsd:double', 0, 1, {'use': 'optional'}),
@@ -3364,18 +3363,18 @@ class create_ScaleProperties(GeneratedsSuper):
     """Standard deviation used to compute the Gauss probability of the
     object's scale on the Y axis. Standard deviation used to compute
     the Gauss probability of the object's scale on the Y axis.
-    Object's scaling factor on the Z axis.\nDefault value: 1
-    Object's scaling factor on the Z axis.\nDefault value: 1
-    Object's scaling factor on the X axis.\nDefault value: 1
-    Object's scaling factor on the X axis.\nDefault value: 1
-    Object's scaling factor on the Y axis.\nDefault value: 1
-    Object's scaling factor on the Y axis.\nDefault value: 1
-    Standard deviation used to compute the Gauss probability of the
-    object's scale on the X axis. Standard deviation used to compute
-    the Gauss probability of the object's scale on the X axis.
-    Standard deviation used to compute the Gauss probability of the
-    object's scale on the Z axis. Standard deviation used to compute
-    the Gauss probability of the object's scale on the Z axis."""
+    Object's scaling factor on the Z axis. Default value: 1 Object's
+    scaling factor on the Z axis. Default value: 1 Object's scaling
+    factor on the X axis. Default value: 1 Object's scaling factor
+    on the X axis. Default value: 1 Object's scaling factor on the Y
+    axis. Default value: 1 Object's scaling factor on the Y axis.
+    Default value: 1 Standard deviation used to compute the Gauss
+    probability of the object's scale on the X axis. Standard
+    deviation used to compute the Gauss probability of the object's
+    scale on the X axis. Standard deviation used to compute the
+    Gauss probability of the object's scale on the Z axis. Standard
+    deviation used to compute the Gauss probability of the object's
+    scale on the Z axis."""
     member_data_items_ = [
         MemberSpec_('yScaleDeviation', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('zscale', 'xsd:double', 0, 1, {'use': 'optional'}),
@@ -3643,30 +3642,29 @@ class create_RotationProperties(GeneratedsSuper):
     """Standard deviation used to compute the Gauss probability of the
     object's intrinsic rotation. Standard deviation used to compute
     the Gauss probability of the object's intrinsic rotation.
-    Defines the rotation angle of the object on itself.\nAccepted
-    angles are in the range [0,360[. Default value: 0.\nYou can use
+    Defines the rotation angle of the object on itself. Accepted
+    angles are in the range [0,360[. Default value: 0. You can use
     the 3D View in the Object/Model node to gauge the effect of the
-    field. Defines the rotation angle of the object on
-    itself.\nAccepted angles are in the range [0,360[. Default
-    value: 0.\nYou can use the 3D View in the Object/Model node to
-    gauge the effect of the field. Defines the orientation angle of
-    the inclination of the object.\nThe orientation is applied
-    counter-clockwise (South(0\u00B0)-East(90\u00B0)-North(180\u00B0
-    )-West(270\u00B0))\nAccepted angles are in the range [0,360[.
-    Default value: 0.\nYou can use the 3D View in the Object node to
-    gauge the effect of the field. Defines the orientation angle of
-    the inclination of the object.\nThe orientation is applied
-    counter-clockwise (South(0\u00B0)-East(90\u00B0)-North(180\u00B0
-    )-West(270\u00B0))\nAccepted angles are in the range [0,360[.
-    Default value: 0.\nYou can use the 3D View in the Object node to
-    gauge the effect of the field. Defines the inclination angle of
-    the object.\nThe tip of the object will point toward the
-    South.\nAccepted angles are in the range [0,180]. Default value:
-    0.\nYou can use the 3D View in the Object node to gauge the
-    effect of the field. Defines the inclination angle of the
-    object.\nThe tip of the object will point toward the
-    South.\nAccepted angles are in the range [0,180]. Default value:
-    0.\nYou can use the 3D View in the Object node to gauge the
+    field. Defines the rotation angle of the object on itself.
+    Accepted angles are in the range [0,360[. Default value: 0. You
+    can use the 3D View in the Object/Model node to gauge the effect
+    of the field. Defines the orientation angle of the inclination
+    of the object. The orientation is applied counter-clockwise
+    (South(0°)-East(90°)-North(180°)-West(270°)) Accepted angles are
+    in the range [0,360[. Default value: 0. You can use the 3D View
+    in the Object node to gauge the effect of the field. Defines the
+    orientation angle of the inclination of the object. The
+    orientation is applied counter-clockwise
+    (South(0°)-East(90°)-North(180°)-West(270°)) Accepted angles are
+    in the range [0,360[. Default value: 0. You can use the 3D View
+    in the Object node to gauge the effect of the field. Defines the
+    inclination angle of the object. The tip of the object will
+    point toward the South. Accepted angles are in the range
+    [0,180]. Default value: 0. You can use the 3D View in the Object
+    node to gauge the effect of the field. Defines the inclination
+    angle of the object. The tip of the object will point toward the
+    South. Accepted angles are in the range [0,180]. Default value:
+    0. You can use the 3D View in the Object node to gauge the
     effect of the field. Standard deviation used to compute the
     Gauss probability of the object's precession. Standard deviation
     used to compute the Gauss probability of the object's
@@ -3938,19 +3936,19 @@ class create_RotationProperties(GeneratedsSuper):
 
 class create_ObjectOpticalProperties(GeneratedsSuper):
     """Use for computing LAI Use for computing LAI Force groups converted
-    into turbid volumes to a single combined LAI.\nIf no group is
+    into turbid volumes to a single combined LAI. If no group is
     converted, the value is ignored. Force groups converted into
-    turbid volumes to a single combined LAI.\nIf no group is
+    turbid volumes to a single combined LAI. If no group is
     converted, the value is ignored. Apply this optical property to
-    all this object's elements.\nReplace any previously defined
+    all this object's elements. Replace any previously defined
     property. Apply this optical property to all this object's
-    elements.\nReplace any previously defined property. Check this
+    elements. Replace any previously defined property. Check this
     option if you want to apply optical properties on each face of
-    the triangles that make up the 3D object.\nIf this option is
+    the triangles that make up the 3D object. If this option is
     unchecked, a ray incident on the triangle face opposite to the
     triangle normal is stopped/lost, whatever the DART mode (R or
     T). Check this option if you want to apply optical properties on
-    each face of the triangles that make up the 3D object.\nIf this
+    each face of the triangles that make up the 3D object. If this
     option is unchecked, a ray incident on the triangle face
     opposite to the triangle normal is stopped/lost, whatever the
     DART mode (R or T)."""
@@ -3959,13 +3957,13 @@ class create_ObjectOpticalProperties(GeneratedsSuper):
         MemberSpec_('isSingleGlobalLai', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('sameOPObject', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('doubleFace', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('PropertiesForObject3DTurbidWithLAD', '_PropertiesForObject3DTurbidWithLAD', 0, 0, {u'maxOccurs': u'1', u'type': u'_PropertiesForObject3DTurbidWithLAD', u'name': u'PropertiesForObject3DTurbidWithLAD', u'minOccurs': u'1'}, None),
-        MemberSpec_('PropertiesForObject3DTurbid', '_PropertiesForObject3DTurbid', 0, 0, {u'maxOccurs': u'1', u'type': u'_PropertiesForObject3DTurbid', u'name': u'PropertiesForObject3DTurbid', u'minOccurs': u'1'}, None),
-        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('BackFaceOpticalProperty', '_BackFaceOpticalProperty', 0, 0, {u'maxOccurs': u'1', u'type': u'_BackFaceOpticalProperty', u'name': u'BackFaceOpticalProperty', u'minOccurs': u'1'}, None),
-        MemberSpec_('BackFaceThermalProperty', '_BackFaceThermalProperty', 0, 0, {u'maxOccurs': u'1', u'type': u'_BackFaceThermalProperty', u'name': u'BackFaceThermalProperty', u'minOccurs': u'1'}, None),
-        MemberSpec_('SingleGlobalLAIPropertyNode', '_SingleGlobalLAIPropertyNode', 0, 0, {u'maxOccurs': u'1', u'type': u'_SingleGlobalLAIPropertyNode', u'name': u'SingleGlobalLAIPropertyNode', u'minOccurs': u'1'}, None),
+        MemberSpec_('PropertiesForObject3DTurbidWithLAD', '_PropertiesForObject3DTurbidWithLAD', 0, 0, {'name': 'PropertiesForObject3DTurbidWithLAD', 'type': '_PropertiesForObject3DTurbidWithLAD', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('PropertiesForObject3DTurbid', '_PropertiesForObject3DTurbid', 0, 0, {'name': 'PropertiesForObject3DTurbid', 'type': '_PropertiesForObject3DTurbid', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {'name': 'OpticalPropertyLink', 'type': '_OpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {'name': 'ThermalPropertyLink', 'type': '_ThermalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('BackFaceOpticalProperty', '_BackFaceOpticalProperty', 0, 0, {'name': 'BackFaceOpticalProperty', 'type': '_BackFaceOpticalProperty', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('BackFaceThermalProperty', '_BackFaceThermalProperty', 0, 0, {'name': 'BackFaceThermalProperty', 'type': '_BackFaceThermalProperty', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('SingleGlobalLAIPropertyNode', '_SingleGlobalLAIPropertyNode', 0, 0, {'name': 'SingleGlobalLAIPropertyNode', 'type': '_SingleGlobalLAIPropertyNode', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -4356,9 +4354,9 @@ class create_ObjectOpticalProperties(GeneratedsSuper):
 
 class create_PropertiesForObject3DTurbidWithLAD(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('VegetationOpticalPropertyLink', '_VegetationOpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_VegetationOpticalPropertyLink', u'name': u'VegetationOpticalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('LAIPropertyNode', '_LAIPropertyNode', 0, 0, {u'maxOccurs': u'1', u'type': u'_LAIPropertyNode', u'name': u'LAIPropertyNode', u'minOccurs': u'1'}, None),
+        MemberSpec_('VegetationOpticalPropertyLink', '_VegetationOpticalPropertyLink', 0, 0, {'name': 'VegetationOpticalPropertyLink', 'type': '_VegetationOpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {'name': 'ThermalPropertyLink', 'type': '_ThermalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('LAIPropertyNode', '_LAIPropertyNode', 0, 0, {'name': 'LAIPropertyNode', 'type': '_LAIPropertyNode', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -4914,9 +4912,9 @@ class create_LAIPropertyNode(GeneratedsSuper):
     to obtain the desired LAI or total leaf area."""
     member_data_items_ = [
         MemberSpec_('forcedLAI', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('MultiplicativeLAINode', '_MultiplicativeLAINode', 0, 0, {u'maxOccurs': u'1', u'type': u'_MultiplicativeLAINode', u'name': u'MultiplicativeLAINode', u'minOccurs': u'1'}, None),
-        MemberSpec_('ForcedLAINode', '_ForcedLAINode', 0, 0, {u'maxOccurs': u'1', u'type': u'_ForcedLAINode', u'name': u'ForcedLAINode', u'minOccurs': u'1'}, None),
-        MemberSpec_('ForcedTotalSurfaceNode', '_ForcedTotalSurfaceNode', 0, 0, {u'maxOccurs': u'1', u'type': u'_ForcedTotalSurfaceNode', u'name': u'ForcedTotalSurfaceNode', u'minOccurs': u'1'}, None),
+        MemberSpec_('MultiplicativeLAINode', '_MultiplicativeLAINode', 0, 0, {'name': 'MultiplicativeLAINode', 'type': '_MultiplicativeLAINode', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ForcedLAINode', '_ForcedLAINode', 0, 0, {'name': 'ForcedLAINode', 'type': '_ForcedLAINode', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ForcedTotalSurfaceNode', '_ForcedTotalSurfaceNode', 0, 0, {'name': 'ForcedTotalSurfaceNode', 'type': '_ForcedTotalSurfaceNode', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -5141,10 +5139,10 @@ class create_LAIPropertyNode(GeneratedsSuper):
 
 class create_MultiplicativeLAINode(GeneratedsSuper):
     """Apply the given multiplicative factor to the LAI computed by Maket
-    for this group/object.\nFor example, the LAI for needle of pine
+    for this group/object. For example, the LAI for needle of pine
     trees is half (so 0.5) the area of the needle divided by the
     projected area on the ground. Apply the given multiplicative
-    factor to the LAI computed by Maket for this group/object.\nFor
+    factor to the LAI computed by Maket for this group/object. For
     example, the LAI for needle of pine trees is half (so 0.5) the
     area of the needle divided by the projected area on the ground."""
     member_data_items_ = [
@@ -5600,18 +5598,18 @@ class create_ForcedTotalSurfaceNode(GeneratedsSuper):
 class create_PropertiesForObject3DTurbid(GeneratedsSuper):
     """indexPremiereFctPhase indexPremiereFctPhase the 3D object group will
     be transformed into turbid cells with ellipsoidal phase
-    functions\n Each phase function is characterized by a ALA value,
+    functions Each phase function is characterized by a ALA value,
     the accuracy of which depends on number of angular sector. the
     3D object group will be transformed into turbid cells with
-    ellipsoidal phase functions\n Each phase function is
-    characterized by a ALA value, the accuracy of which depends on
-    number of angular sector."""
+    ellipsoidal phase functions Each phase function is characterized
+    by a ALA value, the accuracy of which depends on number of
+    angular sector."""
     member_data_items_ = [
         MemberSpec_('indexPremiereFctPhase', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('ALAsegmentation', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('VegetationOpticalPropertyLink', '_VegetationOpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_VegetationOpticalPropertyLink', u'name': u'VegetationOpticalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('LAIPropertyNode', '_LAIPropertyNode', 0, 0, {u'maxOccurs': u'1', u'type': u'_LAIPropertyNode', u'name': u'LAIPropertyNode', u'minOccurs': u'1'}, None),
+        MemberSpec_('VegetationOpticalPropertyLink', '_VegetationOpticalPropertyLink', 0, 0, {'name': 'VegetationOpticalPropertyLink', 'type': '_VegetationOpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {'name': 'ThermalPropertyLink', 'type': '_ThermalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('LAIPropertyNode', '_LAIPropertyNode', 0, 0, {'name': 'LAIPropertyNode', 'type': '_LAIPropertyNode', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -6058,7 +6056,7 @@ class create_OpticalPropertyLink(GeneratedsSuper):
 
 class create_BackFaceOpticalProperty(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {'name': 'OpticalPropertyLink', 'type': '_OpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -6214,7 +6212,7 @@ class create_BackFaceOpticalProperty(GeneratedsSuper):
 
 class create_BackFaceThermalProperty(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {'name': 'ThermalPropertyLink', 'type': '_ThermalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -6372,8 +6370,8 @@ class create_SingleGlobalLAIPropertyNode(GeneratedsSuper):
     """LAI Definition LAI Definition"""
     member_data_items_ = [
         MemberSpec_('laiDefinition', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('ForcedLAINode', '_ForcedLAINode', 0, 0, {u'maxOccurs': u'1', u'type': u'_ForcedLAINode', u'name': u'ForcedLAINode', u'minOccurs': u'1'}, None),
-        MemberSpec_('ForcedTotalSurfaceNode', '_ForcedTotalSurfaceNode', 0, 0, {u'maxOccurs': u'1', u'type': u'_ForcedTotalSurfaceNode', u'name': u'ForcedTotalSurfaceNode', u'minOccurs': u'1'}, None),
+        MemberSpec_('ForcedLAINode', '_ForcedLAINode', 0, 0, {'name': 'ForcedLAINode', 'type': '_ForcedLAINode', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ForcedTotalSurfaceNode', '_ForcedTotalSurfaceNode', 0, 0, {'name': 'ForcedTotalSurfaceNode', 'type': '_ForcedTotalSurfaceNode', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -6572,13 +6570,13 @@ class create_SingleGlobalLAIPropertyNode(GeneratedsSuper):
 
 
 class create_ObjectTypeProperties(GeneratedsSuper):
-    """Define the color/name at the object's level, to all its
-    groups.\nReplace any previously defined type. Define the
-    color/name at the object's level, to all its groups.\nReplace
-    any previously defined type."""
+    """Define the color/name at the object's level, to all its groups.
+    Replace any previously defined type. Define the color/name at
+    the object's level, to all its groups. Replace any previously
+    defined type."""
     member_data_items_ = [
         MemberSpec_('sameOTObject', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('ObjectTypeLink', '_ObjectTypeLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ObjectTypeLink', u'name': u'ObjectTypeLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('ObjectTypeLink', '_ObjectTypeLink', 0, 0, {'name': 'ObjectTypeLink', 'type': '_ObjectTypeLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -6924,7 +6922,7 @@ class create_ObjectTypeLink(GeneratedsSuper):
 
 class create_Groups(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('Group', '_Group', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_Group', u'name': u'Group', u'minOccurs': u'1'}, None),
+        MemberSpec_('Group', '_Group', 1, 0, {'name': 'Group', 'type': '_Group', 'minOccurs': '1', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -7105,12 +7103,12 @@ class create_Group(GeneratedsSuper):
     behaves toward the DEM, including being an element of the DEM.
     Defines how this group behaves toward the DEM, including being
     an element of the DEM. If you select this option, this group are
-    not use in all DART modules, \n it's useful if you want conserve
+    not use in all DART modules, it's useful if you want conserve
     group properties backup without delete this for tests If you
     select this option, this group are not use in all DART modules,
-    \n it's useful if you want conserve group properties backup
-    without delete this for tests Use for computing LAI Use for
-    computing LAI"""
+    it's useful if you want conserve group properties backup without
+    delete this for tests Use for computing LAI Use for computing
+    LAI"""
     member_data_items_ = [
         MemberSpec_('num', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('name', 'xsd:string', 0, 1, {'use': 'optional'}),
@@ -7118,11 +7116,11 @@ class create_Group(GeneratedsSuper):
         MemberSpec_('groupDEMMode', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('hidden', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('isLAICalc', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('PropertiesForObject3DTurbidWithLAD', '_PropertiesForObject3DTurbidWithLAD', 0, 0, {u'maxOccurs': u'1', u'type': u'_PropertiesForObject3DTurbidWithLAD', u'name': u'PropertiesForObject3DTurbidWithLAD', u'minOccurs': u'1'}, None),
-        MemberSpec_('PropertiesForObject3DTurbid', '_PropertiesForObject3DTurbid', 0, 0, {u'maxOccurs': u'1', u'type': u'_PropertiesForObject3DTurbid', u'name': u'PropertiesForObject3DTurbid', u'minOccurs': u'1'}, None),
-        MemberSpec_('GroupOpticalProperties', '_GroupOpticalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_GroupOpticalProperties', u'name': u'GroupOpticalProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('GroupTypeProperties', '_GroupTypeProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_GroupTypeProperties', u'name': u'GroupTypeProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('Elements', '_Elements', 0, 0, {u'maxOccurs': u'1', u'type': u'_Elements', u'name': u'Elements', u'minOccurs': u'1'}, None),
+        MemberSpec_('PropertiesForObject3DTurbidWithLAD', '_PropertiesForObject3DTurbidWithLAD', 0, 0, {'name': 'PropertiesForObject3DTurbidWithLAD', 'type': '_PropertiesForObject3DTurbidWithLAD', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('PropertiesForObject3DTurbid', '_PropertiesForObject3DTurbid', 0, 0, {'name': 'PropertiesForObject3DTurbid', 'type': '_PropertiesForObject3DTurbid', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('GroupOpticalProperties', '_GroupOpticalProperties', 0, 0, {'name': 'GroupOpticalProperties', 'type': '_GroupOpticalProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('GroupTypeProperties', '_GroupTypeProperties', 0, 0, {'name': 'GroupTypeProperties', 'type': '_GroupTypeProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Elements', '_Elements', 0, 0, {'name': 'Elements', 'type': '_Elements', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -7503,25 +7501,25 @@ class create_Group(GeneratedsSuper):
 
 
 class create_GroupOpticalProperties(GeneratedsSuper):
-    """Apply this optical property to all this group's elements.\nReplace
+    """Apply this optical property to all this group's elements. Replace
     any previously defined property. Apply this optical property to
-    all this group's elements.\nReplace any previously defined
+    all this group's elements. Replace any previously defined
     property. Check this option if you want to apply optical
     properties on each face of the triangles that make up the 3D
-    object.\nIf this option is unchecked, a ray incident on the
+    object. If this option is unchecked, a ray incident on the
     triangle face opposite to the triangle normal is stopped/lost,
     whatever the DART mode (R or T). Check this option if you want
     to apply optical properties on each face of the triangles that
-    make up the 3D object.\nIf this option is unchecked, a ray
+    make up the 3D object. If this option is unchecked, a ray
     incident on the triangle face opposite to the triangle normal is
     stopped/lost, whatever the DART mode (R or T)."""
     member_data_items_ = [
         MemberSpec_('sameOPGroup', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('doubleFace', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('BackFaceOpticalProperty', '_BackFaceOpticalProperty', 0, 0, {u'maxOccurs': u'1', u'type': u'_BackFaceOpticalProperty', u'name': u'BackFaceOpticalProperty', u'minOccurs': u'1'}, None),
-        MemberSpec_('BackFaceThermalProperty', '_BackFaceThermalProperty', 0, 0, {u'maxOccurs': u'1', u'type': u'_BackFaceThermalProperty', u'name': u'BackFaceThermalProperty', u'minOccurs': u'1'}, None),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {'name': 'OpticalPropertyLink', 'type': '_OpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {'name': 'ThermalPropertyLink', 'type': '_ThermalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('BackFaceOpticalProperty', '_BackFaceOpticalProperty', 0, 0, {'name': 'BackFaceOpticalProperty', 'type': '_BackFaceOpticalProperty', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('BackFaceThermalProperty', '_BackFaceThermalProperty', 0, 0, {'name': 'BackFaceThermalProperty', 'type': '_BackFaceThermalProperty', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -7792,13 +7790,13 @@ class create_GroupOpticalProperties(GeneratedsSuper):
 
 
 class create_GroupTypeProperties(GeneratedsSuper):
-    """Define the color/name at the group's level, to all its
-    elements.\nReplace any previously defined type. Define the
-    color/name at the group's level, to all its elements.\nReplace
-    any previously defined type."""
+    """Define the color/name at the group's level, to all its elements.
+    Replace any previously defined type. Define the color/name at
+    the group's level, to all its elements. Replace any previously
+    defined type."""
     member_data_items_ = [
         MemberSpec_('sameOTGroup', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('ObjectTypeLink', '_ObjectTypeLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ObjectTypeLink', u'name': u'ObjectTypeLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('ObjectTypeLink', '_ObjectTypeLink', 0, 0, {'name': 'ObjectTypeLink', 'type': '_ObjectTypeLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -7973,7 +7971,7 @@ class create_GroupTypeProperties(GeneratedsSuper):
 
 class create_Elements(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('Element', '_Element', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_Element', u'name': u'Element', u'minOccurs': u'1'}, None),
+        MemberSpec_('Element', '_Element', 1, 0, {'name': 'Element', 'type': '_Element', 'minOccurs': '1', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -8149,11 +8147,11 @@ class create_Elements(GeneratedsSuper):
 class create_Element(GeneratedsSuper):
     """Name. (optional) Name. (optional) Check this option if you want to
     apply optical properties on each face of the triangles that make
-    up the 3D object.\nIf this option is unchecked, a ray incident
-    on the triangle face opposite to the triangle normal is
+    up the 3D object. If this option is unchecked, a ray incident on
+    the triangle face opposite to the triangle normal is
     stopped/lost, whatever the DART mode (R or T). Check this option
     if you want to apply optical properties on each face of the
-    triangles that make up the 3D object.\nIf this option is
+    triangles that make up the 3D object. If this option is
     unchecked, a ray incident on the triangle face opposite to the
     triangle normal is stopped/lost, whatever the DART mode (R or
     T)."""
@@ -8161,11 +8159,11 @@ class create_Element(GeneratedsSuper):
         MemberSpec_('num', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('name', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('doubleFace', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('ObjectTypeLink', '_ObjectTypeLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ObjectTypeLink', u'name': u'ObjectTypeLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('BackFaceOpticalProperty', '_BackFaceOpticalProperty', 0, 0, {u'maxOccurs': u'1', u'type': u'_BackFaceOpticalProperty', u'name': u'BackFaceOpticalProperty', u'minOccurs': u'1'}, None),
-        MemberSpec_('BackFaceThermalProperty', '_BackFaceThermalProperty', 0, 0, {u'maxOccurs': u'1', u'type': u'_BackFaceThermalProperty', u'name': u'BackFaceThermalProperty', u'minOccurs': u'1'}, None),
+        MemberSpec_('ObjectTypeLink', '_ObjectTypeLink', 0, 0, {'name': 'ObjectTypeLink', 'type': '_ObjectTypeLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {'name': 'OpticalPropertyLink', 'type': '_OpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {'name': 'ThermalPropertyLink', 'type': '_ThermalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('BackFaceOpticalProperty', '_BackFaceOpticalProperty', 0, 0, {'name': 'BackFaceOpticalProperty', 'type': '_BackFaceOpticalProperty', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('BackFaceThermalProperty', '_BackFaceThermalProperty', 0, 0, {'name': 'BackFaceThermalProperty', 'type': '_BackFaceThermalProperty', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -8481,7 +8479,7 @@ class create_Element(GeneratedsSuper):
 
 class create_ObjectFields(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('Field', '_Field', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_Field', u'name': u'Field', u'minOccurs': u'0'}, None),
+        MemberSpec_('Field', '_Field', 1, 1, {'name': 'Field', 'type': '_Field', 'minOccurs': '0', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -8658,14 +8656,14 @@ class create_Field(GeneratedsSuper):
     """The file must contain : Object number, X position, Y position. The
     file must contain : Object number, X position, Y position. Name.
     (optional) Name. (optional) Objects's positions are taken from
-    the position file.\nDesactivate this option if you experience
+    the position file. Desactivate this option if you experience
     some slowdown. Objects's positions are taken from the position
-    file.\nDesactivate this option if you experience some slowdown."""
+    file. Desactivate this option if you experience some slowdown."""
     member_data_items_ = [
         MemberSpec_('fieldDescriptionFileName', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('name', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('showObjectPositions', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('ModelList', '_ModelList', 0, 0, {u'maxOccurs': u'1', u'type': u'_ModelList', u'name': u'ModelList', u'minOccurs': u'1'}, None),
+        MemberSpec_('ModelList', '_ModelList', 0, 0, {'name': 'ModelList', 'type': '_ModelList', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -8878,7 +8876,7 @@ class create_Field(GeneratedsSuper):
 
 class create_ModelList(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('Object', '_Object', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_Object', u'name': u'Object', u'minOccurs': u'0'}, None),
+        MemberSpec_('Object', '_Object', 1, 1, {'name': 'Object', 'type': '_Object', 'minOccurs': '0', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None

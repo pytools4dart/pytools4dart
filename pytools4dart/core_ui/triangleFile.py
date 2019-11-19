@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Sun Mar 31 19:31:17 2019 by generateDS.py version 2.29.25.
-# Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
+# Generated Tue Nov 19 15:08:16 2019 by generateDS.py version 2.29.25.
+# Python 3.6.7 | packaged by conda-forge | (default, Nov  6 2019, 16:19:42)  [GCC 7.3.0]
 #
 # Command line options:
 #   ('-m', '')
@@ -16,13 +16,13 @@
 #   ('--pre-ctor', "self.troot=get_gs_troot('triangleFile','{classname}')")
 #   ('--post-ctor', "update_node(self,self.troot,'triangleFile')")
 #   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes')
-#   ('-o', '/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/triangleFile.py')
+#   ('-o', '/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/triangleFile.py')
 #
 # Command line arguments:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/triangleFile.xsd
+#   /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/triangleFile.xsd
 #
 # Command line:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'triangleFile')" --pre-ctor="self.troot=get_gs_troot('triangleFile','{classname}')" --post-ctor="update_node(self,self.troot,'triangleFile')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/triangleFile.py" /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/triangleFile.xsd
+#   /home/boissieu/anaconda3/envs/pytools4dart/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'triangleFile')" --pre-ctor="self.troot=get_gs_troot('triangleFile','{classname}')" --post-ctor="update_node(self,self.troot,'triangleFile')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/triangleFile.py" /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/triangleFile.xsd
 #
 # Current working directory (os.getcwd()):
 #   pytools4dart
@@ -743,7 +743,7 @@ def _cast(typ, value):
 class createDartFile(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('version', 'xsd:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('TriangleFile', '_TriangleFile', 0, 0, {u'maxOccurs': u'1', u'type': u'_TriangleFile', u'name': u'TriangleFile', u'minOccurs': u'1'}, None),
+        MemberSpec_('TriangleFile', '_TriangleFile', 0, 0, {'name': 'TriangleFile', 'type': '_TriangleFile', 'maxOccurs': '1', 'minOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -916,7 +916,7 @@ class createDartFile(GeneratedsSuper):
 class create_TriangleFile(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('triangleStorageMode', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Object', '_Object', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_Object', u'name': u'Object', u'minOccurs': u'0'}, None),
+        MemberSpec_('Object', '_Object', 1, 1, {'name': 'Object', 'type': '_Object', 'maxOccurs': 'unbounded', 'minOccurs': '0'}, None),
     ]
     subclass = None
     superclass = None
@@ -1115,9 +1115,9 @@ class create_Object(GeneratedsSuper):
         MemberSpec_('forcedLAI', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('forcedLAI_Surface_Value', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('repeatedOnBorder', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Transformation', '_Transformation', 0, 0, {u'maxOccurs': u'1', u'type': u'_Transformation', u'name': u'Transformation', u'minOccurs': u'1'}, None),
-        MemberSpec_('BoundingBox', '_BoundingBox', 0, 0, {u'maxOccurs': u'1', u'type': u'_BoundingBox', u'name': u'BoundingBox', u'minOccurs': u'1'}, None),
-        MemberSpec_('TriangleList', '_TriangleList', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_TriangleList', u'name': u'TriangleList', u'minOccurs': u'1'}, None),
+        MemberSpec_('Transformation', '_Transformation', 0, 0, {'name': 'Transformation', 'type': '_Transformation', 'maxOccurs': '1', 'minOccurs': '1'}, None),
+        MemberSpec_('BoundingBox', '_BoundingBox', 0, 0, {'name': 'BoundingBox', 'type': '_BoundingBox', 'maxOccurs': '1', 'minOccurs': '1'}, None),
+        MemberSpec_('TriangleList', '_TriangleList', 1, 0, {'name': 'TriangleList', 'type': '_TriangleList', 'maxOccurs': 'unbounded', 'minOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -1851,8 +1851,8 @@ class create_Transformation(GeneratedsSuper):
 
 class create_BoundingBox(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('LowerCorner', '_LowerCorner', 0, 0, {u'maxOccurs': u'1', u'type': u'_LowerCorner', u'name': u'LowerCorner', u'minOccurs': u'1'}, None),
-        MemberSpec_('UpperCorner', '_UpperCorner', 0, 0, {u'maxOccurs': u'1', u'type': u'_UpperCorner', u'name': u'UpperCorner', u'minOccurs': u'1'}, None),
+        MemberSpec_('LowerCorner', '_LowerCorner', 0, 0, {'name': 'LowerCorner', 'type': '_LowerCorner', 'maxOccurs': '1', 'minOccurs': '1'}, None),
+        MemberSpec_('UpperCorner', '_UpperCorner', 0, 0, {'name': 'UpperCorner', 'type': '_UpperCorner', 'maxOccurs': '1', 'minOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -2433,11 +2433,11 @@ class create_TriangleList(GeneratedsSuper):
         MemberSpec_('ALASegmentation', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('forcedLAI', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('forcedLAI_Surface_Value', 'xsd:double', 0, 1, {'use': 'optional'}),
-        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('BackFaceOpticalPropertyLink', '_BackFaceOpticalPropertyLink', 0, 1, {u'maxOccurs': u'1', u'type': u'_BackFaceOpticalPropertyLink', u'name': u'BackFaceOpticalPropertyLink', u'minOccurs': u'0'}, None),
-        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('BackFaceThermalPropertyLink', '_BackFaceThermalPropertyLink', 0, 1, {u'maxOccurs': u'1', u'type': u'_BackFaceThermalPropertyLink', u'name': u'BackFaceThermalPropertyLink', u'minOccurs': u'0'}, None),
-        MemberSpec_('TRIFileReference', '_TRIFileReference', 0, 0, {u'maxOccurs': u'1', u'type': u'_TRIFileReference', u'name': u'TRIFileReference', u'minOccurs': u'1'}, None),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {'name': 'OpticalPropertyLink', 'type': '_OpticalPropertyLink', 'maxOccurs': '1', 'minOccurs': '1'}, None),
+        MemberSpec_('BackFaceOpticalPropertyLink', '_BackFaceOpticalPropertyLink', 0, 1, {'name': 'BackFaceOpticalPropertyLink', 'type': '_BackFaceOpticalPropertyLink', 'maxOccurs': '1', 'minOccurs': '0'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {'name': 'ThermalPropertyLink', 'type': '_ThermalPropertyLink', 'maxOccurs': '1', 'minOccurs': '1'}, None),
+        MemberSpec_('BackFaceThermalPropertyLink', '_BackFaceThermalPropertyLink', 0, 1, {'name': 'BackFaceThermalPropertyLink', 'type': '_BackFaceThermalPropertyLink', 'maxOccurs': '1', 'minOccurs': '0'}, None),
+        MemberSpec_('TRIFileReference', '_TRIFileReference', 0, 0, {'name': 'TRIFileReference', 'type': '_TRIFileReference', 'maxOccurs': '1', 'minOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None

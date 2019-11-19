@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Sun Mar 31 19:31:20 2019 by generateDS.py version 2.29.25.
-# Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
+# Generated Tue Nov 19 15:08:18 2019 by generateDS.py version 2.29.25.
+# Python 3.6.7 | packaged by conda-forge | (default, Nov  6 2019, 16:19:42)  [GCC 7.3.0]
 #
 # Command line options:
 #   ('-m', '')
@@ -16,13 +16,13 @@
 #   ('--pre-ctor', "self.troot=get_gs_troot('inversion','{classname}')")
 #   ('--post-ctor', "update_node(self,self.troot,'inversion')")
 #   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes')
-#   ('-o', '/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/inversion.py')
+#   ('-o', '/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/inversion.py')
 #
 # Command line arguments:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/inversion.xsd
+#   /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/inversion.xsd
 #
 # Command line:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'inversion')" --pre-ctor="self.troot=get_gs_troot('inversion','{classname}')" --post-ctor="update_node(self,self.troot,'inversion')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/inversion.py" /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/inversion.xsd
+#   /home/boissieu/anaconda3/envs/pytools4dart/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'inversion')" --pre-ctor="self.troot=get_gs_troot('inversion','{classname}')" --post-ctor="update_node(self,self.troot,'inversion')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/inversion.py" /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/inversion.xsd
 #
 # Current working directory (os.getcwd()):
 #   pytools4dart
@@ -747,11 +747,11 @@ class createDartFile(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('version', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('build_', 'xsd:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('DartInversion', '_DartInversion', 0, 0, {u'maxOccurs': u'1', u'type': u'_DartInversion', u'name': u'DartInversion', u'minOccurs': u'1'}, None),
+        MemberSpec_('DartInversion', '_DartInversion', 0, 0, {'name': 'DartInversion', 'type': '_DartInversion', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
-    def __init__(self, version='5.7.4', build_='0', DartInversion=None):
+    def __init__(self, version='5.7.5', build_='0', DartInversion=None):
         self.original_tagname_ = None
         self.troot=get_gs_troot('inversion','DartFile')
         self.attrib = ['version', 'build_']
@@ -941,8 +941,8 @@ class create_DartInversion(GeneratedsSuper):
     Inversion Run Inversion"""
     member_data_items_ = [
         MemberSpec_('runInversion', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('InversionImages', '_InversionImages', 0, 0, {u'maxOccurs': u'1', u'type': u'_InversionImages', u'name': u'InversionImages', u'minOccurs': u'1'}, None),
-        MemberSpec_('Inversion', '_Inversion', 0, 0, {u'maxOccurs': u'1', u'type': u'_Inversion', u'name': u'Inversion', u'minOccurs': u'1'}, None),
+        MemberSpec_('InversionImages', '_InversionImages', 0, 0, {'name': 'InversionImages', 'type': '_InversionImages', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Inversion', '_Inversion', 0, 0, {'name': 'Inversion', 'type': '_Inversion', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -1144,8 +1144,8 @@ class create_InversionImages(GeneratedsSuper):
     """Is mask Is mask"""
     member_data_items_ = [
         MemberSpec_('isMask', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('MaskProperties', '_MaskProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_MaskProperties', u'name': u'MaskProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('ImageProperties', '_ImageProperties', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_ImageProperties', u'name': u'ImageProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('MaskProperties', '_MaskProperties', 0, 0, {'name': 'MaskProperties', 'type': '_MaskProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ImageProperties', '_ImageProperties', 1, 0, {'name': 'ImageProperties', 'type': '_ImageProperties', 'minOccurs': '1', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -1519,7 +1519,7 @@ class create_ImageProperties(GeneratedsSuper):
         MemberSpec_('dataFileName', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('multiplicativeFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('spectralBandKey', 'xsd:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('SunViewAngleProperties', '_SunViewAngleProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_SunViewAngleProperties', u'name': u'SunViewAngleProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('SunViewAngleProperties', '_SunViewAngleProperties', 0, 0, {'name': 'SunViewAngleProperties', 'type': '_SunViewAngleProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -1977,10 +1977,10 @@ class create_SunViewAngleProperties(GeneratedsSuper):
 class create_Inversion(GeneratedsSuper):
     """Inversion Inversion"""
     member_data_items_ = [
-        MemberSpec_('InversionDatabase', '_InversionDatabase', 0, 0, {u'maxOccurs': u'1', u'type': u'_InversionDatabase', u'name': u'InversionDatabase', u'minOccurs': u'1'}, None),
-        MemberSpec_('InversionInterpolation', '_InversionInterpolation', 0, 0, {u'maxOccurs': u'1', u'type': u'_InversionInterpolation', u'name': u'InversionInterpolation', u'minOccurs': u'1'}, None),
-        MemberSpec_('InversionSimplexConvergence', '_InversionSimplexConvergence', 0, 0, {u'maxOccurs': u'1', u'type': u'_InversionSimplexConvergence', u'name': u'InversionSimplexConvergence', u'minOccurs': u'1'}, None),
-        MemberSpec_('InversionParameters', '_InversionParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_InversionParameters', u'name': u'InversionParameters', u'minOccurs': u'1'}, None),
+        MemberSpec_('InversionDatabase', '_InversionDatabase', 0, 0, {'name': 'InversionDatabase', 'type': '_InversionDatabase', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('InversionInterpolation', '_InversionInterpolation', 0, 0, {'name': 'InversionInterpolation', 'type': '_InversionInterpolation', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('InversionSimplexConvergence', '_InversionSimplexConvergence', 0, 0, {'name': 'InversionSimplexConvergence', 'type': '_InversionSimplexConvergence', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('InversionParameters', '_InversionParameters', 0, 0, {'name': 'InversionParameters', 'type': '_InversionParameters', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -2597,35 +2597,35 @@ class create_InversionInterpolation(GeneratedsSuper):
 
 
 class create_InversionSimplexConvergence(GeneratedsSuper):
-    """It is a error that is computed in the inversion procedure \n More
+    """It is a error that is computed in the inversion procedure More
     details in p.51 PHD of P.Esteve (1998) (http://www.cesbio.ups-
-    tlse.fr/data_all/theses/Th_esteve.pdf) \nA simplex is made of 3
-    points that are iteratively up-dated, one per iteration.\nThe
+    tlse.fr/data_all/theses/Th_esteve.pdf) A simplex is made of 3
+    points that are iteratively up-dated, one per iteration. The
     iteration stops when the 3 points give identical errors (When
     difference between values of errors is less than value setted in
-    next case) .\nThe error is the difference between the predicted
-    and image reflectance values.\nThe larger number of iterations
-    is 5000/(number of free variables to invert + 1).\nNext simplex
-    is launch if maximum simplexes number is not reached and if
-    error of best simplex computed is upper than error given. It is
-    a error that is computed in the inversion procedure \n More
-    details in p.51 PHD of P.Esteve (1998) (http://www.cesbio.ups-
-    tlse.fr/data_all/theses/Th_esteve.pdf) \nA simplex is made of 3
-    points that are iteratively up-dated, one per iteration.\nThe
+    next case) . The error is the difference between the predicted
+    and image reflectance values. The larger number of iterations is
+    5000/(number of free variables to invert + 1). Next simplex is
+    launch if maximum simplexes number is not reached and if error
+    of best simplex computed is upper than error given. It is a
+    error that is computed in the inversion procedure More details
+    in p.51 PHD of P.Esteve (1998) (http://www.cesbio.ups-
+    tlse.fr/data_all/theses/Th_esteve.pdf) A simplex is made of 3
+    points that are iteratively up-dated, one per iteration. The
     iteration stops when the 3 points give identical errors (When
     difference between values of errors is less than value setted in
-    next case) .\nThe error is the difference between the predicted
-    and image reflectance values.\nThe larger number of iterations
-    is 5000/(number of free variables to invert + 1).\nNext simplex
-    is launch if maximum simplexes number is not reached and if
-    error of best simplex computed is upper than error given.
-    Difference between worst and best error of simplexes computed.
-    Difference between worst and best error of simplexes computed.
-    The creation of simplex is stopped if the error of the simplex
-    is less than the error (and if the maximum number of simplexes
-    is not reached). The creation of simplex is stopped if the error
-    of the simplex is less than the error (and if the maximum number
-    of simplexes is not reached). Maximum number of simplexes (if
+    next case) . The error is the difference between the predicted
+    and image reflectance values. The larger number of iterations is
+    5000/(number of free variables to invert + 1). Next simplex is
+    launch if maximum simplexes number is not reached and if error
+    of best simplex computed is upper than error given. Difference
+    between worst and best error of simplexes computed. Difference
+    between worst and best error of simplexes computed. The creation
+    of simplex is stopped if the error of the simplex is less than
+    the error (and if the maximum number of simplexes is not
+    reached). The creation of simplex is stopped if the error of the
+    simplex is less than the error (and if the maximum number of
+    simplexes is not reached). Maximum number of simplexes (if
     simplex relative error threshold is not reached) Maximum number
     of simplexes (if simplex relative error threshold is not
     reached)"""
@@ -2634,7 +2634,7 @@ class create_InversionSimplexConvergence(GeneratedsSuper):
         MemberSpec_('errorValueConvergence', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('errorValueStop', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('maxSimplexNumber', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('ThresholdRelativeError', '_ThresholdRelativeError', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThresholdRelativeError', u'name': u'ThresholdRelativeError', u'minOccurs': u'1'}, None),
+        MemberSpec_('ThresholdRelativeError', '_ThresholdRelativeError', 0, 0, {'name': 'ThresholdRelativeError', 'type': '_ThresholdRelativeError', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -3026,7 +3026,7 @@ class create_ThresholdRelativeError(GeneratedsSuper):
 class create_InversionParameters(GeneratedsSuper):
     """Inversion parameters Inversion parameters"""
     member_data_items_ = [
-        MemberSpec_('freeParameters', '_freeParameters', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_freeParameters', u'name': u'freeParameters', u'minOccurs': u'1'}, None),
+        MemberSpec_('freeParameters', '_freeParameters', 1, 0, {'name': 'freeParameters', 'type': '_freeParameters', 'minOccurs': '1', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -3210,12 +3210,12 @@ class create_freeParameters(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('ParameterType', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('indexLUTEquivalent', 'xsd:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('freeParameterGlobalValue', '_freeParameterGlobalValue', 0, 0, {u'maxOccurs': u'1', u'type': u'_freeParameterGlobalValue', u'name': u'freeParameterGlobalValue', u'minOccurs': u'1'}, None),
-        MemberSpec_('freeParameterValue', '_freeParameterValue', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_freeParameterValue', u'name': u'freeParameterValue', u'minOccurs': u'1'}, None),
-        MemberSpec_('InversionSpectra', '_InversionSpectra', 0, 0, {u'maxOccurs': u'1', u'type': u'_InversionSpectra', u'name': u'InversionSpectra', u'minOccurs': u'1'}, None),
-        MemberSpec_('InversionSpectra1', '_InversionSpectra1', 0, 0, {u'maxOccurs': u'1', u'type': u'_InversionSpectra1', u'name': u'InversionSpectra1', u'minOccurs': u'1'}, None),
-        MemberSpec_('InversionSpectra2', '_InversionSpectra2', 0, 0, {u'maxOccurs': u'1', u'type': u'_InversionSpectra2', u'name': u'InversionSpectra2', u'minOccurs': u'1'}, None),
-        MemberSpec_('InversionSpectra3', '_InversionSpectra3', 0, 0, {u'maxOccurs': u'1', u'type': u'_InversionSpectra3', u'name': u'InversionSpectra3', u'minOccurs': u'1'}, None),
+        MemberSpec_('freeParameterGlobalValue', '_freeParameterGlobalValue', 0, 0, {'name': 'freeParameterGlobalValue', 'type': '_freeParameterGlobalValue', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('freeParameterValue', '_freeParameterValue', 1, 0, {'name': 'freeParameterValue', 'type': '_freeParameterValue', 'minOccurs': '1', 'maxOccurs': 'unbounded'}, None),
+        MemberSpec_('InversionSpectra', '_InversionSpectra', 0, 0, {'name': 'InversionSpectra', 'type': '_InversionSpectra', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('InversionSpectra1', '_InversionSpectra1', 0, 0, {'name': 'InversionSpectra1', 'type': '_InversionSpectra1', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('InversionSpectra2', '_InversionSpectra2', 0, 0, {'name': 'InversionSpectra2', 'type': '_InversionSpectra2', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('InversionSpectra3', '_InversionSpectra3', 0, 0, {'name': 'InversionSpectra3', 'type': '_InversionSpectra3', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None

@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Sun Mar 31 19:31:21 2019 by generateDS.py version 2.29.25.
-# Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
+# Generated Tue Nov 19 15:08:18 2019 by generateDS.py version 2.29.25.
+# Python 3.6.7 | packaged by conda-forge | (default, Nov  6 2019, 16:19:42)  [GCC 7.3.0]
 #
 # Command line options:
 #   ('-m', '')
@@ -16,13 +16,13 @@
 #   ('--pre-ctor', "self.troot=get_gs_troot('lut','{classname}')")
 #   ('--post-ctor', "update_node(self,self.troot,'lut')")
 #   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes')
-#   ('-o', '/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/lut.py')
+#   ('-o', '/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/lut.py')
 #
 # Command line arguments:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/lut.xsd
+#   /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/lut.xsd
 #
 # Command line:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'lut')" --pre-ctor="self.troot=get_gs_troot('lut','{classname}')" --post-ctor="update_node(self,self.troot,'lut')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/lut.py" /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/lut.xsd
+#   /home/boissieu/anaconda3/envs/pytools4dart/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'lut')" --pre-ctor="self.troot=get_gs_troot('lut','{classname}')" --post-ctor="update_node(self,self.troot,'lut')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/lut.py" /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/lut.xsd
 #
 # Current working directory (os.getcwd()):
 #   pytools4dart
@@ -743,7 +743,7 @@ def _cast(typ, value):
 class createDartFile(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('version', 'xsd:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('DartLUT', '_DartLUT', 0, 0, {u'maxOccurs': u'1', u'type': u'_DartLUT', u'name': u'DartLUT', u'minOccurs': u'1'}, None),
+        MemberSpec_('DartLUT', '_DartLUT', 0, 0, {'name': 'DartLUT', 'type': '_DartLUT', 'maxOccurs': '1', 'minOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -921,12 +921,12 @@ class create_DartLUT(GeneratedsSuper):
         MemberSpec_('modelBRDFNumberCoefficient', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('sequenceName', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('simulationNumber', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('DataFile', '_DataFile', 0, 0, {u'maxOccurs': u'1', u'type': u'_DataFile', u'name': u'DataFile', u'minOccurs': u'1'}, None),
-        MemberSpec_('SpectralIntervals', '_SpectralIntervals', 0, 0, {u'maxOccurs': u'1', u'type': u'_SpectralIntervals', u'name': u'SpectralIntervals', u'minOccurs': u'1'}, None),
-        MemberSpec_('StaticLUTReflectanceParameters', '_StaticLUTReflectanceParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_StaticLUTReflectanceParameters', u'name': u'StaticLUTReflectanceParameters', u'minOccurs': u'1'}, None),
-        MemberSpec_('StaticLUTCoefficientParameters', '_StaticLUTCoefficientParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_StaticLUTCoefficientParameters', u'name': u'StaticLUTCoefficientParameters', u'minOccurs': u'1'}, None),
-        MemberSpec_('FreeParametersLUTReflectance', '_FreeParametersLUTReflectance', 0, 0, {u'maxOccurs': u'1', u'type': u'_FreeParametersLUTReflectance', u'name': u'FreeParametersLUTReflectance', u'minOccurs': u'1'}, None),
-        MemberSpec_('FreeParametersLUTCoefficient', '_FreeParametersLUTCoefficient', 0, 0, {u'maxOccurs': u'1', u'type': u'_FreeParametersLUTCoefficient', u'name': u'FreeParametersLUTCoefficient', u'minOccurs': u'1'}, None),
+        MemberSpec_('DataFile', '_DataFile', 0, 0, {'name': 'DataFile', 'type': '_DataFile', 'maxOccurs': '1', 'minOccurs': '1'}, None),
+        MemberSpec_('SpectralIntervals', '_SpectralIntervals', 0, 0, {'name': 'SpectralIntervals', 'type': '_SpectralIntervals', 'maxOccurs': '1', 'minOccurs': '1'}, None),
+        MemberSpec_('StaticLUTReflectanceParameters', '_StaticLUTReflectanceParameters', 0, 0, {'name': 'StaticLUTReflectanceParameters', 'type': '_StaticLUTReflectanceParameters', 'maxOccurs': '1', 'minOccurs': '1'}, None),
+        MemberSpec_('StaticLUTCoefficientParameters', '_StaticLUTCoefficientParameters', 0, 0, {'name': 'StaticLUTCoefficientParameters', 'type': '_StaticLUTCoefficientParameters', 'maxOccurs': '1', 'minOccurs': '1'}, None),
+        MemberSpec_('FreeParametersLUTReflectance', '_FreeParametersLUTReflectance', 0, 0, {'name': 'FreeParametersLUTReflectance', 'type': '_FreeParametersLUTReflectance', 'maxOccurs': '1', 'minOccurs': '1'}, None),
+        MemberSpec_('FreeParametersLUTCoefficient', '_FreeParametersLUTCoefficient', 0, 0, {'name': 'FreeParametersLUTCoefficient', 'type': '_FreeParametersLUTCoefficient', 'maxOccurs': '1', 'minOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -1327,7 +1327,7 @@ class create_DartLUT(GeneratedsSuper):
 
 class create_DataFile(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('Property', '_Property', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_Property', u'name': u'Property', u'minOccurs': u'0'}, None),
+        MemberSpec_('Property', '_Property', 1, 1, {'name': 'Property', 'type': '_Property', 'maxOccurs': 'unbounded', 'minOccurs': '0'}, None),
     ]
     subclass = None
     superclass = None
@@ -1648,7 +1648,7 @@ class create_Property(GeneratedsSuper):
 
 class create_SpectralIntervals(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('SpectralIntervalsProperties', 'SpectralIntervalsPropertiesType', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'SpectralIntervalsPropertiesType', u'name': u'SpectralIntervalsProperties', u'minOccurs': u'0'}, None),
+        MemberSpec_('SpectralIntervalsProperties', 'SpectralIntervalsPropertiesType', 1, 1, {'name': 'SpectralIntervalsProperties', 'maxOccurs': 'unbounded', 'minOccurs': '0', 'type': 'SpectralIntervalsPropertiesType'}, None),
     ]
     subclass = None
     superclass = None
@@ -1823,7 +1823,7 @@ class create_SpectralIntervals(GeneratedsSuper):
 
 class create_StaticLUTReflectanceParameters(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('Property', '_Property', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_Property', u'name': u'Property', u'minOccurs': u'0'}, None),
+        MemberSpec_('Property', '_Property', 1, 1, {'name': 'Property', 'type': '_Property', 'maxOccurs': 'unbounded', 'minOccurs': '0'}, None),
     ]
     subclass = None
     superclass = None
@@ -1998,7 +1998,7 @@ class create_StaticLUTReflectanceParameters(GeneratedsSuper):
 
 class create_StaticLUTCoefficientParameters(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('Property', '_Property', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_Property', u'name': u'Property', u'minOccurs': u'0'}, None),
+        MemberSpec_('Property', '_Property', 1, 1, {'name': 'Property', 'type': '_Property', 'maxOccurs': 'unbounded', 'minOccurs': '0'}, None),
     ]
     subclass = None
     superclass = None
@@ -2173,7 +2173,7 @@ class create_StaticLUTCoefficientParameters(GeneratedsSuper):
 
 class create_FreeParametersLUTReflectance(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('LUTReflectanceProperty', '_LUTProperty', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_LUTProperty', u'name': u'LUTReflectanceProperty', u'minOccurs': u'0'}, None),
+        MemberSpec_('LUTReflectanceProperty', '_LUTProperty', 1, 1, {'name': 'LUTReflectanceProperty', 'type': '_LUTProperty', 'maxOccurs': 'unbounded', 'minOccurs': '0'}, None),
     ]
     subclass = None
     superclass = None
@@ -2560,7 +2560,7 @@ class create_LUTProperty(GeneratedsSuper):
 
 class create_FreeParametersLUTCoefficient(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('LUTCoefficientProperty', '_LUTProperty', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_LUTProperty', u'name': u'LUTCoefficientProperty', u'minOccurs': u'0'}, None),
+        MemberSpec_('LUTCoefficientProperty', '_LUTProperty', 1, 1, {'name': 'LUTCoefficientProperty', 'type': '_LUTProperty', 'maxOccurs': 'unbounded', 'minOccurs': '0'}, None),
     ]
     subclass = None
     superclass = None

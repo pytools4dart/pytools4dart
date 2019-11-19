@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Sun Mar 31 19:31:17 2019 by generateDS.py version 2.29.25.
-# Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
+# Generated Tue Nov 19 15:08:16 2019 by generateDS.py version 2.29.25.
+# Python 3.6.7 | packaged by conda-forge | (default, Nov  6 2019, 16:19:42)  [GCC 7.3.0]
 #
 # Command line options:
 #   ('-m', '')
@@ -16,13 +16,13 @@
 #   ('--pre-ctor', "self.troot=get_gs_troot('sequence','{classname}')")
 #   ('--post-ctor', "update_node(self,self.troot,'sequence')")
 #   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes')
-#   ('-o', '/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/sequence.py')
+#   ('-o', '/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/sequence.py')
 #
 # Command line arguments:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/sequence.xsd
+#   /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/sequence.xsd
 #
 # Command line:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'sequence')" --pre-ctor="self.troot=get_gs_troot('sequence','{classname}')" --post-ctor="update_node(self,self.troot,'sequence')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/sequence.py" /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/sequence.xsd
+#   /home/boissieu/anaconda3/envs/pytools4dart/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'sequence')" --pre-ctor="self.troot=get_gs_troot('sequence','{classname}')" --post-ctor="update_node(self,self.troot,'sequence')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/sequence.py" /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/sequence.xsd
 #
 # Current working directory (os.getcwd()):
 #   pytools4dart
@@ -742,9 +742,9 @@ def _cast(typ, value):
 
 class create_DartSequencerDescriptorEntry(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('args', 'xs:string', 0, 1, {'use': u'optional'}),
-        MemberSpec_('propertyName', 'xs:string', 0, 1, {'use': u'optional'}),
-        MemberSpec_('type_', 'xs:string', 0, 1, {'use': u'optional'}),
+        MemberSpec_('args', 'xs:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('propertyName', 'xs:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('type_', 'xs:string', 0, 1, {'use': 'optional'}),
     ]
     subclass = None
     superclass = None
@@ -929,7 +929,7 @@ class create_DartSequencerDescriptorEntry(GeneratedsSuper):
 class create_DartSequencerDescriptorGroup(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('groupName', 'xs:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('DartSequencerDescriptorEntry', '_DartSequencerDescriptorEntry', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_DartSequencerDescriptorEntry', u'name': u'DartSequencerDescriptorEntry', u'minOccurs': u'0'}, None),
+        MemberSpec_('DartSequencerDescriptorEntry', '_DartSequencerDescriptorEntry', 1, 1, {'type': '_DartSequencerDescriptorEntry', 'name': 'DartSequencerDescriptorEntry', 'maxOccurs': 'unbounded', 'minOccurs': '0'}, None),
     ]
     subclass = None
     superclass = None
@@ -1120,7 +1120,7 @@ class create_DartSequencerDescriptorGroup(GeneratedsSuper):
 
 class create_DartSequencerDescriptorEntries(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('DartSequencerDescriptorGroup', '_DartSequencerDescriptorGroup', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_DartSequencerDescriptorGroup', u'name': u'DartSequencerDescriptorGroup', u'minOccurs': u'0'}, None),
+        MemberSpec_('DartSequencerDescriptorGroup', '_DartSequencerDescriptorGroup', 1, 1, {'type': '_DartSequencerDescriptorGroup', 'name': 'DartSequencerDescriptorGroup', 'maxOccurs': 'unbounded', 'minOccurs': '0'}, None),
     ]
     subclass = None
     superclass = None
@@ -2175,14 +2175,14 @@ class create_DartLutPreferences(GeneratedsSuper):
         MemberSpec_('maketCoverage', 'xs:boolean', 0, 1, {'use': 'optional'}),
         MemberSpec_('ordre', 'xs:boolean', 0, 1, {'use': 'optional'}),
         MemberSpec_('otherIter', 'xs:boolean', 0, 1, {'use': 'optional'}),
-        MemberSpec_('phiMax', 'xs:float', 0, 1, {'use': u'optional'}),
-        MemberSpec_('phiMin', 'xs:float', 0, 1, {'use': u'optional'}),
+        MemberSpec_('phiMax', 'xs:float', 0, 1, {'use': 'optional'}),
+        MemberSpec_('phiMin', 'xs:float', 0, 1, {'use': 'optional'}),
         MemberSpec_('productsPerType', 'xs:boolean', 0, 1, {'use': 'optional'}),
         MemberSpec_('reflectance', 'xs:boolean', 0, 1, {'use': 'optional'}),
         MemberSpec_('sensor', 'xs:boolean', 0, 1, {'use': 'optional'}),
         MemberSpec_('storeIndirect', 'xs:boolean', 0, 1, {'use': 'optional'}),
-        MemberSpec_('thetaMax', 'xs:decimal', 0, 1, {'use': u'optional'}),
-        MemberSpec_('thetaMin', 'xs:decimal', 0, 1, {'use': u'optional'}),
+        MemberSpec_('thetaMax', 'xs:decimal', 0, 1, {'use': 'optional'}),
+        MemberSpec_('thetaMin', 'xs:decimal', 0, 1, {'use': 'optional'}),
         MemberSpec_('toa', 'xs:boolean', 0, 1, {'use': 'optional'}),
     ]
     subclass = None
@@ -2783,9 +2783,9 @@ class create_DartLutPreferences(GeneratedsSuper):
 class create_DartSequencerDescriptor(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('sequenceName', 'xs:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('DartSequencerDescriptorEntries', '_DartSequencerDescriptorEntries', 0, 0, {u'type': u'_DartSequencerDescriptorEntries', u'name': u'DartSequencerDescriptorEntries'}, None),
-        MemberSpec_('DartSequencerPreferences', '_DartSequencerPreferences', 0, 0, {u'type': u'_DartSequencerPreferences', u'name': u'DartSequencerPreferences'}, None),
-        MemberSpec_('DartLutPreferences', '_DartLutPreferences', 0, 0, {u'type': u'_DartLutPreferences', u'name': u'DartLutPreferences'}, None),
+        MemberSpec_('DartSequencerDescriptorEntries', '_DartSequencerDescriptorEntries', 0, 0, {'type': '_DartSequencerDescriptorEntries', 'name': 'DartSequencerDescriptorEntries'}, None),
+        MemberSpec_('DartSequencerPreferences', '_DartSequencerPreferences', 0, 0, {'type': '_DartSequencerPreferences', 'name': 'DartSequencerPreferences'}, None),
+        MemberSpec_('DartLutPreferences', '_DartLutPreferences', 0, 0, {'type': '_DartLutPreferences', 'name': 'DartLutPreferences'}, None),
     ]
     subclass = None
     superclass = None
@@ -3008,7 +3008,7 @@ class create_DartSequencerDescriptor(GeneratedsSuper):
 class createDartFile(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('version', 'xs:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('DartSequencerDescriptor', '_DartSequencerDescriptor', 0, 0, {u'type': u'_DartSequencerDescriptor', u'name': u'DartSequencerDescriptor'}, None),
+        MemberSpec_('DartSequencerDescriptor', '_DartSequencerDescriptor', 0, 0, {'type': '_DartSequencerDescriptor', 'name': 'DartSequencerDescriptor'}, None),
     ]
     subclass = None
     superclass = None

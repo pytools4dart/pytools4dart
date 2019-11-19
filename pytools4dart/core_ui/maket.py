@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Sun Mar 31 19:31:18 2019 by generateDS.py version 2.29.25.
-# Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
+# Generated Tue Nov 19 15:08:16 2019 by generateDS.py version 2.29.25.
+# Python 3.6.7 | packaged by conda-forge | (default, Nov  6 2019, 16:19:42)  [GCC 7.3.0]
 #
 # Command line options:
 #   ('-m', '')
@@ -16,13 +16,13 @@
 #   ('--pre-ctor', "self.troot=get_gs_troot('maket','{classname}')")
 #   ('--post-ctor', "update_node(self,self.troot,'maket')")
 #   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes')
-#   ('-o', '/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/maket.py')
+#   ('-o', '/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/maket.py')
 #
 # Command line arguments:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/maket.xsd
+#   /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/maket.xsd
 #
 # Command line:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'maket')" --pre-ctor="self.troot=get_gs_troot('maket','{classname}')" --post-ctor="update_node(self,self.troot,'maket')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/maket.py" /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/maket.xsd
+#   /home/boissieu/anaconda3/envs/pytools4dart/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'maket')" --pre-ctor="self.troot=get_gs_troot('maket','{classname}')" --post-ctor="update_node(self,self.troot,'maket')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/maket.py" /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/maket.xsd
 #
 # Current working directory (os.getcwd()):
 #   pytools4dart
@@ -747,11 +747,11 @@ class createDartFile(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('version', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('build_', 'xsd:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Maket', '_Maket', 0, 0, {u'maxOccurs': u'1', u'type': u'_Maket', u'name': u'Maket', u'minOccurs': u'1'}, None),
+        MemberSpec_('Maket', '_Maket', 0, 0, {'name': 'Maket', 'type': '_Maket', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
-    def __init__(self, version='5.7.4', build_='0', Maket=None):
+    def __init__(self, version='5.7.5', build_='0', Maket=None):
         self.original_tagname_ = None
         self.troot=get_gs_troot('maket','DartFile')
         self.attrib = ['version', 'build_']
@@ -941,12 +941,12 @@ class create_Maket(GeneratedsSuper):
     specified scene. Then, crowns of neighbor trees can appear in
     the simulated scene The actual DART scene can a sub-rectangular
     part of the total specified scene. Then, crowns of neighbor
-    trees can appear in the simulated scene juxtaposition of a
-    unique pattern\nContninuous scene: Altitudes of juxtaposed
+    trees can appear in the simulated scene Juxtaposition of a
+    unique pattern Contninuous scene: Altitudes of juxtaposed
     patterns are equal or are shifted with values equal to altitude
     difference the scene edges. This option ensures the continuity
     of topography. It allows one to simulate infinite slopes.
-    juxtaposition of a unique pattern\nContninuous scene: Altitudes
+    Juxtaposition of a unique pattern Contninuous scene: Altitudes
     of juxtaposed patterns are equal or are shifted with values
     equal to altitude difference the scene edges. This option
     ensures the continuity of topography. It allows one to simulate
@@ -956,11 +956,11 @@ class create_Maket(GeneratedsSuper):
         MemberSpec_('dartZone', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('exactlyPeriodicScene', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('useRandomGenerationSeed', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Scene', '_Scene', 0, 0, {u'maxOccurs': u'1', u'type': u'_Scene', u'name': u'Scene', u'minOccurs': u'1'}, None),
-        MemberSpec_('RandomGenerationParameters', '_RandomGenerationParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_RandomGenerationParameters', u'name': u'RandomGenerationParameters', u'minOccurs': u'1'}, None),
-        MemberSpec_('Soil', '_Soil', 0, 0, {u'maxOccurs': u'1', u'type': u'_Soil', u'name': u'Soil', u'minOccurs': u'1'}, None),
-        MemberSpec_('LatLon', '_LatLon', 0, 0, {u'maxOccurs': u'1', u'type': u'_LatLon', u'name': u'LatLon', u'minOccurs': u'1'}, None),
-        MemberSpec_('InfiniteSlopeProperties', '_InfiniteSlopeProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_InfiniteSlopeProperties', u'name': u'InfiniteSlopeProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('Scene', '_Scene', 0, 0, {'name': 'Scene', 'type': '_Scene', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('RandomGenerationParameters', '_RandomGenerationParameters', 0, 0, {'name': 'RandomGenerationParameters', 'type': '_RandomGenerationParameters', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Soil', '_Soil', 0, 0, {'name': 'Soil', 'type': '_Soil', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('LatLon', '_LatLon', 0, 0, {'name': 'LatLon', 'type': '_LatLon', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('InfiniteSlopeProperties', '_InfiniteSlopeProperties', 0, 0, {'name': 'InfiniteSlopeProperties', 'type': '_InfiniteSlopeProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -1279,9 +1279,9 @@ class create_Maket(GeneratedsSuper):
 
 class create_Scene(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('CellDimensions', '_CellDimensions', 0, 0, {u'maxOccurs': u'1', u'type': u'_CellDimensions', u'name': u'CellDimensions', u'minOccurs': u'1'}, None),
-        MemberSpec_('SceneDimensions', '_SceneDimensions', 0, 0, {u'maxOccurs': u'1', u'type': u'_SceneDimensions', u'name': u'SceneDimensions', u'minOccurs': u'1'}, None),
-        MemberSpec_('DartZoneProperties', '_DartZoneProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_DartZoneProperties', u'name': u'DartZoneProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('CellDimensions', '_CellDimensions', 0, 0, {'name': 'CellDimensions', 'type': '_CellDimensions', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('SceneDimensions', '_SceneDimensions', 0, 0, {'name': 'SceneDimensions', 'type': '_SceneDimensions', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('DartZoneProperties', '_DartZoneProperties', 0, 0, {'name': 'DartZoneProperties', 'type': '_DartZoneProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -1837,7 +1837,7 @@ class create_SceneDimensions(GeneratedsSuper):
 
 class create_DartZoneProperties(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('Point2D', '_Point2D', 1, 0, {u'maxOccurs': u'2', u'type': u'_Point2D', u'name': u'Point2D', u'minOccurs': u'2'}, None),
+        MemberSpec_('Point2D', '_Point2D', 1, 0, {'name': 'Point2D', 'type': '_Point2D', 'minOccurs': '2', 'maxOccurs': '2'}, None),
     ]
     subclass = None
     superclass = None
@@ -2345,10 +2345,10 @@ class create_RandomGenerationParameters(GeneratedsSuper):
 
 class create_Soil(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('Topography', '_Topography', 0, 0, {u'maxOccurs': u'1', u'type': u'_Topography', u'name': u'Topography', u'minOccurs': u'1'}, None),
-        MemberSpec_('DEM_properties', '_DEM_properties', 0, 0, {u'maxOccurs': u'1', u'type': u'_DEM_properties', u'name': u'DEM_properties', u'minOccurs': u'1'}, None),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {'name': 'OpticalPropertyLink', 'type': '_OpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {'name': 'ThermalPropertyLink', 'type': '_ThermalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Topography', '_Topography', 0, 0, {'name': 'Topography', 'type': '_Topography', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('DEM_properties', '_DEM_properties', 0, 0, {'name': 'DEM_properties', 'type': '_DEM_properties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -2953,7 +2953,7 @@ class create_Topography(GeneratedsSuper):
     Digital Elevation Model"""
     member_data_items_ = [
         MemberSpec_('presenceOfTopography', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('TopographyProperties', '_TopographyProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_TopographyProperties', u'name': u'TopographyProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('TopographyProperties', '_TopographyProperties', 0, 0, {'name': 'TopographyProperties', 'type': '_TopographyProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -3280,7 +3280,7 @@ class create_DEM_properties(GeneratedsSuper):
     """Create or Convert DEM Create or Convert DEM"""
     member_data_items_ = [
         MemberSpec_('createTopography', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('DEMGenerator', '_DEMGenerator', 0, 0, {u'maxOccurs': u'1', u'type': u'_DEMGenerator', u'name': u'DEMGenerator', u'minOccurs': u'1'}, None),
+        MemberSpec_('DEMGenerator', '_DEMGenerator', 0, 0, {'name': 'DEMGenerator', 'type': '_DEMGenerator', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -3458,11 +3458,11 @@ class create_DEMGenerator(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('caseDEM', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('outputFileName', 'xsd:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('DEM_1', '_DEM_1', 0, 0, {u'maxOccurs': u'1', u'type': u'_DEM_1', u'name': u'DEM_1', u'minOccurs': u'1'}, None),
-        MemberSpec_('DEM_2', '_DEM_2', 0, 0, {u'maxOccurs': u'1', u'type': u'_DEM_2', u'name': u'DEM_2', u'minOccurs': u'1'}, None),
-        MemberSpec_('DEM_3', '_DEM_3', 0, 0, {u'maxOccurs': u'1', u'type': u'_DEM_3', u'name': u'DEM_3', u'minOccurs': u'1'}, None),
-        MemberSpec_('DEM_4', '_DEM_4', 0, 0, {u'maxOccurs': u'1', u'type': u'_DEM_4', u'name': u'DEM_4', u'minOccurs': u'1'}, None),
-        MemberSpec_('DEM_5', '_DEM_5', 0, 0, {u'maxOccurs': u'1', u'type': u'_DEM_5', u'name': u'DEM_5', u'minOccurs': u'1'}, None),
+        MemberSpec_('DEM_1', '_DEM_1', 0, 0, {'name': 'DEM_1', 'type': '_DEM_1', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('DEM_2', '_DEM_2', 0, 0, {'name': 'DEM_2', 'type': '_DEM_2', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('DEM_3', '_DEM_3', 0, 0, {'name': 'DEM_3', 'type': '_DEM_3', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('DEM_4', '_DEM_4', 0, 0, {'name': 'DEM_4', 'type': '_DEM_4', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('DEM_5', '_DEM_5', 0, 0, {'name': 'DEM_5', 'type': '_DEM_5', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -3758,11 +3758,11 @@ class create_DEM_1(GeneratedsSuper):
     """Theorical DEM curve shape Theorical DEM curve shape"""
     member_data_items_ = [
         MemberSpec_('curveShape', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('DEMproperties_0', '_DEMproperties_0', 0, 0, {u'maxOccurs': u'1', u'type': u'_DEMproperties_0', u'name': u'DEMproperties_0', u'minOccurs': u'1'}, None),
-        MemberSpec_('DEMproperties_1', '_DEMproperties_1', 0, 0, {u'maxOccurs': u'1', u'type': u'_DEMproperties_1', u'name': u'DEMproperties_1', u'minOccurs': u'1'}, None),
-        MemberSpec_('DEMproperties_3', '_DEMproperties_3', 0, 0, {u'maxOccurs': u'1', u'type': u'_DEMproperties_3', u'name': u'DEMproperties_3', u'minOccurs': u'1'}, None),
-        MemberSpec_('DEMproperties_5', '_DEMproperties_5', 0, 0, {u'maxOccurs': u'1', u'type': u'_DEMproperties_5', u'name': u'DEMproperties_5', u'minOccurs': u'1'}, None),
-        MemberSpec_('DEMproperties_6', '_DEMproperties_6', 0, 0, {u'maxOccurs': u'1', u'type': u'_DEMproperties_6', u'name': u'DEMproperties_6', u'minOccurs': u'1'}, None),
+        MemberSpec_('DEMproperties_0', '_DEMproperties_0', 0, 0, {'name': 'DEMproperties_0', 'type': '_DEMproperties_0', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('DEMproperties_1', '_DEMproperties_1', 0, 0, {'name': 'DEMproperties_1', 'type': '_DEMproperties_1', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('DEMproperties_3', '_DEMproperties_3', 0, 0, {'name': 'DEMproperties_3', 'type': '_DEMproperties_3', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('DEMproperties_5', '_DEMproperties_5', 0, 0, {'name': 'DEMproperties_5', 'type': '_DEMproperties_5', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('DEMproperties_6', '_DEMproperties_6', 0, 0, {'name': 'DEMproperties_6', 'type': '_DEMproperties_6', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -6021,18 +6021,18 @@ class create_LatLon(GeneratedsSuper):
 
 class create_InfiniteSlopeProperties(GeneratedsSuper):
     """Define the % of the DEM that will be cropped along the Y axis to be
-    replaced with a smooth transition between borders.\nWithout this
+    replaced with a smooth transition between borders. Without this
     smooth transition, abrupt cliffs will be generated to avoid
     holes in the scene. Define the % of the DEM that will be cropped
     along the Y axis to be replaced with a smooth transition between
-    borders.\nWithout this smooth transition, abrupt cliffs will be
+    borders. Without this smooth transition, abrupt cliffs will be
     generated to avoid holes in the scene. Define the % of the DEM
     that will be cropped along the X axis to be replaced with a
-    smooth transition between borders.\nWithout this smooth
+    smooth transition between borders. Without this smooth
     transition, abrupt cliffs will be generated to avoid holes in
     the scene. Define the % of the DEM that will be cropped along
     the X axis to be replaced with a smooth transition between
-    borders.\nWithout this smooth transition, abrupt cliffs will be
+    borders. Without this smooth transition, abrupt cliffs will be
     generated to avoid holes in the scene."""
     member_data_items_ = [
         MemberSpec_('connectionPercentageY', 'xsd:double', 0, 1, {'use': 'optional'}),

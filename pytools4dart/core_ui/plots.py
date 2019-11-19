@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Sun Mar 31 19:31:19 2019 by generateDS.py version 2.29.25.
-# Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
+# Generated Tue Nov 19 15:08:17 2019 by generateDS.py version 2.29.25.
+# Python 3.6.7 | packaged by conda-forge | (default, Nov  6 2019, 16:19:42)  [GCC 7.3.0]
 #
 # Command line options:
 #   ('-m', '')
@@ -16,13 +16,13 @@
 #   ('--pre-ctor', "self.troot=get_gs_troot('plots','{classname}')")
 #   ('--post-ctor', "update_node(self,self.troot,'plots')")
 #   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes')
-#   ('-o', '/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/plots.py')
+#   ('-o', '/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/plots.py')
 #
 # Command line arguments:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/plots.xsd
+#   /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/plots.xsd
 #
 # Command line:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'plots')" --pre-ctor="self.troot=get_gs_troot('plots','{classname}')" --post-ctor="update_node(self,self.troot,'plots')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/plots.py" /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/plots.xsd
+#   /home/boissieu/anaconda3/envs/pytools4dart/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'plots')" --pre-ctor="self.troot=get_gs_troot('plots','{classname}')" --post-ctor="update_node(self,self.troot,'plots')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/plots.py" /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/plots.xsd
 #
 # Current working directory (os.getcwd()):
 #   pytools4dart
@@ -747,11 +747,11 @@ class createDartFile(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('version', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('build_', 'xsd:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Plots', '_Plots', 0, 0, {u'maxOccurs': u'1', u'type': u'_Plots', u'name': u'Plots', u'minOccurs': u'1'}, None),
+        MemberSpec_('Plots', '_Plots', 0, 0, {'name': 'Plots', 'type': '_Plots', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
-    def __init__(self, version='5.7.4', build_='0', Plots=None):
+    def __init__(self, version='5.7.5', build_='0', Plots=None):
         self.original_tagname_ = None
         self.troot=get_gs_troot('plots','DartFile')
         self.attrib = ['version', 'build_']
@@ -937,24 +937,23 @@ class createDartFile(GeneratedsSuper):
 
 
 class create_Plots(GeneratedsSuper):
-    """Contains the description of the working environment for the
-    Vegetation module. Contains also the list of the plots for the
+    """Contains the description of the working environment for the Cover
+    Map module. Contains also the list of the plots for the
     simulation and their optical(s) property(ies). Contains the
-    description of the working environment for the Vegetation
-    module. Contains also the list of the plots for the simulation
-    and their optical(s) property(ies). Indicate if there is
-    information for the module Vegetation. 1 if the user wants to
-    use the Vegetation module, 0 otherwise. Indicate if there is
-    information for the module Vegetation. 1 if the user wants to
-    use the Vegetation module, 0 otherwise. Choose if you want to
-    add an extra plot file Choose if you want to add an extra plot
-    file"""
+    description of the working environment for the Cover Map module.
+    Contains also the list of the plots for the simulation and their
+    optical(s) property(ies). Indicate if there is information for
+    the module Cover Map. 1 if the user wants to use the Cover Map
+    module, 0 otherwise. Indicate if there is information for the
+    module Cover Map. 1 if the user wants to use the Cover Map
+    module, 0 otherwise. Choose if you want to add an extra plot
+    file Choose if you want to add an extra plot file"""
     member_data_items_ = [
         MemberSpec_('isVegetation', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('addExtraPlotsTextFile', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('ExtraPlotsTextFileDefinition', '_ExtraPlotsTextFileDefinition', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExtraPlotsTextFileDefinition', u'name': u'ExtraPlotsTextFileDefinition', u'minOccurs': u'1'}, None),
-        MemberSpec_('ImportationFichierRaster', '_ImportationFichierRaster', 0, 0, {u'maxOccurs': u'1', u'type': u'_ImportationFichierRaster', u'name': u'ImportationFichierRaster', u'minOccurs': u'1'}, None),
-        MemberSpec_('Plot', '_Plot', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_Plot', u'name': u'Plot', u'minOccurs': u'0'}, None),
+        MemberSpec_('ExtraPlotsTextFileDefinition', '_ExtraPlotsTextFileDefinition', 0, 0, {'name': 'ExtraPlotsTextFileDefinition', 'type': '_ExtraPlotsTextFileDefinition', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ImportationFichierRaster', '_ImportationFichierRaster', 0, 0, {'name': 'ImportationFichierRaster', 'type': '_ImportationFichierRaster', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Plot', '_Plot', 1, 1, {'name': 'Plot', 'type': '_Plot', 'minOccurs': '0', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -1367,12 +1366,12 @@ class create_ExtraPlotsTextFileDefinition(GeneratedsSuper):
 
 
 class create_ImportationFichierRaster(GeneratedsSuper):
-    """Contains the information of the input files for the Vegetation
+    """Contains the information of the input files for the Cover Map
     module. Contains the information of the input files for the
-    Vegetation module."""
+    Cover Map module."""
     member_data_items_ = [
-        MemberSpec_('VegetationProperties', '_VegetationProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_VegetationProperties', u'name': u'VegetationProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('RasterCOSInformation', '_RasterCOSInformation', 0, 0, {u'maxOccurs': u'1', u'type': u'_RasterCOSInformation', u'name': u'RasterCOSInformation', u'minOccurs': u'1'}, None),
+        MemberSpec_('VegetationProperties', '_VegetationProperties', 0, 0, {'name': 'VegetationProperties', 'type': '_VegetationProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('RasterCOSInformation', '_RasterCOSInformation', 0, 0, {'name': 'RasterCOSInformation', 'type': '_RasterCOSInformation', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -1552,36 +1551,39 @@ class create_ImportationFichierRaster(GeneratedsSuper):
 
 
 class create_VegetationProperties(GeneratedsSuper):
-    """Properties of the raster image of the Vegetation module (name,
-    number of lines/colunms, type of the pixel ...). Properties of
-    the raster image of the Vegetation module (name, number of
+    """Properties of the raster image of the Cover Map module (name, number
+    of lines/colunms, type of the pixel ...). Properties of the
+    raster image of the Cover Map module (name, number of
     lines/colunms, type of the pixel ...). Allows the user to work
     on a subzone of the raster image. 1 for extracting a sub-zone of
     the COS, 0 otherwise. Allows the user to work on a subzone of
     the raster image. 1 for extracting a sub-zone of the COS, 0
-    otherwise. Raster file name. It must be in the simulation
-    "input" directory of the simulation. Raster file name. It must
-    be in the simulation "input" directory of the simulation. Allows
-    Vegetation module to keep or crush the current plots. 1, the
-    plots are crushed. 0, the plots are kept. Allows Vegetation
-    module to keep or crush the current plots. 1, the plots are
-    crushed. 0, the plots are kept."""
+    otherwise. Generate plots.txt instead of importation Generate
+    plots.txt instead of importation Raster file name. It must be in
+    the simulation "input" directory of the simulation. Raster file
+    name. It must be in the simulation "input" directory of the
+    simulation. Allows Cover Map module to keep or crush the current
+    plots. 1, the plots are crushed. 0, the plots are kept. Allows
+    Cover Map module to keep or crush the current plots. 1, the
+    plots are crushed. 0, the plots are kept."""
     member_data_items_ = [
         MemberSpec_('selectSubZone', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('generatePlotTxt', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('coverLandMapFileName', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('coverLandMapDescFileName', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('OverwritePlots', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('SelectSubZoneProperties', '_SelectSubZoneProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_SelectSubZoneProperties', u'name': u'SelectSubZoneProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('SelectSubZoneProperties', '_SelectSubZoneProperties', 0, 0, {'name': 'SelectSubZoneProperties', 'type': '_SelectSubZoneProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
-    def __init__(self, selectSubZone=0, coverLandMapFileName='land_cover.mp#', coverLandMapDescFileName='Desc_CoverLandMap.txt', OverwritePlots=1, SelectSubZoneProperties=None):
+    def __init__(self, selectSubZone=0, generatePlotTxt=0, coverLandMapFileName='CoverMap/CoverMapExample.mp#', coverLandMapDescFileName='CoverMap/CoverMapExample.txt', OverwritePlots=1, SelectSubZoneProperties=None):
         self.original_tagname_ = None
         self.troot=get_gs_troot('plots','_VegetationProperties')
-        self.attrib = ['selectSubZone', 'coverLandMapFileName', 'coverLandMapDescFileName', 'OverwritePlots']
+        self.attrib = ['selectSubZone', 'generatePlotTxt', 'coverLandMapFileName', 'coverLandMapDescFileName', 'OverwritePlots']
         self.children = ['SelectSubZoneProperties']
         self.parent = None
         self._selectSubZone = _cast(int, selectSubZone)
+        self._generatePlotTxt = _cast(int, generatePlotTxt)
         self._coverLandMapFileName = _cast(None, coverLandMapFileName)
         self._coverLandMapDescFileName = _cast(None, coverLandMapDescFileName)
         self._OverwritePlots = _cast(int, OverwritePlots)
@@ -1610,6 +1612,11 @@ class create_VegetationProperties(GeneratedsSuper):
         self._selectSubZone = value
         update_node(self,self.troot,'plots')
     selectSubZone = property(get_selectSubZone, set_selectSubZone)
+    def get_generatePlotTxt(self): return self._generatePlotTxt
+    def set_generatePlotTxt(self, value):
+        self._generatePlotTxt = value
+        update_node(self,self.troot,'plots')
+    generatePlotTxt = property(get_generatePlotTxt, set_generatePlotTxt)
     def get_coverLandMapFileName(self): return self._coverLandMapFileName
     def set_coverLandMapFileName(self, value):
         self._coverLandMapFileName = value
@@ -1660,6 +1667,9 @@ class create_VegetationProperties(GeneratedsSuper):
         if self.selectSubZone is not None and 'selectSubZone' not in already_processed:
             already_processed.add('selectSubZone')
             outfile.write(' selectSubZone="%s"' % self.gds_format_integer(self.selectSubZone, input_name='selectSubZone'))
+        if self.generatePlotTxt is not None and 'generatePlotTxt' not in already_processed:
+            already_processed.add('generatePlotTxt')
+            outfile.write(' generatePlotTxt="%s"' % self.gds_format_integer(self.generatePlotTxt, input_name='generatePlotTxt'))
         if self.coverLandMapFileName is not None and 'coverLandMapFileName' not in already_processed:
             already_processed.add('coverLandMapFileName')
             outfile.write(' coverLandMapFileName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.coverLandMapFileName), input_name='coverLandMapFileName')), ))
@@ -1683,6 +1693,8 @@ class create_VegetationProperties(GeneratedsSuper):
             element = etree_.SubElement(parent_element, '{}' + name_)
         if self.selectSubZone is not None:
             element.set('selectSubZone', self.gds_format_integer(self.selectSubZone))
+        if self.generatePlotTxt is not None:
+            element.set('generatePlotTxt', self.gds_format_integer(self.generatePlotTxt))
         if self.coverLandMapFileName is not None:
             element.set('coverLandMapFileName', self.gds_format_string(self.coverLandMapFileName))
         if self.coverLandMapDescFileName is not None:
@@ -1706,6 +1718,10 @@ class create_VegetationProperties(GeneratedsSuper):
             already_processed.add('selectSubZone')
             showIndent(outfile, level)
             outfile.write('selectSubZone=%d,\n' % (self.selectSubZone,))
+        if self.generatePlotTxt is not None and 'generatePlotTxt' not in already_processed:
+            already_processed.add('generatePlotTxt')
+            showIndent(outfile, level)
+            outfile.write('generatePlotTxt=%d,\n' % (self.generatePlotTxt,))
         if self.coverLandMapFileName is not None and 'coverLandMapFileName' not in already_processed:
             already_processed.add('coverLandMapFileName')
             showIndent(outfile, level)
@@ -1738,6 +1754,13 @@ class create_VegetationProperties(GeneratedsSuper):
             already_processed.add('selectSubZone')
             try:
                 self.selectSubZone = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('generatePlotTxt', node)
+        if value is not None and 'generatePlotTxt' not in already_processed:
+            already_processed.add('generatePlotTxt')
+            try:
+                self.generatePlotTxt = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
         value = find_attr_value_('coverLandMapFileName', node)
@@ -2030,9 +2053,9 @@ class create_SelectSubZoneProperties(GeneratedsSuper):
 
 
 class create_RasterCOSInformation(GeneratedsSuper):
-    """Properties of the raster image of the Vegetation module (name,
-    number of lines/colunms, type of the pixel ...). Properties of
-    the raster image of the Vegetation module (name, number of
+    """Properties of the raster image of the Cover Map module (name, number
+    of lines/colunms, type of the pixel ...). Properties of the
+    raster image of the Cover Map module (name, number of
     lines/colunms, type of the pixel ...). Dimension in meters of a
     pixel of the raster image, along a column. Dimension in meters
     of a pixel of the raster image, along a column. Number of
@@ -2050,7 +2073,7 @@ class create_RasterCOSInformation(GeneratedsSuper):
     ]
     subclass = None
     superclass = None
-    def __init__(self, pixelSizeCol=1, nbColCOS=20, pixelSizeLi=1, pixelByteSizeCOS=1, nbLiCOS=20):
+    def __init__(self, pixelSizeCol=1.0, nbColCOS=5, pixelSizeLi=1.0, pixelByteSizeCOS=9, nbLiCOS=5):
         self.original_tagname_ = None
         self.troot=get_gs_troot('plots','_RasterCOSInformation')
         self.attrib = ['pixelSizeCol', 'nbColCOS', 'pixelSizeLi', 'pixelByteSizeCOS', 'nbLiCOS']
@@ -2291,9 +2314,9 @@ class create_Plot(GeneratedsSuper):
     of optical properties depends of the type of the plot. It can be
     formed of soil, vegetation or a combinaison of soil and
     vegetation. If you select this option, this plot are not use in
-    all DART modules, \n it's useful if you want conserve plot
+    all DART modules, it's useful if you want conserve plot
     properties backup without delete this for tests If you select
-    this option, this plot are not use in all DART modules, \n it's
+    this option, this plot are not use in all DART modules, it's
     useful if you want conserve plot properties backup without
     delete this for tests If part of the object goes beyond the
     border of the scene, this part is copied on the other side of
@@ -2312,22 +2335,22 @@ class create_Plot(GeneratedsSuper):
     done by giving the dimension and position of a rectangle, or by
     directly giving the coordinates of the four corners of the the
     delimiting quadrilater. Objects's positions are taken from the
-    position file.\nDesactivate this option if you experience some
-    slowdown. Objects's positions are taken from the position
-    file.\nDesactivate this option if you experience some slowdown."""
+    position file. Desactivate this option if you experience some
+    slowdown. Objects's positions are taken from the position file.
+    Desactivate this option if you experience some slowdown."""
     member_data_items_ = [
         MemberSpec_('hidden', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('repeatedOnBorder', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('type_', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('form', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('isDisplayed', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Polygon2D', '_Polygon2D', 0, 0, {u'maxOccurs': u'1', u'type': u'_Polygon2D', u'name': u'Polygon2D', u'minOccurs': u'1'}, None),
-        MemberSpec_('Rectangle2D', '_Rectangle2D', 0, 0, {u'maxOccurs': u'1', u'type': u'_Rectangle2D', u'name': u'Rectangle2D', u'minOccurs': u'1'}, None),
-        MemberSpec_('GroundOpticalPropertyLink', '_GroundOpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_GroundOpticalPropertyLink', u'name': u'GroundOpticalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('GroundThermalPropertyLink', '_GroundThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_GroundThermalPropertyLink', u'name': u'GroundThermalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('PlotVegetationProperties', '_PlotVegetationProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_PlotVegetationProperties', u'name': u'PlotVegetationProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('PlotAirProperties', '_PlotAirProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_PlotAirProperties', u'name': u'PlotAirProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('PlotWaterProperties', '_PlotWaterProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_PlotWaterProperties', u'name': u'PlotWaterProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('Polygon2D', '_Polygon2D', 0, 0, {'name': 'Polygon2D', 'type': '_Polygon2D', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Rectangle2D', '_Rectangle2D', 0, 0, {'name': 'Rectangle2D', 'type': '_Rectangle2D', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('GroundOpticalPropertyLink', '_GroundOpticalPropertyLink', 0, 0, {'name': 'GroundOpticalPropertyLink', 'type': '_GroundOpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('GroundThermalPropertyLink', '_GroundThermalPropertyLink', 0, 0, {'name': 'GroundThermalPropertyLink', 'type': '_GroundThermalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('PlotVegetationProperties', '_PlotVegetationProperties', 0, 0, {'name': 'PlotVegetationProperties', 'type': '_PlotVegetationProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('PlotAirProperties', '_PlotAirProperties', 0, 0, {'name': 'PlotAirProperties', 'type': '_PlotAirProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('PlotWaterProperties', '_PlotWaterProperties', 0, 0, {'name': 'PlotWaterProperties', 'type': '_PlotWaterProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -2744,7 +2767,7 @@ class create_Polygon2D(GeneratedsSuper):
     Representation of a DART polygon. He's defined by his 4 corners,
     starting form the top left one, and turning anticlockwise."""
     member_data_items_ = [
-        MemberSpec_('Point2D', '_Point2D', 1, 0, {u'maxOccurs': u'4', u'type': u'_Point2D', u'name': u'Point2D', u'minOccurs': u'4'}, None),
+        MemberSpec_('Point2D', '_Point2D', 1, 0, {'name': 'Point2D', 'type': '_Point2D', 'minOccurs': '4', 'maxOccurs': '4'}, None),
     ]
     subclass = None
     superclass = None
@@ -3740,13 +3763,13 @@ class create_PlotVegetationProperties(GeneratedsSuper):
         MemberSpec_('verticalFillMode', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('trianglePlotRepresentation', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('densityDefinition', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('MeshPlotRepresentation', '_MeshPlotRepresentation', 0, 0, {u'maxOccurs': u'1', u'type': u'_MeshPlotRepresentation', u'name': u'MeshPlotRepresentation', u'minOccurs': u'1'}, None),
-        MemberSpec_('VegetationGeometry', '_VegetationGeometry', 0, 0, {u'maxOccurs': u'1', u'type': u'_VegetationGeometry', u'name': u'VegetationGeometry', u'minOccurs': u'1'}, None),
-        MemberSpec_('VegetationFillGeometry', '_VegetationFillGeometry', 0, 0, {u'maxOccurs': u'1', u'type': u'_VegetationFillGeometry', u'name': u'VegetationFillGeometry', u'minOccurs': u'1'}, None),
-        MemberSpec_('LAIVegetation', '_LAIVegetation', 0, 0, {u'maxOccurs': u'1', u'type': u'_LAIVegetation', u'name': u'LAIVegetation', u'minOccurs': u'1'}, None),
-        MemberSpec_('UFVegetation', '_UFVegetation', 0, 0, {u'maxOccurs': u'1', u'type': u'_UFVegetation', u'name': u'UFVegetation', u'minOccurs': u'1'}, None),
-        MemberSpec_('VegetationOpticalPropertyLink', '_VegetationOpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_VegetationOpticalPropertyLink', u'name': u'VegetationOpticalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('GroundThermalPropertyLink', '_GroundThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_GroundThermalPropertyLink', u'name': u'GroundThermalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('MeshPlotRepresentation', '_MeshPlotRepresentation', 0, 0, {'name': 'MeshPlotRepresentation', 'type': '_MeshPlotRepresentation', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('VegetationGeometry', '_VegetationGeometry', 0, 0, {'name': 'VegetationGeometry', 'type': '_VegetationGeometry', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('VegetationFillGeometry', '_VegetationFillGeometry', 0, 0, {'name': 'VegetationFillGeometry', 'type': '_VegetationFillGeometry', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('LAIVegetation', '_LAIVegetation', 0, 0, {'name': 'LAIVegetation', 'type': '_LAIVegetation', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('UFVegetation', '_UFVegetation', 0, 0, {'name': 'UFVegetation', 'type': '_UFVegetation', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('VegetationOpticalPropertyLink', '_VegetationOpticalPropertyLink', 0, 0, {'name': 'VegetationOpticalPropertyLink', 'type': '_VegetationOpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('GroundThermalPropertyLink', '_GroundThermalPropertyLink', 0, 0, {'name': 'GroundThermalPropertyLink', 'type': '_GroundThermalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -4121,8 +4144,8 @@ class create_MeshPlotRepresentation(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('distributionMode', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('leafDefinition', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('NumberOfTriangleParameters', '_NumberOfTriangleParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_NumberOfTriangleParameters', u'name': u'NumberOfTriangleParameters', u'minOccurs': u'1'}, None),
-        MemberSpec_('MeshLeafDimensionParameters', '_MeshLeafDimensionParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_MeshLeafDimensionParameters', u'name': u'MeshLeafDimensionParameters', u'minOccurs': u'1'}, None),
+        MemberSpec_('NumberOfTriangleParameters', '_NumberOfTriangleParameters', 0, 0, {'name': 'NumberOfTriangleParameters', 'type': '_NumberOfTriangleParameters', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('MeshLeafDimensionParameters', '_MeshLeafDimensionParameters', 0, 0, {'name': 'MeshLeafDimensionParameters', 'type': '_MeshLeafDimensionParameters', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -5497,10 +5520,10 @@ class create_PlotAirProperties(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('verticalFillMode', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('nbParticule', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('AirGeometry', '_AirGeometry', 0, 0, {u'maxOccurs': u'1', u'type': u'_AirGeometry', u'name': u'AirGeometry', u'minOccurs': u'1'}, None),
-        MemberSpec_('AirFillGeometry', '_AirFillGeometry', 0, 0, {u'maxOccurs': u'1', u'type': u'_AirFillGeometry', u'name': u'AirFillGeometry', u'minOccurs': u'1'}, None),
-        MemberSpec_('AirOpticalProperties', '_AirOpticalProperties', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_AirOpticalProperties', u'name': u'AirOpticalProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('GroundThermalPropertyLink', '_GroundThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_GroundThermalPropertyLink', u'name': u'GroundThermalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('AirGeometry', '_AirGeometry', 0, 0, {'name': 'AirGeometry', 'type': '_AirGeometry', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('AirFillGeometry', '_AirFillGeometry', 0, 0, {'name': 'AirFillGeometry', 'type': '_AirFillGeometry', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('AirOpticalProperties', '_AirOpticalProperties', 1, 0, {'name': 'AirOpticalProperties', 'type': '_AirOpticalProperties', 'minOccurs': '1', 'maxOccurs': 'unbounded'}, None),
+        MemberSpec_('GroundThermalPropertyLink', '_GroundThermalPropertyLink', 0, 0, {'name': 'GroundThermalPropertyLink', 'type': '_GroundThermalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -6147,7 +6170,7 @@ class create_AirOpticalProperties(GeneratedsSuper):
     per meter-cube)"""
     member_data_items_ = [
         MemberSpec_('extinctionCoefficient', 'xsd:double', 0, 1, {'use': 'optional'}),
-        MemberSpec_('AirOpticalPropertyLink', '_AirOpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_AirOpticalPropertyLink', u'name': u'AirOpticalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('AirOpticalPropertyLink', '_AirOpticalPropertyLink', 0, 0, {'name': 'AirOpticalPropertyLink', 'type': '_AirOpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -6505,8 +6528,8 @@ class create_PlotWaterProperties(GeneratedsSuper):
         MemberSpec_('waterDepth', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('waterHeight', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('stDev', 'xsd:double', 0, 1, {'use': 'optional'}),
-        MemberSpec_('WaterOpticalProperties', '_WaterOpticalProperties', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_WaterOpticalProperties', u'name': u'WaterOpticalProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('GroundThermalPropertyLink', '_GroundThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_GroundThermalPropertyLink', u'name': u'GroundThermalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('WaterOpticalProperties', '_WaterOpticalProperties', 1, 0, {'name': 'WaterOpticalProperties', 'type': '_WaterOpticalProperties', 'minOccurs': '1', 'maxOccurs': 'unbounded'}, None),
+        MemberSpec_('GroundThermalPropertyLink', '_GroundThermalPropertyLink', 0, 0, {'name': 'GroundThermalPropertyLink', 'type': '_GroundThermalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -6794,7 +6817,7 @@ class create_WaterOpticalProperties(GeneratedsSuper):
     Extinction coefficient"""
     member_data_items_ = [
         MemberSpec_('extinctionCoefficient', 'xsd:double', 0, 1, {'use': 'optional'}),
-        MemberSpec_('AirOpticalPropertyLink', '_AirOpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_AirOpticalPropertyLink', u'name': u'AirOpticalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('AirOpticalPropertyLink', '_AirOpticalPropertyLink', 0, 0, {'name': 'AirOpticalPropertyLink', 'type': '_AirOpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None

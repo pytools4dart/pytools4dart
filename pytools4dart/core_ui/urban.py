@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Sun Mar 31 19:31:19 2019 by generateDS.py version 2.29.25.
-# Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
+# Generated Tue Nov 19 15:08:17 2019 by generateDS.py version 2.29.25.
+# Python 3.6.7 | packaged by conda-forge | (default, Nov  6 2019, 16:19:42)  [GCC 7.3.0]
 #
 # Command line options:
 #   ('-m', '')
@@ -16,13 +16,13 @@
 #   ('--pre-ctor', "self.troot=get_gs_troot('urban','{classname}')")
 #   ('--post-ctor', "update_node(self,self.troot,'urban')")
 #   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes')
-#   ('-o', '/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/urban.py')
+#   ('-o', '/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/urban.py')
 #
 # Command line arguments:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/urban.xsd
+#   /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/urban.xsd
 #
 # Command line:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'urban')" --pre-ctor="self.troot=get_gs_troot('urban','{classname}')" --post-ctor="update_node(self,self.troot,'urban')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/urban.py" /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/urban.xsd
+#   /home/boissieu/anaconda3/envs/pytools4dart/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'urban')" --pre-ctor="self.troot=get_gs_troot('urban','{classname}')" --post-ctor="update_node(self,self.troot,'urban')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/urban.py" /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/urban.xsd
 #
 # Current working directory (os.getcwd()):
 #   pytools4dart
@@ -747,11 +747,11 @@ class createDartFile(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('version', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('build_', 'xsd:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Urban', '_Urban', 0, 0, {u'maxOccurs': u'1', u'type': u'_Urban', u'name': u'Urban', u'minOccurs': u'1'}, None),
+        MemberSpec_('Urban', '_Urban', 0, 0, {'name': 'Urban', 'type': '_Urban', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
-    def __init__(self, version='5.7.4', build_='0', Urban=None):
+    def __init__(self, version='5.7.5', build_='0', Urban=None):
         self.original_tagname_ = None
         self.troot=get_gs_troot('urban','DartFile')
         self.attrib = ['version', 'build_']
@@ -939,9 +939,9 @@ class createDartFile(GeneratedsSuper):
 class create_Urban(GeneratedsSuper):
     """Urban Urban"""
     member_data_items_ = [
-        MemberSpec_('Buildings', '_Buildings', 0, 0, {u'maxOccurs': u'1', u'type': u'_Buildings', u'name': u'Buildings', u'minOccurs': u'1'}, None),
-        MemberSpec_('Roads', '_Roads', 0, 0, {u'maxOccurs': u'1', u'type': u'_Roads', u'name': u'Roads', u'minOccurs': u'1'}, None),
-        MemberSpec_('SmallWalls', '_SmallWalls', 0, 0, {u'maxOccurs': u'1', u'type': u'_SmallWalls', u'name': u'SmallWalls', u'minOccurs': u'1'}, None),
+        MemberSpec_('Buildings', '_Buildings', 0, 0, {'name': 'Buildings', 'type': '_Buildings', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Roads', '_Roads', 0, 0, {'name': 'Roads', 'type': '_Roads', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('SmallWalls', '_SmallWalls', 0, 0, {'name': 'SmallWalls', 'type': '_SmallWalls', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -1148,7 +1148,7 @@ class create_Urban(GeneratedsSuper):
 class create_Buildings(GeneratedsSuper):
     """Buildings Buildings"""
     member_data_items_ = [
-        MemberSpec_('Building', '_Building', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_Building', u'name': u'Building', u'minOccurs': u'0'}, None),
+        MemberSpec_('Building', '_Building', 1, 1, {'name': 'Building', 'type': '_Building', 'minOccurs': '0', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -1323,25 +1323,25 @@ class create_Buildings(GeneratedsSuper):
 
 class create_Building(GeneratedsSuper):
     """Building Building If you select this option, this entire building
-    are not use in all DART modules, \n it's useful if you want
+    are not use in all DART modules, it's useful if you want
     conserve building properties backup without delete this for
     tests If you select this option, this entire building are not
-    use in all DART modules, \n it's useful if you want conserve
+    use in all DART modules, it's useful if you want conserve
     building properties backup without delete this for tests -
-    Double faces : \ninternal and external faces \n -Simple face :
-    \nonly external faces - Double faces : \ninternal and external
-    faces \n -Simple face : \nonly external faces Objects's
-    positions are taken from the position file.\nDesactivate this
-    option if you experience some slowdown. Objects's positions are
-    taken from the position file.\nDesactivate this option if you
-    experience some slowdown."""
+    Double faces : internal and external faces -Simple face : only
+    external faces - Double faces : internal and external faces
+    -Simple face : only external faces Objects's positions are taken
+    from the position file. Desactivate this option if you
+    experience some slowdown. Objects's positions are taken from the
+    position file. Desactivate this option if you experience some
+    slowdown."""
     member_data_items_ = [
         MemberSpec_('hidden', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('doubleFaceBuilding', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('isDisplayed', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('WallProperties', '_WallProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_WallProperties', u'name': u'WallProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('RoofProperties', '_RoofProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_RoofProperties', u'name': u'RoofProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('House', '_House', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_House', u'name': u'House', u'minOccurs': u'1'}, None),
+        MemberSpec_('WallProperties', '_WallProperties', 0, 0, {'name': 'WallProperties', 'type': '_WallProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('RoofProperties', '_RoofProperties', 0, 0, {'name': 'RoofProperties', 'type': '_RoofProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('House', '_House', 1, 0, {'name': 'House', 'type': '_House', 'minOccurs': '1', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -1633,10 +1633,10 @@ class create_WallProperties(GeneratedsSuper):
     houses of this building have the same optical properties"""
     member_data_items_ = [
         MemberSpec_('sameWall', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('ExternalFacesOpticalPropertyLink', '_ExternalFacesOpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExternalFacesOpticalPropertyLink', u'name': u'ExternalFacesOpticalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('ExternalFacesThermalPropertyLink', '_ExternalFacesThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExternalFacesThermalPropertyLink', u'name': u'ExternalFacesThermalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('InternalFacesOpticalPropertyLink', '_InternalFacesOpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_InternalFacesOpticalPropertyLink', u'name': u'InternalFacesOpticalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('InternalFacesThermalPropertyLink', '_InternalFacesThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_InternalFacesThermalPropertyLink', u'name': u'InternalFacesThermalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('ExternalFacesOpticalPropertyLink', '_ExternalFacesOpticalPropertyLink', 0, 0, {'name': 'ExternalFacesOpticalPropertyLink', 'type': '_ExternalFacesOpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ExternalFacesThermalPropertyLink', '_ExternalFacesThermalPropertyLink', 0, 0, {'name': 'ExternalFacesThermalPropertyLink', 'type': '_ExternalFacesThermalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('InternalFacesOpticalPropertyLink', '_InternalFacesOpticalPropertyLink', 0, 0, {'name': 'InternalFacesOpticalPropertyLink', 'type': '_InternalFacesOpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('InternalFacesThermalPropertyLink', '_InternalFacesThermalPropertyLink', 0, 0, {'name': 'InternalFacesThermalPropertyLink', 'type': '_InternalFacesThermalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -2636,10 +2636,10 @@ class create_RoofProperties(GeneratedsSuper):
     houses of this building have the same optical properties"""
     member_data_items_ = [
         MemberSpec_('sameRoof', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('ExternalFacesOpticalPropertyLink', '_ExternalFacesOpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExternalFacesOpticalPropertyLink', u'name': u'ExternalFacesOpticalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('ExternalFacesThermalPropertyLink', '_ExternalFacesThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExternalFacesThermalPropertyLink', u'name': u'ExternalFacesThermalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('InternalFacesOpticalPropertyLink', '_InternalFacesOpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_InternalFacesOpticalPropertyLink', u'name': u'InternalFacesOpticalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('InternalFacesThermalPropertyLink', '_InternalFacesThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_InternalFacesThermalPropertyLink', u'name': u'InternalFacesThermalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('ExternalFacesOpticalPropertyLink', '_ExternalFacesOpticalPropertyLink', 0, 0, {'name': 'ExternalFacesOpticalPropertyLink', 'type': '_ExternalFacesOpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ExternalFacesThermalPropertyLink', '_ExternalFacesThermalPropertyLink', 0, 0, {'name': 'ExternalFacesThermalPropertyLink', 'type': '_ExternalFacesThermalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('InternalFacesOpticalPropertyLink', '_InternalFacesOpticalPropertyLink', 0, 0, {'name': 'InternalFacesOpticalPropertyLink', 'type': '_InternalFacesOpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('InternalFacesThermalPropertyLink', '_InternalFacesThermalPropertyLink', 0, 0, {'name': 'InternalFacesThermalPropertyLink', 'type': '_InternalFacesThermalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -2888,32 +2888,32 @@ class create_RoofProperties(GeneratedsSuper):
 
 
 class create_House(GeneratedsSuper):
-    """House House The house has a roof defined by:\n- the 4 corners of the
+    """House House The house has a roof defined by: - the 4 corners of the
     house walls are simply connected together to generate the roof
-    (option "Basic without thickness"), or\n- the 4 corners of the
+    (option "Basic without thickness"), or - the 4 corners of the
     house walls are simply connected together to generate the roof
-    with an added thickness (option "Basic with thickness"), or\n- 2
-    additional points (option "Classic"), or\n- 4 additional points
-    (option "Complex"). The house has a roof defined by:\n- the 4
+    with an added thickness (option "Basic with thickness"), or - 2
+    additional points (option "Classic"), or - 4 additional points
+    (option "Complex"). The house has a roof defined by: - the 4
     corners of the house walls are simply connected together to
-    generate the roof (option "Basic without thickness"), or\n- the
-    4 corners of the house walls are simply connected together to
+    generate the roof (option "Basic without thickness"), or - the 4
+    corners of the house walls are simply connected together to
     generate the roof with an added thickness (option "Basic with
-    thickness"), or\n- 2 additional points (option "Classic"), or\n-
-    4 additional points (option "Complex"). If you select this
-    option, this house are not use in all DART modules, \n it's
-    useful if you want conserve house properties backup without
-    delete this for tests If you select this option, this house are
-    not use in all DART modules, \n it's useful if you want conserve
-    house properties backup without delete this for tests"""
+    thickness"), or - 2 additional points (option "Classic"), or - 4
+    additional points (option "Complex"). If you select this option,
+    this house are not use in all DART modules, it's useful if you
+    want conserve house properties backup without delete this for
+    tests If you select this option, this house are not use in all
+    DART modules, it's useful if you want conserve house properties
+    backup without delete this for tests"""
     member_data_items_ = [
         MemberSpec_('typeRoof', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('hidden', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Wall', '_Wall', 0, 0, {u'maxOccurs': u'1', u'type': u'_Wall', u'name': u'Wall', u'minOccurs': u'1'}, None),
-        MemberSpec_('RoofNone', '_RoofNone', 0, 0, {u'maxOccurs': u'1', u'type': u'_RoofNone', u'name': u'RoofNone', u'minOccurs': u'1'}, None),
-        MemberSpec_('RoofClassic', '_RoofClassic', 0, 0, {u'maxOccurs': u'1', u'type': u'_RoofClassic', u'name': u'RoofClassic', u'minOccurs': u'1'}, None),
-        MemberSpec_('RoofPlate', '_RoofPlate', 0, 0, {u'maxOccurs': u'1', u'type': u'_RoofPlate', u'name': u'RoofPlate', u'minOccurs': u'1'}, None),
-        MemberSpec_('RoofComplex', '_RoofComplex', 0, 0, {u'maxOccurs': u'1', u'type': u'_RoofComplex', u'name': u'RoofComplex', u'minOccurs': u'1'}, None),
+        MemberSpec_('Wall', '_Wall', 0, 0, {'name': 'Wall', 'type': '_Wall', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('RoofNone', '_RoofNone', 0, 0, {'name': 'RoofNone', 'type': '_RoofNone', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('RoofClassic', '_RoofClassic', 0, 0, {'name': 'RoofClassic', 'type': '_RoofClassic', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('RoofPlate', '_RoofPlate', 0, 0, {'name': 'RoofPlate', 'type': '_RoofPlate', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('RoofComplex', '_RoofComplex', 0, 0, {'name': 'RoofComplex', 'type': '_RoofComplex', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -3211,11 +3211,11 @@ class create_House(GeneratedsSuper):
 class create_Wall(GeneratedsSuper):
     """Wall Wall"""
     member_data_items_ = [
-        MemberSpec_('Polygon3D', '_Polygon3D', 0, 0, {u'maxOccurs': u'1', u'type': u'_Polygon3D', u'name': u'Polygon3D', u'minOccurs': u'1'}, None),
-        MemberSpec_('OpticalProperties', '_OpticalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalProperties', u'name': u'OpticalProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('ThermalProperties', '_ThermalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalProperties', u'name': u'ThermalProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('InnerOpticalProperties', '_InnerOpticalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_InnerOpticalProperties', u'name': u'InnerOpticalProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('InnerThermalProperties', '_InnerThermalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_InnerThermalProperties', u'name': u'InnerThermalProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('Polygon3D', '_Polygon3D', 0, 0, {'name': 'Polygon3D', 'type': '_Polygon3D', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('OpticalProperties', '_OpticalProperties', 0, 0, {'name': 'OpticalProperties', 'type': '_OpticalProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ThermalProperties', '_ThermalProperties', 0, 0, {'name': 'ThermalProperties', 'type': '_ThermalProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('InnerOpticalProperties', '_InnerOpticalProperties', 0, 0, {'name': 'InnerOpticalProperties', 'type': '_InnerOpticalProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('InnerThermalProperties', '_InnerThermalProperties', 0, 0, {'name': 'InnerThermalProperties', 'type': '_InnerThermalProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -3472,7 +3472,7 @@ class create_Wall(GeneratedsSuper):
 class create_Polygon3D(GeneratedsSuper):
     """Polygon3D Polygon3D"""
     member_data_items_ = [
-        MemberSpec_('Point3D', '_Point3D', 1, 0, {u'maxOccurs': u'4', u'type': u'_Point3D', u'name': u'Point3D', u'minOccurs': u'4'}, None),
+        MemberSpec_('Point3D', '_Point3D', 1, 0, {'name': 'Point3D', 'type': '_Point3D', 'minOccurs': '4', 'maxOccurs': '4'}, None),
     ]
     subclass = None
     superclass = None
@@ -3855,7 +3855,7 @@ class create_Point3D(GeneratedsSuper):
 class create_OpticalProperties(GeneratedsSuper):
     """OpticalProperties OpticalProperties"""
     member_data_items_ = [
-        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 1, 0, {u'maxOccurs': u'4', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'4'}, None),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 1, 0, {'name': 'OpticalPropertyLink', 'type': '_OpticalPropertyLink', 'minOccurs': '4', 'maxOccurs': '4'}, None),
     ]
     subclass = None
     superclass = None
@@ -4233,7 +4233,7 @@ class create_OpticalPropertyLink(GeneratedsSuper):
 class create_ThermalProperties(GeneratedsSuper):
     """ThermalProperties ThermalProperties"""
     member_data_items_ = [
-        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 1, 0, {u'maxOccurs': u'4', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'4'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 1, 0, {'name': 'ThermalPropertyLink', 'type': '_ThermalPropertyLink', 'minOccurs': '4', 'maxOccurs': '4'}, None),
     ]
     subclass = None
     superclass = None
@@ -4584,7 +4584,7 @@ class create_ThermalPropertyLink(GeneratedsSuper):
 class create_InnerOpticalProperties(GeneratedsSuper):
     """InnerOpticalProperties InnerOpticalProperties"""
     member_data_items_ = [
-        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 1, 0, {u'maxOccurs': u'4', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'4'}, None),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 1, 0, {'name': 'OpticalPropertyLink', 'type': '_OpticalPropertyLink', 'minOccurs': '4', 'maxOccurs': '4'}, None),
     ]
     subclass = None
     superclass = None
@@ -4764,7 +4764,7 @@ class create_InnerOpticalProperties(GeneratedsSuper):
 class create_InnerThermalProperties(GeneratedsSuper):
     """InnerThermalProperties InnerThermalProperties"""
     member_data_items_ = [
-        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 1, 0, {u'maxOccurs': u'4', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'4'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 1, 0, {'name': 'ThermalPropertyLink', 'type': '_ThermalPropertyLink', 'minOccurs': '4', 'maxOccurs': '4'}, None),
     ]
     subclass = None
     superclass = None
@@ -4944,10 +4944,10 @@ class create_InnerThermalProperties(GeneratedsSuper):
 class create_RoofNone(GeneratedsSuper):
     """RoofNone RoofNone"""
     member_data_items_ = [
-        MemberSpec_('OpticalProperties', '_OpticalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalProperties', u'name': u'OpticalProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('ThermalProperties', '_ThermalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalProperties', u'name': u'ThermalProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('InnerOpticalProperties', '_InnerOpticalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_InnerOpticalProperties', u'name': u'InnerOpticalProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('InnerThermalProperties', '_InnerThermalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_InnerThermalProperties', u'name': u'InnerThermalProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('OpticalProperties', '_OpticalProperties', 0, 0, {'name': 'OpticalProperties', 'type': '_OpticalProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ThermalProperties', '_ThermalProperties', 0, 0, {'name': 'ThermalProperties', 'type': '_ThermalProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('InnerOpticalProperties', '_InnerOpticalProperties', 0, 0, {'name': 'InnerOpticalProperties', 'type': '_InnerOpticalProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('InnerThermalProperties', '_InnerThermalProperties', 0, 0, {'name': 'InnerThermalProperties', 'type': '_InnerThermalProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -5179,11 +5179,11 @@ class create_RoofNone(GeneratedsSuper):
 class create_RoofClassic(GeneratedsSuper):
     """RoofClassic RoofClassic"""
     member_data_items_ = [
-        MemberSpec_('Polygon3D', '_Polygon3D', 0, 0, {u'maxOccurs': u'1', u'type': u'_Polygon3D', u'name': u'Polygon3D', u'minOccurs': u'1'}, None),
-        MemberSpec_('OpticalProperties', '_OpticalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalProperties', u'name': u'OpticalProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('ThermalProperties', '_ThermalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalProperties', u'name': u'ThermalProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('InnerOpticalProperties', '_InnerOpticalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_InnerOpticalProperties', u'name': u'InnerOpticalProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('InnerThermalProperties', '_InnerThermalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_InnerThermalProperties', u'name': u'InnerThermalProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('Polygon3D', '_Polygon3D', 0, 0, {'name': 'Polygon3D', 'type': '_Polygon3D', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('OpticalProperties', '_OpticalProperties', 0, 0, {'name': 'OpticalProperties', 'type': '_OpticalProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ThermalProperties', '_ThermalProperties', 0, 0, {'name': 'ThermalProperties', 'type': '_ThermalProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('InnerOpticalProperties', '_InnerOpticalProperties', 0, 0, {'name': 'InnerOpticalProperties', 'type': '_InnerOpticalProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('InnerThermalProperties', '_InnerThermalProperties', 0, 0, {'name': 'InnerThermalProperties', 'type': '_InnerThermalProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -5444,10 +5444,10 @@ class create_RoofPlate(GeneratedsSuper):
     obtaining the 4 points that define the roof"""
     member_data_items_ = [
         MemberSpec_('height', 'xsd:double', 0, 1, {'use': 'optional'}),
-        MemberSpec_('OpticalProperties', '_OpticalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalProperties', u'name': u'OpticalProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('ThermalProperties', '_ThermalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalProperties', u'name': u'ThermalProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('InnerOpticalProperties', '_InnerOpticalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_InnerOpticalProperties', u'name': u'InnerOpticalProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('InnerThermalProperties', '_InnerThermalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_InnerThermalProperties', u'name': u'InnerThermalProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('OpticalProperties', '_OpticalProperties', 0, 0, {'name': 'OpticalProperties', 'type': '_OpticalProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ThermalProperties', '_ThermalProperties', 0, 0, {'name': 'ThermalProperties', 'type': '_ThermalProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('InnerOpticalProperties', '_InnerOpticalProperties', 0, 0, {'name': 'InnerOpticalProperties', 'type': '_InnerOpticalProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('InnerThermalProperties', '_InnerThermalProperties', 0, 0, {'name': 'InnerThermalProperties', 'type': '_InnerThermalProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -5698,11 +5698,11 @@ class create_RoofPlate(GeneratedsSuper):
 class create_RoofComplex(GeneratedsSuper):
     """RoofComplex RoofComplex"""
     member_data_items_ = [
-        MemberSpec_('Polygon3D', '_Polygon3D', 0, 0, {u'maxOccurs': u'1', u'type': u'_Polygon3D', u'name': u'Polygon3D', u'minOccurs': u'1'}, None),
-        MemberSpec_('OpticalProperties', '_OpticalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalProperties', u'name': u'OpticalProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('ThermalProperties', '_ThermalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalProperties', u'name': u'ThermalProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('InnerOpticalProperties', '_InnerOpticalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_InnerOpticalProperties', u'name': u'InnerOpticalProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('InnerThermalProperties', '_InnerThermalProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_InnerThermalProperties', u'name': u'InnerThermalProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('Polygon3D', '_Polygon3D', 0, 0, {'name': 'Polygon3D', 'type': '_Polygon3D', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('OpticalProperties', '_OpticalProperties', 0, 0, {'name': 'OpticalProperties', 'type': '_OpticalProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ThermalProperties', '_ThermalProperties', 0, 0, {'name': 'ThermalProperties', 'type': '_ThermalProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('InnerOpticalProperties', '_InnerOpticalProperties', 0, 0, {'name': 'InnerOpticalProperties', 'type': '_InnerOpticalProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('InnerThermalProperties', '_InnerThermalProperties', 0, 0, {'name': 'InnerThermalProperties', 'type': '_InnerThermalProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -5959,7 +5959,7 @@ class create_RoofComplex(GeneratedsSuper):
 class create_Roads(GeneratedsSuper):
     """Roads Roads"""
     member_data_items_ = [
-        MemberSpec_('Road', '_Road', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_Road', u'name': u'Road', u'minOccurs': u'0'}, None),
+        MemberSpec_('Road', '_Road', 1, 1, {'name': 'Road', 'type': '_Road', 'minOccurs': '0', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -6134,20 +6134,20 @@ class create_Roads(GeneratedsSuper):
 
 class create_Road(GeneratedsSuper):
     """Road Road If you select this option, this road are not use in all
-    DART modules, \n it's useful if you want conserve road
-    properties backup without delete this for tests If you select
-    this option, this road are not use in all DART modules, \n it's
-    useful if you want conserve road properties backup without
-    delete this for tests Objects's positions are taken from the
-    position file.\nDesactivate this option if you experience some
-    slowdown. Objects's positions are taken from the position
-    file.\nDesactivate this option if you experience some slowdown."""
+    DART modules, it's useful if you want conserve road properties
+    backup without delete this for tests If you select this option,
+    this road are not use in all DART modules, it's useful if you
+    want conserve road properties backup without delete this for
+    tests Objects's positions are taken from the position file.
+    Desactivate this option if you experience some slowdown.
+    Objects's positions are taken from the position file.
+    Desactivate this option if you experience some slowdown."""
     member_data_items_ = [
         MemberSpec_('hidden', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('isDisplayed', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Path2D', '_Path2D', 0, 0, {u'maxOccurs': u'1', u'type': u'_Path2D', u'name': u'Path2D', u'minOccurs': u'1'}, None),
-        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('Path2D', '_Path2D', 0, 0, {'name': 'Path2D', 'type': '_Path2D', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {'name': 'OpticalPropertyLink', 'type': '_OpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {'name': 'ThermalPropertyLink', 'type': '_ThermalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -6396,7 +6396,7 @@ class create_Path2D(GeneratedsSuper):
     """Path2D Path2D interpolation). interpolation)."""
     member_data_items_ = [
         MemberSpec_('width', 'xsd:double', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Point2D', '_Point2D', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_Point2D', u'name': u'Point2D', u'minOccurs': u'2'}, None),
+        MemberSpec_('Point2D', '_Point2D', 1, 0, {'name': 'Point2D', 'type': '_Point2D', 'minOccurs': '2', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -6766,7 +6766,7 @@ class create_Point2D(GeneratedsSuper):
 class create_SmallWalls(GeneratedsSuper):
     """SmallWalls SmallWalls"""
     member_data_items_ = [
-        MemberSpec_('SmallWall', '_SmallWall', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_SmallWall', u'name': u'SmallWall', u'minOccurs': u'0'}, None),
+        MemberSpec_('SmallWall', '_SmallWall', 1, 1, {'name': 'SmallWall', 'type': '_SmallWall', 'minOccurs': '0', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -6941,26 +6941,26 @@ class create_SmallWalls(GeneratedsSuper):
 
 class create_SmallWall(GeneratedsSuper):
     """SmallWall SmallWall If you select this option, this wall are not use
-    in all DART modules, \n it's useful if you want conserve wall
+    in all DART modules, it's useful if you want conserve wall
     properties backup without delete this for tests If you select
-    this option, this wall are not use in all DART modules, \n it's
+    this option, this wall are not use in all DART modules, it's
     useful if you want conserve wall properties backup without
-    delete this for tests - Double faces : \ninternal and external
-    faces \n -Simple face : \nonly external faces - Double faces :
-    \ninternal and external faces \n -Simple face : \nonly external
-    faces Objects's positions are taken from the position
-    file.\nDesactivate this option if you experience some slowdown.
-    Objects's positions are taken from the position
-    file.\nDesactivate this option if you experience some slowdown."""
+    delete this for tests - Double faces : internal and external
+    faces -Simple face : only external faces - Double faces :
+    internal and external faces -Simple face : only external faces
+    Objects's positions are taken from the position file.
+    Desactivate this option if you experience some slowdown.
+    Objects's positions are taken from the position file.
+    Desactivate this option if you experience some slowdown."""
     member_data_items_ = [
         MemberSpec_('hidden', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('doubleFaceBuilding', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('isDisplayed', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Polygon3D', '_Polygon3D', 0, 0, {u'maxOccurs': u'1', u'type': u'_Polygon3D', u'name': u'Polygon3D', u'minOccurs': u'1'}, None),
-        MemberSpec_('ExternalFacesOpticalPropertyLink', '_ExternalFacesOpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExternalFacesOpticalPropertyLink', u'name': u'ExternalFacesOpticalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('ExternalFacesThermalPropertyLink', '_ExternalFacesThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExternalFacesThermalPropertyLink', u'name': u'ExternalFacesThermalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('InternalFacesOpticalPropertyLink', '_InternalFacesOpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_InternalFacesOpticalPropertyLink', u'name': u'InternalFacesOpticalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('InternalFacesThermalPropertyLink', '_InternalFacesThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_InternalFacesThermalPropertyLink', u'name': u'InternalFacesThermalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('Polygon3D', '_Polygon3D', 0, 0, {'name': 'Polygon3D', 'type': '_Polygon3D', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ExternalFacesOpticalPropertyLink', '_ExternalFacesOpticalPropertyLink', 0, 0, {'name': 'ExternalFacesOpticalPropertyLink', 'type': '_ExternalFacesOpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ExternalFacesThermalPropertyLink', '_ExternalFacesThermalPropertyLink', 0, 0, {'name': 'ExternalFacesThermalPropertyLink', 'type': '_ExternalFacesThermalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('InternalFacesOpticalPropertyLink', '_InternalFacesOpticalPropertyLink', 0, 0, {'name': 'InternalFacesOpticalPropertyLink', 'type': '_InternalFacesOpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('InternalFacesThermalPropertyLink', '_InternalFacesThermalPropertyLink', 0, 0, {'name': 'InternalFacesThermalPropertyLink', 'type': '_InternalFacesThermalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None

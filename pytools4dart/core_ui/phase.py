@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Sun Mar 31 19:31:20 2019 by generateDS.py version 2.29.25.
-# Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
+# Generated Tue Nov 19 15:08:17 2019 by generateDS.py version 2.29.25.
+# Python 3.6.7 | packaged by conda-forge | (default, Nov  6 2019, 16:19:42)  [GCC 7.3.0]
 #
 # Command line options:
 #   ('-m', '')
@@ -16,13 +16,13 @@
 #   ('--pre-ctor', "self.troot=get_gs_troot('phase','{classname}')")
 #   ('--post-ctor', "update_node(self,self.troot,'phase')")
 #   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes')
-#   ('-o', '/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/phase.py')
+#   ('-o', '/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/phase.py')
 #
 # Command line arguments:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/phase.xsd
+#   /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/phase.xsd
 #
 # Command line:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'phase')" --pre-ctor="self.troot=get_gs_troot('phase','{classname}')" --post-ctor="update_node(self,self.troot,'phase')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/phase.py" /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/phase.xsd
+#   /home/boissieu/anaconda3/envs/pytools4dart/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'phase')" --pre-ctor="self.troot=get_gs_troot('phase','{classname}')" --post-ctor="update_node(self,self.troot,'phase')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/phase.py" /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/phase.xsd
 #
 # Current working directory (os.getcwd()):
 #   pytools4dart
@@ -747,11 +747,11 @@ class createDartFile(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('version', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('build_', 'xsd:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Phase', '_Phase', 0, 0, {u'maxOccurs': u'1', u'type': u'_Phase', u'name': u'Phase', u'minOccurs': u'1'}, None),
+        MemberSpec_('Phase', '_Phase', 0, 0, {'name': 'Phase', 'type': '_Phase', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
-    def __init__(self, version='5.7.4', build_='0', Phase=None):
+    def __init__(self, version='5.7.5', build_='0', Phase=None):
         self.original_tagname_ = None
         self.troot=get_gs_troot('phase','DartFile')
         self.attrib = ['version', 'build_']
@@ -946,12 +946,12 @@ class create_Phase(GeneratedsSuper):
     lead to more accurate results, but slower results....."""
     member_data_items_ = [
         MemberSpec_('calculatorMethod', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('AtmosphereRadiativeTransfer', '_AtmosphereRadiativeTransfer', 0, 0, {u'maxOccurs': u'1', u'type': u'_AtmosphereRadiativeTransfer', u'name': u'AtmosphereRadiativeTransfer', u'minOccurs': u'1'}, None),
-        MemberSpec_('ExpertModeZone', '_ExpertModeZone', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExpertModeZone', u'name': u'ExpertModeZone', u'minOccurs': u'1'}, None),
-        MemberSpec_('DartInputParameters', '_DartInputParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_DartInputParameters', u'name': u'DartInputParameters', u'minOccurs': u'1'}, None),
-        MemberSpec_('DartProduct', '_DartProduct', 0, 0, {u'maxOccurs': u'1', u'type': u'_DartProduct', u'name': u'DartProduct', u'minOccurs': u'1'}, None),
-        MemberSpec_('SensorImageSimulation', '_SensorImageSimulation', 0, 0, {u'maxOccurs': u'1', u'type': u'_SensorImageSimulation', u'name': u'SensorImageSimulation', u'minOccurs': u'1'}, None),
-        MemberSpec_('ExternalScripts', '_ExternalScripts', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExternalScripts', u'name': u'ExternalScripts', u'minOccurs': u'1'}, None),
+        MemberSpec_('AtmosphereRadiativeTransfer', '_AtmosphereRadiativeTransfer', 0, 0, {'name': 'AtmosphereRadiativeTransfer', 'type': '_AtmosphereRadiativeTransfer', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ExpertModeZone', '_ExpertModeZone', 0, 0, {'name': 'ExpertModeZone', 'type': '_ExpertModeZone', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('DartInputParameters', '_DartInputParameters', 0, 0, {'name': 'DartInputParameters', 'type': '_DartInputParameters', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('DartProduct', '_DartProduct', 0, 0, {'name': 'DartProduct', 'type': '_DartProduct', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('SensorImageSimulation', '_SensorImageSimulation', 0, 0, {'name': 'SensorImageSimulation', 'type': '_SensorImageSimulation', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ExternalScripts', '_ExternalScripts', 0, 0, {'name': 'ExternalScripts', 'type': '_ExternalScripts', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -1250,13 +1250,13 @@ class create_Phase(GeneratedsSuper):
 
 
 class create_AtmosphereRadiativeTransfer(GeneratedsSuper):
-    """Passage from TOA to BOA.\n - No Atmosphere RT: No simulation of the
+    """Passage from TOA to BOA. - No Atmosphere RT: No simulation of the
     atmosphere radiative transfer. Irradiance Passage from TOA to
-    BOA.\n - No Atmosphere RT: No simulation of the atmosphere
+    BOA. - No Atmosphere RT: No simulation of the atmosphere
     radiative transfer. Irradiance"""
     member_data_items_ = [
         MemberSpec_('TOAtoBOA', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('AtmosphereRadiativeTransferOptions', '_AtmosphereRadiativeTransferOptions', 0, 0, {u'maxOccurs': u'1', u'type': u'_AtmosphereRadiativeTransferOptions', u'name': u'AtmosphereRadiativeTransferOptions', u'minOccurs': u'1'}, None),
+        MemberSpec_('AtmosphereRadiativeTransferOptions', '_AtmosphereRadiativeTransferOptions', 0, 0, {'name': 'AtmosphereRadiativeTransferOptions', 'type': '_AtmosphereRadiativeTransferOptions', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -1430,22 +1430,22 @@ class create_AtmosphereRadiativeTransfer(GeneratedsSuper):
 
 
 class create_AtmosphereRadiativeTransferOptions(GeneratedsSuper):
-    """Disable COUPL and TOA level product.\nThe Earth-Atmosphere coupling
+    """Disable COUPL and TOA level product. The Earth-Atmosphere coupling
     simulates the exchange process of energy between the Earth scene
-    and the atmosphere:\npart of the energy scattered by the Earth-
+    and the atmosphere: part of the energy scattered by the Earth-
     scene is intercepted again by the atmosphere and back-scattered
-    toward the Earth, and this potentially multiple times.\nThis
+    toward the Earth, and this potentially multiple times. This
     process can be sometimes fairly time-consuming for a small
     contribution to the radiative budget, depending on the spectral
     band and the scene constitution. Disable COUPL and TOA level
-    product.\nThe Earth-Atmosphere coupling simulates the exchange
-    process of energy between the Earth scene and the
-    atmosphere:\npart of the energy scattered by the Earth-scene is
-    intercepted again by the atmosphere and back-scattered toward
-    the Earth, and this potentially multiple times.\nThis process
-    can be sometimes fairly time-consuming for a small contribution
-    to the radiative budget, depending on the spectral band and the
-    scene constitution."""
+    product. The Earth-Atmosphere coupling simulates the exchange
+    process of energy between the Earth scene and the atmosphere:
+    part of the energy scattered by the Earth-scene is intercepted
+    again by the atmosphere and back-scattered toward the Earth, and
+    this potentially multiple times. This process can be sometimes
+    fairly time-consuming for a small contribution to the radiative
+    budget, depending on the spectral band and the scene
+    constitution."""
     member_data_items_ = [
         MemberSpec_('couplingEnabled', 'xsd:int', 0, 1, {'use': 'optional'}),
     ]
@@ -1596,33 +1596,33 @@ class create_AtmosphereRadiativeTransferOptions(GeneratedsSuper):
 
 class create_ExpertModeZone(GeneratedsSuper):
     """Specifies if the intercepted power per direction is stored for the
-    specular reflection and refraction or not \n As the specular
+    specular reflection and refraction or not As the specular
     phenomenon is very directional, it is necessary to store the
-    intercepted power per direction to well represent it. \n
-    However, one can choose to well represent the first order of
-    scattering and to assume the other as Lambertian. Specifies if
-    the intercepted power per direction is stored for the specular
-    reflection and refraction or not \n As the specular phenomenon
-    is very directional, it is necessary to store the intercepted
-    power per direction to well represent it. \n However, one can
-    choose to well represent the first order of scattering and to
-    assume the other as Lambertian. Any ray is discarded if its
-    energy becomes less than {"Threshold" x "Mean energy /steradian"
-    derived from iterations 1 and 2 x "Solid angle of the ray"} Any
-    ray is discarded if its energy becomes less than {"Threshold" x
-    "Mean energy /steradian" derived from iterations 1 and 2 x
-    "Solid angle of the ray"} The number of signals sent back to the
-    sensor of one interception within atmosphere. This is in order
-    to reduce the signal noise of atmosphere, which comes from
+    intercepted power per direction to well represent it. However,
+    one can choose to well represent the first order of scattering
+    and to assume the other as Lambertian. Specifies if the
+    intercepted power per direction is stored for the specular
+    reflection and refraction or not As the specular phenomenon is
+    very directional, it is necessary to store the intercepted power
+    per direction to well represent it. However, one can choose to
+    well represent the first order of scattering and to assume the
+    other as Lambertian. Any ray is discarded if its energy becomes
+    less than {"Threshold" x "Mean energy /steradian" derived from
+    iterations 1 and 2 x "Solid angle of the ray"} Any ray is
+    discarded if its energy becomes less than {"Threshold" x "Mean
+    energy /steradian" derived from iterations 1 and 2 x "Solid
+    angle of the ray"} The number of signals sent back to the sensor
+    of one interception within atmosphere. This is in order to
+    reduce the signal noise of atmosphere, which comes from
     insufficient number of photons comparing to reality. The number
     of signals sent back to the sensor of one interception within
     atmosphere. This is in order to reduce the signal noise of
     atmosphere, which comes from insufficient number of photons
     comparing to reality. To Write To Write DART will apply multi-
-    threading to accelarate processing. \n It is implemented in
+    threading to accelarate processing. It is implemented in
     illumination, scattering and atmosphere transfer function
     calculation. DART will apply multi-threading to accelarate
-    processing. \n It is implemented in illumination, scattering and
+    processing. It is implemented in illumination, scattering and
     atmosphere transfer function calculation. The DART run stops if
     the variation of scene albedo between consecutive iterations is
     less than the threshold The DART run stops if the variation of
@@ -1637,76 +1637,73 @@ class create_ExpertModeZone(GeneratedsSuper):
     simulations and reduce memeory usage. Use sparse voxel data
     structure to accelerate DART simulations and reduce memeory
     usage. If a ray travels through more scene than the specified
-    value, it is stopped and its energy registered as lost.\n
-    Notably useful to prevent rays parallel or quasi-parallel to the
-    scene in infinite slope mode. If a ray travels through more
-    scene than the specified value, it is stopped and its energy
-    registered as lost.\n Notably useful to prevent rays parallel or
-    quasi-parallel to the scene in infinite slope mode. When
-    multiple rays exit a cell through the same sub-face with the
-    same direction, they are regrouped into a single ray in order to
-    minimize tracking time. When multiple rays exit a cell through
-    the same sub-face with the same direction, they are regrouped
-    into a single ray in order to minimize tracking time.
-    Acceleration of ray-tracking: Embree uses float and NanoRT uses
-    double. Acceleration of ray-tracking: Embree uses float and
-    NanoRT uses double. When number of triangles inside a voxel is
+    value, it is stopped and its energy registered as lost. Notably
+    useful to prevent rays parallel or quasi-parallel to the scene
+    in infinite slope mode. If a ray travels through more scene than
+    the specified value, it is stopped and its energy registered as
+    lost. Notably useful to prevent rays parallel or quasi-parallel
+    to the scene in infinite slope mode. When multiple rays exit a
+    cell through the same sub-face with the same direction, they are
+    regrouped into a single ray in order to minimize tracking time.
+    When multiple rays exit a cell through the same sub-face with
+    the same direction, they are regrouped into a single ray in
+    order to minimize tracking time. Acceleration of ray-tracking:
+    Embree uses float and NanoRT uses double. Acceleration of ray-
+    tracking: Embree uses float and NanoRT uses double. When number
+    of triangles inside a voxel is larger than or equal to this
+    value, DART will use BVH tree to accelerate the ray-triangles
+    intersection test. When number of triangles inside a voxel is
     larger than or equal to this value, DART will use BVH tree to
-    accelerate the ray-triangles intersection test. When number of
-    triangles inside a voxel is larger than or equal to this value,
-    DART will use BVH tree to accelerate the ray-triangles
-    intersection test. BOA illumination is simulated with several
-    sun and atmosphere rays per cell.\nRay density is
-    1/D\u00B2.\nWith direct sun BOA irradiance Esun, atmosphere BOA
-    irradiance Eatm (sun scattered + thermal emission), BOA
+    accelerate the ray-triangles intersection test. BOA illumination
+    is simulated with several sun and atmosphere rays per cell. Ray
+    density is 1/D². With direct sun BOA irradiance Esun, atmosphere
+    BOA irradiance Eatm (sun scattered + thermal emission), BOA
     irradiance E BOA illumination is simulated with several sun and
-    atmosphere rays per cell.\nRay density is 1/D\u00B2.\nWith
-    direct sun BOA irradiance Esun, atmosphere BOA irradiance Eatm
-    (sun scattered + thermal emission), BOA irradiance E Use
-    external python script with DART processing Use external python
-    script with DART processing Used to set the number of radiation
-    source points from each cell face in coordination with the
-    factor N.\n- Each cell face has N\u00B2 * M\u00B2 sub-faces. If
-    multiple rays exit the same sub-face with the same direction,
-    they are concatenated in a single ray. Used to set the number of
-    radiation source points from each cell face in coordination with
-    the factor N.\n- Each cell face has N\u00B2 * M\u00B2 sub-faces.
-    If multiple rays exit the same sub-face with the same direction,
-    they are concatenated in a single ray. A ray will be emitted
-    every S m2 during the thermal emission. A ray will be emitted
-    every S m2 during the thermal emission. Used to oversample
-    within cell scattering and to set the number of radiation source
-    points from each cell face in coordination with the factor M.\n-
-    Each cell has N^3 sub-cells.\nThere can be 1 scattering point
-    per sub-cell (i.e., N\u00B3 scattering points / cell).\nThus, a
-    triangle can have m scattering points if it crosses m sub-
-    cells.\n- Each cell face has N\u00B2 * M\u00B2 sub-faces. If
-    multiple rays exit the same sub-face with the same direction,
-    they are concatenated in a single ray. Used to oversample within
-    cell scattering and to set the number of radiation source points
-    from each cell face in coordination with the factor M.\n- Each
-    cell has N^3 sub-cells.\nThere can be 1 scattering point per
-    sub-cell (i.e., N\u00B3 scattering points / cell).\nThus, a
-    triangle can have m scattering points if it crosses m sub-
-    cells.\n- Each cell face has N\u00B2 * M\u00B2 sub-faces. If
+    atmosphere rays per cell. Ray density is 1/D². With direct sun
+    BOA irradiance Esun, atmosphere BOA irradiance Eatm (sun
+    scattered + thermal emission), BOA irradiance E Use external
+    python script with DART processing Use external python script
+    with DART processing Used to set the number of radiation source
+    points from each cell face in coordination with the factor N. -
+    Each cell face has N² * M² sub-faces. If multiple rays exit the
+    same sub-face with the same direction, they are concatenated in
+    a single ray. Used to set the number of radiation source points
+    from each cell face in coordination with the factor N. - Each
+    cell face has N² * M² sub-faces. If multiple rays exit the same
+    sub-face with the same direction, they are concatenated in a
+    single ray. A ray will be emitted every S m2 during the thermal
+    emission. A ray will be emitted every S m2 during the thermal
+    emission. Used to oversample within cell scattering and to set
+    the number of radiation source points from each cell face in
+    coordination with the factor M. - Each cell has N^3 sub-cells.
+    There can be 1 scattering point per sub-cell (i.e., N³
+    scattering points / cell). Thus, a triangle can have m
+    scattering points if it crosses m sub-cells. - Each cell face
+    has N² * M² sub-faces. If multiple rays exit the same sub-face
+    with the same direction, they are concatenated in a single ray.
+    Used to oversample within cell scattering and to set the number
+    of radiation source points from each cell face in coordination
+    with the factor M. - Each cell has N^3 sub-cells. There can be 1
+    scattering point per sub-cell (i.e., N³ scattering points /
+    cell). Thus, a triangle can have m scattering points if it
+    crosses m sub-cells. - Each cell face has N² * M² sub-faces. If
     multiple rays exit the same sub-face with the same direction,
     they are concatenated in a single ray. Activation of new
     features in expert mode. Activation of new features in expert
     mode. Thermal emission from a turbid cell arises from the center
-    of each cell sub-face.\nIt is equal to "Geometric factor
-    G(\u03C9)" x "Planck's radiance L(\u03BC, cell
-    temperature)".\nG(\u03C9) is precomputed per cell sub-face as a
-    numerical integral, using N\u00B2 integration points per cell
-    sub-face. Thermal emission from a turbid cell arises from the
-    center of each cell sub-face.\nIt is equal to "Geometric factor
-    G(\u03C9)" x "Planck's radiance L(\u03BC, cell
-    temperature)".\nG(\u03C9) is precomputed per cell sub-face as a
-    numerical integral, using N\u00B2 integration points per cell
-    sub-face. The direct mode is the fastest, but also the most
-    costly in memory. Cloning can save a lot of memory but will be
-    much slower. The direct mode is the fastest, but also the most
-    costly in memory. Cloning can save a lot of memory but will be
-    much slower."""
+    of each cell sub-face. It is equal to "Geometric factor G(ω)" x
+    "Planck's radiance L(μ, cell temperature)". G(ω) is precomputed
+    per cell sub-face as a numerical integral, using N² integration
+    points per cell sub-face. Thermal emission from a turbid cell
+    arises from the center of each cell sub-face. It is equal to
+    "Geometric factor G(ω)" x "Planck's radiance L(μ, cell
+    temperature)". G(ω) is precomputed per cell sub-face as a
+    numerical integral, using N² integration points per cell sub-
+    face. The direct mode is the fastest, but also the most costly
+    in memory. Cloning can save a lot of memory but will be much
+    slower. The direct mode is the fastest, but also the most costly
+    in memory. Cloning can save a lot of memory but will be much
+    slower."""
     member_data_items_ = [
         MemberSpec_('isInterceptedPowerPerDirectionForSpecularCheck', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('lightPropagationThreshold', 'xsd:double', 0, 1, {'use': 'optional'}),
@@ -2294,14 +2291,14 @@ class create_ExpertModeZone(GeneratedsSuper):
 
 class create_DartInputParameters(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('MonteCarlo', '_MonteCarlo', 0, 0, {u'maxOccurs': u'1', u'type': u'_MonteCarlo', u'name': u'MonteCarlo', u'minOccurs': u'1'}, None),
-        MemberSpec_('Lidar', '_Lidar', 0, 0, {u'maxOccurs': u'1', u'type': u'_Lidar', u'name': u'Lidar', u'minOccurs': u'1'}, None),
-        MemberSpec_('nodefluxtracking', '_nodefluxtracking', 0, 0, {u'maxOccurs': u'1', u'type': u'_nodefluxtracking', u'name': u'nodefluxtracking', u'minOccurs': u'1'}, None),
-        MemberSpec_('SpectralDomainTir', '_SpectralDomainTir', 0, 0, {u'maxOccurs': u'1', u'type': u'_SpectralDomainTir', u'name': u'SpectralDomainTir', u'minOccurs': u'1'}, None),
-        MemberSpec_('SpectralIntervals', '_SpectralIntervals', 0, 0, {u'maxOccurs': u'1', u'type': u'_SpectralIntervals', u'name': u'SpectralIntervals', u'minOccurs': u'1'}, None),
-        MemberSpec_('temperatureAtmosphere', '_temperatureAtmosphere', 0, 0, {u'maxOccurs': u'1', u'type': u'_temperatureAtmosphere', u'name': u'temperatureAtmosphere', u'minOccurs': u'1'}, None),
-        MemberSpec_('ImageSideIllumination', '_ImageSideIllumination', 0, 0, {u'maxOccurs': u'1', u'type': u'_ImageSideIllumination', u'name': u'ImageSideIllumination', u'minOccurs': u'1'}, None),
-        MemberSpec_('nodeIlluminationMode', '_nodeIlluminationMode', 0, 0, {u'maxOccurs': u'1', u'type': u'_nodeIlluminationMode', u'name': u'nodeIlluminationMode', u'minOccurs': u'1'}, None),
+        MemberSpec_('MonteCarlo', '_MonteCarlo', 0, 0, {'name': 'MonteCarlo', 'type': '_MonteCarlo', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Lidar', '_Lidar', 0, 0, {'name': 'Lidar', 'type': '_Lidar', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('nodefluxtracking', '_nodefluxtracking', 0, 0, {'name': 'nodefluxtracking', 'type': '_nodefluxtracking', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('SpectralDomainTir', '_SpectralDomainTir', 0, 0, {'name': 'SpectralDomainTir', 'type': '_SpectralDomainTir', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('SpectralIntervals', '_SpectralIntervals', 0, 0, {'name': 'SpectralIntervals', 'type': '_SpectralIntervals', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('temperatureAtmosphere', '_temperatureAtmosphere', 0, 0, {'name': 'temperatureAtmosphere', 'type': '_temperatureAtmosphere', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ImageSideIllumination', '_ImageSideIllumination', 0, 0, {'name': 'ImageSideIllumination', 'type': '_ImageSideIllumination', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('nodeIlluminationMode', '_nodeIlluminationMode', 0, 0, {'name': 'nodeIlluminationMode', 'type': '_nodeIlluminationMode', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -2636,10 +2633,10 @@ class create_MonteCarlo(GeneratedsSuper):
     maximum order of scattering + 1, it is considered lost This
     information is used for a better management of RAM This
     information is used for a better management of RAM -LIDAR:
-    approximate number of photons emitted by the LIDAR\n-Monte
-    Carlo: number of photons emitted per illumination cell. -LIDAR:
-    approximate number of photons emitted by the LIDAR\n-Monte
-    Carlo: number of photons emitted per illumination cell."""
+    approximate number of photons emitted by the LIDAR -Monte Carlo:
+    number of photons emitted per illumination cell. -LIDAR:
+    approximate number of photons emitted by the LIDAR -Monte Carlo:
+    number of photons emitted per illumination cell."""
     member_data_items_ = [
         MemberSpec_('maximumScatteringOrder', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('calculatorMaximumRAM', 'xsd:int', 0, 1, {'use': 'optional'}),
@@ -2843,13 +2840,13 @@ class create_Lidar(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('simulateImage', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('simulateSolarNoise', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('PhotonCounting', '_PhotonCounting', 0, 0, {u'maxOccurs': u'1', u'type': u'_PhotonCounting', u'name': u'PhotonCounting', u'minOccurs': u'1'}, None),
-        MemberSpec_('RunningMode', '_RunningMode', 0, 0, {u'maxOccurs': u'1', u'type': u'_RunningMode', u'name': u'RunningMode', u'minOccurs': u'1'}, None),
-        MemberSpec_('FluxtrackingSolarNoise', '_FluxtrackingSolarNoise', 0, 0, {u'maxOccurs': u'1', u'type': u'_FluxtrackingSolarNoise', u'name': u'FluxtrackingSolarNoise', u'minOccurs': u'1'}, None),
-        MemberSpec_('PulseDuration', '_PulseDuration', 0, 0, {u'maxOccurs': u'1', u'type': u'_PulseDuration', u'name': u'PulseDuration', u'minOccurs': u'1'}, None),
-        MemberSpec_('LidarGeometry', '_LidarGeometry', 0, 0, {u'maxOccurs': u'1', u'type': u'_LidarGeometry', u'name': u'LidarGeometry', u'minOccurs': u'1'}, None),
-        MemberSpec_('LidarIlluminationIntensity', '_LidarIlluminationIntensity', 0, 0, {u'maxOccurs': u'1', u'type': u'_LidarIlluminationIntensity', u'name': u'LidarIlluminationIntensity', u'minOccurs': u'1'}, None),
-        MemberSpec_('LidarAcquisitionParameters', '_LidarAcquisitionParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_LidarAcquisitionParameters', u'name': u'LidarAcquisitionParameters', u'minOccurs': u'1'}, None),
+        MemberSpec_('PhotonCounting', '_PhotonCounting', 0, 0, {'name': 'PhotonCounting', 'type': '_PhotonCounting', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('RunningMode', '_RunningMode', 0, 0, {'name': 'RunningMode', 'type': '_RunningMode', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('FluxtrackingSolarNoise', '_FluxtrackingSolarNoise', 0, 0, {'name': 'FluxtrackingSolarNoise', 'type': '_FluxtrackingSolarNoise', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('PulseDuration', '_PulseDuration', 0, 0, {'name': 'PulseDuration', 'type': '_PulseDuration', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('LidarGeometry', '_LidarGeometry', 0, 0, {'name': 'LidarGeometry', 'type': '_LidarGeometry', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('LidarIlluminationIntensity', '_LidarIlluminationIntensity', 0, 0, {'name': 'LidarIlluminationIntensity', 'type': '_LidarIlluminationIntensity', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('LidarAcquisitionParameters', '_LidarAcquisitionParameters', 0, 0, {'name': 'LidarAcquisitionParameters', 'type': '_LidarAcquisitionParameters', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -3198,8 +3195,8 @@ class create_PhotonCounting(GeneratedsSuper):
     """LiDAR Type LiDAR Type Select Type Select Type"""
     member_data_items_ = [
         MemberSpec_('pcDef', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('PhotonCountingParam', '_PhotonCountingParam', 0, 0, {u'maxOccurs': u'1', u'type': u'_PhotonCountingParam', u'name': u'PhotonCountingParam', u'minOccurs': u'1'}, None),
-        MemberSpec_('DiscreteReturnParam', '_DiscreteReturnParam', 0, 0, {u'maxOccurs': u'1', u'type': u'_DiscreteReturnParam', u'name': u'DiscreteReturnParam', u'minOccurs': u'1'}, None),
+        MemberSpec_('PhotonCountingParam', '_PhotonCountingParam', 0, 0, {'name': 'PhotonCountingParam', 'type': '_PhotonCountingParam', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('DiscreteReturnParam', '_DiscreteReturnParam', 0, 0, {'name': 'DiscreteReturnParam', 'type': '_DiscreteReturnParam', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -3613,20 +3610,20 @@ class create_DiscreteReturnParam(GeneratedsSuper):
     pulse Number of points per pulse"""
     member_data_items_ = [
         MemberSpec_('intensityValueType', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('thresAppRef', 'xsd:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('nbPoints', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('thresAppRef', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('nbPoints', 'xsd:int', 0, 1, {'use': 'optional'}),
     ]
     subclass = None
     superclass = None
-    def __init__(self, intensityValueType=2, thresAppRef='0.01', nbPoints='1'):
+    def __init__(self, intensityValueType=2, thresAppRef=0.01, nbPoints=1):
         self.original_tagname_ = None
         self.troot=get_gs_troot('phase','_DiscreteReturnParam')
         self.attrib = ['intensityValueType', 'thresAppRef', 'nbPoints']
         self.children = []
         self.parent = None
         self._intensityValueType = _cast(int, intensityValueType)
-        self._thresAppRef = _cast(None, thresAppRef)
-        self._nbPoints = _cast(None, nbPoints)
+        self._thresAppRef = _cast(float, thresAppRef)
+        self._nbPoints = _cast(int, nbPoints)
         update_node(self,self.troot,'phase')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
@@ -3690,10 +3687,10 @@ class create_DiscreteReturnParam(GeneratedsSuper):
             outfile.write(' intensityValueType="%s"' % self.gds_format_integer(self.intensityValueType, input_name='intensityValueType'))
         if self.thresAppRef is not None and 'thresAppRef' not in already_processed:
             already_processed.add('thresAppRef')
-            outfile.write(' thresAppRef=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.thresAppRef), input_name='thresAppRef')), ))
+            outfile.write(' thresAppRef="%s"' % self.gds_format_double(self.thresAppRef, input_name='thresAppRef'))
         if self.nbPoints is not None and 'nbPoints' not in already_processed:
             already_processed.add('nbPoints')
-            outfile.write(' nbPoints=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.nbPoints), input_name='nbPoints')), ))
+            outfile.write(' nbPoints="%s"' % self.gds_format_integer(self.nbPoints, input_name='nbPoints'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_DiscreteReturnParam', fromsubclass_=False, pretty_print=True):
         pass
     def to_etree(self, parent_element=None, name_='_DiscreteReturnParam', mapping_=None):
@@ -3704,9 +3701,9 @@ class create_DiscreteReturnParam(GeneratedsSuper):
         if self.intensityValueType is not None:
             element.set('intensityValueType', self.gds_format_integer(self.intensityValueType))
         if self.thresAppRef is not None:
-            element.set('thresAppRef', self.gds_format_string(self.thresAppRef))
+            element.set('thresAppRef', self.gds_format_double(self.thresAppRef))
         if self.nbPoints is not None:
-            element.set('nbPoints', self.gds_format_string(self.nbPoints))
+            element.set('nbPoints', self.gds_format_integer(self.nbPoints))
         if mapping_ is not None:
             mapping_[id(self)] = element
         return element
@@ -3724,11 +3721,11 @@ class create_DiscreteReturnParam(GeneratedsSuper):
         if self.thresAppRef is not None and 'thresAppRef' not in already_processed:
             already_processed.add('thresAppRef')
             showIndent(outfile, level)
-            outfile.write('thresAppRef="%s",\n' % (self.thresAppRef,))
+            outfile.write('thresAppRef=%e,\n' % (self.thresAppRef,))
         if self.nbPoints is not None and 'nbPoints' not in already_processed:
             already_processed.add('nbPoints')
             showIndent(outfile, level)
-            outfile.write('nbPoints="%s",\n' % (self.nbPoints,))
+            outfile.write('nbPoints=%d,\n' % (self.nbPoints,))
     def exportLiteralChildren(self, outfile, level, name_):
         pass
     def build(self, node):
@@ -3749,11 +3746,17 @@ class create_DiscreteReturnParam(GeneratedsSuper):
         value = find_attr_value_('thresAppRef', node)
         if value is not None and 'thresAppRef' not in already_processed:
             already_processed.add('thresAppRef')
-            self.thresAppRef = value
+            try:
+                self.thresAppRef = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (thresAppRef): %s' % exp)
         value = find_attr_value_('nbPoints', node)
         if value is not None and 'nbPoints' not in already_processed:
             already_processed.add('nbPoints')
-            self.nbPoints = value
+            try:
+                self.nbPoints = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
     
@@ -3804,7 +3807,7 @@ class create_RunningMode(GeneratedsSuper):
     Running mode Running mode"""
     member_data_items_ = [
         MemberSpec_('snMode', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('AirConfig', '_AirConfig', 0, 0, {u'maxOccurs': u'1', u'type': u'_AirConfig', u'name': u'AirConfig', u'minOccurs': u'1'}, None),
+        MemberSpec_('AirConfig', '_AirConfig', 0, 0, {'name': 'AirConfig', 'type': '_AirConfig', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -4131,10 +4134,10 @@ class create_FluxtrackingSolarNoise(GeneratedsSuper):
     """Solar Illumination (Flux Tracking) Solar Illumination (Flux
     Tracking)"""
     member_data_items_ = [
-        MemberSpec_('nodefluxtracking', '_nodefluxtracking', 0, 0, {u'maxOccurs': u'1', u'type': u'_nodefluxtracking', u'name': u'nodefluxtracking', u'minOccurs': u'1'}, None),
-        MemberSpec_('SpectralDomainTir', '_SpectralDomainTir', 0, 0, {u'maxOccurs': u'1', u'type': u'_SpectralDomainTir', u'name': u'SpectralDomainTir', u'minOccurs': u'1'}, None),
-        MemberSpec_('temperatureAtmosphere', '_temperatureAtmosphere', 0, 0, {u'maxOccurs': u'1', u'type': u'_temperatureAtmosphere', u'name': u'temperatureAtmosphere', u'minOccurs': u'1'}, None),
-        MemberSpec_('nodeIlluminationMode', '_nodeIlluminationMode', 0, 0, {u'maxOccurs': u'1', u'type': u'_nodeIlluminationMode', u'name': u'nodeIlluminationMode', u'minOccurs': u'1'}, None),
+        MemberSpec_('nodefluxtracking', '_nodefluxtracking', 0, 0, {'name': 'nodefluxtracking', 'type': '_nodefluxtracking', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('SpectralDomainTir', '_SpectralDomainTir', 0, 0, {'name': 'SpectralDomainTir', 'type': '_SpectralDomainTir', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('temperatureAtmosphere', '_temperatureAtmosphere', 0, 0, {'name': 'temperatureAtmosphere', 'type': '_temperatureAtmosphere', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('nodeIlluminationMode', '_nodeIlluminationMode', 0, 0, {'name': 'nodeIlluminationMode', 'type': '_nodeIlluminationMode', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -4552,8 +4555,8 @@ class create_SpectralDomainTir(GeneratedsSuper):
     every cell"""
     member_data_items_ = [
         MemberSpec_('temperatureMode', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('TemperatureFile', '_TemperatureFile', 0, 0, {u'maxOccurs': u'1', u'type': u'_TemperatureFile', u'name': u'TemperatureFile', u'minOccurs': u'1'}, None),
-        MemberSpec_('skylTemperature', '_skylTemperature', 0, 0, {u'maxOccurs': u'1', u'type': u'_skylTemperature', u'name': u'skylTemperature', u'minOccurs': u'1'}, None),
+        MemberSpec_('TemperatureFile', '_TemperatureFile', 0, 0, {'name': 'TemperatureFile', 'type': '_TemperatureFile', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('skylTemperature', '_skylTemperature', 0, 0, {'name': 'skylTemperature', 'type': '_skylTemperature', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -4902,22 +4905,21 @@ class create_TemperatureFile(GeneratedsSuper):
 
 class create_skylTemperature(GeneratedsSuper):
     """BOA illumination is simulated with several sun and atmosphere rays
-    per cell.\nRay density is 1/D\u00B2.\nWith direct sun BOA
-    irradiance Esun, atmosphere BOA irradiance Eatm (sun scattered +
-    thermal emission), BOA irradiance E BOA illumination is
-    simulated with several sun and atmosphere rays per cell.\nRay
-    density is 1/D\u00B2.\nWith direct sun BOA irradiance Esun,
-    atmosphere BOA irradiance Eatm (sun scattered + thermal
-    emission), BOA irradiance E Temperatures are "uniformally"
-    distributed between the Xth percentile and 100-Xth percentile
-    IPARs. IPARS outside these percentile are given the minimum and
-    maximum temperatures respectively. Temperatures are
-    "uniformally" distributed between the Xth percentile and 100-Xth
-    percentile IPARs. IPARS outside these percentile are given the
-    minimum and maximum temperatures respectively. Used to define
-    the illumination (VIS) in order to calculate scene temperatures
-    Used to define the illumination (VIS) in order to calculate
-    scene temperatures"""
+    per cell. Ray density is 1/D². With direct sun BOA irradiance
+    Esun, atmosphere BOA irradiance Eatm (sun scattered + thermal
+    emission), BOA irradiance E BOA illumination is simulated with
+    several sun and atmosphere rays per cell. Ray density is 1/D².
+    With direct sun BOA irradiance Esun, atmosphere BOA irradiance
+    Eatm (sun scattered + thermal emission), BOA irradiance E
+    Temperatures are "uniformally" distributed between the Xth
+    percentile and 100-Xth percentile IPARs. IPARS outside these
+    percentile are given the minimum and maximum temperatures
+    respectively. Temperatures are "uniformally" distributed between
+    the Xth percentile and 100-Xth percentile IPARs. IPARS outside
+    these percentile are given the minimum and maximum temperatures
+    respectively. Used to define the illumination (VIS) in order to
+    calculate scene temperatures Used to define the illumination
+    (VIS) in order to calculate scene temperatures"""
     member_data_items_ = [
         MemberSpec_('distanceBetweenIlluminationSubCenters', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('histogramThreshold', 'xsd:double', 0, 1, {'use': 'optional'}),
@@ -5270,11 +5272,11 @@ class create_nodeIlluminationMode(GeneratedsSuper):
     BOA irradiance."""
     member_data_items_ = [
         MemberSpec_('irradianceMode', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('irradianceDatabaseNode', '_irradianceDatabaseNode', 0, 0, {u'maxOccurs': u'1', u'type': u'_irradianceDatabaseNode', u'name': u'irradianceDatabaseNode', u'minOccurs': u'1'}, None),
-        MemberSpec_('BandIrradianceFileNode', '_BandIrradianceFileNode', 0, 0, {u'maxOccurs': u'1', u'type': u'_BandIrradianceFileNode', u'name': u'BandIrradianceFileNode', u'minOccurs': u'1'}, None),
-        MemberSpec_('illumination', '_illumination', 0, 0, {u'maxOccurs': u'1', u'type': u'_illumination', u'name': u'illumination', u'minOccurs': u'1'}, None),
-        MemberSpec_('ftiImportation', '_ftiImportation', 0, 0, {u'maxOccurs': u'1', u'type': u'_ftiImportation', u'name': u'ftiImportation', u'minOccurs': u'1'}, None),
-        MemberSpec_('SpectralIrradiance', '_SpectralIrradiance', 0, 0, {u'maxOccurs': u'1', u'type': u'_SpectralIrradiance', u'name': u'SpectralIrradiance', u'minOccurs': u'1'}, None),
+        MemberSpec_('irradianceDatabaseNode', '_irradianceDatabaseNode', 0, 0, {'name': 'irradianceDatabaseNode', 'type': '_irradianceDatabaseNode', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('BandIrradianceFileNode', '_BandIrradianceFileNode', 0, 0, {'name': 'BandIrradianceFileNode', 'type': '_BandIrradianceFileNode', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('illumination', '_illumination', 0, 0, {'name': 'illumination', 'type': '_illumination', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ftiImportation', '_ftiImportation', 0, 0, {'name': 'ftiImportation', 'type': '_ftiImportation', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('SpectralIrradiance', '_SpectralIrradiance', 0, 0, {'name': 'SpectralIrradiance', 'type': '_SpectralIrradiance', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -5563,7 +5565,7 @@ class create_irradianceDatabaseNode(GeneratedsSuper):
         MemberSpec_('databaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('weightAtmosphereParameters', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('weightReflectanceParameters', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('WeightingParameters', '_WeightingParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_WeightingParameters', u'name': u'WeightingParameters', u'minOccurs': u'1'}, None),
+        MemberSpec_('WeightingParameters', '_WeightingParameters', 0, 0, {'name': 'WeightingParameters', 'type': '_WeightingParameters', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -5970,14 +5972,14 @@ class create_WeightingParameters(GeneratedsSuper):
 
 
 class create_BandIrradianceFileNode(GeneratedsSuper):
-    """Text file containing lines of |wavelength sunRadiationValue
-    SKYL|.\nThe data is expected to be sorted by ascending
-    wavelength.\nSKYL is ignored and radiation are treated as being
-    TOA in Analytical or Radiative Transfer Atmospheres. Text file
-    containing lines of |wavelength sunRadiationValue SKYL|.\nThe
-    data is expected to be sorted by ascending wavelength.\nSKYL is
-    ignored and radiation are treated as being TOA in Analytical or
-    Radiative Transfer Atmospheres."""
+    """Text file containing lines of |wavelength sunRadiationValue SKYL|.
+    The data is expected to be sorted by ascending wavelength. SKYL
+    is ignored and radiation are treated as being TOA in Analytical
+    or Radiative Transfer Atmospheres. Text file containing lines of
+    |wavelength sunRadiationValue SKYL|. The data is expected to be
+    sorted by ascending wavelength. SKYL is ignored and radiation
+    are treated as being TOA in Analytical or Radiative Transfer
+    Atmospheres."""
     member_data_items_ = [
         MemberSpec_('bandIrradianceFile', 'xsd:string', 0, 1, {'use': 'optional'}),
     ]
@@ -6420,8 +6422,8 @@ class create_ftiImportation(GeneratedsSuper):
 class create_SpectralIrradiance(GeneratedsSuper):
     """SpectralIrradiance SpectralIrradiance"""
     member_data_items_ = [
-        MemberSpec_('CommonParameters', '_CommonParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_CommonParameters', u'name': u'CommonParameters', u'minOccurs': u'1'}, None),
-        MemberSpec_('SpectralIrradianceValue', '_SpectralIrradianceValue', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_SpectralIrradianceValue', u'name': u'SpectralIrradianceValue', u'minOccurs': u'1'}, None),
+        MemberSpec_('CommonParameters', '_CommonParameters', 0, 0, {'name': 'CommonParameters', 'type': '_CommonParameters', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('SpectralIrradianceValue', '_SpectralIrradianceValue', 1, 0, {'name': 'SpectralIrradianceValue', 'type': '_SpectralIrradianceValue', 'minOccurs': '1', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -6819,13 +6821,12 @@ class create_CommonParameters(GeneratedsSuper):
 
 
 class create_SpectralIrradianceValue(GeneratedsSuper):
-    """SpectralIrradianceValue SpectralIrradianceValue 0 for first
-    band)\nBe sure that the spectral band number corresponds in
-    modus operandi and in LUT generator ! 0 for first band)\nBe sure
-    that the spectral band number corresponds in modus operandi and
-    in LUT generator ! TOA spectral solar constant
-    [W/m\u00B2/\u03BCm] TOA spectral solar constant
-    [W/m\u00B2/\u03BCm] SKYL (atmospheric scattering of sun
+    """SpectralIrradianceValue SpectralIrradianceValue 0 for first band) Be
+    sure that the spectral band number corresponds in modus operandi
+    and in LUT generator ! 0 for first band) Be sure that the
+    spectral band number corresponds in modus operandi and in LUT
+    generator ! TOA spectral solar constant [W/m²/μm] TOA spectral
+    solar constant [W/m²/μm] SKYL (atmospheric scattering of sun
     radiance) SKYL (atmospheric scattering of sun radiance)"""
     member_data_items_ = [
         MemberSpec_('bandNumber', 'xsd:int', 0, 1, {'use': 'optional'}),
@@ -7027,7 +7028,7 @@ class create_PulseDuration(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('pulse_energy', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('gaussian_pulse_cut', 'xsd:double', 0, 1, {'use': 'optional'}),
-        MemberSpec_('SigmaDefinition', '_SigmaDefinition', 0, 0, {u'maxOccurs': u'1', u'type': u'_SigmaDefinition', u'name': u'SigmaDefinition', u'minOccurs': u'1'}, None),
+        MemberSpec_('SigmaDefinition', '_SigmaDefinition', 0, 0, {'name': 'SigmaDefinition', 'type': '_SigmaDefinition', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -7421,14 +7422,14 @@ class create_LidarGeometry(GeneratedsSuper):
         MemberSpec_('ifSetZeroDist', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('display', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('beam_width', 'xsd:double', 0, 1, {'use': 'optional'}),
-        MemberSpec_('StWaveHeightRange', '_StWaveHeightRange', 0, 0, {u'maxOccurs': u'1', u'type': u'_StWaveHeightRange', u'name': u'StWaveHeightRange', u'minOccurs': u'1'}, None),
-        MemberSpec_('SensorAngles', '_SensorAngles', 0, 0, {u'maxOccurs': u'1', u'type': u'_SensorAngles', u'name': u'SensorAngles', u'minOccurs': u'1'}, None),
-        MemberSpec_('CenterOnGround', '_CenterOnGround', 0, 0, {u'maxOccurs': u'1', u'type': u'_CenterOnGround', u'name': u'CenterOnGround', u'minOccurs': u'1'}, None),
-        MemberSpec_('ZeroDist', '_ZeroDist', 0, 0, {u'maxOccurs': u'1', u'type': u'_ZeroDist', u'name': u'ZeroDist', u'minOccurs': u'1'}, None),
-        MemberSpec_('FootPrintAndFOVRadiuses', '_FootPrintAndFOVRadiuses', 0, 0, {u'maxOccurs': u'1', u'type': u'_FootPrintAndFOVRadiuses', u'name': u'FootPrintAndFOVRadiuses', u'minOccurs': u'1'}, None),
-        MemberSpec_('FootPrintAndFOVDispersions', '_FootPrintAndFOVDispersions', 0, 0, {u'maxOccurs': u'1', u'type': u'_FootPrintAndFOVDispersions', u'name': u'FootPrintAndFOVDispersions', u'minOccurs': u'1'}, None),
-        MemberSpec_('ALS', '_ALS', 0, 0, {u'maxOccurs': u'1', u'type': u'_ALS', u'name': u'ALS', u'minOccurs': u'1'}, None),
-        MemberSpec_('TLS', '_TLS', 0, 0, {u'maxOccurs': u'1', u'type': u'_TLS', u'name': u'TLS', u'minOccurs': u'1'}, None),
+        MemberSpec_('StWaveHeightRange', '_StWaveHeightRange', 0, 0, {'name': 'StWaveHeightRange', 'type': '_StWaveHeightRange', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('SensorAngles', '_SensorAngles', 0, 0, {'name': 'SensorAngles', 'type': '_SensorAngles', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('CenterOnGround', '_CenterOnGround', 0, 0, {'name': 'CenterOnGround', 'type': '_CenterOnGround', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ZeroDist', '_ZeroDist', 0, 0, {'name': 'ZeroDist', 'type': '_ZeroDist', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('FootPrintAndFOVRadiuses', '_FootPrintAndFOVRadiuses', 0, 0, {'name': 'FootPrintAndFOVRadiuses', 'type': '_FootPrintAndFOVRadiuses', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('FootPrintAndFOVDispersions', '_FootPrintAndFOVDispersions', 0, 0, {'name': 'FootPrintAndFOVDispersions', 'type': '_FootPrintAndFOVDispersions', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ALS', '_ALS', 0, 0, {'name': 'ALS', 'type': '_ALS', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('TLS', '_TLS', 0, 0, {'name': 'TLS', 'type': '_TLS', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -8987,7 +8988,7 @@ class create_ALS(GeneratedsSuper):
     """ALS ALS Altitude of LIDAR platform Altitude of LIDAR platform"""
     member_data_items_ = [
         MemberSpec_('sensorHeight', 'xsd:double', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Swath', '_Swath', 0, 0, {u'maxOccurs': u'1', u'type': u'_Swath', u'name': u'Swath', u'minOccurs': u'1'}, None),
+        MemberSpec_('Swath', '_Swath', 0, 0, {'name': 'Swath', 'type': '_Swath', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -9165,8 +9166,8 @@ class create_Swath(GeneratedsSuper):
     a file contains detailed separated pulses"""
     member_data_items_ = [
         MemberSpec_('isSeparatePulsesImport', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('calculatedSwath', '_calculatedSwath', 0, 0, {u'maxOccurs': u'1', u'type': u'_calculatedSwath', u'name': u'calculatedSwath', u'minOccurs': u'1'}, None),
-        MemberSpec_('importedSwath', '_importedSwath', 0, 0, {u'maxOccurs': u'1', u'type': u'_importedSwath', u'name': u'importedSwath', u'minOccurs': u'1'}, None),
+        MemberSpec_('calculatedSwath', '_calculatedSwath', 0, 0, {'name': 'calculatedSwath', 'type': '_calculatedSwath', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('importedSwath', '_importedSwath', 0, 0, {'name': 'importedSwath', 'type': '_importedSwath', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -9373,10 +9374,10 @@ class create_calculatedSwath(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('platformAzimuth', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('width', 'xsd:double', 0, 1, {'use': 'optional'}),
-        MemberSpec_('CenterBegin', '_CenterBegin', 0, 0, {u'maxOccurs': u'1', u'type': u'_CenterBegin', u'name': u'CenterBegin', u'minOccurs': u'1'}, None),
-        MemberSpec_('CenterEnd', '_CenterEnd', 0, 0, {u'maxOccurs': u'1', u'type': u'_CenterEnd', u'name': u'CenterEnd', u'minOccurs': u'1'}, None),
-        MemberSpec_('ControlPoint', '_ControlPoint', 0, 0, {u'maxOccurs': u'1', u'type': u'_ControlPoint', u'name': u'ControlPoint', u'minOccurs': u'1'}, None),
-        MemberSpec_('ImageParameters', '_ImageParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_ImageParameters', u'name': u'ImageParameters', u'minOccurs': u'1'}, None),
+        MemberSpec_('CenterBegin', '_CenterBegin', 0, 0, {'name': 'CenterBegin', 'type': '_CenterBegin', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('CenterEnd', '_CenterEnd', 0, 0, {'name': 'CenterEnd', 'type': '_CenterEnd', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ControlPoint', '_ControlPoint', 0, 0, {'name': 'ControlPoint', 'type': '_ControlPoint', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ImageParameters', '_ImageParameters', 0, 0, {'name': 'ImageParameters', 'type': '_ImageParameters', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -10005,8 +10006,8 @@ class create_ControlPoint(GeneratedsSuper):
     Mode of definition of the control point."""
     member_data_items_ = [
         MemberSpec_('definition', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('PositionGround', '_PositionGround', 0, 0, {u'maxOccurs': u'1', u'type': u'_PositionGround', u'name': u'PositionGround', u'minOccurs': u'1'}, None),
-        MemberSpec_('CorrespondingParameters', '_CorrespondingParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_CorrespondingParameters', u'name': u'CorrespondingParameters', u'minOccurs': u'1'}, None),
+        MemberSpec_('PositionGround', '_PositionGround', 0, 0, {'name': 'PositionGround', 'type': '_PositionGround', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('CorrespondingParameters', '_CorrespondingParameters', 0, 0, {'name': 'CorrespondingParameters', 'type': '_CorrespondingParameters', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -10737,7 +10738,7 @@ class create_importedSwath(GeneratedsSuper):
     pulses file"""
     member_data_items_ = [
         MemberSpec_('separatePulsesFile', 'xsd:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('ApproximatedTrajectory', '_ApproximatedTrajectory', 0, 0, {u'maxOccurs': u'1', u'type': u'_ApproximatedTrajectory', u'name': u'ApproximatedTrajectory', u'minOccurs': u'1'}, None),
+        MemberSpec_('ApproximatedTrajectory', '_ApproximatedTrajectory', 0, 0, {'name': 'ApproximatedTrajectory', 'type': '_ApproximatedTrajectory', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -10917,7 +10918,7 @@ class create_ApproximatedTrajectory(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('platformAzimuth', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('platformDirection', 'xsd:double', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Sensor', '_Sensor', 0, 0, {u'maxOccurs': u'1', u'type': u'_Sensor', u'name': u'Sensor', u'minOccurs': u'1'}, None),
+        MemberSpec_('Sensor', '_Sensor', 0, 0, {'name': 'Sensor', 'type': '_Sensor', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -11317,7 +11318,7 @@ class create_TLS(GeneratedsSuper):
         MemberSpec_('lidarPosY', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('lidarPosX', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('lidarPosZ', 'xsd:double', 0, 1, {'use': 'optional'}),
-        MemberSpec_('TLSRegion', '_TLSRegion', 0, 0, {u'maxOccurs': u'1', u'type': u'_TLSRegion', u'name': u'TLSRegion', u'minOccurs': u'1'}, None),
+        MemberSpec_('TLSRegion', '_TLSRegion', 0, 0, {'name': 'TLSRegion', 'type': '_TLSRegion', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -11539,7 +11540,7 @@ class create_TLSRegion(GeneratedsSuper):
     separated pulse file"""
     member_data_items_ = [
         MemberSpec_('isSeparatePulsesImport', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('terresScanRange', '_terresScanRange', 0, 0, {u'maxOccurs': u'1', u'type': u'_terresScanRange', u'name': u'terresScanRange', u'minOccurs': u'1'}, None),
+        MemberSpec_('terresScanRange', '_terresScanRange', 0, 0, {'name': 'terresScanRange', 'type': '_terresScanRange', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -11718,17 +11719,17 @@ class create_terresScanRange(GeneratedsSuper):
     zenith x Delta azimuth) / (Resolution zenith x Resolution
     azimuth) The grid of acquisition is (Delta zenith x Delta
     azimuth) / (Resolution zenith x Resolution azimuth) In degrees.
-    The direction is defined from the target to the TLS.\n0deg
-    points toward the South in the 2D view. In degrees. The
-    direction is defined from the target to the TLS.\n0deg points
-    toward the South in the 2D view. The grid of acquisition is
-    (Delta zenith x Delta azimuth) / (Resolution zenith x Resolution
-    azimuth) The grid of acquisition is (Delta zenith x Delta
-    azimuth) / (Resolution zenith x Resolution azimuth) In degrees.
-    The direction is defined from the target to the TLS.\n0deg goes
-    verticaly upward. In degrees. The direction is defined from the
-    target to the TLS.\n0deg goes verticaly upward. Azimuthal range
-    of acquisition. Azimuthal range of acquisition."""
+    The direction is defined from the target to the TLS. 0deg points
+    toward the South in the 2D view. In degrees. The direction is
+    defined from the target to the TLS. 0deg points toward the South
+    in the 2D view. The grid of acquisition is (Delta zenith x Delta
+    azimuth) / (Resolution zenith x Resolution azimuth) The grid of
+    acquisition is (Delta zenith x Delta azimuth) / (Resolution
+    zenith x Resolution azimuth) In degrees. The direction is
+    defined from the target to the TLS. 0deg goes verticaly upward.
+    In degrees. The direction is defined from the target to the TLS.
+    0deg goes verticaly upward. Azimuthal range of acquisition.
+    Azimuthal range of acquisition."""
     member_data_items_ = [
         MemberSpec_('deltaTheta', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('resPhi', 'xsd:double', 0, 1, {'use': 'optional'}),
@@ -12006,17 +12007,17 @@ class create_LidarIlluminationIntensity(GeneratedsSuper):
     less than this threshold, the weight of photon in this subcenter
     will be reduced in order to keep the photon number at the
     threshold. -LIDAR: approximate number of photons emitted by the
-    LIDAR\n-Monte Carlo: number of photons emitted per illumination
-    cell. -LIDAR: approximate number of photons emitted by the
-    LIDAR\n-Monte Carlo: number of photons emitted per illumination
-    cell. shortAxisSubdivitionIllum shortAxisSubdivitionIllum"""
+    LIDAR -Monte Carlo: number of photons emitted per illumination
+    cell. -LIDAR: approximate number of photons emitted by the LIDAR
+    -Monte Carlo: number of photons emitted per illumination cell.
+    shortAxisSubdivitionIllum shortAxisSubdivitionIllum"""
     member_data_items_ = [
         MemberSpec_('isImportedPulse', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('gaussian_sigma_illu', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('minNoPhotonPerSubCenter', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('numberofPhotons', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('shortAxisSubdivitionIllum', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('ImportedPulse', '_ImportedPulse', 0, 0, {u'maxOccurs': u'1', u'type': u'_ImportedPulse', u'name': u'ImportedPulse', u'minOccurs': u'1'}, None),
+        MemberSpec_('ImportedPulse', '_ImportedPulse', 0, 0, {'name': 'ImportedPulse', 'type': '_ImportedPulse', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -12758,7 +12759,7 @@ class create_LidarAcquisitionParameters(GeneratedsSuper):
 class create_SpectralIntervals(GeneratedsSuper):
     """Spectral intervals Spectral intervals"""
     member_data_items_ = [
-        MemberSpec_('SpectralIntervalsProperties', '_SpectralIntervalsProperties', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_SpectralIntervalsProperties', u'name': u'SpectralIntervalsProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('SpectralIntervalsProperties', '_SpectralIntervalsProperties', 1, 0, {'name': 'SpectralIntervalsProperties', 'type': '_SpectralIntervalsProperties', 'minOccurs': '1', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -12933,23 +12934,23 @@ class create_SpectralIntervals(GeneratedsSuper):
 
 class create_SpectralIntervalsProperties(GeneratedsSuper):
     """SpectralIntervalsProperties SpectralIntervalsProperties Central
-    wavelength Central wavelength 0 for first band)\nBe sure that
-    the spectral band number corresponds in modus operandi and in
-    LUT generator ! 0 for first band)\nBe sure that the spectral
-    band number corresponds in modus operandi and in LUT generator !
-    -Mode R : \nSource: Sun, results: Reflectance \n\n-Mode
-    R+T:\nSource: Sun + thermal emission, Results: brightness
-    temperature\n\n-Mode T:\nSource : thermal emission, Results :
-    brightness temperature -Mode R : \nSource: Sun, results:
-    Reflectance \n\n-Mode R+T:\nSource: Sun + thermal emission,
-    Results: brightness temperature\n\n-Mode T:\nSource : thermal
-    emission, Results : brightness temperature Bandwidth Bandwidth"""
+    wavelength Central wavelength 0 for first band) Be sure that the
+    spectral band number corresponds in modus operandi and in LUT
+    generator ! 0 for first band) Be sure that the spectral band
+    number corresponds in modus operandi and in LUT generator !
+    -Mode R : Source: Sun, results: Reflectance -Mode R+T: Source:
+    Sun + thermal emission, Results: brightness temperature -Mode T:
+    Source : thermal emission, Results : brightness temperature
+    -Mode R : Source: Sun, results: Reflectance -Mode R+T: Source:
+    Sun + thermal emission, Results: brightness temperature -Mode T:
+    Source : thermal emission, Results : brightness temperature
+    Bandwidth Bandwidth"""
     member_data_items_ = [
         MemberSpec_('meanLambda', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('bandNumber', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('spectralDartMode', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('deltaLambda', 'xsd:double', 0, 1, {'use': 'optional'}),
-        MemberSpec_('emissionLawNode', '_emissionLawNode', 0, 0, {u'maxOccurs': u'1', u'type': u'_emissionLawNode', u'name': u'emissionLawNode', u'minOccurs': u'1'}, None),
+        MemberSpec_('emissionLawNode', '_emissionLawNode', 0, 0, {'name': 'emissionLawNode', 'type': '_emissionLawNode', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -13353,12 +13354,12 @@ class create_ImageSideIllumination(GeneratedsSuper):
         MemberSpec_('disableThermalEmission', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('sideIlluminationEnabled', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('disableSolarIllumination', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('TopSide', '_TopSide', 0, 0, {u'maxOccurs': u'1', u'type': u'_TopSide', u'name': u'TopSide', u'minOccurs': u'1'}, None),
-        MemberSpec_('BottomSide', '_BottomSide', 0, 0, {u'maxOccurs': u'1', u'type': u'_BottomSide', u'name': u'BottomSide', u'minOccurs': u'1'}, None),
-        MemberSpec_('RightSide', '_RightSide', 0, 0, {u'maxOccurs': u'1', u'type': u'_RightSide', u'name': u'RightSide', u'minOccurs': u'1'}, None),
-        MemberSpec_('LeftSide', '_LeftSide', 0, 0, {u'maxOccurs': u'1', u'type': u'_LeftSide', u'name': u'LeftSide', u'minOccurs': u'1'}, None),
-        MemberSpec_('FrontSide', '_FrontSide', 0, 0, {u'maxOccurs': u'1', u'type': u'_FrontSide', u'name': u'FrontSide', u'minOccurs': u'1'}, None),
-        MemberSpec_('BackSide', '_BackSide', 0, 0, {u'maxOccurs': u'1', u'type': u'_BackSide', u'name': u'BackSide', u'minOccurs': u'1'}, None),
+        MemberSpec_('TopSide', '_TopSide', 0, 0, {'name': 'TopSide', 'type': '_TopSide', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('BottomSide', '_BottomSide', 0, 0, {'name': 'BottomSide', 'type': '_BottomSide', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('RightSide', '_RightSide', 0, 0, {'name': 'RightSide', 'type': '_RightSide', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('LeftSide', '_LeftSide', 0, 0, {'name': 'LeftSide', 'type': '_LeftSide', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('FrontSide', '_FrontSide', 0, 0, {'name': 'FrontSide', 'type': '_FrontSide', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('BackSide', '_BackSide', 0, 0, {'name': 'BackSide', 'type': '_BackSide', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -13716,7 +13717,7 @@ class create_TopSide(GeneratedsSuper):
         MemberSpec_('provideIllumination', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('storeExitingEnergy', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('disableOtherSideConnection', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('SideIlluminationFile', '_SideIlluminationFile', 0, 0, {u'maxOccurs': u'1', u'type': u'_SideIlluminationFile', u'name': u'SideIlluminationFile', u'minOccurs': u'1'}, None),
+        MemberSpec_('SideIlluminationFile', '_SideIlluminationFile', 0, 0, {'name': 'SideIlluminationFile', 'type': '_SideIlluminationFile', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -14097,7 +14098,7 @@ class create_BottomSide(GeneratedsSuper):
         MemberSpec_('provideIllumination', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('storeExitingEnergy', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('disableOtherSideConnection', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('SideIlluminationFile', '_SideIlluminationFile', 0, 0, {u'maxOccurs': u'1', u'type': u'_SideIlluminationFile', u'name': u'SideIlluminationFile', u'minOccurs': u'1'}, None),
+        MemberSpec_('SideIlluminationFile', '_SideIlluminationFile', 0, 0, {'name': 'SideIlluminationFile', 'type': '_SideIlluminationFile', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -14330,7 +14331,7 @@ class create_RightSide(GeneratedsSuper):
         MemberSpec_('provideIllumination', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('storeExitingEnergy', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('disableOtherSideConnection', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('SideIlluminationFile', '_SideIlluminationFile', 0, 0, {u'maxOccurs': u'1', u'type': u'_SideIlluminationFile', u'name': u'SideIlluminationFile', u'minOccurs': u'1'}, None),
+        MemberSpec_('SideIlluminationFile', '_SideIlluminationFile', 0, 0, {'name': 'SideIlluminationFile', 'type': '_SideIlluminationFile', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -14563,7 +14564,7 @@ class create_LeftSide(GeneratedsSuper):
         MemberSpec_('provideIllumination', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('storeExitingEnergy', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('disableOtherSideConnection', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('SideIlluminationFile', '_SideIlluminationFile', 0, 0, {u'maxOccurs': u'1', u'type': u'_SideIlluminationFile', u'name': u'SideIlluminationFile', u'minOccurs': u'1'}, None),
+        MemberSpec_('SideIlluminationFile', '_SideIlluminationFile', 0, 0, {'name': 'SideIlluminationFile', 'type': '_SideIlluminationFile', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -14796,7 +14797,7 @@ class create_FrontSide(GeneratedsSuper):
         MemberSpec_('provideIllumination', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('storeExitingEnergy', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('disableOtherSideConnection', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('SideIlluminationFile', '_SideIlluminationFile', 0, 0, {u'maxOccurs': u'1', u'type': u'_SideIlluminationFile', u'name': u'SideIlluminationFile', u'minOccurs': u'1'}, None),
+        MemberSpec_('SideIlluminationFile', '_SideIlluminationFile', 0, 0, {'name': 'SideIlluminationFile', 'type': '_SideIlluminationFile', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -15029,7 +15030,7 @@ class create_BackSide(GeneratedsSuper):
         MemberSpec_('provideIllumination', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('storeExitingEnergy', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('disableOtherSideConnection', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('SideIlluminationFile', '_SideIlluminationFile', 0, 0, {u'maxOccurs': u'1', u'type': u'_SideIlluminationFile', u'name': u'SideIlluminationFile', u'minOccurs': u'1'}, None),
+        MemberSpec_('SideIlluminationFile', '_SideIlluminationFile', 0, 0, {'name': 'SideIlluminationFile', 'type': '_SideIlluminationFile', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -15249,8 +15250,8 @@ class create_BackSide(GeneratedsSuper):
 class create_DartProduct(GeneratedsSuper):
     """DartProduct DartProduct"""
     member_data_items_ = [
-        MemberSpec_('dartModuleProducts', '_dartModuleProducts', 0, 0, {u'maxOccurs': u'1', u'type': u'_dartModuleProducts', u'name': u'dartModuleProducts', u'minOccurs': u'1'}, None),
-        MemberSpec_('maketModuleProducts', '_maketModuleProducts', 0, 0, {u'maxOccurs': u'1', u'type': u'_maketModuleProducts', u'name': u'maketModuleProducts', u'minOccurs': u'1'}, None),
+        MemberSpec_('dartModuleProducts', '_dartModuleProducts', 0, 0, {'name': 'dartModuleProducts', 'type': '_dartModuleProducts', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('maketModuleProducts', '_maketModuleProducts', 0, 0, {'name': 'maketModuleProducts', 'type': '_maketModuleProducts', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -15432,9 +15433,9 @@ class create_DartProduct(GeneratedsSuper):
 class create_dartModuleProducts(GeneratedsSuper):
     """dartModuleProducts dartModuleProducts"""
     member_data_items_ = [
-        MemberSpec_('CommonProducts', '_CommonProducts', 0, 0, {u'maxOccurs': u'1', u'type': u'_CommonProducts', u'name': u'CommonProducts', u'minOccurs': u'1'}, None),
-        MemberSpec_('FluxTrackingModeProducts', '_FluxTrackingModeProducts', 0, 0, {u'maxOccurs': u'1', u'type': u'_FluxTrackingModeProducts', u'name': u'FluxTrackingModeProducts', u'minOccurs': u'1'}, None),
-        MemberSpec_('LidarModeProducts', '_LidarModeProducts', 0, 0, {u'maxOccurs': u'1', u'type': u'_LidarModeProducts', u'name': u'LidarModeProducts', u'minOccurs': u'1'}, None),
+        MemberSpec_('CommonProducts', '_CommonProducts', 0, 0, {'name': 'CommonProducts', 'type': '_CommonProducts', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('FluxTrackingModeProducts', '_FluxTrackingModeProducts', 0, 0, {'name': 'FluxTrackingModeProducts', 'type': '_FluxTrackingModeProducts', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('LidarModeProducts', '_LidarModeProducts', 0, 0, {'name': 'LidarModeProducts', 'type': '_LidarModeProducts', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -15640,24 +15641,24 @@ class create_dartModuleProducts(GeneratedsSuper):
 
 class create_CommonProducts(GeneratedsSuper):
     """Specifies if the polarization is taken into account in the radiative
-    transfer or not. \n The state of polarization of a wave is
-    described by the 4 components of the Stokes Vector. \n Not
+    transfer or not. The state of polarization of a wave is
+    described by the 4 components of the Stokes Vector. Not
     polarized for the sun illumination, the light can be polarized
     by a physical phenomenon (specular reflection, rayleigh
     scattering). Specifies if the polarization is taken into account
-    in the radiative transfer or not. \n The state of polarization
-    of a wave is described by the 4 components of the Stokes Vector.
-    \n Not polarized for the sun illumination, the light can be
-    polarized by a physical phenomenon (specular reflection,
-    rayleigh scattering). 3D and 1D distribution of radiation that
-    is incident, intercepted, absorbed and scattered, for each non
+    in the radiative transfer or not. The state of polarization of a
+    wave is described by the 4 components of the Stokes Vector. Not
+    polarized for the sun illumination, the light can be polarized
+    by a physical phenomenon (specular reflection, rayleigh
+    scattering). 3D and 1D distribution of radiation that is
+    incident, intercepted, absorbed and scattered, for each non
     empty cell. 3D and 1D distribution of radiation that is
     incident, intercepted, absorbed and scattered, for each non
     empty cell."""
     member_data_items_ = [
         MemberSpec_('polarizationProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('radiativeBudgetProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('radiativeBudgetProperties', '_radiativeBudgetProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_radiativeBudgetProperties', u'name': u'radiativeBudgetProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('radiativeBudgetProperties', '_radiativeBudgetProperties', 0, 0, {'name': 'radiativeBudgetProperties', 'type': '_radiativeBudgetProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -15870,20 +15871,22 @@ class create_radiativeBudgetProperties(GeneratedsSuper):
     (fINTR), absorbed (fABSR) and scattered (fSCAR) radiation
     Extrapolation of radiation products Extrapolation of radiation
     products Images fINTR, fABSR, fSCAR per column per iteration
-    Images fINTR, fABSR, fSCAR per column per iteration W W fINTR,
-    fABSR, fSCAR total per individual triangle and per
-    iteration.\nCan be displayed in the Surface Radiative Budget
-    viewer, in the viewer tools. fINTR, fABSR, fSCAR total per
-    individual triangle and per iteration.\nCan be displayed in the
-    Surface Radiative Budget viewer, in the viewer tools. Output the
-    large radiative budgets (3D or per individual triangles) to
-    binary files instead of text files. Improves significatively the
-    performance during the writing of these files. Output the large
-    radiative budgets (3D or per individual triangles) to binary
-    files instead of text files. Improves significatively the
-    performance during the writing of these files. fINTR, fABSR,
-    fSCAR total per type of triangle and per iteration fINTR, fABSR,
-    fSCAR total per type of triangle and per iteration"""
+    Images fINTR, fABSR, fSCAR per column per iteration In T and R+T
+    mode, "fraction" gives the same result as "W/mœ". In T and R+T
+    mode, "fraction" gives the same result as "W/mœ". fINTR, fABSR,
+    fSCAR total per individual triangle and per iteration. Can be
+    displayed in the Surface Radiative Budget viewer, in the viewer
+    tools. fINTR, fABSR, fSCAR total per individual triangle and per
+    iteration. Can be displayed in the Surface Radiative Budget
+    viewer, in the viewer tools. Output the large radiative budgets
+    (3D or per individual triangles) to binary files instead of text
+    files. Improves significatively the performance during the
+    writing of these files. Output the large radiative budgets (3D
+    or per individual triangles) to binary files instead of text
+    files. Improves significatively the performance during the
+    writing of these files. fINTR, fABSR, fSCAR total per type of
+    triangle and per iteration fINTR, fABSR, fSCAR total per type of
+    triangle and per iteration"""
     member_data_items_ = [
         MemberSpec_('budget2DParType', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('fIRfARfSRfINTR1DProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
@@ -15895,7 +15898,7 @@ class create_radiativeBudgetProperties(GeneratedsSuper):
         MemberSpec_('budget3DParSurface', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('binaryFormat', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('budgetTotalParType', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Components', '_Components', 0, 0, {u'maxOccurs': u'1', u'type': u'_Components', u'name': u'Components', u'minOccurs': u'1'}, None),
+        MemberSpec_('Components', '_Components', 0, 0, {'name': 'Components', 'type': '_Components', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -16268,8 +16271,8 @@ class create_radiativeBudgetProperties(GeneratedsSuper):
 
 class create_Components(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('CellComponents', '_CellComponents', 0, 0, {u'maxOccurs': u'1', u'type': u'_CellComponents', u'name': u'CellComponents', u'minOccurs': u'1'}, None),
-        MemberSpec_('ElementComponents', '_ElementComponents', 0, 0, {u'maxOccurs': u'1', u'type': u'_ElementComponents', u'name': u'ElementComponents', u'minOccurs': u'1'}, None),
+        MemberSpec_('CellComponents', '_CellComponents', 0, 0, {'name': 'CellComponents', 'type': '_CellComponents', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ElementComponents', '_ElementComponents', 0, 0, {'name': 'ElementComponents', 'type': '_ElementComponents', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -17260,8 +17263,8 @@ class create_FluxTrackingModeProducts(GeneratedsSuper):
         MemberSpec_('allIterationsProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('brfProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('order1Products', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('BrfProductsProperties', '_BrfProductsProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_BrfProductsProperties', u'name': u'BrfProductsProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('Order1Options', '_Order1Options', 0, 0, {u'maxOccurs': u'1', u'type': u'_Order1Options', u'name': u'Order1Options', u'minOccurs': u'1'}, None),
+        MemberSpec_('BrfProductsProperties', '_BrfProductsProperties', 0, 0, {'name': 'BrfProductsProperties', 'type': '_BrfProductsProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Order1Options', '_Order1Options', 0, 0, {'name': 'Order1Options', 'type': '_Order1Options', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -17544,13 +17547,19 @@ class create_BrfProductsProperties(GeneratedsSuper):
     transformation is applied to "non sensor plane images" (images
     simulated on the horizontal plane above the scene) A text file
     that gives the mean reflectance factor for all bands A text file
-    that gives the mean reflectance factor for all bands
-    Extrapolation of radiation products Extrapolation of radiation
-    products Images are coded in double Images are coded in double
-    Produce mean products and images products in radiance
-    [W/m\u00B2/sr/\u03BCm] Produce mean products and images products
-    in radiance [W/m\u00B2/sr/\u03BCm] Fluid Transmittance images
-    Fluid Transmittance images One text file that gives the mean
+    that gives the mean reflectance factor for all bands The
+    correspondences are done for the center of the pixels and are
+    stored in the format [u,v,x,y,z] where u and v are the pixel
+    indices and x,y and z are the corresponding coordinates in the
+    scene. The correspondences are done for the center of the pixels
+    and are stored in the format [u,v,x,y,z] where u and v are the
+    pixel indices and x,y and z are the corresponding coordinates in
+    the scene. Extrapolation of radiation products Extrapolation of
+    radiation products Images are coded in double Images are coded
+    in double Produce mean products and images products in radiance
+    [W/m²/sr/μm] Produce mean products and images products in
+    radiance [W/m²/sr/μm] Fluid Transmittance images Fluid
+    Transmittance images One text file that gives the mean
     reflectance factor for each upward direction that is selected
     One text file that gives the mean reflectance factor for each
     upward direction that is selected horizontalOversampling
@@ -17562,21 +17571,22 @@ class create_BrfProductsProperties(GeneratedsSuper):
         MemberSpec_('nb_scene', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('sensorPlaneprojection', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('centralizedBrfProduct', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('pixelToSceneCorrespondences', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('extrapolation', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('image', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('luminanceProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('transmittanceImages', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('brfProduct', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('horizontalOversampling', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('ExpertModeZone_Etalement', '_ExpertModeZone_Etalement', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExpertModeZone_Etalement', u'name': u'ExpertModeZone_Etalement', u'minOccurs': u'1'}, None),
-        MemberSpec_('ExpertModeZone_maskProjection', '_ExpertModeZone_maskProjection', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExpertModeZone_maskProjection', u'name': u'ExpertModeZone_maskProjection', u'minOccurs': u'1'}, None),
+        MemberSpec_('ExpertModeZone_Etalement', '_ExpertModeZone_Etalement', 0, 0, {'name': 'ExpertModeZone_Etalement', 'type': '_ExpertModeZone_Etalement', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ExpertModeZone_maskProjection', '_ExpertModeZone_maskProjection', 0, 0, {'name': 'ExpertModeZone_maskProjection', 'type': '_ExpertModeZone_maskProjection', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
-    def __init__(self, maximalThetaImages=25.0, projection=0, sensorOversampling=1, nb_scene=1, sensorPlaneprojection=1, centralizedBrfProduct=1, extrapolation=1, image=1, luminanceProducts=0, transmittanceImages=0, brfProduct=1, horizontalOversampling=1, ExpertModeZone_Etalement=None, ExpertModeZone_maskProjection=None):
+    def __init__(self, maximalThetaImages=25.0, projection=0, sensorOversampling=1, nb_scene=1, sensorPlaneprojection=1, centralizedBrfProduct=1, pixelToSceneCorrespondences=0, extrapolation=1, image=1, luminanceProducts=0, transmittanceImages=0, brfProduct=1, horizontalOversampling=1, ExpertModeZone_Etalement=None, ExpertModeZone_maskProjection=None):
         self.original_tagname_ = None
         self.troot=get_gs_troot('phase','_BrfProductsProperties')
-        self.attrib = ['maximalThetaImages', 'projection', 'sensorOversampling', 'nb_scene', 'sensorPlaneprojection', 'centralizedBrfProduct', 'extrapolation', 'image', 'luminanceProducts', 'transmittanceImages', 'brfProduct', 'horizontalOversampling']
+        self.attrib = ['maximalThetaImages', 'projection', 'sensorOversampling', 'nb_scene', 'sensorPlaneprojection', 'centralizedBrfProduct', 'pixelToSceneCorrespondences', 'extrapolation', 'image', 'luminanceProducts', 'transmittanceImages', 'brfProduct', 'horizontalOversampling']
         self.children = ['ExpertModeZone_Etalement', 'ExpertModeZone_maskProjection']
         self.parent = None
         self._maximalThetaImages = _cast(float, maximalThetaImages)
@@ -17585,6 +17595,7 @@ class create_BrfProductsProperties(GeneratedsSuper):
         self._nb_scene = _cast(int, nb_scene)
         self._sensorPlaneprojection = _cast(int, sensorPlaneprojection)
         self._centralizedBrfProduct = _cast(int, centralizedBrfProduct)
+        self._pixelToSceneCorrespondences = _cast(int, pixelToSceneCorrespondences)
         self._extrapolation = _cast(int, extrapolation)
         self._image = _cast(int, image)
         self._luminanceProducts = _cast(int, luminanceProducts)
@@ -17649,6 +17660,11 @@ class create_BrfProductsProperties(GeneratedsSuper):
         self._centralizedBrfProduct = value
         update_node(self,self.troot,'phase')
     centralizedBrfProduct = property(get_centralizedBrfProduct, set_centralizedBrfProduct)
+    def get_pixelToSceneCorrespondences(self): return self._pixelToSceneCorrespondences
+    def set_pixelToSceneCorrespondences(self, value):
+        self._pixelToSceneCorrespondences = value
+        update_node(self,self.troot,'phase')
+    pixelToSceneCorrespondences = property(get_pixelToSceneCorrespondences, set_pixelToSceneCorrespondences)
     def get_extrapolation(self): return self._extrapolation
     def set_extrapolation(self, value):
         self._extrapolation = value
@@ -17730,6 +17746,9 @@ class create_BrfProductsProperties(GeneratedsSuper):
         if self.centralizedBrfProduct is not None and 'centralizedBrfProduct' not in already_processed:
             already_processed.add('centralizedBrfProduct')
             outfile.write(' centralizedBrfProduct="%s"' % self.gds_format_integer(self.centralizedBrfProduct, input_name='centralizedBrfProduct'))
+        if self.pixelToSceneCorrespondences is not None and 'pixelToSceneCorrespondences' not in already_processed:
+            already_processed.add('pixelToSceneCorrespondences')
+            outfile.write(' pixelToSceneCorrespondences="%s"' % self.gds_format_integer(self.pixelToSceneCorrespondences, input_name='pixelToSceneCorrespondences'))
         if self.extrapolation is not None and 'extrapolation' not in already_processed:
             already_processed.add('extrapolation')
             outfile.write(' extrapolation="%s"' % self.gds_format_integer(self.extrapolation, input_name='extrapolation'))
@@ -17774,6 +17793,8 @@ class create_BrfProductsProperties(GeneratedsSuper):
             element.set('sensorPlaneprojection', self.gds_format_integer(self.sensorPlaneprojection))
         if self.centralizedBrfProduct is not None:
             element.set('centralizedBrfProduct', self.gds_format_integer(self.centralizedBrfProduct))
+        if self.pixelToSceneCorrespondences is not None:
+            element.set('pixelToSceneCorrespondences', self.gds_format_integer(self.pixelToSceneCorrespondences))
         if self.extrapolation is not None:
             element.set('extrapolation', self.gds_format_integer(self.extrapolation))
         if self.image is not None:
@@ -17826,6 +17847,10 @@ class create_BrfProductsProperties(GeneratedsSuper):
             already_processed.add('centralizedBrfProduct')
             showIndent(outfile, level)
             outfile.write('centralizedBrfProduct=%d,\n' % (self.centralizedBrfProduct,))
+        if self.pixelToSceneCorrespondences is not None and 'pixelToSceneCorrespondences' not in already_processed:
+            already_processed.add('pixelToSceneCorrespondences')
+            showIndent(outfile, level)
+            outfile.write('pixelToSceneCorrespondences=%d,\n' % (self.pixelToSceneCorrespondences,))
         if self.extrapolation is not None and 'extrapolation' not in already_processed:
             already_processed.add('extrapolation')
             showIndent(outfile, level)
@@ -17911,6 +17936,13 @@ class create_BrfProductsProperties(GeneratedsSuper):
             already_processed.add('centralizedBrfProduct')
             try:
                 self.centralizedBrfProduct = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('pixelToSceneCorrespondences', node)
+        if value is not None and 'pixelToSceneCorrespondences' not in already_processed:
+            already_processed.add('pixelToSceneCorrespondences')
+            try:
+                self.pixelToSceneCorrespondences = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
         value = find_attr_value_('extrapolation', node)
@@ -18017,8 +18049,8 @@ class create_ExpertModeZone_Etalement(GeneratedsSuper):
     pixels in function of the original figure's projection."""
     member_data_items_ = [
         MemberSpec_('etalement', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('ExpertModeZone_Projection', '_ExpertModeZone_Projection', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExpertModeZone_Projection', u'name': u'ExpertModeZone_Projection', u'minOccurs': u'1'}, None),
-        MemberSpec_('ExpertModeZone_PerTypeProduct', '_ExpertModeZone_PerTypeProduct', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExpertModeZone_PerTypeProduct', u'name': u'ExpertModeZone_PerTypeProduct', u'minOccurs': u'1'}, None),
+        MemberSpec_('ExpertModeZone_Projection', '_ExpertModeZone_Projection', 0, 0, {'name': 'ExpertModeZone_Projection', 'type': '_ExpertModeZone_Projection', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ExpertModeZone_PerTypeProduct', '_ExpertModeZone_PerTypeProduct', 0, 0, {'name': 'ExpertModeZone_PerTypeProduct', 'type': '_ExpertModeZone_PerTypeProduct', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -18219,11 +18251,11 @@ class create_ExpertModeZone_Etalement(GeneratedsSuper):
 class create_ExpertModeZone_Projection(GeneratedsSuper):
     """ExpertModeZone_Projection ExpertModeZone_Projection Select this
     option if you intend to resample your images (through the
-    resampling tool).\nAnother way to do it is to deactivate the
+    resampling tool). Another way to do it is to deactivate the
     projection in DART itself, and to use the tool to project (and
     resample) the generated horizontal images. Select this option if
     you intend to resample your images (through the resampling
-    tool).\nAnother way to do it is to deactivate the projection in
+    tool). Another way to do it is to deactivate the projection in
     DART itself, and to use the tool to project (and resample) the
     generated horizontal images."""
     member_data_items_ = [
@@ -18377,12 +18409,12 @@ class create_ExpertModeZone_Projection(GeneratedsSuper):
 class create_ExpertModeZone_PerTypeProduct(GeneratedsSuper):
     """Generates seperated images for each type/color defined in the scene
     (such as roads, walls, vegetation or any custom type defined for
-    3D imported objects).\nCurrently only available for the option
-    "Precise (slow)" Spreading of rays\n Generates seperated images
+    3D imported objects). Currently only available for the option
+    "Precise (slow)" Spreading of rays Generates seperated images
     for each type/color defined in the scene (such as roads, walls,
-    vegetation or any custom type defined for 3D imported
-    objects).\nCurrently only available for the option "Precise
-    (slow)" Spreading of rays\n"""
+    vegetation or any custom type defined for 3D imported objects).
+    Currently only available for the option "Precise (slow)"
+    Spreading of rays"""
     member_data_items_ = [
         MemberSpec_('generatePerTypeProduct', 'xsd:int', 0, 1, {'use': 'optional'}),
     ]
@@ -18868,8 +18900,8 @@ class create_LidarModeProducts(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('lidarImageProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('lidarProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('lidarProductsProperties', '_lidarProductsProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_lidarProductsProperties', u'name': u'lidarProductsProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('ImageBinaryProducts', '_ImageBinaryProducts', 0, 0, {u'maxOccurs': u'1', u'type': u'_ImageBinaryProducts', u'name': u'ImageBinaryProducts', u'minOccurs': u'1'}, None),
+        MemberSpec_('lidarProductsProperties', '_lidarProductsProperties', 0, 0, {'name': 'lidarProductsProperties', 'type': '_lidarProductsProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ImageBinaryProducts', '_ImageBinaryProducts', 0, 0, {'name': 'ImageBinaryProducts', 'type': '_ImageBinaryProducts', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -19575,9 +19607,9 @@ class create_maketModuleProducts(GeneratedsSuper):
         MemberSpec_('MNEProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('areaMaketProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('objectGeneration', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('areaMaketProductsProperties', '_areaMaketProductsProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_areaMaketProductsProperties', u'name': u'areaMaketProductsProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('coverRateProductsProperties', '_coverRateProductsProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_coverRateProductsProperties', u'name': u'coverRateProductsProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('LaiProductsProperties', '_LaiProductsProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_LaiProductsProperties', u'name': u'LaiProductsProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('areaMaketProductsProperties', '_areaMaketProductsProperties', 0, 0, {'name': 'areaMaketProductsProperties', 'type': '_areaMaketProductsProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('coverRateProductsProperties', '_coverRateProductsProperties', 0, 0, {'name': 'coverRateProductsProperties', 'type': '_coverRateProductsProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('LaiProductsProperties', '_LaiProductsProperties', 0, 0, {'name': 'LaiProductsProperties', 'type': '_LaiProductsProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -20070,22 +20102,21 @@ class create_areaMaketProductsProperties(GeneratedsSuper):
 class create_coverRateProductsProperties(GeneratedsSuper):
     """coverRateProductsProperties coverRateProductsProperties Scene
     Builder stores the total ground cover per type in the
-    simulation.properties.txt\n The value is accessible through the
+    simulation.properties.txt The value is accessible through the
     key [maket.groundCover.triangles.type/N/], where N is the index
     of the type. The list of type are accessible in the dart.typ
     file in the input directory. Scene Builder stores the total
-    ground cover per type in the simulation.properties.txt\n The
-    value is accessible through the key
+    ground cover per type in the simulation.properties.txt The value
+    is accessible through the key
     [maket.groundCover.triangles.type/N/], where N is the index of
     the type. The list of type are accessible in the dart.typ file
     in the input directory. "Effective horizontal sample grid"
     "Effective horizontal sample grid" Scene Builder stores the
-    total ground cover in the simulation.properties.txt\n The value
-    is accessible through the key
-    [maket.groundCover.triangles.total] Scene Builder stores the
-    total ground cover in the simulation.properties.txt\n The value
-    is accessible through the key
-    [maket.groundCover.triangles.total]"""
+    total ground cover in the simulation.properties.txt The value is
+    accessible through the key [maket.groundCover.triangles.total]
+    Scene Builder stores the total ground cover in the
+    simulation.properties.txt The value is accessible through the
+    key [maket.groundCover.triangles.total]"""
     member_data_items_ = [
         MemberSpec_('coverRatePerType', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('coverRatePrecision', 'xsd:double', 0, 1, {'use': 'optional'}),
@@ -20488,10 +20519,10 @@ class create_SensorImageSimulation(GeneratedsSuper):
     the FOV, Tait-Bryan angles."""
     member_data_items_ = [
         MemberSpec_('importMultipleSensors', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('SensorsImportation', '_SensorsImportation', 0, 0, {u'maxOccurs': u'1', u'type': u'_SensorsImportation', u'name': u'SensorsImportation', u'minOccurs': u'1'}, None),
-        MemberSpec_('Pinhole', '_Pinhole', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_Pinhole', u'name': u'Pinhole', u'minOccurs': u'0'}, None),
-        MemberSpec_('Pushbroom', '_Pushbroom', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_Pushbroom', u'name': u'Pushbroom', u'minOccurs': u'0'}, None),
-        MemberSpec_('InsideSensor', '_InsideSensor', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_InsideSensor', u'name': u'InsideSensor', u'minOccurs': u'0'}, None),
+        MemberSpec_('SensorsImportation', '_SensorsImportation', 0, 0, {'name': 'SensorsImportation', 'type': '_SensorsImportation', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Pinhole', '_Pinhole', 1, 1, {'name': 'Pinhole', 'type': '_Pinhole', 'minOccurs': '0', 'maxOccurs': 'unbounded'}, None),
+        MemberSpec_('Pushbroom', '_Pushbroom', 1, 1, {'name': 'Pushbroom', 'type': '_Pushbroom', 'minOccurs': '0', 'maxOccurs': 'unbounded'}, None),
+        MemberSpec_('InsideSensor', '_InsideSensor', 1, 1, {'name': 'InsideSensor', 'type': '_InsideSensor', 'minOccurs': '0', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -20963,12 +20994,12 @@ class create_Pinhole(GeneratedsSuper):
         MemberSpec_('setImageSize', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('defCameraOrientation', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('ifFishEye', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('OrientationDef', '_OrientationDef', 0, 0, {u'maxOccurs': u'1', u'type': u'_OrientationDef', u'name': u'OrientationDef', u'minOccurs': u'1'}, None),
-        MemberSpec_('Sensor', '_Sensor', 0, 0, {u'maxOccurs': u'1', u'type': u'_Sensor', u'name': u'Sensor', u'minOccurs': u'1'}, None),
-        MemberSpec_('FishEye', '_FishEye', 0, 0, {u'maxOccurs': u'1', u'type': u'_FishEye', u'name': u'FishEye', u'minOccurs': u'1'}, None),
-        MemberSpec_('CamImageFOV', '_CamImageFOV', 0, 0, {u'maxOccurs': u'1', u'type': u'_CamImageFOV', u'name': u'CamImageFOV', u'minOccurs': u'1'}, None),
-        MemberSpec_('FishEyeFOV', '_FishEyeFOV', 0, 0, {u'maxOccurs': u'1', u'type': u'_FishEyeFOV', u'name': u'FishEyeFOV', u'minOccurs': u'1'}, None),
-        MemberSpec_('Radiometer', '_Radiometer', 0, 0, {u'maxOccurs': u'1', u'type': u'_Radiometer', u'name': u'Radiometer', u'minOccurs': u'1'}, None),
+        MemberSpec_('OrientationDef', '_OrientationDef', 0, 0, {'name': 'OrientationDef', 'type': '_OrientationDef', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Sensor', '_Sensor', 0, 0, {'name': 'Sensor', 'type': '_Sensor', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('FishEye', '_FishEye', 0, 0, {'name': 'FishEye', 'type': '_FishEye', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('CamImageFOV', '_CamImageFOV', 0, 0, {'name': 'CamImageFOV', 'type': '_CamImageFOV', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('FishEyeFOV', '_FishEyeFOV', 0, 0, {'name': 'FishEyeFOV', 'type': '_FishEyeFOV', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Radiometer', '_Radiometer', 0, 0, {'name': 'Radiometer', 'type': '_Radiometer', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -21316,8 +21347,8 @@ class create_OrientationDef(GeneratedsSuper):
     selected (ZYZ intrinsic rotation, or Tait-Bryan Angles)"""
     member_data_items_ = [
         MemberSpec_('orientDefType', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('CameraOrientation', '_CameraOrientation', 0, 0, {u'maxOccurs': u'1', u'type': u'_CameraOrientation', u'name': u'CameraOrientation', u'minOccurs': u'1'}, None),
-        MemberSpec_('CameraOrientYPR', '_CameraOrientYPR', 0, 0, {u'maxOccurs': u'1', u'type': u'_CameraOrientYPR', u'name': u'CameraOrientYPR', u'minOccurs': u'1'}, None),
+        MemberSpec_('CameraOrientation', '_CameraOrientation', 0, 0, {'name': 'CameraOrientation', 'type': '_CameraOrientation', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('CameraOrientYPR', '_CameraOrientYPR', 0, 0, {'name': 'CameraOrientYPR', 'type': '_CameraOrientYPR', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -22107,9 +22138,9 @@ class create_CamImageFOV(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('defNbPixels', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('definitionFOV', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('CamImageDim', '_CamImageDim', 0, 0, {u'maxOccurs': u'1', u'type': u'_CamImageDim', u'name': u'CamImageDim', u'minOccurs': u'1'}, None),
-        MemberSpec_('CamImageAOV', '_CamImageAOV', 0, 0, {u'maxOccurs': u'1', u'type': u'_CamImageAOV', u'name': u'CamImageAOV', u'minOccurs': u'1'}, None),
-        MemberSpec_('NbPixels', '_NbPixels', 0, 0, {u'maxOccurs': u'1', u'type': u'_NbPixels', u'name': u'NbPixels', u'minOccurs': u'1'}, None),
+        MemberSpec_('CamImageDim', '_CamImageDim', 0, 0, {'name': 'CamImageDim', 'type': '_CamImageDim', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('CamImageAOV', '_CamImageAOV', 0, 0, {'name': 'CamImageAOV', 'type': '_CamImageAOV', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('NbPixels', '_NbPixels', 0, 0, {'name': 'NbPixels', 'type': '_NbPixels', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -22534,9 +22565,9 @@ class create_CamImageDim(GeneratedsSuper):
 
 class create_CamImageAOV(GeneratedsSuper):
     """Define the FOV by angles of view in length and width. Define the FOV
-    by angles of view in length and width. Angle of view length
-    [\u00B0] Angle of view length [\u00B0] Angle of view width
-    [\u00B0] Angle of view width [\u00B0]"""
+    by angles of view in length and width. Angle of view length [°]
+    Angle of view length [°] Angle of view width [°] Angle of view
+    width [°]"""
     member_data_items_ = [
         MemberSpec_('aovX', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('aovY', 'xsd:double', 0, 1, {'use': 'optional'}),
@@ -23192,9 +23223,9 @@ class create_Pushbroom(GeneratedsSuper):
     information"""
     member_data_items_ = [
         MemberSpec_('importThetaPhi', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Platform', '_Platform', 0, 0, {u'maxOccurs': u'1', u'type': u'_Platform', u'name': u'Platform', u'minOccurs': u'1'}, None),
-        MemberSpec_('Sensor', '_Sensor', 0, 0, {u'maxOccurs': u'1', u'type': u'_Sensor', u'name': u'Sensor', u'minOccurs': u'1'}, None),
-        MemberSpec_('Importation', '_Importation', 0, 0, {u'maxOccurs': u'1', u'type': u'_Importation', u'name': u'Importation', u'minOccurs': u'1'}, None),
+        MemberSpec_('Platform', '_Platform', 0, 0, {'name': 'Platform', 'type': '_Platform', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Sensor', '_Sensor', 0, 0, {'name': 'Sensor', 'type': '_Sensor', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Importation', '_Importation', 0, 0, {'name': 'Importation', 'type': '_Importation', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -23893,9 +23924,9 @@ class create_Importation(GeneratedsSuper):
 class create_InsideSensor(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('sensorConfiguration', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('InsideSensorConfiguration', '_InsideSensorConfiguration', 0, 0, {u'maxOccurs': u'1', u'type': u'_InsideSensorConfiguration', u'name': u'InsideSensorConfiguration', u'minOccurs': u'1'}, None),
-        MemberSpec_('Image', '_Image', 0, 0, {u'maxOccurs': u'1', u'type': u'_Image', u'name': u'Image', u'minOccurs': u'1'}, None),
-        MemberSpec_('Hemisphere', '_Hemisphere', 0, 0, {u'maxOccurs': u'1', u'type': u'_Hemisphere', u'name': u'Hemisphere', u'minOccurs': u'1'}, None),
+        MemberSpec_('InsideSensorConfiguration', '_InsideSensorConfiguration', 0, 0, {'name': 'InsideSensorConfiguration', 'type': '_InsideSensorConfiguration', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Image', '_Image', 0, 0, {'name': 'Image', 'type': '_Image', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Hemisphere', '_Hemisphere', 0, 0, {'name': 'Hemisphere', 'type': '_Hemisphere', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -24131,8 +24162,8 @@ class create_InsideSensorConfiguration(GeneratedsSuper):
     scene."""
     member_data_items_ = [
         MemberSpec_('nbSceneRepetition', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('SensorCentralPosition', '_SensorCentralPosition', 0, 0, {u'maxOccurs': u'1', u'type': u'_SensorCentralPosition', u'name': u'SensorCentralPosition', u'minOccurs': u'1'}, None),
-        MemberSpec_('SensorView', '_SensorView', 0, 0, {u'maxOccurs': u'1', u'type': u'_SensorView', u'name': u'SensorView', u'minOccurs': u'1'}, None),
+        MemberSpec_('SensorCentralPosition', '_SensorCentralPosition', 0, 0, {'name': 'SensorCentralPosition', 'type': '_SensorCentralPosition', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('SensorView', '_SensorView', 0, 0, {'name': 'SensorView', 'type': '_SensorView', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -24530,9 +24561,9 @@ class create_SensorView(GeneratedsSuper):
     """Central view definition Central view definition"""
     member_data_items_ = [
         MemberSpec_('viewDefinition', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('SensorViewDirection', '_SensorViewDirection', 0, 0, {u'maxOccurs': u'1', u'type': u'_SensorViewDirection', u'name': u'SensorViewDirection', u'minOccurs': u'1'}, None),
-        MemberSpec_('SensorAngleDirection', '_SensorAngleDirection', 0, 0, {u'maxOccurs': u'1', u'type': u'_SensorAngleDirection', u'name': u'SensorAngleDirection', u'minOccurs': u'1'}, None),
-        MemberSpec_('CameraOrientYPR', '_CameraOrientYPR', 0, 0, {u'maxOccurs': u'1', u'type': u'_CameraOrientYPR', u'name': u'CameraOrientYPR', u'minOccurs': u'1'}, None),
+        MemberSpec_('SensorViewDirection', '_SensorViewDirection', 0, 0, {'name': 'SensorViewDirection', 'type': '_SensorViewDirection', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('SensorAngleDirection', '_SensorAngleDirection', 0, 0, {'name': 'SensorAngleDirection', 'type': '_SensorAngleDirection', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('CameraOrientYPR', '_CameraOrientYPR', 0, 0, {'name': 'CameraOrientYPR', 'type': '_CameraOrientYPR', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -25128,10 +25159,10 @@ class create_SensorAngleDirection(GeneratedsSuper):
 
 class create_Image(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('SensorDimensions', '_SensorDimensions', 0, 0, {u'maxOccurs': u'1', u'type': u'_SensorDimensions', u'name': u'SensorDimensions', u'minOccurs': u'1'}, None),
-        MemberSpec_('ImageResolution', '_ImageResolution', 0, 0, {u'maxOccurs': u'1', u'type': u'_ImageResolution', u'name': u'ImageResolution', u'minOccurs': u'1'}, None),
-        MemberSpec_('FocaleDistance', '_FocaleDistance', 0, 0, {u'maxOccurs': u'1', u'type': u'_FocaleDistance', u'name': u'FocaleDistance', u'minOccurs': u'1'}, None),
-        MemberSpec_('SensorOrientation', '_SensorOrientation', 0, 0, {u'maxOccurs': u'1', u'type': u'_SensorOrientation', u'name': u'SensorOrientation', u'minOccurs': u'1'}, None),
+        MemberSpec_('SensorDimensions', '_SensorDimensions', 0, 0, {'name': 'SensorDimensions', 'type': '_SensorDimensions', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ImageResolution', '_ImageResolution', 0, 0, {'name': 'ImageResolution', 'type': '_ImageResolution', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('FocaleDistance', '_FocaleDistance', 0, 0, {'name': 'FocaleDistance', 'type': '_FocaleDistance', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('SensorOrientation', '_SensorOrientation', 0, 0, {'name': 'SensorOrientation', 'type': '_SensorOrientation', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -26010,10 +26041,10 @@ class create_SensorOrientation(GeneratedsSuper):
 
 class create_Hemisphere(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('ZenithalRange', '_ZenithalRange', 0, 0, {u'maxOccurs': u'1', u'type': u'_ZenithalRange', u'name': u'ZenithalRange', u'minOccurs': u'1'}, None),
-        MemberSpec_('HemisphereImageResolution', '_HemisphereImageResolution', 0, 0, {u'maxOccurs': u'1', u'type': u'_HemisphereImageResolution', u'name': u'HemisphereImageResolution', u'minOccurs': u'1'}, None),
-        MemberSpec_('SphereGeometry', '_SphereGeometry', 0, 0, {u'maxOccurs': u'1', u'type': u'_SphereGeometry', u'name': u'SphereGeometry', u'minOccurs': u'1'}, None),
-        MemberSpec_('SensorOrientation', '_SensorOrientation', 0, 0, {u'maxOccurs': u'1', u'type': u'_SensorOrientation', u'name': u'SensorOrientation', u'minOccurs': u'1'}, None),
+        MemberSpec_('ZenithalRange', '_ZenithalRange', 0, 0, {'name': 'ZenithalRange', 'type': '_ZenithalRange', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('HemisphereImageResolution', '_HemisphereImageResolution', 0, 0, {'name': 'HemisphereImageResolution', 'type': '_HemisphereImageResolution', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('SphereGeometry', '_SphereGeometry', 0, 0, {'name': 'SphereGeometry', 'type': '_SphereGeometry', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('SensorOrientation', '_SensorOrientation', 0, 0, {'name': 'SensorOrientation', 'type': '_SensorOrientation', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -26728,7 +26759,7 @@ class create_SphereGeometry(GeneratedsSuper):
 class create_ExternalScripts(GeneratedsSuper):
     """Python External Scripts Python External Scripts"""
     member_data_items_ = [
-        MemberSpec_('ExternalScript', '_ExternalScript', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_ExternalScript', u'name': u'ExternalScript', u'minOccurs': u'0'}, None),
+        MemberSpec_('ExternalScript', '_ExternalScript', 1, 1, {'name': 'ExternalScript', 'type': '_ExternalScript', 'minOccurs': '0', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -26904,8 +26935,8 @@ class create_ExternalScripts(GeneratedsSuper):
 class create_ExternalScript(GeneratedsSuper):
     """Python External Script Python External Script"""
     member_data_items_ = [
-        MemberSpec_('ScriptDefinition', '_ScriptDefinition', 0, 0, {u'maxOccurs': u'1', u'type': u'_ScriptDefinition', u'name': u'ScriptDefinition', u'minOccurs': u'1'}, None),
-        MemberSpec_('ScriptLaunchPosition', '_ScriptLaunchPosition', 0, 0, {u'maxOccurs': u'1', u'type': u'_ScriptLaunchPosition', u'name': u'ScriptLaunchPosition', u'minOccurs': u'1'}, None),
+        MemberSpec_('ScriptDefinition', '_ScriptDefinition', 0, 0, {'name': 'ScriptDefinition', 'type': '_ScriptDefinition', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ScriptLaunchPosition', '_ScriptLaunchPosition', 0, 0, {'name': 'ScriptLaunchPosition', 'type': '_ScriptLaunchPosition', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -27257,7 +27288,7 @@ class create_ScriptLaunchPosition(GeneratedsSuper):
     Script position in DART process Script position in DART process"""
     member_data_items_ = [
         MemberSpec_('launchPosition', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('LaunchBetweenDartModules', '_LaunchBetweenDartModules', 0, 0, {u'maxOccurs': u'1', u'type': u'_LaunchBetweenDartModules', u'name': u'LaunchBetweenDartModules', u'minOccurs': u'1'}, None),
+        MemberSpec_('LaunchBetweenDartModules', '_LaunchBetweenDartModules', 0, 0, {'name': 'LaunchBetweenDartModules', 'type': '_LaunchBetweenDartModules', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None

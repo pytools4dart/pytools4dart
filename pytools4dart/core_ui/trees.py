@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Sun Mar 31 19:31:16 2019 by generateDS.py version 2.29.25.
-# Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
+# Generated Tue Nov 19 15:08:15 2019 by generateDS.py version 2.29.25.
+# Python 3.6.7 | packaged by conda-forge | (default, Nov  6 2019, 16:19:42)  [GCC 7.3.0]
 #
 # Command line options:
 #   ('-m', '')
@@ -16,13 +16,13 @@
 #   ('--pre-ctor', "self.troot=get_gs_troot('trees','{classname}')")
 #   ('--post-ctor', "update_node(self,self.troot,'trees')")
 #   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes')
-#   ('-o', '/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/trees.py')
+#   ('-o', '/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/trees.py')
 #
 # Command line arguments:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/trees.xsd
+#   /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/trees.xsd
 #
 # Command line:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'trees')" --pre-ctor="self.troot=get_gs_troot('trees','{classname}')" --post-ctor="update_node(self,self.troot,'trees')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/trees.py" /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/trees.xsd
+#   /home/boissieu/anaconda3/envs/pytools4dart/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'trees')" --pre-ctor="self.troot=get_gs_troot('trees','{classname}')" --post-ctor="update_node(self,self.troot,'trees')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/trees.py" /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/trees.xsd
 #
 # Current working directory (os.getcwd()):
 #   pytools4dart
@@ -747,11 +747,11 @@ class createDartFile(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('version', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('build_', 'xsd:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Trees', '_Trees', 0, 0, {u'maxOccurs': u'1', u'type': u'_Trees', u'name': u'Trees', u'minOccurs': u'1'}, None),
+        MemberSpec_('Trees', '_Trees', 0, 0, {'name': 'Trees', 'type': '_Trees', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
-    def __init__(self, version='5.7.4', build_='0', Trees=None):
+    def __init__(self, version='5.7.5', build_='0', Trees=None):
         self.original_tagname_ = None
         self.troot=get_gs_troot('trees','DartFile')
         self.attrib = ['version', 'build_']
@@ -937,17 +937,17 @@ class createDartFile(GeneratedsSuper):
 
 
 class create_Trees(GeneratedsSuper):
-    """Trees Trees Type of tree spatial distribution \n- Random location
+    """Trees Trees Type of tree spatial distribution - Random location
     around the nodes of a user specified grid and dimensions "mean +
-    standard deviation" specified by the user. \n- Exact location
+    standard deviation" specified by the user. - Exact location
     (x,y) specified by a text file and dimensions "mean + standard
-    deviation" specified by the user. \n- Exact location (x,y) and
+    deviation" specified by the user. - Exact location (x,y) and
     exact dimensions specified by a text file Type of tree spatial
-    distribution \n- Random location around the nodes of a user
+    distribution - Random location around the nodes of a user
     specified grid and dimensions "mean + standard deviation"
-    specified by the user. \n- Exact location (x,y) specified by a
+    specified by the user. - Exact location (x,y) specified by a
     text file and dimensions "mean + standard deviation" specified
-    by the user. \n- Exact location (x,y) and exact dimensions
+    by the user. - Exact location (x,y) and exact dimensions
     specified by a text file Ignore trees in mock-up creation Ignore
     trees in mock-up creation Presence of trees in the scene
     Presence of trees in the scene"""
@@ -955,10 +955,10 @@ class create_Trees(GeneratedsSuper):
         MemberSpec_('sceneModelCharacteristic', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('hidden', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('isTrees', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Trees_1', '_Trees_1', 0, 0, {u'maxOccurs': u'1', u'type': u'_Trees_1', u'name': u'Trees_1', u'minOccurs': u'1'}, None),
-        MemberSpec_('Trees_2', '_Trees_2', 0, 0, {u'maxOccurs': u'1', u'type': u'_Trees_2', u'name': u'Trees_2', u'minOccurs': u'1'}, None),
-        MemberSpec_('Trees_3', '_Trees_3', 0, 0, {u'maxOccurs': u'1', u'type': u'_Trees_3', u'name': u'Trees_3', u'minOccurs': u'1'}, None),
-        MemberSpec_('TreeGeneralOptions', '_TreeGeneralOptions', 0, 0, {u'maxOccurs': u'1', u'type': u'_TreeGeneralOptions', u'name': u'TreeGeneralOptions', u'minOccurs': u'1'}, None),
+        MemberSpec_('Trees_1', '_Trees_1', 0, 0, {'name': 'Trees_1', 'type': '_Trees_1', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Trees_2', '_Trees_2', 0, 0, {'name': 'Trees_2', 'type': '_Trees_2', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Trees_3', '_Trees_3', 0, 0, {'name': 'Trees_3', 'type': '_Trees_3', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('TreeGeneralOptions', '_TreeGeneralOptions', 0, 0, {'name': 'TreeGeneralOptions', 'type': '_TreeGeneralOptions', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -1251,19 +1251,18 @@ class create_Trees(GeneratedsSuper):
 
 
 class create_Trees_1(GeneratedsSuper):
-    """Trees_1 Trees_1 1). \n\nKnowledge of the LAI of a sub-scene gives
-    the uf values of the cells of the sub-scene, which in turn gives
-    the uf values of the cells outside the sub-scene. 1).
-    \n\nKnowledge of the LAI of a sub-scene gives the uf values of
-    the cells of the sub-scene, which in turn gives the uf values of
-    the cells outside the sub-scene. Text files that gives all
-    necessary tree information Text files that gives all necessary
-    tree information"""
+    """Trees_1 Trees_1 1). Knowledge of the LAI of a sub-scene gives the uf
+    values of the cells of the sub-scene, which in turn gives the uf
+    values of the cells outside the sub-scene. 1). Knowledge of the
+    LAI of a sub-scene gives the uf values of the cells of the sub-
+    scene, which in turn gives the uf values of the cells outside
+    the sub-scene. Text files that gives all necessary tree
+    information Text files that gives all necessary tree information"""
     member_data_items_ = [
         MemberSpec_('laiZone', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('sceneParametersFileName', 'xsd:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('LaiZoneProperties', '_LaiZoneProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_LaiZoneProperties', u'name': u'LaiZoneProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('Specie', '_Specie', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_Specie', u'name': u'Specie', u'minOccurs': u'1'}, None),
+        MemberSpec_('LaiZoneProperties', '_LaiZoneProperties', 0, 0, {'name': 'LaiZoneProperties', 'type': '_LaiZoneProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Specie', '_Specie', 1, 0, {'name': 'Specie', 'type': '_Specie', 'minOccurs': '1', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -1502,7 +1501,7 @@ class create_Trees_1(GeneratedsSuper):
 class create_LaiZoneProperties(GeneratedsSuper):
     """LaiZoneProperties LaiZoneProperties"""
     member_data_items_ = [
-        MemberSpec_('Point2D', '_Point2D', 1, 0, {u'maxOccurs': u'2', u'type': u'_Point2D', u'name': u'Point2D', u'minOccurs': u'2'}, None),
+        MemberSpec_('Point2D', '_Point2D', 1, 0, {'name': 'Point2D', 'type': '_Point2D', 'minOccurs': '2', 'maxOccurs': '2'}, None),
     ]
     subclass = None
     superclass = None
@@ -1865,10 +1864,10 @@ class create_Specie(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('branchesAndTwigsSimulation', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('lai', 'xsd:double', 0, 1, {'use': 'optional'}),
-        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('CrownLevel', '_CrownLevel', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_CrownLevel', u'name': u'CrownLevel', u'minOccurs': u'1'}, None),
-        MemberSpec_('BranchesAndTwigs', '_BranchesAndTwigs', 0, 0, {u'maxOccurs': u'1', u'type': u'_BranchesAndTwigs', u'name': u'BranchesAndTwigs', u'minOccurs': u'1'}, None),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {'name': 'OpticalPropertyLink', 'type': '_OpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {'name': 'ThermalPropertyLink', 'type': '_ThermalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('CrownLevel', '_CrownLevel', 1, 0, {'name': 'CrownLevel', 'type': '_CrownLevel', 'minOccurs': '1', 'maxOccurs': 'unbounded'}, None),
+        MemberSpec_('BranchesAndTwigs', '_BranchesAndTwigs', 0, 0, {'name': 'BranchesAndTwigs', 'type': '_BranchesAndTwigs', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -2558,11 +2557,11 @@ class create_CrownLevel(GeneratedsSuper):
         MemberSpec_('relativeHeightVsCrownHeight', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('distribution', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('relativeTrunkDiameterWithinCrown', 'xsd:double', 0, 1, {'use': 'optional'}),
-        MemberSpec_('LeavesDistribution', '_LeavesDistribution', 0, 0, {u'maxOccurs': u'1', u'type': u'_LeavesDistribution', u'name': u'LeavesDistribution', u'minOccurs': u'1'}, None),
-        MemberSpec_('HolesDistribution', '_HolesDistribution', 0, 0, {u'maxOccurs': u'1', u'type': u'_HolesDistribution', u'name': u'HolesDistribution', u'minOccurs': u'1'}, None),
-        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('VegetationProperty', '_VegetationProperty', 0, 0, {u'maxOccurs': u'1', u'type': u'_VegetationProperty', u'name': u'VegetationProperty', u'minOccurs': u'1'}, None),
+        MemberSpec_('LeavesDistribution', '_LeavesDistribution', 0, 0, {'name': 'LeavesDistribution', 'type': '_LeavesDistribution', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('HolesDistribution', '_HolesDistribution', 0, 0, {'name': 'HolesDistribution', 'type': '_HolesDistribution', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {'name': 'OpticalPropertyLink', 'type': '_OpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {'name': 'ThermalPropertyLink', 'type': '_ThermalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('VegetationProperty', '_VegetationProperty', 0, 0, {'name': 'VegetationProperty', 'type': '_VegetationProperty', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -3356,8 +3355,8 @@ class create_HolesDistribution(GeneratedsSuper):
 
 class create_VegetationProperty(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('VegetationOpticalPropertyLink', '_VegetationOpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_VegetationOpticalPropertyLink', u'name': u'VegetationOpticalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('VegetationOpticalPropertyLink', '_VegetationOpticalPropertyLink', 0, 0, {'name': 'VegetationOpticalPropertyLink', 'type': '_VegetationOpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {'name': 'ThermalPropertyLink', 'type': '_ThermalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -3726,9 +3725,9 @@ class create_BranchesAndTwigs(GeneratedsSuper):
         MemberSpec_('possibleBranchTwigMixing', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('twigAreaIndex', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('geometryFileName', 'xsd:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('VegetationOpticalPropertyLink', '_VegetationOpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_VegetationOpticalPropertyLink', u'name': u'VegetationOpticalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {'name': 'OpticalPropertyLink', 'type': '_OpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {'name': 'ThermalPropertyLink', 'type': '_ThermalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('VegetationOpticalPropertyLink', '_VegetationOpticalPropertyLink', 0, 0, {'name': 'VegetationOpticalPropertyLink', 'type': '_VegetationOpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -3993,21 +3992,20 @@ class create_BranchesAndTwigs(GeneratedsSuper):
 
 
 class create_Trees_2(GeneratedsSuper):
-    """Trees_2 Trees_2 1). \n\nKnowledge of the LAI of a sub-scene gives
-    the uf values of the cells of the sub-scene, which in turn gives
-    the uf values of the cells outside the sub-scene. 1).
-    \n\nKnowledge of the LAI of a sub-scene gives the uf values of
-    the cells of the sub-scene, which in turn gives the uf values of
-    the cells outside the sub-scene. Name of the file that stores
-    the position of the trees. This file is created if it is
-    specified as unavailable Name of the file that stores the
-    position of the trees. This file is created if it is specified
-    as unavailable"""
+    """Trees_2 Trees_2 1). Knowledge of the LAI of a sub-scene gives the uf
+    values of the cells of the sub-scene, which in turn gives the uf
+    values of the cells outside the sub-scene. 1). Knowledge of the
+    LAI of a sub-scene gives the uf values of the cells of the sub-
+    scene, which in turn gives the uf values of the cells outside
+    the sub-scene. Name of the file that stores the position of the
+    trees. This file is created if it is specified as unavailable
+    Name of the file that stores the position of the trees. This
+    file is created if it is specified as unavailable"""
     member_data_items_ = [
         MemberSpec_('laiZone', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('treePositionFileName', 'xsd:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('LaiZoneProperties', '_LaiZoneProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_LaiZoneProperties', u'name': u'LaiZoneProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('Specie_2', '_Specie_2', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_Specie_2', u'name': u'Specie_2', u'minOccurs': u'1'}, None),
+        MemberSpec_('LaiZoneProperties', '_LaiZoneProperties', 0, 0, {'name': 'LaiZoneProperties', 'type': '_LaiZoneProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Specie_2', '_Specie_2', 1, 0, {'name': 'Specie_2', 'type': '_Specie_2', 'minOccurs': '1', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -4249,12 +4247,12 @@ class create_Specie_2(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('branchesAndTwigsSimulation', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('lai', 'xsd:double', 0, 1, {'use': 'optional'}),
-        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('Trunk', '_Trunk', 0, 0, {u'maxOccurs': u'1', u'type': u'_Trunk', u'name': u'Trunk', u'minOccurs': u'1'}, None),
-        MemberSpec_('Crown', '_Crown', 0, 0, {u'maxOccurs': u'1', u'type': u'_Crown', u'name': u'Crown', u'minOccurs': u'1'}, None),
-        MemberSpec_('CrownLevel', '_CrownLevel', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_CrownLevel', u'name': u'CrownLevel', u'minOccurs': u'1'}, None),
-        MemberSpec_('BranchesAndTwigs', '_BranchesAndTwigs', 0, 0, {u'maxOccurs': u'1', u'type': u'_BranchesAndTwigs', u'name': u'BranchesAndTwigs', u'minOccurs': u'1'}, None),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {'name': 'OpticalPropertyLink', 'type': '_OpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {'name': 'ThermalPropertyLink', 'type': '_ThermalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Trunk', '_Trunk', 0, 0, {'name': 'Trunk', 'type': '_Trunk', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Crown', '_Crown', 0, 0, {'name': 'Crown', 'type': '_Crown', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('CrownLevel', '_CrownLevel', 1, 0, {'name': 'CrownLevel', 'type': '_CrownLevel', 'minOccurs': '1', 'maxOccurs': 'unbounded'}, None),
+        MemberSpec_('BranchesAndTwigs', '_BranchesAndTwigs', 0, 0, {'name': 'BranchesAndTwigs', 'type': '_BranchesAndTwigs', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -4844,10 +4842,10 @@ class create_Trunk(GeneratedsSuper):
 
 
 class create_Crown(GeneratedsSuper):
-    """Crown Crown Intrinsic rotation of the crown, in degree.\nThe crown
+    """Crown Crown Intrinsic rotation of the crown, in degree. The crown
     will rotate on itself around the Z axis (height), counter-
-    clockwise. Intrinsic rotation of the crown, in degree.\nThe
-    crown will rotate on itself around the Z axis (height), counter-
+    clockwise. Intrinsic rotation of the crown, in degree. The crown
+    will rotate on itself around the Z axis (height), counter-
     clockwise. Crown shape: ellipsoidal, etc. Crown shape:
     ellipsoidal, etc. Standard deviation of crown intrinsic
     rotation. Standard deviation of crown intrinsic rotation.
@@ -4860,11 +4858,11 @@ class create_Crown(GeneratedsSuper):
         MemberSpec_('instrinsicRotationStDev', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('crownHeightStDev', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('crownHeight', 'xsd:double', 0, 1, {'use': 'optional'}),
-        MemberSpec_('CrownEllipsoid', '_CrownEllipsoid', 0, 0, {u'maxOccurs': u'1', u'type': u'_CrownEllipsoid', u'name': u'CrownEllipsoid', u'minOccurs': u'1'}, None),
-        MemberSpec_('CrownEllipsoidComposed', '_CrownEllipsoidComposed', 0, 0, {u'maxOccurs': u'1', u'type': u'_CrownEllipsoidComposed', u'name': u'CrownEllipsoidComposed', u'minOccurs': u'1'}, None),
-        MemberSpec_('CrownTruncatedCone', '_CrownTruncatedCone', 0, 0, {u'maxOccurs': u'1', u'type': u'_CrownTruncatedCone', u'name': u'CrownTruncatedCone', u'minOccurs': u'1'}, None),
-        MemberSpec_('CrownTrapezoid', '_CrownTrapezoid', 0, 0, {u'maxOccurs': u'1', u'type': u'_CrownTrapezoid', u'name': u'CrownTrapezoid', u'minOccurs': u'1'}, None),
-        MemberSpec_('CrownConeComp', '_CrownConeComp', 0, 0, {u'maxOccurs': u'1', u'type': u'_CrownConeComp', u'name': u'CrownConeComp', u'minOccurs': u'1'}, None),
+        MemberSpec_('CrownEllipsoid', '_CrownEllipsoid', 0, 0, {'name': 'CrownEllipsoid', 'type': '_CrownEllipsoid', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('CrownEllipsoidComposed', '_CrownEllipsoidComposed', 0, 0, {'name': 'CrownEllipsoidComposed', 'type': '_CrownEllipsoidComposed', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('CrownTruncatedCone', '_CrownTruncatedCone', 0, 0, {'name': 'CrownTruncatedCone', 'type': '_CrownTruncatedCone', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('CrownTrapezoid', '_CrownTrapezoid', 0, 0, {'name': 'CrownTrapezoid', 'type': '_CrownTrapezoid', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('CrownConeComp', '_CrownConeComp', 0, 0, {'name': 'CrownConeComp', 'type': '_CrownConeComp', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -6526,7 +6524,7 @@ class create_CrownConeComp(GeneratedsSuper):
 class create_Trees_3(GeneratedsSuper):
     """Trees_3 Trees_3"""
     member_data_items_ = [
-        MemberSpec_('Specie_3', '_Specie_3', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_Specie_3', u'name': u'Specie_3', u'minOccurs': u'1'}, None),
+        MemberSpec_('Specie_3', '_Specie_3', 1, 0, {'name': 'Specie_3', 'type': '_Specie_3', 'minOccurs': '1', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -6717,16 +6715,16 @@ class create_Specie_3(GeneratedsSuper):
         MemberSpec_('treeDistributionMethod', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('branchesAndTwigsSimulation', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('spatialDistribution', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('IntervalDistribution', '_IntervalDistribution', 0, 0, {u'maxOccurs': u'1', u'type': u'_IntervalDistribution', u'name': u'IntervalDistribution', u'minOccurs': u'1'}, None),
-        MemberSpec_('EstimatedNumberOfTreeDistribution', '_EstimatedNumberOfTreeDistribution', 0, 0, {u'maxOccurs': u'1', u'type': u'_EstimatedNumberOfTreeDistribution', u'name': u'EstimatedNumberOfTreeDistribution', u'minOccurs': u'1'}, None),
-        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('Trunk', '_Trunk', 0, 0, {u'maxOccurs': u'1', u'type': u'_Trunk', u'name': u'Trunk', u'minOccurs': u'1'}, None),
-        MemberSpec_('Crown', '_Crown', 0, 0, {u'maxOccurs': u'1', u'type': u'_Crown', u'name': u'Crown', u'minOccurs': u'1'}, None),
-        MemberSpec_('EllipsoidSubZone', '_EllipsoidSubZone', 0, 0, {u'maxOccurs': u'1', u'type': u'_EllipsoidSubZone', u'name': u'EllipsoidSubZone', u'minOccurs': u'1'}, None),
-        MemberSpec_('Polygon2D', '_Polygon2D', 0, 0, {u'maxOccurs': u'1', u'type': u'_Polygon2D', u'name': u'Polygon2D', u'minOccurs': u'1'}, None),
-        MemberSpec_('CrownLevel', '_CrownLevel', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_CrownLevel', u'name': u'CrownLevel', u'minOccurs': u'1'}, None),
-        MemberSpec_('BranchesAndTwigs', '_BranchesAndTwigs', 0, 0, {u'maxOccurs': u'1', u'type': u'_BranchesAndTwigs', u'name': u'BranchesAndTwigs', u'minOccurs': u'1'}, None),
+        MemberSpec_('IntervalDistribution', '_IntervalDistribution', 0, 0, {'name': 'IntervalDistribution', 'type': '_IntervalDistribution', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('EstimatedNumberOfTreeDistribution', '_EstimatedNumberOfTreeDistribution', 0, 0, {'name': 'EstimatedNumberOfTreeDistribution', 'type': '_EstimatedNumberOfTreeDistribution', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {'name': 'OpticalPropertyLink', 'type': '_OpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {'name': 'ThermalPropertyLink', 'type': '_ThermalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Trunk', '_Trunk', 0, 0, {'name': 'Trunk', 'type': '_Trunk', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Crown', '_Crown', 0, 0, {'name': 'Crown', 'type': '_Crown', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('EllipsoidSubZone', '_EllipsoidSubZone', 0, 0, {'name': 'EllipsoidSubZone', 'type': '_EllipsoidSubZone', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Polygon2D', '_Polygon2D', 0, 0, {'name': 'Polygon2D', 'type': '_Polygon2D', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('CrownLevel', '_CrownLevel', 1, 0, {'name': 'CrownLevel', 'type': '_CrownLevel', 'minOccurs': '1', 'maxOccurs': 'unbounded'}, None),
+        MemberSpec_('BranchesAndTwigs', '_BranchesAndTwigs', 0, 0, {'name': 'BranchesAndTwigs', 'type': '_BranchesAndTwigs', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -7809,7 +7807,7 @@ class create_Polygon2D(GeneratedsSuper):
     Representation of a DART polygon. It's defined by its 4 corners,
     starting form the top left one, and turning anticlockwise."""
     member_data_items_ = [
-        MemberSpec_('Point2D', '_Point2D', 1, 0, {u'maxOccurs': u'4', u'type': u'_Point2D', u'name': u'Point2D', u'minOccurs': u'4'}, None),
+        MemberSpec_('Point2D', '_Point2D', 1, 0, {'name': 'Point2D', 'type': '_Point2D', 'minOccurs': '4', 'maxOccurs': '4'}, None),
     ]
     subclass = None
     superclass = None
@@ -7994,7 +7992,7 @@ class create_TreeGeneralOptions(GeneratedsSuper):
     will be represented as a juxtaposition of turbid cells."""
     member_data_items_ = [
         MemberSpec_('triangleTreeRepresentation', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('MeshTreeRepresentation', '_MeshTreeRepresentation', 0, 0, {u'maxOccurs': u'1', u'type': u'_MeshTreeRepresentation', u'name': u'MeshTreeRepresentation', u'minOccurs': u'1'}, None),
+        MemberSpec_('MeshTreeRepresentation', '_MeshTreeRepresentation', 0, 0, {'name': 'MeshTreeRepresentation', 'type': '_MeshTreeRepresentation', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -8175,8 +8173,8 @@ class create_MeshTreeRepresentation(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('distributionMode', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('leafDefinition', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('NumberOfTriangleParameters', '_NumberOfTriangleParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_NumberOfTriangleParameters', u'name': u'NumberOfTriangleParameters', u'minOccurs': u'1'}, None),
-        MemberSpec_('MeshLeafDimensionParameters', '_MeshLeafDimensionParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_MeshLeafDimensionParameters', u'name': u'MeshLeafDimensionParameters', u'minOccurs': u'1'}, None),
+        MemberSpec_('NumberOfTriangleParameters', '_NumberOfTriangleParameters', 0, 0, {'name': 'NumberOfTriangleParameters', 'type': '_NumberOfTriangleParameters', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('MeshLeafDimensionParameters', '_MeshLeafDimensionParameters', 0, 0, {'name': 'MeshLeafDimensionParameters', 'type': '_MeshLeafDimensionParameters', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None

@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Sun Mar 31 19:31:17 2019 by generateDS.py version 2.29.25.
-# Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
+# Generated Tue Nov 19 15:08:16 2019 by generateDS.py version 2.29.25.
+# Python 3.6.7 | packaged by conda-forge | (default, Nov  6 2019, 16:19:42)  [GCC 7.3.0]
 #
 # Command line options:
 #   ('-m', '')
@@ -16,13 +16,13 @@
 #   ('--pre-ctor', "self.troot=get_gs_troot('coeff_diff','{classname}')")
 #   ('--post-ctor', "update_node(self,self.troot,'coeff_diff')")
 #   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes')
-#   ('-o', '/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/coeff_diff.py')
+#   ('-o', '/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/coeff_diff.py')
 #
 # Command line arguments:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/coeff_diff.xsd
+#   /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/coeff_diff.xsd
 #
 # Command line:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'coeff_diff')" --pre-ctor="self.troot=get_gs_troot('coeff_diff','{classname}')" --post-ctor="update_node(self,self.troot,'coeff_diff')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/coeff_diff.py" /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/coeff_diff.xsd
+#   /home/boissieu/anaconda3/envs/pytools4dart/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'coeff_diff')" --pre-ctor="self.troot=get_gs_troot('coeff_diff','{classname}')" --post-ctor="update_node(self,self.troot,'coeff_diff')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/coeff_diff.py" /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/coeff_diff.xsd
 #
 # Current working directory (os.getcwd()):
 #   pytools4dart
@@ -747,11 +747,11 @@ class createDartFile(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('version', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('build_', 'xsd:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Coeff_diff', '_Coeff_diff', 0, 0, {u'maxOccurs': u'1', u'type': u'_Coeff_diff', u'name': u'Coeff_diff', u'minOccurs': u'1'}, None),
+        MemberSpec_('Coeff_diff', '_Coeff_diff', 0, 0, {'name': 'Coeff_diff', 'type': '_Coeff_diff', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
-    def __init__(self, version='5.7.4', build_='0', Coeff_diff=None):
+    def __init__(self, version='5.7.5', build_='0', Coeff_diff=None):
         self.original_tagname_ = None
         self.troot=get_gs_troot('coeff_diff','DartFile')
         self.attrib = ['version', 'build_']
@@ -947,21 +947,22 @@ class create_Coeff_diff(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('fluorescenceFile', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('fluorescenceProducts', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('FluorescenceProductsProperties', '_FluorescenceProductsProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_FluorescenceProductsProperties', u'name': u'FluorescenceProductsProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('LambertianMultiFunctions', '_LambertianMultiFunctions', 0, 0, {u'maxOccurs': u'1', u'type': u'_LambertianMultiFunctions', u'name': u'LambertianMultiFunctions', u'minOccurs': u'1'}, None),
-        MemberSpec_('HapkeSpecularMultiFunctions', '_HapkeSpecularMultiFunctions', 0, 0, {u'maxOccurs': u'1', u'type': u'_HapkeSpecularMultiFunctions', u'name': u'HapkeSpecularMultiFunctions', u'minOccurs': u'1'}, None),
-        MemberSpec_('RPVMultiFunctions', '_RPVMultiFunctions', 0, 0, {u'maxOccurs': u'1', u'type': u'_RPVMultiFunctions', u'name': u'RPVMultiFunctions', u'minOccurs': u'1'}, None),
-        MemberSpec_('UnderstoryMultiFunctions', '_UnderstoryMultiFunctions', 0, 0, {u'maxOccurs': u'1', u'type': u'_UnderstoryMultiFunctions', u'name': u'UnderstoryMultiFunctions', u'minOccurs': u'1'}, None),
-        MemberSpec_('AirMultiFunctions', '_AirMultiFunctions', 0, 0, {u'maxOccurs': u'1', u'type': u'_AirMultiFunctions', u'name': u'AirMultiFunctions', u'minOccurs': u'1'}, None),
-        MemberSpec_('Temperatures', '_Temperatures', 0, 0, {u'maxOccurs': u'1', u'type': u'_Temperatures', u'name': u'Temperatures', u'minOccurs': u'1'}, None),
+        MemberSpec_('FluorescenceProductsProperties', '_FluorescenceProductsProperties', 0, 0, {'name': 'FluorescenceProductsProperties', 'type': '_FluorescenceProductsProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('LambertianMultiFunctions', '_LambertianMultiFunctions', 0, 0, {'name': 'LambertianMultiFunctions', 'type': '_LambertianMultiFunctions', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('HapkeSpecularMultiFunctions', '_HapkeSpecularMultiFunctions', 0, 0, {'name': 'HapkeSpecularMultiFunctions', 'type': '_HapkeSpecularMultiFunctions', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('RPVMultiFunctions', '_RPVMultiFunctions', 0, 0, {'name': 'RPVMultiFunctions', 'type': '_RPVMultiFunctions', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('UnderstoryMultiFunctions', '_UnderstoryMultiFunctions', 0, 0, {'name': 'UnderstoryMultiFunctions', 'type': '_UnderstoryMultiFunctions', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('AirMultiFunctions', '_AirMultiFunctions', 0, 0, {'name': 'AirMultiFunctions', 'type': '_AirMultiFunctions', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('PhaseExternMultiFunctions', '_PhaseExternMultiFunctions', 0, 0, {'name': 'PhaseExternMultiFunctions', 'type': '_PhaseExternMultiFunctions', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Temperatures', '_Temperatures', 0, 0, {'name': 'Temperatures', 'type': '_Temperatures', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
-    def __init__(self, fluorescenceFile=0, fluorescenceProducts=0, FluorescenceProductsProperties=None, LambertianMultiFunctions=None, HapkeSpecularMultiFunctions=None, RPVMultiFunctions=None, UnderstoryMultiFunctions=None, AirMultiFunctions=None, Temperatures=None):
+    def __init__(self, fluorescenceFile=0, fluorescenceProducts=0, FluorescenceProductsProperties=None, LambertianMultiFunctions=None, HapkeSpecularMultiFunctions=None, RPVMultiFunctions=None, UnderstoryMultiFunctions=None, AirMultiFunctions=None, PhaseExternMultiFunctions=None, Temperatures=None):
         self.original_tagname_ = None
         self.troot=get_gs_troot('coeff_diff','_Coeff_diff')
         self.attrib = ['fluorescenceFile', 'fluorescenceProducts']
-        self.children = ['FluorescenceProductsProperties', 'LambertianMultiFunctions', 'HapkeSpecularMultiFunctions', 'RPVMultiFunctions', 'UnderstoryMultiFunctions', 'AirMultiFunctions', 'Temperatures']
+        self.children = ['FluorescenceProductsProperties', 'LambertianMultiFunctions', 'HapkeSpecularMultiFunctions', 'RPVMultiFunctions', 'UnderstoryMultiFunctions', 'AirMultiFunctions', 'PhaseExternMultiFunctions', 'Temperatures']
         self.parent = None
         self._fluorescenceFile = _cast(int, fluorescenceFile)
         self._fluorescenceProducts = _cast(int, fluorescenceProducts)
@@ -971,6 +972,7 @@ class create_Coeff_diff(GeneratedsSuper):
         self._RPVMultiFunctions = RPVMultiFunctions
         self._UnderstoryMultiFunctions = UnderstoryMultiFunctions
         self._AirMultiFunctions = AirMultiFunctions
+        self._PhaseExternMultiFunctions = PhaseExternMultiFunctions
         self._Temperatures = Temperatures
         update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
@@ -1026,6 +1028,13 @@ class create_Coeff_diff(GeneratedsSuper):
             value.parent = self
         self._AirMultiFunctions = value
     AirMultiFunctions = property(get_AirMultiFunctions, set_AirMultiFunctions)
+    def get_PhaseExternMultiFunctions(self): return self._PhaseExternMultiFunctions
+    def set_PhaseExternMultiFunctions(self, value):
+        if value is not None:
+            checkclass(value, create_PhaseExternMultiFunctions)
+            value.parent = self
+        self._PhaseExternMultiFunctions = value
+    PhaseExternMultiFunctions = property(get_PhaseExternMultiFunctions, set_PhaseExternMultiFunctions)
     def get_Temperatures(self): return self._Temperatures
     def set_Temperatures(self, value):
         if value is not None:
@@ -1054,6 +1063,7 @@ class create_Coeff_diff(GeneratedsSuper):
             self.RPVMultiFunctions is not None or
             self.UnderstoryMultiFunctions is not None or
             self.AirMultiFunctions is not None or
+            self.PhaseExternMultiFunctions is not None or
             self.Temperatures is not None
         ):
             return True
@@ -1104,6 +1114,8 @@ class create_Coeff_diff(GeneratedsSuper):
             self.UnderstoryMultiFunctions.export(outfile, level, namespaceprefix_, name_='UnderstoryMultiFunctions', pretty_print=pretty_print)
         if self.AirMultiFunctions is not None:
             self.AirMultiFunctions.export(outfile, level, namespaceprefix_, name_='AirMultiFunctions', pretty_print=pretty_print)
+        if self.PhaseExternMultiFunctions is not None:
+            self.PhaseExternMultiFunctions.export(outfile, level, namespaceprefix_, name_='PhaseExternMultiFunctions', pretty_print=pretty_print)
         if self.Temperatures is not None:
             self.Temperatures.export(outfile, level, namespaceprefix_, name_='Temperatures', pretty_print=pretty_print)
     def to_etree(self, parent_element=None, name_='_Coeff_diff', mapping_=None):
@@ -1133,6 +1145,9 @@ class create_Coeff_diff(GeneratedsSuper):
         if self.AirMultiFunctions is not None:
             AirMultiFunctions_ = self.AirMultiFunctions
             AirMultiFunctions_.to_etree(element, name_='AirMultiFunctions', mapping_=mapping_)
+        if self.PhaseExternMultiFunctions is not None:
+            PhaseExternMultiFunctions_ = self.PhaseExternMultiFunctions
+            PhaseExternMultiFunctions_.to_etree(element, name_='PhaseExternMultiFunctions', mapping_=mapping_)
         if self.Temperatures is not None:
             Temperatures_ = self.Temperatures
             Temperatures_.to_etree(element, name_='Temperatures', mapping_=mapping_)
@@ -1189,6 +1204,12 @@ class create_Coeff_diff(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('AirMultiFunctions=model_._AirMultiFunctions(\n')
             self.AirMultiFunctions.exportLiteral(outfile, level, name_='AirMultiFunctions')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.PhaseExternMultiFunctions is not None:
+            showIndent(outfile, level)
+            outfile.write('PhaseExternMultiFunctions=model_._PhaseExternMultiFunctions(\n')
+            self.PhaseExternMultiFunctions.exportLiteral(outfile, level, name_='PhaseExternMultiFunctions')
             showIndent(outfile, level)
             outfile.write('),\n')
         if self.Temperatures is not None:
@@ -1250,6 +1271,11 @@ class create_Coeff_diff(GeneratedsSuper):
             obj_.build(child_)
             self.set_AirMultiFunctions(obj_)
             obj_.original_tagname_ = 'AirMultiFunctions'
+        elif nodeName_ == 'PhaseExternMultiFunctions':
+            obj_ = create_PhaseExternMultiFunctions.factory()
+            obj_.build(child_)
+            self.set_PhaseExternMultiFunctions(obj_)
+            obj_.original_tagname_ = 'PhaseExternMultiFunctions'
         elif nodeName_ == 'Temperatures':
             obj_ = create_Temperatures.factory()
             obj_.build(child_)
@@ -1300,9 +1326,9 @@ class create_Coeff_diff(GeneratedsSuper):
 
 class create_FluorescenceProductsProperties(GeneratedsSuper):
     """Name of the text file that allows one to compute fluorescence
-    mechanims, using radiation already absorbed by the scene. Name
+    mechanism, using radiation already absorbed by the scene. Name
     of the text file that allows one to compute fluorescence
-    mechanims, using radiation already absorbed by the scene."""
+    mechanism, using radiation already absorbed by the scene."""
     member_data_items_ = [
         MemberSpec_('fluorescenceFileName', 'xsd:string', 0, 1, {'use': 'optional'}),
     ]
@@ -1451,7 +1477,7 @@ class create_FluorescenceProductsProperties(GeneratedsSuper):
 class create_LambertianMultiFunctions(GeneratedsSuper):
     """LambertianMultiFunctions LambertianMultiFunctions"""
     member_data_items_ = [
-        MemberSpec_('LambertianMulti', '_LambertianMulti', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_LambertianMulti', u'name': u'LambertianMulti', u'minOccurs': u'1'}, None),
+        MemberSpec_('LambertianMulti', '_LambertianMulti', 1, 0, {'name': 'LambertianMulti', 'type': '_LambertianMulti', 'minOccurs': '1', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -1646,9 +1672,9 @@ class create_LambertianMulti(GeneratedsSuper):
         MemberSpec_('ident', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('useSpecular', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('roStDev', 'xsd:double', 0, 1, {'use': 'optional'}),
-        MemberSpec_('SpecularData', '_SpecularData', 0, 0, {u'maxOccurs': u'1', u'type': u'_SpecularData', u'name': u'SpecularData', u'minOccurs': u'1'}, None),
-        MemberSpec_('ProspectExternalModule', '_ProspectExternalModule', 0, 0, {u'maxOccurs': u'1', u'type': u'_ProspectExternalModule', u'name': u'ProspectExternalModule', u'minOccurs': u'1'}, None),
-        MemberSpec_('lambertianNodeMultiplicativeFactorForLUT', '_lambertianNodeMultiplicativeFactorForLUT', 0, 0, {u'maxOccurs': u'1', u'type': u'_lambertianNodeMultiplicativeFactorForLUT', u'name': u'lambertianNodeMultiplicativeFactorForLUT', u'minOccurs': u'1'}, None),
+        MemberSpec_('SpecularData', '_SpecularData', 0, 0, {'name': 'SpecularData', 'type': '_SpecularData', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ProspectExternalModule', '_ProspectExternalModule', 0, 0, {'name': 'ProspectExternalModule', 'type': '_ProspectExternalModule', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('lambertianNodeMultiplicativeFactorForLUT', '_lambertianNodeMultiplicativeFactorForLUT', 0, 0, {'name': 'lambertianNodeMultiplicativeFactorForLUT', 'type': '_lambertianNodeMultiplicativeFactorForLUT', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -1976,21 +2002,20 @@ class create_SpecularData(GeneratedsSuper):
     """Specular database Specular database Radiance distribution around the
     specular direction (cf. DART handbook ch. II.5.1). Radiance
     distribution around the specular direction (cf. DART handbook
-    ch. II.5.1). This option requires:\n - to simulate the specular
-    surface with the "double face" option,\n - to store fluxes per
-    direction (it is an option of the DART advanced mode)\nIn the
+    ch. II.5.1). This option requires: - to simulate the specular
+    surface with the "double face" option, - to store fluxes per
+    direction (it is an option of the DART advanced mode) In the
     absence of double face, the surface is transparent for fluxes
     along directions which have an angle smaller than 90deg relative
-    to the surface normal\nIf fluxes are not stored per direction,
+    to the surface normal If fluxes are not stored per direction,
     there is no refraction for fluxes other than sun flux. This
-    option requires:\n - to simulate the specular surface with the
-    "double face" option,\n - to store fluxes per direction (it is
-    an option of the DART advanced mode)\nIn the absence of double
-    face, the surface is transparent for fluxes along directions
-    which have an angle smaller than 90deg relative to the surface
-    normal\nIf fluxes are not stored per direction, there is no
-    refraction for fluxes other than sun flux. Specular model
-    Specular model"""
+    option requires: - to simulate the specular surface with the
+    "double face" option, - to store fluxes per direction (it is an
+    option of the DART advanced mode) In the absence of double face,
+    the surface is transparent for fluxes along directions which
+    have an angle smaller than 90deg relative to the surface normal
+    If fluxes are not stored per direction, there is no refraction
+    for fluxes other than sun flux. Specular model Specular model"""
     member_data_items_ = [
         MemberSpec_('specularDatabaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('specularRadianceDistribution', 'xsd:int', 0, 1, {'use': 'optional'}),
@@ -2214,9 +2239,9 @@ class create_ProspectExternalModule(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('useProspectExternalModule', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('isFluorescent', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('ProspectExternParameters', '_ProspectExternParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_ProspectExternParameters', u'name': u'ProspectExternParameters', u'minOccurs': u'1'}, None),
-        MemberSpec_('FluorescenceYields', '_FluorescenceYields', 0, 0, {u'maxOccurs': u'1', u'type': u'_FluorescenceYields', u'name': u'FluorescenceYields', u'minOccurs': u'1'}, None),
-        MemberSpec_('WindProfileEta', '_WindProfileEta', 0, 0, {u'maxOccurs': u'1', u'type': u'_WindProfileEta', u'name': u'WindProfileEta', u'minOccurs': u'1'}, None),
+        MemberSpec_('ProspectExternParameters', '_ProspectExternParameters', 0, 0, {'name': 'ProspectExternParameters', 'type': '_ProspectExternParameters', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('FluorescenceYields', '_FluorescenceYields', 0, 0, {'name': 'FluorescenceYields', 'type': '_FluorescenceYields', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('WindProfileEta', '_WindProfileEta', 0, 0, {'name': 'WindProfileEta', 'type': '_WindProfileEta', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -2465,14 +2490,13 @@ class create_ProspectExternParameters(GeneratedsSuper):
     """Brown pigment content - CBrown (arbitrary unit) Brown pigment
     content - CBrown (arbitrary unit) Leaf dry matter content - Cm
     (g.cm-2) Leaf dry matter content - Cm (g.cm-2) Leaf carotenoid
-    content - Car (\u03BCg.cm-2) Leaf carotenoid content - Car
-    (\u03BCg.cm-2) Anthocyanin content (\u03BCg.cm-2) Anthocyanin
-    content (\u03BCg.cm-2) Leaf internal structure parameter - N
-    Leaf internal structure parameter - N Input prospect database
-    file Input prospect database file Leaf chlorophyll a+b content -
-    Cab (\u03BCg.cm-2) Leaf chlorophyll a+b content - Cab
-    (\u03BCg.cm-2) Leaf equivalent water thickness - Cw (cm) Leaf
-    equivalent water thickness - Cw (cm)"""
+    content - Car (μg.cm-2) Leaf carotenoid content - Car (μg.cm-2)
+    Anthocyanin content (μg.cm-2) Anthocyanin content (μg.cm-2) Leaf
+    internal structure parameter - N Leaf internal structure
+    parameter - N Input prospect database file Input prospect
+    database file Leaf chlorophyll a+b content - Cab (μg.cm-2) Leaf
+    chlorophyll a+b content - Cab (μg.cm-2) Leaf equivalent water
+    thickness - Cw (cm) Leaf equivalent water thickness - Cw (cm)"""
     member_data_items_ = [
         MemberSpec_('CBrown', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('Cm', 'xsd:double', 0, 1, {'use': 'optional'}),
@@ -2784,7 +2808,7 @@ class create_FluorescenceYields(GeneratedsSuper):
     triangle file"""
     member_data_items_ = [
         MemberSpec_('forceYields', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Yields', '_Yields', 0, 0, {u'maxOccurs': u'1', u'type': u'_Yields', u'name': u'Yields', u'minOccurs': u'1'}, None),
+        MemberSpec_('Yields', '_Yields', 0, 0, {'name': 'Yields', 'type': '_Yields', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -3142,7 +3166,7 @@ class create_WindProfileEta(GeneratedsSuper):
     temperature and can provided by the SCOPE model, for example."""
     member_data_items_ = [
         MemberSpec_('useBioClimaticWeighting', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('BioClimaticWeighting', '_BioClimaticWeighting', 0, 0, {u'maxOccurs': u'1', u'type': u'_BioClimaticWeighting', u'name': u'BioClimaticWeighting', u'minOccurs': u'1'}, None),
+        MemberSpec_('BioClimaticWeighting', '_BioClimaticWeighting', 0, 0, {'name': 'BioClimaticWeighting', 'type': '_BioClimaticWeighting', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -3319,20 +3343,20 @@ class create_BioClimaticWeighting(GeneratedsSuper):
     """The path to the Bio-Climatic file The path to the Bio-Climatic file
     In order to define which layer a scene element belongs to, DART
     will compute the minimum and maximum altitude of all the objects
-    using this optical property.\nThe layers are then distributed
-    equaly between this minimum and maximum.\nIf 2 optical
-    properties are linked, then the minimum and maximum will be
-    computed using their combined associated objects.\n In order to
-    define which layer a scene element belongs to, DART will compute
-    the minimum and maximum altitude of all the objects using this
-    optical property.\nThe layers are then distributed equaly
-    between this minimum and maximum.\nIf 2 optical properties are
-    linked, then the minimum and maximum will be computed using
-    their combined associated objects.\n"""
+    using this optical property. The layers are then distributed
+    equaly between this minimum and maximum. If 2 optical properties
+    are linked, then the minimum and maximum will be computed using
+    their combined associated objects. In order to define which
+    layer a scene element belongs to, DART will compute the minimum
+    and maximum altitude of all the objects using this optical
+    property. The layers are then distributed equaly between this
+    minimum and maximum. If 2 optical properties are linked, then
+    the minimum and maximum will be computed using their combined
+    associated objects."""
     member_data_items_ = [
         MemberSpec_('profileFilePath', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('linkedOpticalProperty', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {'name': 'OpticalPropertyLink', 'type': '_OpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -3739,8 +3763,8 @@ class create_lambertianNodeMultiplicativeFactorForLUT(GeneratedsSuper):
         MemberSpec_('useSameFactorForAllBands', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('useSameOpticalFactorMatrixForAllBands', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('specularIntensityFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
-        MemberSpec_('lambertianMultiplicativeFactorForLUT', '_lambertianMultiplicativeFactorForLUT', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_lambertianMultiplicativeFactorForLUT', u'name': u'lambertianMultiplicativeFactorForLUT', u'minOccurs': u'1'}, None),
-        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {u'maxOccurs': u'1', u'type': u'_opticalFactorMatrix', u'name': u'opticalFactorMatrix', u'minOccurs': u'1'}, None),
+        MemberSpec_('lambertianMultiplicativeFactorForLUT', '_lambertianMultiplicativeFactorForLUT', 1, 0, {'name': 'lambertianMultiplicativeFactorForLUT', 'type': '_lambertianMultiplicativeFactorForLUT', 'minOccurs': '1', 'maxOccurs': 'unbounded'}, None),
+        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {'name': 'opticalFactorMatrix', 'type': '_opticalFactorMatrix', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -4103,7 +4127,7 @@ class create_lambertianMultiplicativeFactorForLUT(GeneratedsSuper):
         MemberSpec_('reflectanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('specularIntensityFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('useOpticalFactorMatrix', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {u'maxOccurs': u'1', u'type': u'_opticalFactorMatrix', u'name': u'opticalFactorMatrix', u'minOccurs': u'1'}, None),
+        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {'name': 'opticalFactorMatrix', 'type': '_opticalFactorMatrix', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -4366,13 +4390,13 @@ class create_lambertianMultiplicativeFactorForLUT(GeneratedsSuper):
 
 class create_opticalFactorMatrix(GeneratedsSuper):
     """3D factor matrix text file, organized from bottom to top altitude
-    layers\nOrdered like the schematic view in simulation editor,
-    origin top-left:\ncolumns (y) - lines (x) - altitudes
-    (z)\nAccepted field separators: semi-column, space, tab 3D
-    factor matrix text file, organized from bottom to top altitude
-    layers\nOrdered like the schematic view in simulation editor,
-    origin top-left:\ncolumns (y) - lines (x) - altitudes
-    (z)\nAccepted field separators: semi-column, space, tab"""
+    layers Ordered like the schematic view in simulation editor,
+    origin top-left: columns (y) - lines (x) - altitudes (z)
+    Accepted field separators: semi-column, space, tab 3D factor
+    matrix text file, organized from bottom to top altitude layers
+    Ordered like the schematic view in simulation editor, origin
+    top-left: columns (y) - lines (x) - altitudes (z) Accepted field
+    separators: semi-column, space, tab"""
     member_data_items_ = [
         MemberSpec_('duplicateFirstMatrixLayer', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('opticalFactorMatrixFile', 'xsd:string', 0, 1, {'use': 'optional'}),
@@ -4543,7 +4567,7 @@ class create_opticalFactorMatrix(GeneratedsSuper):
 
 class create_HapkeSpecularMultiFunctions(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('HapkeSpecularMulti', '_HapkeSpecularMulti', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_HapkeSpecularMulti', u'name': u'HapkeSpecularMulti', u'minOccurs': u'0'}, None),
+        MemberSpec_('HapkeSpecularMulti', '_HapkeSpecularMulti', 1, 1, {'name': 'HapkeSpecularMulti', 'type': '_HapkeSpecularMulti', 'minOccurs': '0', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -4742,9 +4766,9 @@ class create_HapkeSpecularMulti(GeneratedsSuper):
         MemberSpec_('transmittanceModelName', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('databaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('useMultiplicativeFactorForLUT', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('SpecularData', '_SpecularData', 0, 0, {u'maxOccurs': u'1', u'type': u'_SpecularData', u'name': u'SpecularData', u'minOccurs': u'1'}, None),
-        MemberSpec_('HapkeExternalModules', '_HapkeExternalModules', 0, 0, {u'maxOccurs': u'1', u'type': u'_HapkeExternalModules', u'name': u'HapkeExternalModules', u'minOccurs': u'1'}, None),
-        MemberSpec_('hapkeNodeMultiplicativeFactorForLUT', '_hapkeNodeMultiplicativeFactorForLUT', 0, 0, {u'maxOccurs': u'1', u'type': u'_hapkeNodeMultiplicativeFactorForLUT', u'name': u'hapkeNodeMultiplicativeFactorForLUT', u'minOccurs': u'1'}, None),
+        MemberSpec_('SpecularData', '_SpecularData', 0, 0, {'name': 'SpecularData', 'type': '_SpecularData', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('HapkeExternalModules', '_HapkeExternalModules', 0, 0, {'name': 'HapkeExternalModules', 'type': '_HapkeExternalModules', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('hapkeNodeMultiplicativeFactorForLUT', '_hapkeNodeMultiplicativeFactorForLUT', 0, 0, {'name': 'hapkeNodeMultiplicativeFactorForLUT', 'type': '_hapkeNodeMultiplicativeFactorForLUT', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -5108,7 +5132,7 @@ class create_HapkeSpecularMulti(GeneratedsSuper):
 
 class create_HapkeExternalModules(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('HapkeExternalModule', '_HapkeExternalModule', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_HapkeExternalModule', u'name': u'HapkeExternalModule', u'minOccurs': u'1'}, None),
+        MemberSpec_('HapkeExternalModule', '_HapkeExternalModule', 1, 0, {'name': 'HapkeExternalModule', 'type': '_HapkeExternalModule', 'minOccurs': '1', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -5477,19 +5501,19 @@ class create_HapkeExternalModule(GeneratedsSuper):
 class create_hapkeNodeMultiplicativeFactorForLUT(GeneratedsSuper):
     """Diffuse transmittance Diffuse transmittance Direct transmittance
     Direct transmittance H1 H1 H2 H2 Necessary for building up LUT
-    tables with variable specular intensity values. \nA
+    tables with variable specular intensity values. A multispectral
+    LUT can be computed applying the sequencer to DART mutispectral
+    simulation with one spectral band each. Necessary for building
+    up LUT tables with variable specular intensity values. A
     multispectral LUT can be computed applying the sequencer to DART
-    mutispectral simulation with one spectral band each. Necessary
-    for building up LUT tables with variable specular intensity
-    values. \nA multispectral LUT can be computed applying the
-    sequencer to DART mutispectral simulation with one spectral band
-    each. Apply the same 3D factor matrix per cell on optical
-    properties to all the spectral bands Apply the same 3D factor
-    matrix per cell on optical properties to all the spectral bands
-    C4 C4 C1 C1 C3 C3 C2 C2 When selected, the parameters values of
-    every spectral band will be equal to these parameters. When
-    selected, the parameters values of every spectral band will be
-    equal to these parameters. W W"""
+    mutispectral simulation with one spectral band each. Apply the
+    same 3D factor matrix per cell on optical properties to all the
+    spectral bands Apply the same 3D factor matrix per cell on
+    optical properties to all the spectral bands C4 C4 C1 C1 C3 C3
+    C2 C2 When selected, the parameters values of every spectral
+    band will be equal to these parameters. When selected, the
+    parameters values of every spectral band will be equal to these
+    parameters. W W"""
     member_data_items_ = [
         MemberSpec_('diffuseTransmittanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('directTransmittanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
@@ -5503,8 +5527,8 @@ class create_hapkeNodeMultiplicativeFactorForLUT(GeneratedsSuper):
         MemberSpec_('hapkeParameterC2', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('useSameFactorForAllBands', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('hapkeParameterW', 'xsd:double', 0, 1, {'use': 'optional'}),
-        MemberSpec_('hapkeMultiplicativeFactorForLUT', '_hapkeMultiplicativeFactorForLUT', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_hapkeMultiplicativeFactorForLUT', u'name': u'hapkeMultiplicativeFactorForLUT', u'minOccurs': u'1'}, None),
-        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {u'maxOccurs': u'1', u'type': u'_opticalFactorMatrix', u'name': u'opticalFactorMatrix', u'minOccurs': u'1'}, None),
+        MemberSpec_('hapkeMultiplicativeFactorForLUT', '_hapkeMultiplicativeFactorForLUT', 1, 0, {'name': 'hapkeMultiplicativeFactorForLUT', 'type': '_hapkeMultiplicativeFactorForLUT', 'minOccurs': '1', 'maxOccurs': 'unbounded'}, None),
+        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {'name': 'opticalFactorMatrix', 'type': '_opticalFactorMatrix', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -5966,15 +5990,15 @@ class create_hapkeNodeMultiplicativeFactorForLUT(GeneratedsSuper):
 class create_hapkeMultiplicativeFactorForLUT(GeneratedsSuper):
     """Diffuse transmittance Diffuse transmittance Direct transmittance
     Direct transmittance H1 H1 H2 H2 Necessary for building up LUT
-    tables with variable specular intensity values. \nA
+    tables with variable specular intensity values. A multispectral
+    LUT can be computed applying the sequencer to DART mutispectral
+    simulation with one spectral band each. Necessary for building
+    up LUT tables with variable specular intensity values. A
     multispectral LUT can be computed applying the sequencer to DART
-    mutispectral simulation with one spectral band each. Necessary
-    for building up LUT tables with variable specular intensity
-    values. \nA multispectral LUT can be computed applying the
-    sequencer to DART mutispectral simulation with one spectral band
-    each. C4 C4 C1 C1 C3 C3 C2 C2 W W Apply a 3D factor matrix per
-    cell on optical properties Apply a 3D factor matrix per cell on
-    optical properties"""
+    mutispectral simulation with one spectral band each. C4 C4 C1 C1
+    C3 C3 C2 C2 W W Apply a 3D factor matrix per cell on optical
+    properties Apply a 3D factor matrix per cell on optical
+    properties"""
     member_data_items_ = [
         MemberSpec_('diffuseTransmittanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('directTransmittanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
@@ -5987,7 +6011,7 @@ class create_hapkeMultiplicativeFactorForLUT(GeneratedsSuper):
         MemberSpec_('hapkeParameterC2', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('hapkeParameterW', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('useOpticalFactorMatrix', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {u'maxOccurs': u'1', u'type': u'_opticalFactorMatrix', u'name': u'opticalFactorMatrix', u'minOccurs': u'1'}, None),
+        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {'name': 'opticalFactorMatrix', 'type': '_opticalFactorMatrix', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -6382,7 +6406,7 @@ class create_hapkeMultiplicativeFactorForLUT(GeneratedsSuper):
 
 class create_RPVMultiFunctions(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('RPVMulti', '_RPVMulti', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_RPVMulti', u'name': u'RPVMulti', u'minOccurs': u'0'}, None),
+        MemberSpec_('RPVMulti', '_RPVMulti', 1, 1, {'name': 'RPVMulti', 'type': '_RPVMulti', 'minOccurs': '0', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -6575,8 +6599,8 @@ class create_RPVMulti(GeneratedsSuper):
         MemberSpec_('transmittanceDatabaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('ident', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('useSpecular', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('SpecularData', '_SpecularData', 0, 0, {u'maxOccurs': u'1', u'type': u'_SpecularData', u'name': u'SpecularData', u'minOccurs': u'1'}, None),
-        MemberSpec_('RPVNodeMultiplicativeFactorForLUT', '_RPVNodeMultiplicativeFactorForLUT', 0, 0, {u'maxOccurs': u'1', u'type': u'_RPVNodeMultiplicativeFactorForLUT', u'name': u'RPVNodeMultiplicativeFactorForLUT', u'minOccurs': u'1'}, None),
+        MemberSpec_('SpecularData', '_SpecularData', 0, 0, {'name': 'SpecularData', 'type': '_SpecularData', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('RPVNodeMultiplicativeFactorForLUT', '_RPVNodeMultiplicativeFactorForLUT', 0, 0, {'name': 'RPVNodeMultiplicativeFactorForLUT', 'type': '_RPVNodeMultiplicativeFactorForLUT', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -6900,13 +6924,12 @@ class create_RPVNodeMultiplicativeFactorForLUT(GeneratedsSuper):
     spectral band will be equal to these parameters. When selected,
     the parameters values of every spectral band will be equal to
     these parameters. Rho_0 Rho_0 Necessary for building up LUT
-    tables with variable specular intensity values. \nA
+    tables with variable specular intensity values. A multispectral
+    LUT can be computed applying the sequencer to DART mutispectral
+    simulation with one spectral band each. Necessary for building
+    up LUT tables with variable specular intensity values. A
     multispectral LUT can be computed applying the sequencer to DART
-    mutispectral simulation with one spectral band each. Necessary
-    for building up LUT tables with variable specular intensity
-    values. \nA multispectral LUT can be computed applying the
-    sequencer to DART mutispectral simulation with one spectral band
-    each."""
+    mutispectral simulation with one spectral band each."""
     member_data_items_ = [
         MemberSpec_('g_RPVMultiplicativeFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('diffuseTransmittanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
@@ -6917,8 +6940,8 @@ class create_RPVNodeMultiplicativeFactorForLUT(GeneratedsSuper):
         MemberSpec_('useSameFactorForAllBands', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('rhoZero_RPVMultiplicativeFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('specularIntensityFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
-        MemberSpec_('RPVMultiplicativeFactorForLUT', '_RPVMultiplicativeFactorForLUT', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_RPVMultiplicativeFactorForLUT', u'name': u'RPVMultiplicativeFactorForLUT', u'minOccurs': u'1'}, None),
-        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {u'maxOccurs': u'1', u'type': u'_opticalFactorMatrix', u'name': u'opticalFactorMatrix', u'minOccurs': u'1'}, None),
+        MemberSpec_('RPVMultiplicativeFactorForLUT', '_RPVMultiplicativeFactorForLUT', 1, 0, {'name': 'RPVMultiplicativeFactorForLUT', 'type': '_RPVMultiplicativeFactorForLUT', 'minOccurs': '1', 'maxOccurs': 'unbounded'}, None),
+        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {'name': 'opticalFactorMatrix', 'type': '_opticalFactorMatrix', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -7314,11 +7337,11 @@ class create_RPVNodeMultiplicativeFactorForLUT(GeneratedsSuper):
 class create_RPVMultiplicativeFactorForLUT(GeneratedsSuper):
     """g g Diffuse transmittance Diffuse transmittance Direct transmittance
     Direct transmittance k k h h Rho_0 Rho_0 Necessary for building
-    up LUT tables with variable specular intensity values. \nA
+    up LUT tables with variable specular intensity values. A
     multispectral LUT can be computed applying the sequencer to DART
     mutispectral simulation with one spectral band each. Necessary
     for building up LUT tables with variable specular intensity
-    values. \nA multispectral LUT can be computed applying the
+    values. A multispectral LUT can be computed applying the
     sequencer to DART mutispectral simulation with one spectral band
     each. Apply a 3D factor matrix per cell on optical properties
     Apply a 3D factor matrix per cell on optical properties"""
@@ -7331,7 +7354,7 @@ class create_RPVMultiplicativeFactorForLUT(GeneratedsSuper):
         MemberSpec_('rhoZero_RPVMultiplicativeFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('specularIntensityFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('useOpticalFactorMatrix', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {u'maxOccurs': u'1', u'type': u'_opticalFactorMatrix', u'name': u'opticalFactorMatrix', u'minOccurs': u'1'}, None),
+        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {'name': 'opticalFactorMatrix', 'type': '_opticalFactorMatrix', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -7660,24 +7683,24 @@ class create_RPVMultiplicativeFactorForLUT(GeneratedsSuper):
 
 class create_UnderstoryMultiFunctions(GeneratedsSuper):
     """Integration step on theta for the computation of phase functions (1
-    - 90).\nThe algorithm takes the nearest value from : 1, 2, 3, 5,
+    - 90). The algorithm takes the nearest value from : 1, 2, 3, 5,
     6, 9, 10, 15, 18, 30, 45, 90 Integration step on theta for the
-    computation of phase functions (1 - 90).\nThe algorithm takes
-    the nearest value from : 1, 2, 3, 5, 6, 9, 10, 15, 18, 30, 45,
-    90 Integration step on phi for the computation of phase
-    functions (1 - 360).\nThe algorithm takes the nearest value from
-    : 1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 15, 18, 20, 24, 30, 36, 40,
-    45, 60, 72, 90, 120, 180, 360 Integration step on phi for the
-    computation of phase functions (1 - 360).\nThe algorithm takes
-    the nearest value from : 1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 15, 18,
-    20, 24, 30, 36, 40, 45, 60, 72, 90, 120, 180, 360 Write computed
-    LAD into the file : output/lib_phase/LAD.txt Write computed LAD
-    into the file : output/lib_phase/LAD.txt"""
+    computation of phase functions (1 - 90). The algorithm takes the
+    nearest value from : 1, 2, 3, 5, 6, 9, 10, 15, 18, 30, 45, 90
+    Integration step on phi for the computation of phase functions
+    (1 - 360). The algorithm takes the nearest value from : 1, 2, 3,
+    4, 5, 6, 8, 9, 10, 12, 15, 18, 20, 24, 30, 36, 40, 45, 60, 72,
+    90, 120, 180, 360 Integration step on phi for the computation of
+    phase functions (1 - 360). The algorithm takes the nearest value
+    from : 1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 15, 18, 20, 24, 30, 36,
+    40, 45, 60, 72, 90, 120, 180, 360 Write computed LAD into the
+    file : output/lib_phase/LAD.txt Write computed LAD into the file
+    : output/lib_phase/LAD.txt"""
     member_data_items_ = [
         MemberSpec_('integrationStepOnTheta', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('integrationStepOnPhi', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('outputLADFile', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('UnderstoryMulti', '_UnderstoryMulti', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_UnderstoryMulti', u'name': u'UnderstoryMulti', u'minOccurs': u'0'}, None),
+        MemberSpec_('UnderstoryMulti', '_UnderstoryMulti', 1, 1, {'name': 'UnderstoryMulti', 'type': '_UnderstoryMulti', 'minOccurs': '0', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -7921,13 +7944,13 @@ class create_UnderstoryMulti(GeneratedsSuper):
     Has a different model for the bottom of vegetation Has a
     different model for the bottom of vegetation 0 for no hot spot)
     0 for no hot spot) Thermal Hot-Spot factor (see manual) Thermal
-    Hot-Spot factor (see manual) Leaf Angle Distribution\nNot used
-    for "Triangle" to "Turbid" transformation.\nIn that case, there
+    Hot-Spot factor (see manual) Leaf Angle Distribution Not used
+    for "Triangle" to "Turbid" transformation. In that case, there
     are several LADs and these LADs are ellipsoidal Leaf Angle
-    Distribution\nNot used for "Triangle" to "Turbid"
-    transformation.\nIn that case, there are several LADs and these
-    LADs are ellipsoidal Apply a 3D factor matrix per cell on
-    optical properties Apply a 3D factor matrix per cell on optical
+    Distribution Not used for "Triangle" to "Turbid" transformation.
+    In that case, there are several LADs and these LADs are
+    ellipsoidal Apply a 3D factor matrix per cell on optical
+    properties Apply a 3D factor matrix per cell on optical
     properties"""
     member_data_items_ = [
         MemberSpec_('ident', 'xsd:string', 0, 1, {'use': 'optional'}),
@@ -7936,15 +7959,15 @@ class create_UnderstoryMulti(GeneratedsSuper):
         MemberSpec_('thermalHotSpotFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('lad', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('useOpticalFactorMatrix', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('UnderstoryMultiModel', '_UnderstoryMultiModel', 0, 0, {u'maxOccurs': u'1', u'type': u'_UnderstoryMultiModel', u'name': u'UnderstoryMultiModel', u'minOccurs': u'1'}, None),
-        MemberSpec_('UnderstoryMultiTopModel', '_UnderstoryMultiTopModel', 0, 0, {u'maxOccurs': u'1', u'type': u'_UnderstoryMultiTopModel', u'name': u'UnderstoryMultiTopModel', u'minOccurs': u'1'}, None),
-        MemberSpec_('UnderstoryMultiBottomModel', '_UnderstoryMultiBottomModel', 0, 0, {u'maxOccurs': u'1', u'type': u'_UnderstoryMultiBottomModel', u'name': u'UnderstoryMultiBottomModel', u'minOccurs': u'1'}, None),
-        MemberSpec_('Ellipsoidal', '_Ellipsoidal', 0, 0, {u'maxOccurs': u'1', u'type': u'_Ellipsoidal', u'name': u'Ellipsoidal', u'minOccurs': u'1'}, None),
-        MemberSpec_('Elliptical', '_Elliptical', 0, 0, {u'maxOccurs': u'1', u'type': u'_Elliptical', u'name': u'Elliptical', u'minOccurs': u'1'}, None),
-        MemberSpec_('UserDefined', '_UserDefined', 0, 0, {u'maxOccurs': u'1', u'type': u'_UserDefined', u'name': u'UserDefined', u'minOccurs': u'1'}, None),
-        MemberSpec_('Manual', '_Manual', 0, 0, {u'maxOccurs': u'1', u'type': u'_Manual', u'name': u'Manual', u'minOccurs': u'1'}, None),
-        MemberSpec_('BoundedUniform', '_BoundedUniform', 0, 0, {u'maxOccurs': u'1', u'type': u'_BoundedUniform', u'name': u'BoundedUniform', u'minOccurs': u'1'}, None),
-        MemberSpec_('DirectionalClumpingIndexProperties', '_DirectionalClumpingIndexProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_DirectionalClumpingIndexProperties', u'name': u'DirectionalClumpingIndexProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('UnderstoryMultiModel', '_UnderstoryMultiModel', 0, 0, {'name': 'UnderstoryMultiModel', 'type': '_UnderstoryMultiModel', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('UnderstoryMultiTopModel', '_UnderstoryMultiTopModel', 0, 0, {'name': 'UnderstoryMultiTopModel', 'type': '_UnderstoryMultiTopModel', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('UnderstoryMultiBottomModel', '_UnderstoryMultiBottomModel', 0, 0, {'name': 'UnderstoryMultiBottomModel', 'type': '_UnderstoryMultiBottomModel', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Ellipsoidal', '_Ellipsoidal', 0, 0, {'name': 'Ellipsoidal', 'type': '_Ellipsoidal', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Elliptical', '_Elliptical', 0, 0, {'name': 'Elliptical', 'type': '_Elliptical', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('UserDefined', '_UserDefined', 0, 0, {'name': 'UserDefined', 'type': '_UserDefined', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Manual', '_Manual', 0, 0, {'name': 'Manual', 'type': '_Manual', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('BoundedUniform', '_BoundedUniform', 0, 0, {'name': 'BoundedUniform', 'type': '_BoundedUniform', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('DirectionalClumpingIndexProperties', '_DirectionalClumpingIndexProperties', 0, 0, {'name': 'DirectionalClumpingIndexProperties', 'type': '_DirectionalClumpingIndexProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -8434,9 +8457,9 @@ class create_UnderstoryMultiModel(GeneratedsSuper):
         MemberSpec_('useSpecular', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('databaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('useMultiplicativeFactorForLUT', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('SpecularData', '_SpecularData', 0, 0, {u'maxOccurs': u'1', u'type': u'_SpecularData', u'name': u'SpecularData', u'minOccurs': u'1'}, None),
-        MemberSpec_('ProspectExternalModule', '_ProspectExternalModule', 0, 0, {u'maxOccurs': u'1', u'type': u'_ProspectExternalModule', u'name': u'ProspectExternalModule', u'minOccurs': u'1'}, None),
-        MemberSpec_('understoryNodeMultiplicativeFactorForLUT', '_understoryNodeMultiplicativeFactorForLUT', 0, 0, {u'maxOccurs': u'1', u'type': u'_understoryNodeMultiplicativeFactorForLUT', u'name': u'understoryNodeMultiplicativeFactorForLUT', u'minOccurs': u'1'}, None),
+        MemberSpec_('SpecularData', '_SpecularData', 0, 0, {'name': 'SpecularData', 'type': '_SpecularData', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ProspectExternalModule', '_ProspectExternalModule', 0, 0, {'name': 'ProspectExternalModule', 'type': '_ProspectExternalModule', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('understoryNodeMultiplicativeFactorForLUT', '_understoryNodeMultiplicativeFactorForLUT', 0, 0, {'name': 'understoryNodeMultiplicativeFactorForLUT', 'type': '_understoryNodeMultiplicativeFactorForLUT', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -8724,22 +8747,22 @@ class create_understoryNodeMultiplicativeFactorForLUT(GeneratedsSuper):
     equal to these parameters. When selected, the parameters values
     of every spectral band will be equal to these parameters.
     Necessary for building up LUT tables with variable adaxial leaf
-    reflectance values. \nA multispectral LUT can be computed
-    applying the sequencer to DART mutispectral simulation with one
-    spectral band each. Necessary for building up LUT tables with
-    variable adaxial leaf reflectance values. \nA multispectral LUT
-    can be computed applying the sequencer to DART mutispectral
+    reflectance values. A multispectral LUT can be computed applying
+    the sequencer to DART mutispectral simulation with one spectral
+    band each. Necessary for building up LUT tables with variable
+    adaxial leaf reflectance values. A multispectral LUT can be
+    computed applying the sequencer to DART mutispectral simulation
+    with one spectral band each. Necessary for building up LUT
+    tables with variable leaf transmittance values. A multispectral
+    LUT can be computed applying the sequencer to DART mutispectral
     simulation with one spectral band each. Necessary for building
-    up LUT tables with variable leaf transmittance values. \nA
+    up LUT tables with variable leaf transmittance values. A
     multispectral LUT can be computed applying the sequencer to DART
-    mutispectral simulation with one spectral band each. Necessary
-    for building up LUT tables with variable leaf transmittance
-    values. \nA multispectral LUT can be computed applying the
-    sequencer to DART mutispectral simulation with one spectral band
-    each. Apply the same 3D factor matrix per cell on optical
-    properties to all the spectral bands Apply the same 3D factor
-    matrix per cell on optical properties to all the spectral bands
-    Diffuse transmittance acceleration factor Diffuse transmittance
+    mutispectral simulation with one spectral band each. Apply the
+    same 3D factor matrix per cell on optical properties to all the
+    spectral bands Apply the same 3D factor matrix per cell on
+    optical properties to all the spectral bands Diffuse
+    transmittance acceleration factor Diffuse transmittance
     acceleration factor"""
     member_data_items_ = [
         MemberSpec_('useSameFactorForAllBands', 'xsd:int', 0, 1, {'use': 'optional'}),
@@ -8747,8 +8770,8 @@ class create_understoryNodeMultiplicativeFactorForLUT(GeneratedsSuper):
         MemberSpec_('LeafTransmittanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('useSameOpticalFactorMatrixForAllBands', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('diffuseTransmittanceAcceleration', 'xsd:double', 0, 1, {'use': 'optional'}),
-        MemberSpec_('understoryMultiplicativeFactorForLUT', '_understoryMultiplicativeFactorForLUT', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_understoryMultiplicativeFactorForLUT', u'name': u'understoryMultiplicativeFactorForLUT', u'minOccurs': u'1'}, None),
-        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {u'maxOccurs': u'1', u'type': u'_opticalFactorMatrix', u'name': u'opticalFactorMatrix', u'minOccurs': u'1'}, None),
+        MemberSpec_('understoryMultiplicativeFactorForLUT', '_understoryMultiplicativeFactorForLUT', 1, 0, {'name': 'understoryMultiplicativeFactorForLUT', 'type': '_understoryMultiplicativeFactorForLUT', 'minOccurs': '1', 'maxOccurs': 'unbounded'}, None),
+        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {'name': 'opticalFactorMatrix', 'type': '_opticalFactorMatrix', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -9055,10 +9078,10 @@ class create_understoryNodeMultiplicativeFactorForLUT(GeneratedsSuper):
 
 class create_understoryMultiplicativeFactorForLUT(GeneratedsSuper):
     """Necessary for building up LUT tables with variable leaf
-    transmittance values. \nA multispectral LUT can be computed
+    transmittance values. A multispectral LUT can be computed
     applying the sequencer to DART mutispectral simulation with one
     spectral band each. Necessary for building up LUT tables with
-    variable leaf transmittance values. \nA multispectral LUT can be
+    variable leaf transmittance values. A multispectral LUT can be
     computed applying the sequencer to DART mutispectral simulation
     with one spectral band each. Apply a 3D factor matrix per cell
     on optical properties Apply a 3D factor matrix per cell on
@@ -9067,7 +9090,7 @@ class create_understoryMultiplicativeFactorForLUT(GeneratedsSuper):
         MemberSpec_('reflectanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('LeafTransmittanceFactor', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('useOpticalFactorMatrix', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {u'maxOccurs': u'1', u'type': u'_opticalFactorMatrix', u'name': u'opticalFactorMatrix', u'minOccurs': u'1'}, None),
+        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {'name': 'opticalFactorMatrix', 'type': '_opticalFactorMatrix', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -9294,9 +9317,9 @@ class create_UnderstoryMultiTopModel(GeneratedsSuper):
         MemberSpec_('useSpecular', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('databaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('useMultiplicativeFactorForLUT', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('SpecularData', '_SpecularData', 0, 0, {u'maxOccurs': u'1', u'type': u'_SpecularData', u'name': u'SpecularData', u'minOccurs': u'1'}, None),
-        MemberSpec_('ProspectExternalModule', '_ProspectExternalModule', 0, 0, {u'maxOccurs': u'1', u'type': u'_ProspectExternalModule', u'name': u'ProspectExternalModule', u'minOccurs': u'1'}, None),
-        MemberSpec_('understoryNodeMultiplicativeFactorForLUT', '_understoryNodeMultiplicativeFactorForLUT', 0, 0, {u'maxOccurs': u'1', u'type': u'_understoryNodeMultiplicativeFactorForLUT', u'name': u'understoryNodeMultiplicativeFactorForLUT', u'minOccurs': u'1'}, None),
+        MemberSpec_('SpecularData', '_SpecularData', 0, 0, {'name': 'SpecularData', 'type': '_SpecularData', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ProspectExternalModule', '_ProspectExternalModule', 0, 0, {'name': 'ProspectExternalModule', 'type': '_ProspectExternalModule', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('understoryNodeMultiplicativeFactorForLUT', '_understoryNodeMultiplicativeFactorForLUT', 0, 0, {'name': 'understoryNodeMultiplicativeFactorForLUT', 'type': '_understoryNodeMultiplicativeFactorForLUT', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -9589,9 +9612,9 @@ class create_UnderstoryMultiBottomModel(GeneratedsSuper):
         MemberSpec_('useSpecular', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('databaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('useMultiplicativeFactorForLUT', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('SpecularData', '_SpecularData', 0, 0, {u'maxOccurs': u'1', u'type': u'_SpecularData', u'name': u'SpecularData', u'minOccurs': u'1'}, None),
-        MemberSpec_('ProspectExternalModule', '_ProspectExternalModule', 0, 0, {u'maxOccurs': u'1', u'type': u'_ProspectExternalModule', u'name': u'ProspectExternalModule', u'minOccurs': u'1'}, None),
-        MemberSpec_('understoryNodeMultiplicativeFactorForLUT', '_understoryNodeMultiplicativeFactorForLUT', 0, 0, {u'maxOccurs': u'1', u'type': u'_understoryNodeMultiplicativeFactorForLUT', u'name': u'understoryNodeMultiplicativeFactorForLUT', u'minOccurs': u'1'}, None),
+        MemberSpec_('SpecularData', '_SpecularData', 0, 0, {'name': 'SpecularData', 'type': '_SpecularData', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ProspectExternalModule', '_ProspectExternalModule', 0, 0, {'name': 'ProspectExternalModule', 'type': '_ProspectExternalModule', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('understoryNodeMultiplicativeFactorForLUT', '_understoryNodeMultiplicativeFactorForLUT', 0, 0, {'name': 'understoryNodeMultiplicativeFactorForLUT', 'type': '_understoryNodeMultiplicativeFactorForLUT', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -10973,7 +10996,7 @@ class create_DirectionalClumpingIndexProperties(GeneratedsSuper):
 
 class create_AirMultiFunctions(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('AirFunction', '_AirFunction', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_AirFunction', u'name': u'AirFunction', u'minOccurs': u'0'}, None),
+        MemberSpec_('AirFunction', '_AirFunction', 1, 1, {'name': 'AirFunction', 'type': '_AirFunction', 'minOccurs': '0', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -11161,7 +11184,7 @@ class create_AirFunction(GeneratedsSuper):
         MemberSpec_('ModelName', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('databaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('useMultiplicativeFactorForLUT', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('AirFunctionNodeMultiplicativeFactorForLut', '_AirFunctionNodeMultiplicativeFactorForLut', 0, 0, {u'maxOccurs': u'1', u'type': u'_AirFunctionNodeMultiplicativeFactorForLut', u'name': u'AirFunctionNodeMultiplicativeFactorForLut', u'minOccurs': u'1'}, None),
+        MemberSpec_('AirFunctionNodeMultiplicativeFactorForLut', '_AirFunctionNodeMultiplicativeFactorForLut', 0, 0, {'name': 'AirFunctionNodeMultiplicativeFactorForLut', 'type': '_AirFunctionNodeMultiplicativeFactorForLut', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -11394,25 +11417,24 @@ class create_AirFunction(GeneratedsSuper):
 class create_AirFunctionNodeMultiplicativeFactorForLut(GeneratedsSuper):
     """Mutiplicative factor per spectral bands Mutiplicative factor per
     spectral bands Multiplicative factor for coefficient A if model
-    is Henley Greenstein \nMultiplicative factor for coefficient A
-    if model is Rayleigh Multiplicative factor for coefficient A if
-    model is Henley Greenstein \nMultiplicative factor for
-    coefficient A if model is Rayleigh Multiplicative factor for
-    coefficient G1 if model is Henley Greenstein \nMultiplicative
+    is Henley Greenstein Multiplicative factor for coefficient A if
+    model is Rayleigh Multiplicative factor for coefficient A if
+    model is Henley Greenstein Multiplicative factor for coefficient
+    A if model is Rayleigh Multiplicative factor for coefficient G1
+    if model is Henley Greenstein Multiplicative factor for
+    coefficient C if model is Rayleigh Multiplicative factor for
+    coefficient G1 if model is Henley Greenstein Multiplicative
     factor for coefficient C if model is Rayleigh Multiplicative
-    factor for coefficient G1 if model is Henley Greenstein
-    \nMultiplicative factor for coefficient C if model is Rayleigh
-    Multiplicative factor for coefficient G2 if model is Henley
-    Greenstein \nThis field is ignored if model is RayLeigh
-    Multiplicative factor for coefficient G2 if model is Henley
-    Greenstein \nThis field is ignored if model is RayLeigh Use same
-    multiplicator for every band Use same multiplicator for every
-    band Apply the same 3D factor matrix per cell on optical
-    properties to all the spectral bands Apply the same 3D factor
-    matrix per cell on optical properties to all the spectral bands
-    Multiplicative factor for Sigma Multiplicative factor for Sigma
-    Multiplicative factor for Albedo Multiplicative factor for
-    Albedo"""
+    factor for coefficient G2 if model is Henley Greenstein This
+    field is ignored if model is RayLeigh Multiplicative factor for
+    coefficient G2 if model is Henley Greenstein This field is
+    ignored if model is RayLeigh Use same multiplicator for every
+    band Use same multiplicator for every band Apply the same 3D
+    factor matrix per cell on optical properties to all the spectral
+    bands Apply the same 3D factor matrix per cell on optical
+    properties to all the spectral bands Multiplicative factor for
+    Sigma Multiplicative factor for Sigma Multiplicative factor for
+    Albedo Multiplicative factor for Albedo"""
     member_data_items_ = [
         MemberSpec_('multiplicativeFactor1', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('multiplicativeFactor2', 'xsd:double', 0, 1, {'use': 'optional'}),
@@ -11421,8 +11443,8 @@ class create_AirFunctionNodeMultiplicativeFactorForLut(GeneratedsSuper):
         MemberSpec_('useSameOpticalFactorMatrixForAllBands', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('sigma', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('albedo', 'xsd:double', 0, 1, {'use': 'optional'}),
-        MemberSpec_('AirFunctionMultiplicativeFactorForLut', '_AirFunctionMultiplicativeFactorForLut', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_AirFunctionMultiplicativeFactorForLut', u'name': u'AirFunctionMultiplicativeFactorForLut', u'minOccurs': u'1'}, None),
-        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {u'maxOccurs': u'1', u'type': u'_opticalFactorMatrix', u'name': u'opticalFactorMatrix', u'minOccurs': u'1'}, None),
+        MemberSpec_('AirFunctionMultiplicativeFactorForLut', '_AirFunctionMultiplicativeFactorForLut', 1, 0, {'name': 'AirFunctionMultiplicativeFactorForLut', 'type': '_AirFunctionMultiplicativeFactorForLut', 'minOccurs': '1', 'maxOccurs': 'unbounded'}, None),
+        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {'name': 'opticalFactorMatrix', 'type': '_opticalFactorMatrix', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -11773,18 +11795,18 @@ class create_AirFunctionNodeMultiplicativeFactorForLut(GeneratedsSuper):
 
 class create_AirFunctionMultiplicativeFactorForLut(GeneratedsSuper):
     """Spectral band Spectral band Multiplicative factor for coefficient A
-    if model is Henley Greenstein \nMultiplicative factor for
+    if model is Henley Greenstein Multiplicative factor for
     coefficient A if model is Rayleigh Multiplicative factor for
-    coefficient A if model is Henley Greenstein \nMultiplicative
+    coefficient A if model is Henley Greenstein Multiplicative
     factor for coefficient A if model is Rayleigh Multiplicative
     factor for coefficient G1 if model is Henley Greenstein
-    \nMultiplicative factor for coefficient C if model is Rayleigh
+    Multiplicative factor for coefficient C if model is Rayleigh
     Multiplicative factor for coefficient G1 if model is Henley
-    Greenstein \nMultiplicative factor for coefficient C if model is
+    Greenstein Multiplicative factor for coefficient C if model is
     Rayleigh Multiplicative factor for coefficient G2 if model is
-    Henley Greenstein \nThis field is ignored if model is RayLeigh
+    Henley Greenstein This field is ignored if model is RayLeigh
     Multiplicative factor for coefficient G2 if model is Henley
-    Greenstein \nThis field is ignored if model is RayLeigh
+    Greenstein This field is ignored if model is RayLeigh
     Multiplicative factor for Sigma Multiplicative factor for Sigma
     Multiplicative factor for Albedo Multiplicative factor for
     Albedo Apply a 3D factor matrix per cell on optical properties
@@ -11796,7 +11818,7 @@ class create_AirFunctionMultiplicativeFactorForLut(GeneratedsSuper):
         MemberSpec_('sigma', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('albedo', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('useOpticalFactorMatrix', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {u'maxOccurs': u'1', u'type': u'_opticalFactorMatrix', u'name': u'opticalFactorMatrix', u'minOccurs': u'1'}, None),
+        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {'name': 'opticalFactorMatrix', 'type': '_opticalFactorMatrix', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -12079,9 +12101,592 @@ class create_AirFunctionMultiplicativeFactorForLut(GeneratedsSuper):
     # end class create_AirFunctionMultiplicativeFactorForLut
 
 
+class create_PhaseExternMultiFunctions(GeneratedsSuper):
+    """Phase Extern Phase Extern"""
+    member_data_items_ = [
+        MemberSpec_('PhaseExtern', '_PhaseExtern', 1, 1, {'name': 'PhaseExtern', 'type': '_PhaseExtern', 'minOccurs': '0', 'maxOccurs': 'unbounded'}, None),
+    ]
+    subclass = None
+    superclass = None
+    def __init__(self, PhaseExtern=None):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot('coeff_diff','_PhaseExternMultiFunctions')
+        self.attrib = ['']
+        self.children = ['PhaseExtern']
+        self.parent = None
+        if PhaseExtern is None:
+            self._PhaseExtern = []
+        else:
+            self._PhaseExtern = PhaseExtern
+        update_node(self,self.troot,'coeff_diff')
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, create_PhaseExternMultiFunctions)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if create_PhaseExternMultiFunctions.subclass:
+            return create_PhaseExternMultiFunctions.subclass(*args_, **kwargs_)
+        else:
+            return create_PhaseExternMultiFunctions(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_PhaseExtern(self): return self._PhaseExtern
+    def set_PhaseExtern(self, value):
+        if value is not None:
+            checkclass(value, create_PhaseExtern)
+            for v in value:
+                v.parent = self
+        self._PhaseExtern = value
+    def add_PhaseExtern(self, value):
+        value.parent = self
+        self._PhaseExtern.append(value)
+    def insert_PhaseExtern_at(self, index, value):
+        value.parent = self
+        self.PhaseExtern.insert(index, value)
+    def replace_PhaseExtern_at(self, index, value):
+        value.parent = self
+        self.PhaseExtern[index] = value
+    PhaseExtern = property(get_PhaseExtern, set_PhaseExtern)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+            self.PhaseExtern
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='_PhaseExternMultiFunctions', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_PhaseExternMultiFunctions')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_PhaseExternMultiFunctions')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_PhaseExternMultiFunctions', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_PhaseExternMultiFunctions'):
+        pass
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_PhaseExternMultiFunctions', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        for PhaseExtern_ in self.PhaseExtern:
+            PhaseExtern_.export(outfile, level, namespaceprefix_, name_='PhaseExtern', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_PhaseExternMultiFunctions', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        for PhaseExtern_ in self.PhaseExtern:
+            PhaseExtern_.to_etree(element, name_='PhaseExtern', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_PhaseExternMultiFunctions'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('PhaseExtern=[\n')
+        level += 1
+        for PhaseExtern_ in self.PhaseExtern:
+            showIndent(outfile, level)
+            outfile.write('model_._PhaseExtern(\n')
+            PhaseExtern_.exportLiteral(outfile, level, name_='_PhaseExtern')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        self.PhaseExtern = []
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'PhaseExtern':
+            obj_ = create_PhaseExtern.factory()
+            obj_.build(child_)
+            self.add_PhaseExtern(obj_)
+            obj_.original_tagname_ = 'PhaseExtern'
+    
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+        
+        
+    def path(self, index=True):
+        """
+        Get the dartnode path of the corenode
+        Parameters
+        ----------
+        corenode: object
+            a core object
+    
+        index: bool
+    
+            If True gets the dartnode path with index if list,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction[0]'
+    
+            If False gets the dartnode path without index,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction'
+    
+        Returns
+        -------
+            str
+        """
+
+        return get_path(self, index=index)
+        
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
+    # end class create_PhaseExternMultiFunctions
+
+
+class create_PhaseExtern(GeneratedsSuper):
+    """Phase Extern Phase Extern Function name Function name Model name
+    Model name Add a phase extern to database Add a phase extern to
+    database Database name Database name"""
+    member_data_items_ = [
+        MemberSpec_('ident', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('ModelName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('addPhaseExternToDatabase', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('databaseName', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('AddPhaseExtern', '_AddPhaseExtern', 0, 0, {'name': 'AddPhaseExtern', 'type': '_AddPhaseExtern', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+    ]
+    subclass = None
+    superclass = None
+    def __init__(self, ident='Phase_extern_model', ModelName='Lambertian_loam_gravelly_brown', addPhaseExternToDatabase=0, databaseName='phase_extern.db', AddPhaseExtern=None):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot('coeff_diff','_PhaseExtern')
+        self.attrib = ['ident', 'ModelName', 'addPhaseExternToDatabase', 'databaseName']
+        self.children = ['AddPhaseExtern']
+        self.parent = None
+        self._ident = _cast(None, ident)
+        self._ModelName = _cast(None, ModelName)
+        self._addPhaseExternToDatabase = _cast(int, addPhaseExternToDatabase)
+        self._databaseName = _cast(None, databaseName)
+        self._AddPhaseExtern = AddPhaseExtern
+        update_node(self,self.troot,'coeff_diff')
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, create_PhaseExtern)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if create_PhaseExtern.subclass:
+            return create_PhaseExtern.subclass(*args_, **kwargs_)
+        else:
+            return create_PhaseExtern(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_AddPhaseExtern(self): return self._AddPhaseExtern
+    def set_AddPhaseExtern(self, value):
+        if value is not None:
+            checkclass(value, create_AddPhaseExtern)
+            value.parent = self
+        self._AddPhaseExtern = value
+    AddPhaseExtern = property(get_AddPhaseExtern, set_AddPhaseExtern)
+    def get_ident(self): return self._ident
+    def set_ident(self, value):
+        self._ident = value
+        update_node(self,self.troot,'coeff_diff')
+    ident = property(get_ident, set_ident)
+    def get_ModelName(self): return self._ModelName
+    def set_ModelName(self, value):
+        self._ModelName = value
+        update_node(self,self.troot,'coeff_diff')
+    ModelName = property(get_ModelName, set_ModelName)
+    def get_addPhaseExternToDatabase(self): return self._addPhaseExternToDatabase
+    def set_addPhaseExternToDatabase(self, value):
+        self._addPhaseExternToDatabase = value
+        update_node(self,self.troot,'coeff_diff')
+    addPhaseExternToDatabase = property(get_addPhaseExternToDatabase, set_addPhaseExternToDatabase)
+    def get_databaseName(self): return self._databaseName
+    def set_databaseName(self, value):
+        self._databaseName = value
+        update_node(self,self.troot,'coeff_diff')
+    databaseName = property(get_databaseName, set_databaseName)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+            self.AddPhaseExtern is not None
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='_PhaseExtern', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_PhaseExtern')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_PhaseExtern')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_PhaseExtern', pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_PhaseExtern'):
+        if self.ident is not None and 'ident' not in already_processed:
+            already_processed.add('ident')
+            outfile.write(' ident=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.ident), input_name='ident')), ))
+        if self.ModelName is not None and 'ModelName' not in already_processed:
+            already_processed.add('ModelName')
+            outfile.write(' ModelName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.ModelName), input_name='ModelName')), ))
+        if self.addPhaseExternToDatabase is not None and 'addPhaseExternToDatabase' not in already_processed:
+            already_processed.add('addPhaseExternToDatabase')
+            outfile.write(' addPhaseExternToDatabase="%s"' % self.gds_format_integer(self.addPhaseExternToDatabase, input_name='addPhaseExternToDatabase'))
+        if self.databaseName is not None and 'databaseName' not in already_processed:
+            already_processed.add('databaseName')
+            outfile.write(' databaseName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.databaseName), input_name='databaseName')), ))
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_PhaseExtern', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.AddPhaseExtern is not None:
+            self.AddPhaseExtern.export(outfile, level, namespaceprefix_, name_='AddPhaseExtern', pretty_print=pretty_print)
+    def to_etree(self, parent_element=None, name_='_PhaseExtern', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.ident is not None:
+            element.set('ident', self.gds_format_string(self.ident))
+        if self.ModelName is not None:
+            element.set('ModelName', self.gds_format_string(self.ModelName))
+        if self.addPhaseExternToDatabase is not None:
+            element.set('addPhaseExternToDatabase', self.gds_format_integer(self.addPhaseExternToDatabase))
+        if self.databaseName is not None:
+            element.set('databaseName', self.gds_format_string(self.databaseName))
+        if self.AddPhaseExtern is not None:
+            AddPhaseExtern_ = self.AddPhaseExtern
+            AddPhaseExtern_.to_etree(element, name_='AddPhaseExtern', mapping_=mapping_)
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_PhaseExtern'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.ident is not None and 'ident' not in already_processed:
+            already_processed.add('ident')
+            showIndent(outfile, level)
+            outfile.write('ident="%s",\n' % (self.ident,))
+        if self.ModelName is not None and 'ModelName' not in already_processed:
+            already_processed.add('ModelName')
+            showIndent(outfile, level)
+            outfile.write('ModelName="%s",\n' % (self.ModelName,))
+        if self.addPhaseExternToDatabase is not None and 'addPhaseExternToDatabase' not in already_processed:
+            already_processed.add('addPhaseExternToDatabase')
+            showIndent(outfile, level)
+            outfile.write('addPhaseExternToDatabase=%d,\n' % (self.addPhaseExternToDatabase,))
+        if self.databaseName is not None and 'databaseName' not in already_processed:
+            already_processed.add('databaseName')
+            showIndent(outfile, level)
+            outfile.write('databaseName="%s",\n' % (self.databaseName,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.AddPhaseExtern is not None:
+            showIndent(outfile, level)
+            outfile.write('AddPhaseExtern=model_._AddPhaseExtern(\n')
+            self.AddPhaseExtern.exportLiteral(outfile, level, name_='AddPhaseExtern')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('ident', node)
+        if value is not None and 'ident' not in already_processed:
+            already_processed.add('ident')
+            self.ident = value
+        value = find_attr_value_('ModelName', node)
+        if value is not None and 'ModelName' not in already_processed:
+            already_processed.add('ModelName')
+            self.ModelName = value
+        value = find_attr_value_('addPhaseExternToDatabase', node)
+        if value is not None and 'addPhaseExternToDatabase' not in already_processed:
+            already_processed.add('addPhaseExternToDatabase')
+            try:
+                self.addPhaseExternToDatabase = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('databaseName', node)
+        if value is not None and 'databaseName' not in already_processed:
+            already_processed.add('databaseName')
+            self.databaseName = value
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'AddPhaseExtern':
+            obj_ = create_AddPhaseExtern.factory()
+            obj_.build(child_)
+            self.set_AddPhaseExtern(obj_)
+            obj_.original_tagname_ = 'AddPhaseExtern'
+    
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+        
+        
+    def path(self, index=True):
+        """
+        Get the dartnode path of the corenode
+        Parameters
+        ----------
+        corenode: object
+            a core object
+    
+        index: bool
+    
+            If True gets the dartnode path with index if list,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction[0]'
+    
+            If False gets the dartnode path without index,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction'
+    
+        Returns
+        -------
+            str
+        """
+
+        return get_path(self, index=index)
+        
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
+    # end class create_PhaseExtern
+
+
+class create_AddPhaseExtern(GeneratedsSuper):
+    """Phase extern parameters Phase extern parameters Phase extern imput
+    file Phase extern imput file Phase extern name Phase extern name"""
+    member_data_items_ = [
+        MemberSpec_('inputPhaseExternFile', 'xsd:string', 0, 1, {'use': 'optional'}),
+        MemberSpec_('inputPhaseExternName', 'xsd:string', 0, 1, {'use': 'optional'}),
+    ]
+    subclass = None
+    superclass = None
+    def __init__(self, inputPhaseExternFile='PhaseExtern/BSDF_example_lambertian_loam_gravelly_brown.txt', inputPhaseExternName='Lambertian_loam_gravelly_brown'):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot('coeff_diff','_AddPhaseExtern')
+        self.attrib = ['inputPhaseExternFile', 'inputPhaseExternName']
+        self.children = []
+        self.parent = None
+        self._inputPhaseExternFile = _cast(None, inputPhaseExternFile)
+        self._inputPhaseExternName = _cast(None, inputPhaseExternName)
+        update_node(self,self.troot,'coeff_diff')
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, create_AddPhaseExtern)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if create_AddPhaseExtern.subclass:
+            return create_AddPhaseExtern.subclass(*args_, **kwargs_)
+        else:
+            return create_AddPhaseExtern(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_inputPhaseExternFile(self): return self._inputPhaseExternFile
+    def set_inputPhaseExternFile(self, value):
+        self._inputPhaseExternFile = value
+        update_node(self,self.troot,'coeff_diff')
+    inputPhaseExternFile = property(get_inputPhaseExternFile, set_inputPhaseExternFile)
+    def get_inputPhaseExternName(self): return self._inputPhaseExternName
+    def set_inputPhaseExternName(self, value):
+        self._inputPhaseExternName = value
+        update_node(self,self.troot,'coeff_diff')
+    inputPhaseExternName = property(get_inputPhaseExternName, set_inputPhaseExternName)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='_AddPhaseExtern', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_AddPhaseExtern')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_AddPhaseExtern')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_AddPhaseExtern', pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_AddPhaseExtern'):
+        if self.inputPhaseExternFile is not None and 'inputPhaseExternFile' not in already_processed:
+            already_processed.add('inputPhaseExternFile')
+            outfile.write(' inputPhaseExternFile=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.inputPhaseExternFile), input_name='inputPhaseExternFile')), ))
+        if self.inputPhaseExternName is not None and 'inputPhaseExternName' not in already_processed:
+            already_processed.add('inputPhaseExternName')
+            outfile.write(' inputPhaseExternName=%s' % (self.gds_encode(self.gds_format_string(quote_attrib(self.inputPhaseExternName), input_name='inputPhaseExternName')), ))
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_AddPhaseExtern', fromsubclass_=False, pretty_print=True):
+        pass
+    def to_etree(self, parent_element=None, name_='_AddPhaseExtern', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.inputPhaseExternFile is not None:
+            element.set('inputPhaseExternFile', self.gds_format_string(self.inputPhaseExternFile))
+        if self.inputPhaseExternName is not None:
+            element.set('inputPhaseExternName', self.gds_format_string(self.inputPhaseExternName))
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_AddPhaseExtern'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.inputPhaseExternFile is not None and 'inputPhaseExternFile' not in already_processed:
+            already_processed.add('inputPhaseExternFile')
+            showIndent(outfile, level)
+            outfile.write('inputPhaseExternFile="%s",\n' % (self.inputPhaseExternFile,))
+        if self.inputPhaseExternName is not None and 'inputPhaseExternName' not in already_processed:
+            already_processed.add('inputPhaseExternName')
+            showIndent(outfile, level)
+            outfile.write('inputPhaseExternName="%s",\n' % (self.inputPhaseExternName,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('inputPhaseExternFile', node)
+        if value is not None and 'inputPhaseExternFile' not in already_processed:
+            already_processed.add('inputPhaseExternFile')
+            self.inputPhaseExternFile = value
+        value = find_attr_value_('inputPhaseExternName', node)
+        if value is not None and 'inputPhaseExternName' not in already_processed:
+            already_processed.add('inputPhaseExternName')
+            self.inputPhaseExternName = value
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+    
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+        
+        
+    def path(self, index=True):
+        """
+        Get the dartnode path of the corenode
+        Parameters
+        ----------
+        corenode: object
+            a core object
+    
+        index: bool
+    
+            If True gets the dartnode path with index if list,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction[0]'
+    
+            If False gets the dartnode path without index,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction'
+    
+        Returns
+        -------
+            str
+        """
+
+        return get_path(self, index=index)
+        
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
+    # end class create_AddPhaseExtern
+
+
 class create_Temperatures(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('ThermalFunction', '_ThermalFunction', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_ThermalFunction', u'name': u'ThermalFunction', u'minOccurs': u'1'}, None),
+        MemberSpec_('ThermalFunction', '_ThermalFunction', 1, 0, {'name': 'ThermalFunction', 'type': '_ThermalFunction', 'minOccurs': '1', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -12260,43 +12865,61 @@ class create_ThermalFunction(GeneratedsSuper):
     function of temperature will be between [meanT - deltaT/2 ;
     meanT + deltaT/2] delta temperature : object temperature defined
     by a function of temperature will be between [meanT - deltaT/2 ;
-    meanT + deltaT/2] Apply a 3D factor matrix per cell on optical
-    properties Apply a 3D factor matrix per cell on optical
-    properties Elements of the scene using a thermal function with
-    this option enabled will ignore the temperature provided by the
-    3D Matrix option. Elements of the scene using a thermal function
-    with this option enabled will ignore the temperature provided by
-    the 3D Matrix option. If checked, a single temperature will be
-    applied to both side of the surfaces, namely the
-    maximum.\nOtherwise, each side may have a different temperature
-    depending on their individual illumination. If checked, a single
-    temperature will be applied to both side of the surfaces, namely
-    the maximum.\nOtherwise, each side may have a different
-    temperature depending on their individual illumination."""
+    meanT + deltaT/2] Precomputed IPARs thresholds for temperature
+    distribution. The IPAR is the total illumination intercepted by
+    an element divided by its area. If this option is not checked,
+    DART will compute the IPARs range and write the resulting values
+    in the simulation.properties. These values can then be reused in
+    another simulation -using similar illumination parameters- to
+    obtain a corresponding temperature distribution. Precomputed
+    IPARs thresholds for temperature distribution. The IPAR is the
+    total illumination intercepted by an element divided by its
+    area. If this option is not checked, DART will compute the IPARs
+    range and write the resulting values in the
+    simulation.properties. These values can then be reused in
+    another simulation -using similar illumination parameters- to
+    obtain a corresponding temperature distribution. Apply a 3D
+    factor matrix per cell on optical properties Apply a 3D factor
+    matrix per cell on optical properties Elements of the scene
+    using a thermal function with this option enabled will ignore
+    the temperature provided by the 3D Matrix option. Elements of
+    the scene using a thermal function with this option enabled will
+    ignore the temperature provided by the 3D Matrix option. If
+    checked, a single temperature will be applied to both side of
+    the surfaces, namely the maximum. Otherwise, each side may have
+    a different temperature depending on their individual
+    illumination. If checked, a single temperature will be applied
+    to both side of the surfaces, namely the maximum. Otherwise,
+    each side may have a different temperature depending on their
+    individual illumination."""
     member_data_items_ = [
         MemberSpec_('meanT', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('idTemperature', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('deltaT', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('usePrecomputedIPARs', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('useOpticalFactorMatrix', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('override3DMatrix', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('singleTemperatureSurface', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {u'maxOccurs': u'1', u'type': u'_opticalFactorMatrix', u'name': u'opticalFactorMatrix', u'minOccurs': u'1'}, None),
+        MemberSpec_('opticalFactorMatrix', '_opticalFactorMatrix', 0, 0, {'name': 'opticalFactorMatrix', 'type': '_opticalFactorMatrix', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('PrecomputedIPARs', '_PrecomputedIPARs', 0, 0, {'name': 'PrecomputedIPARs', 'type': '_PrecomputedIPARs', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
-    def __init__(self, meanT=300.0, idTemperature='ThermalFunction290_310', deltaT=20.0, useOpticalFactorMatrix=0, override3DMatrix=0, singleTemperatureSurface=1, opticalFactorMatrix=None):
+    def __init__(self, meanT=300.0, idTemperature='ThermalFunction290_310', deltaT=20.0, usePrecomputedIPARs=0, useOpticalFactorMatrix=0, override3DMatrix=0, singleTemperatureSurface=1, opticalFactorMatrix=None, PrecomputedIPARs=None):
         self.original_tagname_ = None
         self.troot=get_gs_troot('coeff_diff','_ThermalFunction')
-        self.attrib = ['meanT', 'idTemperature', 'deltaT', 'useOpticalFactorMatrix', 'override3DMatrix', 'singleTemperatureSurface']
-        self.children = ['opticalFactorMatrix']
+        self.attrib = ['meanT', 'idTemperature', 'deltaT', 'usePrecomputedIPARs', 'useOpticalFactorMatrix', 'override3DMatrix', 'singleTemperatureSurface']
+        self.children = ['opticalFactorMatrix', 'PrecomputedIPARs']
         self.parent = None
         self._meanT = _cast(float, meanT)
         self._idTemperature = _cast(None, idTemperature)
         self._deltaT = _cast(float, deltaT)
+        self._usePrecomputedIPARs = _cast(int, usePrecomputedIPARs)
         self._useOpticalFactorMatrix = _cast(int, useOpticalFactorMatrix)
         self._override3DMatrix = _cast(int, override3DMatrix)
         self._singleTemperatureSurface = _cast(int, singleTemperatureSurface)
         self._opticalFactorMatrix = opticalFactorMatrix
+        self._PrecomputedIPARs = PrecomputedIPARs
         update_node(self,self.troot,'coeff_diff')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
@@ -12316,6 +12939,13 @@ class create_ThermalFunction(GeneratedsSuper):
             value.parent = self
         self._opticalFactorMatrix = value
     opticalFactorMatrix = property(get_opticalFactorMatrix, set_opticalFactorMatrix)
+    def get_PrecomputedIPARs(self): return self._PrecomputedIPARs
+    def set_PrecomputedIPARs(self, value):
+        if value is not None:
+            checkclass(value, create_PrecomputedIPARs)
+            value.parent = self
+        self._PrecomputedIPARs = value
+    PrecomputedIPARs = property(get_PrecomputedIPARs, set_PrecomputedIPARs)
     def get_meanT(self): return self._meanT
     def set_meanT(self, value):
         self._meanT = value
@@ -12331,6 +12961,11 @@ class create_ThermalFunction(GeneratedsSuper):
         self._deltaT = value
         update_node(self,self.troot,'coeff_diff')
     deltaT = property(get_deltaT, set_deltaT)
+    def get_usePrecomputedIPARs(self): return self._usePrecomputedIPARs
+    def set_usePrecomputedIPARs(self, value):
+        self._usePrecomputedIPARs = value
+        update_node(self,self.troot,'coeff_diff')
+    usePrecomputedIPARs = property(get_usePrecomputedIPARs, set_usePrecomputedIPARs)
     def get_useOpticalFactorMatrix(self): return self._useOpticalFactorMatrix
     def set_useOpticalFactorMatrix(self, value):
         self._useOpticalFactorMatrix = value
@@ -12351,7 +12986,8 @@ class create_ThermalFunction(GeneratedsSuper):
         return(obj_.build(self.to_etree()))
     def hasContent_(self):
         if (
-            self.opticalFactorMatrix is not None
+            self.opticalFactorMatrix is not None or
+            self.PrecomputedIPARs is not None
         ):
             return True
         else:
@@ -12387,6 +13023,9 @@ class create_ThermalFunction(GeneratedsSuper):
         if self.deltaT is not None and 'deltaT' not in already_processed:
             already_processed.add('deltaT')
             outfile.write(' deltaT="%s"' % self.gds_format_double(self.deltaT, input_name='deltaT'))
+        if self.usePrecomputedIPARs is not None and 'usePrecomputedIPARs' not in already_processed:
+            already_processed.add('usePrecomputedIPARs')
+            outfile.write(' usePrecomputedIPARs="%s"' % self.gds_format_integer(self.usePrecomputedIPARs, input_name='usePrecomputedIPARs'))
         if self.useOpticalFactorMatrix is not None and 'useOpticalFactorMatrix' not in already_processed:
             already_processed.add('useOpticalFactorMatrix')
             outfile.write(' useOpticalFactorMatrix="%s"' % self.gds_format_integer(self.useOpticalFactorMatrix, input_name='useOpticalFactorMatrix'))
@@ -12403,6 +13042,8 @@ class create_ThermalFunction(GeneratedsSuper):
             eol_ = ''
         if self.opticalFactorMatrix is not None:
             self.opticalFactorMatrix.export(outfile, level, namespaceprefix_, name_='opticalFactorMatrix', pretty_print=pretty_print)
+        if self.PrecomputedIPARs is not None:
+            self.PrecomputedIPARs.export(outfile, level, namespaceprefix_, name_='PrecomputedIPARs', pretty_print=pretty_print)
     def to_etree(self, parent_element=None, name_='_ThermalFunction', mapping_=None):
         if parent_element is None:
             element = etree_.Element('{}' + name_)
@@ -12414,6 +13055,8 @@ class create_ThermalFunction(GeneratedsSuper):
             element.set('idTemperature', self.gds_format_string(self.idTemperature))
         if self.deltaT is not None:
             element.set('deltaT', self.gds_format_double(self.deltaT))
+        if self.usePrecomputedIPARs is not None:
+            element.set('usePrecomputedIPARs', self.gds_format_integer(self.usePrecomputedIPARs))
         if self.useOpticalFactorMatrix is not None:
             element.set('useOpticalFactorMatrix', self.gds_format_integer(self.useOpticalFactorMatrix))
         if self.override3DMatrix is not None:
@@ -12423,6 +13066,9 @@ class create_ThermalFunction(GeneratedsSuper):
         if self.opticalFactorMatrix is not None:
             opticalFactorMatrix_ = self.opticalFactorMatrix
             opticalFactorMatrix_.to_etree(element, name_='opticalFactorMatrix', mapping_=mapping_)
+        if self.PrecomputedIPARs is not None:
+            PrecomputedIPARs_ = self.PrecomputedIPARs
+            PrecomputedIPARs_.to_etree(element, name_='PrecomputedIPARs', mapping_=mapping_)
         if mapping_ is not None:
             mapping_[id(self)] = element
         return element
@@ -12445,6 +13091,10 @@ class create_ThermalFunction(GeneratedsSuper):
             already_processed.add('deltaT')
             showIndent(outfile, level)
             outfile.write('deltaT=%e,\n' % (self.deltaT,))
+        if self.usePrecomputedIPARs is not None and 'usePrecomputedIPARs' not in already_processed:
+            already_processed.add('usePrecomputedIPARs')
+            showIndent(outfile, level)
+            outfile.write('usePrecomputedIPARs=%d,\n' % (self.usePrecomputedIPARs,))
         if self.useOpticalFactorMatrix is not None and 'useOpticalFactorMatrix' not in already_processed:
             already_processed.add('useOpticalFactorMatrix')
             showIndent(outfile, level)
@@ -12462,6 +13112,12 @@ class create_ThermalFunction(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('opticalFactorMatrix=model_._opticalFactorMatrix(\n')
             self.opticalFactorMatrix.exportLiteral(outfile, level, name_='opticalFactorMatrix')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.PrecomputedIPARs is not None:
+            showIndent(outfile, level)
+            outfile.write('PrecomputedIPARs=model_._PrecomputedIPARs(\n')
+            self.PrecomputedIPARs.exportLiteral(outfile, level, name_='PrecomputedIPARs')
             showIndent(outfile, level)
             outfile.write('),\n')
     def build(self, node):
@@ -12490,6 +13146,13 @@ class create_ThermalFunction(GeneratedsSuper):
                 self.deltaT = float(value)
             except ValueError as exp:
                 raise ValueError('Bad float/double attribute (deltaT): %s' % exp)
+        value = find_attr_value_('usePrecomputedIPARs', node)
+        if value is not None and 'usePrecomputedIPARs' not in already_processed:
+            already_processed.add('usePrecomputedIPARs')
+            try:
+                self.usePrecomputedIPARs = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
         value = find_attr_value_('useOpticalFactorMatrix', node)
         if value is not None and 'useOpticalFactorMatrix' not in already_processed:
             already_processed.add('useOpticalFactorMatrix')
@@ -12517,6 +13180,11 @@ class create_ThermalFunction(GeneratedsSuper):
             obj_.build(child_)
             self.set_opticalFactorMatrix(obj_)
             obj_.original_tagname_ = 'opticalFactorMatrix'
+        elif nodeName_ == 'PrecomputedIPARs':
+            obj_ = create_PrecomputedIPARs.factory()
+            obj_.build(child_)
+            self.set_PrecomputedIPARs(obj_)
+            obj_.original_tagname_ = 'PrecomputedIPARs'
     
     def to_string(self, pretty_print=True):
         return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
@@ -12558,6 +13226,190 @@ class create_ThermalFunction(GeneratedsSuper):
         return set_nodes(self, **kwargs)
 
     # end class create_ThermalFunction
+
+
+class create_PrecomputedIPARs(GeneratedsSuper):
+    """Elements with an IPAR equal or below to this value gets the minimum
+    temperature of the range. Elements inside the IPAR range receive
+    a temperature following a "power 4" interpolation. Elements with
+    an IPAR equal or below to this value gets the minimum
+    temperature of the range. Elements inside the IPAR range receive
+    a temperature following a "power 4" interpolation. Elements with
+    an IPAR equal or above to this value gets the maximum
+    temperature of the range. Elements inside the IPAR range receive
+    a temperature following a "power 4" interpolation. Elements with
+    an IPAR equal or above to this value gets the maximum
+    temperature of the range. Elements inside the IPAR range receive
+    a temperature following a "power 4" interpolation."""
+    member_data_items_ = [
+        MemberSpec_('minIPAR', 'xsd:double', 0, 1, {'use': 'optional'}),
+        MemberSpec_('maxIPAR', 'xsd:double', 0, 1, {'use': 'optional'}),
+    ]
+    subclass = None
+    superclass = None
+    def __init__(self, minIPAR=0, maxIPAR=100):
+        self.original_tagname_ = None
+        self.troot=get_gs_troot('coeff_diff','_PrecomputedIPARs')
+        self.attrib = ['minIPAR', 'maxIPAR']
+        self.children = []
+        self.parent = None
+        self._minIPAR = _cast(float, minIPAR)
+        self._maxIPAR = _cast(float, maxIPAR)
+        update_node(self,self.troot,'coeff_diff')
+    def factory(*args_, **kwargs_):
+        if CurrentSubclassModule_ is not None:
+            subclass = getSubclassFromModule_(
+                CurrentSubclassModule_, create_PrecomputedIPARs)
+            if subclass is not None:
+                return subclass(*args_, **kwargs_)
+        if create_PrecomputedIPARs.subclass:
+            return create_PrecomputedIPARs.subclass(*args_, **kwargs_)
+        else:
+            return create_PrecomputedIPARs(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_minIPAR(self): return self._minIPAR
+    def set_minIPAR(self, value):
+        self._minIPAR = value
+        update_node(self,self.troot,'coeff_diff')
+    minIPAR = property(get_minIPAR, set_minIPAR)
+    def get_maxIPAR(self): return self._maxIPAR
+    def set_maxIPAR(self, value):
+        self._maxIPAR = value
+        update_node(self,self.troot,'coeff_diff')
+    maxIPAR = property(get_maxIPAR, set_maxIPAR)
+    def copy(self):
+        obj_ = self.factory()
+        return(obj_.build(self.to_etree()))
+    def hasContent_(self):
+        if (
+
+        ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespaceprefix_='', name_='_PrecomputedIPARs', namespacedef_='', pretty_print=True):
+        imported_ns_def_ = GenerateDSNamespaceDefs_.get('_PrecomputedIPARs')
+        if imported_ns_def_ is not None:
+            namespacedef_ = imported_ns_def_
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.original_tagname_ is not None:
+            name_ = self.original_tagname_
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespaceprefix_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespaceprefix_, name_='_PrecomputedIPARs')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespaceprefix_='', name_='_PrecomputedIPARs', pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespaceprefix_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespaceprefix_='', name_='_PrecomputedIPARs'):
+        if self.minIPAR is not None and 'minIPAR' not in already_processed:
+            already_processed.add('minIPAR')
+            outfile.write(' minIPAR="%s"' % self.gds_format_double(self.minIPAR, input_name='minIPAR'))
+        if self.maxIPAR is not None and 'maxIPAR' not in already_processed:
+            already_processed.add('maxIPAR')
+            outfile.write(' maxIPAR="%s"' % self.gds_format_double(self.maxIPAR, input_name='maxIPAR'))
+    def exportChildren(self, outfile, level, namespaceprefix_='', name_='_PrecomputedIPARs', fromsubclass_=False, pretty_print=True):
+        pass
+    def to_etree(self, parent_element=None, name_='_PrecomputedIPARs', mapping_=None):
+        if parent_element is None:
+            element = etree_.Element('{}' + name_)
+        else:
+            element = etree_.SubElement(parent_element, '{}' + name_)
+        if self.minIPAR is not None:
+            element.set('minIPAR', self.gds_format_double(self.minIPAR))
+        if self.maxIPAR is not None:
+            element.set('maxIPAR', self.gds_format_double(self.maxIPAR))
+        if mapping_ is not None:
+            mapping_[id(self)] = element
+        return element
+    def exportLiteral(self, outfile, level, name_='_PrecomputedIPARs'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.minIPAR is not None and 'minIPAR' not in already_processed:
+            already_processed.add('minIPAR')
+            showIndent(outfile, level)
+            outfile.write('minIPAR=%e,\n' % (self.minIPAR,))
+        if self.maxIPAR is not None and 'maxIPAR' not in already_processed:
+            already_processed.add('maxIPAR')
+            showIndent(outfile, level)
+            outfile.write('maxIPAR=%e,\n' % (self.maxIPAR,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+        return self
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('minIPAR', node)
+        if value is not None and 'minIPAR' not in already_processed:
+            already_processed.add('minIPAR')
+            try:
+                self.minIPAR = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (minIPAR): %s' % exp)
+        value = find_attr_value_('maxIPAR', node)
+        if value is not None and 'maxIPAR' not in already_processed:
+            already_processed.add('maxIPAR')
+            try:
+                self.maxIPAR = float(value)
+            except ValueError as exp:
+                raise ValueError('Bad float/double attribute (maxIPAR): %s' % exp)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+    
+    def to_string(self, pretty_print=True):
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+        
+        
+    def path(self, index=True):
+        """
+        Get the dartnode path of the corenode
+        Parameters
+        ----------
+        corenode: object
+            a core object
+    
+        index: bool
+    
+            If True gets the dartnode path with index if list,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction[0]'
+    
+            If False gets the dartnode path without index,
+            e.g. 'Coeff_diff.AirMultiFunctions.AirFunction'
+    
+        Returns
+        -------
+            str
+        """
+
+        return get_path(self, index=index)
+        
+                         
+    def findpaths(self, pat, case=False, regex=True):
+        return findpaths(self, pat=pat, case=case, regex=regex)
+    
+    
+    def subpaths(self):
+        return subpaths(self)
+
+    
+    def set_nodes(self, **kwargs):
+        return set_nodes(self, **kwargs)
+
+    # end class create_PrecomputedIPARs
 
 
 GDSClassesMapping = {
@@ -12689,6 +13541,7 @@ if __name__ == '__main__':
 
 __all__ = [
     "createDartFile",
+    "create_AddPhaseExtern",
     "create_AirFunction",
     "create_AirFunctionMultiplicativeFactorForLut",
     "create_AirFunctionNodeMultiplicativeFactorForLut",
@@ -12709,6 +13562,9 @@ __all__ = [
     "create_LambertianMultiFunctions",
     "create_Manual",
     "create_OpticalPropertyLink",
+    "create_PhaseExtern",
+    "create_PhaseExternMultiFunctions",
+    "create_PrecomputedIPARs",
     "create_ProspectExternParameters",
     "create_ProspectExternalModule",
     "create_RPVMulti",

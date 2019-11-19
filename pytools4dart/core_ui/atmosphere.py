@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Sun Mar 31 19:31:18 2019 by generateDS.py version 2.29.25.
-# Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
+# Generated Tue Nov 19 15:08:16 2019 by generateDS.py version 2.29.25.
+# Python 3.6.7 | packaged by conda-forge | (default, Nov  6 2019, 16:19:42)  [GCC 7.3.0]
 #
 # Command line options:
 #   ('-m', '')
@@ -16,13 +16,13 @@
 #   ('--pre-ctor', "self.troot=get_gs_troot('atmosphere','{classname}')")
 #   ('--post-ctor', "update_node(self,self.troot,'atmosphere')")
 #   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes')
-#   ('-o', '/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/atmosphere.py')
+#   ('-o', '/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/atmosphere.py')
 #
 # Command line arguments:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/atmosphere.xsd
+#   /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/atmosphere.xsd
 #
 # Command line:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'atmosphere')" --pre-ctor="self.troot=get_gs_troot('atmosphere','{classname}')" --post-ctor="update_node(self,self.troot,'atmosphere')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/atmosphere.py" /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/atmosphere.xsd
+#   /home/boissieu/anaconda3/envs/pytools4dart/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'atmosphere')" --pre-ctor="self.troot=get_gs_troot('atmosphere','{classname}')" --post-ctor="update_node(self,self.troot,'atmosphere')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/atmosphere.py" /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/atmosphere.xsd
 #
 # Current working directory (os.getcwd()):
 #   pytools4dart
@@ -747,11 +747,11 @@ class createDartFile(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('version', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('build_', 'xsd:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Atmosphere', '_Atmosphere', 0, 0, {u'maxOccurs': u'1', u'type': u'_Atmosphere', u'name': u'Atmosphere', u'minOccurs': u'1'}, None),
+        MemberSpec_('Atmosphere', '_Atmosphere', 0, 0, {'name': 'Atmosphere', 'type': '_Atmosphere', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
-    def __init__(self, version='5.7.4', build_='0', Atmosphere=None):
+    def __init__(self, version='5.7.5', build_='0', Atmosphere=None):
         self.original_tagname_ = None
         self.troot=get_gs_troot('atmosphere','DartFile')
         self.attrib = ['version', 'build_']
@@ -944,8 +944,8 @@ class create_Atmosphere(GeneratedsSuper):
     lower atmosphere)"""
     member_data_items_ = [
         MemberSpec_('isRadiativeTransfertInBottomAtmosphereDefined', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Aerosol', '_Aerosol', 0, 0, {u'maxOccurs': u'1', u'type': u'_Aerosol', u'name': u'Aerosol', u'minOccurs': u'1'}, None),
-        MemberSpec_('IsAtmosphere', '_IsAtmosphere', 0, 0, {u'maxOccurs': u'1', u'type': u'_IsAtmosphere', u'name': u'IsAtmosphere', u'minOccurs': u'1'}, None),
+        MemberSpec_('Aerosol', '_Aerosol', 0, 0, {'name': 'Aerosol', 'type': '_Aerosol', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('IsAtmosphere', '_IsAtmosphere', 0, 0, {'name': 'IsAtmosphere', 'type': '_IsAtmosphere', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -1145,7 +1145,7 @@ class create_Atmosphere(GeneratedsSuper):
 
 class create_Aerosol(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('AerosolProperties', '_AerosolProperties', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_AerosolProperties', u'name': u'AerosolProperties', u'minOccurs': u'1'}, None),
+        MemberSpec_('AerosolProperties', '_AerosolProperties', 1, 0, {'name': 'AerosolProperties', 'type': '_AerosolProperties', 'minOccurs': '1', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -1561,12 +1561,12 @@ class create_IsAtmosphere(GeneratedsSuper):
     spectral parameters for the atmosphere"""
     member_data_items_ = [
         MemberSpec_('typeOfAtmosphere', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('isRadiativeTransfertInBottomAtmosphere', '_isRadiativeTransfertInBottomAtmosphere', 0, 0, {u'maxOccurs': u'1', u'type': u'_isRadiativeTransfertInBottomAtmosphere', u'name': u'isRadiativeTransfertInBottomAtmosphere', u'minOccurs': u'1'}, None),
-        MemberSpec_('AtmosphericOpticalProperty', '_AtmosphericOpticalProperty', 0, 0, {u'maxOccurs': u'1', u'type': u'_AtmosphericOpticalProperty', u'name': u'AtmosphericOpticalProperty', u'minOccurs': u'1'}, None),
-        MemberSpec_('TemperatureFile', '_TemperatureFile', 0, 0, {u'maxOccurs': u'1', u'type': u'_TemperatureFile', u'name': u'TemperatureFile', u'minOccurs': u'1'}, None),
-        MemberSpec_('AtmosphericOpticalPropertyModel', '_AtmosphericOpticalPropertyModel', 0, 0, {u'maxOccurs': u'1', u'type': u'_AtmosphericOpticalPropertyModel', u'name': u'AtmosphericOpticalPropertyModel', u'minOccurs': u'1'}, None),
-        MemberSpec_('AtmosphereIterations', '_AtmosphereIterations', 0, 0, {u'maxOccurs': u'1', u'type': u'_AtmosphereIterations', u'name': u'AtmosphereIterations', u'minOccurs': u'1'}, None),
-        MemberSpec_('AtmosphereGeometry', '_AtmosphereGeometry', 0, 0, {u'maxOccurs': u'1', u'type': u'_AtmosphereGeometry', u'name': u'AtmosphereGeometry', u'minOccurs': u'1'}, None),
+        MemberSpec_('isRadiativeTransfertInBottomAtmosphere', '_isRadiativeTransfertInBottomAtmosphere', 0, 0, {'name': 'isRadiativeTransfertInBottomAtmosphere', 'type': '_isRadiativeTransfertInBottomAtmosphere', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('AtmosphericOpticalProperty', '_AtmosphericOpticalProperty', 0, 0, {'name': 'AtmosphericOpticalProperty', 'type': '_AtmosphericOpticalProperty', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('TemperatureFile', '_TemperatureFile', 0, 0, {'name': 'TemperatureFile', 'type': '_TemperatureFile', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('AtmosphericOpticalPropertyModel', '_AtmosphericOpticalPropertyModel', 0, 0, {'name': 'AtmosphericOpticalPropertyModel', 'type': '_AtmosphericOpticalPropertyModel', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('AtmosphereIterations', '_AtmosphereIterations', 0, 0, {'name': 'AtmosphereIterations', 'type': '_AtmosphereIterations', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('AtmosphereGeometry', '_AtmosphereGeometry', 0, 0, {'name': 'AtmosphereGeometry', 'type': '_AtmosphereGeometry', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -2057,9 +2057,9 @@ class create_AtmosphericOpticalProperty(GeneratedsSuper):
     absorption Optical depth associated to gas scattering only,
     without absorption Multiplicative factor of the Henyey
     Greenstein phase function Multiplicative factor of the Henyey
-    Greenstein phase function Single scattering albedo. \n1 if no
-    absorption by aerosols.\n0 if no scattering by aerosols Single
-    scattering albedo. \n1 if no absorption by aerosols.\n0 if no
+    Greenstein phase function Single scattering albedo. 1 if no
+    absorption by aerosols. 0 if no scattering by aerosols Single
+    scattering albedo. 1 if no absorption by aerosols. 0 if no
     scattering by aerosols Transmittance ([0 1]) of an atmosphere
     made of 100% absorbing gas only Transmittance ([0 1]) of an
     atmosphere made of 100% absorbing gas only"""
@@ -2442,11 +2442,10 @@ class create_AtmosphericOpticalProperty(GeneratedsSuper):
 
 
 class create_TemperatureFile(GeneratedsSuper):
-    """File containing temperature vertical profile; example : \n *number
-    of layers* 2 \n0 300\n80 220\n File necessary only in mode T or
-    T+R File containing temperature vertical profile; example : \n
-    *number of layers* 2 \n0 300\n80 220\n File necessary only in
-    mode T or T+R"""
+    """File containing temperature vertical profile; example : *number of
+    layers* 2 0 300 80 220 File necessary only in mode T or T+R File
+    containing temperature vertical profile; example : *number of
+    layers* 2 0 300 80 220 File necessary only in mode T or T+R"""
     member_data_items_ = [
         MemberSpec_('atmosphereTemperatureFileName', 'xsd:string', 0, 1, {'use': 'optional'}),
     ]
@@ -2616,10 +2615,10 @@ class create_AtmosphericOpticalPropertyModel(GeneratedsSuper):
         MemberSpec_('ignoreGasForExtrapolation', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('co2MixRate', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('scaleOtherGases', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('ignoredGas', '_ignoredGas', 0, 0, {u'maxOccurs': u'1', u'type': u'_ignoredGas', u'name': u'ignoredGas', u'minOccurs': u'1'}, None),
-        MemberSpec_('OtherGasesScale', '_OtherGasesScale', 0, 0, {u'maxOccurs': u'1', u'type': u'_OtherGasesScale', u'name': u'OtherGasesScale', u'minOccurs': u'1'}, None),
-        MemberSpec_('WaterAmount', '_WaterAmount', 0, 0, {u'maxOccurs': u'1', u'type': u'_WaterAmount', u'name': u'WaterAmount', u'minOccurs': u'1'}, None),
-        MemberSpec_('tempParameters', '_tempParameters', 0, 0, {u'maxOccurs': u'1', u'type': u'_tempParameters', u'name': u'tempParameters', u'minOccurs': u'1'}, None),
+        MemberSpec_('ignoredGas', '_ignoredGas', 0, 0, {'name': 'ignoredGas', 'type': '_ignoredGas', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('OtherGasesScale', '_OtherGasesScale', 0, 0, {'name': 'OtherGasesScale', 'type': '_OtherGasesScale', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('WaterAmount', '_WaterAmount', 0, 0, {'name': 'WaterAmount', 'type': '_WaterAmount', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('tempParameters', '_tempParameters', 0, 0, {'name': 'tempParameters', 'type': '_tempParameters', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -3092,7 +3091,7 @@ class create_ignoredGas(GeneratedsSuper):
         MemberSpec_('O3', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('O2', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('NO2', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('fillH2O', '_fillH2O', 0, 0, {u'maxOccurs': u'1', u'type': u'_fillH2O', u'name': u'fillH2O', u'minOccurs': u'1'}, None),
+        MemberSpec_('fillH2O', '_fillH2O', 0, 0, {'name': 'fillH2O', 'type': '_fillH2O', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -3535,7 +3534,7 @@ class create_fillH2O(GeneratedsSuper):
     vapor parameters at a point"""
     member_data_items_ = [
         MemberSpec_('ifFillH2O', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('h2oDef', '_h2oDef', 0, 0, {u'maxOccurs': u'1', u'type': u'_h2oDef', u'name': u'h2oDef', u'minOccurs': u'1'}, None),
+        MemberSpec_('h2oDef', '_h2oDef', 0, 0, {'name': 'h2oDef', 'type': '_h2oDef', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -4386,11 +4385,11 @@ class create_WaterAmount(GeneratedsSuper):
     """Definition Definition"""
     member_data_items_ = [
         MemberSpec_('defWaterAmount', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('M_factor', '_M_factor', 0, 0, {u'maxOccurs': u'1', u'type': u'_M_factor', u'name': u'M_factor', u'minOccurs': u'1'}, None),
-        MemberSpec_('Amount_g_per_cm2', '_Amount_g_per_cm2', 0, 0, {u'maxOccurs': u'1', u'type': u'_Amount_g_per_cm2', u'name': u'Amount_g_per_cm2', u'minOccurs': u'1'}, None),
-        MemberSpec_('Amount_atm_cm', '_Amount_atm_cm', 0, 0, {u'maxOccurs': u'1', u'type': u'_Amount_atm_cm', u'name': u'Amount_atm_cm', u'minOccurs': u'1'}, None),
-        MemberSpec_('Density_atm_cm_per_km_altitude', '_Density_atm_cm_per_km_altitude', 0, 0, {u'maxOccurs': u'1', u'type': u'_Density_atm_cm_per_km_altitude', u'name': u'Density_atm_cm_per_km_altitude', u'minOccurs': u'1'}, None),
-        MemberSpec_('Density_RH_temp_altitude', '_Density_RH_temp_altitude', 0, 0, {u'maxOccurs': u'1', u'type': u'_Density_RH_temp_altitude', u'name': u'Density_RH_temp_altitude', u'minOccurs': u'1'}, None),
+        MemberSpec_('M_factor', '_M_factor', 0, 0, {'name': 'M_factor', 'type': '_M_factor', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Amount_g_per_cm2', '_Amount_g_per_cm2', 0, 0, {'name': 'Amount_g_per_cm2', 'type': '_Amount_g_per_cm2', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Amount_atm_cm', '_Amount_atm_cm', 0, 0, {'name': 'Amount_atm_cm', 'type': '_Amount_atm_cm', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Density_atm_cm_per_km_altitude', '_Density_atm_cm_per_km_altitude', 0, 0, {'name': 'Density_atm_cm_per_km_altitude', 'type': '_Density_atm_cm_per_km_altitude', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Density_RH_temp_altitude', '_Density_RH_temp_altitude', 0, 0, {'name': 'Density_RH_temp_altitude', 'type': '_Density_RH_temp_altitude', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -5662,10 +5661,10 @@ class create_tempParameters(GeneratedsSuper):
 
 class create_AtmosphereIterations(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('AtmosphereTransfertFunctions', '_AtmosphereTransfertFunctions', 0, 0, {u'maxOccurs': u'1', u'type': u'_AtmosphereTransfertFunctions', u'name': u'AtmosphereTransfertFunctions', u'minOccurs': u'1'}, None),
-        MemberSpec_('AtmosphereProducts', '_AtmosphereProducts', 0, 0, {u'maxOccurs': u'1', u'type': u'_AtmosphereProducts', u'name': u'AtmosphereProducts', u'minOccurs': u'1'}, None),
-        MemberSpec_('AtmosphereComponents', '_AtmosphereComponents', 0, 0, {u'maxOccurs': u'1', u'type': u'_AtmosphereComponents', u'name': u'AtmosphereComponents', u'minOccurs': u'1'}, None),
-        MemberSpec_('AtmosphereExpertModeZone', '_AtmosphereExpertModeZone', 0, 0, {u'maxOccurs': u'1', u'type': u'_AtmosphereExpertModeZone', u'name': u'AtmosphereExpertModeZone', u'minOccurs': u'1'}, None),
+        MemberSpec_('AtmosphereTransfertFunctions', '_AtmosphereTransfertFunctions', 0, 0, {'name': 'AtmosphereTransfertFunctions', 'type': '_AtmosphereTransfertFunctions', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('AtmosphereProducts', '_AtmosphereProducts', 0, 0, {'name': 'AtmosphereProducts', 'type': '_AtmosphereProducts', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('AtmosphereComponents', '_AtmosphereComponents', 0, 0, {'name': 'AtmosphereComponents', 'type': '_AtmosphereComponents', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('AtmosphereExpertModeZone', '_AtmosphereExpertModeZone', 0, 0, {'name': 'AtmosphereExpertModeZone', 'type': '_AtmosphereExpertModeZone', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -5899,8 +5898,8 @@ class create_AtmosphereTransfertFunctions(GeneratedsSuper):
     functions file as input (no recomputation)/output"""
     member_data_items_ = [
         MemberSpec_('inputOutputTransfertFunctions', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('ComputedTransferFunctions', '_ComputedTransferFunctions', 0, 0, {u'maxOccurs': u'1', u'type': u'_ComputedTransferFunctions', u'name': u'ComputedTransferFunctions', u'minOccurs': u'1'}, None),
-        MemberSpec_('ImportedTransferFunctions', '_ImportedTransferFunctions', 0, 0, {u'maxOccurs': u'1', u'type': u'_ImportedTransferFunctions', u'name': u'ImportedTransferFunctions', u'minOccurs': u'1'}, None),
+        MemberSpec_('ComputedTransferFunctions', '_ComputedTransferFunctions', 0, 0, {'name': 'ComputedTransferFunctions', 'type': '_ComputedTransferFunctions', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ImportedTransferFunctions', '_ImportedTransferFunctions', 0, 0, {'name': 'ImportedTransferFunctions', 'type': '_ImportedTransferFunctions', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -6406,25 +6405,28 @@ class create_AtmosphereProducts(GeneratedsSuper):
     before coupling atmosphere radiance BOA before coupling
     atmosphere radiance BOA after coupling atmosphere radiance BOA
     after coupling Order 1 for atmosphere Order 1 for atmosphere
-    atmosphere BRF TOA atmosphere BRF TOA"""
+    atmosphere BRF TOA atmosphere BRF TOA Generate an atmosphere
+    report per band Generate an atmosphere report per band"""
     member_data_items_ = [
         MemberSpec_('atmosphereRadiance_BOA_avantCouplage', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('atmosphereRadiance_BOA_apresCouplage', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('ordreUnAtmos', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('atmosphereBRF_TOA', 'xsd:int', 0, 1, {'use': 'optional'}),
+        MemberSpec_('atmosphereReport', 'xsd:int', 0, 1, {'use': 'optional'}),
     ]
     subclass = None
     superclass = None
-    def __init__(self, atmosphereRadiance_BOA_avantCouplage=0, atmosphereRadiance_BOA_apresCouplage=0, ordreUnAtmos=0, atmosphereBRF_TOA=0):
+    def __init__(self, atmosphereRadiance_BOA_avantCouplage=0, atmosphereRadiance_BOA_apresCouplage=0, ordreUnAtmos=0, atmosphereBRF_TOA=0, atmosphereReport=1):
         self.original_tagname_ = None
         self.troot=get_gs_troot('atmosphere','_AtmosphereProducts')
-        self.attrib = ['atmosphereRadiance_BOA_avantCouplage', 'atmosphereRadiance_BOA_apresCouplage', 'ordreUnAtmos', 'atmosphereBRF_TOA']
+        self.attrib = ['atmosphereRadiance_BOA_avantCouplage', 'atmosphereRadiance_BOA_apresCouplage', 'ordreUnAtmos', 'atmosphereBRF_TOA', 'atmosphereReport']
         self.children = []
         self.parent = None
         self._atmosphereRadiance_BOA_avantCouplage = _cast(int, atmosphereRadiance_BOA_avantCouplage)
         self._atmosphereRadiance_BOA_apresCouplage = _cast(int, atmosphereRadiance_BOA_apresCouplage)
         self._ordreUnAtmos = _cast(int, ordreUnAtmos)
         self._atmosphereBRF_TOA = _cast(int, atmosphereBRF_TOA)
+        self._atmosphereReport = _cast(int, atmosphereReport)
         update_node(self,self.troot,'atmosphere')
     def factory(*args_, **kwargs_):
         if CurrentSubclassModule_ is not None:
@@ -6457,6 +6459,11 @@ class create_AtmosphereProducts(GeneratedsSuper):
         self._atmosphereBRF_TOA = value
         update_node(self,self.troot,'atmosphere')
     atmosphereBRF_TOA = property(get_atmosphereBRF_TOA, set_atmosphereBRF_TOA)
+    def get_atmosphereReport(self): return self._atmosphereReport
+    def set_atmosphereReport(self, value):
+        self._atmosphereReport = value
+        update_node(self,self.troot,'atmosphere')
+    atmosphereReport = property(get_atmosphereReport, set_atmosphereReport)
     def copy(self):
         obj_ = self.factory()
         return(obj_.build(self.to_etree()))
@@ -6500,6 +6507,9 @@ class create_AtmosphereProducts(GeneratedsSuper):
         if self.atmosphereBRF_TOA is not None and 'atmosphereBRF_TOA' not in already_processed:
             already_processed.add('atmosphereBRF_TOA')
             outfile.write(' atmosphereBRF_TOA="%s"' % self.gds_format_integer(self.atmosphereBRF_TOA, input_name='atmosphereBRF_TOA'))
+        if self.atmosphereReport is not None and 'atmosphereReport' not in already_processed:
+            already_processed.add('atmosphereReport')
+            outfile.write(' atmosphereReport="%s"' % self.gds_format_integer(self.atmosphereReport, input_name='atmosphereReport'))
     def exportChildren(self, outfile, level, namespaceprefix_='', name_='_AtmosphereProducts', fromsubclass_=False, pretty_print=True):
         pass
     def to_etree(self, parent_element=None, name_='_AtmosphereProducts', mapping_=None):
@@ -6515,6 +6525,8 @@ class create_AtmosphereProducts(GeneratedsSuper):
             element.set('ordreUnAtmos', self.gds_format_integer(self.ordreUnAtmos))
         if self.atmosphereBRF_TOA is not None:
             element.set('atmosphereBRF_TOA', self.gds_format_integer(self.atmosphereBRF_TOA))
+        if self.atmosphereReport is not None:
+            element.set('atmosphereReport', self.gds_format_integer(self.atmosphereReport))
         if mapping_ is not None:
             mapping_[id(self)] = element
         return element
@@ -6541,6 +6553,10 @@ class create_AtmosphereProducts(GeneratedsSuper):
             already_processed.add('atmosphereBRF_TOA')
             showIndent(outfile, level)
             outfile.write('atmosphereBRF_TOA=%d,\n' % (self.atmosphereBRF_TOA,))
+        if self.atmosphereReport is not None and 'atmosphereReport' not in already_processed:
+            already_processed.add('atmosphereReport')
+            showIndent(outfile, level)
+            outfile.write('atmosphereReport=%d,\n' % (self.atmosphereReport,))
     def exportLiteralChildren(self, outfile, level, name_):
         pass
     def build(self, node):
@@ -6577,6 +6593,13 @@ class create_AtmosphereProducts(GeneratedsSuper):
             already_processed.add('atmosphereBRF_TOA')
             try:
                 self.atmosphereBRF_TOA = int(value)
+            except ValueError as exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+        value = find_attr_value_('atmosphereReport', node)
+        if value is not None and 'atmosphereReport' not in already_processed:
+            already_processed.add('atmosphereReport')
+            try:
+                self.atmosphereReport = int(value)
             except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -6629,65 +6652,64 @@ class create_AtmosphereComponents(GeneratedsSuper):
     products are defined here Atmosphere fluxes used to irradiate
     BOA scene and compute BOA products are defined here 1) None:
     TOA, Sensor and BOA irradiance irradiance has no component from
-    Earth surface. \n2) Diffuse: TOA, Sensor and BOA irradiance has
-    1 component due to the Earth surface: \n -Earth scene
+    Earth surface. 2) Diffuse: TOA, Sensor and BOA irradiance has 1
+    component due to the Earth surface: -Earth scene
     reflected/emitted radiation that is scattered by the atmosphere.
-    \n3) Direct: TOA, Sensor and BOA irradiance has 1 component due
-    to the Earth surface: \n -Earth scene reflected/emitted
-    radiation that is directly transmitted by the atmosphere,
-    without absorption and scattering. \n4) Total: TOA, Sensor and
-    BOA irradiance has 2 component due to the Earth surface: \n
-    -Earth scene reflected/emitted radiation that is scattered by
-    the atmosphere. \n -Earth scene reflected/emitted radiation that
+    3) Direct: TOA, Sensor and BOA irradiance has 1 component due to
+    the Earth surface: -Earth scene reflected/emitted radiation that
     is directly transmitted by the atmosphere, without absorption
-    and scattering. 1) None: TOA, Sensor and BOA irradiance
-    irradiance has no component from Earth surface. \n2) Diffuse:
-    TOA, Sensor and BOA irradiance has 1 component due to the Earth
-    surface: \n -Earth scene reflected/emitted radiation that is
-    scattered by the atmosphere. \n3) Direct: TOA, Sensor and BOA
-    irradiance has 1 component due to the Earth surface: \n -Earth
-    scene reflected/emitted radiation that is directly transmitted
-    by the atmosphere, without absorption and scattering. \n4)
-    Total: TOA, Sensor and BOA irradiance has 2 component due to the
-    Earth surface: \n -Earth scene reflected/emitted radiation that
-    is scattered by the atmosphere. \n -Earth scene
+    and scattering. 4) Total: TOA, Sensor and BOA irradiance has 2
+    component due to the Earth surface: -Earth scene
+    reflected/emitted radiation that is scattered by the atmosphere.
+    -Earth scene reflected/emitted radiation that is directly
+    transmitted by the atmosphere, without absorption and
+    scattering. 1) None: TOA, Sensor and BOA irradiance irradiance
+    has no component from Earth surface. 2) Diffuse: TOA, Sensor and
+    BOA irradiance has 1 component due to the Earth surface: -Earth
+    scene reflected/emitted radiation that is scattered by the
+    atmosphere. 3) Direct: TOA, Sensor and BOA irradiance has 1
+    component due to the Earth surface: -Earth scene
     reflected/emitted radiation that is directly transmitted by the
-    atmosphere, without absorption and scattering. 1) Total: TOA,
-    Sensor and BOA irradiance has 2 components due to downward sun
-    radiation: \n -Sun radiation that is directly transmitted by the
-    atmosphere , without absorption and scattering. \n - Direct sun
-    radiation that is scattered by the atmosphere. \n There can be
-    also atmosphere thermal emission and Earth scene
-    reflected/emitted radiation that is possibly scattered and/or
-    directly transmitted by the atmosphere. \n2) Diffuse: TOA,
-    Sensor and BOA irradiance has 1 components due to downward sun
-    radiation: \n - Direct sun radiation that is scattered by the
-    atmosphere. \n There can be also atmosphere thermal emission and
-    Earth scene reflected/emitted radiation that is possibly
-    scattered and/or directly transmitted by the atmosphere. \n3)
-    Direct:TOA, Sensor and BOA irradiance has 1 components due to
-    downward sun radiation: \n -Sun radiation that is directly
-    transmitted by the atmosphere , without absorption and
-    scattering. \n There can be also Earth scene reflected/emitted
-    radiation that is possibly scattered and/or directly transmitted
-    by the atmosphere. 1) Total: TOA, Sensor and BOA irradiance has
-    2 components due to downward sun radiation: \n -Sun radiation
-    that is directly transmitted by the atmosphere , without
-    absorption and scattering. \n - Direct sun radiation that is
-    scattered by the atmosphere. \n There can be also atmosphere
+    atmosphere, without absorption and scattering. 4) Total: TOA,
+    Sensor and BOA irradiance has 2 component due to the Earth
+    surface: -Earth scene reflected/emitted radiation that is
+    scattered by the atmosphere. -Earth scene reflected/emitted
+    radiation that is directly transmitted by the atmosphere,
+    without absorption and scattering. 1) Total: TOA, Sensor and BOA
+    irradiance has 2 components due to downward sun radiation: -Sun
+    radiation that is directly transmitted by the atmosphere ,
+    without absorption and scattering. - Direct sun radiation that
+    is scattered by the atmosphere. There can be also atmosphere
     thermal emission and Earth scene reflected/emitted radiation
     that is possibly scattered and/or directly transmitted by the
-    atmosphere. \n2) Diffuse: TOA, Sensor and BOA irradiance has 1
-    components due to downward sun radiation: \n - Direct sun
-    radiation that is scattered by the atmosphere. \n There can be
-    also atmosphere thermal emission and Earth scene
-    reflected/emitted radiation that is possibly scattered and/or
-    directly transmitted by the atmosphere. \n3) Direct:TOA, Sensor
-    and BOA irradiance has 1 components due to downward sun
-    radiation: \n -Sun radiation that is directly transmitted by the
-    atmosphere , without absorption and scattering. \n There can be
-    also Earth scene reflected/emitted radiation that is possibly
-    scattered and/or directly transmitted by the atmosphere."""
+    atmosphere. 2) Diffuse: TOA, Sensor and BOA irradiance has 1
+    components due to downward sun radiation: - Direct sun radiation
+    that is scattered by the atmosphere. There can be also
+    atmosphere thermal emission and Earth scene reflected/emitted
+    radiation that is possibly scattered and/or directly transmitted
+    by the atmosphere. 3) Direct:TOA, Sensor and BOA irradiance has
+    1 components due to downward sun radiation: -Sun radiation that
+    is directly transmitted by the atmosphere , without absorption
+    and scattering. There can be also Earth scene reflected/emitted
+    radiation that is possibly scattered and/or directly transmitted
+    by the atmosphere. 1) Total: TOA, Sensor and BOA irradiance has
+    2 components due to downward sun radiation: -Sun radiation that
+    is directly transmitted by the atmosphere , without absorption
+    and scattering. - Direct sun radiation that is scattered by the
+    atmosphere. There can be also atmosphere thermal emission and
+    Earth scene reflected/emitted radiation that is possibly
+    scattered and/or directly transmitted by the atmosphere. 2)
+    Diffuse: TOA, Sensor and BOA irradiance has 1 components due to
+    downward sun radiation: - Direct sun radiation that is scattered
+    by the atmosphere. There can be also atmosphere thermal emission
+    and Earth scene reflected/emitted radiation that is possibly
+    scattered and/or directly transmitted by the atmosphere. 3)
+    Direct:TOA, Sensor and BOA irradiance has 1 components due to
+    downward sun radiation: -Sun radiation that is directly
+    transmitted by the atmosphere , without absorption and
+    scattering. There can be also Earth scene reflected/emitted
+    radiation that is possibly scattered and/or directly transmitted
+    by the atmosphere."""
     member_data_items_ = [
         MemberSpec_('upwardingFluxes', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('downwardingFluxes', 'xsd:int', 0, 1, {'use': 'optional'}),
@@ -7078,9 +7100,9 @@ class create_AtmosphereGeometry(GeneratedsSuper):
         MemberSpec_('minimumNumberOfDivisions', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('discretisationAtmos', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('heightOfSensor', 'xsd:double', 0, 1, {'use': 'optional'}),
-        MemberSpec_('discretisationAtmosAuto', '_discretisationAtmosAuto', 0, 0, {u'maxOccurs': u'1', u'type': u'_discretisationAtmosAuto', u'name': u'discretisationAtmosAuto', u'minOccurs': u'1'}, None),
-        MemberSpec_('MidAtmosphere', '_MidAtmosphere', 0, 0, {u'maxOccurs': u'1', u'type': u'_MidAtmosphere', u'name': u'MidAtmosphere', u'minOccurs': u'1'}, None),
-        MemberSpec_('UpperAtmosphere', '_UpperAtmosphere', 0, 0, {u'maxOccurs': u'1', u'type': u'_UpperAtmosphere', u'name': u'UpperAtmosphere', u'minOccurs': u'1'}, None),
+        MemberSpec_('discretisationAtmosAuto', '_discretisationAtmosAuto', 0, 0, {'name': 'discretisationAtmosAuto', 'type': '_discretisationAtmosAuto', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('MidAtmosphere', '_MidAtmosphere', 0, 0, {'name': 'MidAtmosphere', 'type': '_MidAtmosphere', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('UpperAtmosphere', '_UpperAtmosphere', 0, 0, {'name': 'UpperAtmosphere', 'type': '_UpperAtmosphere', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -7351,21 +7373,21 @@ class create_discretisationAtmosAuto(GeneratedsSuper):
     """Theoretical relative error on TOA reflectance to be found, resulting
     of atmosphere discretisation Theoretical relative error on TOA
     reflectance to be found, resulting of atmosphere discretisation
-    Dimension in x of the MA cells\nAdvice: Smaller cell dimensions
-    and layer depth increase accuracy and computation time\n Better
+    Dimension in x of the MA cells Advice: Smaller cell dimensions
+    and layer depth increase accuracy and computation time Better
     and faster results if the number of BA cells is a multiple of
     the number of MA cells (on x and y) Dimension in x of the MA
-    cells\nAdvice: Smaller cell dimensions and layer depth increase
-    accuracy and computation time\n Better and faster results if the
+    cells Advice: Smaller cell dimensions and layer depth increase
+    accuracy and computation time Better and faster results if the
     number of BA cells is a multiple of the number of MA cells (on x
     and y) percentage of MA contribution on BOA reflectance (for
     backscattering) percentage of MA contribution on BOA reflectance
-    (for backscattering) Dimension in y of the MA cells\nAdvice:
+    (for backscattering) Dimension in y of the MA cells Advice:
     Smaller cell dimensions and layer depth increase accuracy and
-    computation time\n Better and faster results if the number of BA
+    computation time Better and faster results if the number of BA
     cells is a multiple of the number of MA cells (on x and y)
-    Dimension in y of the MA cells\nAdvice: Smaller cell dimensions
-    and layer depth increase accuracy and computation time\n Better
+    Dimension in y of the MA cells Advice: Smaller cell dimensions
+    and layer depth increase accuracy and computation time Better
     and faster results if the number of BA cells is a multiple of
     the number of MA cells (on x and y)"""
     member_data_items_ = [
@@ -7587,8 +7609,8 @@ class create_discretisationAtmosAuto(GeneratedsSuper):
 
 class create_MidAtmosphere(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('CellDimensions', '_CellDimensions', 0, 0, {u'maxOccurs': u'1', u'type': u'_CellDimensions', u'name': u'CellDimensions', u'minOccurs': u'1'}, None),
-        MemberSpec_('Height', '_Height', 0, 0, {u'maxOccurs': u'1', u'type': u'_Height', u'name': u'Height', u'minOccurs': u'1'}, None),
+        MemberSpec_('CellDimensions', '_CellDimensions', 0, 0, {'name': 'CellDimensions', 'type': '_CellDimensions', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Height', '_Height', 0, 0, {'name': 'Height', 'type': '_Height', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -7768,23 +7790,23 @@ class create_MidAtmosphere(GeneratedsSuper):
 
 
 class create_CellDimensions(GeneratedsSuper):
-    """Dimension in x of the MA cells\nAdvice: Smaller cell dimensions and
-    layer depth increase accuracy and computation time\n Better and
+    """Dimension in x of the MA cells Advice: Smaller cell dimensions and
+    layer depth increase accuracy and computation time Better and
     faster results if the number of BA cells is a multiple of the
-    number of MA cells (on x and y) Dimension in x of the MA
-    cells\nAdvice: Smaller cell dimensions and layer depth increase
-    accuracy and computation time\n Better and faster results if the
+    number of MA cells (on x and y) Dimension in x of the MA cells
+    Advice: Smaller cell dimensions and layer depth increase
+    accuracy and computation time Better and faster results if the
     number of BA cells is a multiple of the number of MA cells (on x
-    and y) Dimension in y of the MA cells\nAdvice: Smaller cell
+    and y) Dimension in y of the MA cells Advice: Smaller cell
     dimensions and layer depth increase accuracy and computation
-    time\n Better and faster results if the number of BA cells is a
+    time Better and faster results if the number of BA cells is a
     multiple of the number of MA cells (on x and y) Dimension in y
-    of the MA cells\nAdvice: Smaller cell dimensions and layer depth
-    increase accuracy and computation time\n Better and faster
-    results if the number of BA cells is a multiple of the number of
-    MA cells (on x and y) Dimension in z of the MA cells\nAdvice:
+    of the MA cells Advice: Smaller cell dimensions and layer depth
+    increase accuracy and computation time Better and faster results
+    if the number of BA cells is a multiple of the number of MA
+    cells (on x and y) Dimension in z of the MA cells Advice:
     Smaller cell dimensions and layer depth increase accuracy and
-    computation time Dimension in z of the MA cells\nAdvice: Smaller
+    computation time Dimension in z of the MA cells Advice: Smaller
     cell dimensions and layer depth increase accuracy and
     computation time"""
     member_data_items_ = [
@@ -8135,7 +8157,7 @@ class create_UpperAtmosphere(GeneratedsSuper):
     """smaller computer times. smaller computer times."""
     member_data_items_ = [
         MemberSpec_('hCFHA', 'xsd:double', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Layer', '_Layer', 0, 0, {u'maxOccurs': u'1', u'type': u'_Layer', u'name': u'Layer', u'minOccurs': u'1'}, None),
+        MemberSpec_('Layer', '_Layer', 0, 0, {'name': 'Layer', 'type': '_Layer', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None

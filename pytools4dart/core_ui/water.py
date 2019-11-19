@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Sun Mar 31 19:31:18 2019 by generateDS.py version 2.29.25.
-# Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
+# Generated Tue Nov 19 15:08:16 2019 by generateDS.py version 2.29.25.
+# Python 3.6.7 | packaged by conda-forge | (default, Nov  6 2019, 16:19:42)  [GCC 7.3.0]
 #
 # Command line options:
 #   ('-m', '')
@@ -16,13 +16,13 @@
 #   ('--pre-ctor', "self.troot=get_gs_troot('water','{classname}')")
 #   ('--post-ctor', "update_node(self,self.troot,'water')")
 #   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes')
-#   ('-o', '/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/water.py')
+#   ('-o', '/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/water.py')
 #
 # Command line arguments:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/water.xsd
+#   /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/water.xsd
 #
 # Command line:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'water')" --pre-ctor="self.troot=get_gs_troot('water','{classname}')" --post-ctor="update_node(self,self.troot,'water')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/water.py" /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/water.xsd
+#   /home/boissieu/anaconda3/envs/pytools4dart/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'water')" --pre-ctor="self.troot=get_gs_troot('water','{classname}')" --post-ctor="update_node(self,self.troot,'water')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/water.py" /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/water.xsd
 #
 # Current working directory (os.getcwd()):
 #   pytools4dart
@@ -747,11 +747,11 @@ class createDartFile(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('version', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('build_', 'xsd:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Water', '_Water', 0, 0, {u'maxOccurs': u'1', u'type': u'_Water', u'name': u'Water', u'minOccurs': u'1'}, None),
+        MemberSpec_('Water', '_Water', 0, 0, {'name': 'Water', 'type': '_Water', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
-    def __init__(self, version='5.7.4', build_='0', Water=None):
+    def __init__(self, version='5.7.5', build_='0', Water=None):
         self.original_tagname_ = None
         self.troot=get_gs_troot('water','DartFile')
         self.attrib = ['version', 'build_']
@@ -943,8 +943,8 @@ class create_Water(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('waterPriorityOnTrees', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('waterPriorityOnPlots', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Lakes', '_Lakes', 0, 0, {u'maxOccurs': u'1', u'type': u'_Lakes', u'name': u'Lakes', u'minOccurs': u'1'}, None),
-        MemberSpec_('Rivers', '_Rivers', 0, 0, {u'maxOccurs': u'1', u'type': u'_Rivers', u'name': u'Rivers', u'minOccurs': u'1'}, None),
+        MemberSpec_('Lakes', '_Lakes', 0, 0, {'name': 'Lakes', 'type': '_Lakes', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Rivers', '_Rivers', 0, 0, {'name': 'Rivers', 'type': '_Rivers', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -1167,7 +1167,7 @@ class create_Water(GeneratedsSuper):
 class create_Lakes(GeneratedsSuper):
     """Lakes Lakes"""
     member_data_items_ = [
-        MemberSpec_('Lake', '_Lake', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_Lake', u'name': u'Lake', u'minOccurs': u'0'}, None),
+        MemberSpec_('Lake', '_Lake', 1, 1, {'name': 'Lake', 'type': '_Lake', 'minOccurs': '0', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -1342,20 +1342,20 @@ class create_Lakes(GeneratedsSuper):
 
 class create_Lake(GeneratedsSuper):
     """Lake Lake If you select this option, this lake are not use in all
-    DART modules, \n it's useful if you want conserve lake
-    properties backup without delete this for tests If you select
-    this option, this lake are not use in all DART modules, \n it's
-    useful if you want conserve lake properties backup without
-    delete this for tests Objects's positions are taken from the
-    position file.\nDesactivate this option if you experience some
-    slowdown. Objects's positions are taken from the position
-    file.\nDesactivate this option if you experience some slowdown."""
+    DART modules, it's useful if you want conserve lake properties
+    backup without delete this for tests If you select this option,
+    this lake are not use in all DART modules, it's useful if you
+    want conserve lake properties backup without delete this for
+    tests Objects's positions are taken from the position file.
+    Desactivate this option if you experience some slowdown.
+    Objects's positions are taken from the position file.
+    Desactivate this option if you experience some slowdown."""
     member_data_items_ = [
         MemberSpec_('hidden', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('isDisplayed', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Ellipse2D', '_Ellipse2D', 0, 0, {u'maxOccurs': u'1', u'type': u'_Ellipse2D', u'name': u'Ellipse2D', u'minOccurs': u'1'}, None),
-        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('Ellipse2D', '_Ellipse2D', 0, 0, {'name': 'Ellipse2D', 'type': '_Ellipse2D', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {'name': 'OpticalPropertyLink', 'type': '_OpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {'name': 'ThermalPropertyLink', 'type': '_ThermalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -1603,8 +1603,8 @@ class create_Lake(GeneratedsSuper):
 class create_Ellipse2D(GeneratedsSuper):
     """Ellipse2D Ellipse2D"""
     member_data_items_ = [
-        MemberSpec_('Point2D', '_Point2D', 0, 0, {u'maxOccurs': u'1', u'type': u'_Point2D', u'name': u'Point2D', u'minOccurs': u'1'}, None),
-        MemberSpec_('HalfAxes', '_HalfAxes', 0, 0, {u'maxOccurs': u'1', u'type': u'_HalfAxes', u'name': u'HalfAxes', u'minOccurs': u'1'}, None),
+        MemberSpec_('Point2D', '_Point2D', 0, 0, {'name': 'Point2D', 'type': '_Point2D', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('HalfAxes', '_HalfAxes', 0, 0, {'name': 'HalfAxes', 'type': '_HalfAxes', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -2513,7 +2513,7 @@ class create_ThermalPropertyLink(GeneratedsSuper):
 class create_Rivers(GeneratedsSuper):
     """Rivers Rivers"""
     member_data_items_ = [
-        MemberSpec_('River', '_River', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_River', u'name': u'River', u'minOccurs': u'0'}, None),
+        MemberSpec_('River', '_River', 1, 1, {'name': 'River', 'type': '_River', 'minOccurs': '0', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -2688,20 +2688,20 @@ class create_Rivers(GeneratedsSuper):
 
 class create_River(GeneratedsSuper):
     """River River If you select this option, this river are not use in all
-    DART modules, \n it's useful if you want conserve river
-    properties backup without delete this for tests If you select
-    this option, this river are not use in all DART modules, \n it's
-    useful if you want conserve river properties backup without
-    delete this for tests Objects's positions are taken from the
-    position file.\nDesactivate this option if you experience some
-    slowdown. Objects's positions are taken from the position
-    file.\nDesactivate this option if you experience some slowdown."""
+    DART modules, it's useful if you want conserve river properties
+    backup without delete this for tests If you select this option,
+    this river are not use in all DART modules, it's useful if you
+    want conserve river properties backup without delete this for
+    tests Objects's positions are taken from the position file.
+    Desactivate this option if you experience some slowdown.
+    Objects's positions are taken from the position file.
+    Desactivate this option if you experience some slowdown."""
     member_data_items_ = [
         MemberSpec_('hidden', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('isDisplayed', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Path2D', '_Path2D', 0, 0, {u'maxOccurs': u'1', u'type': u'_Path2D', u'name': u'Path2D', u'minOccurs': u'1'}, None),
-        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_OpticalPropertyLink', u'name': u'OpticalPropertyLink', u'minOccurs': u'1'}, None),
-        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {u'maxOccurs': u'1', u'type': u'_ThermalPropertyLink', u'name': u'ThermalPropertyLink', u'minOccurs': u'1'}, None),
+        MemberSpec_('Path2D', '_Path2D', 0, 0, {'name': 'Path2D', 'type': '_Path2D', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('OpticalPropertyLink', '_OpticalPropertyLink', 0, 0, {'name': 'OpticalPropertyLink', 'type': '_OpticalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ThermalPropertyLink', '_ThermalPropertyLink', 0, 0, {'name': 'ThermalPropertyLink', 'type': '_ThermalPropertyLink', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -2950,7 +2950,7 @@ class create_Path2D(GeneratedsSuper):
     """Path2D Path2D interpolation). interpolation)."""
     member_data_items_ = [
         MemberSpec_('width', 'xsd:double', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Point2D', '_Point2D', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_Point2D', u'name': u'Point2D', u'minOccurs': u'2'}, None),
+        MemberSpec_('Point2D', '_Point2D', 1, 0, {'name': 'Point2D', 'type': '_Point2D', 'minOccurs': '2', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None

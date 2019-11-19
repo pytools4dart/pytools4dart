@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Sun Mar 31 19:31:18 2019 by generateDS.py version 2.29.25.
-# Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
+# Generated Tue Nov 19 15:08:17 2019 by generateDS.py version 2.29.25.
+# Python 3.6.7 | packaged by conda-forge | (default, Nov  6 2019, 16:19:42)  [GCC 7.3.0]
 #
 # Command line options:
 #   ('-m', '')
@@ -16,13 +16,13 @@
 #   ('--pre-ctor', "self.troot=get_gs_troot('directions','{classname}')")
 #   ('--post-ctor', "update_node(self,self.troot,'directions')")
 #   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes')
-#   ('-o', '/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/directions.py')
+#   ('-o', '/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/directions.py')
 #
 # Command line arguments:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/directions.xsd
+#   /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/directions.xsd
 #
 # Command line:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'directions')" --pre-ctor="self.troot=get_gs_troot('directions','{classname}')" --post-ctor="update_node(self,self.troot,'directions')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/directions.py" /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/directions.xsd
+#   /home/boissieu/anaconda3/envs/pytools4dart/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'directions')" --pre-ctor="self.troot=get_gs_troot('directions','{classname}')" --post-ctor="update_node(self,self.troot,'directions')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/directions.py" /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/directions.xsd
 #
 # Current working directory (os.getcwd()):
 #   pytools4dart
@@ -747,11 +747,11 @@ class createDartFile(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('version', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('build_', 'xsd:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Directions', '_Directions', 0, 0, {u'maxOccurs': u'1', u'type': u'_Directions', u'name': u'Directions', u'minOccurs': u'1'}, None),
+        MemberSpec_('Directions', '_Directions', 0, 0, {'name': 'Directions', 'type': '_Directions', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
-    def __init__(self, version='5.7.4', build_='0', Directions=None):
+    def __init__(self, version='5.7.5', build_='0', Directions=None):
         self.original_tagname_ = None
         self.troot=get_gs_troot('directions','DartFile')
         self.attrib = ['version', 'build_']
@@ -940,29 +940,29 @@ class create_Directions(GeneratedsSuper):
     """Cosine Weighted Cosine Weighted Approximate number of directions
     that sample the 4.Pi space Approximate number of directions that
     sample the 4.Pi space DART provides 3 way to indicate the sun
-    angles:\nBy giving the Downward Solar Angles (Sun to Ground)\nBy
-    giving the Viewing Solar Angle (Ground to Sun)\nSolar angles
+    angles: By giving the Downward Solar Angles (Sun to Ground) By
+    giving the Viewing Solar Angle (Ground to Sun) Solar angles
     calculated from the localisation of the scene (longitude and
     latitude) and the exact (local) date (YY/MM/DD and HH/MM/SS)
-    DART provides 3 way to indicate the sun angles:\nBy giving the
-    Downward Solar Angles (Sun to Ground)\nBy giving the Viewing
-    Solar Angle (Ground to Sun)\nSolar angles calculated from the
+    DART provides 3 way to indicate the sun angles: By giving the
+    Downward Solar Angles (Sun to Ground) By giving the Viewing
+    Solar Angle (Ground to Sun) Solar angles calculated from the
     localisation of the scene (longitude and latitude) and the exact
     (local) date (YY/MM/DD and HH/MM/SS)"""
     member_data_items_ = [
         MemberSpec_('ifCosWeighted', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('numberOfPropagationDirections', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('exactDate', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('AddedDirections', '_AddedDirections', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_AddedDirections', u'name': u'AddedDirections', u'minOccurs': u'0'}, None),
-        MemberSpec_('Region', '_Region', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_Region', u'name': u'Region', u'minOccurs': u'0'}, None),
-        MemberSpec_('OversampledPlane', '_OversampledPlane', 1, 1, {u'maxOccurs': u'unbounded', u'type': u'_OversampledPlane', u'name': u'OversampledPlane', u'minOccurs': u'0'}, None),
-        MemberSpec_('Sun', '_Sun', 0, 0, {u'maxOccurs': u'1', u'type': u'_Sun', u'name': u'Sun', u'minOccurs': u'1'}, None),
-        MemberSpec_('ExactDateHour', '_ExactDateHour', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExactDateHour', u'name': u'ExactDateHour', u'minOccurs': u'1'}, None),
-        MemberSpec_('SunViewingAngles', '_SunViewingAngles', 0, 0, {u'maxOccurs': u'1', u'type': u'_SunViewingAngles', u'name': u'SunViewingAngles', u'minOccurs': u'1'}, None),
-        MemberSpec_('HotSpotProperties', '_HotSpotProperties', 0, 0, {u'maxOccurs': u'1', u'type': u'_HotSpotProperties', u'name': u'HotSpotProperties', u'minOccurs': u'1'}, None),
-        MemberSpec_('Penumbra', '_Penumbra', 0, 0, {u'maxOccurs': u'1', u'type': u'_Penumbra', u'name': u'Penumbra', u'minOccurs': u'1'}, None),
-        MemberSpec_('AzimuthalOffset', '_AzimuthalOffset', 0, 0, {u'maxOccurs': u'1', u'type': u'_AzimuthalOffset', u'name': u'AzimuthalOffset', u'minOccurs': u'1'}, None),
-        MemberSpec_('ExpertModeZone', '_ExpertModeZone', 0, 0, {u'maxOccurs': u'1', u'type': u'_ExpertModeZone', u'name': u'ExpertModeZone', u'minOccurs': u'1'}, None),
+        MemberSpec_('AddedDirections', '_AddedDirections', 1, 1, {'name': 'AddedDirections', 'type': '_AddedDirections', 'minOccurs': '0', 'maxOccurs': 'unbounded'}, None),
+        MemberSpec_('Region', '_Region', 1, 1, {'name': 'Region', 'type': '_Region', 'minOccurs': '0', 'maxOccurs': 'unbounded'}, None),
+        MemberSpec_('OversampledPlane', '_OversampledPlane', 1, 1, {'name': 'OversampledPlane', 'type': '_OversampledPlane', 'minOccurs': '0', 'maxOccurs': 'unbounded'}, None),
+        MemberSpec_('Sun', '_Sun', 0, 0, {'name': 'Sun', 'type': '_Sun', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ExactDateHour', '_ExactDateHour', 0, 0, {'name': 'ExactDateHour', 'type': '_ExactDateHour', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('SunViewingAngles', '_SunViewingAngles', 0, 0, {'name': 'SunViewingAngles', 'type': '_SunViewingAngles', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('HotSpotProperties', '_HotSpotProperties', 0, 0, {'name': 'HotSpotProperties', 'type': '_HotSpotProperties', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Penumbra', '_Penumbra', 0, 0, {'name': 'Penumbra', 'type': '_Penumbra', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('AzimuthalOffset', '_AzimuthalOffset', 0, 0, {'name': 'AzimuthalOffset', 'type': '_AzimuthalOffset', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('ExpertModeZone', '_ExpertModeZone', 0, 0, {'name': 'ExpertModeZone', 'type': '_ExpertModeZone', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -1469,15 +1469,15 @@ class create_AddedDirections(GeneratedsSuper):
     totally disable in the product tab. The shape used to described
     the opening of the direction cone The shape used to described
     the opening of the direction cone To enter directly the angles
-    of the direction, choose "Zenith+Azimuth".\nDart is also able to
+    of the direction, choose "Zenith+Azimuth". Dart is also able to
     automaticaly determinate the angles of a direction given the
     LatLon coordinates of the (theorical) sensor and the scene,
-    while taking in account the curves of the Earth.\nTo do this,
+    while taking in account the curves of the Earth. To do this,
     choose "LatLon Coordinates". To enter directly the angles of the
-    direction, choose "Zenith+Azimuth".\nDart is also able to
+    direction, choose "Zenith+Azimuth". Dart is also able to
     automaticaly determinate the angles of a direction given the
     LatLon coordinates of the (theorical) sensor and the scene,
-    while taking in account the curves of the Earth.\nTo do this,
+    while taking in account the curves of the Earth. To do this,
     choose "LatLon Coordinates". The oversampling directions are
     used only in the calculation of phase functions, which in DART
     module, are used to increase the directional sampling for
@@ -1493,10 +1493,10 @@ class create_AddedDirections(GeneratedsSuper):
         MemberSpec_('ifSquareShape', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('directionType', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('ifPhaseOnly', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('ZenithAzimuth', '_ZenithAzimuth', 0, 0, {u'maxOccurs': u'1', u'type': u'_ZenithAzimuth', u'name': u'ZenithAzimuth', u'minOccurs': u'1'}, None),
-        MemberSpec_('LatLon', '_LatLon', 0, 0, {u'maxOccurs': u'1', u'type': u'_LatLon', u'name': u'LatLon', u'minOccurs': u'1'}, None),
-        MemberSpec_('Rectangle', '_Rectangle', 0, 0, {u'maxOccurs': u'1', u'type': u'_Rectangle', u'name': u'Rectangle', u'minOccurs': u'1'}, None),
-        MemberSpec_('Square', '_Square', 0, 0, {u'maxOccurs': u'1', u'type': u'_Square', u'name': u'Square', u'minOccurs': u'1'}, None),
+        MemberSpec_('ZenithAzimuth', '_ZenithAzimuth', 0, 0, {'name': 'ZenithAzimuth', 'type': '_ZenithAzimuth', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('LatLon', '_LatLon', 0, 0, {'name': 'LatLon', 'type': '_LatLon', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Rectangle', '_Rectangle', 0, 0, {'name': 'Rectangle', 'type': '_Rectangle', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Square', '_Square', 0, 0, {'name': 'Square', 'type': '_Square', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -1811,14 +1811,12 @@ class create_AddedDirections(GeneratedsSuper):
 
 
 class create_ZenithAzimuth(GeneratedsSuper):
-    """Azimuth angle of the added direction (between O\u00B0 and 360\u00B0)
-    Azimuth angle of the added direction (between O\u00B0 and
-    360\u00B0) Zenith angle of the added direction: \n- value in
-    [0\u00B0, 90\u00B0[ adds an upward region. \n- value in
-    ]90\u00B0, 180\u00B0] adds a downward region. Zenith angle of
-    the added direction: \n- value in [0\u00B0, 90\u00B0[ adds an
-    upward region. \n- value in ]90\u00B0, 180\u00B0] adds a
-    downward region."""
+    """Azimuth angle of the added direction (between O° and 360°) Azimuth
+    angle of the added direction (between O° and 360°) Zenith angle
+    of the added direction: - value in [0°, 90°[ adds an upward
+    region. - value in ]90°, 180°] adds a downward region. Zenith
+    angle of the added direction: - value in [0°, 90°[ adds an
+    upward region. - value in ]90°, 180°] adds a downward region."""
     member_data_items_ = [
         MemberSpec_('directionAzimuthalAngle', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('directionZenithalAngle', 'xsd:double', 0, 1, {'use': 'optional'}),
@@ -2187,10 +2185,10 @@ class create_LatLon(GeneratedsSuper):
 
 
 class create_Rectangle(GeneratedsSuper):
-    """Zenithal width of the region in the [0\u00B0, 180\u00B0] range
-    Zenithal width of the region in the [0\u00B0, 180\u00B0] range
-    Azimuthal width of the region in the [0\u00B0, 360\u00B0] range
-    Azimuthal width of the region in the [0\u00B0, 360\u00B0] range"""
+    """Zenithal width of the region in the [0°, 180°] range Zenithal width
+    of the region in the [0°, 180°] range Azimuthal width of the
+    region in the [0°, 360°] range Azimuthal width of the region in
+    the [0°, 360°] range"""
     member_data_items_ = [
         MemberSpec_('deltaTheta', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('deltaPhi', 'xsd:double', 0, 1, {'use': 'optional'}),
@@ -2367,9 +2365,9 @@ class create_Square(GeneratedsSuper):
     parameter used to described the width of the square."""
     member_data_items_ = [
         MemberSpec_('widthDefinition', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('DefineOmega', '_DefineOmega', 0, 0, {u'maxOccurs': u'1', u'type': u'_DefineOmega', u'name': u'DefineOmega', u'minOccurs': u'1'}, None),
-        MemberSpec_('DefineDeltaPhi', '_DefineDeltaPhi', 0, 0, {u'maxOccurs': u'1', u'type': u'_DefineDeltaPhi', u'name': u'DefineDeltaPhi', u'minOccurs': u'1'}, None),
-        MemberSpec_('DefineDeltaTheta', '_DefineDeltaTheta', 0, 0, {u'maxOccurs': u'1', u'type': u'_DefineDeltaTheta', u'name': u'DefineDeltaTheta', u'minOccurs': u'1'}, None),
+        MemberSpec_('DefineOmega', '_DefineOmega', 0, 0, {'name': 'DefineOmega', 'type': '_DefineOmega', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('DefineDeltaPhi', '_DefineDeltaPhi', 0, 0, {'name': 'DefineDeltaPhi', 'type': '_DefineDeltaPhi', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('DefineDeltaTheta', '_DefineDeltaTheta', 0, 0, {'name': 'DefineDeltaTheta', 'type': '_DefineDeltaTheta', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -2743,8 +2741,8 @@ class create_DefineOmega(GeneratedsSuper):
 
 
 class create_DefineDeltaPhi(GeneratedsSuper):
-    """Azimuthal width of the region in the [0\u00B0, 360\u00B0] range
-    Azimuthal width of the region in the [0\u00B0, 360\u00B0] range"""
+    """Azimuthal width of the region in the [0°, 360°] range Azimuthal
+    width of the region in the [0°, 360°] range"""
     member_data_items_ = [
         MemberSpec_('deltaPhi', 'xsd:double', 0, 1, {'use': 'optional'}),
     ]
@@ -2894,8 +2892,8 @@ class create_DefineDeltaPhi(GeneratedsSuper):
 
 
 class create_DefineDeltaTheta(GeneratedsSuper):
-    """Zenithal width of the region in the [0\u00B0, 180\u00B0] range
-    Zenithal width of the region in the [0\u00B0, 180\u00B0] range"""
+    """Zenithal width of the region in the [0°, 180°] range Zenithal width
+    of the region in the [0°, 180°] range"""
     member_data_items_ = [
         MemberSpec_('deltaTheta', 'xsd:double', 0, 1, {'use': 'optional'}),
     ]
@@ -3063,17 +3061,17 @@ class create_Region(GeneratedsSuper):
     region, unless images production has been totally disable in the
     product tab. The shape used to described the region The shape
     used to described the region To enter directly the central
-    angles of the region, choose "Zenith+Azimuth".\nDart is also
-    able to automaticaly determinate the central angles of a region
-    given the LatLon coordinates of the (theorical) sensor and the
-    scene, while taking in account the curves of the Earth.\nTo do
-    this, choose "LatLon Coordinates". To enter directly the central
-    angles of the region, choose "Zenith+Azimuth".\nDart is also
-    able to automaticaly determinate the central angles of a region
-    given the LatLon coordinates of the (theorical) sensor and the
-    scene, while taking in account the curves of the Earth.\nTo do
-    this, choose "LatLon Coordinates". All the oversampled direction
-    have virtual property All the oversampled direction have virtual
+    angles of the region, choose "Zenith+Azimuth". Dart is also able
+    to automaticaly determinate the central angles of a region given
+    the LatLon coordinates of the (theorical) sensor and the scene,
+    while taking in account the curves of the Earth. To do this,
+    choose "LatLon Coordinates". To enter directly the central
+    angles of the region, choose "Zenith+Azimuth". Dart is also able
+    to automaticaly determinate the central angles of a region given
+    the LatLon coordinates of the (theorical) sensor and the scene,
+    while taking in account the curves of the Earth. To do this,
+    choose "LatLon Coordinates". All the oversampled direction have
+    virtual property All the oversampled direction have virtual
     property"""
     member_data_items_ = [
         MemberSpec_('numberOfDirections', 'xsd:int', 0, 1, {'use': 'optional'}),
@@ -3082,10 +3080,10 @@ class create_Region(GeneratedsSuper):
         MemberSpec_('ifSquareShape', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('regionType', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('ifVirtual', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('ZenithAzimuth', '_ZenithAzimuth', 0, 0, {u'maxOccurs': u'1', u'type': u'_ZenithAzimuth', u'name': u'ZenithAzimuth', u'minOccurs': u'1'}, None),
-        MemberSpec_('LatLon', '_LatLon', 0, 0, {u'maxOccurs': u'1', u'type': u'_LatLon', u'name': u'LatLon', u'minOccurs': u'1'}, None),
-        MemberSpec_('Rectangle', '_Rectangle', 0, 0, {u'maxOccurs': u'1', u'type': u'_Rectangle', u'name': u'Rectangle', u'minOccurs': u'1'}, None),
-        MemberSpec_('Square', '_Square', 0, 0, {u'maxOccurs': u'1', u'type': u'_Square', u'name': u'Square', u'minOccurs': u'1'}, None),
+        MemberSpec_('ZenithAzimuth', '_ZenithAzimuth', 0, 0, {'name': 'ZenithAzimuth', 'type': '_ZenithAzimuth', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('LatLon', '_LatLon', 0, 0, {'name': 'LatLon', 'type': '_LatLon', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Rectangle', '_Rectangle', 0, 0, {'name': 'Rectangle', 'type': '_Rectangle', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('Square', '_Square', 0, 0, {'name': 'Square', 'type': '_Square', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -3445,18 +3443,18 @@ class create_Region(GeneratedsSuper):
 
 class create_OversampledPlane(GeneratedsSuper):
     """Zenith step between each direction in the oversampled plane in the
-    [0\u00B0, 90\u00B0] range. Zenith step between each direction in
-    the oversampled plane in the [0\u00B0, 90\u00B0] range. Solid
-    angle for each direction in the oversampled plane (in
-    steradians). Solid angle for each direction in the oversampled
-    plane (in steradians). Plane Azimuth Plane Azimuth Define Zenith
-    Angle range Define Zenith Angle range"""
+    [0°, 90°] range. Zenith step between each direction in the
+    oversampled plane in the [0°, 90°] range. Solid angle for each
+    direction in the oversampled plane (in steradians). Solid angle
+    for each direction in the oversampled plane (in steradians).
+    Plane Azimuth Plane Azimuth Define Zenith Angle range Define
+    Zenith Angle range"""
     member_data_items_ = [
         MemberSpec_('deltaTheta', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('omega', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('phi', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('defRange', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('thetaRange', '_thetaRange', 0, 0, {u'maxOccurs': u'1', u'type': u'_thetaRange', u'name': u'thetaRange', u'minOccurs': u'1'}, None),
+        MemberSpec_('thetaRange', '_thetaRange', 0, 0, {'name': 'thetaRange', 'type': '_thetaRange', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -3696,8 +3694,8 @@ class create_OversampledPlane(GeneratedsSuper):
 
 
 class create_thetaRange(GeneratedsSuper):
-    """Zenith Angle range Zenith Angle range Begin [\u00B0] Begin [\u00B0]
-    End [\u00B0] End [\u00B0]"""
+    """Zenith Angle range Zenith Angle range Begin [°] Begin [°] End [°]
+    End [°]"""
     member_data_items_ = [
         MemberSpec_('theta__0', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('theta__1', 'xsd:double', 0, 1, {'use': 'optional'}),
@@ -3870,22 +3868,21 @@ class create_thetaRange(GeneratedsSuper):
 
 
 class create_Sun(GeneratedsSuper):
-    """Azimuth angle of the sun downward direction in [0\u00B0, 360\u00B0],
-    anticlockwise from the reference direction. \nThe Ox direction
+    """Azimuth angle of the sun downward direction in [0°, 360°],
+    anticlockwise from the reference direction. The Ox direction
     (vertical on the 2D display of the scene) is the reference
     direction in the xy plane. Azimuth angle of the sun downward
-    direction in [0\u00B0, 360\u00B0], anticlockwise from the
-    reference direction. \nThe Ox direction (vertical on the 2D
-    display of the scene) is the reference direction in the xy
-    plane. Zenith angle of the sun direction in the ]90\u00B0,
-    180\u00B0] range (Sun to Ground) Zenith angle of the sun
-    direction in the ]90\u00B0, 180\u00B0] range (Sun to Ground) Day
-    of the year (from 1 to 365). Set it to -1 to ignore. Used to
+    direction in [0°, 360°], anticlockwise from the reference
+    direction. The Ox direction (vertical on the 2D display of the
+    scene) is the reference direction in the xy plane. Zenith angle
+    of the sun direction in the ]90°, 180°] range (Sun to Ground)
+    Zenith angle of the sun direction in the ]90°, 180°] range (Sun
+    to Ground) Day of the year (from 1 to 365). Set it to -1 to
+    ignore. Used to compute the Sun-Earth distance and the
+    subsequent correction to apply to the solar illumination. Day of
+    the year (from 1 to 365). Set it to -1 to ignore. Used to
     compute the Sun-Earth distance and the subsequent correction to
-    apply to the solar illumination. Day of the year (from 1 to
-    365). Set it to -1 to ignore. Used to compute the Sun-Earth
-    distance and the subsequent correction to apply to the solar
-    illumination."""
+    apply to the solar illumination."""
     member_data_items_ = [
         MemberSpec_('sunAzimuthAngle', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('sunZenithAngle', 'xsd:double', 0, 1, {'use': 'optional'}),
@@ -4426,22 +4423,21 @@ class create_ExactDateHour(GeneratedsSuper):
 
 
 class create_SunViewingAngles(GeneratedsSuper):
-    """Azimuth angle of the sun downward direction in [0\u00B0, 360\u00B0],
-    anticlockwise from the reference direction. \nThe Ox direction
+    """Azimuth angle of the sun downward direction in [0°, 360°],
+    anticlockwise from the reference direction. The Ox direction
     (vertical on the 2D display of the scene) is the reference
     direction in the xy plane. Azimuth angle of the sun downward
-    direction in [0\u00B0, 360\u00B0], anticlockwise from the
-    reference direction. \nThe Ox direction (vertical on the 2D
-    display of the scene) is the reference direction in the xy
-    plane. Zenith angle of the sun direction in the [0\u00B0,
-    90\u00B0[ range (Ground to Sun) Zenith angle of the sun
-    direction in the [0\u00B0, 90\u00B0[ range (Ground to Sun) Day
-    of the year (from 1 to 365). Set it to -1 to ignore. Used to
-    compute the Sun-Earth distance and the subsequent correction to
-    apply to the solar illumination. Day of the year (from 1 to
-    365). Set it to -1 to ignore. Used to compute the Sun-Earth
-    distance and the subsequent correction to apply to the solar
-    illumination."""
+    direction in [0°, 360°], anticlockwise from the reference
+    direction. The Ox direction (vertical on the 2D display of the
+    scene) is the reference direction in the xy plane. Zenith angle
+    of the sun direction in the [0°, 90°[ range (Ground to Sun)
+    Zenith angle of the sun direction in the [0°, 90°[ range (Ground
+    to Sun) Day of the year (from 1 to 365). Set it to -1 to ignore.
+    Used to compute the Sun-Earth distance and the subsequent
+    correction to apply to the solar illumination. Day of the year
+    (from 1 to 365). Set it to -1 to ignore. Used to compute the
+    Sun-Earth distance and the subsequent correction to apply to the
+    solar illumination."""
     member_data_items_ = [
         MemberSpec_('sunViewingAzimuthAngle', 'xsd:double', 0, 1, {'use': 'optional'}),
         MemberSpec_('sunViewingZenithAngle', 'xsd:double', 0, 1, {'use': 'optional'}),
@@ -4653,9 +4649,9 @@ class create_HotSpotProperties(GeneratedsSuper):
         MemberSpec_('hotSpotPerpendicularPlane', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('hotSpotParallelPlane', 'xsd:int', 0, 1, {'use': 'optional'}),
         MemberSpec_('oversampleUpwardRegion', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('HotSpotUpwardRegion', '_HotSpotUpwardRegion', 0, 0, {u'maxOccurs': u'1', u'type': u'_HotSpotUpwardRegion', u'name': u'HotSpotUpwardRegion', u'minOccurs': u'1'}, None),
-        MemberSpec_('HotSpotDownwardRegion', '_HotSpotDownwardRegion', 0, 0, {u'maxOccurs': u'1', u'type': u'_HotSpotDownwardRegion', u'name': u'HotSpotDownwardRegion', u'minOccurs': u'1'}, None),
-        MemberSpec_('HotSpotOversampledPlane', '_HotSpotOversampledPlane', 0, 0, {u'maxOccurs': u'1', u'type': u'_HotSpotOversampledPlane', u'name': u'HotSpotOversampledPlane', u'minOccurs': u'1'}, None),
+        MemberSpec_('HotSpotUpwardRegion', '_HotSpotUpwardRegion', 0, 0, {'name': 'HotSpotUpwardRegion', 'type': '_HotSpotUpwardRegion', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('HotSpotDownwardRegion', '_HotSpotDownwardRegion', 0, 0, {'name': 'HotSpotDownwardRegion', 'type': '_HotSpotDownwardRegion', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('HotSpotOversampledPlane', '_HotSpotOversampledPlane', 0, 0, {'name': 'HotSpotOversampledPlane', 'type': '_HotSpotOversampledPlane', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -5481,8 +5477,8 @@ class create_Penumbra(GeneratedsSuper):
     body."""
     member_data_items_ = [
         MemberSpec_('mode', 'xsd:int', 0, 1, {'use': 'optional'}),
-        MemberSpec_('SunSphere', '_SunSphere', 0, 0, {u'maxOccurs': u'1', u'type': u'_SunSphere', u'name': u'SunSphere', u'minOccurs': u'1'}, None),
-        MemberSpec_('SunIcoSphere', '_SunIcoSphere', 0, 0, {u'maxOccurs': u'1', u'type': u'_SunIcoSphere', u'name': u'SunIcoSphere', u'minOccurs': u'1'}, None),
+        MemberSpec_('SunSphere', '_SunSphere', 0, 0, {'name': 'SunSphere', 'type': '_SunSphere', 'minOccurs': '1', 'maxOccurs': '1'}, None),
+        MemberSpec_('SunIcoSphere', '_SunIcoSphere', 0, 0, {'name': 'SunIcoSphere', 'type': '_SunIcoSphere', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -5682,10 +5678,10 @@ class create_Penumbra(GeneratedsSuper):
 
 class create_SunSphere(GeneratedsSuper):
     """Defines the numbers of points to be randomly sampled on the sun
-    surface IN ADDITION of the central position.\n Multiply linearly
+    surface IN ADDITION of the central position. Multiply linearly
     the computation time of the direct illumination phase. Defines
     the numbers of points to be randomly sampled on the sun surface
-    IN ADDITION of the central position.\n Multiply linearly the
+    IN ADDITION of the central position. Multiply linearly the
     computation time of the direct illumination phase."""
     member_data_items_ = [
         MemberSpec_('nbPointsOnSphere', 'xsd:int', 0, 1, {'use': 'optional'}),
@@ -5836,12 +5832,12 @@ class create_SunSphere(GeneratedsSuper):
 
 
 class create_SunIcoSphere(GeneratedsSuper):
-    """Total number of points will be: ~10 * 4 ^ (nb_subdivisions)\nThe sun
+    """Total number of points will be: ~10 * 4 ^ (nb_subdivisions) The sun
     is defined as an Icosahedron: a regular polyhedron with 20
     equilateral triangles of same area. Each subdivision multiply by
     4 the number of triangles. Half the faces are going to
     illuminate the scene. Total number of points will be: ~10 * 4 ^
-    (nb_subdivisions)\nThe sun is defined as an Icosahedron: a
+    (nb_subdivisions) The sun is defined as an Icosahedron: a
     regular polyhedron with 20 equilateral triangles of same area.
     Each subdivision multiply by 4 the number of triangles. Half the
     faces are going to illuminate the scene."""
@@ -6174,19 +6170,19 @@ class create_AzimuthalOffset(GeneratedsSuper):
 
 
 class create_ExpertModeZone(GeneratedsSuper):
-    """Enter the n number of angular sectors.\nIn iterations 1, the angular
+    """Enter the n number of angular sectors. In iterations 1, the angular
     distribution of intercepted radiation is stored in n angular
-    sectors, for improving further scattering accuracy.\nThe maximal
-    number of sectors is the actual number of directions.\nThe
-    sector value of a direction is stored in the 4th column of the
-    direction file. Enter the n number of angular sectors.\nIn
+    sectors, for improving further scattering accuracy. The maximal
+    number of sectors is the actual number of directions. The sector
+    value of a direction is stored in the 4th column of the
+    direction file. Enter the n number of angular sectors. In
     iterations 1, the angular distribution of intercepted radiation
     is stored in n angular sectors, for improving further scattering
-    accuracy.\nThe maximal number of sectors is the actual number of
-    directions.\nThe sector value of a direction is stored in the
-    4th column of the direction file. 0 for default value generated
-    by sphere directions, or enter a positive integer for the number
-    of layers to generate the directions in one hemisphere. 0 for
+    accuracy. The maximal number of sectors is the actual number of
+    directions. The sector value of a direction is stored in the 4th
+    column of the direction file. 0 for default value generated by
+    sphere directions, or enter a positive integer for the number of
+    layers to generate the directions in one hemisphere. 0 for
     default value generated by sphere directions, or enter a
     positive integer for the number of layers to generate the
     directions in one hemisphere."""

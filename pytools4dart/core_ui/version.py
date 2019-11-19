@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Sun Mar 31 19:31:19 2019 by generateDS.py version 2.29.25.
-# Python 2.7.3 (default, Oct 26 2016, 21:01:49)  [GCC 4.6.3]
+# Generated Tue Nov 19 15:08:17 2019 by generateDS.py version 2.29.25.
+# Python 3.6.7 | packaged by conda-forge | (default, Nov  6 2019, 16:19:42)  [GCC 7.3.0]
 #
 # Command line options:
 #   ('-m', '')
@@ -16,13 +16,13 @@
 #   ('--pre-ctor', "self.troot=get_gs_troot('version','{classname}')")
 #   ('--post-ctor', "update_node(self,self.troot,'version')")
 #   ('--imports', 'from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes')
-#   ('-o', '/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/version.py')
+#   ('-o', '/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/version.py')
 #
 # Command line arguments:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/version.xsd
+#   /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/version.xsd
 #
 # Command line:
-#   /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/venv/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'version')" --pre-ctor="self.troot=get_gs_troot('version','{classname}')" --post-ctor="update_node(self,self.troot,'version')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/core_ui/version.py" /media/DATA/Florian/IRSTEA/Scripts/pytools4dartMTD/pytools4dart/xsdschemas/version.xsd
+#   /home/boissieu/anaconda3/envs/pytools4dart/bin/generateDS.py -m -f --always-export-default --export="write literal etree" -u "core_ui.user_methods" -p "create" --post-attrib-setter="update_node(self,self.troot,'version')" --pre-ctor="self.troot=get_gs_troot('version','{classname}')" --post-ctor="update_node(self,self.troot,'version')" --imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes" -o "/media/DATA/Florian/git/pytools4dart/pytools4dart/core_ui/version.py" /media/DATA/Florian/git/pytools4dart/pytools4dart/xsdschemas/version.xsd
 #
 # Current working directory (os.getcwd()):
 #   pytools4dart
@@ -749,7 +749,7 @@ class createDartFile(GeneratedsSuper):
     version de DART."""
     member_data_items_ = [
         MemberSpec_('version', 'xsd:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('MonterDeVersion', '_MonterDeVersion', 0, 0, {u'maxOccurs': u'1', u'type': u'_MonterDeVersion', u'name': u'MonterDeVersion', u'minOccurs': u'1'}, None),
+        MemberSpec_('MonterDeVersion', '_MonterDeVersion', 0, 0, {'name': 'MonterDeVersion', 'type': '_MonterDeVersion', 'maxOccurs': '1', 'minOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
@@ -931,7 +931,7 @@ class create_MonterDeVersion(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('base', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('derniere', 'xsd:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('Version', '_Version', 1, 0, {u'maxOccurs': u'unbounded', u'type': u'_Version', u'name': u'Version', u'minOccurs': u'1'}, None),
+        MemberSpec_('Version', '_Version', 1, 0, {'name': 'Version', 'type': '_Version', 'minOccurs': '1', 'maxOccurs': 'unbounded'}, None),
     ]
     subclass = None
     superclass = None
@@ -1147,7 +1147,7 @@ class create_Version(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('valeur', 'xsd:string', 0, 1, {'use': 'optional'}),
         MemberSpec_('next', 'xsd:string', 0, 1, {'use': 'optional'}),
-        MemberSpec_('ReglesTransformation', '_ReglesTransformation', 0, 0, {u'maxOccurs': u'1', u'type': u'_ReglesTransformation', u'name': u'ReglesTransformation', u'minOccurs': u'1'}, None),
+        MemberSpec_('ReglesTransformation', '_ReglesTransformation', 0, 0, {'name': 'ReglesTransformation', 'type': '_ReglesTransformation', 'minOccurs': '1', 'maxOccurs': '1'}, None),
     ]
     subclass = None
     superclass = None
