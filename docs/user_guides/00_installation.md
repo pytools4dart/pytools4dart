@@ -32,14 +32,14 @@ From a terminal (or Anaconda prompt in Windows), create the new environment (ans
 replacing `ptdvenv` by the wanted environment name in the following command lines
 (if no name is given, the default name is `ptdvenv`):
 ```commandline
-conda env create -f environment.yml --name ptdvenv
+conda env create -f environment.yml --name ptdvenv -v
 ```
 Activate the new environment:
 ```commandline
 conda activate ptdvenv
 ``` 
 
-Once it is done, [check environment](#check-environment) and [configure](#configure) the package.
+Once it is done, [test environment](#check-environment) and [configure](#configure) the package.
 
 If anything goes wrong, the created environment can be removed with the following [Uninstall](#uninstall).
 
@@ -57,13 +57,7 @@ using Anaconda Navigator graphical interface:
 1. choose the name of the environment (default is `ptdvenv`)
 1. open your new environment ipython
 
-Once it is done, [configure](#configure) the package.
-
-If anything goes wrong, `ptdvenv` (change accordingly) can be removed with the following command, 
-leaving your computer in the state it was before installation:
-```commandline
-conda env remove --name ptdvenv
-``` 
+Once it is done, [test environment](#check-environment) and [configure](#configure) the package.
 
 _Note: in case an error occurs, see section [Known errors](#known-errors)._
 
@@ -123,11 +117,12 @@ pip install git+https://gitlab.com/pytools4dart/pytools4dart.git
 ```
 
 
-## Check environment
+## Test environment
 
 Anaconda does not display any message when a pip package is not well installed.
-Thus, after activating the environment, it is recommended to check if the environment is complete,
-loading the pip packages within a python session:
+Thus, it is recommended to check if all the pip packages have been well installed.
+
+For that, activate the newly created environment, open an ipython session and execute the following lines:
 ```python
 import generateDS
 import tinyobj
@@ -135,12 +130,13 @@ import gdecomp
 import laspy
 import pytools4dart
 ```
-If any of these package is cannot be imported correctly, it should be uninstalled and installed again, e.g. for generateDS
+If any of these package lead to an error, it should be uninstalled and installed again, e.g. for generateDS
 (see [environment.yml](https://gitlab.com/pytools4dart/pytools4dart/blob/master/environment.yml) for the other packages):
 ```commandline
 pip uninstall generateDS
 pip install git+https://gitlab.irstea.fr/florian.deboissieu/generateds.git
 ```
+In case of an error see section [Known errors](#known-errors). 
 
 ## Configure
 
@@ -196,7 +192,7 @@ If not change mode with (replace DART_HOME with the DART directory)
 chmod +x DART_HOME/tools/linux/*.sh
 ```
 
-For a use on a server without display, the excution might lead to error.
+For a use on a linux server without display, running DART might lead to an error.
 To fix it, add the java flag `-Djava.awt.headless=true` to the java executions in the batch tools of DART:
 ```commandline
 cd $DART_HOME/tools/linux
@@ -205,13 +201,15 @@ sed -i 's/\$DART_HOME\/bin\/jre\/bin\/java/$DART_HOME\/bin\/jre\/bin\/java\ -Dja
 
 ## Uninstall
 
+### Uninstall pytools4dart package only
 To uninstall package (and keep environment):
 ```commandline
 pip uninstall pytools4dart
 ```
 
-To uninstall environment (leaving your computer in the state it was before installation)
-remove virtual environment directory.
+### Uninstall the created environment
+To uninstall environment, remove virtual environment directory.
+It will leave your computer in the state it was before the environment creation.
 
 - in conda: deactivate `ptdvenv` environment and remove it 
 ```commandline
@@ -219,7 +217,7 @@ conda deactivate
 conda env remove -n ptdvenv
 
 ```
-- in virtualenv: deactivate `ptdvenv` and suppress the environment directory `ptdvenv`
+- in virtualenv: deactivate `ptdvenv` and remove the environment directory `ptdvenv`
 ```commandline
 deactivate
 rm -r ptdvenv

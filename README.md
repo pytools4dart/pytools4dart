@@ -60,7 +60,7 @@ pytools4dart: Python API to DART Radiative Transfer Simulator. https://gitlab.co
 
 ## Acknowledgments
 
-The development was partially supported by CNES TOSCA program for Hypertropik project,
+The development was partially supported by CNES TOSCA program for projects HYPERTROPIK and LEAF-EXPEVAL,
 and french ANR JC program for BioCop project. 
 
 We thank our colleagues from DART development team at CESBIO
