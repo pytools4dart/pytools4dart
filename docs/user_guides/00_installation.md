@@ -5,13 +5,16 @@
 Package __pytools4dart__ is a python API to DART, thus DART must be installed to make it work.
 It can be done before or after pytools4dart installation. Please refer to [DART section](#dart) for DART installation.
 
+
 __Before install, Windows users__ will need Visual Studio C++11 compiler to install package `tinyobj`, which a dependency of `pytools4dart`.
-(for details see [here](https://gitlab.irstea.fr/florian.deboissieu/tinyobj) and [here](https://pybind11.readthedocs.io/en/stable/basics.html)).
-Install [Visual Studio installer](https://visualstudio.microsoft.com/downloads/) (version 2015 or upper is necessary, community edition is sufficient).
-Within the VS installer select C++ Development Desktop (only MSVC and Kit SDK Windows are necessary, occupying 5 GB still...).
+(for details see [here](https://gitlab.irstea.fr/florian.deboissieu/tinyobj) and [here](https://pybind11.readthedocs.io/en/stable/basics.html)):
+1. Install [Visual Studio Installer](https://visualstudio.microsoft.com/downloads/) (version 2015 or upper is necessary, community edition is sufficient).
+1. Open the Visual Studio __Installer__, choose `Modify`, select C++ Development Desktop (only MSVC and Kit SDK Windows are necessary, occupying 5 GB still...)
+and click on `Modify` to apply modifications.
+
 
 We recommend use of a virtual environment to create an environment specific to your project.
-This way, packages will be installed in this virtual environment and avoid conflict with locally installed packages of other projects.
+This way, packages will be installed in this virtual environment and avoid any conflict with locally installed packages of other projects.
 
 The virtual environment can be created with Anaconda
 or with virtualenv. Python 3 version is recommended, as python 2 will soon not be maintained anymore.
@@ -116,7 +119,7 @@ Install package `pytools4dart`:
 pip install git+https://gitlab.com/pytools4dart/pytools4dart.git 
 ```
 
-Once it is done, [test environment](#check-environment) and [configure](#configure) the package.
+Once it is done, [test environment](#test-environment) and [configure](#configure) the package.
 
 _Note: in case an error occurs, see section [Known errors](#known-errors)._
 
@@ -244,7 +247,9 @@ C:\Program Files (x86)\Windows Kits\10\bin\10.0.17763.0\x64\rc.exe
 ```
 
 Add this path to the environment variable `Path` (Windows menu > modify system variables > environment variables ).
-If this error has occured at the creation of the virtual environment, remove the environment and restart installation. 
+If this error has occured during the creation of the virtual environment,
+refer to section [test environment](#test-environment),
+or simply [remove the created environment](#uninstall-the-created-environment) and create it again. 
 
 
 ### Error on Python.h
