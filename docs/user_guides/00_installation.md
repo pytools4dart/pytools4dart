@@ -116,6 +116,9 @@ Install package `pytools4dart`:
 pip install git+https://gitlab.com/pytools4dart/pytools4dart.git 
 ```
 
+Once it is done, [test environment](#check-environment) and [configure](#configure) the package.
+
+_Note: in case an error occurs, see section [Known errors](#known-errors)._
 
 ## Test environment
 
