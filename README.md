@@ -48,7 +48,7 @@ Many variables are pandas DataFrame objects, and can be directly
 interacted with by the user.        
 
 Check [website](https://pytools4dart.gitlab.io/pytools4dart) for details and user guides.
-Example scripts are available in [here](https://gitlab.com/pytools4dart/pytools4dart/pytools4dart/examples).
+Example scripts are available in [here](https://gitlab.com/pytools4dart/pytools4dart/tree/master/pytools4dart/examples).
 
 ## Citation
 
