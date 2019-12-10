@@ -29,10 +29,10 @@ and follow install instructions in one of the following section.
 
 #### Command line install (Linux, Mac & Windows)
 
-For Windows users allergic to command line see next section.
+For Windows users allergic to command line see next [Anaconda Navigator install](#anaconda-navigator-install).
 
-From a terminal (or Anaconda prompt in Windows), create the new environment (answer yes if asked), 
-replacing `ptdvenv` by the wanted environment name in the following command lines
+From a terminal (or Anaconda prompt in Windows), create the new environment with the following command lines(answer yes if asked), 
+replacing `ptdvenv` by the name of your choice).
 (if no name is given, the default name is `ptdvenv`):
 ```commandline
 conda env create -f environment.yml --name ptdvenv -v
