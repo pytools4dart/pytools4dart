@@ -31,7 +31,7 @@ build:conda:
     - conda env create -f environment.yml
     - conda init bash
     - source ~/.bashrc
-    - conda activate pytools4dart
+    - conda activate ptdvenv
     - curl -u $DART_AUTH $DART_URL -o dart.tar.gz
     - tar -xzf dart.tar.gz
     - dest=$(pwd)/$(ls -d DART_*)
@@ -64,8 +64,8 @@ build:pip:
   - apt-get update -qy
   - python -V  # Print out python version for debugging
   - pip install virtualenv
-  - virtualenv venv
-  - source venv/bin/activate
+  - virtualenv ptdvenv
+  - source ptdvenv/bin/activate
     #- mkdir -v $APT_CACHE_DIR
   - apt-get install -y libudunits2-dev libnetcdf-dev libproj-dev libgeos-dev libgdal-dev gfortran libspatialindex-dev libgtk2.0-0 # -o dir::cache::archives="$APT_CACHE_DIR"
   - pip install pybind11 pygdal==2.4.0.5 geopandas Cython
