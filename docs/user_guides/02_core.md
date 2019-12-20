@@ -36,6 +36,7 @@ ptd.utils.get_labels()
 ```
 
 In order to explore the content of these modules, each node has the methods:
+  
   - `to_string()` that converts the structure to an xml string
   - `path()`: get the absolute path of the node within the module
   - `subpaths()`: list of all subnode paths
@@ -44,6 +45,7 @@ In order to explore the content of these modules, each node has the methods:
 
 
 Other useful functions for core exploration are in `core_ui.utils`:
+  
   - `get_nodes()`: get the subnodes corresponding to a subpath.
   - `findall()`: get all the subnodes values and paths corresonding to a regular expression.
   - `diff()`: print the difference between core nodes or subnodes
@@ -107,6 +109,7 @@ print(simu.core.get_optical_properties())
 
 
 Inside the modules, each node contains anywhere in the hierarchy has three essential attributes:
+  
   - children: names of the children, i.e. subnodes.
   - attrib: names of the attributes, i.e. parameters.
   - parent: address of the parent object in the structure
