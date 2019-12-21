@@ -6,7 +6,8 @@ This notebooks describes the structure and methods of core.
 
 The core contains all the input xml files of
 DART, loaded into python objects. For DART version 5-7-4, it typically contains
-the following modules: 
+the following modules:
+
 - atmosphere, 
 - coeff_diff, 
 - directions, 
@@ -132,6 +133,7 @@ print(simu.core.phase.to_string())
 ```
 
 Subnodes expecting a list have other specific methods:
+
  - add,
  - insert,
  - replace.
@@ -142,7 +144,11 @@ simu.core.plots.Plots.add_Plot(plot)
 ```
 
 The classes of each core module are available at the package root under the
-module name, e.g. `ptd.plots`., The classes are named with the pattern
-`create_{node_name}`, e.g. `ptd.create_LambertianMultiFunctions()` to create a default node `LambertianMultiFunctions`. 
+module name, e.g. `ptd.plots`.
+
+The classes are named with the pattern `create_{node_name}`,
+e.g. `ptd.create_LambertianMultiFunctions()`
+to create a default node `LambertianMultiFunctions`. 
+
 Each class has documentation similar to the one given in DART GUI.
 
