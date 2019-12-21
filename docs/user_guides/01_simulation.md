@@ -6,6 +6,7 @@ and editing parameters, and running simulation.
 
 It contains the following
 attributes:
+
   - core: objects representing DART XML input files (coeff_diff,
 directions, phase, ...) with a raw interface to access and change parameters.
 Each module correspond to a part of DART GUI. As in DART GUI, changes propagates
