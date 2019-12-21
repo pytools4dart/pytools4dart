@@ -86,7 +86,9 @@ Lets modify the first plot defining a Leaf Area Density of value $0.3 m^2/m^3$
 represenetd with triangles. The operation must be made in successive steps:
 
 1. change density definition
+
 2. define new density value
+
 3. change leaf area density to triangle representation,
 i.e. DART will generate triangles of a
 certain size randomly distributed in space but respecting the UF value.
