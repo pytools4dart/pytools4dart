@@ -3,18 +3,21 @@
 This notebooks shows the several ways of adding plots to a simulation. Indeed,
 there aer three ways of adding plots that will depend on the objective:
 
-  1. fast and user-friendly interface: `add.plot`.
+  - fast and user-friendly interface: `add.plot`
+  
    - pros: easy for common options
    - cons: limited to certain parameters, not addapted for more than a
 thousand plots (10 s)
 	
-  2. raw interface: `core.xsdobjs['plots'].Plots.add_Plot()`
+  - raw interface: `core.xsdobjs['plots'].Plots.add_Plot()`
+  
    - pros: all parameters accessible
    - cons: not addapted for more than a thousand plots (10 s.)
 	
-  3. plots file:
+  - plots file:
+  
    - pros: addapted for large number of plots, accelerates DART mockup generation (much faster than with `plots.xml`)
-   - cons: limited to certain parameters.
+   - cons: limited to certain parameters, although most are available
 
 
 
@@ -82,11 +85,10 @@ Here both plos are defined with a vegetation Leaf Area Index (LAI) of value 1.
 Lets modify the first plot defining a Leaf Area Density of value $0.3 m^2/m^3$
 represenetd with triangles. The operation must be made in successive steps:
 
-1.
-change density definition
+1. change density definition
 2. define new density value
-3. change leaf area
-density to triangle representation, i.e. DART will generate triangles of a
+3. change leaf area density to triangle representation,
+i.e. DART will generate triangles of a
 certain size randomly distributed in space but respecting the UF value.
 
 ```python
@@ -103,8 +105,8 @@ simu.write()
 simu.run.full()
 ```
 
-3 Plots file
-============
+## Plots file
+
 
 Another possibiliy offered by DART is to use an ASCII
 file containing the plots specifications in a table (see
