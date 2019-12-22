@@ -102,5 +102,5 @@ pages:
     paths:
      - public
   only:
-   - master
+   - schedules
 
