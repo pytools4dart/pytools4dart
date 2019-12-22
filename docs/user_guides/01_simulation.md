@@ -12,7 +12,7 @@ directions, phase, ...) with a raw interface to access and change parameters.
 Each module correspond to a part of DART GUI. As in DART GUI, changes propagates
 automatically to subnodes. All available parameters are listed in
 pytools4dart.core_ui.utils.get_labels() or in the file labels/labels.tab of the
-package. See core.ipynb for more details.
+package. See [core use guide](#core) for more details.
 
   - scene: summary and fast access to
 the main elements of the mockup scene : size, resolution, properties (optical,
