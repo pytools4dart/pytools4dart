@@ -95,7 +95,7 @@ pages:
     - apt-get install -y libudunits2-dev libnetcdf-dev libproj-dev libgeos-dev libgdal-dev gfortran libspatialindex-dev # -o dir::cache::archives="$APT_CACHE_DIR"
     - pip install pybind11 pygdal==2.4.0.5 geopandas Cython
     - pip install -r requirements.txt
-    - pip install portray
+    - pip install portray python-markdown-math
     - portray as_html -c pyproject.toml
     - mv site public
   artifacts:
