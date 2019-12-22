@@ -8,11 +8,12 @@
 # output_dir = "site"
 # modules = ["pytools4dart"]
     modules = ["pytools4dart.add", "pytools4dart.core", "pytools4dart.core_ui", "pytools4dart.run", "pytools4dart.scene", "pytools4dart.sensor", "pytools4dart.sequencer", "pytools4dart.settings", "pytools4dart.simulation", "pytools4dart.source", "pytools4dart.scene", "pytools4dart.tools"]
-    extra_markdown_extensions = ['mdx_math']
+
 
 [[tool.portray.extra_markdown_extensions]]
     [tool.portray.extra_markdown_extensions.mdx_math]
         enable_dollar_delimiter = 1
+[[tool.portray.extra_markdown_extensions]]
     [tool.portray.extra_markdown_extensions.toc]
         toc_depth = 5
         # toc_depth = "2-5" # for bootstrap
