@@ -118,7 +118,7 @@ plt.show()
 
 Another issue that may occure is the wrong orientation of the face normals. 
 DART considers the face normal vector to define which is the "front face" (same direction as the face normal) and which is the back face (opposit direction to the face normal).
-The face normal is defined by the order of the faces vertices using the right hand rule (https://en.wikipedia.org/wiki/Right-hand_rule#/media/File:Right-hand_grip_rule.svg).
+The face normal is defined by the order of the faces vertices using the [right hand rule](https://en.wikipedia.org/wiki/Right-hand_rule#/media/File:Right-hand_grip_rule.svg).
 
 When the normal are wrongly defined, the corresponding triangle may not appear, i.e. absorbing all light.
 To illustrate this issue, the following code flips up-side down one of the triangles changing `f 2 1
