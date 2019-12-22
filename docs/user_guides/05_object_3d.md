@@ -22,7 +22,7 @@ v y z x
 ```
 
 The code below creates an obj file with a rectangle of
-coordinates in meters $x_{min}=2$, $y_{min}=1$, $x_{max}=5.5$, $y_{max}=4$ at $z=3$ m.
+coordinates in meters $x_{min}=2$, $y_{min}=1$, $x_{max}=5.5$, $y_{max}=4$ at $z=3$.
 
 ```python
 obj_str = '''
@@ -41,7 +41,7 @@ with open(objFpath, mode='w') as f:
 
 ## Simple simulation
 
-The folloowing code produces a simple RGB simulation with that rectangle 3m over the
+The following code produces a simple RGB simulation with that rectangle 3 m over the
 ground.
 
 ```python
@@ -181,7 +181,7 @@ plt.show()
 
 ## Object with group
 
-Objects can contain groups. In that case, optical and thermal properties can be set at te scale of the object (option `sameOPObject=1`), 
+Objects can contain groups. In that case, optical and thermal properties can be set at the scale of the object (option `sameOPObject=1`), 
 or at the scale of the of the group (option `sameOPObject=0`).
 
 In the same manner as for optical properties and bands, it is the group number that is meaningful for DART in the attribution of the properties.
