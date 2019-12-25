@@ -25,20 +25,19 @@ build:conda:
   stage: test
   image: conda/miniconda3:latest
   script:
-    - echo $DART_URL
     - ptd=$(pwd)
-    - apt-get update -qy
-    - apt-get install -y gcc g++ git unzip libgtk2.0-0 libsm6 libxft2
-    - conda env create -f environment.yml
-    - conda init bash
-    - source ~/.bashrc
-    - conda activate ptdvenv
     - curl -u $DART_AUTH $DART_URL -o dart.tar.gz
     - tar -xzf dart.tar.gz
     - dest=$(pwd)/$(ls -d DART_*)
     - cd $dest
     - ./install-text.sh $HOME/DART
     - cd $ptd
+    - apt-get update -qy
+    - apt-get install -y gcc g++ git unzip libgtk2.0-0 libsm6 libxft2
+    - conda env create -f environment.yml
+    - conda init bash
+    - source ~/.bashrc
+    - conda activate ptdvenv
     - cd pytools4dart/examples
     - python -c 'import pytools4dart as ptd;ptd.configure("~/DART")'
     - python use_case_0.py
