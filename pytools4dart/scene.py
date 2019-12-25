@@ -28,13 +28,14 @@
 #
 # ===============================================================================
 """
-This module contains the class "Scene".
+This module contains the classes Scene, Properties, Plot_file and Tree_file
 """
 
-import pandas as pd
+
 import os
+import sys
 from .tools.constants import *
-from .core_ui.utils import get_nodes, findall
+from .core_ui.utils import findall
 
 
 class Scene(object):
@@ -148,10 +149,10 @@ class Properties_(object):
 
 
 class Plot_file(object):
-    # This class was supposed to stand for plot file management
-    # However it raises lots of question on how to do it
-    # In the following what has been thought until now, with D as data, F as filepath
-    # At initialization:
+    # This class is standing for easy plot file management.
+    # The following gives the conventions adopted at initialization, modification, and writing,
+    # with D as data, F as filepath.
+    # At initialization if:
     #     - D is None and F is None:
     #         get F from core (absolute path)
     #         load D from F
@@ -164,11 +165,11 @@ class Plot_file(object):
     #     - D is not None and F is not None
     #         set F to core
     #
-    # After initialization, when change:
-    #     - F:nothing happens
-    #     - core F: nothing happens
-    #     - D: nothing happens
-    #     - F content: nothing happens
+    # After initialization, when changed:
+    #     - F : set F to core
+    #     - core F : nothing happens
+    #     - D : nothing happens
+    #     - F content : nothing happens
     #
     # At simu write:
     #     - if D is None, nothing is done
@@ -417,7 +418,7 @@ class Tree_file(object):
                 raise Exception('Multiple Tree files found.')
 
             # filepath = self.simu.get_input_file_path(value)
-            exec (nodepath[0] + '=value')
+            exec(nodepath[0] + '=value')
 
 
     @property
@@ -479,8 +480,12 @@ class Tree_file(object):
         if os.path.isfile(filepath) and not overwrite:
             raise Exception('File already exist. Set overwrite to overpass.')
 
-        with open(filepath, mode='w') as f:
-            f.write(TREES_HEADER)
+        if sys.version_info[0] == 2:
+            with open(filepath, 'w') as f:
+                f.write(TREES_HEADER)
+        else:
+            with open(filepath, 'w', encoding='utf-8') as f:
+                f.write(TREES_HEADER)
 
         self.data.to_csv(filepath, sep='\t', index=False, mode='a', header=True)
         if verbose:
