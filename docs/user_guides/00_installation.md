@@ -198,13 +198,6 @@ If not change mode with (replace DART_HOME with the DART directory)
 chmod +x DART_HOME/tools/linux/*.sh
 ```
 
-For a use on a linux server without display, running DART might lead to an error.
-To fix it, add the java flag `-Djava.awt.headless=true` to the java executions in the batch tools of DART:
-```commandline
-cd $DART_HOME/tools/linux
-sed -i 's/\$DART_HOME\/bin\/jre\/bin\/java/$DART_HOME\/bin\/jre\/bin\/java\ -Djava.awt.headless=true/g' dart-*.sh
-```
-
 ## Uninstall
 
 ### Uninstall pytools4dart package only
@@ -251,6 +244,13 @@ If this error has occured during the creation of the virtual environment,
 refer to section [test environment](#test-environment),
 or simply [remove the created environment](#uninstall-the-created-environment) and create it again. 
 
+### On headless sever (i.e. without display)
+
+For a use on a linux server without display, running DART simulations might lead to some errors on display or X11 window
+(see [issue 12](https://gitlab.com/pytools4dart/pytools4dart/issues/12) and 
+[issue 13](https://gitlab.com/pytools4dart/pytools4dart/issues/13)).
+
+Issue 13 has been fixed with recent commits.
 
 ### Error on Python.h
 
