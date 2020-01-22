@@ -123,6 +123,7 @@ def configure(dartdir=None):
     try:
         print('\n\tBuilding pytools4dart core...')
         build_core()
+        headlessdarttools()
         print('\npytools4dart configured: please restart python.')
     except:
         print(traceback.format_exc())
@@ -274,6 +275,27 @@ def darttools(dartdir=None):
     dtools = {os.path.splitext(os.path.basename(p))[0].replace('dart-', ''):p for p in darttoolspaths}
 
     return dtools
+
+def headlessdarttools(dartdir=None):
+    """
+    Add flag -Djava.awt.headless=true to DART/tools/linux/*.sh for headless servers
+    Parameters
+    ----------
+    dartdir : str
+        Path of the DART directory containing dart executable
+        e.g. '/home/username/DART' or 'C:\\Users\\username\\DART'
+
+    """
+    dartenv = getdartenv(dartdir)
+    currentplatform = platform.system().lower()
+    pjoin(dartenv['DART_HOME'], 'tools', 'linux', '*.sh')
+    if currentplatform != 'windows':
+        # add -Djava.awt.headless=true, if not already there, to DART/tools/linux/*.sh for headless servers
+        print('Add flag -Djava.awt.headless=true to {} for headless servers compatibility'.format(
+            pjoin(dartenv['DART_HOME'], 'tools', 'linux', '*.sh')))
+        cmd = "sed - i '/-Djava.awt.headless=true/! s#$DART_HOME/bin/jre/bin/java#$DART_HOME/bin/jre/bin/java -Djava.awt.headless=true#g' {}".format(
+        pjoin(dartenv['DART_HOME'], 'tools', 'linux', '*.sh'))
+        subprocess.run(cmd, shell=True)
 
 
 def getsimupath(simu_name, dartdir=None):
@@ -486,6 +508,7 @@ def build_core(directory=None):
         generateDS_script = ' '.join([sys.executable, generateDS.__file__]) #'generateDS.py'
     else:
         generateDS_script = 'generateDS.py'
+
 
     for xsdname in xsdnames:
         cmd = ' '.join([generateDS_script, '-m -f --always-export-default --export="write literal etree"',
