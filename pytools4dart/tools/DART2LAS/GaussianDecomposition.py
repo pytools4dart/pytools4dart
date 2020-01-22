@@ -1,8 +1,10 @@
 #coding: utf-8
 
+# Floiran de Boissieu: this is DART version of gaussian decomposition, pytools4dart now uses gdecomp
+
 import lmfit
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import pprint
 
 def findZeroCrossingPeaks(y, intThreshold=5, min_dist=3):
@@ -194,15 +196,15 @@ if __name__ == '__main__':
         print(len(out.best_values))
         print(out.best_values['g0_sigma'])
          
-        plt.plot(x, out.best_fit, 'r-', label="Fitting")
-         
-        # dy = np.diff(y)
-        # plt.plot(x, np.hstack([dy, 0.]), '-', label='First order difference')
-         
-        plt.plot([0, 700], [0, 0], 'k-')
-         
-        plt.plot(x, y, '.', label='LiDAR waveform')
-        # plt.scatter(x[indexes], y[indexes], marker="o", facecolors='r', edgecolors='r', s=50, label='Detected peaks')
-        # plt.legend(loc='upper center')
-         
-        plt.show()
+        # plt.plot(x, out.best_fit, 'r-', label="Fitting")
+        #
+        # # dy = np.diff(y)
+        # # plt.plot(x, np.hstack([dy, 0.]), '-', label='First order difference')
+        #
+        # plt.plot([0, 700], [0, 0], 'k-')
+        #
+        # plt.plot(x, y, '.', label='LiDAR waveform')
+        # # plt.scatter(x[indexes], y[indexes], marker="o", facecolors='r', edgecolors='r', s=50, label='Detected peaks')
+        # # plt.legend(loc='upper center')
+        #
+        # plt.show()
