@@ -286,15 +286,16 @@ def headlessdarttools(dartdir=None):
         e.g. '/home/username/DART' or 'C:\\Users\\username\\DART'
 
     """
-    dartenv = getdartenv(dartdir)
     currentplatform = platform.system().lower()
-    pjoin(dartenv['DART_HOME'], 'tools', 'linux', '*.sh')
-    if currentplatform != 'windows':
+    dartenv = getdartenv(dartdir)
+    toolsdir = pjoin(dartenv['DART_HOME'], 'tools', 'linux')
+    if currentplatform != 'windows' and os.path.isdir(toolsdir):
+        toolspath = pjoin(toolsdir, '*.sh')
         # add -Djava.awt.headless=true, if not already there, to DART/tools/linux/*.sh for headless servers
         print('Add flag -Djava.awt.headless=true to {} for headless servers compatibility'.format(
-            pjoin(dartenv['DART_HOME'], 'tools', 'linux', '*.sh')))
-        cmd = "sed - i '/-Djava.awt.headless=true/! s#$DART_HOME/bin/jre/bin/java#$DART_HOME/bin/jre/bin/java -Djava.awt.headless=true#g' {}".format(
-        pjoin(dartenv['DART_HOME'], 'tools', 'linux', '*.sh'))
+            toolspath))
+        cmd = "sed -i '/-Djava.awt.headless=true/! s#$DART_HOME/bin/jre/bin/java#$DART_HOME/bin/jre/bin/java -Djava.awt.headless=true#g' {}".format(
+        toolspath)
         subprocess.run(cmd, shell=True)
 
 
