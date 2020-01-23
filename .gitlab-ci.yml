@@ -1,7 +1,6 @@
 # This file is a template, and might need editing before it works on your project.
 # Official language image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/python/tags/
-image: python:latest
 
 # Change pip's cache directory to be inside the project directory since we can
 # only cache local items.
@@ -14,10 +13,14 @@ variables:
 #
 # If you want to also cache the installed packages, you have to install
 # them in a virtualenv and cache it as well.
+cache:
+  paths:
+  - .cache/pip
+  - ptdvenv/
+  
 
 stages:
   - build
-  - test
   - deploy
 
 conda-build:
@@ -48,9 +51,10 @@ conda-build:
     - schedules
     
 pip-build:
+  image: python:latest
   stage: build
   script:
-  # this configures Django application to use attached postgres database that is run on `postgres` host
+  - ptd=$(pwd)
   - apt-get update -qy
   - python -V  # Print out python version for debugging
   - pip install virtualenv
@@ -61,21 +65,6 @@ pip-build:
   - pip install pybind11 pygdal==2.4.0.5 geopandas Cython
   - pip install -r requirements.txt
   - pip install .
-  cache:
-    key: pip
-    paths:
-      - .cache/pip
-      - ptdvenv/
-  artifacts:
-    paths:
-      - ptdvenv
-  only:
-    - master
-
-pip-test:
-  stage: test
-  script:
-  - source ptdvenv/bin/activate
   - ptd=$(pwd)
   - cd ../
   - curl -u $DART_AUTH $DART_URL -o dart.tar.gz
@@ -91,23 +80,28 @@ pip-test:
   - python use_case_2.py
   - python use_case_3.py
   - python use_case_4.py
-  cache:
-    key: pip
   only:
-    - schedules
+    - scheduler
 
 
 pages:
-  # image: python:latest
+  image: python:latest
   stage: deploy
   script:
-    - pip install virtualenv
-    - source ptdvenv/bin/activate
-    - python -c 'import pytools4dart as ptd'
+  - apt-get update -qy
+  - python -V  # Print out python version for debugging
+  - pip install virtualenv
+  - virtualenv ptdvenv
+  - source ptdvenv/bin/activate
     #- mkdir -v $APT_CACHE_DIR
-    - pip install portray python-markdown-math
-    - portray as_html -c pyproject.toml
-    - mv site public
+  - apt-get install -y libudunits2-dev libnetcdf-dev libproj-dev libgeos-dev libgdal-dev gfortran libspatialindex-dev libgtk2.0-0 # -o dir::cache::archives="$APT_CACHE_DIR"
+  - pip install pybind11 pygdal==2.4.0.5 geopandas Cython
+  - pip install -r requirements.txt
+  - pip install .
+    #- mkdir -v $APT_CACHE_DIR
+  - pip install portray python-markdown-math
+  - portray as_html -c pyproject.toml
+  - mv site public
   artifacts:
     paths:
      - public
