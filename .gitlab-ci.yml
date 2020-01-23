@@ -102,7 +102,7 @@ pages:
   stage: deploy
   script:
     - source ptdvenv/bin/activate
-    - python -c 'import pytools4dart as ptd
+    - python -c 'import pytools4dart as ptd'
     #- mkdir -v $APT_CACHE_DIR
     - pip install portray python-markdown-math
     - portray as_html -c pyproject.toml
