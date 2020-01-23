@@ -51,57 +51,57 @@ conda-build:
     - schedules
     
 pip-build:
-  image: python:latest
   stage: build
+  image: python:latest
   script:
-  - ptd=$(pwd)
-  - apt-get update -qy
-  - python -V  # Print out python version for debugging
-  - pip install virtualenv
-  - virtualenv ptdvenv
-  - source ptdvenv/bin/activate
+    - ptd=$(pwd)
+    - apt-get update -qy
+    - python -V  # Print out python version for debugging
+    - pip install virtualenv
+    - virtualenv ptdvenv
+    - source ptdvenv/bin/activate
     #- mkdir -v $APT_CACHE_DIR
-  - apt-get install -y libudunits2-dev libnetcdf-dev libproj-dev libgeos-dev libgdal-dev gfortran libspatialindex-dev libgtk2.0-0 # -o dir::cache::archives="$APT_CACHE_DIR"
-  - pip install pybind11 pygdal==2.4.0.5 geopandas Cython
-  - pip install -r requirements.txt
-  - pip install .
-  - ptd=$(pwd)
-  - cd ../
-  - curl -u $DART_AUTH $DART_URL -o dart.tar.gz
-  - tar -xzf dart.tar.gz
-  - dest=$(pwd)/$(ls -d DART_*)
-  - cd $dest
-  - ./install-text.sh $HOME/DART
-  - cd $ptd
-  - cd pytools4dart/examples
-  - python -c 'import pytools4dart as ptd;ptd.configure("~/DART")'
-  - python use_case_0.py
-  - python use_case_1.py
-  - python use_case_2.py
-  - python use_case_3.py
-  - python use_case_4.py
+    - apt-get install -y libudunits2-dev libnetcdf-dev libproj-dev libgeos-dev libgdal-dev gfortran libspatialindex-dev libgtk2.0-0 # -o dir::cache::archives="$APT_CACHE_DIR"
+    - pip install pybind11 pygdal==2.4.0.5 geopandas Cython
+    - pip install -r requirements.txt
+    - pip install .
+    - ptd=$(pwd)
+    - cd ../
+    - curl -u $DART_AUTH $DART_URL -o dart.tar.gz
+    - tar -xzf dart.tar.gz
+    - dest=$(pwd)/$(ls -d DART_*)
+    - cd $dest
+    - ./install-text.sh $HOME/DART
+    - cd $ptd
+    - cd pytools4dart/examples
+    - python -c 'import pytools4dart as ptd;ptd.configure("~/DART")'
+    - python use_case_0.py
+    - python use_case_1.py
+    - python use_case_2.py
+    - python use_case_3.py
+    - python use_case_4.py
   only:
     - scheduler
 
 
 pages:
-  image: python:latest
   stage: deploy
+  image: python:latest
   script:
-  - apt-get update -qy
-  - python -V  # Print out python version for debugging
-  - pip install virtualenv
-  - virtualenv ptdvenv
-  - source ptdvenv/bin/activate
+    - apt-get update -qy
+    - python -V  # Print out python version for debugging
+    - pip install virtualenv
+    - virtualenv ptdvenv
+    - source ptdvenv/bin/activate
     #- mkdir -v $APT_CACHE_DIR
-  - apt-get install -y libudunits2-dev libnetcdf-dev libproj-dev libgeos-dev libgdal-dev gfortran libspatialindex-dev libgtk2.0-0 # -o dir::cache::archives="$APT_CACHE_DIR"
-  - pip install pybind11 pygdal==2.4.0.5 geopandas Cython
-  - pip install -r requirements.txt
-  - pip install .
+    - apt-get install -y libudunits2-dev libnetcdf-dev libproj-dev libgeos-dev libgdal-dev gfortran libspatialindex-dev libgtk2.0-0 # -o dir::cache::archives="$APT_CACHE_DIR"
+    - pip install pybind11 pygdal==2.4.0.5 geopandas Cython
+    - pip install -r requirements.txt
+    - pip install .
     #- mkdir -v $APT_CACHE_DIR
-  - pip install portray python-markdown-math
-  - portray as_html -c pyproject.toml
-  - mv site public
+    - pip install portray python-markdown-math
+    - portray as_html -c pyproject.toml
+    - mv site public
   artifacts:
     paths:
      - public
