@@ -101,6 +101,7 @@ pages:
   # image: python:latest
   stage: deploy
   script:
+    - pip install virtualenv
     - source ptdvenv/bin/activate
     - python -c 'import pytools4dart as ptd'
     #- mkdir -v $APT_CACHE_DIR
