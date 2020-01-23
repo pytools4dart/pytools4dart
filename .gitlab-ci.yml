@@ -100,7 +100,7 @@ pip-test:
 pages:
   stage: deploy
   script:
-    - source venv/bin/activate
+    - source ptdvenv/bin/activate
     #- mkdir -v $APT_CACHE_DIR
     - pip install portray python-markdown-math
     - portray as_html -c pyproject.toml
