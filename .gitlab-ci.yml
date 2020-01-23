@@ -68,7 +68,7 @@ pip-build:
       - ptdvenv/
   artifacts:
     paths:
-      - image
+      - ptdvenv
   only:
     - master
 
