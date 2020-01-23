@@ -16,7 +16,7 @@ variables:
 cache:
   paths:
     - .cache/pip
-    - venv/
+    - ptdvenv/
 stages:
   - build
   - deploy
