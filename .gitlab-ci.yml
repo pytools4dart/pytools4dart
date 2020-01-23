@@ -18,11 +18,11 @@ cache:
     - .cache/pip
     - venv/
 stages:
-  - test
+  - build
   - deploy
 
 build:conda:
-  stage: test
+  stage: build
   image: conda/miniconda3:latest
   script:
     - ptd=$(pwd)
@@ -49,8 +49,8 @@ build:conda:
     - schedules
     
 build:pip:
-  stage: test
-  image: python:3.6
+  stage: build
+  image: python:latest
   script:
   # this configures Django application to use attached postgres database that is run on `postgres` host
   - ptd=$(pwd)
@@ -79,12 +79,12 @@ build:pip:
   - python use_case_3.py
   - python use_case_4.py
   only:
-    - schedules
+    - master
 
 
 pages:
   stage: deploy
-  image: python:3.6
+  image: python:latest
   script:
     - apt-get update -qy
     - python -V  # Print out python version for debugging
