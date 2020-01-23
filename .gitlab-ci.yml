@@ -19,7 +19,7 @@ stages:
   - test
   - deploy
 
-conda:build:
+conda-build:
   stage: build
   image: conda/miniconda3:latest
   script:
@@ -46,7 +46,7 @@ conda:build:
   only:
     - schedules
     
-pip:build:
+pip-build:
   stage: build
   image: python:latest
   script:
@@ -68,11 +68,11 @@ pip:build:
       - ptdvenv/
   artifacts:
     paths:
-      -image
+      - image
   only:
     - master
 
-pip:test:
+pip-test:
   stage: test
   script:
   - source ptdvenv/bin/activate
