@@ -81,7 +81,7 @@ pip-build:
     - python use_case_3.py
     - python use_case_4.py
   only:
-    - scheduler
+    - schedules
 
 
 pages:
