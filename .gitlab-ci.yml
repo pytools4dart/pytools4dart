@@ -13,15 +13,13 @@ variables:
 #
 # If you want to also cache the installed packages, you have to install
 # them in a virtualenv and cache it as well.
-cache:
-  paths:
-    - .cache/pip
-    - ptdvenv/
+
 stages:
   - build
+  - test
   - deploy
 
-build:conda:
+conda:build:
   stage: build
   image: conda/miniconda3:latest
   script:
@@ -48,19 +46,11 @@ build:conda:
   only:
     - schedules
     
-build:pip:
+pip:build:
   stage: build
   image: python:latest
   script:
   # this configures Django application to use attached postgres database that is run on `postgres` host
-  - ptd=$(pwd)
-  - cd ../
-  - curl -u $DART_AUTH $DART_URL -o dart.tar.gz
-  - tar -xzf dart.tar.gz
-  - dest=$(pwd)/$(ls -d DART_*)
-  - cd $dest
-  - ./install-text.sh $HOME/DART
-  - cd $ptd
   - apt-get update -qy
   - python -V  # Print out python version for debugging
   - pip install virtualenv
@@ -71,6 +61,29 @@ build:pip:
   - pip install pybind11 pygdal==2.4.0.5 geopandas Cython
   - pip install -r requirements.txt
   - pip install .
+  cache:
+    key: pip
+    paths:
+      - .cache/pip
+      - ptdvenv/
+  artifacts:
+    paths:
+      -image
+  only:
+    - master
+
+pip:test:
+  stage: test
+  script:
+  - source ptdvenv/bin/activate
+  - ptd=$(pwd)
+  - cd ../
+  - curl -u $DART_AUTH $DART_URL -o dart.tar.gz
+  - tar -xzf dart.tar.gz
+  - dest=$(pwd)/$(ls -d DART_*)
+  - cd $dest
+  - ./install-text.sh $HOME/DART
+  - cd $ptd
   - cd pytools4dart/examples
   - python -c 'import pytools4dart as ptd;ptd.configure("~/DART")'
   - python use_case_0.py
@@ -78,26 +91,22 @@ build:pip:
   - python use_case_2.py
   - python use_case_3.py
   - python use_case_4.py
+  cache:
+    key: pip
   only:
-    - master
+    - schedules
 
 
 pages:
   stage: deploy
-  image: python:latest
   script:
-    - apt-get update -qy
-    - python -V  # Print out python version for debugging
-    - pip install virtualenv
-    - virtualenv venv
     - source venv/bin/activate
     #- mkdir -v $APT_CACHE_DIR
-    - apt-get install -y libudunits2-dev libnetcdf-dev libproj-dev libgeos-dev libgdal-dev gfortran libspatialindex-dev # -o dir::cache::archives="$APT_CACHE_DIR"
-    - pip install pybind11 pygdal==2.4.0.5 geopandas Cython
-    - pip install -r requirements.txt
     - pip install portray python-markdown-math
     - portray as_html -c pyproject.toml
     - mv site public
+  cache:
+    key: pip
   artifacts:
     paths:
      - public
