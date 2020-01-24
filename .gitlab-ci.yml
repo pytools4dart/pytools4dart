@@ -100,7 +100,7 @@ pages:
     - pip install .
     #- mkdir -v $APT_CACHE_DIR
     - pip install portray python-markdown-math
-    - portray as_html -c pyproject.toml -d .
+    - portray as_html -c pyproject.toml
     - mv site public
   artifacts:
     paths:

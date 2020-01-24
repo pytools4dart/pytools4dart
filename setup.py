@@ -99,7 +99,7 @@ setup(
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
     # find_packages(exclude=['doc', 'tests', 'scripts', 'examples']),
-    packages=find_packages(exclude=['docs', 'tests', 'scripts', 'examples']),
+    packages=['pytools4dart'], # find_packages(exclude=['docs', 'tests', 'scripts', 'examples']),
 
     # List run-time dependencies here.  These will be installed by pip when your
     # project is installed. For an analysis of "install_requires" vs pip's
