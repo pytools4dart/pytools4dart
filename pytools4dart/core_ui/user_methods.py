@@ -101,7 +101,7 @@ to_string = MethodSpec(name='__str__',
                      source='''\
     
     def to_string(self, pretty_print=True):
-        return etree_.tostring(self.to_etree(), pretty_print=pretty_print)
+        return etree_.tostring(self.to_etree(), pretty_print=pretty_print, encoding=str)
         
     ''',
                      class_names=r'.*')
