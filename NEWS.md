@@ -1,10 +1,26 @@
+# 1.1.2
+
+## Fix
+
+- python 2/3 related:
+    - open Tree_file in UTF-8
+    - to_string methods of core nodes
+- requirements for pip install
+- headless server DART computing
+
+- method objreader.get_dims
+- method sequence.get_db_path
+
+## Changes
+
+- update guides
+
 # 1.1.1
 
 ## Fix
 - python 2 and 3 compatibility
 - windows compatibility
-- objreader.get_dims
-- sequence.get_db_path
+
 
 ## Add
 - documentation website
