@@ -11,7 +11,7 @@
 - method objreader.get_dims
 - method sequence.get_db_path
 
-## Changes
+## Change
 
 - update guides
 
