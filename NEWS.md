@@ -1,12 +1,15 @@
-# 1.1
+# 1.1.1
 
 ## Fix
 - python 2 and 3 compatibility
 - windows compatibility
+- objreader.get_dims
+- sequence.get_db_path
 
 ## Add
 - documentation website
-- configuration tests 
+- configuration tests
+- continuous integration
 
 
 # 1.0
