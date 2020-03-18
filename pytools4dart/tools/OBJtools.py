@@ -89,7 +89,7 @@ try:
 
     def get_dims(obj):
 
-        ydim, zdim, xdim = obj.dims
+        xdim, ydim, zdim = obj.dims
 
         return xdim, ydim, zdim
 

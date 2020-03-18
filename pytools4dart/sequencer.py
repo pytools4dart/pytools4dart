@@ -106,7 +106,7 @@ class Sequencer(object):
             Sequence group name
 
         key: str
-            Sequence parameter
+            Sequence parameter. Parameter name, part of its path or full path depending on corenode argument.
 
         values: list
             Sequence values
@@ -116,10 +116,11 @@ class Sequencer(object):
 
         corenode: simulation core object
 
-            If None, the full path of key in corresponding module must be given,
-            e.g. Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].UnderstoryMultiModel.ProspectExternalModule.ProspectExternParameters.Cab
+            Core node where to find the key. The full path corresponding to key is searched in that node with method findpaths.
+            Thus, the key must be unique in node.
 
-            Otherwise, the full path corresponding to key is searched in node. In that case, the key must be unique in node.
+            If corenode=None, the full path of core parameter is expected in key argument.
+            e.g. key="Coeff_diff.UnderstoryMultiFunctions.UnderstoryMulti[0].UnderstoryMultiModel.ProspectExternalModule.ProspectExternParameters.Cab"
 
         replace: bool
             If True, replace existing item by new one.
@@ -130,9 +131,11 @@ class Sequencer(object):
         """
         if corenode is not None:
             # get key from corenode
-            path = corenode.findpaths(key)
-            if len(path)!=1:
-                raise Exception('Either multiple or none value found: key "{}" is not valid'.format(key))
+            path = corenode.findpaths(key+'$')
+            if len(path)>1:
+                raise Exception('Multiple attributes corresponding to key="{}". Please, be more specific on corenode or key.'.format(key))
+            if len(path)==0:
+                raise Exception('Attribute corresponding to key="{}" not found.'.format(key))
             if corenode.parent is None:
                 key = path.iloc[0]
             else:
@@ -255,6 +258,6 @@ class Sequencer(object):
 
         """
 
-        return os.path.join(self.simu.getsimupath(), self.simu.name + '_' + self.name + '.db')
+        return os.path.join(self.simu.getsimupath(), self.simu.name + '_' + os.path.basename(self.name) + '.db')
 
 
