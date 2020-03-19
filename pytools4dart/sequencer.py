@@ -258,6 +258,6 @@ class Sequencer(object):
 
         """
 
-        return os.path.join(self.simu.getsimupath(), self.simu.name + '_' + os.path.basename(self.name) + '.db')
+        return os.path.join(self.simu.getsimupath(), os.path.basename(self.simu.name) + '_' + self.name + '.db')
 
 
