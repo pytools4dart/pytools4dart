@@ -194,7 +194,10 @@ class Sequencer(object):
             group = g.groupName
             for e in g.DartSequencerDescriptorEntry:
                 key = e.propertyName
-                values = list(map(float, e.args.split(';')))
+                try:
+                    values = list(map(float, e.args.split(';')))
+                except:  # if not float than it must be string
+                    values = e.args.split(';')
                 type = e.type_
                 if e.type_ == 'enumerate':
                     length = len(e.args.split(';'))
