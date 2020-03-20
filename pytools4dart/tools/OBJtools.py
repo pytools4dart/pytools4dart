@@ -72,6 +72,10 @@ try:
         def dims(self):
             return (self._xmax-self._xmin, self._ymax-self._ymin, self._zmax-self._zmin)
 
+        @property
+        def center(self):
+            return ((self._xmax + self._xmin)/2, (self._ymax + self._ymin)/2, (self._zmax + self._zmin)/2)
+
     def read(file_src):
         obj = objreader(file_src)
         return obj
@@ -92,6 +96,13 @@ try:
         xdim, ydim, zdim = obj.dims
 
         return xdim, ydim, zdim
+
+    def get_center(obj):
+
+        x, y, z = obj.center
+
+        return x, y, z
+
 
 except ImportError:
     def read(file_src):
@@ -126,6 +137,7 @@ except ImportError:
         zdim = bbox.height()
 
         return xdim, ydim, zdim
+
 
 
 def gnames_dart_order(group_names):

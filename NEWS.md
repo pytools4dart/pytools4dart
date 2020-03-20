@@ -1,3 +1,11 @@
+# 1.1.3
+
+## Fix
+
+- new parameter from DART 1142: Center3D in object_3d geometry
+- method sequence.get_db_path
+- method sequence.get_sequence_df for string parameters
+
 # 1.1.2
 
 ## Fix
