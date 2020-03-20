@@ -120,11 +120,23 @@ class Add(object):
         # number of groups
         gnum = len(gnames) # number of groups
 
-        GeometricProperties = ptd.object_3d.create_GeometricProperties(
-            PositionProperties=ptd.object_3d.create_PositionProperties(xpos=xpos, ypos=ypos, zpos=zpos),
-            Dimension3D=ptd.object_3d.create_Dimension3D(xdim=xdim, ydim=ydim, zdim=zdim),
-            ScaleProperties=ptd.object_3d.create_ScaleProperties(xscale=xscale, yscale=yscale, zscale=zscale)
-        )
+        dartbuild = int(ptd.getdartversion()['build'].split('v')[1])
+
+        if dartbuild < 1142:
+            GeometricProperties = ptd.object_3d.create_GeometricProperties(
+                PositionProperties=ptd.object_3d.create_PositionProperties(xpos=xpos, ypos=ypos, zpos=zpos),
+                Dimension3D=ptd.object_3d.create_Dimension3D(xdim=xdim, ydim=ydim, zdim=zdim),
+                ScaleProperties=ptd.object_3d.create_ScaleProperties(xscale=xscale, yscale=yscale, zscale=zscale)
+            )
+        else:
+            xc, yc, zc = obj.center
+            GeometricProperties = ptd.object_3d.create_GeometricProperties(
+                PositionProperties=ptd.object_3d.create_PositionProperties(xpos=xpos, ypos=ypos, zpos=zpos),
+                Dimension3D=ptd.object_3d.create_Dimension3D(xdim=xdim, ydim=ydim, zdim=zdim),
+                Center3D=ptd.object_3d.create_Center3D(xCenter=xc, yCenter=yc, zCenter=zc),
+                ScaleProperties=ptd.object_3d.create_ScaleProperties(xscale=xscale, yscale=yscale, zscale=zscale)
+            )
+
 
         hasGroups = 0
         Groups = None
