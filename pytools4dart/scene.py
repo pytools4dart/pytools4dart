@@ -323,7 +323,7 @@ class Plot_file(object):
 
         # create directory if not found
         if not os.path.isdir(os.path.dirname(filepath)):
-            raise Exception("Directory not found: '{}'. ")
+            raise Exception("Directory not found: '{}'. ".format(filepath))
 
         if os.path.isfile(filepath) and not overwrite:
             raise Exception('File already exist. Set overwrite to overpass.')
