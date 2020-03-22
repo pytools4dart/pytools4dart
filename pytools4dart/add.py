@@ -40,6 +40,7 @@ import os
 from pytools4dart.tools.constants import *
 from pytools4dart.core_ui.utils import get_labels, get_nodes, findall, set_nodes
 
+
 class Add(object):
 
     def __init__(self, simu):
@@ -89,7 +90,6 @@ class Add(object):
 
         """
 
-
         # op_type = "lambertian", op_ident=None, th_ident=None,
         # bop_type="lambertian", bop_ident=None,bth_ident = None, doubleFace = 0, createProps = False):
 
@@ -118,7 +118,7 @@ class Add(object):
         # import pandas as pd
 
         # number of groups
-        gnum = len(gnames) # number of groups
+        gnum = len(gnames)  # number of groups
 
         dartbuild = int(ptd.getdartversion()['build'].split('v')[1])
 
@@ -137,14 +137,13 @@ class Add(object):
                 ScaleProperties=ptd.object_3d.create_ScaleProperties(xscale=xscale, yscale=yscale, zscale=zscale)
             )
 
-
         hasGroups = 0
         Groups = None
-        if len(gnames)>1:
-            hasGroups=1
-            groups=list()
+        if len(gnames) > 1:
+            hasGroups = 1
+            groups = list()
             for gindex, gname in enumerate(gnames):
-                groups.append(ptd.object_3d.create_Group(num=gindex+1, name=gname))
+                groups.append(ptd.object_3d.create_Group(num=gindex + 1, name=gname))
             Groups = ptd.object_3d.create_Groups(Group=groups)
         obj = ptd.object_3d.create_Object(file_src=file_src, hasGroups=hasGroups,
                                           GeometricProperties=GeometricProperties, Groups=Groups)
@@ -169,85 +168,84 @@ class Add(object):
         #
         # oop = ptd.object_3d.create_ObjectOpticalProperties(sameOPObject=1, doubleFace=doubleFace, )
 
+        # op_type = x.op_type
+        # op_ident = x.op_ident
+        # bop_type = x.bop_type
+        # bop_ident = x.bop_ident
+        # th_ident = x.th_ident
+        # bth_ident = x.bth_ident
+        # doubleFace = x.doubleFace
 
-                # op_type = x.op_type
-                # op_ident = x.op_ident
-                # bop_type = x.bop_type
-                # bop_ident = x.bop_ident
-                # th_ident = x.th_ident
-                # bth_ident = x.bth_ident
-                # doubleFace = x.doubleFace
+        #
+        # opt_prop = ptd.object_3d.create_OpticalPropertyLink(ident=op_ident, indexFctPhase=op_index,
+        #                                                     type_=grd_op_types_inv_dict[op_type])
+        # th_prop = ptd.object_3d.create_ThermalPropertyLink(idTemperature=th_ident, indexTemperature=th_index)
+        #
+        # # back properties
+        # if doubleFace == 1:
+        #     if bop_ident == None:
+        #         bop_ident = self.simu.get_default_opt_prop(op_type).ident
+        #     if bth_ident == None:
+        #         bth_ident = self.simu.get_default_th_prop().idTemperature
+        #     bop_index = self.checkandcorrect_opt_prop_exists(bop_type, bop_ident, createProps)
+        #     bth_index = self.checkandcorrect_th_prop_exists(bth_ident, createProps)
+        #
+        #     if bop_index == None or bth_index == None:
+        #         raise Exception("ERROR opt_prop or thermal prop does not exist, please FIX or set createProps = True")
+        #
+        #
+        #
+        #
+        #     back_opt_prop_link = ptd.object_3d.create_OpticalPropertyLink(ident=bop_indent, indexFctPhase=bop_index,
+        #                                                         type_=grd_op_types_inv_dict[bop_type])
+        #     back_opt_prop = ptd.object_3d.create_BackFaceOpticalProperty(OpticalPropertyLink=back_opt_prop_link)
+        #
+        #     back_th_prop_link = ptd.object_3d.create_ThermalPropertyLink(idTemperature=bth_ident,
+        #                                                        indexTemperature=bth_index)
+        #     back_th_prop = ptd.object_3d.create_BackFaceThermalProperty(back_th_prop_link)
+        #
+        # else:
+        #     back_opt_prop = None
+        #     back_th_prop = None
+        #
+        # gop = ptd.object_3d.create_GroupOpticalProperties(OpticalPropertyLink= opt_prop,
+        #                                                   ThermalPropertyLink=th_prop,
+        #                                                   BackFaceOpticalProperty=back_opt_prop,
+        #                                                   BackFaceThermalProperty=back_th_prop)
+        #
+        # group = ptd.object_3d.create_Group(num=gindex, name=gname, GroupOpticalProperties=gop)
+        #
+        # groups.append(group)
 
-                #
-                # opt_prop = ptd.object_3d.create_OpticalPropertyLink(ident=op_ident, indexFctPhase=op_index,
-                #                                                     type_=grd_op_types_inv_dict[op_type])
-                # th_prop = ptd.object_3d.create_ThermalPropertyLink(idTemperature=th_ident, indexTemperature=th_index)
-                #
-                # # back properties
-                # if doubleFace == 1:
-                #     if bop_ident == None:
-                #         bop_ident = self.simu.get_default_opt_prop(op_type).ident
-                #     if bth_ident == None:
-                #         bth_ident = self.simu.get_default_th_prop().idTemperature
-                #     bop_index = self.checkandcorrect_opt_prop_exists(bop_type, bop_ident, createProps)
-                #     bth_index = self.checkandcorrect_th_prop_exists(bth_ident, createProps)
-                #
-                #     if bop_index == None or bth_index == None:
-                #         raise Exception("ERROR opt_prop or thermal prop does not exist, please FIX or set createProps = True")
-                #
-                #
-                #
-                #
-                #     back_opt_prop_link = ptd.object_3d.create_OpticalPropertyLink(ident=bop_indent, indexFctPhase=bop_index,
-                #                                                         type_=grd_op_types_inv_dict[bop_type])
-                #     back_opt_prop = ptd.object_3d.create_BackFaceOpticalProperty(OpticalPropertyLink=back_opt_prop_link)
-                #
-                #     back_th_prop_link = ptd.object_3d.create_ThermalPropertyLink(idTemperature=bth_ident,
-                #                                                        indexTemperature=bth_index)
-                #     back_th_prop = ptd.object_3d.create_BackFaceThermalProperty(back_th_prop_link)
-                #
-                # else:
-                #     back_opt_prop = None
-                #     back_th_prop = None
-                #
-                # gop = ptd.object_3d.create_GroupOpticalProperties(OpticalPropertyLink= opt_prop,
-                #                                                   ThermalPropertyLink=th_prop,
-                #                                                   BackFaceOpticalProperty=back_opt_prop,
-                #                                                   BackFaceThermalProperty=back_th_prop)
-                #
-                # group = ptd.object_3d.create_Group(num=gindex, name=gname, GroupOpticalProperties=gop)
-                #
-                # groups.append(group)
+        # if i > len(groups_list.Group) - 1:  # this is because when setting hasGroups = 1, one first group is automatically created
+        #     groups.add_Group(group)
+        # if gnames != None and len(gnames)!=gnum:
+        #     raise Exception("number of group_names and given group_number differ, please FIX")
+        #
+        # if op_types != None and len(op_types)!=gnum:
+        #     raise Exception("number of opt_prop_types and given group_number differ, please FIX")
+        #
+        # if op_ident != None and len(op_ident)!=gnum:
+        #     raise Exception("number of opt_prop_names and given group_number differ, please FIX")
+        #
+        # if th_ident != None and len(th_ident)!=gnum:
+        #     raise Exception("number of th_prop_names and given group_number differ, please FIX")
+        #
+        # if bop_types != None and len(bop_types)!=gnum:
+        #     raise Exception("number of back_opt_prop_types and given group_number differ, please FIX")
+        #
+        # if bop_ident != None and len(bop_ident)!=gnum:
+        #     raise Exception("number of back_opt_prop_names and given group_number differ, please FIX")
+        #
+        # if bth_ident != None and len(bth_ident)!=gnum:
+        #     raise Exception("number of back_th_prop_names and given group_number differ, please FIX")
 
-            # if i > len(groups_list.Group) - 1:  # this is because when setting hasGroups = 1, one first group is automatically created
-            #     groups.add_Group(group)
-            # if gnames != None and len(gnames)!=gnum:
-            #     raise Exception("number of group_names and given group_number differ, please FIX")
-            #
-            # if op_types != None and len(op_types)!=gnum:
-            #     raise Exception("number of opt_prop_types and given group_number differ, please FIX")
-            #
-            # if op_ident != None and len(op_ident)!=gnum:
-            #     raise Exception("number of opt_prop_names and given group_number differ, please FIX")
-            #
-            # if th_ident != None and len(th_ident)!=gnum:
-            #     raise Exception("number of th_prop_names and given group_number differ, please FIX")
-            #
-            # if bop_types != None and len(bop_types)!=gnum:
-            #     raise Exception("number of back_opt_prop_types and given group_number differ, please FIX")
-            #
-            # if bop_ident != None and len(bop_ident)!=gnum:
-            #     raise Exception("number of back_opt_prop_names and given group_number differ, please FIX")
-            #
-            # if bth_ident != None and len(bth_ident)!=gnum:
-            #     raise Exception("number of back_th_prop_names and given group_number differ, please FIX")
-
-            # op_type = op_types[i]
-            # op_ident = op_ident[i]
-            # th_prop_name = th_prop_names_list[i]
-            # back_op_type = back_op_types[i]
-            # back_opt_prop_name = back_op_ident[i]
-            # back_th_prop_name = back_th_prop_names_list[i]
+        # op_type = op_types[i]
+        # op_ident = op_ident[i]
+        # th_prop_name = th_prop_names_list[i]
+        # back_op_type = back_op_types[i]
+        # back_opt_prop_name = back_op_ident[i]
+        # back_th_prop_name = back_th_prop_names_list[i]
 
         self.simu.core.object_3d.object_3d.ObjectList.add_Object(obj)
 
@@ -370,7 +368,9 @@ class Add(object):
         #                               ['Vegetation', 'Understory'],
         #                               ['Fluid', 'AirFunction']], columns=['opl_type', 'op_type'])
         op_type = OP_TYPES.prefix[OP_TYPES.name.str.contains(type, case=False)].iloc[0]
-        dartnode = ptd.core_ui.utils.get_labels(pat='{type}MultiplicativeFactorForLUT$'.format(type=op_type),case=False)['dartnode'].iloc[0]
+        dartnode = \
+        ptd.core_ui.utils.get_labels(pat='{type}MultiplicativeFactorForLUT$'.format(type=op_type), case=False)[
+            'dartnode'].iloc[0]
 
         self.simu.core.get_bands_df()
         nb_sp_bands = self.simu.sensor.bands.shape[0]
@@ -381,16 +381,19 @@ class Add(object):
             tmp = ptd.coeff_diff.create_UnderstoryMulti()
             propargnames = tmp.attrib + tmp.children
             propargs = {k: v for k, v in kwargs.items() if k in propargnames}
-            modelargs = { k:v for k,v in kwargs.items() if k not in propargnames and k != 'prospect'}
-            new_model = eval('ptd.coeff_diff.create_{model}(**modelargs)'.format(model=model)) # optproplist_xmlpath.split(".")[1]
+            modelargs = {k: v for k, v in kwargs.items() if k not in propargnames and k != 'prospect'}
+            new_model = eval(
+                'ptd.coeff_diff.create_{model}(**modelargs)'.format(model=model))  # optproplist_xmlpath.split(".")[1]
 
-            propargs['UnderstoryMultiModel']=new_model
-            prop = eval('ptd.coeff_diff.create_{multi}(**propargs)'.format(multi=multi)) # optproplist_xmlpath.split(".")[1]
+            propargs['UnderstoryMultiModel'] = new_model
+            prop = eval(
+                'ptd.coeff_diff.create_{multi}(**propargs)'.format(multi=multi))  # optproplist_xmlpath.split(".")[1]
         else:
             module, fun, multi, node, factor = dartnode.split('.')
             new_model = None
             propargs = {k: v for k, v in kwargs.items() if k != 'prospect'}
-            prop = eval('ptd.coeff_diff.create_{multi}(**propargs)'.format(multi=multi)) # optproplist_xmlpath.split(".")[1]
+            prop = eval(
+                'ptd.coeff_diff.create_{multi}(**propargs)'.format(multi=multi))  # optproplist_xmlpath.split(".")[1]
 
             # ProspectExternalModule = ptd.coeff_diff.create_ProspectExternalModule(useProspectExternalModule=1,
             #                                                                       ProspectExternParameters=ProspectExternParameters)
@@ -402,15 +405,14 @@ class Add(object):
             set_nodes(prop, useProspectExternalModule=1)
             set_nodes(prop, **kwargs['prospect'])
 
-
         idents = self.simu.core.findall('Coeff_diff\.\w+\.\w+\.ident$')
-        if prop.ident not in idents: # new
+        if prop.ident not in idents:  # new
             eval('self.simu.core.coeff_diff.{fun}.add_{multi}(prop)'.format(
                 fun='.'.join(filter(None, [module, fun])), multi=multi))
         else:
             if replace:
-                op_df=self.simu.scene.properties.optical
-                index = op_df.loc[op_df.ident==prop.ident, "index"].iloc[0]
+                op_df = self.simu.scene.properties.optical
+                index = op_df.loc[op_df.ident == prop.ident, "index"].iloc[0]
                 eval('self.simu.core.coeff_diff.{fun}.replace_{multi}_at({index}, prop)'.format(
                     fun='.'.join(filter(None, [module, fun])), multi=multi, index=index))
             else:
@@ -426,7 +428,7 @@ class Add(object):
         #         eval('prop.{node}.add_{factor}(ptd.coeff_diff.create_{factor}())'.format(
         #             node='.'.join(filter(None, [model, node])), factor=factor))
 
-            #self.simu.core.update_properties_dict()
+        # self.simu.core.update_properties_dict()
         return prop
 
     def thermal_property(self, replace=False, **kwargs):
@@ -456,24 +458,24 @@ class Add(object):
         """
         prop = ptd.coeff_diff.create_ThermalFunction(**kwargs)
         idents = self.simu.core.findall('Coeff_diff\.\w+\.\w+\.idTemperature$')
-        if prop.idTemperature not in idents: # new
+        if prop.idTemperature not in idents:  # new
             self.simu.core.coeff_diff.Coeff_diff.Temperatures.add_ThermalFunction(prop)
         else:
             if replace:
-                tp_df=self.simu.scene.thermal
-                index = tp_df.loc[tp_df.idTemperature==prop.idTemperature, "index"]
+                tp_df = self.simu.scene.thermal
+                index = tp_df.loc[tp_df.idTemperature == prop.idTemperature, "index"]
                 self.simu.core.coeff_diff.Coeff_diff.Temperatures.replace_ThermalFunction(index, prop)
             else:
                 raise ValueError("'{}' already used by other optical property."
                                  "Please change 'ident' or set 'replace'.".format(prop.idTemperature))
         return prop
 
-    def plot(self, type = 'Vegetation',
-                 corners = None,
-                 baseheight = 0, height = 1,
-                 op_ident=None, tp_ident=None,
-                 grd_op_type=None, grd_op_ident=None,
-                 grd_tp_ident=None):
+    def plot(self, type='Vegetation',
+             corners=None,
+             baseheight=0, height=1,
+             op_ident=None, tp_ident=None,
+             grd_op_type=None, grd_op_ident=None,
+             grd_tp_ident=None):
         """
 
         Parameters
@@ -523,27 +525,26 @@ class Add(object):
                        [0, size[1]]]
 
         # 2D shape
-        Point2D = [ptd.plots.create_Point2D(x, y) for x,y in corners]
+        Point2D = [ptd.plots.create_Point2D(x, y) for x, y in corners]
         Polygon2D = ptd.plots.create_Polygon2D(Point2D=Point2D)
 
-
-        prop=opl=tpl=grd_type=grd_opl=grd_tpl=None
+        prop = opl = tpl = grd_type = grd_opl = grd_tpl = None
 
         # optical and thermal properties
         plot_type = PLOT_TYPES.type_int[type == PLOT_TYPES.type_str].iloc[0]
         if grd_op_type is not None:
             grd_type = OPL_TYPES.type_int[grd_op_type == OPL_TYPES.type_str].iloc[0]
 
-        if plot_type in [0, 2]: # ground
-            args = {'ident':grd_op_ident, 'type_': grd_type}
-            args = {k:v for k,v in args.items() if v is not None}
+        if plot_type in [0, 2]:  # ground
+            args = {'ident': grd_op_ident, 'type_': grd_type}
+            args = {k: v for k, v in args.items() if v is not None}
             grd_opl = ptd.plots.create_GroundOpticalPropertyLink(**args)
-            if grd_tp_ident is not None: # otherwise default roperties will be set
+            if grd_tp_ident is not None:  # otherwise default roperties will be set
                 grd_tpl = ptd.plots.create_GroundThermalPropertyLink(idTemperature=grd_tp_ident)
 
         # optical property links
         if op_ident is not None:
-            if plot_type in [1,2]:
+            if plot_type in [1, 2]:
                 opl = ptd.plots.create_VegetationOpticalPropertyLink(ident=op_ident)
             elif plot_type == 3:
                 air_opl = ptd.plots.create_AirOpticalPropertyLink(ident=op_ident)
@@ -553,37 +554,37 @@ class Add(object):
                 opl = ptd.plots.create_WaterOpticalProperties(AirOpticalPropertyLink=air_opl)
 
         # thermal property links
-        if tp_ident is not None and plot_type in range(1,5):
+        if tp_ident is not None and plot_type in range(1, 5):
             tpl = ptd.plots.create_GroundThermalPropertyLink(idTemperature=tp_ident)
 
         # properties and plot
         if plot_type == 0:
-            plot = ptd.plots.create_Plot(type_= plot_type, Polygon2D=Polygon2D,
+            plot = ptd.plots.create_Plot(type_=plot_type, Polygon2D=Polygon2D,
                                          GroundOpticalPropertyLink=grd_opl, GroundThermalPropertyLink=grd_tpl)
         elif plot_type in [1, 2]:
             geom = ptd.plots.create_VegetationGeometry(height=height, baseheight=baseheight)
             prop = ptd.plots.create_PlotVegetationProperties(VegetationOpticalPropertyLink=opl,
                                                              GroundThermalPropertyLink=tpl,
                                                              VegetationGeometry=geom)
-            plot = ptd.plots.create_Plot(type_= plot_type, Polygon2D=Polygon2D, PlotVegetationProperties=prop,
+            plot = ptd.plots.create_Plot(type_=plot_type, Polygon2D=Polygon2D, PlotVegetationProperties=prop,
                                          GroundOpticalPropertyLink=grd_opl, GroundThermalPropertyLink=grd_tpl)
         elif plot_type == 3:
             geom = ptd.plots.create_AirGeometry(height=height, baseheight=baseheight)
             prop = ptd.plots.create_PlotAirProperties(AirOpticalProperties=opl,
                                                       GroundThermalPropertyLink=tpl,
                                                       AirGeometry=geom)
-            plot = ptd.plots.create_Plot(type_= plot_type, Polygon2D=Polygon2D, PlotAirProperties=prop)
+            plot = ptd.plots.create_Plot(type_=plot_type, Polygon2D=Polygon2D, PlotAirProperties=prop)
         elif plot_type == 4:
             prop = ptd.plots.create_PlotWaterProperties(WaterOpticalProperties=opl,
                                                         GroundThermalPropertyLink=tpl,
                                                         waterDepth=height, waterHeight=baseheight)
-            plot = ptd.plots.create_Plot(type_= plot_type, Polygon2D=Polygon2D, PlotWaterProperties=prop)
+            plot = ptd.plots.create_Plot(type_=plot_type, Polygon2D=Polygon2D, PlotWaterProperties=prop)
 
         self.simu.core.plots.Plots.add_Plot(plot)
 
         return plot
 
-    def plots(self, data=None, file=None, append = False):
+    def plots(self, data=None, file=None, append=False):
         """
         add plots DataFrame to a plot file and add file to simulation
         Parameters
@@ -674,7 +675,7 @@ class Add(object):
         """
 
         if file is None:
-            file = os.path.join(self.simu.getinputsimupath(),'plots.txt')
+            file = os.path.join(self.simu.getinputsimupath(), 'plots.txt')
 
         # check if the dataframe has the good format
         if data is not None:
@@ -691,7 +692,7 @@ class Add(object):
 
         return self.simu.scene.plot_file
 
-    def trees(self, data=None, file = None, append=False, overwrite=False, mkdir=False):
+    def trees(self, data=None, file=None, append=False, overwrite=False, mkdir=False):
         """
 
         Parameters
@@ -770,27 +771,27 @@ class Add(object):
         return self.simu.scene.tree_file
 
         # mandatory_columns = ['SPECIES_ID', 'POS_X', 'POS_Y']
-            # if not all([c for c in mandatory_columns if c in data.columns]):
-            #     raise Exception("Mandatory colmuns 'SPECIES_ID', 'POS_X', 'POS_Y' not found.")
-            #
-            # expected_columns = TREES_COLUMNS
-            # df = data[[c for c in data.columns if c in expected_columns]]
+        # if not all([c for c in mandatory_columns if c in data.columns]):
+        #     raise Exception("Mandatory colmuns 'SPECIES_ID', 'POS_X', 'POS_Y' not found.")
+        #
+        # expected_columns = TREES_COLUMNS
+        # df = data[[c for c in data.columns if c in expected_columns]]
 
-            # if os.path.basename(file) is file:
-            #     filepath = os.path.join(self.simu.getsimupath(), file)
-            # else:
-            #     filepath = file
-            #
-            # # check if append or overwrite
-            # if os.path.isfile(filepath) and not append and not overwrite:
-            #     raise Exception('File already exist. Set append or overwrite to overpass.')
+        # if os.path.basename(file) is file:
+        #     filepath = os.path.join(self.simu.getsimupath(), file)
+        # else:
+        #     filepath = file
+        #
+        # # check if append or overwrite
+        # if os.path.isfile(filepath) and not append and not overwrite:
+        #     raise Exception('File already exist. Set append or overwrite to overpass.')
 
-            # # create directory if not found
-            # if not os.path.isdir(os.path.dirname(filepath)):
-            #     if not mkdir:
-            #         raise Exception("Directory not found: '{}'"
-            #                         "Set option 'mkdir' to create.".format(os.path.dirname(filepath)))
-            #     os.mkdir(os.path.dirname(filepath))
+        # # create directory if not found
+        # if not os.path.isdir(os.path.dirname(filepath)):
+        #     if not mkdir:
+        #         raise Exception("Directory not found: '{}'"
+        #                         "Set option 'mkdir' to create.".format(os.path.dirname(filepath)))
+        #     os.mkdir(os.path.dirname(filepath))
 
         #     if not append:
         #         with open(filepath, mode='w') as f:
@@ -811,10 +812,10 @@ class Add(object):
 
     def tree_species(self, lai=4.0,
                      veg_op_ident='Turbid_Leaf_Deciduous_Phase_Function',
-                     veg_tp_ident = 'ThermalFunction290_310',
-                     trunk_op_type = 'Lambertian',
-                     trunk_op_ident = 'Lambertian_Phase_Function_1',
-                     trunk_tp_ident = 'ThermalFunction290_310'
+                     veg_tp_ident='ThermalFunction290_310',
+                     trunk_op_type='Lambertian',
+                     trunk_op_ident='Lambertian_Phase_Function_1',
+                     trunk_tp_ident='ThermalFunction290_310'
                      ):
         """
         Add a tree species with one crown level.
@@ -841,16 +842,16 @@ class Add(object):
         else:
             sname = 'Specie_{}'.format(Trees.sceneModelCharacteristic)
 
-        if  Trees.isTrees == 0:
+        if Trees.isTrees == 0:
             # initialize and remove specie automaticaly created
-            Trees.isTrees=1
+            Trees.isTrees = 1
             setattr(getattr(Trees, tname), sname, [])
 
         Trees_i = getattr(Trees, tname)
 
         # Trunk properties (same for crown and under)
         trunk_opl = ptd.trees.create_OpticalPropertyLink(ident=trunk_op_ident,
-                                                        type_=OPL_TYPES.type_int[OPL_TYPES.type_str == trunk_op_type])
+                                                         type_=OPL_TYPES.type_int[OPL_TYPES.type_str == trunk_op_type])
         trunk_tpl = ptd.trees.create_ThermalPropertyLink(idTemperature=trunk_tp_ident)
         # Crown properties
         veg_opl = ptd.trees.create_VegetationOpticalPropertyLink(ident=veg_op_ident)
@@ -858,9 +859,10 @@ class Add(object):
         veg_prop = ptd.trees.create_VegetationProperty(veg_opl, veg_tpl)
 
         CrownLevel = ptd.trees.create_CrownLevel(OpticalPropertyLink=trunk_opl, ThermalPropertyLink=trunk_tpl,
-                                    VegetationProperty=veg_prop)
+                                                 VegetationProperty=veg_prop)
 
-        args = {'lai':lai, 'OpticalPropertyLink':trunk_opl, 'ThermalPropertyLink':trunk_tpl, 'CrownLevel':[CrownLevel]}
+        args = {'lai': lai, 'OpticalPropertyLink': trunk_opl, 'ThermalPropertyLink': trunk_tpl,
+                'CrownLevel': [CrownLevel]}
         Species = eval('ptd.trees.create_{sname}(**args)'.format(sname=sname))
         eval('Trees_i.add_{sname}(Species)'.format(sname=sname))
 
@@ -886,7 +888,7 @@ class Add(object):
         -------
             new band, new spectral irradiance depending on simulation method
         """
-        #phase module modification
+        # phase module modification
         bands = self.simu.core.phase.Phase.DartInputParameters.SpectralIntervals
         bandNumber = len(bands.SpectralIntervalsProperties)
         new_band = ptd.phase.create_SpectralIntervalsProperties(bandNumber=bandNumber, meanLambda=wvl,
@@ -894,14 +896,14 @@ class Add(object):
         bands.add_SpectralIntervalsProperties(new_band)
 
         if self.simu.core.phase.Phase.calculatorMethod != 2:
-            new_ir =  ptd.phase.create_SpectralIrradianceValue(bandNumber=bandNumber, irradiance=irradiance, Skyl=skyl)
+            new_ir = ptd.phase.create_SpectralIrradianceValue(bandNumber=bandNumber, irradiance=irradiance, Skyl=skyl)
             ir = self.simu.core.phase.Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance
             ir.add_SpectralIrradianceValue(new_ir)
             return new_band, new_ir
 
         return new_band
 
-    def sequence(self, name = None, empty=False):
+    def sequence(self, name=None, empty=False):
         """
         Appends a new sequence to simulation sequences
         Parameters
@@ -920,10 +922,9 @@ class Add(object):
         self.simu.sequences.append(new_sequence)
         return new_sequence
 
-    def virtual_direction (self, azimuth, zenith):
+    def virtual_direction(self, azimuth, zenith):
         new = ptd.directions.create_ZenithAzimuth(directionAzimuthalAngle=azimuth,
-                                            directionZenithalAngle=zenith)
-        dir = ptd.directions.create_AddedDirections(ZenithAzimuth = new)
+                                                  directionZenithalAngle=zenith)
+        dir = ptd.directions.create_AddedDirections(ZenithAzimuth=new)
         self.simu.core.directions.Directions.add_AddedDirections(dir)
         return dir
-

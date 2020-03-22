@@ -41,9 +41,7 @@ from .tools.DART2LAS import DART2LAS
 import pandas as pd
 
 
-
-
-def rundart(path, tool, options = []):
+def rundart(path, tool, options=[]):
     """
     Run a DART module.
 
@@ -69,7 +67,7 @@ def rundart(path, tool, options = []):
         raise ValueError('DART tool not found.')
 
     # simulationName = re.findall(re.compile("^" + ))
-    tooldir,toolname = os.path.split(dtools[tool])
+    tooldir, toolname = os.path.split(dtools[tool])
     cdir = os.getcwd()
     os.chdir(tooldir)
     if len(options):
@@ -81,6 +79,7 @@ def rundart(path, tool, options = []):
         raise Exception('Error in ' + tool + ' : ' + str(ok))
 
     return True
+
 
 def full(simu_name):
     """
@@ -98,6 +97,7 @@ def full(simu_name):
     """
     return rundart(simu_name, 'full')
 
+
 def direction(simu_name):
     """
     Run DART direction module.
@@ -114,6 +114,7 @@ def direction(simu_name):
     """
     return rundart(simu_name, 'directions')
 
+
 def phase(simu_name):
     """
     Run the DART phase module.
@@ -129,6 +130,7 @@ def phase(simu_name):
     """
     return rundart(simu_name, 'phase')
 
+
 def maket(simu_name):
     """
     Run the DART maket module.
@@ -143,6 +145,7 @@ def maket(simu_name):
         True if good
     """
     return rundart(simu_name, 'maket')
+
 
 def dart(simu_name):
     """
@@ -160,6 +163,7 @@ def dart(simu_name):
         True if good
     """
     return rundart(simu_name, 'only')
+
 
 def sequence(simu_name, sequence_name, option='-start'):
     """
@@ -182,7 +186,8 @@ def sequence(simu_name, sequence_name, option='-start'):
     bool
         True if good
     """
-    return rundart(pjoin(simu_name, sequence_name+'.xml'), 'sequence', [option])
+    return rundart(pjoin(simu_name, sequence_name + '.xml'), 'sequence', [option])
+
 
 def colorComposite(simu_name, red, green, blue, pngfile):
     """
@@ -243,7 +248,7 @@ def colorCompositeBands(simu_name, red, green, blue, iteration, outdir):
     return ans
 
 
-def stack_bands(simu_output_dir, output_dir=None, phasefile=None,  zenith=0, azimuth=0,
+def stack_bands(simu_output_dir, output_dir=None, phasefile=None, zenith=0, azimuth=0,
                 band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART')):
     """
     Stack bands into an ENVI .bil file
@@ -324,14 +329,12 @@ def dart2las(simudir, type='bin', lasFormat=1, extra_bytes=True):
     if not os.path.isdir(outputDpath):
         raise ValueError('Simulation output directory not found: {}'.format(outputDpath))
 
-    if type=='bin':
+    if type == 'bin':
         InputFile = os.path.join(outputDpath, 'LIDAR_IMAGE_FILE.binary')
         OutputFile = os.path.join(outputDpath, 'LIDAR_IMAGE_FILE.las')
 
         if not os.path.isfile(InputFile):
             raise ValueError('LIDAR_IMAGE_FILE.binary not found in {}'.format(outputDpath))
-
-
 
         d2l = DART2LAS.DART2LAS()
         # obj.run()
@@ -340,7 +343,7 @@ def dart2las(simudir, type='bin', lasFormat=1, extra_bytes=True):
         d2l.ifWriteWaveform = (lasFormat in [4, 9])  # True = Waveforme, FALSE = Que les pts
         d2l.typeOut = 4  # have Gaussian max peak as intensity
         d2l.extra_bytes = extra_bytes  # record Amplitude and Pulse width as given in RIEGL Whitepaper.
-        d2l.maxOutput = int(2**16)-1
+        d2l.maxOutput = int(2 ** 16) - 1
         dgain = []
         doffset = []
 
@@ -353,14 +356,14 @@ def dart2las(simudir, type='bin', lasFormat=1, extra_bytes=True):
         df = pd.DataFrame(dict(gain=dgain, offset=doffset))
         df.to_csv(os.path.join(simudir, 'output', 'waveform2las_gains.txt'), sep='\t', index=False)
 
-    elif type=='dp':
+    elif type == 'dp':
         InputFile = os.path.join(outputDpath, 'DetectedPoints.txt')
         OutputFile = os.path.join(outputDpath, 'DetectedPoints.las')
         print('{} --> {}'.format(InputFile, OutputFile))
         DART2LAS.DP2LAS(InputFile, OutputFile, lasFormat=lasFormat)
         print('Done.')
 
-    return(OutputFile)
+    return (OutputFile)
 
 
 class Run(object):
@@ -496,5 +499,3 @@ class Run(object):
         simu_output_dir = pjoin(self.simu.getsimupath(), 'output')
         return stack_bands(simu_output_dir, outputdir, phasefile=phasefile, zenith=zenith, azimuth=azimuth,
                            band_sub_dir=band_sub_dir)
-
-

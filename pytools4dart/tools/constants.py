@@ -107,8 +107,8 @@ PLOTS_HEADER = '''* DART Extra plots files, plots defined in this file are not d
 '''
 
 TREES_COLUMNS = ['SPECIES_ID', 'POS_X', 'POS_Y', 'T_HEI_BELOW', 'T_HEI_WITHIN', 'T_DIA_BELOW', 'T_ROT_NUT', 'T_ROT_PRE',
-                'C_TYPE', 'C_HEI', 'LAI', 'C_ROT_INT', 'C_ROT_NUT', 'C_ROT_PRE',
-                'C_GEO_1', 'C_GEO_2', 'C_GEO_3', 'C_GEO_4']
+                 'C_TYPE', 'C_HEI', 'LAI', 'C_ROT_INT', 'C_ROT_NUT', 'C_ROT_PRE',
+                 'C_GEO_1', 'C_GEO_2', 'C_GEO_3', 'C_GEO_4']
 
 TREES_HEADER = '''* DART Trees files (default values are used for eventual missing fields) 
 * 
@@ -155,10 +155,10 @@ TREES_HEADER = '''* DART Trees files (default values are used for eventual missi
 '''
 
 OP_TYPES = pd.DataFrame([['Lambertian', 'Lambertian'],
-                           ['Hapke', 'Hapke'],
-                           ['RPV', 'RPV'],
-                           ['Vegetation', 'Understory'],
-                           ['Fluid', 'AirFunction']], columns=['name', 'prefix'])
+                         ['Hapke', 'Hapke'],
+                         ['RPV', 'RPV'],
+                         ['Vegetation', 'Understory'],
+                         ['Fluid', 'AirFunction']], columns=['name', 'prefix'])
 
 # Optical property link type numbers
 OPL_TYPES = pd.DataFrame([[0, 'Lambertian'],
@@ -169,11 +169,11 @@ OPL_TYPES = pd.DataFrame([[0, 'Lambertian'],
                           # [5, 'Fluid'],
                           [8, 'Interface']], columns=['type_int', 'type_str'])
 
-PLOT_TYPES =pd.DataFrame([[0, 'Ground', None],
-                          [1, 'Vegetation', 'Vegetation'],
-                          [2, 'Ground + Vegetation', 'Vegetation'],
-                          [3, 'Fluid', 'Fluid'],
-                          [4, 'Water', 'Fluid']], columns=['type_int', 'type_str', 'op_type'])
+PLOT_TYPES = pd.DataFrame([[0, 'Ground', None],
+                           [1, 'Vegetation', 'Vegetation'],
+                           [2, 'Ground + Vegetation', 'Vegetation'],
+                           [3, 'Fluid', 'Fluid'],
+                           [4, 'Water', 'Fluid']], columns=['type_int', 'type_str', 'op_type'])
 
 SIMU_TYPE = pd.DataFrame([[0, 'Flux Tracking'],
                           [1, 'Monte-Carlo'],

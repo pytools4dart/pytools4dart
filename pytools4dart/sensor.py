@@ -30,10 +30,6 @@
 This module contains the class "Sensor".
 """
 
-#class Sensor(): ToDo
-
-import pytools4dart as ptd
-
 
 class Sensor(object):
     """
@@ -45,10 +41,11 @@ class Sensor(object):
 
     def __repr__(self):
         description = '\n'.join([
-          'number of bands: {}'.format(self.bands.shape[0])
+            'number of bands: {}'.format(self.bands.shape[0])
         ])
 
         return description
+
     @property
     def bands(self):
         return self.simu.core.get_bands_df()
@@ -60,5 +57,3 @@ class Sensor(object):
     @property
     def sensors(self):
         return self.simu.core.get_sensors()
-
-

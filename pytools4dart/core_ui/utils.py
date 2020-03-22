@@ -38,6 +38,7 @@ import pandas as pd
 import os
 import re
 
+
 #### Fonctions pour l'interprétation du template
 # def get_template_root(module):
 #     template_string = ptd.xmlwriters.dartxml.get_templates()[module]
@@ -103,46 +104,47 @@ def update_node(rnode, tnode, module):
         att = getattr(rnode, mk)
         # update parent attribute of each child
         if att is not None and not isinstance(att, list):
-            att.parent=rnode
-        empty_rchilds[mapName(k)]= (att is None or
-                                    (isinstance(att, list) and
-                                     len(att) == 0))
+            att.parent = rnode
+        empty_rchilds[mapName(k)] = (att is None or
+                                     (isinstance(att, list) and
+                                      len(att) == 0))
 
     for tchild in tnode.getchildren():
         if (tchild.tag == 'DartDocumentTemplateNode'):
             if 'test' in tchild.attrib:
                 test = tchild.attrib['test']
-                try: # when created rnode may not have the parents necessary for test
+                try:  # when created rnode may not have the parents necessary for test
                     test_res = eval_test(rnode, test)
-                    if(test_res):
+                    if (test_res):
                         update_node(rnode, tchild, module)
-                    else: # remove child if exist
+                    else:  # remove child if exist
                         setattr(rnode, tchild.getchildren()[0].tag, None)
                 except:
                     pass
             elif 'type' in tchild.attrib:
-                if tchild.attrib['type']=='list':
+                if tchild.attrib['type'] == 'list':
                     # TODO la gestion de l'attribut static='1'
                     list_len = len(getattr(rnode, tchild.getchildren()[0].tag))
                     if 'min' in tchild.attrib:
-                        min_list_len =  pd.to_numeric(tchild.attrib['min'])
-                    else:# case attribute min does not exist
+                        min_list_len = pd.to_numeric(tchild.attrib['min'])
+                    else:  # case attribute min does not exist
                         min_list_len = 0
 
-                    if max(min_list_len, list_len)>0:
+                    if max(min_list_len, list_len) > 0:
                         update_node(rnode, tchild, module)
             else:
                 update_node(rnode, tchild, module)
         else:
             rchild_value = getattr(rnode, tchild.tag)
             if empty_rchilds[tchild.tag]:
-                tchild_args = ', '.join([mapName(k) + '=' + "'"+v+"'" for k, v in tchild.attrib.items()])
+                tchild_args = ', '.join([mapName(k) + '=' + "'" + v + "'" for k, v in tchild.attrib.items()])
                 new_rchild = eval('ptd.core_ui.{}.create_{}({})'.format(module, tchild.tag, tchild_args))
                 if isinstance(rchild_value, list):
                     eval('rnode.add_{}(new_rchild)'.format(tchild.tag))
                 else:
                     setattr(rnode, tchild.tag, new_rchild)
-                update_node(new_rchild,tchild,module) # TEST CL: redondance with create just before, but parent references do not exist when object is created
+                update_node(new_rchild, tchild,
+                            module)  # TEST CL: redondance with create just before, but parent references do not exist when object is created
             else:
                 rchilds = getattr(rnode, tchild.tag)
                 if isinstance(rchilds, list):
@@ -150,6 +152,7 @@ def update_node(rnode, tnode, module):
                         update_node(rchild, tchild, module)
                 else:
                     update_node(rchilds, tchild, module)
+
 
 # def rreplace(s, old, new):
 #     li = s.rsplit(old, 1) #Split only once
@@ -198,8 +201,10 @@ NameTable = {
     'build': 'build_',
 }
 import keyword
+
 for kw in keyword.kwlist:
     NameTable[kw] = '%s_' % kw
+
 
 def mapName(oldName):
     newName = oldName
@@ -209,28 +214,27 @@ def mapName(oldName):
 
 
 def eval_test(xmlnode, test):
-    ptest=[]
+    ptest = []
     testlist = test.split(' ')
 
     for s in testlist:
         s = s.replace('parent', 'xmlnode', 1)
         if (('==' in s) or ('!=' in s)):
             if '==' in s:
-                knode, value =s.split('==')
-                sep='=='
+                knode, value = s.split('==')
+                sep = '=='
             else:
                 knode, value = s.split('!=')
-                sep='!='
+                sep = '!='
 
             sknode = knode.split('.')
-            sk=[]
+            sk = []
             for i, n in enumerate(sknode):
                 sk.append(mapName(n))
             s = '.'.join(sk) + sep + value
         ptest.append(s)
     # print(' '.join(ptest))
     return eval(' '.join(ptest))
-
 
 
 #### Foncions pour les object issus des module générés par generateDSs
@@ -269,17 +273,18 @@ def eval_test(xmlnode, test):
 #     xsdroot = etree.fromstring(xsd_string)
 #     return xsdroot
 
-def get_gs_troot(module, xsdclass = 'DartFile'):
+def get_gs_troot(module, xsdclass='DartFile'):
     # troot = get_template_root(module)
     # xsdroot = get_xsd_root(module)
     troot = etree.parse(os.path.join(ptd.__path__[0], 'templates', '{}.xml'.format(module)),
-                        parser = etree.XMLParser(remove_comments=True))
+                        parser=etree.XMLParser(remove_comments=True))
     # xsdroot = etree.parse('/home/boissieu/Scripts/pytools4dartMTD/pytools4dart/core_ui/plots.xsd')
     # tnodename = xsdroot.xpath('//xsd:element[@type="{}" or @name="{}"]'.format(xsdclass,xsdclass),
     #               namespaces={'xsd': 'http://www.w3.org/2001/XMLSchema'})[0].attrib[
     #     'name']
-    tnodename = xsdclass.replace('_','',1)
+    tnodename = xsdclass.replace('_', '', 1)
     return troot.xpath('//{}'.format(tnodename))[0]
+
 
 def get_nodes(corenode, dartnode):
     """
@@ -304,33 +309,33 @@ def get_nodes(corenode, dartnode):
     dns = dartnode.split('.')
     subdn = ''
     dn = dns[0]
-    if dn not in corenode.children+corenode.attrib:
+    if dn not in corenode.children + corenode.attrib:
         return ([])
 
-    cn = eval('corenode.'+dn)
+    cn = eval('corenode.' + dn)
     if cn is None:
-        return([])
+        return ([])
 
-    if len(dns)== 1:
+    if len(dns) == 1:
         if isinstance(cn, list):
-            return(cn)
+            return (cn)
         else:
-            return([cn])
-
+            return ([cn])
 
     subdn = '.'.join(dns[1:])
     if isinstance(cn, list):
-        l=[]
+        l = []
         for subcn in cn:
             n = get_nodes(subcn, subdn)
             l.extend(n)
 
-        return(l)
+        return (l)
         # return([get_nodes(subcn, subdn) for subcn in cn])
     n = get_nodes(cn, subdn)
     if isinstance(n, list):
-        return(n)
-    return([n])
+        return (n)
+    return ([n])
+
 
 def get_nodes_with_path(corenode, dartnode):
     """
@@ -355,25 +360,24 @@ def get_nodes_with_path(corenode, dartnode):
     dns = dartnode.split('.')
     subdn = ''
     dn = dns[0]
-    if dn not in corenode.children+corenode.attrib:
+    if dn not in corenode.children + corenode.attrib:
         return [], []
 
-    cn = eval('corenode.'+dn)
+    cn = eval('corenode.' + dn)
     if cn is None:
         return [], []
 
-    if len(dns)== 1:
+    if len(dns) == 1:
         if isinstance(cn, list):
-            path = [corenode.path()+'.'+dn+'[{}]'.format(i) for i in range(len(cn))]
+            path = [corenode.path() + '.' + dn + '[{}]'.format(i) for i in range(len(cn))]
             return cn, path
         else:
-            return [cn], [corenode.path()+'.'+dn]
-
+            return [cn], [corenode.path() + '.' + dn]
 
     subdn = '.'.join(dns[1:])
     if isinstance(cn, list):
-        node=[]
-        path=[]
+        node = []
+        path = []
         for subcn in cn:
             n, p = get_nodes_with_path(subcn, subdn)
             node.extend(n)
@@ -424,9 +428,9 @@ def get_labels(pat=None, case=False, regex=True, column='dartnode'):
     import pytools4dart as ptd
     ptd.core_ui.utils.get_labels('OpticalPropertyLink$')
     """
-    labelsFpath = os.path.join(ptd.__path__[0], 'labels','labels.tab')
+    labelsFpath = os.path.join(ptd.__path__[0], 'labels', 'labels.tab')
     if not os.path.exists(labelsFpath):
-        raise Exception('File not found:\n'+labelsFpath+
+        raise Exception('File not found:\n' + labelsFpath +
                         '\n\nPlease reconfigure pytools4dart.')
     labelsdf = pd.read_csv(labelsFpath, sep='\t', encoding='utf-8')
     if pat is not None:
@@ -434,6 +438,7 @@ def get_labels(pat=None, case=False, regex=True, column='dartnode'):
 
     labelsdf = labelsdf[['label', 'dartnode']]
     return labelsdf
+
 
 def get_path(corenode, index=False):
     """
@@ -456,7 +461,7 @@ def get_path(corenode, index=False):
         str
 
     """
-    if corenode.parent is None: # includes createDartFile class
+    if corenode.parent is None:  # includes createDartFile class
         return None
 
     path = re.sub('create_', '', corenode.__class__.__name__)
@@ -468,7 +473,7 @@ def get_path(corenode, index=False):
         # i = corenode.parent.__getattribute__(path).index(corenode)
         l = corenode.parent.__getattribute__(path)
         i = [i for i, c in enumerate(l) if c is corenode][0]
-        path = path+'[{}]'.format(i)
+        path = path + '[{}]'.format(i)
 
     return '.'.join([ppath, path])
 
@@ -502,7 +507,7 @@ def findall(corenode, pat, case=False, regex=True, column='dartnode', path=False
         dartnode = re.sub('create_', '', corenode.__class__.__name__)
 
     if use_labels:
-        labelsdf = get_labels('(^|\.)'+dartnode)
+        labelsdf = get_labels('(^|\.)' + dartnode)
         labelsdf = labelsdf[labelsdf[column].str.contains(pat, case, regex=regex)]
         labelsdf['dartnode'] = [re.sub('^(?:.*\.)?' + dartnode + '\.', '', dn) for dn in labelsdf['dartnode']]
         dartnodes = labelsdf['dartnode'].drop_duplicates()
@@ -523,19 +528,18 @@ def findall(corenode, pat, case=False, regex=True, column='dartnode', path=False
     else:
         dartnodes = pd.Series(subpaths(corenode)).drop_duplicates()
         dartnodes = dartnodes[dartnodes.str.contains(pat, case, regex=regex)]
-        nodes=[]
+        nodes = []
         for dn in dartnodes:
             nodes.append(eval('corenode.{}'.format(dn)))
-        index = [n is not None and not (isinstance(n, list) and len(n)==0) for n in nodes]
+        index = [n is not None and not (isinstance(n, list) and len(n) == 0) for n in nodes]
         nodes = [n for n, i in zip(nodes, index) if i]
         if path:
             paths = [d for d, i in zip(dartnodes, index) if i]
             return nodes, paths
 
-
-
     # dartnodes = [re.sub(dartnode+'.', '', dn, count=1) for dn in labelsdf['dartnode']]
     return nodes
+
 
 def set_nodes(corenode, **kwargs):
     """
@@ -565,12 +569,13 @@ def set_nodes(corenode, **kwargs):
     for key, value in kwargs.items():
         # _, dartnodes = findall(corenode, pat=key+'$', path=True, use_labels=False)
         dartnodes = findpaths(corenode, pat='\.' + key + '$', case=True)
-        if len(dartnodes)==1:
-            exec('corenode.'+dartnodes.iloc[0]+'=value')
+        if len(dartnodes) == 1:
+            exec('corenode.' + dartnodes.iloc[0] + '=value')
         else:
             df = pd.DataFrame(dict(attr=dartnodes, value=value))
             for row in df.itertuples():
-                exec('corenode.'+row.attr+'=row.value')
+                exec('corenode.' + row.attr + '=row.value')
+
 
 def subpaths(corenode):
     cpath = []
@@ -583,11 +588,12 @@ def subpaths(corenode):
             c = getattr(corenode, cname)
             if isinstance(c, list):
                 for i in range(len(c)):
-                    cpath.extend([cname+'[{}].'.format(i) + s for s in subpaths(c[i])])
+                    cpath.extend([cname + '[{}].'.format(i) + s for s in subpaths(c[i])])
             else:
-                cpath.extend([cname+'.'+ s for s in subpaths(c)])
+                cpath.extend([cname + '.' + s for s in subpaths(c)])
 
     return cpath
+
 
 def findpaths(corenode, pat, case=False, regex=True):
     paths = pd.Series(subpaths(corenode))
@@ -643,5 +649,3 @@ def diff(corenode1, corenode2):
 # ptd.core_ui.utils.findall(simu.core.plots.Plots, '.*ident$')
 #
 # pat = '.*LAI$'
-
-

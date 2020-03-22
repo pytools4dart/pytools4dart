@@ -51,7 +51,7 @@ import pprint
 import numpy as np
 import shutil
 import warnings
-#warnings.warn("deprecated", DeprecationWarning)
+# warnings.warn("deprecated", DeprecationWarning)
 
 # local imports
 # from .tools.voxreader import voxel
@@ -68,6 +68,7 @@ from .scene import Scene
 from .add import Add
 from .sensor import Sensor
 from .source import Source
+
 
 class simulation(object):
     """
@@ -93,6 +94,7 @@ class simulation(object):
         - run: list of available runners, full, step by step, composites, sequences.
 
     """
+
     def __init__(self, name=None, method=0, empty=False):
         """
 
@@ -134,7 +136,7 @@ class simulation(object):
 
     def __repr__(self):
 
-        description ='\n'.join(
+        description = '\n'.join(
             ["\nSimulation '{}': {}".format(self.name, self.method),
              '__________________________________',
              'Sensor\n========',
@@ -182,7 +184,7 @@ class simulation(object):
         return get_input_file_path(self.name, filename)
 
     def get_database_dir(self):
-        return pjoin(getdartdir(),"database")
+        return pjoin(getdartdir(), "database")
 
     def write(self, overwrite=False, verbose=True):
         """
@@ -206,7 +208,7 @@ class simulation(object):
 
         inputDpath = self.getinputsimupath()
         if os.path.isdir(inputDpath):
-            if overwrite: # remove file
+            if overwrite:  # remove file
                 # tempfile was considered however the plots.xml can be large if lots of plots,
                 # thus this option wasn't further investigated
                 for f in glob.glob(os.path.join(self.getinputsimupath(), '*.xml')):
@@ -230,5 +232,3 @@ class simulation(object):
         # write sequence
         for s in self.sequences:
             s.write(overwrite=overwrite)
-
-

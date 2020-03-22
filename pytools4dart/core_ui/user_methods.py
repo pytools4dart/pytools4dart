@@ -98,16 +98,16 @@ class MethodSpec(object):
 # Sample method specification #1
 #
 to_string = MethodSpec(name='__str__',
-                     source='''\
+                       source='''\
     
     def to_string(self, pretty_print=True):
         return etree_.tostring(self.to_etree(), pretty_print=pretty_print, encoding=str)
         
     ''',
-                     class_names=r'.*')
+                       class_names=r'.*')
 
 path = MethodSpec(name='path',
-                     source='''\
+                  source='''\
     
     def path(self, index=True):
         """
@@ -133,10 +133,10 @@ path = MethodSpec(name='path',
         return get_path(self, index=index)
         
     ''',
-                     class_names=r'.*')
+                  class_names=r'.*')
 
 findpaths = MethodSpec(name='path',
-                     source='''\
+                       source='''\
                      
     def findpaths(self, pat, case=False, regex=True):
         return findpaths(self, pat=pat, case=case, regex=regex)
@@ -145,13 +145,13 @@ findpaths = MethodSpec(name='path',
                        class_names=r'.*')
 
 subpaths = MethodSpec(name='path',
-                       source='''\
+                      source='''\
 
     def subpaths(self):
         return subpaths(self)
 
     ''',
-                       class_names=r'.*')
+                      class_names=r'.*')
 
 set_nodes = MethodSpec(name='path',
                        source='''\
@@ -162,13 +162,13 @@ set_nodes = MethodSpec(name='path',
     ''',
                        class_names=r'.*')
 
-
 #
 # Provide a list of your method specifications.
 #   This list of specifications must be named METHOD_SPECS.
 #
 
 METHOD_SPECS = [to_string, path, findpaths, subpaths, set_nodes]
+
 
 def test():
     for spec in METHOD_SPECS:

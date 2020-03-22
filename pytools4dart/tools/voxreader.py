@@ -67,7 +67,7 @@ class voxel(object):
     def from_vox(cls, filename):
         newVoxel = cls()
         newVoxel.inputfile = os.path.expanduser(filename)
-        newVoxel.read_vox_header() # description de la scène voxelisées
+        newVoxel.read_vox_header()  # description de la scène voxelisées
         newVoxel.read_vox_data()  # description de chaque voxel
         newVoxel.create_grid()
         return (newVoxel)
@@ -81,10 +81,10 @@ class voxel(object):
         skiprows: int
             number of rows to skip before parameters
         """
-        tmp=[]
-        tmp2=[]
+        tmp = []
+        tmp2 = []
         with open(self.inputfile, "r") as file:
-            i=0
+            i = 0
             for line in file:
                 i += 1
                 if i > skiprows:
@@ -99,7 +99,7 @@ class voxel(object):
         header = dict(map(lambda s: map(lambda s: s.strip(), s.split(':')), tmp2))
 
         for col in header:
-            if(col in ["max_corner", "min_corner", "split", "res"]):
+            if (col in ["max_corner", "min_corner", "split", "res"]):
                 header[col] = list(map(float, header[col].split(" ")))
 
         self.header = header
@@ -150,7 +150,7 @@ class voxel(object):
                 I.append(i)
                 J.append(j)
 
-        self.grid = gpd.GeoDataFrame({'i':I, 'j':J, 'geometry': polygons})
+        self.grid = gpd.GeoDataFrame({'i': I, 'j': J, 'geometry': polygons})
 
     def affine_transform(self, matrix, inplace=True):
         """Apply an affine transformation to the voxel grid, like with shapely.affinity.affine_transform.
@@ -258,7 +258,7 @@ class voxel(object):
         else:
             return (pd.merge(self.data, intersectDF, on=("i", "j"), how="left"))
 
-    def to_plots(self, density_type = 'UL', keep_columns = None):
+    def to_plots(self, density_type='UL', keep_columns=None):
         """
         Convert to DART plots DataFrame
         Parameters
@@ -276,7 +276,6 @@ class voxel(object):
 
         """
 
-
         res = self.header["res"][0]
 
         # set density parameters
@@ -291,15 +290,18 @@ class voxel(object):
         # operation was tested
         # remove Ul=0 value, as it means empty voxel
         # extract plots coordinates from grid
-        voxlist=[]
+        voxlist = []
         for row in self.grid.itertuples():
-         voxlist.append(np.array(row.geometry.exterior.coords.xy)[:,:-1].ravel().tolist())
-        points=pd.concat([self.grid.loc[:,['i', 'j']], pd.DataFrame(voxlist, columns = [ 'PT_1_X', 'PT_2_X', 'PT_3_X',
-                                          'PT_4_X', 'PT_1_Y', 'PT_2_Y', 'PT_3_Y', 'PT_4_Y'])], axis=1, sort=False)
+            voxlist.append(np.array(row.geometry.exterior.coords.xy)[:, :-1].ravel().tolist())
+        points = pd.concat([self.grid.loc[:, ['i', 'j']], pd.DataFrame(voxlist, columns=['PT_1_X', 'PT_2_X', 'PT_3_X',
+                                                                                         'PT_4_X', 'PT_1_Y', 'PT_2_Y',
+                                                                                         'PT_3_Y', 'PT_4_Y'])], axis=1,
+                           sort=False)
         # merge points with data and add other parameters
-        data = self.data[(self.data.PadBVTotal != 0) & pd.notna(self.data.PadBVTotal)].loc[:,['i', 'j', 'k', 'PadBVTotal']]
+        data = self.data[(self.data.PadBVTotal != 0) & pd.notna(self.data.PadBVTotal)].loc[:,
+               ['i', 'j', 'k', 'PadBVTotal']]
         data = data.merge(points, how='left', on=['i', 'j'])
-        data['PLT_BTM_HEI'] = data.k*res+self.header["min_corner"][2]
+        data['PLT_BTM_HEI'] = data.k * res + self.header["min_corner"][2]
         data['PLT_HEI_MEA'] = res
         data['VEG_DENSITY_DEF'] = densitydef
         data.rename(columns={'PadBVTotal': density_column}, inplace=True)
@@ -308,8 +310,8 @@ class voxel(object):
         # drop index
         data.drop(['i', 'j', 'k'], axis=1, inplace=True)
         data = data.reindex(['PLT_TYPE', 'PT_1_X', 'PT_1_Y', 'PT_2_X', 'PT_2_Y', 'PT_3_X', 'PT_3_Y',
-                                              'PT_4_X', 'PT_4_Y', 'PLT_BTM_HEI', 'PLT_HEI_MEA',
-                                              'VEG_DENSITY_DEF', density_column], axis=1, copy=False)
+                             'PT_4_X', 'PT_4_Y', 'PLT_BTM_HEI', 'PLT_HEI_MEA',
+                             'VEG_DENSITY_DEF', density_column], axis=1, copy=False)
 
         if keep_columns == 'all':
             keep_columns = self.data.columns
@@ -318,6 +320,7 @@ class voxel(object):
 
         if keep_columns is not None and len(keep_columns) > 0:
             keep_columns = [c for c in keep_columns if c in self.data.columns]
-            data = pd.concat([data, self.data[(self.data.PadBVTotal != 0) & pd.notna(self.data.PadBVTotal)][keep_columns].reset_index(drop=True)], axis=1)
+            data = pd.concat([data, self.data[(self.data.PadBVTotal != 0) & pd.notna(self.data.PadBVTotal)][
+                keep_columns].reset_index(drop=True)], axis=1)
 
         return data

@@ -38,8 +38,9 @@ import tempfile
 import subprocess
 import re
 
+
 def import2db(dbFpath, name, wavelength, reflectance, direct_transmittance, diffuse_transmittance,
-              type='Lambertian', comments = ["# Software: pytools4dart", "# Date: date"], verbose=False):
+              type='Lambertian', comments=["# Software: pytools4dart", "# Date: date"], verbose=False):
     """
     Add optical properties to a DART database.
 
@@ -66,7 +67,6 @@ def import2db(dbFpath, name, wavelength, reflectance, direct_transmittance, diff
 
     """
 
-
     dartDBmanager = os.path.join(getdartdir(), "bin", "python_script", "DatabaseManager", "main.py")
     python27DART = os.path.join(getdartdir(), "bin", "python", "python")
     clean = lambda varStr: re.sub('\W|^(?=\d)', '_', varStr)
@@ -79,29 +79,29 @@ def import2db(dbFpath, name, wavelength, reflectance, direct_transmittance, diff
 
     try:
         tmpdir = tempfile.mkdtemp()
-        tmpfile = os.path.join(tmpdir, prefix+'_'+nname+'.txt')
+        tmpfile = os.path.join(tmpdir, prefix + '_' + nname + '.txt')
 
         # write file
         df = pd.DataFrame(dict(wavelength=wavelength, reflectance=reflectance,
-                          direct_transmittance=direct_transmittance, diffuse_transmittance=diffuse_transmittance))
+                               direct_transmittance=direct_transmittance, diffuse_transmittance=diffuse_transmittance))
 
         # reorder columns to avoid wrong db internal reordering at along reflectance instead of wavelength
-        df = df.reindex(['wavelength', 'reflectance', 'direct_transmittance', 'diffuse_transmittance'], axis=1, copy=False)
+        df = df.reindex(['wavelength', 'reflectance', 'direct_transmittance', 'diffuse_transmittance'], axis=1,
+                        copy=False)
         with open(tmpfile, 'w') as f:
-            f.write('\n'.join(comments)+'\n')
+            f.write('\n'.join(comments) + '\n')
             df.to_csv(f, sep=';', encoding='utf8', header=True, index=False)
 
         command = [python27DART, dartDBmanager, "import", dbFpath, tmpdir, os.path.basename(tmpfile)]
 
         if verbose:
-            print('executed command:\n'+' '.join(command))
+            print('executed command:\n' + ' '.join(command))
 
         p = subprocess.Popen(command, stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE)  # lancement de la commande pour créer la database
 
         output, error = p.communicate()
         p.wait()
-
 
         print(output.decode("utf-8"))
         print(error.decode("utf-8"))
@@ -148,13 +148,14 @@ def get_models(dbname, search=True):
     conn = sqlite3.connect(dbfile)
     c = conn.cursor()
 
-    result=[]
+    result = []
     for row in c.execute('select model, Comments from _comments'):
-        result.append([s.encode('utf-8') for s in row] )
+        result.append([s.encode('utf-8') for s in row])
 
     conn.close()
 
     return pd.DataFrame(result, columns=['name', 'description'])
+
 
 def search_dbfile(dbname='Lambertian_vegetation.db'):
     '''
@@ -170,8 +171,8 @@ def search_dbfile(dbname='Lambertian_vegetation.db'):
 
     '''
 
-    dartdbfile=os.path.join(getdartdir(), 'database', dbname)
-    userdbfile=os.path.join(getdartenv()['DART_LOCAL'], 'database', dbname)
+    dartdbfile = os.path.join(getdartdir(), 'database', dbname)
+    userdbfile = os.path.join(getdartenv()['DART_LOCAL'], 'database', dbname)
 
     if os.path.isfile(dbname):
         return os.path.abspath(dbname)
@@ -183,8 +184,6 @@ def search_dbfile(dbname='Lambertian_vegetation.db'):
         return dartdbfile
 
     raise ValueError('Database not found: ' + dbname)
-
-
 
 # from functools import reduce
 
@@ -209,4 +208,3 @@ def search_dbfile(dbname='Lambertian_vegetation.db'):
 #     "# Contact: jean-baptiste.feret@irstea.fr"]
 #     return(comment)
 #
-

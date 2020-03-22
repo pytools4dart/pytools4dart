@@ -34,15 +34,18 @@ import os
 import pytools4dart as ptd
 import re
 from plyfile import PlyData
+
 try:
     import tinyobj
     import numpy as np
+
 
     class objreader(object):
         """
         class to bind tinyobj, as shape elements
         not kept correctly (lost) when getting out of a method
         """
+
         def __init__(self, file_src):
             obj = tinyobj.ObjReader()
             obj.ParseFromFile(file_src)
@@ -55,7 +58,6 @@ try:
             self._ymin, self._zmin, self._xmin = np.amin(vertices, axis=0)
             self._ymax, self._zmax, self._xmax = np.amax(vertices, axis=0)
 
-
         # @property
         # def vertices(self):
         #     return np.array(self._obj.GetAttrib().vertices).reshape((-1,3))
@@ -66,19 +68,21 @@ try:
 
         @property
         def extent(self):
-            return ((self._xmin, self._xmax), (self._ymin,self._ymax), (self._zmin, self._zmax))
+            return ((self._xmin, self._xmax), (self._ymin, self._ymax), (self._zmin, self._zmax))
 
         @property
         def dims(self):
-            return (self._xmax-self._xmin, self._ymax-self._ymin, self._zmax-self._zmin)
+            return (self._xmax - self._xmin, self._ymax - self._ymin, self._zmax - self._zmin)
 
         @property
         def center(self):
-            return ((self._xmax + self._xmin)/2, (self._ymax + self._ymin)/2, (self._zmax + self._zmin)/2)
+            return ((self._xmax + self._xmin) / 2, (self._ymax + self._ymin) / 2, (self._zmax + self._zmin) / 2)
+
 
     def read(file_src):
         obj = objreader(file_src)
         return obj
+
 
     def get_gnames(obj):
 
@@ -96,6 +100,7 @@ try:
         xdim, ydim, zdim = obj.dims
 
         return xdim, ydim, zdim
+
 
     def get_center(obj):
 
@@ -128,6 +133,7 @@ except ImportError:
 
         return gnames
 
+
     def get_dims(obj):
 
         bbox = obj.getBounds()
@@ -137,7 +143,6 @@ except ImportError:
         zdim = bbox.height()
 
         return xdim, ydim, zdim
-
 
 
 def gnames_dart_order(group_names):
@@ -165,7 +170,7 @@ def gnames_dart_order(group_names):
         return group_names
 
     dartbuild = int(ptd.getdartversion()['build'].split('v')[1])
-    if dartbuild<1111:
+    if dartbuild < 1111:
         # order made with Java HashMap keySet
         from jnius import autoclass
         gnames = []
@@ -185,7 +190,7 @@ def gnames_dart_order(group_names):
     return gnames
 
 
-def ply2obj(ply, obj, order = ['x', 'y', 'z'], color=False):
+def ply2obj(ply, obj, order=['x', 'y', 'z'], color=False):
     """
     Convert ply file to obj
     Parameters
@@ -221,10 +226,9 @@ def ply2obj(ply, obj, order = ['x', 'y', 'z'], color=False):
             else:
                 f.write("v %.6f %.6f %.6f\n" % tuple(p))
 
-
         if all([n in properties for n in normals]):
             for v in verteces:
-                n = [v['n'+order[0]], v['n'+order[1]], v['n'+order[2]]]
+                n = [v['n' + order[0]], v['n' + order[1]], v['n' + order[2]]]
                 f.write("vn %.6f %.6f %.6f\n" % tuple(n))
 
         if all([t in properties for t in textures]):
@@ -234,7 +238,8 @@ def ply2obj(ply, obj, order = ['x', 'y', 'z'], color=False):
 
         if 'face' in ply:
 
-            vertex_indices = next((p.name for p in ply['face'].properties if p.name in ['vertex_indices', 'vertex_index']), None)
+            vertex_indices = next(
+                (p.name for p in ply['face'].properties if p.name in ['vertex_indices', 'vertex_index']), None)
             for i in ply['face'][vertex_indices]:
                 f.write("f")
                 for j in range(i.size):
@@ -242,7 +247,6 @@ def ply2obj(ply, obj, order = ['x', 'y', 'z'], color=False):
                         ii = [i[j] + 1, i[j] + 1, i[j] + 1]
                         f.write(" %d/%d/%d" % tuple(ii))
                     else:
-                        ii = [ i[j]+1 ]
+                        ii = [i[j] + 1]
                         f.write(" %d" % tuple(ii))
                 f.write("\n")
-

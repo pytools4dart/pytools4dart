@@ -31,7 +31,6 @@
 This module contains the classes Scene, Properties, Plot_file and Tree_file
 """
 
-
 import os
 import sys
 from .tools.constants import *
@@ -40,7 +39,6 @@ from .core_ui.utils import findall
 
 class Scene(object):
     def __init__(self, simu):
-
         self.simu = simu
 
         self._size = self.simu.core.maket.Maket.Scene.SceneDimensions
@@ -54,7 +52,6 @@ class Scene(object):
         self.tree_file = Tree_file(self.simu)
 
     def __repr__(self):
-
         description = '\n'.join(
             ['scene size : {}'.format(self.size),
              'cell size : {}'.format(self.cell),
@@ -101,7 +98,7 @@ class Scene(object):
 
     @periodicity.setter
     def periodicity(self, value):
-        self.simu.core.maket.Maket.exactlyPeriodicScene=value
+        self.simu.core.maket.Maket.exactlyPeriodicScene = value
 
     @property
     def ground(self):
@@ -176,16 +173,16 @@ class Plot_file(object):
     #     - if F is None, F is set to default
     #     ....
     # Thus this option was left away for the moment
-    def __init__(self, simu, data = None, filepath = None):
+    def __init__(self, simu, data=None, filepath=None):
         self.simu = simu
         self._data = data
 
         if filepath is not None:
-            self.filepath = filepath # set absolute path if not None by the way
+            self.filepath = filepath  # set absolute path if not None by the way
             if data is None:
                 self.load()
         else:
-            if data is not None: # set default name
+            if data is not None:  # set default name
                 self.filepath = os.path.join(simu.getinputsimupath(), 'plots.txt')
             else:
                 self.filepath = self.filepath
@@ -194,14 +191,13 @@ class Plot_file(object):
         # self._filepath
         # self.exists = False
 
-
-
         # # check si filepath exist et si oui normalise
         # if self.filepath != get_input_file_path(self.filepath):
         #     self.filepath = get_input_file_path(self.filepath)
         #
         # if self.data is None:
         #     self.load()
+
     @property
     def shape(self):
         if self.data is None:
@@ -226,12 +222,15 @@ class Plot_file(object):
             print('Updating plot file properties name...')
 
         if 'PLT_OPT_NUMB' in df.columns:
-            PLT_OPT_TYPE = pd.merge(df[['PLT_TYPE']], PLOT_TYPES, left_on= 'PLT_TYPE', right_on='type_int', how='left')['op_type']
+            PLT_OPT_TYPE = pd.merge(df[['PLT_TYPE']], PLOT_TYPES, left_on='PLT_TYPE', right_on='type_int', how='left')[
+                'op_type']
             df['PLT_OPT_NAME'] = self.simu.core.get_op_ident(df.PLT_OPT_NUMB, PLT_OPT_TYPE)
         if 'PLT_THERM_NUMB' in df.columns:
             df['PLT_THERM_NAME'] = self.simu.core.get_tp_ident(df.PLT_THERM_NUMB)
         if 'GRD_OPT_NUMB' in df.columns:
-            GRD_OPT_TYPE = pd.merge(df[['GRD_OPT_TYPE']], OPL_TYPES, left_on='GRD_OPT_TYPE', right_on='type_int', how='left')['type_str']
+            GRD_OPT_TYPE = \
+            pd.merge(df[['GRD_OPT_TYPE']], OPL_TYPES, left_on='GRD_OPT_TYPE', right_on='type_int', how='left')[
+                'type_str']
             df['GRD_OPT_NAME'] = self.simu.core.get_op_ident(df.GRD_OPT_NUMB, GRD_OPT_TYPE)
         if 'GRD_THERM_NUMB' in df.columns:
             df['GRD_THERM_NAME'] = self.simu.core.get_tp_ident(df.GRD_THERM_NAME)
@@ -303,7 +302,7 @@ class Plot_file(object):
         self.data = pd.concat([self.data, self.check_columns(value)],
                               ignore_index=True, sort=False)
 
-    def write(self, filepath = None, overwrite=False, verbose=True):
+    def write(self, filepath=None, overwrite=False, verbose=True):
         """
         Writes dataframe to text file
         Parameters
@@ -313,7 +312,7 @@ class Plot_file(object):
         overwrite: bool
             if True and file exists, it is overwritten
         """
-        if self._data is None: # does not load it if not already done.
+        if self._data is None:  # does not load it if not already done.
             return
         else:
             self.update_indexes(verbose=verbose)
@@ -334,6 +333,7 @@ class Plot_file(object):
         self.data.to_csv(filepath, sep='\t', index=False, mode='a', header=True)
         if verbose:
             print("\nPlots written in '{}'".format(filepath))
+
 
 class Tree_file(object):
     # This class was supposed to stand for plot file management
@@ -362,16 +362,16 @@ class Tree_file(object):
     #     - if F and core F different
     #     ....
     # Thus this option was left away for the moment
-    def __init__(self, simu, data = None, filepath = None):
+    def __init__(self, simu, data=None, filepath=None):
         self.simu = simu
         self._data = data
 
         if filepath is not None:
-            self.filepath = filepath # set absolute path if not None by the way
+            self.filepath = filepath  # set absolute path if not None by the way
             if data is None:
                 self.load()
         else:
-            if data is not None: # set default name
+            if data is not None:  # set default name
                 self.filepath = os.path.join(simu.getinputsimupath(), 'trees.txt')
             else:
                 self.filepath = self.filepath
@@ -380,14 +380,13 @@ class Tree_file(object):
         # self._filepath
         # self.exists = False
 
-
-
         # # check si filepath exist et si oui normalise
         # if self.filepath != get_input_file_path(self.filepath):
         #     self.filepath = get_input_file_path(self.filepath)
         #
         # if self.data is None:
         #     self.load()
+
     @property
     def shape(self):
         if self.data is None:
@@ -419,7 +418,6 @@ class Tree_file(object):
 
             # filepath = self.simu.get_input_file_path(value)
             exec(nodepath[0] + '=value')
-
 
     @property
     def data(self):
@@ -453,7 +451,7 @@ class Tree_file(object):
         self.data = pd.concat([self.data, self.check_columns(value)],
                               ignore_index=True, sort=False)
 
-    def write(self, filepath = None, overwrite=False, verbose=True):
+    def write(self, filepath=None, overwrite=False, verbose=True):
         """
         Writes dataframe to text file
         Parameters
@@ -467,7 +465,7 @@ class Tree_file(object):
         -------
 
         """
-        if self._data is None: # does not load it if not already done.
+        if self._data is None:  # does not load it if not already done.
             return
 
         if filepath is None:

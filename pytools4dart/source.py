@@ -31,6 +31,7 @@
 This module contains the class "Source".
 """
 
+
 class Source(object):
     def __init__(self, simu):
         self.simu = simu
@@ -55,4 +56,3 @@ class Source(object):
     def position(self, source_pos_az_zenith):
         self.simu.core.directions.Directions.SunViewingAngles.sunViewingAzimuthAngle = source_pos_az_zenith[0]
         self.simu.core.directions.Directions.SunViewingAngles.sunViewingZenithAngle = source_pos_az_zenith[1]
-

@@ -67,6 +67,7 @@ def pytools4dartrc():
     home = expanduser('~')
     return pjoin(home, '.pytools4dartrc')
 
+
 def getdartdir(dartdir=None):
     '''
     Get DART default directory or expand and normalize input DART directory
@@ -89,6 +90,7 @@ def getdartdir(dartdir=None):
         dartdir = os.path.expanduser(dartdir)
 
     return dartdir
+
 
 def configure(dartdir=None):
     """
@@ -130,7 +132,6 @@ def configure(dartdir=None):
         raise ValueError('\nCould not manage to configure pytools4dart. Please contact support.')
 
 
-
 def getdartenv(dartdir=None, verbose=False):
     """
     Get DART environment variables from the .dartrc corresponding to
@@ -169,31 +170,31 @@ def getdartenv(dartdir=None, verbose=False):
     return dartenv
 
 
-def get_dart_env_linux(dartrcpath, verbose = False):
+def get_dart_env_linux(dartrcpath, verbose=False):
     """
     Linux version of getdartenv, see corresponding doc.
     """
     command = ['bash', '-c', 'source ' + dartrcpath + ' && env']
 
-    proc = subprocess.Popen(command, stdout = subprocess.PIPE)
+    proc = subprocess.Popen(command, stdout=subprocess.PIPE)
 
     dartenv = {}
     for line in proc.stdout:
-        if sys.version_info[0] == 2 :
+        if sys.version_info[0] == 2:
             (key, _, value) = line.rstrip().partition("=")
         else:
             (key, _, value) = line.decode('unicode_escape').rstrip().partition("=")
 
         if verbose:
-          print("{}={}".format(key, value))
+            print("{}={}".format(key, value))
 
         dartenv[key] = value
 
     return {k: dartenv[k] for k in ('DART_HOME', 'DART_LOCAL', 'DART_JAVA_MAX_MEMORY',
-                    'PATH', 'LD_LIBRARY_PATH')}
+                                    'PATH', 'LD_LIBRARY_PATH')}
 
 
-def get_dart_env_win(dartrcpath, verbose = False):
+def get_dart_env_win(dartrcpath, verbose=False):
     """
     Windows version of getdartenv, see corresponding doc.
     """
@@ -204,15 +205,16 @@ def get_dart_env_win(dartrcpath, verbose = False):
 
     dartenv = {}
     for SetEnvMatch in SetEnvMatchList:
-        VarName=SetEnvMatch[0]
-        VarValue=SetEnvMatch[1]
+        VarName = SetEnvMatch[0]
+        VarValue = SetEnvMatch[1]
         if verbose:
-            print("{}={}".format(VarName,VarValue))
+            print("{}={}".format(VarName, VarValue))
         dartenv[VarName] = VarValue
 
     return dartenv
 
-def checkdartdir(dartdir = None):
+
+def checkdartdir(dartdir=None):
     """
     Configuration checker
 
@@ -241,7 +243,7 @@ def checkdartdir(dartdir = None):
 
     dartversion = getdartversion(dartdir)
     if dartversion['version'] < '5.7.1':
-        print('DART version is too old: '+dartversion['version'])
+        print('DART version is too old: ' + dartversion['version'])
         return False
 
     return True
@@ -272,9 +274,10 @@ def darttools(dartdir=None):
     toolsdir = pjoin(dartenv['DART_HOME'], 'tools', darttools)
 
     darttoolspaths = glob.glob(pjoin(toolsdir, '*.' + bashext))
-    dtools = {os.path.splitext(os.path.basename(p))[0].replace('dart-', ''):p for p in darttoolspaths}
+    dtools = {os.path.splitext(os.path.basename(p))[0].replace('dart-', ''): p for p in darttoolspaths}
 
     return dtools
+
 
 def headlessdarttools(dartdir=None):
     """
@@ -295,7 +298,7 @@ def headlessdarttools(dartdir=None):
         print('Add flag -Djava.awt.headless=true to {} for headless servers compatibility'.format(
             toolspath))
         cmd = "sed -i '/-Djava.awt.headless=true/! s#$DART_HOME/bin/jre/bin/java#$DART_HOME/bin/jre/bin/java -Djava.awt.headless=true#g' {}".format(
-        toolspath)
+            toolspath)
         subprocess.run(cmd, shell=True)
 
 
@@ -381,9 +384,10 @@ def getdartversion(dartdir=None):
         versionstr = f.readlines()[0]
 
     version, releasedate, build = versionstr.rstrip().split('_')
-    version = version.replace('-','.')
+    version = version.replace('-', '.')
 
-    return {'version':version, 'build':build, 'releasedate':releasedate}
+    return {'version': version, 'build': build, 'releasedate': releasedate}
+
 
 def get_xmlfile_version(xmlfile):
     """
@@ -405,7 +409,8 @@ def get_xmlfile_version(xmlfile):
 
     return root.attrib
 
-def check_xmlfile_version(xmlfile, dartdir = None):
+
+def check_xmlfile_version(xmlfile, dartdir=None):
     """
     Check if version is the same as the
     Parameters
@@ -419,17 +424,17 @@ def check_xmlfile_version(xmlfile, dartdir = None):
     """
     fversion = get_xmlfile_version(xmlfile)
     dversion = getdartversion(dartdir)
-    build_int = int(dversion['build'].replace('v',''))
+    build_int = int(dversion['build'].replace('v', ''))
     fbuild_int = int(fversion['build'].replace('v', ''))
 
-    if dversion['version'] > fversion['version'] : # or build_int > fbuild_int
+    if dversion['version'] > fversion['version']:  # or build_int > fbuild_int
         raise Exception('Input file created with DART: {fversion} {fbuild}.\n'
                         'Current DART is: {version} {build}.\n'
                         'Upgrade simulation with pytools3dart.run.upgrade before use.'.format(
-            fversion = fversion['version'], fbuild = fversion['build'],
+            fversion=fversion['version'], fbuild=fversion['build'],
             version=dversion['version'], build=dversion['build']
         ))
-    elif dversion['version'] < fversion['version'] : # or build_int < fbuild_int
+    elif dversion['version'] < fversion['version']:  # or build_int < fbuild_int
         raise Exception('Input file created with DART: {fversion} {fbuild}.\n'
                         'Current DART is: {version} {build}.\n'
                         'Upgrade DART before continuing.'.format(
@@ -438,12 +443,11 @@ def check_xmlfile_version(xmlfile, dartdir = None):
         ))
 
 
-
 def build_core(directory=None):
     if not directory:
         directory = os.path.abspath(ptd.__path__[0])
 
-    templatesDpath = os.path.join(directory,'templates')
+    templatesDpath = os.path.join(directory, 'templates')
     xsdDpath = os.path.join(directory, 'xsdschemas')
     labelsDpath = os.path.join(directory, 'labels')
 
@@ -466,7 +470,6 @@ def build_core(directory=None):
             os.remove(os.path.join(labelsDpath, s))
         os.rmdir(labelsDpath)
 
-
     try:
         os.mkdir(templatesDpath)
         print('extracting templates to ', templatesDpath)
@@ -474,7 +477,6 @@ def build_core(directory=None):
         print("Directory ", templatesDpath, " already exists")
 
     write_templates(templatesDpath)
-
 
     try:
         os.mkdir(xsdDpath)
@@ -484,7 +486,6 @@ def build_core(directory=None):
 
     write_schemas(xsdDpath)
 
-
     try:
         os.mkdir(labelsDpath)
         print('extracting labels to ', labelsDpath)
@@ -493,10 +494,10 @@ def build_core(directory=None):
 
     write_labels(labelsDpath)
 
-    shutil.copyfile(os.path.join(directory,'sequence.xsd'),os.path.join(xsdDpath, 'sequence.xsd'))
+    shutil.copyfile(os.path.join(directory, 'sequence.xsd'), os.path.join(xsdDpath, 'sequence.xsd'))
     shutil.copyfile(os.path.join(directory, 'sequence.xml'), os.path.join(templatesDpath, 'sequence.xml'))
     xsdnames = [s.split('.xsd')[0] for s in os.listdir(xsdDpath) if s.endswith('.xsd')]
-    
+
     # change to pytools4dart site-package directory: necessary for user_methods
     cwd = os.getcwd()
     os.chdir(directory)
@@ -506,10 +507,9 @@ def build_core(directory=None):
     # else:
     if platform.system() == "Windows":
         import generateDS
-        generateDS_script = ' '.join([sys.executable, generateDS.__file__]) #'generateDS.py'
+        generateDS_script = ' '.join([sys.executable, generateDS.__file__])  # 'generateDS.py'
     else:
         generateDS_script = 'generateDS.py'
-
 
     for xsdname in xsdnames:
         cmd = ' '.join([generateDS_script, '-m -f --always-export-default --export="write literal etree"',
@@ -519,17 +519,18 @@ def build_core(directory=None):
                         '--post-ctor="update_node(self,self.troot,\'{xsdname}\')"',
                         '--imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes"',
                         '-o "{pypath}"',
-                        '{xsdpath}']).format(user_methods = 'core_ui.user_methods',
-                                                xsdname = xsdname,
-                                                 pypath = os.path.join(directory, "core_ui", xsdname+'.py'),
-                                                 xsdpath = os.path.join(directory, "xsdschemas", xsdname+'.xsd'))
+                        '{xsdpath}']).format(user_methods='core_ui.user_methods',
+                                             xsdname=xsdname,
+                                             pypath=os.path.join(directory, "core_ui", xsdname + '.py'),
+                                             xsdpath=os.path.join(directory, "xsdschemas", xsdname + '.xsd'))
         # print('\n'+cmd+'\n')
         if sys.version_info[0] == 2:
             subprocess.call(cmd, shell=True)
         else:
             subprocess.run(cmd, shell=True)
 
-    os.chdir(cwd) # get back to original directory
+    os.chdir(cwd)  # get back to original directory
+
 
 def get_input_file_path(simu_name, filename, dartdir=None):
     """
@@ -591,8 +592,6 @@ def get_input_file_path(simu_name, filename, dartdir=None):
     return filelist[0]
 
 
-
-
 def get_templates():
     """
     Extract DART xml templates from DARTDocument.jar
@@ -603,17 +602,18 @@ def get_templates():
 
     """
     dartenv = getdartenv()
-    jarfile = pjoin(dartenv['DART_HOME'], 'bin',  'DARTDocument.jar')
+    jarfile = pjoin(dartenv['DART_HOME'], 'bin', 'DARTDocument.jar')
 
     with zipfile.ZipFile(jarfile, "r") as j:
         if sys.version_info[0] == 2:
-            templates = {s.split('/')[3] : j.read(s) for s in j.namelist()
-                              if re.match(r'cesbio/dart/documents/.*/ressources/Template.xml', s)}
+            templates = {s.split('/')[3]: j.read(s) for s in j.namelist()
+                         if re.match(r'cesbio/dart/documents/.*/ressources/Template.xml', s)}
         else:
-            templates = {s.split('/')[3] : j.read(s).decode('unicode_escape') for s in j.namelist()
-                              if re.match(r'cesbio/dart/documents/.*/ressources/Template.xml', s)}
+            templates = {s.split('/')[3]: j.read(s).decode('unicode_escape') for s in j.namelist()
+                         if re.match(r'cesbio/dart/documents/.*/ressources/Template.xml', s)}
 
     return templates
+
 
 def get_schemas():
     """
@@ -625,17 +625,18 @@ def get_schemas():
 
     """
     dartenv = getdartenv()
-    jarfile = pjoin(dartenv['DART_HOME'], 'bin',  'DARTEnv.jar')
+    jarfile = pjoin(dartenv['DART_HOME'], 'bin', 'DARTEnv.jar')
 
     with zipfile.ZipFile(jarfile, "r") as j:
         if sys.version_info[0] == 2:
-            schemas = {os.path.basename(s).replace('.xsd', '') : j.read(s) for s in j.namelist()
-                              if re.match(r'schemaXml/.*\.xsd', s)}
+            schemas = {os.path.basename(s).replace('.xsd', ''): j.read(s) for s in j.namelist()
+                       if re.match(r'schemaXml/.*\.xsd', s)}
         else:
             schemas = {os.path.basename(s).replace('.xsd', ''): j.read(s).decode('unicode_escape') for s in j.namelist()
                        if re.match(r'schemaXml/.*\.xsd', s)}
 
     return schemas
+
 
 def get_labels(pat=None, case=False, regex=True, column='dartnode'):
     """
@@ -676,10 +677,10 @@ def get_labels(pat=None, case=False, regex=True, column='dartnode'):
     """
 
     dartenv = getdartenv()
-    jarfile = pjoin(dartenv['DART_HOME'], 'bin',  'DARTIHMSimulationEditor.jar')
+    jarfile = pjoin(dartenv['DART_HOME'], 'bin', 'DARTIHMSimulationEditor.jar')
     labelsfile = 'cesbio/dart/ihm/DartSimulationEditor/ressources/DartIhmSimulationLabel_en.properties'
     with zipfile.ZipFile(jarfile, "r") as j:
-            labels = j.read(labelsfile).decode('unicode_escape')
+        labels = j.read(labelsfile).decode('unicode_escape')
 
     labels = labels.split('\n')
 
@@ -687,20 +688,20 @@ def get_labels(pat=None, case=False, regex=True, column='dartnode'):
 
     labelsdf = pd.DataFrame(
         [rx.findall(line)[0] for line in labels if len(rx.findall(line))],
-    columns = ['dartnode', 'label'])
+        columns=['dartnode', 'label'])
 
     if pat is not None:
         labelsdf = labelsdf[labelsdf[column].str.contains(pat, case, regex=regex)]
 
     labelsdf = labelsdf[['label', 'dartnode']]
 
-
     return labelsdf
+
 
 def write_templates(directory):
     xml_templates = get_templates()
     for k, v in xml_templates.items():
-        filename=pjoin(os.path.abspath(directory), k+'.xml')
+        filename = pjoin(os.path.abspath(directory), k + '.xml')
         if sys.version_info[0] == 2:
             with open(filename, 'w') as f:
                 f.write(v)
@@ -720,15 +721,14 @@ def write_schemas(directory):
     """
     xmlschemas = get_schemas()
     for k, v in xmlschemas.items():
-        if k not in ['LUT']: # patch for DART <= v1141
-            filename=pjoin(os.path.abspath(directory), k+'.xsd')
+        if k not in ['LUT']:  # patch for DART <= v1141
+            filename = pjoin(os.path.abspath(directory), k + '.xsd')
             if sys.version_info[0] == 2:
                 with open(filename, 'w') as f:
                     f.write(v)
             else:
                 with open(filename, 'w', encoding='utf-8') as f:
                     f.write(v)
-
 
 
 def write_labels(directory):
@@ -742,4 +742,3 @@ def write_labels(directory):
     """
     labels = get_labels()
     labels.to_csv(os.path.join(directory, 'labels.tab'), sep='\t', index=False, encoding='utf-8')
-
