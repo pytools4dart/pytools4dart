@@ -44,7 +44,8 @@ import pandas as pd
 
 
 def rundart(path, tool, options = []):
-    '''
+    """
+    Run a DART module.
 
     Parameters
     ----------
@@ -59,8 +60,9 @@ def rundart(path, tool, options = []):
 
     Returns
     -------
+    bool
         True if good
-    '''
+    """
     sys.stdout.flush()
     dtools = darttools()
     if tool not in list(dtools):
@@ -81,49 +83,54 @@ def rundart(path, tool, options = []):
     return True
 
 def full(simu_name):
-    '''
+    """
     Run full DART simulation, i.e. successively direction, phase, maket and only
+
     Parameters
     ----------
-    simuName: str
-        Simulation name or path relative 'user_data/simulations' directory
+    simu_name: str
+        Simulation name or path relative to 'user_data/simulations' directory
 
     Returns
     -------
-
-    '''
+    bool
+        True if good
+    """
     return rundart(simu_name, 'full')
 
 def direction(simu_name):
-    '''
+    """
     Run DART direction module.
+
     Parameters
     ----------
-    simuName: str
-        Simulation name or path relative 'user_data/simulations' directory
+    simu_name: str
+        Simulation name or path relative to 'user_data/simulations' directory
 
     Returns
     -------
+    bool
         True if good
-    '''
+    """
     return rundart(simu_name, 'directions')
 
 def phase(simu_name):
-    '''
+    """
     Run the DART phase module.
     Parameters
     ----------
-    simuName: str
-        Simulation name or path relative 'user_data/simulations' directory
+    simu_name: str
+        Simulation name or path relative to 'user_data/simulations' directory
 
     Returns
     -------
-
-    '''
-    rundart(simu_name, 'phase')
+    bool
+        True if good
+    """
+    return rundart(simu_name, 'phase')
 
 def maket(simu_name):
-    '''
+    """
     Run the DART maket module.
     Parameters
     ----------
@@ -132,32 +139,39 @@ def maket(simu_name):
 
     Returns
     -------
-
-    '''
-    rundart(simu_name, 'maket')
+    bool
+        True if good
+    """
+    return rundart(simu_name, 'maket')
 
 def dart(simu_name):
-    '''
+    """
     Run only DART radiative transfer module,
-    with direction, phase and maket computed separately.
+    considering direction, phase and maket as already computed.
+
     Parameters
     ----------
-    simuName: str
-        Simulation name or path relative 'user_data/simulations' directory
+    simu_name: str
+        Simulation name or path relative to 'user_data/simulations' directory
 
     Returns
     -------
+    bool
         True if good
-    '''
+    """
     return rundart(simu_name, 'only')
 
 def sequence(simu_name, sequence_name, option='-start'):
-    '''
+    """
+    Run a sequence of simulations.
 
     Parameters
     ----------
-    sequenceFile: str
-        Path of the sequence file relative to 'user_data/simulations', i.e. 'simu_name/sequence_name.xml'
+
+    simu_name: str
+        simulation name, e.g. simu.name
+    sequence_name: str
+        sequence name, e.g. sequence.name
     option: str
         Either:
             * '-start' to start from the begining
@@ -165,18 +179,19 @@ def sequence(simu_name, sequence_name, option='-start'):
 
     Returns
     -------
+    bool
         True if good
-    '''
+    """
     return rundart(pjoin(simu_name, sequence_name+'.xml'), 'sequence', [option])
 
 def colorComposite(simu_name, red, green, blue, pngfile):
-    '''
+    """
     Build color composite image
 
     Parameters
     ----------
-    simuName: str
-        Simulation name or path relative 'user_data/simulations' directory
+    simu_name: str
+        Simulation name or path relative to 'user_data/simulations' directory
     red: str
         Red image file name (full path).
     green: str
@@ -188,18 +203,20 @@ def colorComposite(simu_name, red, green, blue, pngfile):
 
     Returns
     -------
+    bool
         True if good
-    '''
+    """
     return rundart(simu_name, 'colorComposite', [red, green, blue, pngfile])
 
+
 def colorCompositeBands(simu_name, red, green, blue, iteration, outdir):
-    '''
+    """
     Build color composite of iteration N
 
     Parameters
     ----------
-    simuName: str
-        Simulation name or path expected to be in 'user_data/simulations' directory
+    simu_name: str
+        Simulation name or path expected to be in to 'user_data/simulations' directory
     red: int
         Band number.
     green: int
@@ -214,8 +231,9 @@ def colorCompositeBands(simu_name, red, green, blue, iteration, outdir):
 
     Returns
     -------
+    bool
         True if good
-    '''
+    """
     ans = rundart(simu_name, 'colorCompositeBands', [red, green, blue, iteration, outdir])
     outpath = pjoin(ptd.getsimupath(simu_name), 'output', outdir)
     if ans:
@@ -224,36 +242,52 @@ def colorCompositeBands(simu_name, red, green, blue, iteration, outdir):
 
     return ans
 
-def stack_bands(simu_name, zenith=0, azimuth=0):
+
+def stack_bands(simu_output_dir, output_dir=None, phasefile=None,  zenith=0, azimuth=0,
+                band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART')):
     """
     Stack bands into an ENVI .bil file
 
     Parameters
     ----------
+    simu_output_dir: str
+        Output directory of simulation
+    output_dir: str
+        Output directory where the .bil file will be saved.
+        If None it is saved in `simu_output_dir`.
+    phasefile: str
+        Path to the simulation phase.xml file containing band wavelength and bandwidth.
+        For sequence simulations it may be in the main simulation.
     zenith: float
         Zenith viewing angle (°)
     azimuth: float
         Azimuth viewing angle (°)
+    band_sub_dir: str
+        Subdirectory where to get the simulated image. Default is 'BRF/ITERX/IMAGES_DART'.
 
     Returns
     -------
-        str: output file path
+    str
+        output file path
     """
 
-    simu_input_dir = pjoin(ptd.getsimupath(simu_name), 'input')
-    simu_output_dir = pjoin(ptd.getsimupath(simu_name), 'output')
+    if output_dir is None:
+        output_dir = simu_output_dir
 
-    bands = ptd.hstools.get_bands_files(simu_output_dir, band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART'))
+    bands = ptd.hstools.get_bands_files(simu_output_dir, band_sub_dir=band_sub_dir)
 
-    band_files=bands.path[(bands.zenith==zenith) & (bands.azimuth==azimuth)]
+    band_files = bands.path[(bands.zenith == zenith) & (bands.azimuth == azimuth)]
 
-    wvl = ptd.hstools.get_wavelengths(simu_input_dir)
+    if os.path.isfile(phasefile):
+        wvl = ptd.hstools.get_wavelengths(phasefile)
 
-    outputfile = pjoin(simu_output_dir, os.path.basename(band_files.iloc[0]).replace('.mpr','.bil'))
+    outputfile = pjoin(output_dir, os.path.basename(band_files.iloc[0]).replace('.mpr', '.bil'))
 
-    ptd.hstools.stack_dart_bands(band_files, outputfile, wavelengths=wvl.wavelength.values, fwhm=wvl.fwhm.values, verbose=True)
+    ptd.hstools.stack_dart_bands(band_files, outputfile, wavelengths=wvl.wavelength.values,
+                                 fwhm=wvl.fwhm.values, verbose=True)
 
     return outputfile
+
 
 def upgrade(simu_name):
     """
@@ -268,6 +302,7 @@ def upgrade(simu_name):
 
     """
     rundart(simu_name, 'XMLUpgrader')
+
 
 def dart2las(simudir, type='bin', lasFormat=1, extra_bytes=True):
     """
@@ -334,27 +369,132 @@ class Run(object):
         self.simu = simu
 
     def full(self):
+        """
+        Run full DART simulation, i.e. successively direction, phase, maket and only
+
+        Returns
+        -------
+        bool
+            True if good
+        """
         return full(self.simu.name)
 
     def direction(self):
+        """
+        Run DART direction module.
+
+        Returns
+        -------
+        bool
+            True if good
+        """
         return direction(self.simu.name)
 
     def phase(self):
+        """
+        Run DART phase module.
+
+        Returns
+        -------
+        bool
+            True if good
+        """
         return phase(self.simu.name)
 
     def maket(self):
+        """
+        Run DART maket module.
+
+        Returns
+        -------
+        bool
+            True if good
+        """
         return maket(self.simu.name)
 
     def dart(self):
+        """
+        Run only DART radiative transfer module,
+        considering direction, phase and maket as already computed.
+
+        Returns
+        -------
+        bool
+            True if good
+        """
         return dart(self.simu.name)
 
     def sequence(self, sequence_name, option='-start'):
+        """
+        Run a sequence of simulations.
+
+        Parameters
+        ----------
+
+        sequence_name: str
+            sequence name, e.g. sequence.name
+        option: str
+            Either:
+                * '-start' to start from the begining,
+                * '-continue' to continue an interupted run.
+
+        Returns
+        -------
+        bool
+            True if good
+        """
         return sequence(self.simu.name, sequence_name, option)
 
     def colorCompositeBands(self, red, green, blue, iteration, outdir):
+        """
+        Build color composite of iteration N
+
+        Parameters
+        ----------
+        red: int
+            Band number.
+        green: int
+            Band number.
+        blue: int
+            Band number.
+        iteration: int or str
+            Iteration number in [0, 1, 2, ..., X]
+        outdir: str
+            Folder path for output inside the simulation 'output' folder (created if not exists)
+
+
+        Returns
+        -------
+        bool
+            True if good
+        """
         return colorCompositeBands(self.simu.name, red, green, blue, iteration, outdir)
 
-    def stack_bands(self, zenith=0, azimuth=0):
-        return stack_bands(self.simu.name, zenith=0, azimuth=0)
+    def stack_bands(self, outputdir=None, zenith=0, azimuth=0, band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART')):
+        """
+        Stack bands into an ENVI .bil file
+
+        Parameters
+        ----------
+        output_dir: str
+            Output directory where the .bil file will be saved.
+            If None it is saved in `simu_output_dir`.
+        zenith: float
+            Zenith viewing angle (°)
+        azimuth: float
+            Azimuth viewing angle (°)
+        band_sub_dir: str
+            Subdirectory where to get the simulated image. Default is 'BRF/ITERX/IMAGES_DART'.
+
+        Returns
+        -------
+        str
+            output file path
+        """
+
+        phasefile = self.simu.get_input_file_path('phase.xml')
+        simu_output_dir = pjoin(self.simu.getsimupath(), 'output')
+        return stack_bands(simu_output_dir, outputdir, phasefile=phasefile, zenith=zenith, azimuth=azimuth,
+                           band_sub_dir=band_sub_dir)
 
 

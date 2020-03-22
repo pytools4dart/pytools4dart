@@ -45,21 +45,21 @@ import lxml.etree as etree
 import numpy as np
 
 
-def get_bands_files(simu_output_dir, band_sub_dir = None):
+def get_bands_files(simu_output_dir, band_sub_dir=None):
     # get the number of bands
     if not band_sub_dir:
         band_sub_dir = pjoin('BRF', 'ITERX', 'IMAGES_DART')
     bands = pd.DataFrame([pjoin(simu_output_dir, s)
-                 for s in os.listdir(simu_output_dir)
-                 if re.match(r'BAND[0-9]+$', s)
-                 and os.path.isdir(os.path.join(simu_output_dir, s))],
-                             columns = {'path'})
-    bands['band_num'] = bands.path.apply(lambda x : np.int(os.path.basename(x).split('BAND')[1]))
+                          for s in os.listdir(simu_output_dir)
+                          if re.match(r'BAND[0-9]+$', s)
+                          and os.path.isdir(os.path.join(simu_output_dir, s))],
+                         columns={'path'})
+    bands['band_num'] = bands.path.apply(lambda x: np.int(os.path.basename(x).split('BAND')[1]))
 
-    bands['images'] = bands.path.apply(lambda x : [pjoin(x, band_sub_dir, s)
-                                          for s in os.listdir(pjoin(x, band_sub_dir))
-                                          if os.path.isfile(pjoin(x, band_sub_dir, s))
-                                          and re.match(r'.*\.mpr$', s)])
+    bands['images'] = bands.path.apply(lambda x: [pjoin(x, band_sub_dir, s)
+                                                  for s in os.listdir(pjoin(x, band_sub_dir))
+                                                  if os.path.isfile(pjoin(x, band_sub_dir, s))
+                                                  and re.match(r'.*\.mpr$', s)])
 
     images = bands.drop(['path', 'images'], axis=1).join(
         pd.DataFrame(bands.images.apply(pd.Series).stack().reset_index(level=1, drop=True), columns=['path'])
@@ -69,17 +69,18 @@ def get_bands_files(simu_output_dir, band_sub_dir = None):
     for row in images.itertuples():
         angles = row.path.split('_VZ=')[1].split('_VA=')
         zenith = np.float(angles[0].replace('_', '.'))
-        azimuth = np.float(angles[1].replace('_', '.').replace('.mpr',''))
+        azimuth = np.float(angles[1].replace('_', '.').replace('.mpr', ''))
         imangles.append([zenith, azimuth])
 
-    images = images.join(pd.DataFrame(imangles, columns = ['zenith', 'azimuth']))
+    images = images.join(pd.DataFrame(imangles, columns=['zenith', 'azimuth']))
 
     images.sort_values('band_num', inplace=True)
 
     return images
 
+
 def stack_dart_bands(band_files, outputfile, wavelengths=None, fwhm=None, verbose=False):
-    '''
+    """
     Stack simulated bands into an ENVI file.
 
     Parameters
@@ -100,71 +101,73 @@ def stack_dart_bands(band_files, outputfile, wavelengths=None, fwhm=None, verbos
     Returns
     -------
 
-    '''
-    outlist=[]
+    """
+    outlist = []
     for bf in band_files:
         ds = gdal.Open(bf)
         band = ds.GetRasterBand(1)
         arr = band.ReadAsArray()
-        out_arr= np.fliplr(arr).transpose()
-        outlist.append(out_arr) #np.reshape(out_arr, out_arr.shape + (1,)))
+        out_arr = np.fliplr(arr).transpose()
+        outlist.append(out_arr)  # np.reshape(out_arr, out_arr.shape + (1,)))
 
     driver = gdal.GetDriverByName("ENVI")
 
-    rows, cols=out_arr.shape
+    rows, cols = out_arr.shape
 
     # if re.search('.*.bil', outputfile)
 
     outdata = driver.Create(outputfile, cols, rows, len(outlist), band.DataType)
-    outdata.SetGeoTransform(ds.GetGeoTransform())  ##sets same geotransform as input
-    outdata.SetProjection(ds.GetProjection())  ##sets same projection as input
+    outdata.SetGeoTransform(ds.GetGeoTransform())  # sets same geotransform as input
+    outdata.SetProjection(ds.GetProjection())  # sets same projection as input
     for i in range(len(outlist)):
-        outdata.GetRasterBand(i+1).WriteArray(outlist[i])
+        outdata.GetRasterBand(i + 1).WriteArray(outlist[i])
     # outdata.GetRasterBand(1).SetNoDataValue(10000)  ##if you want these values transparent
-    outdata.FlushCache()  ##saves to disk!!
+    outdata.FlushCache()  # saves to disk!!
     outdata = None
     band = None
     ds = None
 
-    output_hdr = re.sub(r'.bil$', '', outputfile)+'.hdr'
+    output_hdr = re.sub(r'.bil$', '', outputfile) + '.hdr'
     _complete_hdr(output_hdr, wavelengths, fwhm)
 
     if verbose:
         print('Bands stacked in : ' + outputfile)
 
+
 def _complete_hdr(hdrfile, wavelengths, fwhms):
-    '''
+    """
     This function completes the hdr file of .bil file.
     It deletes false data and adds informations about the bands' characteristics
     (names, purposes,wavelengths, bandwidths, fwhm and resolutions).
     All data are NOT complete.
     Please read the instructions if you want to edit the text in the hdr file.
-    '''
-    #gets the content of the original hdr file (automatically generated)
+    """
+    # gets the content of the original hdr file (automatically generated)
     with open(hdrfile) as f:
         hdr = f.read()
-#    #splits at the unwanted data, saves both texts
-#    first, rest = content.split('band names',1)
+    #    #splits at the unwanted data, saves both texts
+    #    first, rest = content.split('band names',1)
 
-    #saves the date :)
-    #writes over the hdr file with first (text from the automatically generated
-    #hdr file) and bands_text (text about the stacked bands and their characteristics)
+    # saves the date :)
+    # writes over the hdr file with first (text from the automatically generated
+    # hdr file) and bands_text (text about the stacked bands and their characteristics)
 
-    with open(hdrfile,'w') as f :
+    with open(hdrfile, 'w') as f:
         if wavelengths is not None:
-            hdr = hdr + 'wavelength   = {' + ", ".join([np.str(wvl) for wvl in wavelengths])+'}'
+            hdr = hdr + 'wavelength   = {' + ", ".join([np.str(wvl) for wvl in wavelengths]) + '}'
         if fwhms is not None:
             hdr = hdr + 'fwhm   = {' + ", ".join([np.str(fwhm) for fwhm in fwhms]) + '}'
         f.write(hdr)
 
-def get_wavelengths(simu_input_dir):
+
+def get_wavelengths(phasefile):
     """
     Get the band wavelength values of a simulation.
 
     Parameters
     ----------
-    simu_input_dir: str
-        path to the input directory.
+    phasefile: str
+        path to the input phase.xml file of DART simulation.
 
     Returns
     -------
@@ -172,11 +175,10 @@ def get_wavelengths(simu_input_dir):
         band number, wavelength, full width at half maximum.
 
     """
-    phasefile = pjoin(simu_input_dir,'phase.xml')
     phase = etree.parse(phasefile)
 
     root = phase.getroot()
-    tmp=[]
+    tmp = []
     for node in root.xpath('//SpectralIntervalsProperties'):
         band_num = np.int(node.attrib['bandNumber'])
         fwhm = np.float(node.attrib['deltaLambda'])
@@ -186,7 +188,8 @@ def get_wavelengths(simu_input_dir):
     df = pd.DataFrame(tmp, columns=['band_num', 'fwhm', 'wavelength'])
     return df
 
-def read_ENVI_hdr(path, dartlabels = False):
+
+def read_ENVI_hdr(path, dartlabels=False):
     """
     Read hyperspectral ENVI file header
 
@@ -238,14 +241,15 @@ def read_ENVI_hdr(path, dartlabels = False):
         composed = {v: k for k, v in composed.items()}
 
     numerics = ["samples", "lines", "bands", "header offset", "data type",
-     "byte order", "default bands", "data ignore value",
-     "wavelength", "fwhm", "data gain values"]
+                "byte order", "default bands", "data ignore value",
+                "wavelength", "fwhm", "data gain values"]
 
     for k in composed:
         if k in numerics:
             composed[k] = pd.to_numeric(composed[k])
 
     return composed
+
 
 def get_hdr_bands(hdr, nm_to_um=True):
     """
@@ -263,7 +267,7 @@ def get_hdr_bands(hdr, nm_to_um=True):
     -------
 
     """
-    data = pd.DataFrame({k:hdr[k] for k in ['wavelength', 'fwhm'] if k in hdr})
+    data = pd.DataFrame({k: hdr[k] for k in ['wavelength', 'fwhm'] if k in hdr})
     if nm_to_um:
         data *= 0.001
 

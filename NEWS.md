@@ -5,6 +5,17 @@
 - stack_bands in hstools: bands were not sorted correctly,
 giving randomly ordered spectra
 
+## Change
+
+- Sequencer.get_sequence_df --> Sequencer.summary
+- run.stack_bands parameters
+
+## Add
+
+- Sequencer.run.stack_bands: stacks bands of each sequence simulation
+- Sequencer.run.dart: launch dart sequence simulations
+- Sequencer.grid: returns the grid of simulation (i.e. parameters combination)
+
 # 1.1.3
 
 ## Fix

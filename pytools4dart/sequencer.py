@@ -32,6 +32,10 @@ import re
 import pytools4dart as ptd
 from lxml import etree
 import pandas as pd
+from functools import reduce
+import glob
+from os.path import join as pjoin
+
 
 class Sequencer(object):
     """
@@ -49,8 +53,10 @@ class Sequencer(object):
             DartSequencerDescriptor = ptd.sequence.create_DartSequencerDescriptor(sequenceName="sequence;;"+name)
             self.core = ptd.sequence.createDartFile(DartSequencerDescriptor=DartSequencerDescriptor)
 
+        self.run = Sequence_runners(self)
+
     def __repr__(self):
-        df = self.get_sequence_df()
+        df = self.summary()
         groups = []
         for g in df.group.unique():
             gstr = 'Group: {}'.format(g)
@@ -185,7 +191,10 @@ class Sequencer(object):
         gnode.add_DartSequencerDescriptorEntry(new_item)
         return new_item
 
-    def get_sequence_df(self):
+    def summary(self):
+        """
+        DataFrame summarizing groups and items
+        """
         DartSequencerDescriptorEntries = self.core.DartSequencerDescriptor.DartSequencerDescriptorEntries
         groups = DartSequencerDescriptorEntries.DartSequencerDescriptorGroup
 
@@ -208,7 +217,21 @@ class Sequencer(object):
         df = pd.DataFrame(glist, columns=columns)[columns]
         return df
 
+    def grid(self):
+        df = self.summary()
+        gdflist = []
+        for g in df.groupby('group'):
+            gdf = pd.DataFrame({'P'+str(r.Index):r.values for r in g[1].itertuples()})
+            # gdf['group'] = g[1]['group'].iloc[0]
+            gdf['key'] = 1
+            gdflist.append(gdf)
 
+        grid = reduce(lambda left, right: pd.merge(left, right, on=['key']), gdflist).drop('key', axis=1)
+
+        return grid
+
+
+        # pjoin(self.simu.getsimupath, 'sequence',
 
 
     def write(self, file = None, overwrite=False, verbose=True):
@@ -263,4 +286,30 @@ class Sequencer(object):
 
         return os.path.join(self.simu.getsimupath(), os.path.basename(self.simu.name) + '_' + self.name + '.db')
 
+
+class Sequence_runners(object):
+
+    def __init__(self, sequence):
+        self.sequence = sequence
+
+    def dart(self, option='-start'):
+        simu_name = self.sequence.simu.name
+        sequence_name = self.sequence.name
+        ptd.run.sequence(simu_name, sequence_name, option)
+
+    def stack_bands(self, zenith=0, azimuth=0, band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART')):
+        grid = self.sequence.grid()
+        sequence_dir = pjoin(self.sequence.simu.getsimupath(), 'sequence', self.sequence.name+'*')
+        dirlist = glob.glob(sequence_dir)
+        outfiles = []
+        for d in dirlist:
+            phasefile = pjoin(d, 'input', 'phase.xml')
+            if not os.path.isfile(phasefile):
+                phasefile = self.sequence.simu.get_input_file_path('phase.xml')
+            simu_output_dir = pjoin(d, 'output')
+            outfile = ptd.run.stack_bands(simu_output_dir, phasefile=phasefile, zenith=zenith, azimuth=azimuth,
+                                band_sub_dir=band_sub_dir)
+            outfiles.append(outfile)
+
+        return outfiles
 
