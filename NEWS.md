@@ -1,3 +1,10 @@
+# 1.1.4
+
+## Fix
+
+- stack_bands in hstools: bands were not sorted correctly,
+giving randomly ordered spectra
+
 # 1.1.3
 
 ## Fix

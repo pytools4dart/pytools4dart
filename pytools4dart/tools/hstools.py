@@ -74,6 +74,8 @@ def get_bands_files(simu_output_dir, band_sub_dir = None):
 
     images = images.join(pd.DataFrame(imangles, columns = ['zenith', 'azimuth']))
 
+    images.sort_values('band_num', inplace=True)
+
     return images
 
 def stack_dart_bands(band_files, outputfile, wavelengths=None, fwhm=None, verbose=False):
