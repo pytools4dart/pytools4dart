@@ -42,15 +42,15 @@ class Sequencer(object):
     Sequence builder
     """
 
-    def __init__(self, simu, name = None, empty=False):
+    def __init__(self, simu, name=None, empty=False):
         self.simu = simu
         self.core = None
-        if not empty and name is not None and os.path.isfile(os.path.join(self.simu.getsimupath(), name+'.xml')):
-            self.core = ptd.sequence.parse(os.path.join(self.simu.getsimupath(), name+'.xml'), silence=True)
+        if not empty and name is not None and os.path.isfile(os.path.join(self.simu.getsimupath(), name + '.xml')):
+            self.core = ptd.sequence.parse(os.path.join(self.simu.getsimupath(), name + '.xml'), silence=True)
         else:
             if name is None:
                 name = 'sequence'
-            DartSequencerDescriptor = ptd.sequence.create_DartSequencerDescriptor(sequenceName="sequence;;"+name)
+            DartSequencerDescriptor = ptd.sequence.create_DartSequencerDescriptor(sequenceName="sequence;;" + name)
             self.core = ptd.sequence.createDartFile(DartSequencerDescriptor=DartSequencerDescriptor)
 
         self.run = Sequence_runners(self)
@@ -64,23 +64,23 @@ class Sequencer(object):
             for row in df[df.group == g].itertuples():
                 groups.append('\t{param}({type}): {values}'.format(param=row.parameter,
                                                                    type=row.type,
-                                                                   values = row.values.__str__()))
-        groups = ['\t'+g for g in groups]
+                                                                   values=row.values.__str__()))
+        groups = ['\t' + g for g in groups]
 
         description = ["\nSequence '{}'".format(self.name),
-                      '__________________________________']+groups+\
-                       ['__________________________________']
+                       '__________________________________'] + groups + \
+                      ['__________________________________']
 
         return '\n'.join(description)
 
     @property
     def name(self):
-        name = re.sub('sequence;;','',self.core.DartSequencerDescriptor.sequenceName)
+        name = re.sub('sequence;;', '', self.core.DartSequencerDescriptor.sequenceName)
         return name
+
     @name.setter
     def name(self, value):
-        self.core.DartSequencerDescriptor.sequenceName = 'sequence;;'+value
-
+        self.core.DartSequencerDescriptor.sequenceName = 'sequence;;' + value
 
     def add_group(self, name):
         DartSequencerDescriptorEntries = self.core.DartSequencerDescriptor.DartSequencerDescriptorEntries
@@ -137,16 +137,17 @@ class Sequencer(object):
         """
         if corenode is not None:
             # get key from corenode
-            path = corenode.findpaths(key+'$')
-            if len(path)>1:
-                raise Exception('Multiple attributes corresponding to key="{}". Please, be more specific on corenode or key.'.format(key))
-            if len(path)==0:
+            path = corenode.findpaths(key + '$')
+            if len(path) > 1:
+                raise Exception(
+                    'Multiple attributes corresponding to key="{}". Please, be more specific on corenode or key.'.format(
+                        key))
+            if len(path) == 0:
                 raise Exception('Attribute corresponding to key="{}" not found.'.format(key))
             if corenode.parent is None:
                 key = path.iloc[0]
             else:
                 key = '.'.join([corenode.path(), path.iloc[0]])
-
 
         # check if key exists
         skey = key.split('.')
@@ -158,34 +159,34 @@ class Sequencer(object):
             raise Exception('Key value "{}" is None'.format(key))
 
         if 'Prospect' in key:
-            self.core.DartSequencerDescriptor.DartSequencerPreferences.prospectLaunched=True
-
+            self.core.DartSequencerDescriptor.DartSequencerPreferences.prospectLaunched = True
 
         args = ";".join(map(str, values))
         new_item = ptd.sequence.create_DartSequencerDescriptorEntry(args=args, propertyName=key, type_=type)
 
-        gnames, paths = ptd.core_ui.utils.get_nodes_with_path(self.core.DartSequencerDescriptor.DartSequencerDescriptorEntries, 'DartSequencerDescriptorGroup.groupName')
-        paths = {gn:p for gn, p in zip(gnames, paths)}
+        gnames, paths = ptd.core_ui.utils.get_nodes_with_path(
+            self.core.DartSequencerDescriptor.DartSequencerDescriptorEntries, 'DartSequencerDescriptorGroup.groupName')
+        paths = {gn: p for gn, p in zip(gnames, paths)}
         if group not in gnames:
             gnode = self.add_group(group)
             gpath = gnode.path(index=True)
         else:
             gpath = '.'.join(paths[group].split('.')[:-1])
-            gnode = eval('self.core.'+gpath)
+            gnode = eval('self.core.' + gpath)
 
             # check if item exists
             if not replace and new_item.propertyName in [e.propertyName for e in gnode.DartSequencerDescriptorEntry]:
                 raise Exception('Item already exist in group, use "replace" option to override.')
             # check if existing items have same length
             l = []
-            for e in gnode.DartSequencerDescriptorEntry+[new_item]:
+            for e in gnode.DartSequencerDescriptorEntry + [new_item]:
                 if e.type_ == 'enumerate':
                     l.append(len(e.args.split(';')))
                 elif e.type_ == 'linear':
                     l.append(int(e.args.split(';')[2]))
                 else:
                     raise Exception('Type "{}" is not valid.'.format(e.type_))
-            if len(set(l))>1:
+            if len(set(l)) > 1:
                 raise Exception('Length of item different from length of group.')
 
         gnode.add_DartSequencerDescriptorEntry(new_item)
@@ -194,6 +195,10 @@ class Sequencer(object):
     def summary(self):
         """
         DataFrame summarizing groups and items
+
+        Returns
+        -------
+        DataFrame
         """
         DartSequencerDescriptorEntries = self.core.DartSequencerDescriptor.DartSequencerDescriptorEntries
         groups = DartSequencerDescriptorEntries.DartSequencerDescriptorGroup
@@ -218,10 +223,17 @@ class Sequencer(object):
         return df
 
     def grid(self):
+        """
+        Grid of simulation parameters
+
+        Returns
+        -------
+        DataFrame
+        """
         df = self.summary()
         gdflist = []
         for g in df.groupby('group'):
-            gdf = pd.DataFrame({'P'+str(r.Index):r.values for r in g[1].itertuples()})
+            gdf = pd.DataFrame({'P' + str(r.Index): r.values for r in g[1].itertuples()})
             # gdf['group'] = g[1]['group'].iloc[0]
             gdf['key'] = 1
             gdflist.append(gdf)
@@ -230,11 +242,9 @@ class Sequencer(object):
 
         return grid
 
-
         # pjoin(self.simu.getsimupath, 'sequence',
 
-
-    def write(self, file = None, overwrite=False, verbose=True):
+    def write(self, file=None, overwrite=False, verbose=True):
         """
 
         Parameters
@@ -250,11 +260,12 @@ class Sequencer(object):
 
         Returns
         -------
-            str: file path
+        str
+            file path
 
         """
         if file is None:
-            file = os.path.join(self.simu.getsimupath(), self.name+'.xml')
+            file = os.path.join(self.simu.getsimupath(), self.name + '.xml')
 
         if not overwrite and os.path.isfile(file):
             raise Exception('File already exists:\n\t{}'.format(file))
@@ -264,8 +275,8 @@ class Sequencer(object):
 
         etree.ElementTree(self.core.to_etree()).write(file, pretty_print=True)
 
-            # root = etree.ElementTree(self.core.to_etree())
-            # root.write(file, pretty_print=True, encoding="UTF-8", xml_declaration=True)
+        # root = etree.ElementTree(self.core.to_etree())
+        # root.write(file, pretty_print=True, encoding="UTF-8", xml_declaration=True)
         if verbose:
             print("Sequence written in '{}'.".format(file))
 
@@ -298,8 +309,25 @@ class Sequence_runners(object):
         ptd.run.sequence(simu_name, sequence_name, option)
 
     def stack_bands(self, zenith=0, azimuth=0, band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART')):
-        grid = self.sequence.grid()
-        sequence_dir = pjoin(self.sequence.simu.getsimupath(), 'sequence', self.sequence.name+'*')
+        """
+        Stack bands into an ENVI .bil file.
+
+        Parameters
+        ----------
+        zenith: float
+            Zenith viewing angle (°)
+        azimuth: float
+            Azimuth viewing angle (°)
+        band_sub_dir: str
+            Subdirectory where to get the simulated image. Default is 'BRF/ITERX/IMAGES_DART'.
+
+        Returns
+        -------
+        str
+            output files path
+        """
+
+        sequence_dir = pjoin(self.sequence.simu.getsimupath(), 'sequence', self.sequence.name + '*')
         dirlist = glob.glob(sequence_dir)
         outfiles = []
         for d in dirlist:
@@ -308,8 +336,7 @@ class Sequence_runners(object):
                 phasefile = self.sequence.simu.get_input_file_path('phase.xml')
             simu_output_dir = pjoin(d, 'output')
             outfile = ptd.run.stack_bands(simu_output_dir, phasefile=phasefile, zenith=zenith, azimuth=azimuth,
-                                band_sub_dir=band_sub_dir)
+                                          band_sub_dir=band_sub_dir)
             outfiles.append(outfile)
 
         return outfiles
-
