@@ -30,7 +30,7 @@ and follow install instructions in one of the following sections.
 
 #### Command line install (Linux, Mac & Windows)
 
-For Windows users allergic to command line see section [Anaconda Navigator install](#anaconda-navigator-install).
+For Windows users allergic to command line see section [Anaconda Navigator install](#anaconda-navigator-install-windows-only).
 
 From a terminal (or Anaconda prompt in Windows), create the new environment with the following command lines
 (answer yes if asked), replacing `ptdvenv` by the name of your choice:
@@ -51,7 +51,7 @@ Check all packages are installed:
 python -c 'import generateDS; import tinyobj; import gdecomp; import laspy; import pytools4dart'
 ```
 
-In case of error, refer to section [test environment](#check-environment).
+In case of error, refer to section [Test environment](#test-environment).
 
 
 Configure package with your DART version:
@@ -60,7 +60,7 @@ Configure package with your DART version:
 python -c 'import pytools4dart as ptd; ptd.configure(r"<path to DART directory>")' # e.g. r"~/DART", r"C:\DART"
 ```
 
-In case of error, refer to section [configure](#configure)
+In case of error, refer to section [Configure](#configure)
 
 Test configuration: 
 it will run all [examples](https://gitlab.com/pytools4dart/pytools4dart/tree/master/pytools4dart/examples).
@@ -104,7 +104,7 @@ import laspy
 import pytools4dart
 ```
 
-In case of error refer to sections [test environment](#check-environment).
+In case of error refer to section [Test environment](#test-environment).
 
 Within ipython console, configure with DART:
 
@@ -136,32 +136,32 @@ and [here](https://stackoverflow.com/questions/1534210/use-different-python-vers
 method applicable for python2 and python3 is described.  
 
 Install `virtualenv` and libraries required for `pytools4dart` dependencies:
-```commandline
+```bash
 sudo apt-get install virtualenv
 sudo apt-get install -y libudunits2-dev libnetcdf-dev libproj-dev libgeos-dev libgdal-dev gfortran libspatialindex-dev
 ```
 
 Create your project directory where your virtualenv will be stored:
-```commandline
+```bash
 mkdir myproject
 cd myproject
 ```
 
 Create a virtual environment, e.g. named `venv` (use `-p` option to choose your python version as described
 [here](https://stackoverflow.com/questions/1534210/use-different-python-version-with-virtualenv)):
-```commandline
+```bash
 virtualenv ptdvenv
 ```
 The virtual environment is contained in the directory `ptdvenv`.
 
 To activate it just execute script `activate`:
-```commandline
+```bash
 source ptdvenv/bin/activate
 ```
 
 Install the python requirements:
 
-```
+```bash
 pip install pybind11 pygdal geopandas Cython
 pip install -r requirements.txt
 ```
@@ -171,7 +171,7 @@ If install of `pygdal` throws an error on gdal version:
 __main__.GDALConfigError: Version mismatch 2.1.3 != 2.3.1
 ```
 specify the version corresponding installed gdal:
-```commandline
+```bash
 gdal-config --version
 # 2.1.3
 pip install pygdal==2.1.3.3
@@ -179,7 +179,7 @@ pip install pygdal==2.1.3.3
 
 
 Install package `pytools4dart`:
-```commanline
+```bash
 pip install git+https://gitlab.com/pytools4dart/pytools4dart.git 
 ```
 
