@@ -280,7 +280,7 @@ class Core(object):
             sname = 'Specie'
         else:
             sname = 'Specie_{}'.format(Trees.sceneModelCharacteristic)
-        species = findall(Trees, '\.' + sname + '$')
+        species = findall(Trees, r'\.' + sname + '$')
 
         lai, source = [], []
         trunk_op_ident, trunk_op_type, trunk_tp_ident = [], [], []
@@ -305,7 +305,7 @@ class Core(object):
 
     def get_tree_file(self):
         Trees = self.simu.core.trees.Trees
-        corefilepath = findall(Trees, '\.sceneParametersFileName$')
+        corefilepath = findall(Trees, r'\.sceneParametersFileName$')
         if len(corefilepath) > 0:
             return self.simu.get_input_file_path(corefilepath[0])
 
@@ -342,9 +342,11 @@ class Core(object):
 
     def get_thermal_props(self):
         """
-        Provides a DataFrame containing thermal properties names and indexes of thermal properties in coeff_diff module
-        th_props.id: location of thermal property in the thermal properties list
-        :return: DataFrame containing thermal properties names and indexes
+        Provides a DataFrame containing thermal properties names and indexes of thermal properties in coeff_diff module.
+
+        Returns
+        -------
+            Thermal properties names and indexes
         """
         thermal_props_dict = {"prop_index": [], "prop_name": []}
         thermal_props_list = self.coeff_diff.Coeff_diff.Temperatures.ThermalFunction
@@ -411,7 +413,7 @@ class Core(object):
 
         """
         # PB with Understory top/bottom?
-        dartnodes = ptd.core_ui.utils.get_labels('Coeff_diff\.\w+\.\w+\.ident$')['dartnode']
+        dartnodes = ptd.core_ui.utils.get_labels(r'Coeff_diff\.\w+\.\w+\.ident$')['dartnode']
 
         source = []
         prop_type = []
@@ -434,7 +436,7 @@ class Core(object):
                     prop_ident.append(prop.ident)
 
                     # databaseName
-                    pat = 'Coeff_diff\.{function}\.{multi}\.*\w*\.databaseName'.format(function=function, multi=multi)
+                    pat = r'Coeff_diff\.{function}\.{multi}\.*\w*\.databaseName'.format(function=function, multi=multi)
                     subdns = get_labels(pat)['dartnode']
                     multidn = 'Coeff_diff.{function}.{multi}.'.format(function=function, multi=multi)
                     subdns = [re.sub(multidn, '', s) for s in subdns]
@@ -449,7 +451,7 @@ class Core(object):
                         prop_db.append(None)
 
                     # ModelName
-                    pat = 'Coeff_diff\.{function}\.{multi}\.*\w*\.ModelName'.format(function=function, multi=multi)
+                    pat = r'Coeff_diff\.{function}\.{multi}\.*\w*\.ModelName'.format(function=function, multi=multi)
                     subdns = get_labels(pat)['dartnode']
                     multidn = 'Coeff_diff.{function}.{multi}.'.format(function=function, multi=multi)
                     subdns = [re.sub(multidn, '', s) for s in subdns]
@@ -486,7 +488,7 @@ class Core(object):
                                  deltaT=deltaT, source=source))
 
     def get_optical_property_links(self):
-        dartnodes = ptd.core_ui.utils.get_labels('\.*OpticalPropertyLink$')['dartnode']
+        dartnodes = ptd.core_ui.utils.get_labels(r'\.*OpticalPropertyLink$')['dartnode']
         dartobject = pd.DataFrame(
             {'corenode': [getattr(self, dartnode.split('.')[0].lower()) for dartnode in dartnodes],
              'dartnode': dartnodes})
@@ -512,7 +514,7 @@ class Core(object):
         return pd.DataFrame(l)
 
     def get_thermal_property_links(self):
-        dartnodes = ptd.core_ui.utils.get_labels('\.*ThermalPropertyLink$')['dartnode']
+        dartnodes = ptd.core_ui.utils.get_labels(r'\.*ThermalPropertyLink$')['dartnode']
         dartobject = pd.DataFrame(
             {'corenode': [getattr(self, dartnode.split('.')[0].lower()) for dartnode in dartnodes],
              'dartnode': dartnodes})
@@ -703,7 +705,7 @@ class Core(object):
         phase_spbands_nb = len(
             self.simu.core.phase.Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties)
 
-        dartnodes = get_labels('Coeff_diff.*\.useSameFactorForAllBands$')['dartnode']
+        dartnodes = get_labels(r'Coeff_diff.*\.useSameFactorForAllBands$')['dartnode']
         for dartnode in dartnodes:
             dn = '.'.join(dartnode.split('.')[:-1])  # parent dart node
             cns = get_nodes(self.simu.core.coeff_diff, dn)  # parent core node

@@ -64,12 +64,13 @@ def import2db(dbFpath, name, wavelength, reflectance, direct_transmittance, diff
 
     Returns
     -------
-
+    str
+        name of the property as recorded in the database
     """
 
     dartDBmanager = os.path.join(getdartdir(), "bin", "python_script", "DatabaseManager", "main.py")
     python27DART = os.path.join(getdartdir(), "bin", "python", "python")
-    clean = lambda varStr: re.sub('\W|^(?=\d)', '_', varStr)
+    clean = lambda varStr: re.sub(r'\W|^(?=\d)', '_', varStr)
     nname = clean(name)
 
     if type is 'Lambertian':

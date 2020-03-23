@@ -226,7 +226,6 @@ class voxel(object):
         >>> vox = ptd.voxreader.voxel().from_vox("../data/forest.vox")
         >>> p1
         >>> vox.intersect()
-
         """
         # read shapefile
         # polygons = gpd.read_file(shapefile)

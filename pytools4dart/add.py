@@ -405,7 +405,7 @@ class Add(object):
             set_nodes(prop, useProspectExternalModule=1)
             set_nodes(prop, **kwargs['prospect'])
 
-        idents = self.simu.core.findall('Coeff_diff\.\w+\.\w+\.ident$')
+        idents = self.simu.core.findall(r'Coeff_diff\.\w+\.\w+\.ident$')
         if prop.ident not in idents:  # new
             eval('self.simu.core.coeff_diff.{fun}.add_{multi}(prop)'.format(
                 fun='.'.join(filter(None, [module, fun])), multi=multi))
@@ -457,7 +457,7 @@ class Add(object):
 
         """
         prop = ptd.coeff_diff.create_ThermalFunction(**kwargs)
-        idents = self.simu.core.findall('Coeff_diff\.\w+\.\w+\.idTemperature$')
+        idents = self.simu.core.findall(r'Coeff_diff\.\w+\.\w+\.idTemperature$')
         if prop.idTemperature not in idents:  # new
             self.simu.core.coeff_diff.Coeff_diff.Temperatures.add_ThermalFunction(prop)
         else:

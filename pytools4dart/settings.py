@@ -198,7 +198,7 @@ def get_dart_env_win(dartrcpath, verbose=False):
     """
     Windows version of getdartenv, see corresponding doc.
     """
-    SetEnvPattern = re.compile("set (\w+)(?:=)(.*)$", re.MULTILINE)
+    SetEnvPattern = re.compile(r"set (\w+)(?:=)(.*)$", re.MULTILINE)
     with open(dartrcpath) as f:
         SetEnvText = f.read()
     SetEnvMatchList = re.findall(SetEnvPattern, SetEnvText)

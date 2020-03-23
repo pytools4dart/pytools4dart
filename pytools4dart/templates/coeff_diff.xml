@@ -9,7 +9,7 @@
 
 <DartDocumentTemplateNode type="header"
 	version="1.0">
-	<DartFile version="5.7.4" build="0">
+	<DartFile version="5.7.6" build="0">
 		<Coeff_diff fluorescenceProducts="0" fluorescenceFile="0">
 			<DartDocumentTemplateNode test="parent.fluorescenceFile==1">
 				<FluorescenceProductsProperties
@@ -288,11 +288,23 @@
 					</AirFunction>
 				</DartDocumentTemplateNode>
 			</AirMultiFunctions>
+			<PhaseExternMultiFunctions>
+				<DartDocumentTemplateNode type="list">
+					<PhaseExtern ident="Phase_extern_model" databaseName="Phase_extern.db" ModelName="BSDF_example" addPhaseExternToDatabase="0">
+					<DartDocumentTemplateNode test="parent.addPhaseExternToDatabase==1">
+						<AddPhaseExtern inputPhaseExternName="BSDF_example" inputPhaseExternFile="PhaseExtern/BSDF_example.txt" />
+					</DartDocumentTemplateNode>
+					</PhaseExtern>
+				</DartDocumentTemplateNode>
+			</PhaseExternMultiFunctions>
 			<Temperatures>
 				<DartDocumentTemplateNode type="list" min="1">
-					<ThermalFunction override3DMatrix="0" deltaT="20.0"	meanT="300.0" idTemperature="ThermalFunction290_310" useOpticalFactorMatrix="0" singleTemperatureSurface="1">
+					<ThermalFunction override3DMatrix="0" deltaT="20.0"	meanT="300.0" idTemperature="ThermalFunction290_310" useOpticalFactorMatrix="0" singleTemperatureSurface="1" usePrecomputedIPARs="0">
 						<DartDocumentTemplateNode test="parent.useOpticalFactorMatrix==1">
 							<opticalFactorMatrix opticalFactorMatrixFile="choose" duplicateFirstMatrixLayer="0" />
+						</DartDocumentTemplateNode>
+						<DartDocumentTemplateNode test="parent.usePrecomputedIPARs==1">
+							<PrecomputedIPARs minIPAR="0" maxIPAR="100" />
 						</DartDocumentTemplateNode>
 					</ThermalFunction>
 				</DartDocumentTemplateNode>

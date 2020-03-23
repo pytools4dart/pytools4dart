@@ -507,9 +507,9 @@ def findall(corenode, pat, case=False, regex=True, column='dartnode', path=False
         dartnode = re.sub('create_', '', corenode.__class__.__name__)
 
     if use_labels:
-        labelsdf = get_labels('(^|\.)' + dartnode)
+        labelsdf = get_labels(r'(^|\.)' + dartnode)
         labelsdf = labelsdf[labelsdf[column].str.contains(pat, case, regex=regex)]
-        labelsdf['dartnode'] = [re.sub('^(?:.*\.)?' + dartnode + '\.', '', dn) for dn in labelsdf['dartnode']]
+        labelsdf['dartnode'] = [re.sub(r'^(?:.*\.)?' + dartnode + r'\.', '', dn) for dn in labelsdf['dartnode']]
         dartnodes = labelsdf['dartnode'].drop_duplicates()
 
         nodes = []
@@ -568,7 +568,7 @@ def set_nodes(corenode, **kwargs):
     """
     for key, value in kwargs.items():
         # _, dartnodes = findall(corenode, pat=key+'$', path=True, use_labels=False)
-        dartnodes = findpaths(corenode, pat='\.' + key + '$', case=True)
+        dartnodes = findpaths(corenode, pat=r'\.' + key + '$', case=True)
         if len(dartnodes) == 1:
             exec('corenode.' + dartnodes.iloc[0] + '=value')
         else:

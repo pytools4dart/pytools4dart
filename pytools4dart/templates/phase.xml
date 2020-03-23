@@ -5,7 +5,7 @@
 <!-- == == -->
 <!-- ==================================================================== -->
 <DartDocumentTemplateNode type="header" version="1.0">
-	<DartFile version="5.7.4" build="0">
+	<DartFile version="5.7.6" build="0">
 		<Phase calculatorMethod="0">
 			<AtmosphereRadiativeTransfer TOAtoBOA="0">
 				<DartDocumentTemplateNode test="parent.TOAtoBOA==2">
@@ -19,7 +19,18 @@
 				illuminationRepartitionMode="2" nbSubcenterVolume="2" subFaceBarycenterSubdivision="1" thermalEmissionSurfaceSubdivision="0.01"
 				nbSubSubcenterTurbidEmission="40" isInterceptedPowerPerDirectionForSpecularCheck="0"
 				subFaceBarycenterEnabled="1" surfaceBarycenterEnabled="1" useExternalScripts="0" sparseVoxelAcceleration="1" 
-				nbTrianglesWithinVoxelAcceleration="10" accelerationEngine="0" triangleStorageMode="0"/>
+				nbTrianglesWithinVoxelAcceleration="10" accelerationEngine="0" triangleStorageMode="0">			
+				<DartDocumentTemplateNode test="parent.accelerationEngine==2">
+					<LuxCoreRenderEngineParameters pixelSize="1" maximumRenderingTime="60" targetRayDensityPerPixel="50" periodicSave="20" nbSceneRepetition="1" sampler="1">
+						<DartDocumentTemplateNode test="parent.sampler==2">
+							<MetropolisSamplerProperties largeMutationRate="0.4" maxConsecutiveReject="512" mutationRange="0.1"/>
+						</DartDocumentTemplateNode>
+						<DartDocumentTemplateNode test="parent.sampler==0 or parent.sampler==1">
+							<SamplerProperties adaptativeStrength="0.7"/>
+						</DartDocumentTemplateNode>
+					</LuxCoreRenderEngineParameters>
+				</DartDocumentTemplateNode>
+			</ExpertModeZone>
 			<DartInputParameters>
 				<DartDocumentTemplateNode test="parent.parent.calculatorMethod==1">
 					<MonteCarlo calculatorMaximumRAM="1000" numberofPhotons="10000"
@@ -29,10 +40,10 @@
 					<Lidar simulateImage="0" simulateSolarNoise="0">
 						<DartDocumentTemplateNode test="parent.simulateImage==1">
 							<PhotonCounting pcDef="0">
-								<DartDocumentTemplateNode test="parent.pcDef==1">
+								<DartDocumentTemplateNode test="parent.pcDef==2">
 									<PhotonCountingParam darkCountRate="100" deadTime="2.5" quantEff="15"/>
 								</DartDocumentTemplateNode>
-								<DartDocumentTemplateNode test="parent.pcDef==2">
+								<DartDocumentTemplateNode test="parent.pcDef==1">
 									<DiscreteReturnParam thresAppRef="0.01" nbPoints="1" intensityValueType="2"/>
 								</DartDocumentTemplateNode>
 							</PhotonCounting>
@@ -95,9 +106,13 @@
 								</nodeIlluminationMode>
 							</FluxtrackingSolarNoise>
 						</DartDocumentTemplateNode>
-						<PulseDuration pulse_energy="1" gaussian_pulse_cut="3">
-							<SigmaDefinition relative_power_of_pulse="0.5"
-								half_pulse_duration="2" />
+						<PulseDuration pulse_energy="1" isImportPulseTime="0">
+							<DartDocumentTemplateNode test="parent.isImportPulseTime==0">
+								<SigmaDefinition relative_power_of_pulse="0.5" half_pulse_duration="2" gaussian_pulse_cut="3" />
+							</DartDocumentTemplateNode>
+							<DartDocumentTemplateNode test="parent.isImportPulseTime==1">
+								<ImportedPulseTime pulseTimeFile="Lidar_Files/Impulse_time.txt" />
+							</DartDocumentTemplateNode>
 						</PulseDuration>
 						<LidarGeometry lsMode="0" display="1" sensorArea="0.1" beam_width="0.0"
 							ifSetZeroDist="0" fp_fovDef="0">
@@ -144,7 +159,7 @@
 												</calculatedSwath>
 											</DartDocumentTemplateNode>
 											<DartDocumentTemplateNode test="parent.isSeparatePulsesImport==1">
-												<importedSwath separatePulsesFile="pulses.txt">
+												<importedSwath separatePulsesFile="Lidar_Files/Swath_ALS.txt">
 													<DartDocumentTemplateNode
 														test="parent.parent.isSeparatePulsesImport==1 and parent.parent.parent.parent.parent.simulateSolarNoise==1 and parent.parent.parent.parent.parent.RunningMode.AirConfig.airSNConfig==1">
 														<ApproximatedTrajectory
@@ -162,23 +177,21 @@
 								<TLS lidarPosX="360.82" lidarPosY="360.82" lidarPosZ="10">
 									<DartDocumentTemplateNode
 										test="parent.parent.parent.simulateImage==1">
-										<TLSRegion isSeparatePulsesImport="0">
-											<DartDocumentTemplateNode test="parent.isSeparatePulsesImport==0">
-												<terresScanRange centerTheta="90" centerPhi="45"
-													deltaTheta="10" deltaPhi="10" resTheta="1" resPhi="1" />
-											</DartDocumentTemplateNode>
+										<TLSRegion>
+											<terresScanRange centerTheta="90" centerPhi="45" deltaTheta="10" deltaPhi="10" resTheta="1" resPhi="1" />
 										</TLSRegion>
 									</DartDocumentTemplateNode>
 								</TLS>
 							</DartDocumentTemplateNode>
 						</LidarGeometry>
 						<LidarIlluminationIntensity
-							numberofPhotons="100000" minNoPhotonPerSubCenter="5"
-							gaussian_sigma_illu="0.368" isImportedPulse="0"
-							shortAxisSubdivitionIllum="100">
-							<DartDocumentTemplateNode test="parent.isImportedPulse==1">
-								<ImportedPulse pulseFile="impulseFile.txt"
+							numberofPhotons="100000" isImportPulseSpatial="0">
+							<DartDocumentTemplateNode test="parent.isImportPulseSpatial==1">
+								<ImportedPulse pulseSpatialFile="Lidar_Files/Impulse_spatial.txt"
 									resolution="1.0" offsetX="0.0" offsetY="0.0" />
+							</DartDocumentTemplateNode>
+							<DartDocumentTemplateNode test="parent.isImportPulseSpatial==0">
+								<GaussianSigmaIllumination gaussian_sigma_illu="0.368" />
 							</DartDocumentTemplateNode>
 						</LidarIlluminationIntensity>
 						<LidarAcquisitionParameters
@@ -313,7 +326,7 @@
 									extrapolation="1" maximalThetaImages="25.0"
 									sensorPlaneprojection="1" horizontalOversampling="1"
 									sensorOversampling="1" nb_scene="1" projection="0"
-									luminanceProducts="0" transmittanceImages="0">
+									luminanceProducts="0" transmittanceImages="0" pixelToSceneCorrespondences="0">
 									<DartDocumentTemplateNode test="parent.image==1">
 										<ExpertModeZone_Etalement etalement="2">
 											<DartDocumentTemplateNode test="parent.parent.sensorPlaneprojection==1">
@@ -340,24 +353,31 @@
 							</DartDocumentTemplateNode>
 						</FluxTrackingModeProducts>
 					</DartDocumentTemplateNode>					
-					<DartDocumentTemplateNode test="parent.parent.parent.calculatorMethod==2">
-						<LidarModeProducts lidarProducts="1" lidarImageProducts="0">
-							<DartDocumentTemplateNode test="parent.lidarProducts==1">
-								<lidarProductsProperties convolvedWaveform="1" groundSensorImage="0" photonInformations="0" lidarImagePanelInformation="0"/>
-							</DartDocumentTemplateNode>
-							<DartDocumentTemplateNode test="parent.lidarImageProducts==1">
-								<ImageBinaryProducts outputFloatFormat="1"
-									ifOutputNonConvolveWaveform="1" ifOutputFirstOrderWaveform="1"
-									ifOutputStaticSection="1" />
-							</DartDocumentTemplateNode>
-						</LidarModeProducts>
+					<DartDocumentTemplateNode test="parent.parent.parent.calculatorMethod==2 and parent.parent.parent.DartInputParameters.Lidar.simulateImage==0">
+						<LidarSinglePulseProducts convolvedWaveform="1" groundSensorImage="0" photonInformations="0"/>
 					</DartDocumentTemplateNode>						
+					<DartDocumentTemplateNode test="parent.parent.parent.calculatorMethod==2 and parent.parent.parent.DartInputParameters.Lidar.simulateImage==1 and parent.parent.parent.DartInputParameters.Lidar.PhotonCounting.pcDef==0 and parent.parent.parent.DartInputParameters.Lidar.LidarGeometry.lsMode==0">
+						<lidarALSMultiPulseWaveformProducts lidarImagePanelInformation="1" groundSensorImage="0" photonInformations="0">
+							<ImageBinaryProducts ifOutputFirstOrderWaveform="1" ifOutputNonConvolveWaveform="1" ifOutputStaticSection="1" outputFloatFormat="1"/>
+						</lidarALSMultiPulseWaveformProducts>
+					</DartDocumentTemplateNode>		
+					<DartDocumentTemplateNode test="parent.parent.parent.calculatorMethod==2 and parent.parent.parent.DartInputParameters.Lidar.simulateImage==1 and parent.parent.parent.DartInputParameters.Lidar.PhotonCounting.pcDef==0 and parent.parent.parent.DartInputParameters.Lidar.LidarGeometry.lsMode==1">
+						<lidarTLSMultiPulseWaveformProducts lidarImagePanelInformation="1" photonInformations="0">
+							<ImageBinaryProducts ifOutputFirstOrderWaveform="1" ifOutputNonConvolveWaveform="1"	ifOutputStaticSection="1" outputFloatFormat="1"/>
+						</lidarTLSMultiPulseWaveformProducts>
+					</DartDocumentTemplateNode>
+					<DartDocumentTemplateNode test="parent.parent.parent.calculatorMethod==2 and parent.parent.parent.DartInputParameters.Lidar.simulateImage==1 and parent.parent.parent.DartInputParameters.Lidar.PhotonCounting.pcDef!=0 and parent.parent.parent.DartInputParameters.Lidar.LidarGeometry.lsMode==0">
+						<lidarALSMultiPulseDiscreteReturnOrPhotonCountingProducts lidarImagePanelInformation="1" groundSensorImage="0" detectedPoints="1"/>
+					</DartDocumentTemplateNode>		
+					<DartDocumentTemplateNode test="parent.parent.parent.calculatorMethod==2 and parent.parent.parent.DartInputParameters.Lidar.simulateImage==1 and parent.parent.parent.DartInputParameters.Lidar.PhotonCounting.pcDef!=0 and parent.parent.parent.DartInputParameters.Lidar.LidarGeometry.lsMode==1">
+						<lidarTLSMultiPulseDiscreteReturnOrPhotonCountingProducts lidarImagePanelInformation="1" detectedPoints="1"/>
+					</DartDocumentTemplateNode>							
 				</dartModuleProducts>
 				<maketModuleProducts laiProducts="0"
 					MNEProducts="0" areaMaketProducts="0" coverRateProducts="0" objectGeneration="0">
 					<DartDocumentTemplateNode test="parent.areaMaketProducts==1">
 						<areaMaketProductsProperties
-							totalMaketArea="1" areaMaketPerType="0" />
+							totalMaketArea="1" areaMaketPerType="0" areaMaket1DProducts="1" areaMaket3DProducts="1"/>
 					</DartDocumentTemplateNode>
 					<DartDocumentTemplateNode test="parent.coverRateProducts==1">
 						<coverRateProductsProperties

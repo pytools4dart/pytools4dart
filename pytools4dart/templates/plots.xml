@@ -6,21 +6,21 @@
 <!-- ==                                                                == -->
 <!-- ==================================================================== -->
 <DartDocumentTemplateNode type="header" version="1.0">
-	<DartFile version="5.7.4" build="0">
+	<DartFile version="5.7.6" build="0">
 		<Plots addExtraPlotsTextFile="0" isVegetation="0">
 			<DartDocumentTemplateNode test="parent.addExtraPlotsTextFile==1">
 				<ExtraPlotsTextFileDefinition extraPlotsFileName="plots.txt" />
 			</DartDocumentTemplateNode>
 			<ImportationFichierRaster>
 				<DartDocumentTemplateNode test="parent.parent.isVegetation==1">
-					<VegetationProperties coverLandMapFileName="land_cover.mp#" coverLandMapDescFileName="Desc_CoverLandMap.txt" OverwritePlots="1" selectSubZone="0">
+					<VegetationProperties coverLandMapFileName="CoverMap/CoverMapExample.mp#" coverLandMapDescFileName="CoverMap/CoverMapExample.txt" generatePlotTxt="0" OverwritePlots="1" selectSubZone="0">
 						<DartDocumentTemplateNode test="parent.selectSubZone==1">
 							<SelectSubZoneProperties lineOfTopLeftPixel="0" columnOfTopLeftPixel="0" lineNbSubZone="5" columnNbSubZone="5"/>
 						</DartDocumentTemplateNode>
 					</VegetationProperties>
 				</DartDocumentTemplateNode>
 				<DartDocumentTemplateNode test="parent.parent.isVegetation==1">
-					<RasterCOSInformation nbLiCOS="20" nbColCOS="20" pixelByteSizeCOS="1" pixelSizeCol="1" pixelSizeLi="1"/>
+					<RasterCOSInformation nbLiCOS="5" nbColCOS="5" pixelByteSizeCOS="9" pixelSizeCol="1.0" pixelSizeLi="1.0"/>
 				</DartDocumentTemplateNode>
 			</ImportationFichierRaster>
 			<DartDocumentTemplateNode type="list" min="0">

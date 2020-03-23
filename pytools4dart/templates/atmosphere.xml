@@ -10,7 +10,7 @@
 
 <DartDocumentTemplateNode type="header"
 	version="1.0">
-	<DartFile version="5.7.4" build="0">
+	<DartFile version="5.7.6" build="0">
 		<Atmosphere isRadiativeTransfertInBottomAtmosphereDefined="0">		
 			<Aerosol>
 				<DartDocumentTemplateNode type="list" min="1">
@@ -83,9 +83,9 @@
 						</DartDocumentTemplateNode>
 					</AtmosphereTransfertFunctions>
 					<AtmosphereProducts atmosphereRadiance_BOA_avantCouplage="0" atmosphereRadiance_BOA_apresCouplage="0"
-						atmosphereBRF_TOA="0" ordreUnAtmos="0" />
+						atmosphereBRF_TOA="0" ordreUnAtmos="0" atmosphereReport="1" />
 					<AtmosphereComponents upwardingFluxes="0" downwardingFluxes="0"/>
-					<AtmosphereExpertModeZone extrapol_atmos="1" threshold_Atmos_scattering="0.0001" number_iterationMax="100"/>
+					<AtmosphereExpertModeZone extrapol_atmos="0" threshold_Atmos_scattering="0.0001" number_iterationMax="100"/>
 				</AtmosphereIterations>
 				<AtmosphereGeometry heightOfSensor="3000" discretisationAtmos="1" minimumNumberOfDivisions="4">
 					<DartDocumentTemplateNode test="parent.discretisationAtmos==1">
