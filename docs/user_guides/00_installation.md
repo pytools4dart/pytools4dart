@@ -250,19 +250,13 @@ is needed to run `use_case_3.py`. Download file and define its path in variable 
 
 ## DART
 
-**pytools4dart** is based on [DART](http://www.cesbio.ups-tlse.fr/dart/index.php#/) radiative transfer software that has to be installed (before or after installing pytools4dart).
-[DART](http://www.cesbio.ups-tlse.fr/dart/index.php#/) is free software under proprietary license. It is available for Linux (32/64 bits) and Windows (32/64 bits). To download DART software please [sign up](http://www.cesbio.ups-tlse.fr/dart/index.php#/getDart), login and fill the license resquest in GET DART section of [DART website](http://www.cesbio.ups-tlse.fr/dart/index.php#/).
+**pytools4dart** is based on [DART](http://www.cesbio.ups-tlse.fr/dart/index.php#/) radiative transfer software
+that has to be installed (before or after installing pytools4dart).
+[DART](http://www.cesbio.ups-tlse.fr/dart/index.php#/) is free software under proprietary license.
+It is available for Linux (32/64 bits) and Windows (32/64 bits). 
+To download DART software please [sign up](http://www.cesbio.ups-tlse.fr/dart/index.php#/getDart), 
+login and fill the license resquest in GET DART section of [DART website](http://www.cesbio.ups-tlse.fr/dart/index.php#/).
  
-DART batch scripts are used in the runners of pytools4dart.
-Therefore one should make sure they are executable (i.e. mode x should be activated for user at least):
-```bash
-ls -al DART_HOME/tools/linux/*.sh 
-```
-
-If not change mode with (replace DART_HOME with the DART directory)
-```bash
-chmod +x DART_HOME/tools/linux/*.sh
-```
 
 ## Uninstall
 
@@ -277,16 +271,18 @@ To uninstall environment, remove virtual environment directory.
 It will leave your computer in the state it was before the environment creation.
 
 - in conda: deactivate `ptdvenv` environment and remove it 
-    ```bash
-    conda deactivate
-    conda env remove -n ptdvenv
-    ```
+
+```bash
+conda deactivate
+conda env remove -n ptdvenv
+```
 
 - in virtualenv: deactivate `ptdvenv` and remove the environment directory `ptdvenv`
-    ```bash
-    deactivate
-    rm -r ptdvenv
-    ```
+
+```bash
+deactivate
+rm -r ptdvenv
+```
 
 
 ## Known errors
@@ -327,6 +323,18 @@ extensions/gdal_wrap.cpp:155:21: fatal error: Python.h: No such file or director
 install package python development package, e.g. on Ubuntu:
 ```commandline
 sudo apt-get install python-dev
+```
+
+### Permission denied
+DART batch scripts are used in the runners of pytools4dart.
+Therefore one should make sure they are executable (i.e. mode x should be activated for user at least):
+```bash
+ls -al DART_HOME/tools/linux/*.sh 
+```
+
+If mode x is not activated, activate it with (replace DART_HOME with the DART directory)
+```bash
+chmod +x DART_HOME/tools/linux/*.sh
 ```
 
 ### For DART build < v1111
