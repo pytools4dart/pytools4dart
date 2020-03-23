@@ -115,7 +115,9 @@ def import2db(dbFpath, name, wavelength, reflectance, direct_transmittance, diff
 
 
 def get_models(dbname, search=True):
-    '''Get the list of models of a DART database.
+    """
+    Get the list of models of a DART database.
+
     Parameters
     ----------
     dbname: str
@@ -140,7 +142,7 @@ def get_models(dbname, search=True):
         ptd.tools.dbtools.get_models(dbfile)
 
 
-    '''
+    """
 
     if search:
         dbfile = search_dbfile(dbname)
@@ -158,7 +160,8 @@ def get_models(dbname, search=True):
 
 
 def search_dbfile(dbname='Lambertian_vegetation.db'):
-    '''
+    """
+    Search for database file in DART/database or DART/user_data/database
 
     Parameters
     ----------
@@ -167,9 +170,10 @@ def search_dbfile(dbname='Lambertian_vegetation.db'):
 
     Returns
     -------
-        str: full path of database if file exist
+    str
+        full path of database if file exist
 
-    '''
+    """
 
     dartdbfile = os.path.join(getdartdir(), 'database', dbname)
     userdbfile = os.path.join(getdartenv()['DART_LOCAL'], 'database', dbname)
