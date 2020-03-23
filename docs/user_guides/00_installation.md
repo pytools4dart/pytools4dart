@@ -3,11 +3,12 @@
 ## Install
 
 Package __pytools4dart__ is a python API to DART, thus DART must be installed to make it work.
-It can be done before or after pytools4dart installation. Please refer to [DART section](#dart) for DART installation.
+Please refer to [DART section](#dart) for DART installation.
 
 
-__Before install, Windows users__ will need Visual Studio C++11 compiler to install package `tinyobj`, which a dependency of `pytools4dart`.
-(for details see [here](https://gitlab.irstea.fr/florian.deboissieu/tinyobj) and [here](https://pybind11.readthedocs.io/en/stable/basics.html)):
+__Before install, Windows users__ will need Visual Studio C++11 compiler to install package `tinyobj`, 
+which is a dependency of `pytools4dart`. (for details see 
+[here](https://gitlab.com/floriandeboissieu/tinyobj) and [here](https://pybind11.readthedocs.io/en/stable/basics.html)):
 1. Install [Visual Studio Installer](https://visualstudio.microsoft.com/downloads/) (version 2015 or upper is necessary, community edition is sufficient).
 1. Open the Visual Studio __Installer__, choose `Modify`, select C++ Development Desktop (only MSVC and Kit SDK Windows are necessary, occupying 5 GB still...)
 and click on `Modify` to apply modifications.
@@ -16,8 +17,8 @@ and click on `Modify` to apply modifications.
 We recommend use of a virtual environment to create an environment specific to your project.
 This way, packages will be installed in this virtual environment and avoid any conflict with locally installed packages of other projects.
 
-The virtual environment can be created with Anaconda
-or with virtualenv. Python 3 version is recommended, as python 2 will soon not be maintained anymore.
+The virtual environment can be created with Anaconda or with virtualenv.
+Python 3 version is recommended, as Python 2 is not maintained anymore.
 
 ### Anaconda install (recommended)
 
@@ -25,28 +26,47 @@ See [Ananconda documentation](https://www.anaconda.com/distribution)
 for installation instructions if not already installed.
  
 Once conda is installed, download file [environment.yml](https://gitlab.com/pytools4dart/pytools4dart/blob/master/environment.yml)
-and follow install instructions in one of the following section. 
+and follow install instructions in one of the following sections. 
 
 #### Command line install (Linux, Mac & Windows)
 
 For Windows users allergic to command line see section [Anaconda Navigator install](#anaconda-navigator-install).
 
-From a terminal (or Anaconda prompt in Windows), create the new environment with the following command lines(answer yes if asked), 
-replacing `ptdvenv` by the name of your choice).
-(if no name is given, the default name is `ptdvenv`):
-```commandline
-conda env create -f environment.yml --name ptdvenv -v
-```
-Activate the new environment:
-```commandline
-conda activate ptdvenv
-``` 
+1. From a terminal (or Anaconda prompt in Windows), create the new environment with the following command lines
+(answer yes if asked), replacing `ptdvenv` by the name of your choice:
+    ```commandline
+    conda env create -f environment.yml --name ptdvenv -v
+    ```
 
-Once it is done, [test environment](#check-environment) and [configure](#configure) the package.
+1. Activate the new environment:
+    ```commandline
+    conda activate ptdvenv
+    ``` 
 
-If anything goes wrong, the created environment can be removed with the following [Uninstall](#uninstall).
+1. Check all packages are installed:
+    ```bash
+    python -c 'import generateDS; import tinyobj; import gdecomp; import laspy; import pytools4dart'
+    ```
+    In case of error, refer to section [test environment](#check-environment).
 
-_Note: in case an error occurs, see section [Known errors](#known-errors)._
+1. Configure package with your DART version:
+    ```bash
+    python -c 'import pytools4dart as ptd; ptd.configure(r"<path to DART directory>")' # e.g. r"~/DART", r"C:\DART"
+    ```
+    In case of error, refer to section [configure](#configure)
+
+1. Test configuration:
+    The following command line will run all the examples:
+    ```bash
+    py.test --pyargs pytools4dart -s
+    ```
+    It may lead to some warnings, but if final message is `1 passed` your good to go.
+    
+    In case of error refer to section [Test configuration](#test-configuration) and [Known errors](#known-errors).
+
+__At any time, the created environment can be removed with the following [Uninstall](#uninstall).__
+
+_Note: in case of error, see section [Known errors](#known-errors)._
 
 
 #### Anaconda Navigator install (Windows only)
@@ -56,11 +76,35 @@ using Anaconda Navigator graphical interface:
 
 1. open Anaconda Navigator
 1. go to menu Environments
-1. click on import and select the file environment.yml
+1. click on import and select the downloaded
+[environment.yml](https://gitlab.com/pytools4dart/pytools4dart/blob/master/environment.yml) file.
 1. choose the name of the environment (default is `ptdvenv`)
 1. open your new environment ipython
+1. test environment:
+    ```python
+    import generateDS
+    import tinyobj
+    import gdecomp
+    import laspy
+    import pytools4dart as ptd
+    ```
+    In case of error refer to sections [test environment](#check-environment).
+1. configure with DART:
+    ```python
+    import pytools4dart as ptd
+    ptd.configure(r'<path to DART directory>')  # e.g. 'C:\DART'
+    ```
+1. test configuration:
+    ```python
+    !py.test --pyargs pytools4dart -s
+    ```
+    It will run all [examples](https://gitlab.com/pytools4dart/pytools4dart/tree/master/pytools4dart/examples).
+    It may lead to some warnings, but if final message is `1 passed` your good to go. 
 
-Once it is done, [test environment](#check-environment) and [configure](#configure) the package.
+    In case of error refer to section [Test configuration](#test-configuration) and [Known errors](#known-errors).
+
+__At any time, the created environment can be removed leaving your system as it was before 
+(but with Anaconda and Visual Studio).__
 
 _Note: in case an error occurs, see section [Known errors](#known-errors)._
 
@@ -119,7 +163,8 @@ Install package `pytools4dart`:
 pip install git+https://gitlab.com/pytools4dart/pytools4dart.git 
 ```
 
-Once it is done, [test environment](#test-environment) and [configure](#configure) the package.
+Once it is done, [test environment](#test-environment),
+[configure](#configure) the package and [test configuration](#test-configuration).
 
 _Note: in case an error occurs, see section [Known errors](#known-errors)._
 
@@ -147,7 +192,8 @@ In case of an error see section [Known errors](#known-errors).
 ## Configure
 
 The API of `pytools4dart` is generated automatically depending on DART version.
-This is done within a python session with the following command line, 
+
+Within a python session enter the following command lines, 
 where `DART_directory` is the path to DART directory (usually `~/DART`):
 
 ```python
@@ -162,7 +208,7 @@ with the two commands above.
 ## Test configuration
 
 The configuration can be tested within the terminal (or Anaconda prompt):
-```commandline
+```bash
 py.test --pyargs pytools4dart -s
 ```
 It will run all [examples](https://gitlab.com/pytools4dart/pytools4dart/tree/master/pytools4dart/examples).
@@ -170,7 +216,7 @@ It should end with a test passed and a warning on `imp` package.
 
 
 Otherwise, each use case can be run downloading the scripts and executing them in the terminal (or Anaconda prompt) try:
-```commandline
+```bash
 python use_case_0.py
 python use_case_1.py
 python use_case_2.py
@@ -189,12 +235,12 @@ is needed to run `use_case_3.py`. Download file and define its path in variable 
  
 DART batch scripts are used in the runners of pytools4dart.
 Therefore one should make sure they are executable (i.e. mode x should be activated for user at least):
-```commandline
+```bash
 ls -al DART_HOME/tools/linux/*.sh 
 ```
 
 If not change mode with (replace DART_HOME with the DART directory)
-```commandline
+```bash
 chmod +x DART_HOME/tools/linux/*.sh
 ```
 
@@ -202,7 +248,7 @@ chmod +x DART_HOME/tools/linux/*.sh
 
 ### Uninstall pytools4dart package only
 To uninstall package (and keep environment):
-```commandline
+```bash
 pip uninstall pytools4dart
 ```
 
@@ -211,16 +257,16 @@ To uninstall environment, remove virtual environment directory.
 It will leave your computer in the state it was before the environment creation.
 
 - in conda: deactivate `ptdvenv` environment and remove it 
-```commandline
-conda deactivate
-conda env remove -n ptdvenv
+    ```bash
+    conda deactivate
+    conda env remove -n ptdvenv
+    ```
 
-```
 - in virtualenv: deactivate `ptdvenv` and remove the environment directory `ptdvenv`
-```commandline
-deactivate
-rm -r ptdvenv
-```
+    ```bash
+    deactivate
+    rm -r ptdvenv
+    ```
 
 
 ## Known errors
@@ -267,3 +313,15 @@ sudo apt-get install python-dev
 
 Package [pyjnius](https://github.com/kivy/pyjnius) is needed to have a correct 3D object group ordering.
 
+### For DART v1150
+
+In DART version v1150, XML schema `phase.xsd` has missing nodes for Lux acceleration engine.
+This issue has been fixed in branch `dart_v1150` of pytools4dart.
+
+Branch `dart_v1150` of pytools4dart:
+```bash
+pip install git+https://gitlab.com/pytools4dart/pytools4dart.git@dart_v1150
+```
+
+Next DART version should have the good `phase.xsd`.
+Thus, this branch will not be maintained further, it is a temporary fix.
