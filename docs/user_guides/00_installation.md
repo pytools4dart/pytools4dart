@@ -39,27 +39,36 @@ For Windows users allergic to command line see section [Anaconda Navigator insta
     ```
 
 1. Activate the new environment:
+
     ```commandline
     conda activate ptdvenv
     ``` 
 
 1. Check all packages are installed:
+
     ```bash
     python -c 'import generateDS; import tinyobj; import gdecomp; import laspy; import pytools4dart'
     ```
+
     In case of error, refer to section [test environment](#check-environment).
 
+
 1. Configure package with your DART version:
+
     ```bash
     python -c 'import pytools4dart as ptd; ptd.configure(r"<path to DART directory>")' # e.g. r"~/DART", r"C:\DART"
     ```
+
     In case of error, refer to section [configure](#configure)
 
 1. Test configuration:
+
     The following command line will run all the examples:
+
     ```bash
     py.test --pyargs pytools4dart -s
     ```
+
     It may lead to some warnings, but if final message is `1 passed` your good to go.
     
     In case of error refer to section [Test configuration](#test-configuration) and [Known errors](#known-errors).
@@ -75,12 +84,18 @@ On windows, pytools4dart can also be installed in an Anaconda environment
 using Anaconda Navigator graphical interface:
 
 1. open Anaconda Navigator
+
 1. go to menu Environments
+
 1. click on import and select the downloaded
 [environment.yml](https://gitlab.com/pytools4dart/pytools4dart/blob/master/environment.yml) file.
+
 1. choose the name of the environment (default is `ptdvenv`)
+
 1. open your new environment ipython
+
 1. test environment:
+
     ```python
     import generateDS
     import tinyobj
@@ -88,17 +103,22 @@ using Anaconda Navigator graphical interface:
     import laspy
     import pytools4dart as ptd
     ```
+
     In case of error refer to sections [test environment](#check-environment).
+
 1. configure with DART:
+
     ```python
     import pytools4dart as ptd
     ptd.configure(r'<path to DART directory>')  # e.g. 'C:\DART'
     ```
 1. test configuration:
+
     ```python
     !py.test --pyargs pytools4dart -s
     ```
     It will run all [examples](https://gitlab.com/pytools4dart/pytools4dart/tree/master/pytools4dart/examples).
+
     It may lead to some warnings, but if final message is `1 passed` your good to go. 
 
     In case of error refer to section [Test configuration](#test-configuration) and [Known errors](#known-errors).
