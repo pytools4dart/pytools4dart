@@ -32,46 +32,46 @@ and follow install instructions in one of the following sections.
 
 For Windows users allergic to command line see section [Anaconda Navigator install](#anaconda-navigator-install).
 
-1. From a terminal (or Anaconda prompt in Windows), create the new environment with the following command lines
+From a terminal (or Anaconda prompt in Windows), create the new environment with the following command lines
 (answer yes if asked), replacing `ptdvenv` by the name of your choice:
-    ```commandline
-    conda env create -f environment.yml --name ptdvenv -v
-    ```
 
-1. Activate the new environment:
+```bash
+conda env create -f environment.yml --name ptdvenv -v
+```
 
-    ```commandline
-    conda activate ptdvenv
-    ``` 
+Activate the new environment:
 
-1. Check all packages are installed:
+```bash
+conda activate ptdvenv
+``` 
 
-    ```bash
-    python -c 'import generateDS; import tinyobj; import gdecomp; import laspy; import pytools4dart'
-    ```
+Check all packages are installed:
 
-    In case of error, refer to section [test environment](#check-environment).
+```bash
+python -c 'import generateDS; import tinyobj; import gdecomp; import laspy; import pytools4dart'
+```
+
+In case of error, refer to section [test environment](#check-environment).
 
 
-1. Configure package with your DART version:
+Configure package with your DART version:
 
-    ```bash
-    python -c 'import pytools4dart as ptd; ptd.configure(r"<path to DART directory>")' # e.g. r"~/DART", r"C:\DART"
-    ```
+```bash
+python -c 'import pytools4dart as ptd; ptd.configure(r"<path to DART directory>")' # e.g. r"~/DART", r"C:\DART"
+```
 
-    In case of error, refer to section [configure](#configure)
+In case of error, refer to section [configure](#configure)
 
-1. Test configuration:
+Test configuration: 
+it will run all [examples](https://gitlab.com/pytools4dart/pytools4dart/tree/master/pytools4dart/examples).
 
-    The following command line will run all the examples:
+```bash
+py.test --pyargs pytools4dart -s
+```
 
-    ```bash
-    py.test --pyargs pytools4dart -s
-    ```
-
-    It may lead to some warnings, but if final message is `1 passed` your good to go.
+It may lead to some warnings, but if final message is `1 passed` your good to go.
     
-    In case of error refer to section [Test configuration](#test-configuration) and [Known errors](#known-errors).
+In case of error refer to section [Test configuration](#test-configuration) and [Known errors](#known-errors).
 
 __At any time, the created environment can be removed with the following [Uninstall](#uninstall).__
 
@@ -94,34 +94,34 @@ using Anaconda Navigator graphical interface:
 
 1. open your new environment ipython
 
-1. test environment:
+Within ipython console, test environment:
 
-    ```python
-    import generateDS
-    import tinyobj
-    import gdecomp
-    import laspy
-    import pytools4dart as ptd
-    ```
+```python
+import generateDS
+import tinyobj
+import gdecomp
+import laspy
+import pytools4dart
+```
 
-    In case of error refer to sections [test environment](#check-environment).
+In case of error refer to sections [test environment](#check-environment).
 
-1. configure with DART:
+Within ipython console, configure with DART:
 
-    ```python
-    import pytools4dart as ptd
-    ptd.configure(r'<path to DART directory>')  # e.g. 'C:\DART'
-    ```
-1. test configuration:
+```python
+import pytools4dart as ptd
+ptd.configure(r'<path to DART directory>')  # e.g. 'C:\DART'
+```
+Within ipython console, test configuration:
 
-    ```python
-    !py.test --pyargs pytools4dart -s
-    ```
-    It will run all [examples](https://gitlab.com/pytools4dart/pytools4dart/tree/master/pytools4dart/examples).
+```python
+!py.test --pyargs pytools4dart -s
+```
+It will run all [examples](https://gitlab.com/pytools4dart/pytools4dart/tree/master/pytools4dart/examples).
 
-    It may lead to some warnings, but if final message is `1 passed` your good to go. 
+It may lead to some warnings, but if final message is `1 passed` your good to go. 
 
-    In case of error refer to section [Test configuration](#test-configuration) and [Known errors](#known-errors).
+In case of error refer to section [Test configuration](#test-configuration) and [Known errors](#known-errors).
 
 __At any time, the created environment can be removed leaving your system as it was before 
 (but with Anaconda and Visual Studio).__
