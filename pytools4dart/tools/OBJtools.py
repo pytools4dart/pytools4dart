@@ -34,6 +34,13 @@ import os
 import pytools4dart as ptd
 import re
 from plyfile import PlyData
+import pandas as pd
+
+try:
+    from osgeo import gdal
+except ImportError as e:
+    raise ImportError(
+        str(e) + "\n\nPlease install GDAL.")
 
 try:
     import tinyobj
@@ -203,9 +210,6 @@ def ply2obj(ply, obj, order=['x', 'y', 'z'], color=False):
     color: bool
         if True color is added at the end vertex coordinates line
 
-    Returns
-    -------
-
     """
     normals = ['n' + c for c in order]
     textures = ['s', 't']
@@ -250,3 +254,69 @@ def ply2obj(ply, obj, order=['x', 'y', 'z'], color=False):
                         ii = [i[j] + 1]
                         f.write(" %d" % tuple(ii))
                 f.write("\n")
+
+
+def dtm2obj(dtm, obj, order=['y', 'z', 'x']):
+    """
+    Convert raster Digital Terrain Model (DTM) to obj file.
+    The pixel value is applied to the center of the pixel.
+
+    Gdal is used to read the DTM raster file.
+
+    Parameters
+    ----------
+    dtm: str
+        file path to DTM
+    obj: str
+        file path to writable obj file
+    order: list
+        Order of coordinates using 'x', 'y', 'z'.
+        DART expect coordinates to be given in ['y', 'z', 'x'] in obj files.
+
+    Details
+    -------
+
+
+    """
+
+    # read raster
+    raster = gdal.Open(dtm)
+
+    # Make vertices
+    transform = raster.GetGeoTransform()
+    width = raster.RasterXSize
+    height = raster.RasterYSize
+    # considers the pixel value applies to the center of the pixel
+    x = (np.arange(0, width) + .5) * transform[1] + transform[0]
+    y = (np.arange(0, height) + .5) * transform[5] + transform[3]
+    xx, yy = np.meshgrid(x, y)
+    zz = raster.ReadAsArray()
+    vertices = np.vstack((xx, yy, zz)).reshape([3, -1]).transpose()
+
+    # make faces
+    ai = np.arange(0, width - 1)
+    aj = np.arange(0, height - 1)
+    aii, ajj = np.meshgrid(ai, aj)
+    a = aii + ajj * width
+    a = a.flatten()
+
+    faces = np.vstack((a, a + width, a + width + 1, a, a + width + 1, a + 1))
+    faces = np.transpose(faces).reshape([-1, 3])
+
+    vertices = pd.DataFrame(vertices, columns=['x', 'y', 'z'])
+    vertices['head'] = 'v'
+    vertices = vertices[['head'] + order]
+
+    faces = pd.DataFrame(faces + 1, columns=['v1', 'v2', 'v3'])
+    faces['head'] = 'f'
+    faces = faces[['head', 'v1', 'v2', 'v3']]
+
+    header = ['# vertex coordinates order: {}\n'.format(''.join(order)),
+              '# Vertices: {}\n'.format(vertices.shape[0]),
+              '# Faces: {}\n'.format(faces.shape[0]),
+              'g default\n']
+    with open(obj, 'w') as f:
+        f.writelines(header)
+
+    vertices.to_csv(obj, sep=' ', header=False, index=False, mode='a')
+    faces.to_csv(obj, sep=' ', header=False, index=False, mode='a')

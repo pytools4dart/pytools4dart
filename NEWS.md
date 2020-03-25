@@ -15,6 +15,7 @@ giving randomly ordered spectra
 - Sequencer.run.stack_bands: stacks bands of each sequence simulation
 - Sequencer.run.dart: launch dart sequence simulations
 - Sequencer.grid: returns the grid of simulation (i.e. parameters combination)
+- OBJtools.dtm2obj: convert digital terrain model raster file to OBJ file
 
 # 1.1.3
 
