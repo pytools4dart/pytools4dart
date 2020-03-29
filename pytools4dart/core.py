@@ -404,7 +404,7 @@ class Core(object):
 
         return opt_props
 
-    def get_optical_properties(self):
+    def get_optical_properties(self, db_name=True, model_name=True):
         """
         Get optical properties from coeff_diff
         Returns
@@ -436,34 +436,41 @@ class Core(object):
                     prop_ident.append(prop.ident)
 
                     # databaseName
-                    pat = r'Coeff_diff\.{function}\.{multi}\.*\w*\.databaseName'.format(function=function, multi=multi)
-                    subdns = get_labels(pat)['dartnode']
-                    multidn = 'Coeff_diff.{function}.{multi}.'.format(function=function, multi=multi)
-                    subdns = [re.sub(multidn, '', s) for s in subdns]
-                    subcn = []
-                    for sdn in subdns:
-                        subcn.extend(get_nodes(prop, sdn))
-                    if len(subcn) == 1:
-                        prop_db.append(subcn[0])
-                    elif len(subcn) > 1:
-                        prop_db.append('multiple')
-                    else:
-                        prop_db.append(None)
+                    if db_name:
+                        pat = r'Coeff_diff\.{function}\.{multi}\.*\w*\.databaseName'.format(function=function, multi=multi)
+                        subdns = get_labels(pat)['dartnode']
+                        multidn = 'Coeff_diff.{function}.{multi}.'.format(function=function, multi=multi)
+                        subdns = [re.sub(multidn, '', s) for s in subdns]
+                        subcn = []
+                        for sdn in subdns:
+                            subcn.extend(get_nodes(prop, sdn))
+                        if len(subcn) == 1:
+                            prop_db.append(subcn[0])
+                        elif len(subcn) > 1:
+                            prop_db.append('multiple')
+                        else:
+                            prop_db.append(None)
 
                     # ModelName
-                    pat = r'Coeff_diff\.{function}\.{multi}\.*\w*\.ModelName'.format(function=function, multi=multi)
-                    subdns = get_labels(pat)['dartnode']
-                    multidn = 'Coeff_diff.{function}.{multi}.'.format(function=function, multi=multi)
-                    subdns = [re.sub(multidn, '', s) for s in subdns]
-                    subcn = []
-                    for sdn in subdns:
-                        subcn.extend(get_nodes(prop, sdn))
-                    if len(subcn) == 1:
-                        prop_name.append(subcn[0])
-                    elif len(subcn) > 1:
-                        prop_name.append('multiple')
-                    else:
-                        prop_name.append(None)
+                    if model_name:
+                        pat = r'Coeff_diff\.{function}\.{multi}\.*\w*\.ModelName'.format(function=function, multi=multi)
+                        subdns = get_labels(pat)['dartnode']
+                        multidn = 'Coeff_diff.{function}.{multi}.'.format(function=function, multi=multi)
+                        subdns = [re.sub(multidn, '', s) for s in subdns]
+                        subcn = []
+                        for sdn in subdns:
+                            subcn.extend(get_nodes(prop, sdn))
+                        if len(subcn) == 1:
+                            prop_name.append(subcn[0])
+                        elif len(subcn) > 1:
+                            prop_name.append('multiple')
+                        else:
+                            prop_name.append(None)
+
+        if len(prop_db)==0:
+            prop_db = None
+        if len(prop_name)==0:
+            prop_name = None
 
         opt_props = pd.DataFrame(dict(type=prop_type, index=prop_index, ident=prop_ident,
                                       databaseName=prop_db, ModelName=prop_name, source=source))
@@ -555,7 +562,7 @@ class Core(object):
             ident = [ident]
 
         ident_df = pd.DataFrame(dict(ident=ident))
-        op = self.get_optical_properties()
+        op = self.get_optical_properties(db_name=False, model_name=False)
         indexes = pd.merge(ident_df, op[['ident', 'index']], on='ident', how='left')
         return indexes['index']
 
@@ -603,7 +610,7 @@ class Core(object):
             index = [index]
 
         index_df = pd.DataFrame(dict(index=index, type=type))
-        op = self.get_optical_properties()
+        op = self.get_optical_properties(db_name=False, model_name=False)
         indexes = pd.merge(index_df, op[['ident', 'index', 'type']], on=['index', 'type'], how='left')
 
         return indexes['ident']
@@ -652,7 +659,7 @@ class Core(object):
         """
         if verbose:
             print('Updating optical properties indexes...')
-        table_op = self.get_optical_properties()
+        table_op = self.get_optical_properties(db_name=False, model_name=False)
         table_opl = self.get_optical_property_links()
         xtable_opl = pd.merge(table_opl, table_op, on=['ident', 'type'], how='left')
 
@@ -700,35 +707,60 @@ class Core(object):
                       (including if this has been corrected)
                  False otherwise
         """
+        # Cases: if useMiltiplicativeFactorForLUT:
+        #
+        # - if length(MultiplicativeFactorForLUT) != phase_spbands_nb
+        #     --> create all missing nodes with default factors from MultiplicativeFactorForLUT
+        #     --> print message
+        # - if useSameFactorForAllBands
+        #     --> copy factors from NodeMultiplicativeFactorForLUT to MultiplicativeFactorForLUT
+        # - if useSameFactorForAllBands==0
+        #     nothing to do
+
         if verbose:
             print('Updating spectral multiplicative factors...')
         phase_spbands_nb = len(
             self.simu.core.phase.Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties)
 
         dartnodes = get_labels(r'Coeff_diff.*\.useSameFactorForAllBands$')['dartnode']
+        # we are actually looking for NodeMultiplicativeFactorForLUT,
+        # but for AirFunction it is wrongly spelled with Lut instead of LUT:
+        # AirFunctionNodeMultiplicativeFactorForLut ... what the f...!
         for dartnode in dartnodes:
-            dn = '.'.join(dartnode.split('.')[:-1])  # parent dart node
+            dn = '.'.join(dartnode.split('.')[:-1])  # NodeMultiplicativeFactorForLUT
             cns = get_nodes(self.simu.core.coeff_diff, dn)  # parent core node
             for cn in cns:
-                multi = [c for c in cn.children if c.endswith('MultiplicativeFactorForLUT')][0]
-                if cn.useSameFactorForAllBands == 1 or \
-                        eval('len(cn.{multi})') != phase_spbands_nb:
+                if cn.parent.useMultiplicativeFactorForLUT == 1:
+                    multi = [c for c in cn.children if c.endswith('MultiplicativeFactorForLUT')][0]
+                    current_length = eval('len(cn.{multi})'.format(multi=multi))
+
+                    # get factor default values
                     multiargs = {}
                     for a in cn.attrib:
                         if a.endswith('Factor'):
                             multiargs[a] = eval('cn.' + a)
-                    # multiargs = {a:eval('cn.'+a) for a in cn.attrib if a.endswith('Factor')}
-                    new = eval('ptd.core_ui.coeff_diff.create_{multi}(**multiargs)'.format(multi=multi))
-                    for i in range(phase_spbands_nb - 1):
-                        eval('cn.add_{multi}(new.copy())'.format(multi=multi))
+
+                    # add MultiplicativeFactorForLUT nodes if necessary
+                    if current_length != phase_spbands_nb:
+                        # multiargs = {a:eval('cn.'+a) for a in cn.attrib if a.endswith('Factor')}
+                        new = eval('ptd.core_ui.coeff_diff.create_{multi}(**multiargs)'.format(multi=multi))
+                        # for i in range(phase_spbands_nb - current_length):
+                        #     eval('cn.add_{multi}(new.copy())'.format(multi=multi))
+                        newlist = [new.copy() for i in range(phase_spbands_nb - current_length)]
+                        eval('cn.{multi}.extend(newlist)'.format(multi=multi))
+
+                    # update with defaul factors if option activated
+                    if cn.useSameFactorForAllBands == 1:
+                        cn.set_nodes(**multiargs)
                 else:
-                    # multiargs = {}
-                    # for a in cn.attrib:
-                    #     if a.endswith('Factor'):
-                    #         multiargs[a]=eval('cn.' + a)
-                    # # multiargs = {a: eval('cn.' + a) for a in cn.attrib if a.endswith('Factor')}
-                    # new = eval('ptd.core_ui.coeff_diff.create_{multi}(**multiargs)'.format(multi=multi))
-                    eval('cn.set_{multi}([])'.format(multi=multi))
+                    raise ValueError('{}.useMultiplicativeFactorForLUT has unexpected value 0.'.format(cn.parent.path()))
+                #     # multiargs = {}
+                #     # for a in cn.attrib:
+                #     #     if a.endswith('Factor'):
+                #     #         multiargs[a]=eval('cn.' + a)
+                #     # # multiargs = {a: eval('cn.' + a) for a in cn.attrib if a.endswith('Factor')}
+                #     # new = eval('ptd.core_ui.coeff_diff.create_{multi}(**multiargs)'.format(multi=multi))
+                #     eval('cn.set_{multi}([])'.format(multi=multi))
 
     def update_bn(self, verbose=True):
         """

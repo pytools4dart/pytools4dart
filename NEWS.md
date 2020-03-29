@@ -9,6 +9,8 @@ giving randomly ordered spectra
 
 - Sequencer.get_sequence_df --> Sequencer.summary
 - run.stack_bands parameters
+- add options to get_optical_properties for index update of large number of optical properties
+- change update_mf for multiplicative factor updates of large number of bands
 
 ## Add
 
@@ -16,6 +18,7 @@ giving randomly ordered spectra
 - Sequencer.run.dart: launch dart sequence simulations
 - Sequencer.grid: returns the grid of simulation (i.e. parameters combination)
 - OBJtools.dtm2obj: convert digital terrain model raster file to OBJ file
+- add recommendation on useMultiplicativeFactorForLUT=0 in add.optical_property doc
 
 # 1.1.3
 

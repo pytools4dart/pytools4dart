@@ -275,6 +275,9 @@ class Add(object):
             ModelName: model name in database
             databaseName: path to database
             ident: model name called in simulation, e.g. in plots.
+            useMultiplicativeFactorForLUT: use multiplicative factor. By default this option is 1 in DART.
+                However, when 1 it creates as many multiplicative factor nodes as the number of bands.
+                **Thus user should care to set this option to 0, especially for hyperspectral study.**
 
         Available arguments and default values are
             - Lambertian:
