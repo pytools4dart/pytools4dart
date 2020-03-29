@@ -17,6 +17,7 @@ dependencies:
   - pytest
   - rtree
   - scipy
+  - libnetcdf=4.7.3
   - pip:
       - git+https://gitlab.com/pytools4dart/generateds.git
       - git+https://gitlab.com/pytools4dart/tinyobj.git
