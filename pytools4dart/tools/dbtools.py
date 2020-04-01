@@ -234,31 +234,44 @@ def prospect_db(db_file, N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can
     ----------
     db_file: str
         Path to database file.
+
     N: float
         Messophyl structural parameter [1.0-3.5].
+
     Cab: float
         Chlorophyll content [ug cm^-2].
+
     Car: float
         Carotenoid content [ug cm^-2].
+
     CBrown: float
         Fraction of senescent matter [0-1].
+
     Cw: float
         Water column [cm].
+
     Cm: float
         Dry matter content [g cm^-2].
+
     Can: float
         Anthocyanin content [ug cm^-2].
+
     prospect_version: str
         'D' or '5'
+
     mode: str
         Available modes:
             - 'w': Fails if database exist, otherwise write a new database.
             - 'a': appends to existing database otherwise creates it.
             - 'ow': overwrite existing database (removes existing).
+
     inmem: bool
-        Accelerate of a factor 1.5 the whole operation.
-        Loads database in memory, inserts all properties and copies back to disk.
+        If True, it loads existing database in memory, inserts all properties/spectra and copies it back to disk.
+        It accelerate of a factor 1.5 the whole operation.
+
+        If 'False', the operations are made directly on the database file.
         This option should be set to 'False' if the number of properties is very large (>100 000) or memory is small.
+
     verbose: bool
         Print messages if True.
 
