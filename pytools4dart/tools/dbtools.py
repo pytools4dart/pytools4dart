@@ -33,10 +33,16 @@ This module contains the function to extract DART database elements.
 import sqlite3
 import pandas as pd
 import os
+from os.path import join as pjoin
 from pytools4dart.settings import getdartdir, getdartenv
 import tempfile
 import subprocess
 import re
+import numpy as np
+from sqlite3 import Error
+import hashlib
+import sys
+import prosail
 
 
 def import2db(dbFpath, name, wavelength, reflectance, direct_transmittance, diffuse_transmittance,
@@ -190,6 +196,7 @@ def search_dbfile(dbname='Lambertian_vegetation.db'):
 
     raise ValueError('Database not found: ' + dbname)
 
+
 # from functools import reduce
 
 # def optTODARTformat(name, R, T): # fonction formatant les LOP en format DART
@@ -213,3 +220,355 @@ def search_dbfile(dbname='Lambertian_vegetation.db'):
 #     "# Contact: jean-baptiste.feret@irstea.fr"]
 #     return(comment)
 #
+
+
+def prospect_db(db_file, properties, mode='a', inmem=True, verbose=False):
+    """
+    Create or append properties and corresponding spectra to database.
+
+    Parameters
+    ----------
+    db_file: str
+        Path to database file.
+
+    properties: DataFrame
+         Table of leaf chemical properties:
+            - N: Messophyl structural parameter [1.0-3.5]
+            - Cab: Chlorophyll content [ug cm^-2]
+            - Car: Carotenoid content [ug cm^-2]
+            - CBrown: Fraction of senescent matter [0-1]
+            - Cw: Water column [cm]
+            - Cm: Dry matter content [g cm^-2]
+            - Can: Anthocyanin content [ug cm^-2]
+            - prospect_version: 'D' or '5'
+         Default values are set to missing properties.
+
+    mode: str
+        Available modes:
+            - 'a': appends to existing database otherwise creates it.
+            - 'ow': overwrite existing database (removes existing).
+
+    inmem: bool
+        Accelerate of a factor 1.5 the whole operation.
+        Loads database in memory, inserts all properties and copies back to disk.
+        This option should be set to 'False' if the number of properties is very large (>100 000) or memory is small.
+
+    verbose: bool
+        Prints messages if True.
+
+    Returns
+    -------
+    :DataFrame
+        Table of properties with corresponding model name and prospect file,
+        ready to fill DART simulation parameters.
+
+    Examples
+    --------
+    >>> import pytools4dart as ptd
+    >>> import pandas as pd
+    >>> size = 1000
+    >>> properties = pd.DataFrame({'N':np.random.uniform(1,3,size), 'Cab':np.random.uniform(0,30,size),
+                   'Car':np.random.uniform(0,5,size), 'Can':np.random.uniform(0,2,size)})
+    >>> ptd.dbtools.prospect_db('prospect.db', properties)
+    >>> os.remove('prospect.db')
+    """
+    # nb = 10000 --> 1min49s
+    # if 'prosail' not in sys.modules.keys():
+    #     print('Prospect run with Fluspect_B_CX_P6')
+
+    fexist = os.path.isfile(db_file)
+    if fexist:
+        if mode is 'ow':
+            os.remove(db_file)
+            fexist = False
+        elif mode is not 'a':
+            raise ValueError('Mode not available.')
+
+    if inmem:
+        conn = create_prospect_db(':memory:')
+        diskconn = sqlite3.connect(db_file)
+        if fexist:
+            diskconn.backup(conn)
+    else:
+        conn = create_prospect_db(db_file)
+
+    # raise ValueError(
+    #     'Database file already exists. Use option "overwrite" to overwrite. Set option "inmem" to False to append.')
+    ptable = prospect_table(**properties)
+
+    # current_ptable = pd.read_sql_table('_prospect_v6_parameters', conn)
+    current_ptable = pd.read_sql('select * from _prospect_v6_parameters', conn)
+
+    # remove properties already in database
+    add_ptable = ptable[~ptable.model.isin(current_ptable.model)].reset_index(drop=True)
+
+    # fill database with new properties
+    if verbose:
+        added = len(add_ptable)
+        existing = (len(ptable) - added)
+        if existing > 0:
+            print('... {} properties already in database ...'.format(existing))
+        if added > 0:
+            print('... adding {} properties to database ...'.format(len(add_ptable)))
+
+    with conn:
+        for row in add_ptable.itertuples(index=False):
+            leafopt = run_prospect(**row._asdict())
+            insert_prospect_properties(conn, **row._asdict())
+            create_prospect_spectra(conn, row.model, leafopt)
+
+    if inmem:
+        with diskconn:
+            conn.backup(diskconn)
+        diskconn.close()
+
+    conn.close()
+    return ptable
+
+
+def prospect_table(N=1.2, Cab=1, Car=.1, CBrown=.0, Cw=0.01, Cm=0.01, Can=1.2,
+                   prospect_version='D'):
+    """
+    Compute properties table as expected as expected for DART database.
+
+    Add model name, fileHash and prospect file, and fills with default values.
+    See prospect_db for details on arguments.
+    """
+    # # DART prospect files
+    # fdir = pjoin(getdartdir(), 'database', 'Prospect_Fluspect')
+    # prospect_files = {'D': pjoin(fdir, 'Optipar2017_ProspectD.txt'),
+    #                   '5': pjoin(fdir, 'Prospect_5_2008.txt')}
+
+    # Prosail prospect files
+    fdir = os.path.dirname(prosail.__file__)
+    prospect_files = {'D': pjoin(fdir, 'prospect_d_spectra.txt'),
+                      '5': pjoin(fdir, 'prospect5_spectra.txt')}
+    file_hashs = {k: get_file_hash(v) for k, v in prospect_files.items()}
+    df = pd.DataFrame({'N': N, 'Cab': Cab, 'Car': Car, 'CBrown': CBrown, 'Cw': Cw, 'Cm': Cm, 'Can': Can,
+                       'PSI': .0, 'PSII': .0, 'V2Z': -999., 'prospect_version': prospect_version})
+
+    prospect_file_list = []
+    file_hash_list = []
+    model_list = []
+    for row in df.itertuples(index=False):
+        prospect_file = prospect_files[row.prospect_version]
+        file_hash = file_hashs[row.prospect_version]
+        model = get_model_name(file_hash=file_hash, **row._asdict())
+        prospect_file_list.append(prospect_file)
+        file_hash_list.append(file_hash)
+        model_list.append(model)
+    df['prospect_file'] = prospect_file_list
+    df['file_hash'] = file_hash_list
+    df['model'] = model_list
+
+    return df
+    # leafopt = run_prospect(N, Cab, Car, CBrown, Cw, Cm, PSI, PSII, V2Z, Can, prospect_file)
+
+
+def run_prospect(N=1.2, Cab=1, Car=.1, CBrown=.0, Cw=0.01, Cm=0.01, Can=1.2, prospect_version='D', **kwargs):
+    """
+    Run prospect from prosail package (https://github.com/jgomezdans/prosail.git)
+    """
+    wvl, refl, tran = prosail.run_prospect(N, Cab, Car, CBrown, Cw, Cm, ant=Can, prospect_version=prospect_version)
+    leafopt = {'wavelength': wvl / 1000, 'reflectance': refl * 100, 'diffuse_transmittance': tran * 100}
+
+    return leafopt
+
+
+def create_prospect_db(db_file=':memory:'):
+    """ create a database connection to a database that resides
+        in the memory
+    """
+    conn = None
+    try:
+        conn = sqlite3.connect(db_file)
+        c = conn.cursor()
+        c.execute(
+            ''' CREATE TABLE IF NOT EXISTS _prospect_v6_parameters (model ,N ,Cab ,Car ,Cbrown ,Cw ,Cm ,fileHash ,PSI ,PSII ,V2Z ,Can ); ''')
+    except Error as e:
+        print(e)
+    return conn
+
+
+def insert_prospect_properties(conn, N=1.2, Cab=1, Car=.1, CBrown=.0, Cw=0.01, Cm=0.01, Can=1.2,
+                               PSI=.0, PSII=.0, V2Z=-999, prospect_version='D', model=None, file_hash=None,
+                               **kwargs):
+    """
+    Insert prospect properties in database table '_prospect_v6_parameters'
+    """
+
+    if (model is None) or (file_hash is None):
+        file_hash = get_file_hash(get_prospect_file(prospect_version))
+        model = get_model_name(N, Cab, Car, CBrown, Cw, Cm, file_hash, PSI, PSII, V2Z, Can)
+
+    sql_prospect = ''' INSERT INTO _prospect_v6_parameters(model ,N ,Cab ,Car ,Cbrown ,Cw ,Cm ,fileHash ,PSI ,PSII ,V2Z ,Can)
+              VALUES(?,?,?,?,?,?,?,?,?,?,?,?) '''
+    try:
+        cur = conn.cursor()
+        cur.execute(sql_prospect, (model, str(N), str(Cab), str(Car), str(CBrown), str(Cw), str(Cm), str(file_hash),
+                                   str(PSI), str(PSII), str(V2Z), str(Can)))
+    except Error as e:
+        print(e)
+
+    return cur.lastrowid
+
+
+def create_prospect_spectra(conn, model, leafopt):
+    """
+    Add table named 'model' to database with content of 'leafopt'
+
+    Parameters
+    ----------
+    conn: object
+        sqlite3 database connection.
+    model: str
+        model name, see get_model_name.
+    leafopt: object
+        DataFrame with columns ['wavelength', 'reflectance', 'diffuse_transmittance']
+        'direct_transmittance' is set to 0.
+
+    Returns
+    -------
+    int
+        table id
+
+    """
+    df = pd.DataFrame(leafopt)
+    # del df['kChlrel']
+    # df.rename(columns={'refl':'reflectance', 'tran':'diffuse_transmittance'}, inplace=True)
+    df['direct_transmittance'] = 0.0
+    df = df[['wavelength', 'reflectance', 'direct_transmittance', 'diffuse_transmittance']]
+
+    df.to_sql(name=model, con=conn, index=False)
+
+
+def get_file_hash(file):
+    """SHA-256 hash code
+    """
+    BLOCKSIZE = 65536
+    hasher = hashlib.sha256()
+    with open(file, 'rb') as afile:
+        buf = afile.read(BLOCKSIZE)
+        while len(buf) > 0:
+            hasher.update(buf)
+            buf = afile.read(BLOCKSIZE)
+    return hasher.hexdigest()
+
+
+def get_model_name(N=1.2, Cab=1, Car=.1, CBrown=.0, Cw=0.01, Cm=0.01,
+                   file_hash='6ee1eff50fdf77f82f034f75319067b682abc91411a2bde702ccb092a7adbf75',
+                   PSI=.0, PSII=.0, V2Z=-999, Can=1.2, **kwargs):
+    """Get model name as expected in DART prospect database
+    """
+    from jnius import autoclass
+    jString = autoclass('java.lang.String')
+    prospect = [N, Cab, Car, CBrown, Cw, Cm, file_hash, PSI, PSII, V2Z, Can]
+
+    hash_code = jString('_'.join([str(v) for v in prospect])).hashCode()
+    if hash_code < 0:
+        model_name = 'hcm' + str(-1 * hash_code)
+    else:
+        model_name = 'hc' + str(hash_code)
+
+    return model_name
+
+
+def get_prospect_file(prospect_version='D'):
+    """
+    Return prosail prospect file in function of prospect version
+
+    See https://github.com/jgomezdans/prosail.git
+
+    Parameters
+    ----------
+    prospect_version: str
+        - 'D' returns prosail/prosail/prospect_d_spectra.txt
+        - '5' returns prosail/prosail/prospect5_spectra.txt
+
+
+    """
+    fdir = os.path.dirname(prosail.__file__)
+    prospect_files = {'D': pjoin(fdir, 'prospect_d_spectra.txt'),
+                      '5': pjoin(fdir, 'prospect5_spectra.txt')}
+    return prospect_files[prospect_version]
+
+
+def run_fulspect(N=1.2, Cab=1, Car=.1, CBrown=.0, Cw=0.01, Cm=0.01,
+                 PSI=.0, PSII=.0, V2Z=-999, Can=1.2,
+                 prospect_file=None):
+    """
+    For future developments
+    Run fluspect of DART
+    """
+    # 100ms
+    sys.path.append(pjoin(getdartdir(), 'bin', 'python_script', 'Fluspect', 'src'))
+    from Fluspect_B_CX_P6 import fluspect_B_CX_P6
+
+    if prospect_file is None:
+        prospect_file = pjoin(getdartdir(), 'database', 'Prospect_Fluspect', 'Optipar2017_ProspectD.txt')
+
+    fileData = np.loadtxt(prospect_file)  # 20ms
+
+    leafbio = {}
+    spectral = {}
+    opticalParameters = {}
+
+    leafbio['Cab'] = Cab  # Chlorophyll content [ug cm^-2]
+    leafbio['Cca'] = Car  # Carotenoid content [ug cm^-2]
+    leafbio['Cs'] = CBrown  # Fraction of senescent matter [0-1]
+    leafbio['Cw'] = Cw  # Water column [cm]
+    leafbio['Cdm'] = Cm  # Dry matter content [g cm^-2]
+    leafbio['N'] = N  # Messophyl structural parameter [1.0-3.5]
+    leafbio['fqe'] = np.hstack(
+        (PSI, PSII))  # Chl. fluorescence quantum yield of PSI (first) & PSII (second), default [.002, .01]
+    # The coefficients are independant PSI & PSII efficiencies (not a linear combination)
+    # Chl. fluorescence is not simulated if leafbio.fqe = 0
+    leafbio['V2Z'] = V2Z  # Violaxanthin-Zeaxanthin deepoxidation status [0-1]; 0 ~100# Violaxanthin, 1 ~100# Zeaxanthin
+    # Violaxanthin-Zeaxanthin deepoxidation is not simulated if leafbio.V2Z = -999
+    leafbio['Can'] = Can  # Anthocyanin content [ug cm^-2]; Anthocyanins are not simulated if Can = 0
+
+    spectral['wlP'] = np.arange(fileData[0][0], fileData[len(fileData) - 1][0] + 1, 1)  # Fluspect simulated wavelengths
+
+    spectral['wlE'] = np.arange(400, 751, 1)  # Fluorescence excitation wavelengths
+    spectral['wlF'] = np.arange(640, 851, 1)  # Fluorescence emission wavelengths
+
+    opticalParameters['nr'] = fileData[:, 1]  # defractive index
+    opticalParameters['Kab'] = fileData[:, 2]  # specific absorption coefficent of Chl. a+b
+    opticalParameters['Kca'] = fileData[:, 3]  # specific absorption coefficent of Car. x+c
+    opticalParameters['Ks'] = fileData[:, 4]  # specific absorption coefficent of senescent matter
+    opticalParameters['Kw'] = fileData[:, 5]  # specific absorption coefficent of water
+    opticalParameters['Kdm'] = fileData[:, 6]  # specific absorption coefficent of dry matter
+    opticalParameters['phiI'] = fileData[:, 7]  # distribution of PSI chl. fluorescence
+    opticalParameters['phiII'] = fileData[:, 8]  # distribution of PSII chl. fluorescence
+    opticalParameters['KcaV'] = fileData[:, 9]  # specific absorption coefficent of Violaxanthin
+    opticalParameters['KcaZ'] = fileData[:, 10]  # specific absorption coefficent of Zeaxanthin
+    opticalParameters['Kan'] = fileData[:, 11]  # specific absorption coefficent of Anthocyanins
+
+    leafopt = fluspect_B_CX_P6(spectral, leafbio, opticalParameters)  # 80ms
+    leafopt = {'wavelength': spectral['wlP'] / 1000, 'reflectance': leafopt['refl'] * 100,
+               'diffuse_transmittance': leafopt['tran'] * 100}
+
+    return leafopt
+
+
+def get_specs(file=None):
+    """
+    __For future developments__
+
+    Read DART prospect files in <HOME_DART>/database/Prospect_Fluspect
+    """
+    names = ['wavelength',  # wavelength in nm
+             'nr',  # defractive index
+             'Kab',  # specific absorption coefficent of Chl. a+b
+             'Kca',  # specific absorption coefficent of Car. x+c
+             'Ks',  # specific absorption coefficent of senescent matter
+             'Kw',  # specific absorption coefficent of water
+             'Kdm',  # specific absorption coefficent of dry matter
+             'phiI',  # distribution of PSI chl. fluorescence
+             'phiII',  # distribution of PSII chl. fluorescence
+             'KcaV',  # specific absorption coefficent of Violaxanthin
+             'KcaZ',  # specific absorption coefficent of Zeaxanthin
+             'Kan'  # specific absorption coefficent of Anthocyanins
+             ]
+
+    return pd.read_csv(file, sep='\t', names=names)

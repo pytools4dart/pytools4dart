@@ -22,4 +22,5 @@ dependencies:
       - git+https://gitlab.com/pytools4dart/tinyobj.git
       - git+https://gitlab.com/pytools4dart/gdecomp.git
       - git+https://github.com/floriandeboissieu/laspy.git@patch-1
+      - git+https://github.com/jgomezdans/prosail.git
       - git+https://gitlab.com/pytools4dart/pytools4dart.git

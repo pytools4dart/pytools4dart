@@ -18,7 +18,8 @@ giving randomly ordered spectra
 - Sequencer.run.dart: launch dart sequence simulations
 - Sequencer.grid: returns the grid of simulation (i.e. parameters combination)
 - OBJtools.dtm2obj: convert digital terrain model raster file to OBJ file
-- add recommendation on useMultiplicativeFactorForLUT=0 in add.optical_property doc
+- Recommendations on useMultiplicativeFactorForLUT=0 in add.optical_property doc
+- dbtools.prospect_db: much faster then within DART: pre-compute prospect spectra and create associated DART database 
 
 # 1.1.3
 
