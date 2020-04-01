@@ -20,6 +20,7 @@ giving randomly ordered spectra
 - OBJtools.dtm2obj: convert digital terrain model raster file to OBJ file
 - Recommendations on useMultiplicativeFactorForLUT=0 in add.optical_property doc
 - dbtools.prospect_db: much faster then within DART: pre-compute prospect spectra and create associated DART database 
+- extent property to voxreader 
 
 # 1.1.3
 
