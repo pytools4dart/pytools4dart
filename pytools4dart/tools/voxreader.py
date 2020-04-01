@@ -63,6 +63,13 @@ class voxel(object):
         self.data = []
         self.grid = []
 
+    @property
+    def extent(self):
+        if len(self.header > 0):
+            box(self.header['min_corner'][0], self.header['min_corner'][1],
+                self.header['max_corner'][0], self.header['max_corner'][1])
+
+
     @classmethod
     def from_vox(cls, filename):
         newVoxel = cls()
