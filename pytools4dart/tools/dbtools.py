@@ -222,42 +222,44 @@ def search_dbfile(dbname='Lambertian_vegetation.db'):
 #
 
 
-def prospect_db(db_file, properties, mode='a', inmem=True, verbose=False):
+def prospect_db(db_file, N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can=0,
+                prospect_version='D', mode='a', inmem=True, verbose=False):
     """
     Create or append properties and corresponding spectra to a DART prospect database.
 
-    It is 100x faster then if computed within DART, but it is limited to prospect at the moment.
+    It is 100x faster then if computed within DART (~11ms/entry), but it is limited to prospect at the moment.
     Open an issue if fluorescence is needed, we'll develop it at that time.
 
     Parameters
     ----------
     db_file: str
         Path to database file.
-
-    properties: DataFrame
-         Table of leaf chemical properties:
-            - N: Messophyl structural parameter [1.0-3.5]
-            - Cab: Chlorophyll content [ug cm^-2]
-            - Car: Carotenoid content [ug cm^-2]
-            - CBrown: Fraction of senescent matter [0-1]
-            - Cw: Water column [cm]
-            - Cm: Dry matter content [g cm^-2]
-            - Can: Anthocyanin content [ug cm^-2]
-            - prospect_version: 'D' or '5'
-         Default values are set to missing properties.
-
+    N: float
+        Messophyl structural parameter [1.0-3.5].
+    Cab: float
+        Chlorophyll content [ug cm^-2].
+    Car: float
+        Carotenoid content [ug cm^-2].
+    CBrown: float
+        Fraction of senescent matter [0-1].
+    Cw: float
+        Water column [cm].
+    Cm: float
+        Dry matter content [g cm^-2].
+    Can: float
+        Anthocyanin content [ug cm^-2].
+    prospect_version: str
+        'D' or '5'
     mode: str
         Available modes:
             - 'a': appends to existing database otherwise creates it.
             - 'ow': overwrite existing database (removes existing).
-
     inmem: bool
         Accelerate of a factor 1.5 the whole operation.
         Loads database in memory, inserts all properties and copies back to disk.
         This option should be set to 'False' if the number of properties is very large (>100 000) or memory is small.
-
     verbose: bool
-        Prints messages if True.
+        Print messages if True.
 
     Returns
     -------
@@ -267,12 +269,14 @@ def prospect_db(db_file, properties, mode='a', inmem=True, verbose=False):
 
     Examples
     --------
+    # Add 1000 random optical properties to database named 'prospect.db'
+
     >>> import pytools4dart as ptd
     >>> import pandas as pd
     >>> size = 1000
-    >>> properties = pd.DataFrame({'N':np.random.uniform(1,3,size), 'Cab':np.random.uniform(0,30,size),
+    >>> properties = pd.DataFrame({'N':np.random.uniform(1,3,size), 'Cab':np.random.uniform(0,30,size),\
                    'Car':np.random.uniform(0,5,size), 'Can':np.random.uniform(0,2,size)})
-    >>> ptd.dbtools.prospect_db('prospect.db', properties)
+    >>> ptd.dbtools.prospect_db('prospect.db', **properties.to_dict('list'))
     >>> os.remove('prospect.db')
     """
     # nb = 10000 --> 1min49s
@@ -297,7 +301,8 @@ def prospect_db(db_file, properties, mode='a', inmem=True, verbose=False):
 
     # raise ValueError(
     #     'Database file already exists. Use option "overwrite" to overwrite. Set option "inmem" to False to append.')
-    ptable = prospect_table(**properties)
+
+    ptable = prospect_table(N, Cab, Car, CBrown, Cw, Cm, Can, prospect_version)
 
     # current_ptable = pd.read_sql_table('_prospect_v6_parameters', conn)
     current_ptable = pd.read_sql('select * from _prospect_v6_parameters', conn)
@@ -329,7 +334,7 @@ def prospect_db(db_file, properties, mode='a', inmem=True, verbose=False):
     return ptable
 
 
-def prospect_table(N=1.2, Cab=1, Car=.1, CBrown=.0, Cw=0.01, Cm=0.01, Can=1.2,
+def prospect_table(N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can=0,
                    prospect_version='D'):
     """
     Compute properties table as expected as expected for DART database.
@@ -368,7 +373,7 @@ def prospect_table(N=1.2, Cab=1, Car=.1, CBrown=.0, Cw=0.01, Cm=0.01, Can=1.2,
     # leafopt = run_prospect(N, Cab, Car, CBrown, Cw, Cm, PSI, PSII, V2Z, Can, prospect_file)
 
 
-def run_prospect(N=1.2, Cab=1, Car=.1, CBrown=.0, Cw=0.01, Cm=0.01, Can=1.2, prospect_version='D', **kwargs):
+def run_prospect(N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can=0, prospect_version='D', **kwargs):
     """
     Run prospect from prosail package (https://github.com/jgomezdans/prosail.git)
     """
@@ -393,7 +398,7 @@ def create_prospect_db(db_file=':memory:'):
     return conn
 
 
-def insert_prospect_properties(conn, N=1.2, Cab=1, Car=.1, CBrown=.0, Cw=0.01, Cm=0.01, Can=1.2,
+def insert_prospect_properties(conn, N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can=0,
                                PSI=.0, PSII=.0, V2Z=-999, prospect_version='D', model=None, file_hash=None,
                                **kwargs):
     """
@@ -458,10 +463,17 @@ def get_file_hash(file):
     return hasher.hexdigest()
 
 
-def get_model_name(N=1.2, Cab=1, Car=.1, CBrown=.0, Cw=0.01, Cm=0.01,
+def get_model_name(N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can=0,
                    file_hash='6ee1eff50fdf77f82f034f75319067b682abc91411a2bde702ccb092a7adbf75',
-                   PSI=.0, PSII=.0, V2Z=-999, Can=1.2, **kwargs):
-    """Get model name as expected in DART prospect database
+                   PSI=.0, PSII=.0, V2Z=-999, **kwargs):
+    """
+    Get model name as expected in DART prospect database
+
+    Parameters
+    ----------
+    kwargs: any
+        not used.
+
     """
     from jnius import autoclass
     jString = autoclass('java.lang.String')
@@ -496,8 +508,8 @@ def get_prospect_file(prospect_version='D'):
     return prospect_files[prospect_version]
 
 
-def run_fulspect(N=1.2, Cab=1, Car=.1, CBrown=.0, Cw=0.01, Cm=0.01,
-                 PSI=.0, PSII=.0, V2Z=-999, Can=1.2,
+def run_fulspect(N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can=0,
+                 PSI=.0, PSII=.0, V2Z=-999,
                  prospect_file=None):
     """
     For future developments
