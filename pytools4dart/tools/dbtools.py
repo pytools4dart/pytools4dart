@@ -223,7 +223,7 @@ def search_dbfile(dbname='Lambertian_vegetation.db'):
 
 
 def prospect_db(db_file, N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can=0,
-                prospect_version='D', mode='a', inmem=True, verbose=False):
+                prospect_version='D', mode='w', inmem=True, verbose=False):
     """
     Create or append properties and corresponding spectra to a DART prospect database.
 
@@ -252,6 +252,7 @@ def prospect_db(db_file, N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can
         'D' or '5'
     mode: str
         Available modes:
+            - 'w': Fails if database exist, otherwise write a new database.
             - 'a': appends to existing database otherwise creates it.
             - 'ow': overwrite existing database (removes existing).
     inmem: bool
@@ -288,6 +289,8 @@ def prospect_db(db_file, N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can
         if mode is 'ow':
             os.remove(db_file)
             fexist = False
+        elif mode is 'w':
+            raise ValueError('Database already exist: change mode to append or overwrite.')
         elif mode is not 'a':
             raise ValueError('Mode not available.')
 
