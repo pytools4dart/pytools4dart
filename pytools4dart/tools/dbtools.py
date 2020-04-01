@@ -224,7 +224,10 @@ def search_dbfile(dbname='Lambertian_vegetation.db'):
 
 def prospect_db(db_file, properties, mode='a', inmem=True, verbose=False):
     """
-    Create or append properties and corresponding spectra to database.
+    Create or append properties and corresponding spectra to a DART prospect database.
+
+    It is 100x faster then if computed within DART, but it is limited to prospect at the moment.
+    Open an issue if fluorescence is needed, we'll develop it at that time.
 
     Parameters
     ----------
