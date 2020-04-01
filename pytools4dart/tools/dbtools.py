@@ -277,8 +277,10 @@ def prospect_db(db_file, N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can
     >>> size = 1000
     >>> properties = pd.DataFrame({'N':np.random.uniform(1,3,size), 'Cab':np.random.uniform(0,30,size),\
                    'Car':np.random.uniform(0,5,size), 'Can':np.random.uniform(0,2,size)})
-    >>> ptd.dbtools.prospect_db('prospect.db', **properties.to_dict('list'))
-    >>> os.remove('prospect.db')
+    >>> user_data = ptd.getdartenv()['DART_LOCAL']
+    >>> db_file = os.path.join(user_data, 'database', 'prospect_test.db')
+    >>> ptd.dbtools.prospect_db(db_file, **properties.to_dict('list'))
+    >>> os.remove(db_file)
     """
     # nb = 10000 --> 1min49s
     # if 'prosail' not in sys.modules.keys():
