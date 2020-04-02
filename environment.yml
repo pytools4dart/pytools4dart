@@ -6,6 +6,7 @@ dependencies:
   - gdal
   - geopandas
   - git
+  - hashlib
   - ipython
   - libspatialindex
   - lmfit
@@ -14,6 +15,7 @@ dependencies:
   - pip
   - plyfile
   - pybind11
+  - pyjnius
   - pytest
   - rtree
   - scipy

@@ -40,141 +40,10 @@ import subprocess
 import re
 import numpy as np
 from sqlite3 import Error
-import hashlib
 import sys
+import hashlib
+from jnius import autoclass
 import prosail
-
-
-def prospect_db(db_file, N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can=0,
-                prospect_version='D', mode='w', inmem=True, verbose=False):
-    """
-    Create or append properties and corresponding spectra to a DART prospect database.
-
-    It is 100x faster then if computed within DART (~11ms/entry), but it is limited to prospect at the moment.
-    Duplicates and already existing entries are internally removed from computation.
-    Open an issue if fluorescence/fluspect is needed, we'll develop it on demand.
-
-    Parameters
-    ----------
-    db_file: str
-        Path to database file.
-
-    N: float
-        Messophyl structural parameter [1.0-3.5].
-
-    Cab: float
-        Chlorophyll content [ug cm^-2].
-
-    Car: float
-        Carotenoid content [ug cm^-2].
-
-    CBrown: float
-        Fraction of senescent matter [0-1].
-
-    Cw: float
-        Water column [cm].
-
-    Cm: float
-        Dry matter content [g cm^-2].
-
-    Can: float
-        Anthocyanin content [ug cm^-2].
-
-    prospect_version: str
-        'D' or '5'
-
-    mode: str
-        Available modes:
-            - 'w': Fails if database exist, otherwise write a new database.
-            - 'a': appends to existing database otherwise creates it.
-            - 'ow': overwrite existing database (removes existing).
-
-    inmem: bool
-        If True, it loads existing database in memory, inserts all properties/spectra and copies it back to disk.
-        10 000 entries takes about 750 MB memory and 1min50s to compute.
-
-        If 'False', the operations are made directly on the database file, which is 1.5x slower compared to in memory.
-        This option should be set to 'False' if the number of properties is very large (>10 000) or memory is small.
-        Or it should be split in several database.
-
-
-    verbose: bool
-        Print messages if True.
-
-    Returns
-    -------
-    :DataFrame
-        Table of properties with corresponding model name and prospect file,
-        ready to fill DART simulation parameters.
-
-    Examples
-    --------
-    # Add 1000 random optical properties to database named 'prospect.db'
-
-    >>> import pytools4dart as ptd
-    >>> import pandas as pd
-    >>> size = 1000
-    >>> properties = pd.DataFrame({'N':np.random.uniform(1,3,size), 'Cab':np.random.uniform(0,30,size),\
-                   'Car':np.random.uniform(0,5,size), 'Can':np.random.uniform(0,2,size)})
-    >>> user_data = ptd.getdartenv()['DART_LOCAL']
-    >>> db_file = os.path.join(user_data, 'database', 'prospect_test.db')
-    >>> ptd.dbtools.prospect_db(db_file, **properties.to_dict('list'))
-    >>> os.remove(db_file)
-    """
-    # nb = 10000 --> 1min49s
-    # if 'prosail' not in sys.modules.keys():
-    #     print('Prospect run with Fluspect_B_CX_P6')
-
-    fexist = os.path.isfile(db_file)
-    if fexist:
-        if mode is 'ow':
-            os.remove(db_file)
-            fexist = False
-        elif mode is 'w':
-            raise ValueError('Database already exist: change mode to append or overwrite.')
-        elif mode is not 'a':
-            raise ValueError('Mode not available.')
-
-    if inmem:
-        conn = _create_prospect_db(':memory:')
-        diskconn = sqlite3.connect(db_file)
-        if fexist:
-            diskconn.backup(conn)
-    else:
-        conn = _create_prospect_db(db_file)
-
-    ptable = _prospect_table(N, Cab, Car, CBrown, Cw, Cm, Can, prospect_version)
-
-    # current_ptable = pd.read_sql_table('_prospect_v6_parameters', conn)
-    current_ptable = pd.read_sql('select * from _prospect_v6_parameters', conn)
-
-    # remove properties already in database and duplicates
-    add_ptable = ptable[~ptable.model.isin(current_ptable.model)].drop_duplicates().reset_index(drop=True)
-
-
-    # fill database with new properties
-    if verbose:
-        added = len(add_ptable)
-        existing = (len(ptable) - added)
-        if existing > 0:
-            print('... {} properties already in database ...'.format(existing))
-        if added > 0:
-            print('... adding {} properties to database ...'.format(len(add_ptable)))
-
-    with conn:
-        for row in add_ptable.itertuples(index=False):
-            leafopt = _run_prospect(**row._asdict())
-            _insert_prospect_properties(conn, **row._asdict())
-            _create_prospect_spectra(conn, row.model, leafopt)
-
-    if inmem:
-        with diskconn:
-            conn.backup(diskconn)
-        diskconn.close()
-
-    conn.close()
-    return ptable
-
 
 
 def import2db(dbFpath, name, wavelength, reflectance, direct_transmittance, diffuse_transmittance,
@@ -353,11 +222,138 @@ def search_dbfile(dbname='Lambertian_vegetation.db'):
 #     return(comment)
 #
 
+def prospect_db(db_file, N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can=0,
+                prospect_version='D', mode='w', inmem=True, verbose=False):
+    """
+    Create or append properties and corresponding spectra to a DART prospect database.
 
+    It is 100x faster then if computed within DART (~11ms/entry), but it is limited to prospect at the moment.
+    Duplicates and already existing entries are internally removed from computation.
+    Open an issue if fluorescence/fluspect is needed, we'll develop it on demand.
+
+    Parameters
+    ----------
+    db_file: str
+        Path to database file.
+
+    N: float
+        Messophyl structural parameter [1.0-3.5].
+
+    Cab: float
+        Chlorophyll content [ug cm^-2].
+
+    Car: float
+        Carotenoid content [ug cm^-2].
+
+    CBrown: float
+        Fraction of senescent matter [0-1].
+
+    Cw: float
+        Water column [cm].
+
+    Cm: float
+        Dry matter content [g cm^-2].
+
+    Can: float
+        Anthocyanin content [ug cm^-2].
+
+    prospect_version: str
+        'D' or '5'
+
+    mode: str
+        Available modes:
+            - 'w': Fails if database exist, otherwise write a new database.
+            - 'a': appends to existing database otherwise creates it.
+            - 'ow': overwrite existing database (removes existing).
+
+    inmem: bool
+        If True, it loads existing database in memory, inserts all properties/spectra and copies it back to disk.
+        10 000 entries takes about 750 MB memory and 1min50s to compute.
+
+        If 'False', the operations are made directly on the database file, which is 1.5x slower compared to in memory.
+        This option should be set to 'False' if the number of properties is very large (>10 000) or memory is small.
+        Or it should be split in several database.
+
+
+    verbose: bool
+        Print messages if True.
+
+    Returns
+    -------
+    :DataFrame
+        Table of properties with corresponding model name and prospect file,
+        ready to fill DART simulation parameters.
+
+    Examples
+    --------
+    # Add 1000 random optical properties to database named 'prospect.db'
+
+    >>> import pytools4dart as ptd
+    >>> import pandas as pd
+    >>> size = 1000
+    >>> properties = pd.DataFrame({'N':np.random.uniform(1,3,size), 'Cab':np.random.uniform(0,30,size),\
+                   'Car':np.random.uniform(0,5,size), 'Can':np.random.uniform(0,2,size)})
+    >>> user_data = ptd.getdartenv()['DART_LOCAL']
+    >>> db_file = os.path.join(user_data, 'database', 'prospect_test.db')
+    >>> ptd.dbtools.prospect_db(db_file, **properties.to_dict('list'))
+    >>> os.remove(db_file)
+    """
+    # nb = 10000 --> 1min49s
+    # if 'prosail' not in sys.modules.keys():
+    #     print('Prospect run with Fluspect_B_CX_P6')
+
+    fexist = os.path.isfile(db_file)
+    if fexist:
+        if mode is 'ow':
+            os.remove(db_file)
+            fexist = False
+        elif mode is 'w':
+            raise ValueError('Database already exist: change mode to append or overwrite.')
+        elif mode is not 'a':
+            raise ValueError('Mode not available.')
+
+    if inmem:
+        conn = _create_prospect_db(':memory:')
+        diskconn = sqlite3.connect(db_file)
+        if fexist:
+            diskconn.backup(conn)
+    else:
+        conn = _create_prospect_db(db_file)
+
+    ptable = _prospect_table(N, Cab, Car, CBrown, Cw, Cm, Can, prospect_version)
+
+    # current_ptable = pd.read_sql_table('_prospect_v6_parameters', conn)
+    current_ptable = pd.read_sql('select * from _prospect_v6_parameters', conn)
+
+    # remove properties already in database and duplicates
+    add_ptable = ptable[~ptable.model.isin(current_ptable.model)].drop_duplicates().reset_index(drop=True)
+
+    # fill database with new properties
+    if verbose:
+        added = len(add_ptable)
+        existing = (len(ptable) - added)
+        if existing > 0:
+            print('... {} properties already in database ...'.format(existing))
+        if added > 0:
+            print('... adding {} properties to database ...'.format(len(add_ptable)))
+
+    with conn:
+        for row in add_ptable.itertuples(index=False):
+            leafopt = _run_prospect(**row._asdict())
+            _insert_prospect_properties(conn, **row._asdict())
+            _create_prospect_spectra(conn, row.model, leafopt)
+
+    if inmem:
+        with diskconn:
+            conn.backup(diskconn)
+        diskconn.close()
+
+    conn.close()
+    return ptable
 
 
 def _prospect_table(N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can=0,
-                   prospect_version='D'):
+                    prospect_version='D'):
     """
     Compute properties table as expected as expected for DART database.
 
@@ -420,14 +416,14 @@ def _create_prospect_db(db_file=':memory:'):
 
 
 def _insert_prospect_properties(conn, N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can=0,
-                               PSI=.0, PSII=.0, V2Z=-999, prospect_version='D', model=None, file_hash=None,
-                               **kwargs):
+                                PSI=.0, PSII=.0, V2Z=-999, prospect_version='D', model=None, file_hash=None,
+                                **kwargs):
     """
     Insert prospect properties in database table '_prospect_v6_parameters'
     """
 
     if (model is None) or (file_hash is None):
-        file_hash = _get_file_hash(get_prospect_file(prospect_version))
+        file_hash = _get_file_hash(_get_prospect_file(prospect_version))
         model = _get_model_name(N, Cab, Car, CBrown, Cw, Cm, file_hash, PSI, PSII, V2Z, Can)
 
     sql_prospect = ''' INSERT INTO _prospect_v6_parameters(model ,N ,Cab ,Car ,Cbrown ,Cw ,Cm ,fileHash ,PSI ,PSII ,V2Z ,Can)
@@ -485,8 +481,8 @@ def _get_file_hash(file):
 
 
 def _get_model_name(N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can=0,
-                   file_hash='6ee1eff50fdf77f82f034f75319067b682abc91411a2bde702ccb092a7adbf75',
-                   PSI=.0, PSII=.0, V2Z=-999, **kwargs):
+                    file_hash='6ee1eff50fdf77f82f034f75319067b682abc91411a2bde702ccb092a7adbf75',
+                    PSI=.0, PSII=.0, V2Z=-999, **kwargs):
     """
     Get model name as expected in DART prospect database
 
@@ -496,7 +492,6 @@ def _get_model_name(N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can=0,
         not used.
 
     """
-    from jnius import autoclass
     jString = autoclass('java.lang.String')
     prospect = [N, Cab, Car, CBrown, Cw, Cm, file_hash, PSI, PSII, V2Z, Can]
 
@@ -509,7 +504,7 @@ def _get_model_name(N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can=0,
     return model_name
 
 
-def get_prospect_file(prospect_version='D'):
+def _get_prospect_file(prospect_version='D'):
     """
     Return PROSAIL prospect file depending on prospect version
 
@@ -532,9 +527,9 @@ def get_prospect_file(prospect_version='D'):
     return prospect_files[prospect_version]
 
 
-def _run_fulspect(N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can=0,
-                 PSI=.0, PSII=.0, V2Z=-999,
-                 prospect_file=None):
+def _run_fluspect(N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can=0,
+                  PSI=.0, PSII=.0, V2Z=-999,
+                  prospect_file=None):
     """
     For future developments
     Run fluspect of DART
