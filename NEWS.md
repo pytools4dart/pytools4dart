@@ -11,6 +11,7 @@ giving randomly ordered spectra
 - run.stack_bands parameters
 - add options to get_optical_properties for index update of large number of optical properties
 - change update_mf for multiplicative factor updates of large number of bands
+- add.optical_properties has now default useMultiplicativeFactorForLUT=0
 
 ## Add
 

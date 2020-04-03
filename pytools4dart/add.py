@@ -251,7 +251,7 @@ class Add(object):
 
         return obj
 
-    def optical_property(self, type='Lambertian', replace=False, **kwargs):
+    def optical_property(self, type='Lambertian', replace=False, useMultiplicativeFactorForLUT=0, **kwargs):
         """
         Add a new optical property to core.coeff_diff
 
@@ -281,12 +281,12 @@ class Add(object):
 
         Available arguments and default values are
             - Lambertian:
-                ModelName='reflect_equal_1_trans_equal_0_0',
-                databaseName='Lambertian_vegetation.db',
-                useMultiplicativeFactorForLUT=1,
-                ident='Lambertian_Phase_Function_1',
-                useSpecular=0,
-                roStDev=0.000
+                ModelName = 'reflect_equal_1_trans_equal_0_0',
+                databaseName = 'Lambertian_vegetation.db',
+                useMultiplicativeFactorForLUT = 0,
+                ident = 'Lambertian_Phase_Function_1',
+                useSpecular = 0,
+                roStDev = 0.000
 
             - Hapke:
                 ModelName = 'all_equal_to_one',
@@ -296,37 +296,37 @@ class Add(object):
                 ident = 'Hapke_Phase_Function_1',
                 transmittanceModelName = 'reflect_equal_1_trans_equal_1_1',
                 databaseName = 'Hapke.db',
-                useMultiplicativeFactorForLUT = 1
+                useMultiplicativeFactorForLUT = 0
 
             - RPV:
                 ModelName = 'basic',
                 transmittanceModelName = 'reflect_equal_1_trans_equal_0_0',
                 databaseName = 'RPV.db',
-                useMultiplicativeFactorForLUT = 1,
+                useMultiplicativeFactorForLUT = 0,
                 transmittanceDatabaseName = 'Lambertian_vegetation.db',
                 ident = 'RPV_Phase_Function_1',
                 useSpecular = 0
 
             - Vegetation:
-                ident='Turbid_Leaf_Deciduous_Phase_Function',
-                hasDifferentModelForBottom=0,
-                dimFoliar=0.01,
-                thermalHotSpotFactor=0.1,
-                lad=1,
-                useOpticalFactorMatrix=0
+                ident = 'Turbid_Leaf_Deciduous_Phase_Function',
+                hasDifferentModelForBottom = 0,
+                dimFoliar = 0.01,
+                thermalHotSpotFactor = 0.1,
+                lad = 1,
+                useOpticalFactorMatrix = 0
 
                 # with UnderstoryMultiModel options:
 
-                ModelName='leaf_deciduous'
-                useSpecular=0
-                databaseName='Lambertian_vegetation.db'
-                useMultiplicativeFactorForLUT=1
+                ModelName = 'leaf_deciduous'
+                useSpecular = 0
+                databaseName = 'Lambertian_vegetation.db'
+                useMultiplicativeFactorForLUT = 0
 
             - Fluid:
                 ident = 'Molecule',
                 ModelName = 'rayleigh_gas',
                 databaseName = 'Fluid.db',
-                useMultiplicativeFactorForLUT = 1,
+                useMultiplicativeFactorForLUT = 0,
 
 
             Prospect module can be called for Lambertian and Vegetation modules. It can be set argument `prospect`
@@ -370,10 +370,12 @@ class Add(object):
         #                               ['RPV', 'RPV'],
         #                               ['Vegetation', 'Understory'],
         #                               ['Fluid', 'AirFunction']], columns=['opl_type', 'op_type'])
+
+        kwargs['useMultiplicativeFactorForLUT'] = useMultiplicativeFactorForLUT
         op_type = OP_TYPES.prefix[OP_TYPES.name.str.contains(type, case=False)].iloc[0]
         dartnode = \
-        ptd.core_ui.utils.get_labels(pat='{type}MultiplicativeFactorForLUT$'.format(type=op_type), case=False)[
-            'dartnode'].iloc[0]
+            ptd.core_ui.utils.get_labels(pat='{type}MultiplicativeFactorForLUT$'.format(type=op_type), case=False)[
+                'dartnode'].iloc[0]
 
         self.simu.core.get_bands_df()
         nb_sp_bands = self.simu.sensor.bands.shape[0]
