@@ -7,8 +7,8 @@ It contains Leaf Area Density (m2/m3), i.e. UF in DART.
  
 # Cant_Cab_Car_CBrown.tif
 
-'Cant_Cab_Car_CBrown.tif' is a subsample raster of estimations of leaf chemical properties
-that can be used in prospect to simulate optical properties. Bands are corresponding by order to
+'Cant_Cab_Car_CBrown.tif' is a 50x50 pixel subsample raster of estimations of leaf chemical properties
+that can be used in prospect to simulate optical properties. Bands 1 to 4 are corresponding respectively to
 anthocyanin, chlorophyll, carotenoids, brown matter.
 
 Courtesy to Dav Ebango (dav.ebengo@inrae.fr) for the processing.  
