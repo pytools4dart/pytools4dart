@@ -62,6 +62,87 @@ simu.write(overwrite=True)
 simu.run.full()
 
 simu.run.colorCompositeBands(red=2, green=1, blue=0, iteration='X', outdir='rgb')
+```
 
+### Prospect database
 
+The generation of database of prospect optical properties through DART phase module
+suffers computation time issues:
+   - ~1s/prospect property
+   - computation time increases exponentially with the number of properties.
+
+To overcome this problem, the database can be pre-computed with function `pytools4dart.dbtools.prospect_db`.
+It accelerates 100x the generation of the database compared to DART.
+
+Here is an example for the generation of the database for 
+1000 prospect properties (~10s computation time):
+```python
+from os.path import join as pjoin
+size = 1000
+prospect_properties = pd.DataFrame({'N': np.random.uniform(1,3,size),
+                                    'Cab': np.random.uniform(0,30,size),
+                                    'Car': np.random.uniform(0,5,size)})
+db_file = pjoin(ptd.getdartenv['DART_LOCAL'], 'database', 'prospect_example.db')
+prospect_properties = ptd.dbtools.prospect_db(db_file, **prospect_properties.to_dict('list'))
+```
+It returns a DataFrame with the additional columns useful to add properties to the simulation,
+such as `model` (the model name) or `prospect_file` (prospect coefficient file).
+
+If the database already exists, it appends the new properties, otherwise the database is created.
+See the function documentation for more details.
+
+### Numerous optical properties
+
+For large numbers of optical properties (>100), the addition with `add.optical_property` 
+can take time as it will generate the default nodes and attribute values for each property.
+The addition of one property takes around 40ms.
+
+There are two ways to make it faster:
+- make sure the multiplicative factors are off: `useMultiplicativeFactorForLUT=0`,
+- use the first optical property as a template, it will divide the processing time by 5 to 10
+i.e. copy with list comprehension, fill it with the specific values,
+and paste the list into the simulation.
+
+The downside of this method is that it bypasses checks on the unicity of `ident`
+among optical properties until the simulation is written.
+ 
+Here is an example to add 1000 optical properties previously generated with `prospect_db`:
+```python
+prospect_properties['ident']= ['prospect_{}'.format(i) for i in range(size)] 
+prospect_properties['database'] = 'prospect_example.db'
+
+op = simu.add.optical_property(type = 'Vegetation',
+                               ident='turbid_leaf',
+                               databaseName='prospect_example.db',
+                               useMultiplicativeFactorForLUT=0,
+                               ModelName='',
+                               prospect={'CBrown': 0, 'Cab': 30, 'Car': 5,
+                                         'Cm': 0.01, 'Cw': 0.01, 'N': 1.8,
+                                         'anthocyanin': 0})
+
+print(op.to_string())
+
+# function to copy, fill and paste properties into simulation
+def add_prospect_properties(op0, df):
+    # Copy reference optical property.
+    oplist = [op0.copy() for i in range(len(df))]
+    
+    # Fill it with specific prospect properties.
+    # To make it even faster, use the full path 
+    # to each attributes instead of set_nodes.
+    # Use op.findpaths to find them.
+    for row in df.itertuples():
+        op = oplist[row.Index]
+        op.set_nodes(
+            op.ident = row.ident,
+            ModelName = row.model,
+            N=row.N,
+            Cab=row.Cab,
+            Car=row.Car
+            )
+    
+    # Replace list into the parent node.
+    op0.parent.UnderstoryMulti = oplist
+
+add_prospect_properties(op, prospect_properties)
 ```
