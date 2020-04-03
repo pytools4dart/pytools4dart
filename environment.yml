@@ -16,6 +16,7 @@ dependencies:
   - pybind11
   - pyjnius
   - pytest
+  - rasterio
   - rtree
   - scipy
   - pip:

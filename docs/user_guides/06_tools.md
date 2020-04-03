@@ -46,7 +46,7 @@ This module is a reader for AMAPVox files. The class has the following capacitie
 
 - **read AMAVox .vox file**, gives an object with attributes `header`, `data` and georeferenced `grid`.
 - **apply affine 2D transformation to grid**, typically to rotate and translate voxel space. 
-- **intersect voxel grid with a shapefile**, e.g. to affect voxels optical properties.
+- **intersect voxel grid with a shapefile or a raster**, e.g. to affect voxels optical properties.
 - **export to DART plots DataFrame** to be added to a DART simulation as a plots file.
 
 

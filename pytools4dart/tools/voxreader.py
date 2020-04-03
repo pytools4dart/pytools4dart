@@ -45,6 +45,8 @@ import numpy as np
 import geopandas as gpd
 from shapely.geometry import box, Polygon
 from shapely.affinity import affine_transform
+import rasterio
+from rasterio.mask import mask
 
 
 # path="/media/DATA/DATA/SIMULATION_P1_P9/MaquettesALS_INRAP1P9_2016"
@@ -65,10 +67,8 @@ class voxel(object):
 
     @property
     def extent(self):
-        if len(self.header > 0):
-            box(self.header['min_corner'][0], self.header['min_corner'][1],
-                self.header['max_corner'][0], self.header['max_corner'][1])
-
+        return box(self.header['min_corner'][0], self.header['min_corner'][1],
+                   self.header['max_corner'][0], self.header['max_corner'][1])
 
     @classmethod
     def from_vox(cls, filename):
@@ -263,6 +263,97 @@ class voxel(object):
             self.data = pd.merge(self.data, intersectDF, on=("i", "j"), how="left")
         else:
             return (pd.merge(self.data, intersectDF, on=("i", "j"), how="left"))
+
+    def intersect_raster(self, raster_file, columns=None, inplace=False, keep_rowcol=False):
+        """
+        Intersect raster with voxel grid, returning the value of the pixel nearest to the voxel center.
+
+        Parameters
+        ----------
+        raster_file: str
+            path to raster file
+        columns: list of str
+            names of the bands
+            If None, bands are named band_{i}
+        inplace: bool
+            If True adds the bands to self.data.
+
+            If False returns a DataFrame with:
+                - (i, j) index of voxel grid
+                - (xc, yc) voxel center coordinates
+                - (row, col) row and column of corresponding raster pixel
+                - extracted bands
+
+        Examples
+        --------
+        >>> import pytools4dart as ptd
+        >>> from os.path import join, dirname, basename
+        >>> voxfile = abspath(join(dirname(ptd.__file__), 'data/forest.vox'))
+        >>> raster_file = abspath(join(dirname(ptd.__file__), 'data/Cant_Cab_Car_CBrown.tif'))
+        >>> vox = ptd.voxreader.voxel().from_vox(voxfile)
+        >>> df= vox.intersect_raster(raster_file, columns=basename(raster_file).split('_'))
+        """
+
+        # 25ms for the example (20x20 grid)
+        with rasterio.open(raster_file) as r:
+            # ## Takes 3.8s with rasterstats!!! what the f...!!!
+            # nbands = r.meta['count']
+            #
+            # bands = []
+            # for i in range(nbands):
+            #     bands.append(rst.point_query(self.grid.centroid, raster_file, band=i+1))
+            # if columns is None:
+            #     columns = ['band_{}'.format(i) for i in range(r.meta['count'])]
+            #
+            # df = self.grid.join(pd.DataFrame(np.array(bands).transpose(), columns=columns)).drop('geometry', axis=1)
+            #
+            # return df
+
+            img, transform = rasterio.mask.mask(r, [self.extent], crop=True)
+            meta = r.meta.copy()
+            meta.update({"height": img.shape[1],
+                         "width": img.shape[2],
+                         "transform": transform})
+
+        Txy2index = np.array(transform.__invert__()).reshape(-1, 3)
+
+        # Get origin and resolution of voxel
+        vxOrigin = self.header['min_corner'][0]
+        vyOrigin = self.header['min_corner'][1]
+        vxRes = vyRes = self.header['res'][0]
+
+        # get unique i,j of voxels
+        intersectDF = self.data[['i', 'j']].drop_duplicates().reset_index(drop=True)
+
+        intersectDF['xc'] = (intersectDF.i + .5) * vxRes + vxOrigin
+        intersectDF['yc'] = (intersectDF.j + .5) * vyRes + vyOrigin
+
+        # compute img col,row corresponding to voxel center
+        intersectDF = intersectDF.join(
+            np.floor(
+                intersectDF[['xc', 'yc']].dot(Txy2index[0:2, 0:2]).add(Txy2index[0:2, 2]).rename(
+                    columns={0: 'col', 1: 'row'})
+            ).astype(int)
+        )
+
+        # remove negative col,row
+        intersectDF = intersectDF.loc[(intersectDF.row >= 0) & (intersectDF.col >= 0)].reset_index(drop=True)
+
+        # extract corresponding bands
+        bands = []
+        for row in intersectDF.itertuples():
+            bands.append(img[:, row.row, row.col])
+
+        if columns is None:
+            columns = ['band_{}'.format(i) for i in range(img.shape[0])]
+
+        df = pd.concat([intersectDF, pd.DataFrame(bands, columns=columns)], axis=1)
+
+        if inplace:
+            df = df.drop(['xc', 'yc', 'row', 'col'], axis=1)
+            self.data.merge(df, on=['i', 'j'], how='left', inplace=True)
+        else:
+            return df
 
     def to_plots(self, density_type='UL', keep_columns=None):
         """

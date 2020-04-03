@@ -10,6 +10,7 @@ scipy
 cython
 lmfit
 pyjnius
+rasterio
 git+https://gitlab.com/pytools4dart/generateds.git
 git+https://gitlab.com/pytools4dart/tinyobj.git
 git+https://gitlab.com/pytools4dart/gdecomp.git
