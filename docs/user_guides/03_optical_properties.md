@@ -115,10 +115,7 @@ op = simu.add.optical_property(type = 'Vegetation',
                                ident='turbid_leaf',
                                databaseName='prospect_example.db',
                                useMultiplicativeFactorForLUT=0,
-                               ModelName='',
-                               prospect={'CBrown': 0, 'Cab': 30, 'Car': 5,
-                                         'Cm': 0.01, 'Cw': 0.01, 'N': 1.8,
-                                         'anthocyanin': 0})
+                               ModelName='')
 
 print(op.to_string())
 
@@ -133,13 +130,8 @@ def add_prospect_properties(op0, df):
     # Use op.findpaths to find them.
     for row in df.itertuples():
         op = oplist[row.Index]
-        op.set_nodes(
-            op.ident = row.ident,
-            ModelName = row.model,
-            N=row.N,
-            Cab=row.Cab,
-            Car=row.Car
-            )
+        op.set_nodes(ident = row.ident,
+                     ModelName = row.model)
     
     # Replace list into the parent node.
     op0.parent.UnderstoryMulti = oplist
