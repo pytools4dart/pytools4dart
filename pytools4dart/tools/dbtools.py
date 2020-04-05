@@ -404,7 +404,7 @@ def _run_prospect(N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can=0, pro
     #                                            **kspec)
     # else:
     wvl, refl, tran = prosail.run_prospect(N, Cab, Car, CBrown, Cw, Cm, ant=Can,
-                                               prospect_version=prospect_version)
+                                           prospect_version=prospect_version)
 
     leafopt = {'wavelength': wvl / 1000, 'reflectance': refl * 100, 'diffuse_transmittance': tran * 100}
 
@@ -634,6 +634,6 @@ def _get_specs(file=None, prospect='dart'):
         df = pd.read_csv(file, sep='\t', names=names).drop(['wavelength', 'phiI', 'phiII', 'KcaV', 'KcaZ'], axis=1)
         # add rows for 2401 to 2500nm as they are expected
         for i in range(100):
-            df.loc[len(df)]=1
+            df.loc[len(df)] = 1
 
     return df
