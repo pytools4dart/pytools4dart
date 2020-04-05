@@ -264,7 +264,7 @@ class voxel(object):
         else:
             return (pd.merge(self.data, intersectDF, on=("i", "j"), how="left"))
 
-    def intersect_raster(self, raster_file, columns=None, inplace=False, keep_rowcol=False):
+    def intersect_raster(self, raster_file, columns=None, inplace=False):
         """
         Intersect raster with voxel grid, returning the value of the pixel nearest to the voxel center.
 
@@ -351,7 +351,7 @@ class voxel(object):
 
         if inplace:
             df = df.drop(['xc', 'yc', 'row', 'col'], axis=1)
-            self.data.merge(df, on=['i', 'j'], how='left', inplace=True)
+            self.data = self.data.merge(df, on=['i', 'j'], how='left', copy=False)
         else:
             return df
 
