@@ -78,11 +78,11 @@ Here is an example for the generation of the database for
 1000 prospect properties (~10s computation time):
 ```python
 from os.path import join as pjoin
-size = 1000
+size = 100
 prospect_properties = pd.DataFrame({'N': np.random.uniform(1,3,size),
                                     'Cab': np.random.uniform(0,30,size),
                                     'Car': np.random.uniform(0,5,size)})
-db_file = pjoin(ptd.getdartenv['DART_LOCAL'], 'database', 'prospect_example.db')
+db_file = pjoin(ptd.getdartenv()['DART_LOCAL'], 'database', 'prospect_example.db')
 prospect_properties = ptd.dbtools.prospect_db(db_file, **prospect_properties.to_dict('list'))
 ```
 It returns a DataFrame with the additional columns useful to add properties to the simulation,
@@ -112,10 +112,8 @@ prospect_properties['ident']= ['prospect_{}'.format(i) for i in rang
 prospect_properties['database'] = 'prospect_example.db'
 
 op = simu.add.optical_property(type = 'Vegetation',
-                               ident='turbid_leaf',
-                               databaseName='prospect_example.db',
-                               useMultiplicativeFactorForLUT=0,
-                               ModelName='')
+                               ident='temp_op',
+                               databaseName='prospect_example.db')
 
 print(op.to_string())
 
@@ -130,8 +128,8 @@ def add_prospect_properties(op0, df):
     # Use op.findpaths to find them.
     for row in df.itertuples():
         op = oplist[row.Index]
-        op.set_nodes(ident = row.ident,
-                     ModelName = row.model)
+        op.ident = row.ident
+        op.set_nodes(ModelName = row.model)
     
     # Replace list into the parent node.
     op0.parent.UnderstoryMulti = oplist
