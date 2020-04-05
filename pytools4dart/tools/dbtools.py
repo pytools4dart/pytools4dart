@@ -475,7 +475,7 @@ def _create_prospect_spectra(conn, model, leafopt):
     df['direct_transmittance'] = 0.0
     df = df[['wavelength', 'reflectance', 'direct_transmittance', 'diffuse_transmittance']]
 
-    df.to_sql(name=model, con=conn, index=False)
+    df.to_sql(name=model, con=conn, index_label='id')
 
 
 def _get_file_hash(file):
