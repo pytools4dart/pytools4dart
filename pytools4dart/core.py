@@ -415,13 +415,9 @@ class Core(object):
         # PB with Understory top/bottom?
         dartnodes = ptd.core_ui.utils.get_labels(r'Coeff_diff\.\w+\.\w+\.ident$')['dartnode']
 
-        source = []
-        prop_type = []
-        prop_index = []
-        prop_ident = []
-        prop_db = []
-        prop_name = []
+        opt_prop_list = []
         for dn in dartnodes:
+            # print(dn)
             # dn = dartnodes.iloc[0]
             head, function, multi, _ = dn.split('.')
             # ptype = re.sub('Multi', '', multi)
@@ -429,51 +425,84 @@ class Core(object):
             ptype = ptd.core_ui.utils.get_labels('^' + '.'.join([head, function]) + '$')['label'].iloc[0]
             if function in self.coeff_diff.Coeff_diff.children:
                 prop_list = eval('self.coeff_diff.Coeff_diff.{function}.{multi}'.format(function=function, multi=multi))
-                for i, prop in enumerate(prop_list):
-                    source.append(prop)
-                    prop_type.append(ptype)
-                    prop_index.append(i)
-                    prop_ident.append(prop.ident)
+                if len(prop_list) > 0:
+                    source = prop_list
+                    prop_type = ptype
+                    prop_index = range(len(prop_list))
+                    prop_ident = [prop.ident for prop in prop_list]
+                    pathsup = 'Coeff_diff.{function}.{multi}'.format(function=function, multi=multi)
+                    prop_path = [pathsup + '[{}]'.format(i) for i in prop_index]
 
+                    # for prop in prop_list:
+                    #     # source.append(prop)
+                    #     # prop_type.append(ptype)
+                    #     # prop_index.append(i)
+                    #     prop_ident.append(prop.ident)
+                    #     path.append(prop.path())
+
+                    opt_prop = pd.DataFrame(dict(type=prop_type, index=prop_index, ident=prop_ident,
+                                                 source=source, path=prop_path))
                     # databaseName
                     if db_name:
-                        pat = r'Coeff_diff\.{function}\.{multi}\.*\w*\.databaseName'.format(function=function, multi=multi)
-                        subdns = get_labels(pat)['dartnode']
-                        multidn = 'Coeff_diff.{function}.{multi}.'.format(function=function, multi=multi)
-                        subdns = [re.sub(multidn, '', s) for s in subdns]
-                        subcn = []
-                        for sdn in subdns:
-                            subcn.extend(get_nodes(prop, sdn))
-                        if len(subcn) == 1:
-                            prop_db.append(subcn[0])
-                        elif len(subcn) > 1:
-                            prop_db.append('multiple')
-                        else:
-                            prop_db.append(None)
+                        values, path = ptd.utils.findall(opt_prop.source[0].parent, r'databaseName$', path=True)
+                        pat = 'Coeff_diff\.{function}\.{multi}\[[0-9]+\]'.format(function=function, multi=multi)
+                        path = [re.search(pat, s).group(0) for s in path]
+                        df = pd.DataFrame(dict(databaseName=values, path=path))
+                        df.loc[df.path.duplicated(keep=False), 'databaseName'] = 'multiple'
+                        df.drop_duplicates(['path'], inplace=True)
 
-                    # ModelName
+                        opt_prop = opt_prop.merge(df, on='path', how='left')
+
                     if model_name:
-                        pat = r'Coeff_diff\.{function}\.{multi}\.*\w*\.ModelName'.format(function=function, multi=multi)
-                        subdns = get_labels(pat)['dartnode']
-                        multidn = 'Coeff_diff.{function}.{multi}.'.format(function=function, multi=multi)
-                        subdns = [re.sub(multidn, '', s) for s in subdns]
-                        subcn = []
-                        for sdn in subdns:
-                            subcn.extend(get_nodes(prop, sdn))
-                        if len(subcn) == 1:
-                            prop_name.append(subcn[0])
-                        elif len(subcn) > 1:
-                            prop_name.append('multiple')
-                        else:
-                            prop_name.append(None)
+                        values, path = ptd.utils.findall(opt_prop.source[0].parent, r'ModelName$', path=True)
+                        pat = 'Coeff_diff\.{function}\.{multi}\[[0-9]+\]'.format(function=function, multi=multi)
+                        path = [re.search(pat, s).group(0) for s in path]
+                        df = pd.DataFrame(dict(ModelName=values, path=path))
+                        df.loc[df.path.duplicated(keep=False), 'ModelName'] = 'multiple'
+                        df.drop_duplicates(['path'], inplace=True)
 
-        if len(prop_db)==0:
-            prop_db = None
-        if len(prop_name)==0:
-            prop_name = None
+                        opt_prop = opt_prop.merge(df, on='path', how='left')
 
-        opt_props = pd.DataFrame(dict(type=prop_type, index=prop_index, ident=prop_ident,
-                                      databaseName=prop_db, ModelName=prop_name, source=source))
+                        # pat = r'Coeff_diff\.{function}\.{multi}\.*\w*\.databaseName'.format(function=function, multi=multi)
+                        # subdns = get_labels(pat)['dartnode']
+                        # multidn = 'Coeff_diff.{function}.{multi}.'.format(function=function, multi=multi)
+                        # subdns = [re.sub(multidn, '', s) for s in subdns]
+                        # subcn = []
+                        # for sdn in subdns:
+                        #     subcn.extend(get_nodes(prop, sdn))
+                        # if len(subcn) == 1:
+                        #     prop_db.append(subcn[0])
+                        # elif len(subcn) > 1:
+                        #     prop_db.append('multiple')
+                        # else:
+                        #     prop_db.append(None)
+
+                    # # ModelName
+                    # if model_name:
+                    #     pat = r'Coeff_diff\.{function}\.{multi}\.*\w*\.ModelName'.format(function=function, multi=multi)
+                    #     subdns = get_labels(pat)['dartnode']
+                    #     multidn = 'Coeff_diff.{function}.{multi}.'.format(function=function, multi=multi)
+                    #     subdns = [re.sub(multidn, '', s) for s in subdns]
+                    #     subcn = []
+                    #     for sdn in subdns:
+                    #         subcn.extend(get_nodes(prop, sdn))
+                    #     if len(subcn) == 1:
+                    #         prop_name.append(subcn[0])
+                    #     elif len(subcn) > 1:
+                    #         prop_name.append('multiple')
+                    #     else:
+                    #         prop_name.append(None)
+                    opt_prop_list.append(opt_prop.drop(['path'], axis=1))
+
+        opt_props = pd.concat(opt_prop_list, ignore_index=True)
+
+        # if len(prop_db)==0:
+        #     prop_db = None
+        # if len(prop_name)==0:
+        #     prop_name = None
+        #
+        # opt_props = pd.DataFrame(dict(type=prop_type, index=prop_index, ident=prop_ident,
+        #                               databaseName=prop_db, ModelName=prop_name, source=source))
         return opt_props
 
     def get_thermal_properties(self):
@@ -753,7 +782,8 @@ class Core(object):
                     if cn.useSameFactorForAllBands == 1:
                         cn.set_nodes(**multiargs)
                 else:
-                    raise ValueError('{}.useMultiplicativeFactorForLUT has unexpected value 0.'.format(cn.parent.path()))
+                    raise ValueError(
+                        '{}.useMultiplicativeFactorForLUT has unexpected value 0.'.format(cn.parent.path()))
                 #     # multiargs = {}
                 #     # for a in cn.attrib:
                 #     #     if a.endswith('Factor'):
