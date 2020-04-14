@@ -76,5 +76,5 @@ print(simu)
 simu.write(overwrite=True)
 
 simu.run.full()
-ptd.run.dart2las(simu.getsimupath(), type='bin', lasFormat=1)
+ptd.run.dart2las(simu.simu_dir, type='bin', lasFormat=1)
 

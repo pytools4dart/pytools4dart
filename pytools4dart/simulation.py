@@ -55,7 +55,7 @@ import warnings
 # local imports
 # from .tools.voxreader import voxel
 # from .tools.hstools import read_ENVI_hdr, get_hdr_bands, get_bands_files, get_wavelengths, stack_dart_bands
-from .settings import getsimupath, get_simu_input_path, getdartdir, get_input_file_path
+from .settings import getsimupath, get_simu_input_path, get_simu_output_path, getdartdir, get_input_file_path
 import pytools4dart.run as run
 # from .tools import dbtools
 
@@ -67,6 +67,7 @@ from .scene import Scene
 from .add import Add
 from .sensor import Sensor
 from .source import Source
+from .warnings import deprecated
 
 
 class simulation(object):
@@ -156,27 +157,23 @@ class simulation(object):
     def method(self):
         return SIMU_TYPE.type_str[SIMU_TYPE.type_int == self.core.phase.Phase.calculatorMethod].iloc[0]
 
-    def getsimupath(self):
-        """
-        Get simulation directory path
+    @property
+    def input_dir(self):
+        return get_simu_input_path(self.name)
 
-        Returns
-        -------
-            str: Simulation full path
+    @property
+    def output_dir(self):
+        return get_simu_output_path(self.name)
 
-        """
+    @property
+    def simu_dir(self):
         return getsimupath(self.name)
 
-    def getinputsimupath(self):
+    def summary(self):
         """
-        Get simulation directory path
-
-        Returns
-        -------
-            str: Simulation full path
-
+        Print a summary of the parameters
         """
-        return get_simu_input_path(self.name)
+        print(self.__str__())
 
     def get_input_file_path(self, filename):
         return get_input_file_path(self.name, filename)
@@ -199,7 +196,7 @@ class simulation(object):
             raise Exception('Simulation name not defined.')
 
         # create directories
-        simuDpath = self.getsimupath()
+        simuDpath = self.simu_dir
         # keep all that is in simuDpath
         if not os.path.isdir(simuDpath):
             os.mkdir(simuDpath)
@@ -230,3 +227,27 @@ class simulation(object):
         # write sequence
         for s in self.sequences:
             s.write(overwrite=overwrite)
+
+    @deprecated('Use property simu_dir instead.')
+    def getsimupath(self):
+        """
+        Get simulation directory path
+
+        Returns
+        -------
+            str: Simulation full path
+
+        """
+        return getsimupath(self.name)
+
+    @deprecated('Use property input_dir instead.')
+    def getinputsimupath(self):
+        """
+        Get simulation directory path
+
+        Returns
+        -------
+            str: Simulation full path
+
+        """
+        return get_simu_input_path(self.name)

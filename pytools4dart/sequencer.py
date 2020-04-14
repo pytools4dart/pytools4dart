@@ -45,8 +45,8 @@ class Sequencer(object):
     def __init__(self, simu, name=None, empty=False):
         self.simu = simu
         self.core = None
-        if not empty and name is not None and os.path.isfile(os.path.join(self.simu.getsimupath(), name + '.xml')):
-            self.core = ptd.sequence.parse(os.path.join(self.simu.getsimupath(), name + '.xml'), silence=True)
+        if not empty and name is not None and os.path.isfile(os.path.join(self.simu.simu_dir, name + '.xml')):
+            self.core = ptd.sequence.parse(os.path.join(self.simu.simu_dir, name + '.xml'), silence=True)
         else:
             if name is None:
                 name = 'sequence'
@@ -271,7 +271,7 @@ class Sequencer(object):
 
         """
         if file is None:
-            file = os.path.join(self.simu.getsimupath(), self.name + '.xml')
+            file = os.path.join(self.simu.simu_dir, self.name + '.xml')
 
         if not overwrite and os.path.isfile(file):
             raise Exception('File already exists:\n\t{}'.format(file))
@@ -301,7 +301,7 @@ class Sequencer(object):
 
         """
 
-        return os.path.join(self.simu.getsimupath(), os.path.basename(self.simu.name) + '_' + self.name + '.db')
+        return os.path.join(self.simu.simu_dir, os.path.basename(self.simu.name) + '_' + self.name + '.db')
 
 
 class Sequence_runners(object):
@@ -333,7 +333,7 @@ class Sequence_runners(object):
             output files path
         """
 
-        sequence_dir = pjoin(self.sequence.simu.getsimupath(), 'sequence', self.sequence.name + '*')
+        sequence_dir = pjoin(self.sequence.simu.simu_dir, 'sequence', self.sequence.name + '*')
         dirlist = glob.glob(sequence_dir)
         outfiles = []
         for d in dirlist:

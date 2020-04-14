@@ -112,7 +112,7 @@ simu.run.full()
 simu.run.colorCompositeBands(red=2, green=1, blue=0, iteration='X', outdir='rgb')
 
 # plot image at nadir
-im01_file = join(simu.getsimupath(), 'output', 'rgb', 'ima01_VZ=000_0_VA=000_0.png')
+im01_file = join(simu.output_dir, 'rgb', 'ima01_VZ=000_0_VA=000_0.png')
 img = plt.imread(im01_file)
 plt.imshow(img)
 
@@ -161,7 +161,7 @@ if False: # pass to True to simulate this case
     simu.run.colorCompositeBands(red=2, green=1, blue=0, iteration='X', outdir='rgb')
 
     # plot image at nadir
-    im01_file = join(simu.getsimupath(), 'output', 'rgb', 'ima01_VZ=000_0_VA=000_0.png')
+    im01_file = join(simu.output_dir, 'rgb', 'ima01_VZ=000_0_VA=000_0.png')
     img = plt.imread(im01_file)
     plt.imshow(img)
 

@@ -496,6 +496,6 @@ class Run(object):
         """
 
         phasefile = self.simu.get_input_file_path('phase.xml')
-        simu_output_dir = pjoin(self.simu.getsimupath(), 'output')
+        simu_output_dir = self.simu.output_dir
         return stack_bands(simu_output_dir, outputdir, phasefile=phasefile, zenith=zenith, azimuth=azimuth,
                            band_sub_dir=band_sub_dir)
