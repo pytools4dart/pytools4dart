@@ -83,7 +83,7 @@ prospect_properties = pd.DataFrame({'N': np.random.uniform(1,3,size)
                                     'Cab': np.random.uniform(0,30,size),
                                     'Car': np.random.uniform(0,5,size)})
 db_file = pjoin(ptd.getdartenv()['DART_LOCAL'], 'database', 'prospect_example.db')
-prospect_properties = ptd.dbtools.prospect_db(db_file, **prospect_properties.to_dict('list'))
+prospect_properties = ptd.dbtools.prospect_db(db_file, **prospect_properties)
 ```
 It returns a DataFrame with the additional columns useful to add properties to the simulation,
 such as `model` (the model name) or `prospect_file` (prospect coefficient file).
