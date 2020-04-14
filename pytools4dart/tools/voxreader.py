@@ -67,8 +67,15 @@ class voxel(object):
 
     @property
     def extent(self):
-        return box(self.header['min_corner'][0], self.header['min_corner'][1],
-                   self.header['max_corner'][0], self.header['max_corner'][1])
+        """
+
+        Returns
+        -------
+        tuple
+            (xmin, ymin, xmax, ymax)
+
+        """
+        return tuple(self.header['min_corner'][0:2] + self.header['max_corner'][0:2])
 
     @classmethod
     def from_vox(cls, filename):
@@ -159,7 +166,7 @@ class voxel(object):
 
         self.grid = gpd.GeoDataFrame({'i': I, 'j': J, 'geometry': polygons})
 
-    def affine_transform(self, matrix, inplace=True):
+    def affine_transform(self, matrix, inplace=False):
         """Apply an affine transformation to the voxel grid, like with shapely.affinity.affine_transform.
 
         The coefficient matrix is provided as a list or tuple with 6 items
@@ -177,62 +184,166 @@ class voxel(object):
         Parameters
         ----------
 
-        matrix: list or tuple
+        matrix: list or tuple or numpy.ndarray
             [a, b, d, e, xoff, yoff]
+
         inplace: bool
             If True, the grid is updated by reference, otherwise the transformed grid is returned.
+
+        Returns
+        -------
+        geopandas.GeoDataFrame
 
         Examples
         --------
 
         >>> import pytools4dart as ptd
         >>> import numpy as np
-        >>> vox = ptd.voxreader.voxel().from_vox("../data/forest.vox")
+        >>> from os.path import join, dirname, basename, abspath
+        >>> voxfile = abspath(join(dirname(ptd.__file__), 'data/forest.vox'))
+        >>> vox = ptd.voxreader.voxel().from_vox(voxfile)
 
         Get the xy coordinates of the first cell of voxel grid
 
-        >>> np.array(vox.grid.geometry.iloc[1].exterior.coords.xy)
-        array([[11., 11., 10., 10., 11.], [21., 22., 22., 21., 21.]])
+        >>> vox.extent
+        (10.0, 20.0, 30.0, 40.0)
 
         Make a translation of the grid coordinates x-10 and y-20
 
-        >>> vox.affine_transform((1, 0, 0, 1, -10, -20))
-        >>> np.array(vox.grid.geometry.iloc[1].exterior.coords.xy)
-        array([[1., 1., 0., 0., 1.], [1., 2., 2., 1., 1.]])
+        >>> vox.affine_transform((1, 0, 0, 1, -10, -20), inplace=True)
+        >>> vox.extent
+        (0.0, 0.0, 20.0, 20.0)
 
+        >>> vox.header['transforms']
+        [(1, 0, 0, 1, -10, -20)]
         """
+        if not isinstance(matrix, tuple):
+            matrix = tuple(matrix)
+
         new_geometry = gpd.GeoSeries([affine_transform(s, matrix) for s in self.grid.geometry])
         if inplace:
             self.grid.geometry = new_geometry
+            extent = self.grid.total_bounds
+            self.header['min_corner'][0:2] = extent[0:2]
+            self.header['max_corner'][0:2] = extent[2:4]
+            if 'transforms' not in self.header.keys():
+                self.header['transforms'] = [matrix]
+            else:
+                self.header['transforms'].append(matrix)
         else:
             grid = self.grid.copy()
             grid.geometry = new_geometry
             return grid
 
-    def intersect(self, polygons, inplace=False):
+    def intersect(self, x, columns=None, inplace=False):
+        """
+        Intersection of voxel grid with shapefile or a raster
+
+        Parameters
+        ----------
+        x: geopandas.GeoDataFrame or rasterio.DatasetReader or str
+            Path to object that can be read by geopandas or rasterio.
+            GeoDataFrame is expected with polygon geometries to intersect voxel grid with.
+
+        columns: list of str
+            Only used with raster.
+            Names of the band columns when inserted in the voxel GeoDataFrame.
+            If None, bands are named band_{i}.
+
+        inplace: bool
+            If True adds intersecting ID and attributes to data, or raster bands otherwise returns dataframe.
+
+        Examples
+        --------
+
+        The following example makes the intersection between voxel data and an individual tree crown shapefile
+        containing specific leaf chemical properties, see data/README.md for details on the content.
+
+        >>> import pytools4dart as ptd
+        >>> from os.path import join, dirname, basename, abspath
+        >>> import geopandas as gpd
+        >>> vox_file = abspath(join(dirname(ptd.__file__), 'data/forest.vox'))
+        >>> crowns_file = abspath(join(dirname(ptd.__file__), 'data/crowns.shp'))
+
+        >>> vox = ptd.voxreader.voxel().from_vox(vox_file)
+        >>> print(vox.intersect(crowns_file))
+                i   j   k  PadBVTotal  ...       Can        Cab       Car    CBrown
+        0       0   0  19         0.0  ...  1.688516  32.013777  7.488363  0.342336
+        1       0   0  20         0.0  ...  1.688516  32.013777  7.488363  0.342336
+        2       0   0  21         0.0  ...  1.688516  32.013777  7.488363  0.342336
+        3       0   0  22         0.0  ...  1.688516  32.013777  7.488363  0.342336
+        4       0   0  23         0.0  ...  1.688516  32.013777  7.488363  0.342336
+        ...    ..  ..  ..         ...  ...       ...        ...       ...       ...
+        22395  19  19  10         0.0  ...       NaN        NaN       NaN       NaN
+        22396  19  19  11         0.0  ...       NaN        NaN       NaN       NaN
+        22397  19  19  12         0.0  ...       NaN        NaN       NaN       NaN
+        22398  19  19  13         0.0  ...       NaN        NaN       NaN       NaN
+        22399  19  19  14         0.0  ...       NaN        NaN       NaN       NaN
+        <BLANKLINE>
+        [22400 rows x 23 columns]
+
+        >>> raster_file = abspath(join(dirname(ptd.__file__), 'data/Can_Cab_Car_CBrown.tif'))
+        >>> band_names = basename(raster_file).split('.')[0].split('_')
+        >>> vox.intersect(raster_file, columns=band_names)
+                i   j   k  PadBVTotal  ...       Can        Cab       Car    CBrown
+        0       0   0  19         0.0  ...  1.752778  33.722435  7.891806  0.271965
+        1       0   0  20         0.0  ...  1.752778  33.722435  7.891806  0.271965
+        2       0   0  21         0.0  ...  1.752778  33.722435  7.891806  0.271965
+        3       0   0  22         0.0  ...  1.752778  33.722435  7.891806  0.271965
+        4       0   0  23         0.0  ...  1.752778  33.722435  7.891806  0.271965
+        ...    ..  ..  ..         ...  ...       ...        ...       ...       ...
+        22395  19  19  10         0.0  ...  1.015507  35.692669  9.584843  0.205697
+        22396  19  19  11         0.0  ...  1.015507  35.692669  9.584843  0.205697
+        22397  19  19  12         0.0  ...  1.015507  35.692669  9.584843  0.205697
+        22398  19  19  13         0.0  ...  1.015507  35.692669  9.584843  0.205697
+        22399  19  19  14         0.0  ...  1.015507  35.692669  9.584843  0.205697
+        <BLANKLINE>
+        [22400 rows x 20 columns]
+
+        Returns
+        -------
+        geopandas.GeoDataFrame
+
+        """
+
+        if isinstance(x, str):
+            try:
+                x = gpd.read_file(x)
+                out = self._intersect_polygons(x, inplace)
+            except:
+                try:
+                    with rasterio.open(x) as r:
+                        out = self._intersect_raster(r, columns, inplace)
+                except:
+                    raise IOError('File does not exists or could not recognize format of input file to intersect with.')
+
+        elif isinstance(x, gpd.GeoDataFrame):
+            out = self._intersect_polygons(x, inplace)
+        elif isinstance(x, rasterio.DatasetReader):
+            out = self._intersect_raster(x, columns, inplace)
+        else:
+            raise ValueError('Arg. x must be a raster or a shapefile or the path to any of them')
+
+        return out
+
+    def _intersect_polygons(self, polygons, inplace=False):
         """
         Intersection of voxel grid with shapefile.
 
         Parameters
         ----------
 
-        polygons: GeoPandas DataFrame
+        polygons: geopandas.DataFrame
             GeoPandas DataFrame with polygon geometries.
 
         inplace: bool
-            If True adds interecting ID and attributes to data otherwise returns dataframe.
+            If True adds interecting ID and attributes to data.
+            If False returns dataframe.
 
         Returns
         -------
-             DataFrame or None
+        geopandas.GeoDataFrame
 
-        Examples
-        --------
-
-        >>> import pytools4dart as ptd
-        >>> vox = ptd.voxreader.voxel().from_vox("../data/forest.vox")
-        >>> p1
-        >>> vox.intersect()
         """
         # read shapefile
         # polygons = gpd.read_file(shapefile)
@@ -260,17 +371,17 @@ class voxel(object):
         intersectDF = pd.merge(intersect_max,
                                polygons, left_on="ID", right_index=True, how='left').drop("geometry", axis=1)
         if inplace:
-            self.data = pd.merge(self.data, intersectDF, on=("i", "j"), how="left")
+            self.data = self.data.merge(intersectDF, on=("i", "j"), how="left", copy=False)
         else:
-            return (pd.merge(self.data, intersectDF, on=("i", "j"), how="left"))
+            return self.data.merge(intersectDF, on=("i", "j"), how="left", copy=True)
 
-    def intersect_raster(self, raster_file, columns=None, inplace=False):
+    def _intersect_raster(self, r, columns=None, inplace=False):
         """
         Intersect raster with voxel grid, returning the value of the pixel nearest to the voxel center.
 
         Parameters
         ----------
-        raster_file: str
+        raster: rasterio.DatasetReader
             path to raster file
         columns: list of str
             names of the bands
@@ -278,42 +389,31 @@ class voxel(object):
         inplace: bool
             If True adds the bands to self.data.
 
-            If False returns a DataFrame with:
-                - (i, j) index of voxel grid
-                - (xc, yc) voxel center coordinates
-                - (row, col) row and column of corresponding raster pixel
-                - extracted bands
-
-        Examples
-        --------
-        >>> import pytools4dart as ptd
-        >>> from os.path import join, dirname, basename
-        >>> voxfile = abspath(join(dirname(ptd.__file__), 'data/forest.vox'))
-        >>> raster_file = abspath(join(dirname(ptd.__file__), 'data/Cant_Cab_Car_CBrown.tif'))
-        >>> vox = ptd.voxreader.voxel().from_vox(voxfile)
-        >>> df= vox.intersect_raster(raster_file, columns=basename(raster_file).split('_'))
+        Returns
+        -------
+        geopandas.GeoDataFrame
         """
 
         # 25ms for the example (20x20 grid)
-        with rasterio.open(raster_file) as r:
-            # ## Takes 3.8s with rasterstats!!! what the f...!!!
-            # nbands = r.meta['count']
-            #
-            # bands = []
-            # for i in range(nbands):
-            #     bands.append(rst.point_query(self.grid.centroid, raster_file, band=i+1))
-            # if columns is None:
-            #     columns = ['band_{}'.format(i) for i in range(r.meta['count'])]
-            #
-            # df = self.grid.join(pd.DataFrame(np.array(bands).transpose(), columns=columns)).drop('geometry', axis=1)
-            #
-            # return df
 
-            img, transform = rasterio.mask.mask(r, [self.extent], crop=True)
-            meta = r.meta.copy()
-            meta.update({"height": img.shape[1],
-                         "width": img.shape[2],
-                         "transform": transform})
+        # ## Takes 3.8s with rasterstats!!! what the f...!!!
+        # nbands = r.meta['count']
+        #
+        # bands = []
+        # for i in range(nbands):
+        #     bands.append(rst.point_query(self.grid.centroid, raster_file, band=i+1))
+        # if columns is None:
+        #     columns = ['band_{}'.format(i) for i in range(r.meta['count'])]
+        #
+        # df = self.grid.join(pd.DataFrame(np.array(bands).transpose(), columns=columns)).drop('geometry', axis=1)
+        #
+        # return df
+
+        img, transform = rasterio.mask.mask(r, [box(*self.extent)], crop=True)
+        meta = r.meta.copy()
+        meta.update({"height": img.shape[1],
+                     "width": img.shape[2],
+                     "transform": transform})
 
         Txy2index = np.array(transform.__invert__()).reshape(-1, 3)
 
@@ -349,13 +449,14 @@ class voxel(object):
 
         df = pd.concat([intersectDF, pd.DataFrame(bands, columns=columns)], axis=1)
 
+        df = df.drop(['xc', 'yc', 'row', 'col'], axis=1)
+
         if inplace:
-            df = df.drop(['xc', 'yc', 'row', 'col'], axis=1)
             self.data = self.data.merge(df, on=['i', 'j'], how='left', copy=False)
         else:
-            return df
+            return self.data.merge(df, on=['i', 'j'], how='left', copy=True)
 
-    def to_plots(self, density_type='UL', keep_columns=None):
+    def to_plots(self, density_type='UL', keep_columns=None, reduce_xy=False):
         """
         Convert to DART plots DataFrame
         Parameters
@@ -366,6 +467,9 @@ class voxel(object):
 
         keep_columns: str or list of str
             Columns from data to keep in plots DataFrame. If 'all',
+
+        reduce_xy: bool
+            If True, shift the grid minimum corner x,y=(0,0).
 
         Returns
         -------
@@ -383,16 +487,22 @@ class voxel(object):
             density_column = 'VEG_UL'
             densitydef = 1
 
+        if reduce_xy:
+            grid = self.affine_transform([1, 0, 0, 1, -self.header['min_corner'][0], -self.header['min_corner'][1]],
+                                         inplace=False)
+        else:
+            grid = self.grid
+
         # itertuples is 10x faster than apply (already faster than iterrows)
         # operation was tested
         # remove Ul=0 value, as it means empty voxel
         # extract plots coordinates from grid
         voxlist = []
-        for row in self.grid.itertuples():
+        for row in grid.itertuples():
             voxlist.append(np.array(row.geometry.exterior.coords.xy)[:, :-1].ravel().tolist())
-        points = pd.concat([self.grid.loc[:, ['i', 'j']], pd.DataFrame(voxlist, columns=['PT_1_X', 'PT_2_X', 'PT_3_X',
-                                                                                         'PT_4_X', 'PT_1_Y', 'PT_2_Y',
-                                                                                         'PT_3_Y', 'PT_4_Y'])], axis=1,
+        points = pd.concat([grid.loc[:, ['i', 'j']], pd.DataFrame(voxlist, columns=['PT_1_X', 'PT_2_X', 'PT_3_X',
+                                                                                    'PT_4_X', 'PT_1_Y', 'PT_2_Y',
+                                                                                    'PT_3_Y', 'PT_4_Y'])], axis=1,
                            sort=False)
         # merge points with data and add other parameters
         data = self.data[(self.data.PadBVTotal != 0) & pd.notna(self.data.PadBVTotal)].loc[:,
@@ -421,3 +531,9 @@ class voxel(object):
                 keep_columns].reset_index(drop=True)], axis=1)
 
         return data
+
+
+if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
