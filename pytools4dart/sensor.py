@@ -39,7 +39,7 @@ class Sensor(object):
     def __init__(self, simu):
         self.simu = simu
 
-    def __repr__(self):
+    def __str__(self):
         description = '\n'.join([
             'number of bands: {}'.format(self.bands.shape[0])
         ])
@@ -57,3 +57,9 @@ class Sensor(object):
     @property
     def sensors(self):
         return self.simu.core.get_sensors()
+
+    def summary(self):
+        """
+        Print a summary of the parameters
+        """
+        print(self.__str__())

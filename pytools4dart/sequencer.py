@@ -55,8 +55,8 @@ class Sequencer(object):
 
         self.run = Sequence_runners(self)
 
-    def __repr__(self):
-        df = self.summary()
+    def __str__(self):
+        df = self.to_dataframe()
         groups = []
         for g in df.group.unique():
             gstr = 'Group: {}'.format(g)
@@ -81,6 +81,12 @@ class Sequencer(object):
     @name.setter
     def name(self, value):
         self.core.DartSequencerDescriptor.sequenceName = 'sequence;;' + value
+
+    def summary(self):
+        """
+        Print a summary of the parameters
+        """
+        print(self.__str__())
 
     def add_group(self, name):
         DartSequencerDescriptorEntries = self.core.DartSequencerDescriptor.DartSequencerDescriptorEntries
@@ -192,7 +198,7 @@ class Sequencer(object):
         gnode.add_DartSequencerDescriptorEntry(new_item)
         return new_item
 
-    def summary(self):
+    def to_dataframe(self):
         """
         DataFrame summarizing groups and items
 
@@ -230,7 +236,7 @@ class Sequencer(object):
         -------
         DataFrame
         """
-        df = self.summary()
+        df = self.to_dataframe()
         gdflist = []
         for g in df.groupby('group'):
             gdf = pd.DataFrame({'P' + str(r.Index): r.values for r in g[1].itertuples()})

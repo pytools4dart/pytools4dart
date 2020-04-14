@@ -51,7 +51,7 @@ class Scene(object):
 
         self.tree_file = Tree_file(self.simu)
 
-    def __repr__(self):
+    def __str__(self):
         description = '\n'.join(
             ['scene size : {}'.format(self.size),
              'cell size : {}'.format(self.cell),
@@ -120,9 +120,11 @@ class Scene(object):
     def properties(self):
         return self._properties
 
-    # @property
-    # def plot_file(self):
-    #     return self.simu.core.get_plot_file()
+    def summary(self):
+        """
+        Print a summary of the parameters
+        """
+        print(self.__str__())
 
 
 class Properties_(object):
@@ -229,8 +231,8 @@ class Plot_file(object):
             df['PLT_THERM_NAME'] = self.simu.core.get_tp_ident(df.PLT_THERM_NUMB)
         if 'GRD_OPT_NUMB' in df.columns:
             GRD_OPT_TYPE = \
-            pd.merge(df[['GRD_OPT_TYPE']], OPL_TYPES, left_on='GRD_OPT_TYPE', right_on='type_int', how='left')[
-                'type_str']
+                pd.merge(df[['GRD_OPT_TYPE']], OPL_TYPES, left_on='GRD_OPT_TYPE', right_on='type_int', how='left')[
+                    'type_str']
             df['GRD_OPT_NAME'] = self.simu.core.get_op_ident(df.GRD_OPT_NUMB, GRD_OPT_TYPE)
         if 'GRD_THERM_NUMB' in df.columns:
             df['GRD_THERM_NAME'] = self.simu.core.get_tp_ident(df.GRD_THERM_NAME)

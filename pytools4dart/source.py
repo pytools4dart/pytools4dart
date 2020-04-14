@@ -36,7 +36,7 @@ class Source(object):
     def __init__(self, simu):
         self.simu = simu
 
-    def __repr__(self):
+    def __str__(self):
         if self.simu.method == 'LIDAR':
             return ''
 
@@ -56,3 +56,9 @@ class Source(object):
     def position(self, source_pos_az_zenith):
         self.simu.core.directions.Directions.SunViewingAngles.sunViewingAzimuthAngle = source_pos_az_zenith[0]
         self.simu.core.directions.Directions.SunViewingAngles.sunViewingZenithAngle = source_pos_az_zenith[1]
+
+    def summary(self):
+        """
+        Print a summary of the parameters
+        """
+        print(self.__str__())

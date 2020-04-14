@@ -35,9 +35,8 @@ This class corresponds to the python object version of DART configuration XML fi
 The aim of this module is to provide
 * simulations reader (from XML files) and writer (to XML files)
 * "user friendly" simulation modification methods matching behaviour templates provided by DART team
-some summary dataframes (such as plots, lambda, optprops, etc) are associated to each simulation
-they are not produced initially, but can be retrieved or modified using getters and setters
-the correspondance between those summary dataframes and object modules contents is ensured by method refresh(source)
+some summary dataframes (such as plots, lambda, optprops, etc) are associated to each simulation.
+They are extracted on the fly from the core.
 """
 
 import os
@@ -134,8 +133,7 @@ class simulation(object):
 
         self.sequences = []
 
-    def __repr__(self):
-
+    def __str__(self):
         description = '\n'.join(
             ["\nSimulation '{}': {}".format(self.name, self.method),
              '__________________________________',
