@@ -68,7 +68,7 @@ class Scene(object):
              'tree file:',
              '\tpath: {}'.format(self.simu.core.get_tree_file()),
              '\tnumber of trees: {}'.format(self.tree_file.shape[0]),
-             'number of optical properties : {}'.format(self.properties.optical.shape[0]),
+             'number of optical properties : {}'.format(self.simu.core.get_optical_properties(False, False).shape[0]),
              'number of thermal properties : {}'.format(self.properties.thermal.shape[0])])
 
         return description
