@@ -12,7 +12,9 @@ giving randomly ordered spectra
 - add options to get_optical_properties for index update of large number of optical properties
 - change update_mf for multiplicative factor updates of large number of bands
 - add.optical_properties has now default useMultiplicativeFactorForLUT=0
-
+- Methods `getsimupath` and `getinputsimupath` will be removed in the future.
+  Instead, use properties `simu_dir`, `input_dir`, `output_dir` of class Simulation. 
+  
 ## Add
 
 - Sequencer.run.stack_bands: stacks bands of each sequence simulation
@@ -23,6 +25,9 @@ giving randomly ordered spectra
 - dbtools.prospect_db: much faster then within DART: pre-compute prospect spectra and create associated DART database 
 - extent property to voxreader
 - intersect_raster to voxreader
+- summary methods to print summaries in classes Simulation, Scene, Sensor, Source, Sequence.
+  `print(simu)` can now be coded with `simu.summary()`.
+  
 
 # 1.1.3
 
