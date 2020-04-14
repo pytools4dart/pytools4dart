@@ -24,7 +24,7 @@ giving randomly ordered spectra
 - Recommendations on useMultiplicativeFactorForLUT=0 in add.optical_property doc
 - dbtools.prospect_db: much faster then within DART: pre-compute prospect spectra and create associated DART database 
 - extent property to voxreader
-- intersect_raster to voxreader
+- intersect with raster to voxreader
 - summary methods to print summaries in classes Simulation, Scene, Sensor, Source, Sequence.
   `print(simu)` can now be coded with `simu.summary()`.
   
