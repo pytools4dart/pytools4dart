@@ -1,14 +1,18 @@
 # forest.vox
-'forest.vox' is a subsample taken an AMAPVox voxelization of airborne lidar data 
-from campaign in sept. 2016 supported by CNES. Courtesy to Gregoire Vincent
-(gregoire.vincent@ird.fr) for the processing.
+'forest.vox' is a 20x20 m subsample taken an AMAPVox voxelization of airborne lidar data 
+from campaign in sept. 2016 supported by CNES.
 
 It contains Leaf Area Density (m2/m3), i.e. UF in DART.
- 
-# Cant_Cab_Car_CBrown.tif
 
-'Cant_Cab_Car_CBrown.tif' is a 50x50 pixel subsample raster of estimations of leaf chemical properties
+Courtesy to Gregoire Vincent (gregoire.vincent@ird.fr) for the processing.
+ 
+# Can_Cab_Car_CBrown.tif
+
+'Can_Cab_Car_CBrown.tif' is a 50x50 pixel subsample raster of estimations of leaf chemical properties
 that can be used in prospect to simulate optical properties. Bands 1 to 4 are corresponding respectively to
 anthocyanin, chlorophyll, carotenoids, brown matter.
 
-Courtesy to Dav Ebango (dav.ebengo@inrae.fr) for the processing.  
+Courtesy to Dav Ebango (dav.ebengo@inrae.fr) for the processing.
+
+
+  
