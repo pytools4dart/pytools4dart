@@ -2,16 +2,8 @@ import pandas as pd
 from os.path import join as pjoin
 import pytools4dart as ptd
 
-
-simu = ptd.simulation(empty=True)
-simu.name = 'use_case_2'
-
-# # empty the simulation
-# simu.core.xsdobjs['coeff_diff'].Coeff_diff.LambertianMultiFunctions.LambertianMulti=[]
-# simu.core.xsdobjs['phase'].Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties=[]
-# simu.core.xsdobjs['phase'].Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance.SpectralIrradianceValue=[]
-
-simu.scene.ground.OpticalPropertyLink.ident='ground'
+# create an empty simulation
+simu = ptd.simulation(name='use_case_2', empty=True)
 
 # Define bands
 for wvl in [0.485, 0.555, 0.655]:
@@ -30,19 +22,20 @@ simu.scene.size = [40, 40]
 
 # define optical property for ground
 op_ground = {
-    'type':'Lambertian',
-    'ident':'ground',
-    'databaseName':'Lambertian_mineral.db',
-    'ModelName':'clay_brown'}
+    'type': 'Lambertian',
+    'ident': 'ground',
+    'databaseName': 'Lambertian_mineral.db',
+    'ModelName': 'clay_brown'}
 
 simu.add.optical_property(**op_ground)
+simu.scene.ground.OpticalPropertyLink.ident = 'ground'
 
 # define optical properties for trunk
 op_trunk = {
-    'type':'Lambertian',
-    'ident':'trunk',
-    'databaseName':'Lambertian_vegetation.db',
-    'ModelName':'bark_deciduous'}
+    'type': 'Lambertian',
+    'ident': 'trunk',
+    'databaseName': 'Lambertian_vegetation.db',
+    'ModelName': 'bark_deciduous'}
 
 simu.add.optical_property(**op_trunk)
 
@@ -51,43 +44,42 @@ propect_prop = {'CBrown': 0, 'Cab': 30, 'Car': 5,
                 'Cm': 0.01, 'Cw': 0.01, 'N': 1.8,
                 'anthocyanin': 0}
 
-op_vegetation = {'type':'Vegetation',
-              'ident': 'leaf',
-              'databaseName':'ProspectVegetation.db',
-              'ModelName':'',
-              'lad': 1,
-              'prospect':propect_prop}
+op_vegetation = {'type': 'Vegetation',
+                 'ident': 'leaf',
+                 'databaseName': 'ProspectVegetation.db',
+                 'ModelName': '',
+                 'lad': 1,
+                 'prospect': propect_prop}
 
 op = simu.add.optical_property(**op_vegetation)
 
 # load inventory
-db_dir = pjoin(ptd.settings.getdartdir(),'database')
-inventory_file = pjoin(db_dir,'trees.txt')
+db_dir = pjoin(ptd.settings.getdartdir(), 'database')
+inventory_file = pjoin(db_dir, 'trees.txt')
 inventory = pd.read_csv(inventory_file, comment='*', sep='\t')
 
 print(inventory)
 
 # species_id=0
 simu.add.tree_species(lai=-1,
-                   trunk_op_ident='trunk',
-                   trunk_tp_ident='ThermalFunction290_310',
-                   veg_op_ident='leaf',
-                   veg_tp_ident='ThermalFunction290_310')
+                      trunk_op_ident='trunk',
+                      trunk_tp_ident='ThermalFunction290_310',
+                      veg_op_ident='leaf',
+                      veg_tp_ident='ThermalFunction290_310')
 # species_id=1
 simu.add.tree_species(lai=-0.5,
-                   trunk_op_ident='trunk',
-                   trunk_tp_ident='ThermalFunction290_310',
-                   veg_op_ident='leaf',
-                   veg_tp_ident='ThermalFunction290_310')
-
+                      trunk_op_ident='trunk',
+                      trunk_tp_ident='ThermalFunction290_310',
+                      veg_op_ident='leaf',
+                      veg_tp_ident='ThermalFunction290_310')
 
 # trees to scene
 trees = simu.add.trees(inventory)
 
 # add sequence of chlorophyll
-Cab = range(0,30,10)
+Cab = range(0, 30, 10)
 sequence = simu.add.sequence()
-sequence.name='prospect_sequence'
+sequence.name = 'prospect_sequence'
 sequence.add_item(group='prospect', key='Cab', values=Cab, corenode=op)
 
 # show simulation
@@ -101,9 +93,4 @@ simu.run.sequence('prospect_sequence')
 
 # produce RGB of each element of prospect case
 for i in range(len(Cab)):
-    ptd.run.colorCompositeBands(pjoin('use_case_2', 'sequence', 'prospect_sequence_'+str(i)),2, 1, 0, 'X', 'rgb')
-
-
-
-
-
+    ptd.run.colorCompositeBands(pjoin('use_case_2', 'sequence', 'prospect_sequence_' + str(i)), 2, 1, 0, 'X', 'rgb')
