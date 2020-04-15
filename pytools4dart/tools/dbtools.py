@@ -326,7 +326,7 @@ def prospect_db(db_file, N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can
     current_ptable = pd.read_sql('select * from _prospect_v6_parameters', conn)
 
     # remove properties already in database and duplicates
-    add_ptable = ptable[~ptable.model.isin(current_ptable.model)].drop_duplicates().reset_index(drop=True)
+    add_ptable = ptable[~ptable.model.isin(current_ptable.model)]
 
     # fill database with new properties
     if verbose:
@@ -372,6 +372,8 @@ def _prospect_table(N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can=0,
     file_hashs = {k: _get_file_hash(v) for k, v in prospect_files.items()}
     df = pd.DataFrame({'N': N, 'Cab': Cab, 'Car': Car, 'CBrown': CBrown, 'Cw': Cw, 'Cm': Cm, 'Can': Can,
                        'PSI': .0, 'PSII': .0, 'V2Z': -999., 'prospect_version': prospect_version})
+
+    df = df.dropna().drop_duplicates().reset_index(drop=True)
 
     prospect_file_list = []
     file_hash_list = []
