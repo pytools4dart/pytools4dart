@@ -1,9 +1,12 @@
 # 1.1.4
-
+TODO: add crowns.shp
 ## Fix
 
-- stack_bands in hstools: bands were not sorted correctly,
-giving randomly ordered spectra
+- stack_bands in hstools: 
+    - bands were not sorted correctly,
+    giving randomly ordered spectra
+    - the flip was wrong, it was the geotransform metadata
+    that made the DART output rasters looked like hey were flipped
 
 ## Change
 
