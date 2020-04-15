@@ -201,12 +201,12 @@ class simulation(object):
         if not os.path.isdir(simuDpath):
             os.mkdir(simuDpath)
 
-        inputDpath = self.getinputsimupath()
+        inputDpath = self.input_dir
         if os.path.isdir(inputDpath):
             if overwrite:  # remove file
                 # tempfile was considered however the plots.xml can be large if lots of plots,
                 # thus this option wasn't further investigated
-                for f in glob.glob(os.path.join(self.getinputsimupath(), '*.xml')):
+                for f in glob.glob(os.path.join(inputDpath, '*.xml')):
                     os.remove(f)
             else:
                 raise Exception('Simulation already exists.')

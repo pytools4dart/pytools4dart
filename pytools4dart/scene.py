@@ -185,7 +185,7 @@ class Plot_file(object):
                 self.load()
         else:
             if data is not None:  # set default name
-                self.filepath = os.path.join(simu.getinputsimupath(), 'plots.txt')
+                self.filepath = os.path.join(simu.input_dir, 'plots.txt')
             else:
                 self.filepath = self.filepath
                 self.load()
@@ -374,7 +374,7 @@ class Tree_file(object):
                 self.load()
         else:
             if data is not None:  # set default name
-                self.filepath = os.path.join(simu.getinputsimupath(), 'trees.txt')
+                self.filepath = os.path.join(simu.input_dir, 'trees.txt')
             else:
                 self.filepath = self.filepath
                 self.load()

@@ -106,7 +106,7 @@ class Core(object):
         """
         modules = self.get_modules_names()
         for module in modules:
-            filepath = pjoin(self.simu.getinputsimupath(), module + '.xml')
+            filepath = pjoin(self.simu.input_dir, module + '.xml')
             # check version
             if check_version:
                 check_xmlfile_version(filepath)

@@ -680,7 +680,7 @@ class Add(object):
         """
 
         if file is None:
-            file = os.path.join(self.simu.getinputsimupath(), 'plots.txt')
+            file = os.path.join(self.simu.input_dir, 'plots.txt')
 
         # check if the dataframe has the good format
         if data is not None:
@@ -762,7 +762,7 @@ class Add(object):
         """
 
         if file is None:
-            file = os.path.join(self.simu.getinputsimupath(), 'trees.txt')
+            file = os.path.join(self.simu.input_dir, 'trees.txt')
 
         # check if the dataframe has the good format
         if data is not None:
