@@ -43,6 +43,7 @@ import re
 import pandas as pd
 import lxml.etree as etree
 import numpy as np
+import rasterio as rio
 
 
 def get_bands_files(simu_output_dir, band_sub_dir=None):
@@ -79,7 +80,63 @@ def get_bands_files(simu_output_dir, band_sub_dir=None):
     return images
 
 
-def stack_dart_bands(band_files, outputfile, wavelengths=None, fwhm=None, verbose=False):
+# def stack_dart_bands_old(band_files, outputfile, wavelengths=None, fwhm=None, verbose=False):
+#     """
+#     Stack simulated bands into an ENVI file.
+#
+#     Parameters
+#     ----------
+#     band_files: list
+#         list of DART file paths to stack into the output ENVI file.
+#     outputfile: str
+#         file path to be written. Output format is ENVI thus file should be with .bil extension.
+#     wavelengths: list
+#         list of wavelength values (in nm) corresponding to the bands (in the same order).
+#         They will be written in .hdr file.
+#     fwhm: list
+#         list of Full Width at Half Maximum (in nm) corresponding to the bands (in the same order).
+#         They will be written in .hdr file.
+#     verbose: bool
+#         if True, it gives a message when files are written.
+#
+#     Returns
+#     -------
+#
+#     """
+#     outlist = []
+#     for bf in band_files:
+#         ds = gdal.Open(bf)
+#         band = ds.GetRasterBand(1)
+#         arr = band.ReadAsArray()
+#         # out_arr = np.fliplr(arr).transpose()
+#         out_arr = arr
+#         outlist.append(out_arr)  # np.reshape(out_arr, out_arr.shape + (1,)))
+#
+#     driver = gdal.GetDriverByName("ENVI")
+#
+#     rows, cols = out_arr.shape
+#
+#     # if re.search('.*.bil', outputfile)
+#
+#     outdata = driver.Create(outputfile, cols, rows, len(outlist), band.DataType)
+#     outdata.SetGeoTransform(ds.GetGeoTransform())  # sets same geotransform as input
+#     outdata.SetProjection(ds.GetProjection())  # sets same projection as input
+#     for i in range(len(outlist)):
+#         outdata.GetRasterBand(i + 1).WriteArray(outlist[i])
+#     # outdata.GetRasterBand(1).SetNoDataValue(10000)  ##if you want these values transparent
+#     outdata.FlushCache()  # saves to disk!!
+#     outdata = None
+#     band = None
+#     ds = None
+#
+#     output_hdr = re.sub(r'.bil$', '', outputfile) + '.hdr'
+#     _complete_hdr(output_hdr, wavelengths, fwhm)
+#
+#     if verbose:
+#         print('Bands stacked in : ' + outputfile)
+
+
+def stack_dart_bands(band_files, outputfile, driver = 'ENVI', wavelengths=None, fwhm=None, verbose=False):
     """
     Stack simulated bands into an ENVI file.
 
@@ -102,36 +159,113 @@ def stack_dart_bands(band_files, outputfile, wavelengths=None, fwhm=None, verbos
     -------
 
     """
-    outlist = []
+
+    bandlist = []
+    dst_meta_list = []
     for bf in band_files:
-        ds = gdal.Open(bf)
-        band = ds.GetRasterBand(1)
-        arr = band.ReadAsArray()
-        out_arr = np.fliplr(arr).transpose()
-        outlist.append(out_arr)  # np.reshape(out_arr, out_arr.shape + (1,)))
+        with rio.open(bf) as src:
+            band = src.read(1)
+            if (src.meta['transform'][4] > 0) & (src.meta['transform'][1] == 0) & (src.meta['transform'][3] == 0):
+                src_transform = src.meta['transform']
+                y0 = src_transform[5] + src_transform[4] * src.height
+                dy = -src_transform[4]
+                dst_transform = rio.Affine(src_transform[0], src_transform[1], src_transform[2],
+                                           src_transform[3], dy, y0)
 
-    driver = gdal.GetDriverByName("ENVI")
+                dest = np.flipud(band)
+                # dest = np.zeros_like(band)
+                #
+                # rio.warp.reproject(
+                #     band,
+                #     dest,
+                #     src_transform=src_transform,
+                #     src_crs=src.crs,
+                #     dst_transform=dst_transform,
+                #     dst_crs=src.crs,
+                #     resampling=rio.warp.Resampling.nearest)
 
-    rows, cols = out_arr.shape
+                bandlist.append(dest)
+            else:
+                dst_transform = src.meta['transform']
+                bandlist.append(band)
 
-    # if re.search('.*.bil', outputfile)
+            dst_meta = src.meta
+            dst_meta['transform'] = dst_transform
+            dst_meta['driver'] = driver
+            dst_meta_list.append(dst_meta)
 
-    outdata = driver.Create(outputfile, cols, rows, len(outlist), band.DataType)
-    outdata.SetGeoTransform(ds.GetGeoTransform())  # sets same geotransform as input
-    outdata.SetProjection(ds.GetProjection())  # sets same projection as input
-    for i in range(len(outlist)):
-        outdata.GetRasterBand(i + 1).WriteArray(outlist[i])
-    # outdata.GetRasterBand(1).SetNoDataValue(10000)  ##if you want these values transparent
-    outdata.FlushCache()  # saves to disk!!
-    outdata = None
-    band = None
-    ds = None
+    # TODO:check all bands are in the same projection
 
-    output_hdr = re.sub(r'.bil$', '', outputfile) + '.hdr'
-    _complete_hdr(output_hdr, wavelengths, fwhm)
+    # write bands in file
+    dst_meta['count'] = len(bandlist)
+    with rio.open(outputfile, 'w', **dst_meta) as dst:
+        for i, band in enumerate(bandlist,1):
+            dst.write(band, indexes=i)
+
+    if driver is 'ENVI':
+        output_hdr = re.sub(r'.bil$', '', outputfile) + '.hdr'
+        _complete_hdr(output_hdr, wavelengths, fwhm)
 
     if verbose:
         print('Bands stacked in : ' + outputfile)
+
+
+def negative_ysign(file):
+    import rasterio
+    from rasterio import Affine as A
+    from rasterio.warp import reproject, Resampling
+    with rasterio.open(file) as src:
+        src_transform = src.transform
+
+        # Zoom out by a factor of 2 from the center of the source
+        # dataset. The destination transform is the product of the
+        # source transform, a translation down and to the right, and
+        # a scaling.
+        if src.meta['transform'][4] > 0:
+            dst_transform = src.meta['transform']
+            dst_transform[5] = dst_transform[5] + dst_transform[4] * src.height
+            dst_transform[4] = -dst_transform[4]
+
+            data = src.read()
+
+            kwargs = src.meta
+            kwargs['transform'] = dst_transform
+
+            with rasterio.open('/tmp/zoomed-out.tif', 'w', **kwargs) as dst:
+
+                for i, band in enumerate(data, 1):
+                    dest = np.zeros_like(band)
+
+                    reproject(
+                        band,
+                        dest,
+                        src_transform=src_transform,
+                        src_crs=src.crs,
+                        dst_transform=dst_transform,
+                        dst_crs=src.crs,
+                        resampling=Resampling.nearest)
+
+                    dst.write(dest, indexes=i)
+
+        data = src.read()
+
+        kwargs = src.meta
+        kwargs['transform'] = dst_transform
+
+        with rasterio.open('/tmp/zoomed-out.tif', 'w', **kwargs) as dst:
+            for i, band in enumerate(data, 1):
+                dest = np.zeros_like(band)
+
+                reproject(
+                    band,
+                    dest,
+                    src_transform=src_transform,
+                    src_crs=src.crs,
+                    dst_transform=dst_transform,
+                    dst_crs=src.crs,
+                    resampling=Resampling.nearest)
+
+                dst.write(dest, indexes=i)
 
 
 def _complete_hdr(hdrfile, wavelengths, fwhms):
