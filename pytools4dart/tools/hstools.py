@@ -136,7 +136,7 @@ def get_bands_files(simu_output_dir, band_sub_dir=None):
 #         print('Bands stacked in : ' + outputfile)
 
 
-def stack_dart_bands(band_files, outputfile, driver = 'ENVI', wavelengths=None, fwhm=None, verbose=False):
+def stack_dart_bands(band_files, outputfile, driver='ENVI', wavelengths=None, fwhm=None, verbose=False):
     """
     Stack simulated bands into an ENVI file.
 
@@ -165,23 +165,35 @@ def stack_dart_bands(band_files, outputfile, driver = 'ENVI', wavelengths=None, 
     for bf in band_files:
         with rio.open(bf) as src:
             band = src.read(1)
-            if (src.meta['transform'][4] > 0) & (src.meta['transform'][1] == 0) & (src.meta['transform'][3] == 0):
+            # DART has the following axis specific convention (actually ):
+            #     o--y+
+            #     :
+            #     x+
+            #
+            # Thus the image are converted to a more standard raster definition:
+            #     y+
+            #     :
+            #     o--x+
+            if (src.meta['transform'][0] > 0) & (src.meta['transform'][1] == 0) & (src.meta['transform'][3] == 0):
                 src_transform = src.meta['transform']
-                y0 = src_transform[5] + src_transform[4] * src.height
-                dy = -src_transform[4]
-                dst_transform = rio.Affine(src_transform[0], src_transform[1], src_transform[2],
-                                           src_transform[3], dy, y0)
+                ymax = src_transform[2] + src_transform[0] * src.width # coordinate of top left corner of matrix
+                dy = -src_transform[0] # resolution going from top to bottom (negative if top left is ymax)
+                dst_transform = rio.Affine(src_transform[4], src_transform[3], src_transform[5],
+                                           src_transform[1], dy, ymax)
 
-                dest = np.flipud(band)
+                dest = np.flipud(band.transpose())
+
+                # # NOT WORKING BECAUSE OF ROTATION
                 # dest = np.zeros_like(band)
-                #
+                # transform = rio.Affine(src_transform[1], dy, ymax,
+                #                        src_transform[4], src_transform[3], src_transform[5])
                 # rio.warp.reproject(
                 #     band,
                 #     dest,
                 #     src_transform=src_transform,
-                #     src_crs=src.crs,
-                #     dst_transform=dst_transform,
-                #     dst_crs=src.crs,
+                #     src_crs=rio.crs.CRS.from_epsg(4326),
+                #     dst_transform=transform,
+                #     dst_crs=rio.crs.CRS.from_epsg(4326),
                 #     resampling=rio.warp.Resampling.nearest)
 
                 bandlist.append(dest)
@@ -199,7 +211,7 @@ def stack_dart_bands(band_files, outputfile, driver = 'ENVI', wavelengths=None, 
     # write bands in file
     dst_meta['count'] = len(bandlist)
     with rio.open(outputfile, 'w', **dst_meta) as dst:
-        for i, band in enumerate(bandlist,1):
+        for i, band in enumerate(bandlist, 1):
             dst.write(band, indexes=i)
 
     if driver is 'ENVI':
