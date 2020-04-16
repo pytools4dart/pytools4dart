@@ -489,7 +489,8 @@ class Add(object):
             plot type: 'Ground', 'Vegetation', 'Ground + Vegetation', 'Fluid', 'Water'
 
         corners: list of 4 list
-            list of 4 lists, each containing the x and y of a corner
+            list of 4 lists, each containing the x and y of a corner:
+            [[x1, y1], [x2, y2], [x3, y3], [x4, y4]]
 
         baseheight: float
             base height of plot
@@ -530,7 +531,7 @@ class Add(object):
                        [0, size[1]]]
 
         # 2D shape
-        Point2D = [ptd.plots.create_Point2D(x, y) for x, y in corners]
+        Point2D = [ptd.plots.create_Point2D(x=x, y=y) for x, y in corners]
         Polygon2D = ptd.plots.create_Polygon2D(Point2D=Point2D)
 
         prop = opl = tpl = grd_type = grd_opl = grd_tpl = None
