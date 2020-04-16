@@ -86,6 +86,26 @@ class voxel(object):
         newVoxel.create_grid()
         return (newVoxel)
 
+    @classmethod
+    def from_data(cls, i=0, j=0, k=0, pad=1., min_corner=[0., 0., 0.], res=[1.], lad='Spherical', pad_max='NA'):
+
+
+        df = pd.DataFrame(dict(i=i, j=j, k=k, PadBVTotal=pad))
+        newVoxel = cls()
+        split = (df[['i', 'j', 'k']].max()+1).to_list()
+        max_corner = np.array(min_corner)+np.array(split)*np.array(res)
+
+        newVoxel.header = {'min_corner': min_corner,
+                           'max_corner': max_corner,
+                           'split': split,
+                           'type': 'pytools4dart',
+                           'res': res,
+                           'MAX_PAD': pad_max,
+                           'LAD_TYPE': lad}
+        newVoxel.data = df
+        newVoxel.create_grid()
+        return (newVoxel)
+
     def read_vox_header(self, skiprows=1):
         """
         read header of .vox file from AMAPVox.

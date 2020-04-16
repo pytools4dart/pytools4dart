@@ -7,6 +7,9 @@ TODO: add crowns.shp
     giving randomly ordered spectra
     - the flip was wrong, it was the geotransform metadata
     that made the DART output rasters looked like hey were flipped
+- add.plot: corners matrix was implicitly expected as [[y0, x0], [y1, x1], ...],
+    it was changed for a more natural order [[x0, y0], [x1, y1], ...].
+    
 
 ## Change
 
@@ -30,7 +33,8 @@ TODO: add crowns.shp
 - intersect with raster to voxreader
 - summary methods to print summaries in classes Simulation, Scene, Sensor, Source, Sequence.
   `print(simu)` can now be coded with `simu.summary()`.
-  
+- `voxel.from_data`: a method to make a voxel object from data instead of file. It then allows to use
+  method `voxel.to_plots` to generate the plot dataframe ready to add to DART simulation.
 
 # 1.1.3
 
