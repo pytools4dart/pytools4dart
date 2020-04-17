@@ -204,6 +204,8 @@ def stack_dart_bands(band_files, outputfile, driver='ENVI', wavelengths=None, fw
             dst_meta = src.meta
             dst_meta['transform'] = dst_transform
             dst_meta['driver'] = driver
+            dst_meta['width'] = src.meta['height']
+            dst_meta['height'] = src.meta['width']
             dst_meta_list.append(dst_meta)
 
     # TODO:check all bands are in the same projection
