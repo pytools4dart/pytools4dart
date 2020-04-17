@@ -35,6 +35,8 @@ TODO: add crowns.shp
   `print(simu)` can now be coded with `simu.summary()`.
 - `voxel.from_data`: a method to make a voxel object from data instead of file. It then allows to use
   method `voxel.to_plots` to generate the plot dataframe ready to add to DART simulation.
+- GDAL driver option to stack_bands
+- available GDAL driver list and extensions: hstools.gdal_drivers()
 
 # 1.1.3
 

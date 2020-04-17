@@ -248,7 +248,7 @@ def colorCompositeBands(simu_name, red, green, blue, iteration, outdir):
     return ans
 
 
-def stack_bands(simu_output_dir, output_dir=None, phasefile=None, zenith=0, azimuth=0,
+def stack_bands(simu_output_dir, output_dir=None, driver='ENVI', phasefile=None, zenith=0, azimuth=0,
                 band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART')):
     """
     Stack bands into an ENVI .bil file
@@ -260,6 +260,9 @@ def stack_bands(simu_output_dir, output_dir=None, phasefile=None, zenith=0, azim
     output_dir: str
         Output directory where the .bil file will be saved.
         If None it is saved in `simu_output_dir`.
+    driver: str
+        GDAL driver, see https://gdal.org/drivers/raster/index.html.
+        If driver='ENVI' it adds the wavelength and bandwidth of bands to the .hdr file.
     phasefile: str
         Path to the simulation phase.xml file containing band wavelength and bandwidth.
         For sequence simulations it may be in the main simulation.
@@ -286,10 +289,11 @@ def stack_bands(simu_output_dir, output_dir=None, phasefile=None, zenith=0, azim
     if os.path.isfile(phasefile):
         wvl = ptd.hstools.get_wavelengths(phasefile)
 
-    outputfile = pjoin(output_dir, os.path.basename(band_files.iloc[0]).replace('.mpr', '.bil'))
+    outputfile = pjoin(output_dir, os.path.basename(band_files.iloc[0]))
 
-    ptd.hstools.stack_dart_bands(band_files, outputfile, wavelengths=wvl.wavelength.values,
-                                 fwhm=wvl.fwhm.values, verbose=True)
+    outputfile = ptd.hstools.stack_dart_bands(band_files, outputfile, driver=driver,
+                                              wavelengths=wvl.wavelength.values,
+                                              fwhm=wvl.fwhm.values, verbose=True)
 
     return outputfile
 
@@ -473,7 +477,8 @@ class Run(object):
         """
         return colorCompositeBands(self.simu.name, red, green, blue, iteration, outdir)
 
-    def stack_bands(self, outputdir=None, zenith=0, azimuth=0, band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART')):
+    def stack_bands(self, output_dir=None, driver='ENVI', zenith=0, azimuth=0,
+                    band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART')):
         """
         Stack bands into an ENVI .bil file
 
@@ -482,6 +487,9 @@ class Run(object):
         output_dir: str
             Output directory where the .bil file will be saved.
             If None it is saved in `simu_output_dir`.
+        driver: str
+            GDAL driver, see https://gdal.org/drivers/raster/index.html.
+            If driver='ENVI' it adds the wavelength and bandwidth of bands to the .hdr file.
         zenith: float
             Zenith viewing angle (°)
         azimuth: float
@@ -497,5 +505,5 @@ class Run(object):
 
         phasefile = self.simu.get_input_file_path('phase.xml')
         simu_output_dir = self.simu.output_dir
-        return stack_bands(simu_output_dir, outputdir, phasefile=phasefile, zenith=zenith, azimuth=azimuth,
-                           band_sub_dir=band_sub_dir)
+        return stack_bands(simu_output_dir, output_dir=output_dir, driver=driver, phasefile=phasefile,
+                           zenith=zenith, azimuth=azimuth, band_sub_dir=band_sub_dir)

@@ -314,12 +314,15 @@ class Sequence_runners(object):
         sequence_name = self.sequence.name
         ptd.run.sequence(simu_name, sequence_name, option)
 
-    def stack_bands(self, zenith=0, azimuth=0, band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART')):
+    def stack_bands(self, driver='ENVI', zenith=0, azimuth=0, band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART')):
         """
         Stack bands into an ENVI .bil file.
 
         Parameters
         ----------
+        driver: str
+            GDAL driver, see https://gdal.org/drivers/raster/index.html.
+            If driver='ENVI' it adds the wavelength and bandwidth of bands to the .hdr file.
         zenith: float
             Zenith viewing angle (°)
         azimuth: float
@@ -341,7 +344,7 @@ class Sequence_runners(object):
             if not os.path.isfile(phasefile):
                 phasefile = self.sequence.simu.get_input_file_path('phase.xml')
             simu_output_dir = pjoin(d, 'output')
-            outfile = ptd.run.stack_bands(simu_output_dir, phasefile=phasefile, zenith=zenith, azimuth=azimuth,
+            outfile = ptd.run.stack_bands(simu_output_dir, driver=driver, phasefile=phasefile, zenith=zenith, azimuth=azimuth,
                                           band_sub_dir=band_sub_dir)
             outfiles.append(outfile)
 

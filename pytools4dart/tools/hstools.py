@@ -46,10 +46,8 @@ import numpy as np
 import rasterio as rio
 
 
-def get_bands_files(simu_output_dir, band_sub_dir=None):
+def get_bands_files(simu_output_dir, band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART')):
     # get the number of bands
-    if not band_sub_dir:
-        band_sub_dir = pjoin('BRF', 'ITERX', 'IMAGES_DART')
     bands = pd.DataFrame([pjoin(simu_output_dir, s)
                           for s in os.listdir(simu_output_dir)
                           if re.match(r'BAND[0-9]+$', s)
@@ -136,6 +134,79 @@ def get_bands_files(simu_output_dir, band_sub_dir=None):
 #         print('Bands stacked in : ' + outputfile)
 
 
+def gdal_drivers():
+    """
+    List of available GDAL drivers with there corresponding
+    default extension (ext), possible extensions (exts) and
+    GDAL writable capacity (writable).
+
+    https://gdal.org/drivers/raster/index.html
+
+    Returns
+    -------
+    pandas.DataFrame
+    """
+    # GDAL driver list
+    gdal_names = []
+    gdal_ext = []
+    gdal_exts = []
+    gdal_writable = []
+    for i in range(gdal.GetDriverCount()):
+        d = gdal.GetDriver(i)
+        gdal_names.append(d.ShortName)
+        gdal_ext.append(d.GetMetadataItem('DMD_EXTENSION'))
+        exts = d.GetMetadataItem('DMD_EXTENSIONS')
+        if isinstance(exts, str):
+            exts = exts.split(' ')
+        gdal_exts.append(exts)
+        gdal_writable.append((d.GetMetadataItem('DCAP_CREATE') == 'YES'))
+
+    drivers = pd.DataFrame(dict(name=gdal_names,
+                                ext=gdal_ext,
+                                exts=gdal_exts,
+                                writable=gdal_writable)).set_index('name').sort_index()
+
+    drivers.loc['ENVI', 'ext'] = 'bil'
+    drivers.loc['ENVI', 'exts'] = ['bil']
+    drivers.loc['ILWIS', 'ext'] = 'mpr'
+    drivers.loc['ILWIS', 'exts'] = ['mpr']
+
+    return drivers
+
+
+def gdal_file(file, driver):
+    """
+    Check driver is writable and if extension is one expected by gdal.
+    If not it is replaced by the default extension of gdal driver.
+    If the default extension is not defined, then the driver name in lower case is taken instead.
+
+    Parameters
+    ----------
+    file: str
+        path to file
+    driver: str
+        A driver name, see pytools4dart.hstools.gdal_drivers().
+
+    Returns
+    -------
+    str
+    """
+    drivers = gdal_drivers()
+    if driver not in drivers[drivers.writable].index:
+        raise ValueError('Driver "{}" not writable with GDAL. '
+                         'See pytools4dart.hstools.gdal_drivers for available drivers.'.format(driver))
+
+    filename, ext = os.path.splitext(file)
+    d = drivers.loc[driver]
+    if ext in d.exts:
+        outfile = file
+    elif d.ext is None:
+        outfile = filename + '.' + d.name.lower()
+    else:
+        outfile = filename + '.' + d.ext
+    return outfile
+
+
 def stack_dart_bands(band_files, outputfile, driver='ENVI', wavelengths=None, fwhm=None, verbose=False):
     """
     Stack simulated bands into an ENVI file.
@@ -146,6 +217,9 @@ def stack_dart_bands(band_files, outputfile, driver='ENVI', wavelengths=None, fw
         list of DART file paths to stack into the output ENVI file.
     outputfile: str
         file path to be written. Output format is ENVI thus file should be with .bil extension.
+    driver: str
+        GDAL driver, see pytools4dart.hstools.gdal_drivers().
+        If driver='ENVI' it adds the wavelength and bandwidth of bands to the .hdr file.
     wavelengths: list
         list of wavelength values (in nm) corresponding to the bands (in the same order).
         They will be written in .hdr file.
@@ -159,6 +233,8 @@ def stack_dart_bands(band_files, outputfile, driver='ENVI', wavelengths=None, fw
     -------
 
     """
+
+    outputfile = gdal_file(outputfile, driver)
 
     bandlist = []
     dst_meta_list = []
@@ -176,8 +252,8 @@ def stack_dart_bands(band_files, outputfile, driver='ENVI', wavelengths=None, fw
             #     o--x+
             if (src.meta['transform'][0] > 0) & (src.meta['transform'][1] == 0) & (src.meta['transform'][3] == 0):
                 src_transform = src.meta['transform']
-                ymax = src_transform[2] + src_transform[0] * src.width # coordinate of top left corner of matrix
-                dy = -src_transform[0] # resolution going from top to bottom (negative if top left is ymax)
+                ymax = src_transform[2] + src_transform[0] * src.width  # coordinate of top left corner of matrix
+                dy = -src_transform[0]  # resolution going from top to bottom (negative if top left is ymax)
                 dst_transform = rio.Affine(src_transform[4], src_transform[3], src_transform[5],
                                            src_transform[1], dy, ymax)
 
@@ -223,64 +299,7 @@ def stack_dart_bands(band_files, outputfile, driver='ENVI', wavelengths=None, fw
     if verbose:
         print('Bands stacked in : ' + outputfile)
 
-
-def negative_ysign(file):
-    import rasterio
-    from rasterio import Affine as A
-    from rasterio.warp import reproject, Resampling
-    with rasterio.open(file) as src:
-        src_transform = src.transform
-
-        # Zoom out by a factor of 2 from the center of the source
-        # dataset. The destination transform is the product of the
-        # source transform, a translation down and to the right, and
-        # a scaling.
-        if src.meta['transform'][4] > 0:
-            dst_transform = src.meta['transform']
-            dst_transform[5] = dst_transform[5] + dst_transform[4] * src.height
-            dst_transform[4] = -dst_transform[4]
-
-            data = src.read()
-
-            kwargs = src.meta
-            kwargs['transform'] = dst_transform
-
-            with rasterio.open('/tmp/zoomed-out.tif', 'w', **kwargs) as dst:
-
-                for i, band in enumerate(data, 1):
-                    dest = np.zeros_like(band)
-
-                    reproject(
-                        band,
-                        dest,
-                        src_transform=src_transform,
-                        src_crs=src.crs,
-                        dst_transform=dst_transform,
-                        dst_crs=src.crs,
-                        resampling=Resampling.nearest)
-
-                    dst.write(dest, indexes=i)
-
-        data = src.read()
-
-        kwargs = src.meta
-        kwargs['transform'] = dst_transform
-
-        with rasterio.open('/tmp/zoomed-out.tif', 'w', **kwargs) as dst:
-            for i, band in enumerate(data, 1):
-                dest = np.zeros_like(band)
-
-                reproject(
-                    band,
-                    dest,
-                    src_transform=src_transform,
-                    src_crs=src.crs,
-                    dst_transform=dst_transform,
-                    dst_crs=src.crs,
-                    resampling=Resampling.nearest)
-
-                dst.write(dest, indexes=i)
-
+    return outputfile
 
 def _complete_hdr(hdrfile, wavelengths, fwhms):
     """
