@@ -79,6 +79,16 @@ class voxel(object):
 
     @classmethod
     def from_vox(cls, filename):
+        """
+        Load an AMAPVox file
+        Parameters
+        ----------
+        filename: str
+
+        Returns
+        -------
+
+        """
         newVoxel = cls()
         newVoxel.inputfile = os.path.expanduser(filename)
         newVoxel.read_vox_header()  # description de la scène voxelisées
@@ -88,12 +98,37 @@ class voxel(object):
 
     @classmethod
     def from_data(cls, i=0, j=0, k=0, pad=1., min_corner=[0., 0., 0.], res=[1.], lad='Spherical', pad_max='NA'):
+        """
+        Create a voxel object from data
 
+        Parameters
+        ----------
+        i: int
+            x index of cell
+        j: int
+            y index of cell
+        k: int
+            z index of cell
+        pad: float
+            Plant area density (m2/m3)
+        min_corner:
+            coordinates of minimum corner
+        res:
+            resolution
+        lad: str
+            leaf angle distribution
+        pad_max:
+            Maximum PAD value used in AMAPVox. If not known, it can be left to 'NA'.
+
+        Returns
+        -------
+
+        """
 
         df = pd.DataFrame(dict(i=i, j=j, k=k, PadBVTotal=pad))
         newVoxel = cls()
-        split = (df[['i', 'j', 'k']].max()+1).to_list()
-        max_corner = np.array(min_corner)+np.array(split)*np.array(res)
+        split = (df[['i', 'j', 'k']].max() + 1).to_list()
+        max_corner = np.array(min_corner) + np.array(split) * np.array(res)
 
         newVoxel.header = {'min_corner': min_corner,
                            'max_corner': max_corner,
@@ -208,7 +243,8 @@ class voxel(object):
             [a, b, d, e, xoff, yoff]
 
         inplace: bool
-            If True, the grid is updated by reference, otherwise the transformed grid is returned.
+            If True, the grid is updated by reference and the transformation is added to header.
+            Otherwise the transformed grid is returned.
 
         Returns
         -------
@@ -476,6 +512,30 @@ class voxel(object):
         else:
             return self.data.merge(df, on=['i', 'j'], how='left', copy=True)
 
+    def reduce_xy(self, inplace=False):
+        """
+        Shift the grid minimum corner to x,y=(0,0).
+
+        Parameters
+        ----------
+        inplace: bool
+            If True, the grid is updated by reference and the transformation is added to header.
+            Otherwise the transformed grid is returned.
+
+        Returns
+        -------
+        None or (geopandas.GeoDataFrame and transformation array)
+            If inplace=False, returns the grid transformed and the transformation array.
+            The transformation array that can be used then to transform back simulation output rasters.
+
+        """
+        xy_transform = [1, 0, 0, 1, -self.header['min_corner'][0], -self.header['min_corner'][1]]
+        if inplace:
+            self.affine_transform(xy_transform, inplace=inplace)
+        else:
+            grid = self.affine_transform(xy_transform, inplace=inplace)
+            return grid, xy_transform
+
     def to_plots(self, density_type='UL', keep_columns=None, reduce_xy=False):
         """
         Convert to DART plots DataFrame
@@ -490,10 +550,11 @@ class voxel(object):
 
         reduce_xy: bool
             If True, shift the grid minimum corner x,y=(0,0).
+            In that case, the transformation array is also returned.
 
         Returns
         -------
-            DataFrame
+        pandas.DataFrame
 
         """
 
@@ -508,7 +569,8 @@ class voxel(object):
             densitydef = 1
 
         if reduce_xy:
-            grid = self.affine_transform([1, 0, 0, 1, -self.header['min_corner'][0], -self.header['min_corner'][1]],
+            xy_transform = [1, 0, 0, 1, -self.header['min_corner'][0], -self.header['min_corner'][1]]
+            grid = self.affine_transform(xy_transform,
                                          inplace=False)
         else:
             grid = self.grid
@@ -549,6 +611,9 @@ class voxel(object):
             keep_columns = [c for c in keep_columns if c in self.data.columns]
             data = pd.concat([data, self.data[(self.data.PadBVTotal != 0) & pd.notna(self.data.PadBVTotal)][
                 keep_columns].reset_index(drop=True)], axis=1)
+
+        if reduce_xy:
+            return data, xy_transform
 
         return data
 
