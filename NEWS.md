@@ -5,8 +5,7 @@ TODO: add crowns.shp
 - stack_bands in hstools: 
     - bands were not sorted correctly,
     giving randomly ordered spectra
-    - the flip was wrong, it was the geotransform metadata
-    that made the DART output rasters looked like hey were flipped
+    - the geotransform metadata made the DART output rasters looked like hey were flipped
 - add.plot: corners matrix was implicitly expected as [[y0, x0], [y1, x1], ...],
     it was changed for a more natural order [[x0, y0], [x1, y1], ...].
     
@@ -37,6 +36,11 @@ TODO: add crowns.shp
   method `voxel.to_plots` to generate the plot dataframe ready to add to DART simulation.
 - GDAL driver option to stack_bands
 - available GDAL driver list and extensions: hstools.gdal_drivers()
+- rotate simulated raster: hstools.rotate_raster
+- voxel.from_data: create voxel object from data within session
+- voxel.reduce_xy to translate have minimum corner at x,y=0,0
+- data for examples: Can_Cab_Car_CBrown.tif, crowns.shp
+- use_case_6, use_case_7
 
 # 1.1.3
 
