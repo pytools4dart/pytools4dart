@@ -78,62 +78,6 @@ def get_bands_files(simu_output_dir, band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_
     return images
 
 
-# def stack_dart_bands_old(band_files, outputfile, wavelengths=None, fwhm=None, verbose=False):
-#     """
-#     Stack simulated bands into an ENVI file.
-#
-#     Parameters
-#     ----------
-#     band_files: list
-#         list of DART file paths to stack into the output ENVI file.
-#     outputfile: str
-#         file path to be written. Output format is ENVI thus file should be with .bil extension.
-#     wavelengths: list
-#         list of wavelength values (in nm) corresponding to the bands (in the same order).
-#         They will be written in .hdr file.
-#     fwhm: list
-#         list of Full Width at Half Maximum (in nm) corresponding to the bands (in the same order).
-#         They will be written in .hdr file.
-#     verbose: bool
-#         if True, it gives a message when files are written.
-#
-#     Returns
-#     -------
-#
-#     """
-#     outlist = []
-#     for bf in band_files:
-#         ds = gdal.Open(bf)
-#         band = ds.GetRasterBand(1)
-#         arr = band.ReadAsArray()
-#         # out_arr = np.fliplr(arr).transpose()
-#         out_arr = arr
-#         outlist.append(out_arr)  # np.reshape(out_arr, out_arr.shape + (1,)))
-#
-#     driver = gdal.GetDriverByName("ENVI")
-#
-#     rows, cols = out_arr.shape
-#
-#     # if re.search('.*.bil', outputfile)
-#
-#     outdata = driver.Create(outputfile, cols, rows, len(outlist), band.DataType)
-#     outdata.SetGeoTransform(ds.GetGeoTransform())  # sets same geotransform as input
-#     outdata.SetProjection(ds.GetProjection())  # sets same projection as input
-#     for i in range(len(outlist)):
-#         outdata.GetRasterBand(i + 1).WriteArray(outlist[i])
-#     # outdata.GetRasterBand(1).SetNoDataValue(10000)  ##if you want these values transparent
-#     outdata.FlushCache()  # saves to disk!!
-#     outdata = None
-#     band = None
-#     ds = None
-#
-#     output_hdr = re.sub(r'.bil$', '', outputfile) + '.hdr'
-#     _complete_hdr(output_hdr, wavelengths, fwhm)
-#
-#     if verbose:
-#         print('Bands stacked in : ' + outputfile)
-
-
 def gdal_drivers():
     """
     List of available GDAL drivers with there corresponding
@@ -207,7 +151,7 @@ def gdal_file(file, driver):
     return outfile
 
 
-def stack_dart_bands(band_files, outputfile, driver='ENVI', wavelengths=None, fwhm=None, verbose=False):
+def stack_dart_bands(band_files, outputfile, driver='ENVI', rotate=True, wavelengths=None, fwhm=None, verbose=False):
     """
     Stack simulated bands into an ENVI file.
 
@@ -220,6 +164,9 @@ def stack_dart_bands(band_files, outputfile, driver='ENVI', wavelengths=None, fw
     driver: str
         GDAL driver, see pytools4dart.hstools.gdal_drivers().
         If driver='ENVI' it adds the wavelength and bandwidth of bands to the .hdr file.
+    rotate: bool
+        rotate bands from DART orientation convention to a standard GIS orientation convention.
+        See pytools4dart.hstools.rotate_raster for details.
     wavelengths: list
         list of wavelength values (in nm) corresponding to the bands (in the same order).
         They will be written in .hdr file.
@@ -240,57 +187,22 @@ def stack_dart_bands(band_files, outputfile, driver='ENVI', wavelengths=None, fw
     dst_meta_list = []
     for bf in band_files:
         with rio.open(bf) as src:
-            band = src.read(1)
-            # DART has the following axis specific convention (actually ):
-            #     o--y+
-            #     :
-            #     x+
-            #
-            # Thus the image are converted to a more standard raster definition:
-            #     y+
-            #     :
-            #     o--x+
-            if (src.meta['transform'][0] > 0) & (src.meta['transform'][1] == 0) & (src.meta['transform'][3] == 0):
-                src_transform = src.meta['transform']
-                ymax = src_transform[2] + src_transform[0] * src.width  # coordinate of top left corner of matrix
-                dy = -src_transform[0]  # resolution going from top to bottom (negative if top left is ymax)
-                dst_transform = rio.Affine(src_transform[4], src_transform[3], src_transform[5],
-                                           src_transform[1], dy, ymax)
-
-                dest = np.flipud(band.transpose())
-
-                # # NOT WORKING BECAUSE OF ROTATION
-                # dest = np.zeros_like(band)
-                # transform = rio.Affine(src_transform[1], dy, ymax,
-                #                        src_transform[4], src_transform[3], src_transform[5])
-                # rio.warp.reproject(
-                #     band,
-                #     dest,
-                #     src_transform=src_transform,
-                #     src_crs=rio.crs.CRS.from_epsg(4326),
-                #     dst_transform=transform,
-                #     dst_crs=rio.crs.CRS.from_epsg(4326),
-                #     resampling=rio.warp.Resampling.nearest)
-
-                bandlist.append(dest)
-            else:
-                dst_transform = src.meta['transform']
-                bandlist.append(band)
-
-            dst_meta = src.meta
-            dst_meta['transform'] = dst_transform
-            dst_meta['driver'] = driver
-            dst_meta['width'] = src.meta['height']
-            dst_meta['height'] = src.meta['width']
-            dst_meta_list.append(dst_meta)
+            bandlist.append(src.read(1))
+            dst_meta_list.append(src.meta)
 
     # TODO:check all bands are in the same projection
 
+    dst_meta = dst_meta_list[0]
+
     # write bands in file
     dst_meta['count'] = len(bandlist)
+    dst_meta['driver'] = driver
     with rio.open(outputfile, 'w', **dst_meta) as dst:
         for i, band in enumerate(bandlist, 1):
             dst.write(band, indexes=i)
+
+    if rotate:
+        rotate_raster(outputfile, outputfile)
 
     if driver is 'ENVI':
         output_hdr = re.sub(r'.bil$', '', outputfile) + '.hdr'
@@ -300,6 +212,75 @@ def stack_dart_bands(band_files, outputfile, driver='ENVI', wavelengths=None, fw
         print('Bands stacked in : ' + outputfile)
 
     return outputfile
+
+
+def rotate_raster(src_file, dst_file):
+    """
+    Rotate raster to a more standard GIS orientation
+
+    DART has the following axis specific convention:
+
+        o -- y+
+
+        :
+
+        x+
+
+    Thus the image are converted to a more standard raster definition:
+
+        y+
+
+        :
+
+        o -- x+
+
+    Parameters
+    ----------
+    src_file: str
+    dst_file: str
+
+    Examples
+    --------
+
+    >>> import pytools4dart as ptd
+    >>> import rasterio as rio
+    >>> from rasterio.plot import show
+    >>> import matplotlib.pyplot as plt
+    >>> simu = ptd.simulation('use_case_6')
+    >>> bandlist = ptd.hstools.get_bands_files(simu.output_dir)
+    >>> raster_file = bandlist.loc[(bandlist.azimuth==0) & (bandlist.band_num==0), 'path'].iloc[0]
+    >>> rotated_file = '/tmp/raster_rotate.mpr'
+    >>> ptd.hstools.rotate_raster(raster_file, rotated_file)
+    >>> r = rio.open(raster_file)
+    >>> rr = rio.open(rotated_file)
+    >>> print([rr.width, rr.height] == [r.height, r.width])
+    True
+    >>> print(rr.transform[4] == -r.transform[0])
+    True
+    >>> print(rr.transform[5] == r.transform[2] + r.width * r.transform[0])
+    True
+    """
+    bandlist = []
+    with rio.open(src_file) as src:
+        src_transform = src.meta['transform']
+        for i in range(1, src.count + 1):
+            band = src.read(i)
+            bandlist.append(np.flipud(band.transpose()))
+
+    ymax = src_transform[2] + src_transform[0] * src.width  # coordinate of top left corner of matrix
+    dy = -src_transform[0]  # resolution going from top to bottom (negative if top left is ymax)
+
+    dst_transform = rio.Affine(src_transform[4], src_transform[3], src_transform[5],
+                               src_transform[1], dy, ymax)
+    dst_meta = src.meta
+    dst_meta['transform'] = dst_transform
+    dst_meta['width'] = src.meta['height']
+    dst_meta['height'] = src.meta['width']
+
+    with rio.open(dst_file, 'w', **dst_meta) as dst:
+        for i, band in enumerate(bandlist, 1):
+            dst.write(band, indexes=i)
+
 
 def _complete_hdr(hdrfile, wavelengths, fwhms):
     """
@@ -439,6 +420,21 @@ def get_hdr_bands(hdr, nm_to_um=True):
         data *= 0.001
 
     return data
+
+
+def normalize(array):
+    """
+    Normalize array: (array-min)/(max-min)
+    Parameters
+    ----------
+    array: numpy.ndarray
+
+    Returns
+    -------
+    numpy.ndarray
+    """
+    array_min, array_max = array.min(), array.max()
+    return (array - array_min) / (array_max - array_min)
 
 
 # TEST ZONE
