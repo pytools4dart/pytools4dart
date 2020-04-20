@@ -294,6 +294,9 @@ def stack_bands(simu_output_dir, output_dir=None, driver='ENVI', rotate=True, ph
 
     outputfile = pjoin(output_dir, os.path.basename(band_files.iloc[0]))
 
+    if not os.path.isdir(output_dir):
+        os.mkdir(output_dir)
+
     outputfile = ptd.hstools.stack_dart_bands(band_files, outputfile, driver=driver, rotate=rotate,
                                               wavelengths=wvl.wavelength.values,
                                               fwhm=wvl.fwhm.values, verbose=True)
@@ -511,5 +514,7 @@ class Run(object):
 
         phasefile = self.simu.get_input_file_path('phase.xml')
         simu_output_dir = self.simu.output_dir
+        if (output_dir is not None) and (not os.path.isdir(os.path.dirname(output_dir))):
+            output_dir = pjoin(self.simu.output_dir, output_dir)
         return stack_bands(simu_output_dir, output_dir=output_dir, driver=driver, rotate=rotate, phasefile=phasefile,
                            zenith=zenith, azimuth=azimuth, band_sub_dir=band_sub_dir)
