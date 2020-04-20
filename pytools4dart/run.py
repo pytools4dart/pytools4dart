@@ -493,7 +493,7 @@ class Run(object):
         output_dir: str
             Output directory where the .bil file will be saved.
             If None it is saved in `simu_output_dir`.
-            If directory does not exist it is created
+            If directory does not exist it is created.
         driver: str
             GDAL driver, see https://gdal.org/drivers/raster/index.html.
             If driver='ENVI' it adds the wavelength and bandwidth of bands to the .hdr file.
