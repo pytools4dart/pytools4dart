@@ -18,8 +18,9 @@ TODO: add crowns.shp
 - change update_mf for multiplicative factor updates of large number of bands
 - add.optical_properties has now default useMultiplicativeFactorForLUT=0
 - Methods `getsimupath` and `getinputsimupath` will be removed in the future.
-  Instead, use properties `simu_dir`, `input_dir`, `output_dir` of class Simulation. 
-  
+  Instead, use properties `simu_dir`, `input_dir`, `output_dir` of class Simulation.
+- update use cases documentation
+
 ## Add
 
 - Sequencer.run.stack_bands: stacks bands of each sequence simulation
@@ -40,7 +41,7 @@ TODO: add crowns.shp
 - voxel.from_data: create voxel object from data within session
 - voxel.reduce_xy to translate have minimum corner at x,y=0,0
 - data for examples: Can_Cab_Car_CBrown.tif, crowns.shp
-- use_case_6, use_case_7
+- use_case_6, use_case_7 for scene orientation and azimuth angle demo
 
 # 1.1.3
 

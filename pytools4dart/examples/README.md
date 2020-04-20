@@ -122,13 +122,13 @@ computed from airborne lidar voxelization.*
 Image acquisition over a voxelised scene, attributing prospect/optical properties
 by intersection with crown polygons or raster.
 
-# Goal
+## Goal
 
 This script is similar to use_case_3, but adds specific optical properties to each column of voxels.
 Optical properties are computed from prospect chemical properties (anthocyanin, chlorophyll, carotenoids, brown matter).
 Prospect properties of voxel columns are attributed by intersection with a crown polygon file or a raster.
 
-# Algorithm
+## Algorithm
 
 - create a new image simulation and define its size
 - add RGB spectral bands
@@ -147,7 +147,7 @@ Prospect properties of voxel columns are attributed by intersection with a crown
 
 Specific orientation of the output rasters of DART.
 
-# Goals
+## Goals
 
 This script brings to light the specific orientation convention adopted by DART (see DART convention chapter in user guides)
 and shows a way to convert the output rasters to a more standard orientation in GIS.
@@ -155,11 +155,11 @@ and shows a way to convert the output rasters to a more standard orientation in 
 By the way, it also shows how create a voxelised scene from data,
 making it easier to build up then with method `add.plot`
 
-# Description
+## Description
 
 The scene is 4x5 m with a line of plots with increasing chlorophyll at the bottom of the scene (i.e. y = 0).
 
-# Algorithm
+## Algorithm
 
 - create a new simulation and resize it
 - add the RGB bands
@@ -174,11 +174,11 @@ The scene is 4x5 m with a line of plots with increasing chlorophyll at the botto
 
 Azimuth angle in DART
 
-# Goals
+## Goals
 
 This simulation aims to show also the specific definition of azimuth angle in DART.
 
-# Description
+## Description
 
 The scene is composed of pilar plot of 1x1x10m at the center.
 
@@ -187,7 +187,7 @@ and with azimuth angle varying from 0° to 270° by steps of 90°.
 
 We expect that the shade of the pilar would move along with the solar azimuth angle.
 
-# Algorithm
+## Algorithm
 
 - create and resize scene
 - define scene as isolated to avoid

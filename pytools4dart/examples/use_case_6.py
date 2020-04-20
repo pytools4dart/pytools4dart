@@ -29,7 +29,7 @@
 """
 Specific orientation of the output rasters of DART.
 
-# Goals
+## Goals
 
 This script brings to light the specific orientation convention adopted by DART (see DART convention chapter in user guides)
 and shows a way to convert the output rasters to a more standard orientation in GIS.
@@ -37,11 +37,11 @@ and shows a way to convert the output rasters to a more standard orientation in 
 By the way, it also shows how create a voxelised scene from data,
 making it easier to build up then with method `add.plot`
 
-# Description
+## Description
 
 The scene is 4x5 m with a line of plots with increasing chlorophyll at the bottom of the scene (i.e. y = 0).
 
-# Algorithm
+## Algorithm
 
 - create a new simulation and resize it
 - add the RGB bands

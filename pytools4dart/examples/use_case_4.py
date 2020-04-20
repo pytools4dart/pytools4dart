@@ -28,11 +28,11 @@
 """
 Lidar simulation
 
-# Goal
+## Goal
 
 *Simulate a lidar acquisition on a cherry tree.*
 
-# Algorithm
+## Algorithm
 
 - create a new empty lidar simulation
 - define scene size

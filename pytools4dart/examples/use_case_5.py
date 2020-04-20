@@ -30,13 +30,13 @@
 Image acquisition over a voxelised scene, attributing prospect/optical properties
 by intersection with crown polygons or raster.
 
-# Goal
+## Goal
 
 This script is similar to use_case_3, but adds specific optical properties to each column of voxels.
 Optical properties are computed from prospect chemical properties (anthocyanin, chlorophyll, carotenoids, brown matter).
 Prospect properties of voxel columns are attributed by intersection with a crown polygon file or a raster.
 
-# Algorithm
+## Algorithm
 
 - create a new image simulation and define its size
 - add RGB spectral bands

@@ -29,11 +29,11 @@
 """
 Azimuth angle in DART
 
-# Goals
+## Goals
 
 This simulation aims to show also the specific definition of azimuth angle in DART.
 
-# Description
+## Description
 
 The scene is composed of pilar plot of 1x1x10m at the center.
 
@@ -42,7 +42,7 @@ and with azimuth angle varying from 0° to 270° by steps of 90°.
 
 We expect that the shade of the pilar would move along with the solar azimuth angle.
 
-# Algorithm
+## Algorithm
 
 - create and resize scene
 - define scene as isolated to avoid
