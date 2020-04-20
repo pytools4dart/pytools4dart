@@ -193,7 +193,7 @@ We expect that the shade of the pilar would move along with the solar azimuth an
 - define scene as isolated to avoid
 - create RGB bands
 - create turbid vegetation optical property
-- add pilar plot linked to optical property
+- add a pilar plot linked to the vegetation optical property
 - set the solar zenith angle to 30° (actually it is the default)
 - add a sequence of solar azimuth angle: 0, 90, 180, 270
 - run the sequence
