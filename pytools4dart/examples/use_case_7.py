@@ -26,26 +26,43 @@
 #
 #
 # ===============================================================================
+"""
+Azimuth angle in DART
 
+# Goals
 
-# This simulation aims to show also the specific orientation of the output rasters of DART:
-# DART has the following axis specific convention:
-#     o--y+
-#     :
-#     x+
-# While stacking bands with method stack_bands(), the raster is reoriented to a more standard format:
-#     y+
-#     :
-#     o--x+
+This simulation aims to show also the specific definition of azimuth angle in DART.
 
+# Description
+
+The scene is composed of pilar plot of 1x1x10m at the center.
+
+The sun position is defined with zenith angle = 60° (near the horizon)
+and with azimuth angle varying from 0° to 270° by steps of 90°.
+
+We expect that the shade of the pilar would move along with the solar azimuth angle.
+
+# Algorithm
+
+- create and resize scene
+- define scene as isolated to avoid
+- create RGB bands
+- create turbid vegetation optical property
+- add pilar plot linked to optical property
+- set the solar zenith angle to 30° (actually it is the default)
+- add a sequence of solar azimuth angle: 0, 90, 180, 270
+- run the sequence
+- stack bands of each sequence iteration and plot them in function of the azimuth angle
+
+Note that during stacking the rasters are rotated to be in teh standard GIS orientation (x-right, y-up).
+
+"""
 
 import pytools4dart as ptd
-from os.path import join, dirname, basename
 import numpy as np
 import rasterio as rio
 from rasterio.plot import show
 from matplotlib import pyplot as plt
-
 
 # create an empty simulation
 simu = ptd.simulation('use_case_7', empty=True)
@@ -55,23 +72,21 @@ simu.scene.size = [5, 5]
 simu.core.maket.set_nodes(exactlyPeriodicScene=0)
 # add spectral RGB bands, e.g. B=0.485, G=0.555, R=0.655 nm
 # with 0.07 full width at half maximum
-for wvl in [0.485, 0.555, 0.655]:
+for wvl in [0.655, 0.555, 0.485]:
     simu.add.band(wvl=wvl, bw=0.07)
 
 # simu.add.bands({'wvl':[0.485, 0.555, 0.655], 'fwhm':0.07})
 op0 = simu.add.optical_property(type='Vegetation',
                                 ident='turbid_leaf',
                                 databaseName='Lambertian_vegetation.db',
-                                ModelName='leaf_deciduous',
-                                useMultiplicativeFactorForLUT=1)
-
-op0.set_nodes(LeafTransmittanceFactor=0)
+                                ModelName='leaf_deciduous')
 
 plot = simu.add.plot(op_ident=op0.ident, corners=[[2, 2], [3, 2], [3, 3], [2, 3]], height=10)
-plot.repeatedOnBorder=0
 plot.set_nodes(densityDefinition=1)
-plot.set_nodes(UF=100)
-simu.core.directions.Directions.set_nodes(sunViewingZenithAngle=60)
+plot.set_nodes(UF=1)
+
+simu.core.directions.Directions.set_nodes(sunViewingZenithAngle=30)
+
 # run simulation
 simu.write(overwrite=True)
 simu.run.full()
@@ -80,15 +95,13 @@ stack_file = simu.run.stack_bands()
 
 fig, axstack = plt.subplots()
 
-stack = rio.open(stack_file)
-im = show(stack, ax=axstack, cmap='jet')
+with rio.open(stack_file) as stack:
+    show(stack.read(), transform=stack.transform, ax=axstack)
 axstack.set_xlabel('x')
 axstack.set_ylabel('y')
 axstack.set_title('Sun azimuth angle=225°')
-fig.colorbar(im.images[0], ax=axstack, fraction=0.04, pad=0.04)
 
 fig.show()
-
 
 sequence = simu.add.sequence('sun_zimuth', empty=True)
 
@@ -99,21 +112,14 @@ sequence.write(overwrite=True)
 sequence.run.dart()
 
 stack_files = sorted(sequence.run.stack_bands())
-# azimuths = pd.DataFrame(value=[0, 180, 90, 270],
-#                         i_seq=[0, 2, 1, 3])
 
-
-fig, axes = plt.subplots(2, 2, figsize=(10,10))
+fig, axes = plt.subplots(2, 2, figsize=(10, 10))
 for i, stack_file in enumerate(stack_files):
-    stack = rio.open(stack_file)
     ax = axes.flatten()[i]
-    im = show(stack, ax=ax, cmap='jet')
+    with rio.open(stack_file) as stack:
+        im = show(stack.read(), transform=stack.transform, ax=ax)
     ax.set_xlabel('x')
     ax.set_ylabel('y')
-    ax.set_title('azimuth={}'.format(i*90.))
-    fig.colorbar(im.images[0], ax=ax, fraction=0.04, pad=0.04)
-fig.suptitle('Influence of sun azimuth angle (zenith=60°)')
+    ax.set_title('azimuth={}'.format(i * 90.))
+fig.suptitle('Influence of sun azimuth angle (zenith=30°)')
 fig.show()
-fig.save(join(simu.simu_dir, 'sun_azimuth_angle.png'))
-
-

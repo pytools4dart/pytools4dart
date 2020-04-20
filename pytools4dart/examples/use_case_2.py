@@ -1,3 +1,58 @@
+# -*- coding: utf-8 -*-
+# ===============================================================================
+# PROGRAMMERS:
+#
+# Florian de Boissieu <fdeboiss@gmail.com>
+# https://gitlab.com/pytools4dart/pytools4dart
+#
+# COPYRIGHT:
+#
+# Copyright 2018-2020 Florian de Boissieu
+#
+# This file is part of the pytools4dart package.
+#
+# pytools4dart is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+#
+#
+# ===============================================================================
+"""
+Image acquisition on lollipop trees.
+
+## Goal
+
+*Improve use case 1 with trees simulated
+as lollipops.*
+
+## Description
+
+Trees can be simulated as an association of simple 3D geometries object:
+   - the trunk, e.g. a cynlindre
+   - the crown, e.g. an ellipsoid for deciduous or a cone for a conifer.
+
+## Algorithm
+
+- create an empty simulation
+- define scene size
+- add spectral bands, e.g. 0.485, 0.555, 0.655 nm
+   with 0.07 full width at half maximum
+- add vegetation optical properties (VOP)
+- add trunk optical properties
+- load and add tree inventory from a file, e.g. Dart/database/tree.txt
+it should contain position, shape and species ID
+- define tree species with associated optical properties
+- generate RGB acquisition images of each chlorophyll concentration
+"""
 import pandas as pd
 from os.path import join as pjoin
 import pytools4dart as ptd

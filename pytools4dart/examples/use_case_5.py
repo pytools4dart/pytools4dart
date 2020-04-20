@@ -26,16 +26,39 @@
 #
 #
 # ===============================================================================
+"""
+Image acquisition over a voxelised scene, attributing prospect/optical properties
+by intersection with crown polygons or raster.
 
-# This script is similar to use_case_3, but adds specific optical properties to each column of voxels.
-# The properties are extracted from a raster.
+# Goal
 
+This script is similar to use_case_3, but adds specific optical properties to each column of voxels.
+Optical properties are computed from prospect chemical properties (anthocyanin, chlorophyll, carotenoids, brown matter).
+Prospect properties of voxel columns are attributed by intersection with a crown polygon file or a raster.
+
+# Algorithm
+
+- create a new image simulation and define its size
+- add RGB spectral bands
+- define ground optical property and link it to scene ground
+- load voxelised scene
+- intersect voxelisation grid with tree crowns shapefile or the raster containing the prospect chemical properties
+- compute optical properties from the prospect properties present in the scene
+- add the computed optical properties to the simulation
+- link the optical property names to the voxels
+- run the simulation
+- stack bands in an RGB raster file
+- plot the output RGB raster and the crown polygons
+"""
 
 import pytools4dart as ptd
 from os.path import join, dirname, basename
 import geopandas as gpd
 import pandas as pd
+import rasterio as rio
+from rasterio.plot import show
 from matplotlib import pyplot as plt
+from shapely.affinity import affine_transform
 
 
 def add_prospect_properties(op0, df):
@@ -134,11 +157,8 @@ simu.write(overwrite=True)
 simu.run.full()
 
 ## plot simulated RGB and crown polygons
-import rasterio as rio
-from rasterio.plot import show
-from matplotlib import pyplot as plt
-from shapely.affinity import affine_transform
 
+# stack bands in an RGB raster
 stack_file = simu.run.stack_bands()
 
 # read stack file
@@ -158,7 +178,7 @@ im = show(rgb, transform=stack.transform, ax=axstack)
 crowns_shifted.geometry.boundary.plot(color=None, edgecolor='r', linewidth=2, ax=axstack)  # Use your second dataframe
 axstack.set_xlabel('x')
 axstack.set_ylabel('y')
-axstack.set_title('Sun azimuth angle=225°')
+axstack.set_title('Simulated image with crown polygons')
 fig.show()
 
 ##### Same simulation intersecting a raster of chemical properties ######
@@ -201,10 +221,16 @@ if False:  # pass to True to simulate this case
     # WARNING: phase takes 5min to compute the 400 phase functions, then dart takes 2min to compute simulation.
     simu.run.full()
 
-    # stack bands
-    simu.run.colorCompositeBands(red=2, green=1, blue=0, iteration='X', outdir='rgb')
+    # stack bands in an RGB raster
+    stack_file = simu.run.stack_bands()
 
-    # plot image at nadir
-    im01_file = join(simu.output_dir, 'rgb', 'ima01_VZ=000_0_VA=000_0.png')
-    img = plt.imread(im01_file)
-    plt.imshow(img)
+    # read stack file
+    with rio.open(stack_file) as stack:
+        rgb = ptd.hstools.normalize(stack.read())
+
+    fig, axstack = plt.subplots()
+    # plot raster
+    im = show(rgb, transform=stack.transform, ax=axstack)
+    axstack.set_xlabel('x')
+    axstack.set_ylabel('y')
+    fig.show()

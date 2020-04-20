@@ -26,7 +26,28 @@
 #
 #
 # ===============================================================================
+"""
+Image acquisition over a turbid vegetation plot.
 
+## Goal
+
+*Create the most simple simulation, i.e. a turbid plot with particular
+optical properties and simulate an RGB acquisition.*
+
+## Algorithm
+
+- create an empty simulation
+- define scene size
+- add spectral bands, e.g. 0.485, 0.555, 0.655 nm
+   with 0.07 full width at half maximum
+- define vegetation optical properties (VOP)
+- add a turbid plot with associated VOP
+- run simulation
+- explore results:
+    - databases with SQLite database browser
+    - generate RGB image (ENVI or PNG formats)
+    - open simulation in DART
+"""
 import pytools4dart as ptd
 
 # create an empty simulation
