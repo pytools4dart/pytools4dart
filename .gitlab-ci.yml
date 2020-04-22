@@ -1,7 +1,28 @@
-# This file is a template, and might need editing before it works on your project.
-# Official language image. Look for the different tagged releases at:
-# https://hub.docker.com/r/library/python/tags/
+.shared_windows_runners:
+  tags:
+  - shared-windows
+  - windows
+  - windows-1809
 
+
+before_script:
+ - Set-Variable -Name "time" -Value (date -Format "%H:%m")
+ - echo ${time}
+ - echo "started by ${GITLAB_USER_NAME}"
+
+build:
+  extends:
+  - .shared_windows_runners
+  stage: build
+  script:
+  - echo "running scripts in the build job"
+
+test:
+  extends:
+  - .shared_windows_runners
+  stage: test
+  script:
+  - echo "running scripts in the test job"
 # Change pip's cache directory to be inside the project directory since we can
 # only cache local items.
 variables:
@@ -22,6 +43,21 @@ cache:
 stages:
   - build
   - deploy
+  - build-windows
+
+build-windows:
+  extends:
+    - .shared_windows_runners
+  stage: build-windows
+  script:
+    - echo "running scripts in the build job"
+    - curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe
+    - start /wait "" Miniconda3-latest-Windows-x86_64.exe /InstallationType=JustMe /RegisterPython=0 /S /D=%UserProfile%\Miniconda3
+    - conda activate base
+    - python --version
+    - conda env create -f environment.yml
+    - conda activate ptdvenv
+    - python -c "import generateDS; import tinyobj; import gdecomp; import laspy; import pytools4dart"
 
 conda-build:
   stage: build
