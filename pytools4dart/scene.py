@@ -154,7 +154,7 @@ class Plot_file(object):
     # At initialization if:
     #     - D is None and F is None:
     #         get F from core (absolute path)
-    #         load D from F
+    #         load D from F if F is not None
     #     - D is None and F is not None
     #         set F to core
     #         load D from F
@@ -414,12 +414,7 @@ class Tree_file(object):
         if value is not None:
             Trees = self.simu.core.trees.Trees
             Trees.isTrees = 1
-            _, nodepath = findall(Trees, 'sceneParametersFileName', path=True)
-            if len(nodepath) != 1:
-                raise Exception('Multiple Tree files found.')
-
-            # filepath = self.simu.get_input_file_path(value)
-            exec(nodepath[0] + '=value')
+            Trees.set_nodes(sceneParametersFileName=value)
 
     @property
     def data(self):

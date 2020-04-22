@@ -478,7 +478,7 @@ def get_path(corenode, index=False):
     return '.'.join([ppath, path])
 
 
-def findall(corenode, pat, case=False, regex=True, column='dartnode', path=False, use_labels=True):
+def findall(corenode, pat, case=False, regex=True, column='dartnode', path=False, use_labels=False):
     """
     Find all the values with path
     Parameters
@@ -496,7 +496,7 @@ def findall(corenode, pat, case=False, regex=True, column='dartnode', path=False
     # TODO: change/check that findall use_labels can be removed
     # using subnodes instead of labels shows that it is much faster (10-100x)
     # However,
-    # there is a pb with nodes having attrib=[''], e.g. create_DartInputParameters in phase.py, see subnodes.
+    # there is a pb with nodes without attribute, i.e. attrib=[''], e.g. create_DartInputParameters in phase.py, see subnodes.
     # This is a pb from generateds it seems.
     # Another pb is that it is not completly the same, e.g.
     # findall(simu.core.phase, 'Phase', path=True, use_labels=False) != findall(simu.core.phase.Phase, 'Phase', path=True)
@@ -507,9 +507,9 @@ def findall(corenode, pat, case=False, regex=True, column='dartnode', path=False
         dartnode = re.sub('create_', '', corenode.__class__.__name__)
 
     if use_labels:
-        labelsdf = get_labels(r'(^|\.)' + dartnode)
+        labelsdf = get_labels(r'(?:^|\.)' + dartnode)
         labelsdf = labelsdf[labelsdf[column].str.contains(pat, case, regex=regex)]
-        labelsdf['dartnode'] = [re.sub(r'^(?:.*\.)?' + dartnode + r'\.', '', dn) for dn in labelsdf['dartnode']]
+        labelsdf.loc[:, 'dartnode'] = [re.sub(r'^(?:.*\.)?' + dartnode + r'\.', '', dn) for dn in labelsdf['dartnode']]
         dartnodes = labelsdf['dartnode'].drop_duplicates()
 
         nodes = []

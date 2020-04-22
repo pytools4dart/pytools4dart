@@ -42,6 +42,7 @@ from pytools4dart.tools.constants import *
 from pytools4dart.core_ui.utils import get_labels, get_nodes, findall
 from pytools4dart.settings import check_xmlfile_version, getdartversion, get_input_file_path
 from pytools4dart.tools.OBJtools import gnames_dart_order
+from .warnings import deprecated
 
 
 class Core(object):
@@ -71,6 +72,7 @@ class Core(object):
 
         # if the simulation exists, populate xsd_core with simulation XML files contents
 
+    @deprecated('Use pytools4dart.core_ui.utils.findall instead.')
     def findall(self, pat, case=False, regex=True, column='dartnode'):
         dartnodes = get_labels(pat, case, regex, column)['dartnode']
         l = []
@@ -281,6 +283,7 @@ class Core(object):
         else:
             sname = 'Specie_{}'.format(Trees.sceneModelCharacteristic)
         species = findall(Trees, r'\.' + sname + '$')
+        species = [val for sublist in species for val in sublist]  # flatten list of list
 
         lai, source = [], []
         trunk_op_ident, trunk_op_type, trunk_tp_ident = [], [], []
@@ -430,16 +433,14 @@ class Core(object):
                     prop_type = ptype
                     prop_index = range(len(prop_list))
                     prop_ident = [prop.ident for prop in prop_list]
-                    pathsup = 'Coeff_diff.{function}.{multi}'.format(function=function, multi=multi)
-                    prop_path = [pathsup + '[{}]'.format(i) for i in prop_index]
+                    prop_path = [multi + '[{}]'.format(i) for i in prop_index]
 
                     opt_prop = pd.DataFrame(dict(type=prop_type, index=prop_index, ident=prop_ident,
                                                  source=source, path=prop_path))
                     # databaseName
                     if db_name:
-                        values, path = ptd.utils.findall(opt_prop.source[0].parent, r'databaseName$', path=True)
-                        pat = 'Coeff_diff\.{function}\.{multi}\[[0-9]+\]'.format(function=function, multi=multi)
-                        path = [re.search(pat, s).group(0) for s in path]
+                        values, path = findall(opt_prop.source[0].parent, r'databaseName$', path=True)
+                        path = [s.split('.')[0] for s in path]
                         df = pd.DataFrame(dict(databaseName=values, path=path))
                         df.loc[df.path.duplicated(keep=False), 'databaseName'] = 'multiple'
                         df.drop_duplicates(['path'], inplace=True)
@@ -447,9 +448,8 @@ class Core(object):
                         opt_prop = opt_prop.merge(df, on='path', how='left', copy=False)
 
                     if model_name:
-                        values, path = ptd.utils.findall(opt_prop.source[0].parent, r'ModelName$', path=True)
-                        pat = 'Coeff_diff\.{function}\.{multi}\[[0-9]+\]'.format(function=function, multi=multi)
-                        path = [re.search(pat, s).group(0) for s in path]
+                        values, path = findall(opt_prop.source[0].parent, r'ModelName$', path=True)
+                        path = [s.split('.')[0] for s in path]
                         df = pd.DataFrame(dict(ModelName=values, path=path))
                         df.loc[df.path.duplicated(keep=False), 'ModelName'] = 'multiple'
                         df.drop_duplicates(['path'], inplace=True)
@@ -462,7 +462,7 @@ class Core(object):
             opt_props = pd.concat(opt_prop_list, ignore_index=True)
         else:
             opt_props = pd.DataFrame(dict(type=[], index=[], ident=[],
-                                         source=[], path=[]))
+                                          source=[], path=[]))
             if db_name:
                 opt_props['databaseName'] = []
             if model_name:
