@@ -33,7 +33,7 @@ build-windows:
   script:
     - echo "running scripts in the build job"
     - curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe -UseBasicParsing
-    - start /wait Miniconda3-latest-Windows-x86_64.exe /InstallationType=JustMe /RegisterPython=0 /S /D=%UserProfile%\Miniconda3
+    - start /wait "Miniconda3-latest-Windows-x86_64.exe /InstallationType=JustMe /RegisterPython=0 /S /D=%UserProfile%\Miniconda3"
     - conda activate base
     - python --version
     - conda env create -f environment.yml
