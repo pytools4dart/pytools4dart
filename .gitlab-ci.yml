@@ -4,25 +4,6 @@
   - windows
   - windows-1809
 
-
-before_script:
- - Set-Variable -Name "time" -Value (date -Format "%H:%m")
- - echo ${time}
- - echo "started by ${GITLAB_USER_NAME}"
-
-build:
-  extends:
-  - .shared_windows_runners
-  stage: build
-  script:
-  - echo "running scripts in the build job"
-
-test:
-  extends:
-  - .shared_windows_runners
-  stage: test
-  script:
-  - echo "running scripts in the test job"
 # Change pip's cache directory to be inside the project directory since we can
 # only cache local items.
 variables:
@@ -41,9 +22,9 @@ cache:
   
 
 stages:
+  - build-windows
   - build
   - deploy
-  - build-windows
 
 build-windows:
   extends:
