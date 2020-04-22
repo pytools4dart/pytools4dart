@@ -56,12 +56,15 @@ it should contain position, shape and species ID
 import pandas as pd
 from os.path import join as pjoin
 import pytools4dart as ptd
+import rasterio as rio
+from rasterio.plot import show
+from matplotlib import pyplot as plt
 
 # create an empty simulation
 simu = ptd.simulation(name='use_case_2', empty=True)
 
 # Define bands
-for wvl in [0.485, 0.555, 0.655]:
+for wvl in [0.655, 0.555, 0.485]:
     simu.add.band(wvl=wvl, bw=0.07)
 
 # define scene
@@ -146,6 +149,19 @@ simu.write(overwrite=True)
 # run sequence
 simu.run.sequence('prospect_sequence')
 
-# produce RGB of each element of prospect case
-for i in range(len(Cab)):
-    ptd.run.colorCompositeBands(pjoin('use_case_2', 'sequence', 'prospect_sequence_' + str(i)), 2, 1, 0, 'X', 'rgb')
+rgb_files = sorted(sequence.run.stack_bands())
+
+fig, axes = plt.subplots(2, 2, figsize=(10, 10))
+for i, stack_file in enumerate(rgb_files):
+    ax = axes.flatten()[i]
+    with rio.open(stack_file) as stack:
+        im = show(stack.read(), transform=stack.transform, ax=ax)
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.set_title('CHL={}'.format(Cab[i]))
+fig.suptitle('Influence of sun azimuth angle (zenith=30°)')
+fig.show()
+
+# # produce RGB png of each element of prospect case
+# for i in range(len(Cab)):
+#     ptd.run.colorCompositeBands(pjoin('use_case_2', 'sequence', 'prospect_sequence_' + str(i)), 0, 1, 2, 'X', 'rgb')
