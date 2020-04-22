@@ -300,11 +300,11 @@ def get_nodes(corenode, dartnode):
         list
     Examples
     --------
-        import pytools4dart as ptd
-        simu = ptd.simulation('use_case_1')
-        dartnodes = ptd.core_ui.utils.get_labels('$Plots.*OpticalPropertyLink$')['dartnode']
-        corenode = simu.core.xsdobj['plots']
-        all_nodes = [get_nodes(cornode, dartnode) for dartnode in dartnodes]
+    import pytools4dart as ptd
+    simu = ptd.simulation('use_case_1')
+    dartnodes = ptd.core_ui.utils.get_labels('^Plots.*OpticalPropertyLink$')['dartnode']
+    corenode = simu.core.plots
+    all_nodes = [get_nodes(cornode, dartnode) for dartnode in dartnodes]
     """
     dns = dartnode.split('.')
     subdn = ''
@@ -351,11 +351,11 @@ def get_nodes_with_path(corenode, dartnode):
         list
     Examples
     --------
-        import pytools4dart as ptd
-        simu = ptd.simulation('use_case_1')
-        dartnodes = ptd.core_ui.utils.get_labels('$Plots.*OpticalPropertyLink$')['dartnode']
-        corenode = simu.core.xsdobj['plots']
-        all_nodes = [get_nodes(cornode, dartnode) for dartnode in dartnodes]
+    import pytools4dart as ptd
+    simu = ptd.simulation('use_case_1')
+    dartnodes = ptd.core_ui.utils.get_labels('$Plots.*OpticalPropertyLink$')['dartnode']
+    corenode = simu.core.plots
+    all_nodes = get_nodes_with_path(cornode, dartnode) for dartnode in dartnodes]
     """
     dns = dartnode.split('.')
     subdn = ''
@@ -424,7 +424,7 @@ def get_labels(pat=None, case=False, regex=True, column='dartnode'):
 
     Examples
     --------
-    # get all nodes finishing with OpticalPropertyLink
+    # get potential nodes finishing with OpticalPropertyLink
     import pytools4dart as ptd
     ptd.core_ui.utils.get_labels('OpticalPropertyLink$')
     """
