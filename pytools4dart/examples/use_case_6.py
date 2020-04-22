@@ -143,12 +143,12 @@ rotated_file = simu.run.stack_bands(output_dir='rotated')
 
 # compare transform and array orientations
 with rio.open(unrotated_file) as unrot:
-    unrot_rgb = unrot.read()
+    unrot_rgb = ptd.hstools.normalize(unrot.read())
 print(unrot.transform)
 print(unrot_rgb[1, :, :])
 
 with rio.open(rotated_file) as rot:
-    rot_rgb = unrot.read()
+    rot_rgb = ptd.hstools.normalize(rot.read())
 print(rot.transform)
 print(rot_rgb[1, :, :])
 

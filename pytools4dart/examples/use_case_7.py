@@ -117,7 +117,7 @@ fig, axes = plt.subplots(2, 2, figsize=(10, 10))
 for i, stack_file in enumerate(stack_files):
     ax = axes.flatten()[i]
     with rio.open(stack_file) as stack:
-        im = show(stack.read(), transform=stack.transform, ax=ax)
+        im = show(ptd.hstools.normalize(stack.read()), transform=stack.transform, ax=ax)
     ax.set_xlabel('x')
     ax.set_ylabel('y')
     ax.set_title('azimuth={}'.format(i * 90.))

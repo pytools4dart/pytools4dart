@@ -47,6 +47,9 @@ computed from airborne lidar voxelization.*
 """
 import pytools4dart as ptd
 from os.path import join, dirname
+import rasterio as rio
+from rasterio.plot import show
+from matplotlib import pyplot as plt
 
 # Path of voxelization file
 data_dir = join(dirname(ptd.__file__), 'data')
@@ -60,7 +63,7 @@ simu.scene.size = [20, 20]
 
 # add spectral RGB bands, e.g. B=0.485, G=0.555, R=0.655 nm
 # with 0.07 full width at half maximum
-for wvl in [0.485, 0.555, 0.655]:
+for wvl in [0.655, 0.555, 0.485]:
     simu.add.band(wvl=wvl, bw=0.07)
 
 # define optical property for ground
@@ -92,7 +95,7 @@ simu.add.optical_property(**op_vegetation)
 # read vox file
 vox = ptd.voxreader.voxel().from_vox(voxfile)
 # Convert vox to DART plots shifting minimum x,y corner to 0,0
-plots = vox.to_plots(reduce_xy=True)
+plots, xy_transform = vox.to_plots(reduce_xy=True)
 # add an optical property to each plot
 plots['PLT_OPT_NAME'] = 'op_prospect'
 # add plots to simulation
@@ -104,5 +107,10 @@ simu.write(overwrite=True)
 simu.run.full()
 
 # stack bands
-simu.run.stack_bands()
-simu.run.colorCompositeBands(red=2, green=1, blue=0, iteration='X', outdir='rgb')
+stack_file = simu.run.stack_bands()
+fig, ax = plt.subplots()
+with rio.open(stack_file) as r:
+    show(ptd.hstools.normalize(r.read()), transform=r.transform, ax=ax)
+fig.show()
+
+# simu.run.colorCompositeBands(red=0, green=1, blue=2, iteration='X', outdir='rgb')
