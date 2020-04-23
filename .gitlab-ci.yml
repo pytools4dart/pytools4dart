@@ -39,6 +39,7 @@ build-windows:
     - conda install -y conda-build
     - conda create -y -n test python=3.7
     - conda activate test
+    - python --version
 #    - conda env create -f environment.yml
 #    - & cmd /k "activate ptdvenv"
 #    - python -c "import generateDS; import tinyobj; import gdecomp; import laspy; import pytools4dart"
