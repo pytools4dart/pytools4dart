@@ -38,6 +38,7 @@ build-windows:
 #    - $env:PATH += "$env:userprofile\Miniconda3;$env:userprofile\Miniconda3\Scripts;"
     - $env:PATH = "$env:userprofile\Miniconda3\condabin;" + $env:PATH
     - conda install -y conda-build
+    - conda init powershell
     - conda create -y -n test python=3.7
     - conda info
     - conda activate test
