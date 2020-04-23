@@ -42,7 +42,7 @@ build-windows:
 #    - conda create -y -n test python=3.7
 #    - conda activate test
 #    - $env:conda = "$env:userprofile\miniconda3"
-#    - $env:PATH = "${env:conda}\envs\test;${env:PYTHON}\envs\test\Scripts;${env:conda}\envs\test\Library\bin;" + $env:PATH
+#    - $env:PATH = "${env:conda}\envs\test;${env:conda}\envs\test\Scripts;${env:conda}\envs\test\Library\bin;" + $env:PATH
 # #    - & cmd /k "activate ptdvenv" # command not accepted in gitlab-ci...
 #    - python --version
 #    - conda install -y -n test numpy
@@ -50,6 +50,7 @@ build-windows:
     - conda create -y -n ptdvenv -c conda-forge python=3.7 gdal geopandas git ipython libspatialindex lxml matplotlib
     - conda install -y -n ptdvenv -c conda-forge lmfit plyfile pybind11 pyjnius pytest
     - conda install -y -n ptdvenv -c conda-forge rasterio rtree scipy
+    - $env:conda = "$env:userprofile\miniconda3"
     - $env:PATH = "${env:conda}\envs\ptdvenv;${env:conda}\envs\ptdvenv\Scripts;${env:conda}\envs\ptdvenv\Library\bin;" + $env:PATH
     - pip install git+https://gitlab.com/pytools4dart/generateds.git
     - pip install git+https://gitlab.com/pytools4dart/tinyobj.git
