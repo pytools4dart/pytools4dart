@@ -67,7 +67,7 @@ build-windows:
     - pip install git+https://gitlab.com/pytools4dart/gdecomp.git
     - pip install git+https://github.com/floriandeboissieu/laspy.git@patch-1
     - pip install git+https://github.com/jgomezdans/prosail.git
-    - pip install git+https://gitlab.com/pytools4dart/pytools4dart.git
+    - pip install git+https://gitlab.com/pytools4dart/pytools4dart.git@dev
 #    - conda install -y -n ptdvenv cython
 #      - conda install -y -n ptdvenv
 #      - conda install -y -n ptdvenv geopandas
