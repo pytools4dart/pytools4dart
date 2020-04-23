@@ -47,7 +47,15 @@ build-windows:
 #    - python --version
 #    - conda install -y -n test numpy
 #    - python -c "import numpy as np; print(np.arange(10.))"
-    - conda env create -f environment.yml
+    - conda create -y -n ptdvenv python=3.7 gdal geopandas git ipython libspatialindex
+#    - conda install -y -n ptdvenv cython
+#      - conda install -y -n ptdvenv
+#      - conda install -y -n ptdvenv geopandas
+#      - conda install -y -n ptdvenv git
+#      - conda install -y -n ptdvenv ipython
+#      - conda install -y -n ptdvenv libspatialindex
+#
+#    - conda env create -f environment.yml
     - $env:PATH = "${env:conda}\envs\ptdvenv;${env:PYTHON}\envs\test\Scripts;${env:conda}\envs\ptdvenv\Library\bin;" + $env:PATH
     - python --version
     - python -c "import generateDS; import tinyobj; import gdecomp; import laspy; import pytools4dart"
