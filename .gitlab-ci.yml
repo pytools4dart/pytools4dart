@@ -35,7 +35,6 @@ build-windows:
     - curl.exe -o Miniconda3-latest-Windows-x86_64.exe https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe
     - dir
     - Start-Process ./Miniconda3-latest-Windows-x86_64.exe -Args "/InstallationType=JustMe /RegisterPython=0 /S /D=%UserProfile%\Miniconda3" -wait
-#    - $env:PATH += "$env:userprofile\Miniconda3;$env:userprofile\Miniconda3\"
     - $env:PATH = "$env:userprofile\Miniconda3\condabin" + $env:PATH
     - conda install conda-build
     - conda env create -f environment.yml
