@@ -39,13 +39,11 @@ build-windows:
     - $env:PATH = "$env:userprofile\Miniconda3\condabin;" + $env:PATH
     - conda install -y conda-build
     - conda init powershell
-    - conda create -y -n test python=3.7
-    - conda info
-    - conda activate test
-    - conda info
+#    - conda create -y -n test python=3.7
+#    - conda activate test
 #    - $env:conda = "$env:userprofile\miniconda3"
 #    - $env:PATH = "${env:conda}\envs\test;${env:PYTHON}\envs\test\Scripts;${env:conda}\envs\test\Library\bin;" + $env:PATH
-# #    - & cmd /k "activate ptdvenv"
+# #    - & cmd /k "activate ptdvenv" # command not accepted in gitlab-ci...
 #    - python --version
 #    - conda install -y -n test numpy
 #    - python -c "import numpy as np; print(np.arange(10.))"
