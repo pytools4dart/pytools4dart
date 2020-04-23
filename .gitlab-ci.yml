@@ -43,9 +43,14 @@ build-windows:
     - conda info
     - conda activate test
     - conda info
+    - $env:conda = "$env:userprofile\miniconda3"
+    - $env:PATH = "${env:conda}\envs\test;${env:PYTHON}\envs\test\Scripts;${env:conda}\envs\test\Library\bin;" + $env:PATH
 #    - & cmd /k "activate ptdvenv"
     - python --version
+    - conda install -n test numpy
+    - python -c "import numpy as np; print(np.arange(10.))"
 #    - conda env create -f environment.yml
+#    - $env:PATH = "${env:conda}\envs\test;${env:PYTHON}\envs\test\Scripts;${env:conda}\envs\test\Library\bin;" + $env:PATH
 #    - & cmd /k "activate ptdvenv"
 #    - python -c "import generateDS; import tinyobj; import gdecomp; import laspy; import pytools4dart"
 
