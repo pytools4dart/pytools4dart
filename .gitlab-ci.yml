@@ -79,8 +79,9 @@ build-windows:
 #    - $env:PATH = "${env:conda}\envs\ptdvenv;${env:conda}\envs\ptdvenv\Scripts;${env:conda}\envs\ptdvenv\Library\bin;" + $env:PATH
     - python --version
     - python -c "import generateDS; import tinyobj; import gdecomp; import laspy; import pytools4dart"
-    - python -c "from dart_install_win import install_dart; install_dart(r'C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART_5-7-6_2020-03-06_v1150_windows64', r'C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART')"
+    - python -c "from dart_install_win import install_dart; install_dart(r'C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART_5-7-6_2020-03-06_v1150_windows64', r'C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART', mode='mv')"
     - python -c "import pytools4dart as ptd;ptd.configure(r'C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART')"
+
 
 conda-build:
   stage: build
