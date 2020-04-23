@@ -43,18 +43,16 @@ build-windows:
     - conda info
     - conda activate test
     - conda info
-    - $env:conda = "$env:userprofile\miniconda3"
-    - $env:PATH = "${env:conda}\envs\test;${env:PYTHON}\envs\test\Scripts;${env:conda}\envs\test\Library\bin;" + $env:PATH
-#    - & cmd /k "activate ptdvenv"
-    - python --version
-    - conda install -y -n test numpy
-    - python -c "import numpy as np; print(np.arange(10.))"
-#    - conda env create -f environment.yml
-#    - $env:PATH = "${env:conda}\envs\ptdvenv;${env:PYTHON}\envs\test\Scripts;${env:conda}\envs\ptdvenv\Library\bin;" + $env:PATH
-#    - python --version
+#    - $env:conda = "$env:userprofile\miniconda3"
 #    - $env:PATH = "${env:conda}\envs\test;${env:PYTHON}\envs\test\Scripts;${env:conda}\envs\test\Library\bin;" + $env:PATH
-#    - & cmd /k "activate ptdvenv"
-#    - python -c "import generateDS; import tinyobj; import gdecomp; import laspy; import pytools4dart"
+# #    - & cmd /k "activate ptdvenv"
+#    - python --version
+#    - conda install -y -n test numpy
+#    - python -c "import numpy as np; print(np.arange(10.))"
+    - conda env create -f environment.yml
+    - $env:PATH = "${env:conda}\envs\ptdvenv;${env:PYTHON}\envs\test\Scripts;${env:conda}\envs\ptdvenv\Library\bin;" + $env:PATH
+    - python --version
+    - python -c "import generateDS; import tinyobj; import gdecomp; import laspy; import pytools4dart"
 
 conda-build:
   stage: build
