@@ -144,9 +144,13 @@ pip-build:
     - cd pytools4dart/examples
     - python -c 'import pytools4dart as ptd;ptd.configure("~/DART")'
     - python use_case_0.py
+    - Get-CimInstance Win32_OperatingSystem | FL *
     - python use_case_1.py
+    - Get-CimInstance Win32_OperatingSystem | FL *
     - python use_case_2.py
+    - Get-CimInstance Win32_OperatingSystem | FL *
     - python use_case_3.py
+    - Get-CimInstance Win32_OperatingSystem | FL *
     - python use_case_4.py
   only:
     - schedules
