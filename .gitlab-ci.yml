@@ -30,7 +30,7 @@ build-windows:
   extends:
     - .shared_windows_runners
   stage: build-windows
-  script:²
+  script:
     - echo "running scripts in the build job"
     - curl.exe https://dart.omp.eu/membre/downloadDart/contenu/DART/Windows/64bits/DART_5-7-6_2020-03-06_v1150_windows64.zip -o dart.zip
     - tar -xf dart.zip
