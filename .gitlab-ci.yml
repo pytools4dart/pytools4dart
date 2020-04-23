@@ -50,6 +50,7 @@ build-windows:
     - conda create -y -n ptdvenv -c conda-forge python=3.7 gdal geopandas git ipython libspatialindex lxml matplotlib
     - conda install -y -n ptdvenv -c conda-forge lmfit plyfile pybind11 pyjnius pytest
     - conda install -y -n ptdvenv -c conda-forge rasterio rtree scipy
+    - $env:PATH = "${env:conda}\envs\ptdvenv;${env:conda}\envs\ptdvenv\Scripts;${env:conda}\envs\ptdvenv\Library\bin;" + $env:PATH
     - pip install git+https://gitlab.com/pytools4dart/generateds.git
     - pip install git+https://gitlab.com/pytools4dart/tinyobj.git
     - pip install git+https://gitlab.com/pytools4dart/gdecomp.git
@@ -64,7 +65,7 @@ build-windows:
 #      - conda install -y -n ptdvenv libspatialindex
 #
 #    - conda env create -f environment.yml
-    - $env:PATH = "${env:conda}\envs\ptdvenv;${env:conda}\envs\ptdvenv\Scripts;${env:conda}\envs\ptdvenv\Library\bin;" + $env:PATH
+#    - $env:PATH = "${env:conda}\envs\ptdvenv;${env:conda}\envs\ptdvenv\Scripts;${env:conda}\envs\ptdvenv\Library\bin;" + $env:PATH
     - python --version
     - python -c "import generateDS; import tinyobj; import gdecomp; import laspy; import pytools4dart"
 
