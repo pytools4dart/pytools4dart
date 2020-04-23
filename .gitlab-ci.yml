@@ -47,7 +47,9 @@ build-windows:
 #    - python --version
 #    - conda install -y -n test numpy
 #    - python -c "import numpy as np; print(np.arange(10.))"
-    - conda create -y -n ptdvenv python=3.7 gdal geopandas git ipython libspatialindex
+    - conda create -y -n ptdvenv python=3.7 gdal geopandas git ipython libspatialindex lmfit lxml matplotlib pip
+    - conda install -y -n ptdvenv plyfile pybind11 pyjnius pytest
+    - conda install -y -n ptdvenv rasterio rtree scipy
 #    - conda install -y -n ptdvenv cython
 #      - conda install -y -n ptdvenv
 #      - conda install -y -n ptdvenv geopandas
