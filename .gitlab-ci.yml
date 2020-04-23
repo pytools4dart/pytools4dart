@@ -37,9 +37,9 @@ build-windows:
     - Start-Process ./Miniconda3-latest-Windows-x86_64.exe -Args "/InstallationType=JustMe /RegisterPython=0 /S /D=%UserProfile%\Miniconda3" -wait
     - $env:PATH = "$env:userprofile\Miniconda3\condabin" + $env:PATH
     - conda install conda-build
-    - conda env create -f environment.yml
-    - & cmd /k "activate ptdvenv"
-    - python -c "import generateDS; import tinyobj; import gdecomp; import laspy; import pytools4dart"
+#    - conda env create -f environment.yml
+#    - & cmd /k "activate ptdvenv"
+#    - python -c "import generateDS; import tinyobj; import gdecomp; import laspy; import pytools4dart"
 
 conda-build:
   stage: build
