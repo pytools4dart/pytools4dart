@@ -51,6 +51,7 @@ import sqlite3
 import numpy as np
 from os.path import join as pjoin
 import pytools4dart as ptd
+from multiprocessing import cpu_count
 
 # create a new simulation
 simu = ptd.simulation(name='use_case_1', empty=True)
@@ -78,6 +79,7 @@ plot = simu.add.plot(type='Vegetation', op_ident='turbid_leaf')
 # # define sequence
 # simu.add_prospect_sequence({'Cab': range(0,30,10)}, 'op_prospect',
 #                            name='prospect_sequence')
+simu.core.phase.Phase.ExpertModeZone.nbThreads = cpu_count()
 
 sequence = simu.add.sequence()
 sequence.name = 'prospect_sequence'
@@ -94,7 +96,7 @@ simu.write(overwrite=True)
 sequence.add_item(group='prospect', key='Cab', values=range(0, 30, 10), corenode=op)
 # sequence.add_item(group='prospect', key='Car', values=range(0,15,5), corenode=op)
 print(sequence)
-
+sequence.core.set_nodes(numberParallelThreads=1)
 sequence.write(overwrite=True)
 
 # run sequence
