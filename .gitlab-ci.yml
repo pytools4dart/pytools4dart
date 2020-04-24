@@ -87,7 +87,7 @@ build-windows:
     - python use_case_0.py
     - Get-CimInstance Win32_OperatingSystem | FL *
     - python use_case_1.py
-    - cat
+    - cat C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART\user_data\simulations\use_case_1\prospect_sequence_Sequence_error.log
     - Get-CimInstance Win32_OperatingSystem | FL *
     - python use_case_2.py
     - Get-CimInstance Win32_OperatingSystem | FL *
