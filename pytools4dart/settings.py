@@ -302,7 +302,7 @@ def headlessdarttools(dartdir=None):
             with open(file) as f:
                 fcont = f.read()
             fcont = re.sub('java.exe"', 'java.exe" -Djava.awt.headless=true', fcont)
-            fcont = re.sub('^pause$', '', fcont)
+            fcont = re.sub('\npause\n', '\n', fcont)
             with open(file, 'w') as f:
                 f.write(fcont)
 
