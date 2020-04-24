@@ -73,10 +73,7 @@ def rundart(path, tool, options=[]):
     if len(options):
         options = [str(s) for s in options]
     command = [dtools[tool], path] + options
-    from subprocess import STDOUT, check_output
-    output = check_output(command, stderr=STDOUT, timeout=300)
-    print(output)
-    # ok = subprocess.call(command)
+    ok = subprocess.call(command, timeout=300)
     os.chdir(cdir)
     if ok != 0:
         raise Exception('Error in ' + tool + ' : ' + str(ok))
