@@ -93,6 +93,7 @@ def add_prospect_properties(op0, df):
 
 # create an empty simulation
 simu = ptd.simulation('use_case_6', empty=True)
+simu.core.phase.Phase.ExpertModeZone.nbThreads = cpu_count()
 
 # set scene size
 simu.scene.size = [4, 5]

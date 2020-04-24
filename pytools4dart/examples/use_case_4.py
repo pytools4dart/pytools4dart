@@ -56,6 +56,7 @@ Lidar simulation
 """
 
 import pytools4dart as ptd
+from multiprocessing import cpu_count
 
 simu = ptd.simulation('use_case_4', method=2, empty=True)
 simu.scene.size = [20, 20]
@@ -122,7 +123,7 @@ calculatedSwath.ImageParameters.resolutionAzimuth = .1
 calculatedSwath.ImageParameters.resolutionRange = .1
 
 # parameters to make it faster to compute
-simu.core.phase.Phase.ExpertModeZone.nbThreads = 8
+simu.core.phase.Phase.ExpertModeZone.nbThreads = cpu_count()
 simu.core.phase.Phase.ExpertModeZone.nbTrianglesWithinVoxelAcceleration = 0
 Lidar.LidarIlluminationIntensity.numberofPhotons = 10000
 Lidar.LidarIlluminationIntensity.shortAxisSubdivitionIllum = 10

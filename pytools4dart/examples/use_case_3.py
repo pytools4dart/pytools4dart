@@ -57,6 +57,7 @@ voxfile = join(data_dir, 'forest.vox')
 
 # create an empty simulation
 simu = ptd.simulation(name='use_case_3', empty=True)
+simu.core.phase.Phase.ExpertModeZone.nbThreads = cpu_count()
 
 # set scene size
 simu.scene.size = [20, 20]

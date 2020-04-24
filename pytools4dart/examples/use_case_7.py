@@ -66,6 +66,7 @@ from matplotlib import pyplot as plt
 
 # create an empty simulation
 simu = ptd.simulation('use_case_7', empty=True)
+simu.core.phase.Phase.ExpertModeZone.nbThreads = cpu_count()
 
 # set scene size
 simu.scene.size = [5, 5]
@@ -104,6 +105,7 @@ axstack.set_title('Sun azimuth angle=225°')
 fig.show()
 
 sequence = simu.add.sequence('sun_zimuth', empty=True)
+sequence.core.set_nodes(numberParallelThreads=1)
 
 sequence.add_item(group='sun_azimuth', key='sunViewingAzimuthAngle', values=np.arange(0., 360., 90.),
                   corenode=simu.core.directions.Directions)

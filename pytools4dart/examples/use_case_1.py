@@ -55,6 +55,7 @@ from multiprocessing import cpu_count
 
 # create a new simulation
 simu = ptd.simulation(name='use_case_1', empty=True)
+simu.core.phase.Phase.ExpertModeZone.nbThreads = cpu_count()
 
 # set scene size
 simu.scene.size = [10, 10]
@@ -79,7 +80,6 @@ plot = simu.add.plot(type='Vegetation', op_ident='turbid_leaf')
 # # define sequence
 # simu.add_prospect_sequence({'Cab': range(0,30,10)}, 'op_prospect',
 #                            name='prospect_sequence')
-simu.core.phase.Phase.ExpertModeZone.nbThreads = cpu_count()
 
 sequence = simu.add.sequence()
 sequence.name = 'prospect_sequence'

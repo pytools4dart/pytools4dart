@@ -98,6 +98,7 @@ crowns_file = join(data_dir, 'crowns.shp')
 
 # create an empty simulation
 simu = ptd.simulation(name='use_case_5', empty=True)
+simu.core.phase.Phase.ExpertModeZone.nbThreads = cpu_count()
 
 # set scene size
 simu.scene.size = [20, 20]
@@ -149,8 +150,6 @@ vox.data.loc[pd.isna(vox.data.PLT_OPT_NAME), 'PLT_OPT_NAME'] = 'default_leaf'
 plots, xy_tranform = vox.to_plots(keep_columns=['PLT_OPT_NAME'], reduce_xy=True)
 simu.add.plots(plots)
 
-# run simulation
-simu.core.phase.Phase.ExpertModeZone.nbThreads = 8
 # write simulation
 simu.write(overwrite=True)
 

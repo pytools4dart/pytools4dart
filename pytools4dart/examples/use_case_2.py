@@ -62,6 +62,7 @@ from matplotlib import pyplot as plt
 
 # create an empty simulation
 simu = ptd.simulation(name='use_case_2', empty=True)
+simu.core.phase.Phase.ExpertModeZone.nbThreads = cpu_count()
 
 # Define bands
 for wvl in [0.655, 0.555, 0.485]:
@@ -136,8 +137,8 @@ trees = simu.add.trees(inventory)
 
 # add sequence of chlorophyll
 Cab = range(0, 30, 10)
-sequence = simu.add.sequence()
-sequence.name = 'prospect_sequence'
+sequence = simu.add.sequence('prospect_sequence')
+sequence.core.set_nodes(numberParallelThreads=1)
 sequence.add_item(group='prospect', key='Cab', values=Cab, corenode=op)
 
 # show simulation
