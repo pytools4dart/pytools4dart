@@ -83,10 +83,16 @@ build-windows:
     - python -c "from dart_install_win import install_dart; install_dart(r'C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART_5-7-6_2020-03-06_v1150_windows64', r'C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART', mode='mv')"
     - cd pytools4dart\examples
     - python -c "import pytools4dart as ptd;ptd.configure(r'C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART')"
+    - Get-CimInstance Win32_OperatingSystem | FL *
     - python use_case_0.py
+    - Get-CimInstance Win32_OperatingSystem | FL *
     - python use_case_1.py
+    - cat
+    - Get-CimInstance Win32_OperatingSystem | FL *
     - python use_case_2.py
+    - Get-CimInstance Win32_OperatingSystem | FL *
     - python use_case_3.py
+    - Get-CimInstance Win32_OperatingSystem | FL *
     - python use_case_4.py
 
 
@@ -144,13 +150,9 @@ pip-build:
     - cd pytools4dart/examples
     - python -c 'import pytools4dart as ptd;ptd.configure("~/DART")'
     - python use_case_0.py
-    - Get-CimInstance Win32_OperatingSystem | FL *
     - python use_case_1.py
-    - Get-CimInstance Win32_OperatingSystem | FL *
     - python use_case_2.py
-    - Get-CimInstance Win32_OperatingSystem | FL *
     - python use_case_3.py
-    - Get-CimInstance Win32_OperatingSystem | FL *
     - python use_case_4.py
   only:
     - schedules

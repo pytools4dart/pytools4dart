@@ -291,8 +291,21 @@ def headlessdarttools(dartdir=None):
     """
     currentplatform = platform.system().lower()
     dartenv = getdartenv(dartdir)
-    toolsdir = pjoin(dartenv['DART_HOME'], 'tools', 'linux')
-    if currentplatform != 'windows' and os.path.isdir(toolsdir):
+    toolsdir = pjoin(dartenv['DART_HOME'], 'tools', currentplatform)
+    if currentplatform == 'windows' and os.path.isdir(toolsdir):
+        toolspath = pjoin(toolsdir, '*.bat')
+        toolslist = glob.glob(toolspath)
+        # add -Djava.awt.headless=true, if not already there, to DART/tools/linux/*.sh for headless servers
+        print('Add flag -Djava.awt.headless=true to {} for headless servers compatibility'.format(
+            toolspath))
+        for file in toolslist:
+            with open('/home/boissieu/DART/tools/windows/dart-sequence.bat') as f:
+                fcont = f.read()
+            fcont = re.sub('java.exe"', 'java.exe" -Djava.awt.headless=true', fcont)
+            with open('/home/boissieu/DART/tools/windows/dart-sequence.bat', 'w') as f:
+                f.write(fcont)
+
+    elif currentplatform == 'linux' and os.path.isdir(toolsdir):
         toolspath = pjoin(toolsdir, '*.sh')
         # add -Djava.awt.headless=true, if not already there, to DART/tools/linux/*.sh for headless servers
         print('Add flag -Djava.awt.headless=true to {} for headless servers compatibility'.format(
