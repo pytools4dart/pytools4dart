@@ -299,10 +299,11 @@ def headlessdarttools(dartdir=None):
         print('Add flag -Djava.awt.headless=true to {} for headless servers compatibility'.format(
             toolspath))
         for file in toolslist:
-            with open('/home/boissieu/DART/tools/windows/dart-sequence.bat') as f:
+            with open(file) as f:
                 fcont = f.read()
             fcont = re.sub('java.exe"', 'java.exe" -Djava.awt.headless=true', fcont)
-            with open('/home/boissieu/DART/tools/windows/dart-sequence.bat', 'w') as f:
+            fcont = re.sub('^pause$', '', fcont)
+            with open(file, 'w') as f:
                 f.write(fcont)
 
     elif currentplatform == 'linux' and os.path.isdir(toolsdir):
