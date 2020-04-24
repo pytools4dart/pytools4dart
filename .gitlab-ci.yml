@@ -34,14 +34,17 @@ build-windows:
     - echo "running scripts in the build job"
     - Get-ComputerInfo
     - Get-ExecutionPolicy
-#    - curl.exe https://dart.omp.eu/membre/downloadDart/contenu/DART/Windows/64bits/DART_5-7-6_2020-03-06_v1150_windows64.zip -o dart.zip
-#    - tar -xf dart.zip
-#    - ls
-#
-##  cache:
-##    key: build-win-cache
-##    paths:
-##      - miniconda3
+    - .\test.ps1
+    - mkdir cache
+    - cd cache
+    - curl.exe -C - https://dart.omp.eu/membre/downloadDart/contenu/DART/Windows/64bits/DART_5-7-6_2020-03-06_v1150_windows64.zip -o DART_5-7-6_2020-03-06_v1150_windows64.zip
+    - tar -xf DART_5-7-6_2020-03-06_v1150_windows64.zip
+    - ls
+
+  cache:
+    key: build-win-cache
+    paths:
+      - cache
 #
 #    - curl.exe -o Miniconda3-latest-Windows-x86_64.exe https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe
 #    - dir
