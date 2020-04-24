@@ -32,70 +32,70 @@ build-windows:
   stage: build-windows
   script:
     - echo "running scripts in the build job"
-    - Get-CimInstance Win32_OperatingSystem | FL *
     - Get-ComputerInfo
-    - curl.exe https://dart.omp.eu/membre/downloadDart/contenu/DART/Windows/64bits/DART_5-7-6_2020-03-06_v1150_windows64.zip -o dart.zip
-    - tar -xf dart.zip
-    - ls
-
-#  cache:
-#    key: build-win-cache
-#    paths:
-#      - miniconda3
-
-    - curl.exe -o Miniconda3-latest-Windows-x86_64.exe https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe
-    - dir
-    - Start-Process ./Miniconda3-latest-Windows-x86_64.exe -Args "/InstallationType=JustMe /RegisterPython=0 /S /D=%UserProfile%\Miniconda3" -wait
-#    - $env:PATH += "$env:userprofile\Miniconda3;$env:userprofile\Miniconda3\Scripts;"
-    - $env:PATH = "$env:userprofile\Miniconda3\condabin;" + $env:PATH
-    - conda install -y conda-build
-    - conda init powershell
-#    - conda create -y -n test python=3.7
-#    - conda activate test
-#    - $env:conda = "$env:userprofile\miniconda3"
-#    - $env:PATH = "${env:conda}\envs\test;${env:conda}\envs\test\Scripts;${env:conda}\envs\test\Library\bin;" + $env:PATH
-# #    - & cmd /k "activate ptdvenv" # command not accepted in gitlab-ci...
-#    - python --version
-#    - conda install -y -n test numpy
-#    - python -c "import numpy as np; print(np.arange(10.))"
-    - conda create -y -n ptdvenv -c conda-forge python=3.7 cython gdal geopandas git ipython libspatialindex lxml matplotlib
-    - conda install -y -n ptdvenv -c conda-forge lmfit plyfile pybind11 pyjnius pytest
-    - conda install -y -n ptdvenv -c conda-forge rasterio rtree scipy
-    - $env:conda = "$env:userprofile\miniconda3"
-    - $env:PATH = "${env:conda}\envs\ptdvenv;${env:conda}\envs\ptdvenv\Scripts;${env:conda}\envs\ptdvenv\Library\bin;" + $env:PATH
-    - $env:PATH = "${env:conda}\pkgs\openjdk-11.0.1-1018\Library\bin\server;" + $env:PATH
-    - pip install git+https://gitlab.com/pytools4dart/generateds.git
-    - pip install git+https://gitlab.com/pytools4dart/tinyobj.git
-    - pip install git+https://gitlab.com/pytools4dart/gdecomp.git
-    - pip install git+https://github.com/floriandeboissieu/laspy.git@patch-1
-    - pip install git+https://github.com/jgomezdans/prosail.git
-    - pip install git+https://gitlab.com/pytools4dart/pytools4dart.git@dev
-#    - conda install -y -n ptdvenv cython
-#      - conda install -y -n ptdvenv
-#      - conda install -y -n ptdvenv geopandas
-#      - conda install -y -n ptdvenv git
-#      - conda install -y -n ptdvenv ipython
-#      - conda install -y -n ptdvenv libspatialindex
+    - Get-ExecutionPolicy
+#    - curl.exe https://dart.omp.eu/membre/downloadDart/contenu/DART/Windows/64bits/DART_5-7-6_2020-03-06_v1150_windows64.zip -o dart.zip
+#    - tar -xf dart.zip
+#    - ls
 #
-#    - conda env create -f environment.yml
+##  cache:
+##    key: build-win-cache
+##    paths:
+##      - miniconda3
+#
+#    - curl.exe -o Miniconda3-latest-Windows-x86_64.exe https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe
+#    - dir
+#    - Start-Process ./Miniconda3-latest-Windows-x86_64.exe -Args "/InstallationType=JustMe /RegisterPython=0 /S /D=%UserProfile%\Miniconda3" -wait
+##    - $env:PATH += "$env:userprofile\Miniconda3;$env:userprofile\Miniconda3\Scripts;"
+#    - $env:PATH = "$env:userprofile\Miniconda3\condabin;" + $env:PATH
+#    - conda install -y conda-build
+#    - conda init powershell
+##    - conda create -y -n test python=3.7
+##    - conda activate test
+##    - $env:conda = "$env:userprofile\miniconda3"
+##    - $env:PATH = "${env:conda}\envs\test;${env:conda}\envs\test\Scripts;${env:conda}\envs\test\Library\bin;" + $env:PATH
+## #    - & cmd /k "activate ptdvenv" # command not accepted in gitlab-ci...
+##    - python --version
+##    - conda install -y -n test numpy
+##    - python -c "import numpy as np; print(np.arange(10.))"
+#    - conda create -y -n ptdvenv -c conda-forge python=3.7 cython gdal geopandas git ipython libspatialindex lxml matplotlib
+#    - conda install -y -n ptdvenv -c conda-forge lmfit plyfile pybind11 pyjnius pytest
+#    - conda install -y -n ptdvenv -c conda-forge rasterio rtree scipy
+#    - $env:conda = "$env:userprofile\miniconda3"
 #    - $env:PATH = "${env:conda}\envs\ptdvenv;${env:conda}\envs\ptdvenv\Scripts;${env:conda}\envs\ptdvenv\Library\bin;" + $env:PATH
-    - python --version
-    - python -c "import generateDS; import tinyobj; import gdecomp; import laspy; import pytools4dart"
-    - python -c "from dart_install_win import install_dart; install_dart(r'C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART_5-7-6_2020-03-06_v1150_windows64', r'C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART', mode='mv')"
-    - cd pytools4dart\examples
-    - python -c "import pytools4dart as ptd;ptd.configure(r'C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART')"
-    - python use_case_0.py
-    - python use_case_1.py
-#    - cat C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART\user_data\simulations\use_case_1\prospect_sequence_Sequence_error.log
-    - python use_case_2.py
-#    - cat C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART\user_data\simulations\use_case_2\prospect_sequence_Sequence_error.log
-    - python use_case_3.py
-#    - cat C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART\user_data\simulations\use_case_3\prospect_sequence_Sequence_error.log
-    - python use_case_4.py
-#    - cat C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART\user_data\simulations\use_case_4\prospect_sequence_Sequence_error.log
-    - python use_case_6.py
-    - python use_case_7.py
-    - python use_case_5.py
+#    - $env:PATH = "${env:conda}\pkgs\openjdk-11.0.1-1018\Library\bin\server;" + $env:PATH
+#    - pip install git+https://gitlab.com/pytools4dart/generateds.git
+#    - pip install git+https://gitlab.com/pytools4dart/tinyobj.git
+#    - pip install git+https://gitlab.com/pytools4dart/gdecomp.git
+#    - pip install git+https://github.com/floriandeboissieu/laspy.git@patch-1
+#    - pip install git+https://github.com/jgomezdans/prosail.git
+#    - pip install git+https://gitlab.com/pytools4dart/pytools4dart.git@dev
+##    - conda install -y -n ptdvenv cython
+##      - conda install -y -n ptdvenv
+##      - conda install -y -n ptdvenv geopandas
+##      - conda install -y -n ptdvenv git
+##      - conda install -y -n ptdvenv ipython
+##      - conda install -y -n ptdvenv libspatialindex
+##
+##    - conda env create -f environment.yml
+##    - $env:PATH = "${env:conda}\envs\ptdvenv;${env:conda}\envs\ptdvenv\Scripts;${env:conda}\envs\ptdvenv\Library\bin;" + $env:PATH
+#    - python --version
+#    - python -c "import generateDS; import tinyobj; import gdecomp; import laspy; import pytools4dart"
+#    - python -c "from dart_install_win import install_dart; install_dart(r'C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART_5-7-6_2020-03-06_v1150_windows64', r'C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART', mode='mv')"
+#    - cd pytools4dart\examples
+#    - python -c "import pytools4dart as ptd;ptd.configure(r'C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART')"
+#    - python use_case_0.py
+#    - python use_case_1.py
+##    - cat C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART\user_data\simulations\use_case_1\prospect_sequence_Sequence_error.log
+#    - python use_case_2.py
+##    - cat C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART\user_data\simulations\use_case_2\prospect_sequence_Sequence_error.log
+#    - python use_case_3.py
+##    - cat C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART\user_data\simulations\use_case_3\prospect_sequence_Sequence_error.log
+#    - python use_case_4.py
+##    - cat C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART\user_data\simulations\use_case_4\prospect_sequence_Sequence_error.log
+#    - python use_case_6.py
+#    - python use_case_7.py
+#    - python use_case_5.py
 
 
 
