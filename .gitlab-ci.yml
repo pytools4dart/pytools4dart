@@ -84,20 +84,18 @@ build-windows:
     - python -c "from dart_install_win import install_dart; install_dart(r'C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART_5-7-6_2020-03-06_v1150_windows64', r'C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART', mode='mv')"
     - cd pytools4dart\examples
     - python -c "import pytools4dart as ptd;ptd.configure(r'C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART')"
-    - Get-CimInstance Win32_OperatingSystem | FL *
     - python use_case_0.py
-    - Get-CimInstance Win32_OperatingSystem | FL *
     - python use_case_1.py
-    - cat C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART\user_data\simulations\use_case_1\prospect_sequence_Sequence_error.log
-    - Get-CimInstance Win32_OperatingSystem | FL *
+#    - cat C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART\user_data\simulations\use_case_1\prospect_sequence_Sequence_error.log
     - python use_case_2.py
-    - cat C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART\user_data\simulations\use_case_2\prospect_sequence_Sequence_error.log
-    - Get-CimInstance Win32_OperatingSystem | FL *
+#    - cat C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART\user_data\simulations\use_case_2\prospect_sequence_Sequence_error.log
     - python use_case_3.py
-    - cat C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART\user_data\simulations\use_case_3\prospect_sequence_Sequence_error.log
-    - Get-CimInstance Win32_OperatingSystem | FL *
+#    - cat C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART\user_data\simulations\use_case_3\prospect_sequence_Sequence_error.log
     - python use_case_4.py
-    - cat C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART\user_data\simulations\use_case_4\prospect_sequence_Sequence_error.log
+#    - cat C:\GitLab-Runner\builds\pytools4dart\pytools4dart\DART\user_data\simulations\use_case_4\prospect_sequence_Sequence_error.log
+    - python use_case_6.py
+    - python use_case_7.py
+    - python use_case_5.py
 
 
 
