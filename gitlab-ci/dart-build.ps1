@@ -19,7 +19,7 @@ if(!(Test-Path $prefix -PathType Container)) {
     mkdir $prefix
 }
 
-Remove-Item $dartdir -Recurse
+Remove-Item "$env:cachedir\$dartname" -Recurse
 
 if(!(Test-Path $dartdir -PathType Container)) {
     curl.exe -C - $darturl -o $dartzip # 8min to download from gitlab.com, <1min to pack/upload cache...
