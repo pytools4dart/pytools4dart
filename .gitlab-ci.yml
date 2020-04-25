@@ -33,9 +33,9 @@ build-windows:
   script:
     - $env:projectdir = pwd
     - $env:cachedir = "${env:projectdir}\cache"
-    - Measure-Command { gitlab-ci\conda-build.ps1 }
-    - gitlab-ci\activate-env.ps1
-#    - Measure-Command { gitlab-ci\dart-build.ps1 }
+#    - Measure-Command { gitlab-ci\conda-build.ps1 }
+#    - gitlab-ci\activate-env.ps1
+    - Measure-Command { gitlab-ci\dart-build.ps1 }
 #    - gitlab-ci\dart-build.ps1
 #    - cd pytools4dart\examples
 #    - python use_case_0.py
