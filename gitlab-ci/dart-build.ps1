@@ -7,6 +7,11 @@ $dartzip = "$prefix\$dartname.zip"
 $dartdir = "$prefix\$dartname"
 $darturl = "https://dart.omp.eu/membre/downloadDart/contenu/DART/Windows/64bits/$dartname.zip"
 
+if(!(Test-Path $prefix -PathType Container)) {
+    mkdir $prefix
+}
+
+
 if(!(Test-Path $dartdir -PathType Container)) {
     curl.exe -C - $darturl -o $dartzip
     # tar.exe -xf $dartzip -C $prefix
