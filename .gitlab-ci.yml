@@ -31,12 +31,23 @@ build-windows:
     - .shared_windows_runners
   stage: build-windows
   script:
-    - .\test.ps1
-
+    - gitlab-ci\win-build.ps1
+    - cd $env:userprofile
+    - pip install .
+    - cd pytools4dart\examples
+    - python use_case_0.py
+    - python use_case_1.py
+    - python use_case_2.py
+    - python use_case_3.py
+    - python use_case_4.py
+    - python use_case_6.py
+    - python use_case_7.py
+    - python use_case_5.py
   cache:
     key: build-win-cache
     paths:
       - cache
+
 #
 #    - curl.exe -o Miniconda3-latest-Windows-x86_64.exe https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe
 #    - dir

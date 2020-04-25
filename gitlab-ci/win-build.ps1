@@ -30,7 +30,6 @@ if(!(Test-Path $condadir -PathType Container)) {
 	pip install git+https://gitlab.com/pytools4dart/gdecomp.git
 	pip install git+https://github.com/floriandeboissieu/laspy.git@patch-1
 	pip install git+https://github.com/jgomezdans/prosail.git
-	python -c "import generateDS; import tinyobj; import gdecomp; import laspy"
 }else{
 	$env:PATH = "$condadir\condabin;" + $env:PATH
 	conda init powershell
@@ -39,9 +38,11 @@ if(!(Test-Path $condadir -PathType Container)) {
 	conda env list
 }
 
-pip install .
-python -c "import generateDS; import tinyobj; import gdecomp; import laspy; import pytools4dart"
+# test pytools4dart dependencies
+$env:PATH = "$condadir\pkgs\openjdk-11.0.1-1018\Library\bin\server;" + $env:PATH
+python -c "import generateDS; import tinyobj; import gdecomp; import laspy"
 
+#### install DART ####
 $dartname = "DART_5-7-6_2020-03-06_v1150_windows64"
 $dartzip = "$cache\$dartname.zip"
 $dartdir = "$cache\$dartname"
@@ -54,13 +55,17 @@ if(!(Test-Path $dartdir -PathType Container)) {
     ls $dartdir
 }
 
+# install pytools4dart
+pip install .
+
+# test install
+cd pytools4dart\examples
+$env:PATH = "$condadir\pkgs\openjdk-11.0.1-1018\Library\bin\server;" + $env:PATH
+python -c "import generateDS; import tinyobj; import gdecomp; import laspy; import pytools4dart"
+cd $env:userprofile
+
+#### configure DART ####
 cd pytools4dart\examples
 python -c "import pytools4dart as ptd; ptd.configure(r'$dartdir')"
-python use_case_0.py
-python use_case_1.py
-python use_case_2.py
-python use_case_3.py
-python use_case_4.py
-python use_case_6.py
-python use_case_7.py
-python use_case_5.py
+cd $env:userprofile
+
