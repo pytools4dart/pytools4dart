@@ -33,19 +33,19 @@ build-windows:
   script:
     - $env:projectdir = pwd
     - $env:cachedir = "${env:projectdir}\cache"
-#    - Measure-Command { gitlab-ci\conda-build.ps1 }
-#    - gitlab-ci\activate-env.ps1
+    - Measure-Command { gitlab-ci\conda-build.ps1 }
+    - gitlab-ci\activate-env.ps1
     - Measure-Command { gitlab-ci\dart-build.ps1 }
-#    - gitlab-ci\dart-build.ps1
-#    - cd pytools4dart\examples
-#    - python use_case_0.py
-#    - python use_case_1.py
-#    - python use_case_2.py
-#    - python use_case_3.py
-#    - python use_case_4.py
-#    - python use_case_6.py
-#    - python use_case_7.py
-#    - python use_case_5.py
+    - Measure-Command { gitlab-ci\ptdvenv-build.ps1 }
+    - cd pytools4dart\examples
+    - python use_case_0.py
+    - python use_case_1.py
+    - python use_case_2.py
+    - python use_case_3.py
+    - python use_case_4.py
+    - python use_case_6.py
+    - python use_case_7.py
+    - python use_case_5.py
 
   cache:
     key: build-win-cache

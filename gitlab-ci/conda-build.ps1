@@ -1,15 +1,18 @@
 # If a previous version of ana/miniconda is already there, remove it.
 # Remove the conda section of C:\Users\your_user\Documents\WindowsPowerShell\profile.ps1 if it exists.
 
-$cache = $env:cachedir
-echo "$cache"
-$condaurl = "https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe"
-$condaexe = "$cache\Miniconda3-latest-Windows-x86_64.exe"
-$condadir = "$cache\miniconda3"
+# Tried in gitlab-ci cache directory but to long to download and unpack (5min...), while install is ~2min
 
-if(!(Test-Path $cache -PathType Container)) {
-	mkdir $cache
-}
+$prefix = $env:userprofile
+echo "Installing Miniconda in: $prefix"
+$condaurl = "https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe"
+$condaexe = "$prefix\Miniconda3-latest-Windows-x86_64.exe"
+$condadir = "$prefix\miniconda3"
+$env:condadir = $condadir
+
+# if(!(Test-Path $prefix -PathType Container)) {
+#	mkdir $prefix
+# }
 
 # install conda if not already installed
 # and activate environment
