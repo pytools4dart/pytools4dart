@@ -31,17 +31,8 @@ build-windows:
     - .shared_windows_runners
   stage: build-windows
   script:
-    - gitlab-ci\win-build.ps1
-    - cd $env:userprofile
-    - cd pytools4dart\examples
-    - python use_case_0.py
-    - python use_case_1.py
-    - python use_case_2.py
-    - python use_case_3.py
-    - python use_case_4.py
-    - python use_case_6.py
-    - python use_case_7.py
-    - python use_case_5.py
+    - pwd
+    - gitlab-ci\win-conda-build.ps1
   cache:
     key: build-win-cache
     paths:
