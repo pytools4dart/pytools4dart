@@ -22,7 +22,7 @@ if(!(Test-Path $condadir -PathType Container)) {
 	conda create -y -n ptdvenv -c conda-forge python=3.7
 	conda activate ptdvenv
 	conda env list
-	conda install -y cython gdal geopandas git ipython libspatialindex lxml matplotlib
+	conda install -y -c conda-forge cython gdal geopandas git ipython libspatialindex lxml matplotlib
 	conda install -y -c conda-forge lmfit plyfile pybind11 pyjnius pytest
 	conda install -y -c conda-forge rasterio rtree scipy
 	pip install git+https://gitlab.com/pytools4dart/generateds.git
@@ -36,9 +36,30 @@ if(!(Test-Path $condadir -PathType Container)) {
 	conda init powershell
 	invoke-expression -Command "$env:userprofile\Documents\WindowsPowerShell\profile.ps1"
 	conda activate ptdvenv
+	conda env list
 }
 
-$dartzip = "$cache\DART_5-7-6_2020-03-06_v1150_windows64.zip"
-$dartdir = "$cache\DART_5-7-6_2020-03-06_v1150_windows64"
-$darturl = "https://dart.omp.eu/membre/downloadDart/contenu/DART/Windows/64bits/DART_5-7-6_2020-03-06_v1150_windows64.zip"
+pip install .
+python -c "import generateDS; import tinyobj; import gdecomp; import laspy; import pytools4dart"
 
+$dartname = "DART_5-7-6_2020-03-06_v1150_windows64"
+$dartzip = "$cache\$dartname.zip"
+$dartdir = "$cache\$dartname"
+$darturl = "https://dart.omp.eu/membre/downloadDart/contenu/DART/Windows/64bits/$dartname.zip"
+
+if(!(Test-Path $dartdir -PathType Container)) {
+    curl.exe -C - $darturl -o $dartzip
+    tar -xf $dartzip -C $cache
+    python -c "from dart_install_win import install_dart; install_dart(r'$dartdir', r'$dartdir', mode='mv')"
+    ls $dartdir
+}
+
+python -c "import pytools4dart as ptd;ptd.configure(r'$dartdir')"
+python use_case_0.py
+python use_case_1.py
+python use_case_2.py
+python use_case_3.py
+python use_case_4.py
+python use_case_6.py
+python use_case_7.py
+python use_case_5.py
