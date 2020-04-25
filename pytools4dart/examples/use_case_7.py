@@ -63,6 +63,7 @@ import numpy as np
 import rasterio as rio
 from rasterio.plot import show
 from matplotlib import pyplot as plt
+from multiprocessing import cpu_count
 
 # create an empty simulation
 simu = ptd.simulation('use_case_7', empty=True)

@@ -59,6 +59,7 @@ import pytools4dart as ptd
 import rasterio as rio
 from rasterio.plot import show
 from matplotlib import pyplot as plt
+from multiprocessing import cpu_count
 
 # create an empty simulation
 simu = ptd.simulation(name='use_case_2', empty=True)

@@ -59,6 +59,7 @@ import rasterio as rio
 from rasterio.plot import show
 from matplotlib import pyplot as plt
 from shapely.affinity import affine_transform
+from multiprocessing import cpu_count
 
 
 def add_prospect_properties(op0, df):

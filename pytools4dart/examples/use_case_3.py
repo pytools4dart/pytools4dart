@@ -50,6 +50,7 @@ from os.path import join, dirname
 import rasterio as rio
 from rasterio.plot import show
 from matplotlib import pyplot as plt
+from multiprocessing import cpu_count
 
 # Path of voxelization file
 data_dir = join(dirname(ptd.__file__), 'data')
