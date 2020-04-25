@@ -33,7 +33,6 @@ build-windows:
   script:
     - gitlab-ci\win-build.ps1
     - cd $env:userprofile
-    - pip install .
     - cd pytools4dart\examples
     - python use_case_0.py
     - python use_case_1.py
