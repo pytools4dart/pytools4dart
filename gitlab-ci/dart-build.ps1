@@ -24,7 +24,7 @@ Remove-Item "$env:cachedir\$dartname" -Recurse
 if(!(Test-Path $dartdir -PathType Container)) {
     curl.exe -C - $darturl -o $dartzip # 8min to download from gitlab.com, <1min to pack/upload cache...
     tar.exe -xf $dartzip -C $prefix # 155s=2min35 to unzip, about the same time to pack/upload cache, 4 min to download/unpack cache
-    python -c "from dart_install_win import install_dart; install_dart(r'$dartdir', r'$dartdir', mode='mv')"
+    python -c "from dart_install_win import install_dart; install_dart(r'$dartdir', mode='mv')"
     Write-Host "Cache content:"
     ls $prefix
     Write-Host "dart content:"
