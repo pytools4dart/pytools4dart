@@ -54,7 +54,8 @@ if(!(Test-Path $dartdir -PathType Container)) {
     ls $dartdir
 }
 
-python -c "import pytools4dart as ptd;ptd.configure(r'$dartdir')"
+cd pytools4dart\examples
+python -c "import pytools4dart as ptd; ptd.configure(r'$dartdir')"
 python use_case_0.py
 python use_case_1.py
 python use_case_2.py
