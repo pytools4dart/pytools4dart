@@ -32,7 +32,7 @@ build-windows:
   stage: build-windows
   script:
     - pwd
-    - gitlab-ci\win-conda-build.ps1
+    - gitlab-ci\conda-build.ps1
   cache:
     key: build-win-cache
     paths:
