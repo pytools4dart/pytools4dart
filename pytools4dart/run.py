@@ -41,7 +41,7 @@ from .tools.DART2LAS import DART2LAS
 import pandas as pd
 
 
-def rundart(path, tool, options=[]):
+def rundart(path, tool, options=[], timeout=None):
     """
     Run a DART module.
 
@@ -73,7 +73,7 @@ def rundart(path, tool, options=[]):
     if len(options):
         options = [str(s) for s in options]
     command = [dtools[tool], path] + options
-    ok = subprocess.call(command, timeout=200)
+    ok = subprocess.call(command, timeout=timeout)
     os.chdir(cdir)
     if ok != 0:
         raise Exception('Error in ' + tool + ' : ' + str(ok))
