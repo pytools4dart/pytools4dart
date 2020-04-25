@@ -1,4 +1,3 @@
-gitlab-ci\activate-env.ps1
 conda install -y -c conda-forge cython gdal geopandas git ipython libspatialindex lxml matplotlib
 conda install -y -c conda-forge lmfit plyfile pybind11 pyjnius pytest
 conda install -y -c conda-forge rasterio rtree scipy
