@@ -33,10 +33,12 @@ build-windows:
   script:
     - $env:projectdir = pwd
     - $env:cachedir = "${env:projectdir}\cache"
-    - gitlab-ci\conda-build.ps1
+#    - gitlab-ci\conda-build.ps1
+    - mv $env:cachedir\miniconda.tar.gz
+    - Measure-Command { tar.exe -xzf miniconda.tar.gz }
     - cd $env:userprofile
     - ls
-    - tar.exe -czf miniconda3.tar.gz miniconda3
+    - Measure-Command { tar.exe -czf miniconda3.tar.gz miniconda3 }
     - mv miniconda3.tar.gz $env:cachedir\
 #    - gitlab-ci\activate-env.ps1
 #    - Measure-Command { gitlab-ci\dart-build.ps1 }
