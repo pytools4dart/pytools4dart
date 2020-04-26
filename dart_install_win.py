@@ -1,6 +1,5 @@
 import os
 from os.path import join
-from shutil import copytree
 import re
 import platform
 from shutil import copytree, move
@@ -16,7 +15,7 @@ def get_dartrc(dhome):
 
     return dartrc
 
-def install_dart(dart_dir=None, home=None, user_data=None, mode='cp'):
+def install_dart(dart_dir, home=None, user_data=None, mode='cp'):
 
     if home is None:
         home = '~/DART'
@@ -29,11 +28,16 @@ def install_dart(dart_dir=None, home=None, user_data=None, mode='cp'):
     user_data = str(Path(os.path.expanduser(user_data)))
     dart_python = str(Path(join(home, 'bin', 'python')))
 
+    # make raw path for windows so it can be used in re.sub
+    # otherwise it is raising an error on escape code \U for paths like C:\Users.
     if platform.system() == 'Windows':
-        rdart_dir = dart_dir.encode('unicode-escape').decode('raw-unicode-escape')
         rhome = home.encode('unicode-escape').decode('raw-unicode-escape')
         ruser_data = user_data.encode('unicode-escape').decode('raw-unicode-escape')
         rdart_python = dart_python.encode('unicode-escape').decode('raw-unicode-escape')
+    else:
+        rhome = home
+        ruser_data = user_data
+        rdart_python = dart_python
 
     dartrc = get_dartrc(dart_dir)
 
@@ -43,7 +47,7 @@ def install_dart(dart_dir=None, home=None, user_data=None, mode='cp'):
 
 
     if os.path.isdir(home):
-        raise ValueError('Directory {} already exist.')
+        raise ValueError('Directory {} already exist.'.format(home))
     else:
         os.mkdir(home)
 
@@ -67,12 +71,12 @@ def install_dart(dart_dir=None, home=None, user_data=None, mode='cp'):
 
             transfer(join(dart_dir, 'dart', d), join(home, d))
         # kdll.CreateSymbolicLinkW(join(dart_dir, 'user_data'), user_data, 1)
-        copytree(join(dart_dir, 'user_data'), user_data)
+        transfer(join(dart_dir, 'user_data'), user_data)
     else:
         for d in ['bin', 'database', 'tools']:
-            os.symlink(join(dart_dir, 'dart', d), join(home, d))
+            transfer(join(dart_dir, 'dart', d), join(home, d))
 
-        os.symlink(join(dart_dir, 'user_data'), user_data)
+        transfer(join(dart_dir, 'user_data'), user_data)
 
 
 
@@ -91,3 +95,4 @@ def install_dart(dart_dir=None, home=None, user_data=None, mode='cp'):
         f.write(dartrc_file)
 
 
+# def download_dart():
