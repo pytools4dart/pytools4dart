@@ -2,7 +2,6 @@ name: ptdvenv
 channels:
   - conda-forge
 dependencies:
-  - python=3.7
   - cython
   - gdal
   - geopandas
