@@ -39,6 +39,7 @@ build-windows:
     - mv $env:cachedir\miniconda3.tar.gz $env:userprofile\
     - cd $env:userprofile
     - Measure-Command { tar.exe -xzf miniconda3.tar.gz }
+    - rm miniconda3.tar.gz
     - gitlab-ci\activate-env.ps1
     - cd $env:userprofile
     - ls
