@@ -38,7 +38,7 @@ build-windows:
     - (gci "$env:cachedir\miniconda3.tar.gz" | measure Length -s).sum / 1Mb
     - mv $env:cachedir\miniconda3.tar.gz $env:userprofile\
     - cd $env:userprofile
-    - Measure-Command { tar.exe -xzf miniconda.tar.gz }
+    - Measure-Command { tar.exe -xzf miniconda3.tar.gz }
     - gitlab-ci\activate-env.ps1
     - cd $env:userprofile
     - ls
