@@ -35,6 +35,7 @@ import os, glob, re
 from os.path import join as pjoin
 import re
 import platform
+from multiprocessing import cpu_count
 
 import pytools4dart as ptd
 
@@ -50,7 +51,7 @@ class Core(object):
     Dart core object.
     """
 
-    def __init__(self, simu, method=0, empty=False):
+    def __init__(self, simu, method=0, empty=False, ncpu=cpu_count()):
         self.simu = simu
         self.dartversion = getdartversion()
         self.children = self.get_modules_names()
@@ -64,6 +65,7 @@ class Core(object):
                         eval('ptd.core_ui.{}.createDartFile(build_="{}")'.format(module, self.dartversion['build'])))
 
             self.phase.Phase.calculatorMethod = method
+            self.phase.Phase.ExpertModeZone.nbThreads = ncpu
             if empty:
                 # self.coeff_diff.Coeff_diff.LambertianMultiFunctions.LambertianMulti = []
                 self.phase.Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties = []
