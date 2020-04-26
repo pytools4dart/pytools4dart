@@ -42,6 +42,10 @@ TODO: add crowns.shp
 - voxel.reduce_xy to translate have minimum corner at x,y=0,0
 - data for examples: Can_Cab_Car_CBrown.tif, crowns.shp
 - use_case_6, use_case_7 for scene orientation and azimuth angle demo
+- gitlab-ci for windows
+- install_dart
+- timeout for runners: stops subprocess after a certain time
+- add ncpu option to simulation and sequence constructors
 
 # 1.1.3
 

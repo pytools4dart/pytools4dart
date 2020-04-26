@@ -41,16 +41,8 @@ They are extracted on the fly from the core.
 
 import os
 import glob
-from io import StringIO
 from os.path import join as pjoin
-import pandas as pd
-import lxml.etree as etree
-import subprocess
-import pprint
-import numpy as np
-import shutil
-import warnings
-# warnings.warn("deprecated", DeprecationWarning)
+from multiprocessing import cpu_count
 
 # local imports
 # from .tools.voxreader import voxel
@@ -95,7 +87,7 @@ class simulation(object):
 
     """
 
-    def __init__(self, name=None, method=0, empty=False):
+    def __init__(self, name=None, method=0, empty=False, ncpu=cpu_count()):
         """
 
         Parameters
@@ -116,11 +108,14 @@ class simulation(object):
         empty: bool
             New simulation in DART usually comes with a default spectral band.
             If `empty` is True, this band is removed.
+
+        ncpu: int
+            number of cpu to use, sets attribute nbThreads in phase.xml
         """
 
         self.name = name
 
-        self.core = Core(self, method, empty)
+        self.core = Core(self, method, empty, ncpu)
 
         self.scene = Scene(self)
 
@@ -168,6 +163,14 @@ class simulation(object):
     @property
     def simu_dir(self):
         return getsimupath(self.name)
+
+    @property
+    def ncpu(self):
+        return self.core.phase.Phase.ExpertModeZone.nbThreads
+
+    @ncpu.setter
+    def ncpu(self, value):
+        self.core.phase.Phase.ExpertModeZone.nbThreads = int(value)
 
     def summary(self):
         """

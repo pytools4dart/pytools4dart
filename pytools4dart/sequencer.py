@@ -26,7 +26,10 @@
 #
 #
 # ===============================================================================
-
+"""
+Define and run dart sequences
+Contains Class Sequence and Class Sequence_runners
+"""
 import os
 import re
 import pytools4dart as ptd
@@ -35,6 +38,9 @@ import pandas as pd
 from functools import reduce
 import glob
 from os.path import join as pjoin
+from multiprocessing import cpu_count
+
+from .core_ui.utils import findall
 
 
 class Sequencer(object):
@@ -42,7 +48,7 @@ class Sequencer(object):
     Sequence builder
     """
 
-    def __init__(self, simu, name=None, empty=False):
+    def __init__(self, simu, name=None, empty=False, ncpu=None):
         self.simu = simu
         self.core = None
         if not empty and name is not None and os.path.isfile(os.path.join(self.simu.simu_dir, name + '.xml')):
@@ -52,6 +58,9 @@ class Sequencer(object):
                 name = 'sequence'
             DartSequencerDescriptor = ptd.sequence.create_DartSequencerDescriptor(sequenceName="sequence;;" + name)
             self.core = ptd.sequence.createDartFile(DartSequencerDescriptor=DartSequencerDescriptor)
+            if ncpu is None:
+                ncpu = int(cpu_count() / self.simu.core.phase.Phase.ExpertModeZone.nbThreads)
+            self.ncpu = ncpu
 
         self.run = Sequence_runners(self)
 
@@ -81,6 +90,14 @@ class Sequencer(object):
     @name.setter
     def name(self, value):
         self.core.DartSequencerDescriptor.sequenceName = 'sequence;;' + value
+
+    @property
+    def ncpu(self):
+        return findall(self.core, 'numberParallelThreads')[0]
+
+    @ncpu.setter
+    def ncpu(self, value):
+        self.core.set_nodes(numberParallelThreads=value)
 
     def summary(self):
         """
@@ -332,7 +349,8 @@ class Sequence_runners(object):
         sequence_name = self.sequence.name
         ptd.run.sequence(simu_name, sequence_name, option, timeout)
 
-    def stack_bands(self, driver='ENVI', rotate=True, zenith=0, azimuth=0, band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART')):
+    def stack_bands(self, driver='ENVI', rotate=True, zenith=0, azimuth=0,
+                    band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART')):
         """
         Stack bands into an ENVI .bil file.
 
