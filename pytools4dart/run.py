@@ -55,6 +55,8 @@ def rundart(path, tool, options=[], timeout=None):
         'colorCompositeBands'
     options: list
         DART module options. See batch scripts in DART_HOME/tools/os.
+    timeout: int
+        number of seconds before the subprocess is stopped.
 
     Returns
     -------
@@ -81,7 +83,7 @@ def rundart(path, tool, options=[], timeout=None):
     return True
 
 
-def full(simu_name):
+def full(simu_name, timeout=None):
     """
     Run full DART simulation, i.e. successively direction, phase, maket and only
 
@@ -89,16 +91,18 @@ def full(simu_name):
     ----------
     simu_name: str
         Simulation name or path relative to 'user_data/simulations' directory
+    timeout: int
+        number of seconds before the subprocess is stopped.
 
     Returns
     -------
     bool
         True if good
     """
-    return rundart(simu_name, 'full')
+    return rundart(simu_name, 'full', timeout=timeout)
 
 
-def direction(simu_name):
+def direction(simu_name, timeout=None):
     """
     Run DART direction module.
 
@@ -106,48 +110,54 @@ def direction(simu_name):
     ----------
     simu_name: str
         Simulation name or path relative to 'user_data/simulations' directory
+    timeout: int
+        number of seconds before the subprocess is stopped.
 
     Returns
     -------
     bool
         True if good
     """
-    return rundart(simu_name, 'directions')
+    return rundart(simu_name, 'directions', timeout=timeout)
 
 
-def phase(simu_name):
+def phase(simu_name, timeout=None):
     """
     Run the DART phase module.
     Parameters
     ----------
     simu_name: str
         Simulation name or path relative to 'user_data/simulations' directory
+    timeout: int
+        number of seconds before the subprocess is stopped.
 
     Returns
     -------
     bool
         True if good
     """
-    return rundart(simu_name, 'phase')
+    return rundart(simu_name, 'phase', timeout=timeout)
 
 
-def maket(simu_name):
+def maket(simu_name, timeout=None):
     """
     Run the DART maket module.
     Parameters
     ----------
     simuName: str
         Simulation name or path relative 'user_data/simulations' directory
+    timeout: int
+        number of seconds before the subprocess is stopped.
 
     Returns
     -------
     bool
         True if good
     """
-    return rundart(simu_name, 'maket')
+    return rundart(simu_name, 'maket', timeout=timeout)
 
 
-def dart(simu_name):
+def dart(simu_name, timeout=None):
     """
     Run only DART radiative transfer module,
     considering direction, phase and maket as already computed.
@@ -156,16 +166,18 @@ def dart(simu_name):
     ----------
     simu_name: str
         Simulation name or path relative to 'user_data/simulations' directory
+    timeout: int
+        number of seconds before the subprocess is stopped.
 
     Returns
     -------
     bool
         True if good
     """
-    return rundart(simu_name, 'only')
+    return rundart(simu_name, 'only', timeout=timeout)
 
 
-def sequence(simu_name, sequence_name, option='-start'):
+def sequence(simu_name, sequence_name, option='-start', timeout=None):
     """
     Run a sequence of simulations.
 
@@ -180,13 +192,15 @@ def sequence(simu_name, sequence_name, option='-start'):
         Either:
             * '-start' to start from the begining
             * '-continue' to continue an interupted run
+    timeout: int
+        number of seconds before the subprocess is stopped.
 
     Returns
     -------
     bool
         True if good
     """
-    return rundart(pjoin(simu_name, sequence_name + '.xml'), 'sequence', [option])
+    return rundart(pjoin(simu_name, sequence_name + '.xml'), 'sequence', [option], timeout=timeout)
 
 
 def colorComposite(simu_name, red, green, blue, pngfile):
@@ -381,7 +395,7 @@ class Run(object):
     def __init__(self, simu):
         self.simu = simu
 
-    def full(self):
+    def full(self, timeout=None):
         """
         Run full DART simulation, i.e. successively direction, phase, maket and only
 
@@ -390,9 +404,9 @@ class Run(object):
         bool
             True if good
         """
-        return full(self.simu.name)
+        return full(self.simu.name,timeout)
 
-    def direction(self):
+    def direction(self, timeout=None):
         """
         Run DART direction module.
 
@@ -401,9 +415,9 @@ class Run(object):
         bool
             True if good
         """
-        return direction(self.simu.name)
+        return direction(self.simu.name,timeout)
 
-    def phase(self):
+    def phase(self, timeout=None):
         """
         Run DART phase module.
 
@@ -412,9 +426,9 @@ class Run(object):
         bool
             True if good
         """
-        return phase(self.simu.name)
+        return phase(self.simu.name, timeout)
 
-    def maket(self):
+    def maket(self, timeout=None):
         """
         Run DART maket module.
 
@@ -423,9 +437,9 @@ class Run(object):
         bool
             True if good
         """
-        return maket(self.simu.name)
+        return maket(self.simu.name, timeout)
 
-    def dart(self):
+    def dart(self, timeout=None):
         """
         Run only DART radiative transfer module,
         considering direction, phase and maket as already computed.
@@ -435,9 +449,9 @@ class Run(object):
         bool
             True if good
         """
-        return dart(self.simu.name)
+        return dart(self.simu.name, timeout)
 
-    def sequence(self, sequence_name, option='-start'):
+    def sequence(self, sequence_name, option='-start', timeout=None):
         """
         Run a sequence of simulations.
 
@@ -456,7 +470,7 @@ class Run(object):
         bool
             True if good
         """
-        return sequence(self.simu.name, sequence_name, option)
+        return sequence(self.simu.name, sequence_name, option, timeout)
 
     def colorCompositeBands(self, red, green, blue, iteration, outdir):
         """

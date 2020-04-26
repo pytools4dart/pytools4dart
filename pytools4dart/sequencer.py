@@ -309,10 +309,28 @@ class Sequence_runners(object):
     def __init__(self, sequence):
         self.sequence = sequence
 
-    def dart(self, option='-start'):
+    def dart(self, option='-start', timeout=None):
+        """
+        Run a sequence of simulations.
+
+        Parameters
+        ----------
+
+        sequence_name: str
+            sequence name, e.g. sequence.name
+        option: str
+            Either:
+                * '-start' to start from the begining,
+                * '-continue' to continue an interupted run.
+
+        Returns
+        -------
+        bool
+            True if good
+        """
         simu_name = self.sequence.simu.name
         sequence_name = self.sequence.name
-        ptd.run.sequence(simu_name, sequence_name, option)
+        ptd.run.sequence(simu_name, sequence_name, option, timeout)
 
     def stack_bands(self, driver='ENVI', rotate=True, zenith=0, azimuth=0, band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART')):
         """
