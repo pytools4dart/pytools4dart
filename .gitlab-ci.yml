@@ -54,7 +54,7 @@ build-windows:
     paths:
       - cache
   only:
-    schedules
+    - schedules
 
 
 conda-build:
