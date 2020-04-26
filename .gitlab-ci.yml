@@ -22,14 +22,13 @@ variables:
   
 
 stages:
-  - build-windows
   - build
   - deploy
 
-build-windows:
+win-build:
   extends:
     - .shared_windows_runners
-  stage: build-windows
+  stage: build
   script:
     - $env:projectdir = pwd
     - $env:cachedir = "${env:projectdir}\cache"
