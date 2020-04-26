@@ -288,20 +288,28 @@ def headlessdarttools(dartdir=None):
         Path of the DART directory containing dart executable
         e.g. '/home/username/DART' or 'C:\\Users\\username\\DART'
 
+    Notes
+    -----
+    All platforms different of windows are considered linux
     """
     currentplatform = platform.system().lower()
+    if currentplatform != "windows":
+        currentplatform = 'linux'
+
     dartenv = getdartenv(dartdir)
     toolsdir = pjoin(dartenv['DART_HOME'], 'tools', currentplatform)
     if currentplatform == 'windows' and os.path.isdir(toolsdir):
         toolspath = pjoin(toolsdir, '*.bat')
         toolslist = glob.glob(toolspath)
-        # add -Djava.awt.headless=true, if not already there, to DART/tools/linux/*.sh for headless servers
+        # add -Djava.awt.headless=true, if not already there, to DART/tools/windows/*.bat for headless servers
         print('Add flag -Djava.awt.headless=true to {} for headless servers compatibility'.format(
             toolspath))
         for file in toolslist:
             with open(file) as f:
                 fcont = f.read()
-            fcont = re.sub('java.exe"', 'java.exe" -Djava.awt.headless=true', fcont)
+            # add -Djava.awt.headless=true if not already there
+            fcont = re.sub('c(?!\s+-Djava.awt.headless=true)', 'java.exe" -Djava.awt.headless=true', fcont)
+            # remove pause command as it will wait for a key to be pressed
             fcont = re.sub('\npause\n', '\n', fcont)
             with open(file, 'w') as f:
                 f.write(fcont)
