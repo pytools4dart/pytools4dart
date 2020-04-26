@@ -1,4 +1,34 @@
-#### install DART ####
+# ===============================================================================
+# PROGRAMMERS:
+#
+# Florian de Boissieu <fdeboiss@gmail.com>
+# https://gitlab.com/pytools4dart/pytools4dart
+#
+# COPYRIGHT:
+#
+# Copyright 2018-2020 Florian de Boissieu
+#
+# This file is part of the pytools4dart package.
+#
+# pytools4dart is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+#
+#
+# ===============================================================================
+# This powershell script downloads DART and installs it
+# The install script is in python, thus it is necessary
+
+# Takes around 180s (3min)
 $cache = $env:cachedir # only for dart.zip
 echo "Cache directory: $cache"
 $prefix = $env:userprofile

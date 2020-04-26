@@ -1,7 +1,40 @@
-# If a previous version of ana/miniconda is already there, remove it.
-# Remove the conda section of C:\Users\your_user\Documents\WindowsPowerShell\profile.ps1 if it exists.
+# ===============================================================================
+# PROGRAMMERS:
+#
+# Florian de Boissieu <fdeboiss@gmail.com>
+# https://gitlab.com/pytools4dart/pytools4dart
+#
+# COPYRIGHT:
+#
+# Copyright 2018-2020 Florian de Boissieu
+#
+# This file is part of the pytools4dart package.
+#
+# pytools4dart is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+#
+#
+# ===============================================================================
+# This powershell script installs miniconda3 in C:\Users\your_name\miniconda3 and creates a ptdvenv with python 3.7
+# If a previous version of ana/miniconda is already there, remove/uninstall it before executing the script.
+# Remove also the conda section of C:\Users\your_user\Documents\WindowsPowerShell\profile.ps1 if it exists.
 
-# Tried in gitlab-ci cache directory but to long to download and unpack (5min...), while install is ~2min
+# In Windows 10, there is a problem reported to activate a conda environment from a powershell session.
+# It s duee to execution permission, see https://github.com/conda/conda/issues/8428.
+# It can be resolved opening a new powershell session bypassing the execution permission:
+# > powershell –ExecutionPolicy Bypass
+
+# Tried to cache in gitlab-ci but to long to download and unpack (5min...), while download of installer and install is ~100s
 
 $prefix = $env:userprofile
 echo "Installing Miniconda in: $prefix"
@@ -35,9 +68,5 @@ if(!(Test-Path $condadir -PathType Container)) {
 	conda activate ptdvenv
 	conda env list
 }
-
-# test pytools4dart dependencies
-# $env:PATH = "$condadir\pkgs\openjdk-11.0.1-1018\Library\bin\server;" + $env:PATH
-# python -c "import generateDS; import tinyobj; import gdecomp; import laspy; print('ptdvenv setup done...')"
 
 
