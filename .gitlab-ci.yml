@@ -40,7 +40,9 @@ build-windows:
     - cd $env:userprofile
     - Measure-Command { tar.exe -xzf miniconda3.tar.gz }
     - rm miniconda3.tar.gz
+    - cd $env:projectdir
     - gitlab-ci\activate-env.ps1
+    - Measure-Command { gitlab-ci\ptdvenv-build.ps1 }
     - cd $env:userprofile
     - ls
     - Measure-Command { tar.exe -czf miniconda3.tar.gz miniconda3 }
@@ -50,6 +52,8 @@ build-windows:
 #    - Measure-Command { gitlab-ci\dart-build.ps1 }
 #    - Measure-Command { gitlab-ci\ptdvenv-build.ps1 }
 #    - cd pytools4dart\examples
+#    - $env:PATH = "${env:condadir}\pkgs\openjdk-11.0.1-1018\Library\bin\server;" + $env:PATH
+#    - python -c "import pytools4dart as ptd; ptd.configure(r'${env:dartdir}')"
 #    - python -c "import generateDS; import tinyobj; import gdecomp; import laspy; import pytools4dart"
 #    - python use_case_0.py
 #    - python use_case_1.py

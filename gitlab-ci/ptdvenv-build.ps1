@@ -11,7 +11,7 @@ pip install git+https://github.com/jgomezdans/prosail.git
 pip install .
 
 #### configure DART ####
-cd pytools4dart\examples
-$env:PATH = "${env:condadir}\pkgs\openjdk-11.0.1-1018\Library\bin\server;" + $env:PATH
-python -c "import pytools4dart as ptd; ptd.configure(r'${env:dartdir}')"
-cd $env:projectdir
+# cd pytools4dart\examples
+# $env:PATH = "${env:condadir}\pkgs\openjdk-11.0.1-1018\Library\bin\server;" + $env:PATH
+# python -c "import pytools4dart as ptd; ptd.configure(r'${env:dartdir}')"
+# cd $env:projectdir
