@@ -909,7 +909,7 @@ class Add(object):
 
         return new_band
 
-    def sequence(self, name=None, empty=False):
+    def sequence(self, name=None, empty=False, ncpu=None):
         """
         Appends a new sequence to simulation sequences
         Parameters
@@ -918,13 +918,17 @@ class Add(object):
             name of the sequence
         empty: bool
             if False (default), loads the corresponding sequence if file exists.
+        ncpu: int
+            number of cpu to use, sets attribute nbParallelThreads in sequence.xml.
+            Beware that total number of threads is sequence.ncpu x simu.ncpu when sequence is run,
+            which should not be greater than the number of cpus. It also means RAM will be sequence.ncpu x simu RAM.
 
         Returns
         -------
             object of type Sequencer
 
         """
-        new_sequence = Sequencer(self.simu, name, empty)
+        new_sequence = Sequencer(self.simu, name, empty, ncpu)
         self.simu.sequences.append(new_sequence)
         return new_sequence
 
