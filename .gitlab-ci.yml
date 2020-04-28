@@ -31,6 +31,7 @@ win-dart:
     - .shared_windows_runners
   stage: download
   script:
+    - mkdir -Force cache
     - cd cache
     - echo $env:DART_URL_WIN
     - curl.exe -C - $env:DART_URL_WIN
@@ -44,6 +45,7 @@ linux-dart:
   stage: download
   image: python:latest
   script:
+    - mkdir -p cache
     - cd cache
     - curl -C - $DART_URL_LINUX
     - ls
@@ -79,8 +81,8 @@ win-build:
     key: build-win-cache
     paths:
       - cache
-#  only:
-#    - schedules
+  only:
+    - schedules
 
 
 conda-build:
