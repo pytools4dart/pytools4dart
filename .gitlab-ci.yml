@@ -34,7 +34,7 @@ win-dart:
     - mkdir -Force cache
     - cd cache
     - echo $env:DART_URL_WIN
-    - curl.exe -C - $env:DART_URL_WIN
+    - curl.exe -C - $env:DART_URL_WIN -o dart.zip
     - ls
   cache:
     key: win-cache
@@ -47,7 +47,7 @@ linux-dart:
   script:
     - mkdir -p cache
     - cd cache
-    - curl -C - $DART_URL_LINUX
+    - curl -C - $DART_URL_LINUX -o dart.tar.gz
     - ls
   cache:
     key: linux-cache
