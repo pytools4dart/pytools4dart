@@ -83,4 +83,5 @@ pip install git+https://github.com/jgomezdans/prosail.git
 # install pytools4dart
 pip install .
 
+$env:PATH = "${env:condadir}\pkgs\openjdk-11.0.1-1018\Library\bin\server;" + $env:PATH
 

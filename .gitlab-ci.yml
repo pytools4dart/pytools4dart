@@ -19,12 +19,32 @@ variables:
 #  paths:
 #  - .cache/pip
 #  - ptdvenv/
-  
+
 
 stages:
   - download
   - build
   - deploy
+
+#dart:
+#  stage: download
+#  image: python:latest
+#  script:
+#    - mkdir -p cache
+#    - cd cache
+#    - curl -C - $DART_URL_WIN -o dart.zip
+#    - curl -C - $DART_URL_LINUX -o dart.tar.gz
+#    - ls
+#  cache:
+#    key: dart-cache
+#    paths:
+#      - cache
+#  artifacts:
+#    paths:
+#      - cache
+#    when: always
+#    expire_in: 2h
+
 
 win-dart:
   extends:
@@ -71,7 +91,6 @@ win-build:
     - ls $env:dartdir
 
     - cd pytools4dart\examples
-    - $env:PATH = "${env:condadir}\pkgs\openjdk-11.0.1-1018\Library\bin\server;" + $env:PATH
     - python -c "import pytools4dart as ptd; ptd.configure(r'${env:dartdir}')"
     - python -c "import generateDS; import tinyobj; import gdecomp; import laspy; import pytools4dart"
     - python use_case_0.py
@@ -87,6 +106,7 @@ win-build:
     key: win-cache
     paths:
       - cache
+    policy: pull
 #  only:
 #    - schedules
 
@@ -95,7 +115,7 @@ conda-build:
   stage: build
   image: conda/miniconda3:latest
   script:
-    - ptd=$(pwd)
+    - ls cache
     - apt-get update -qy
     - apt-get install -y gcc g++ git unzip libgtk2.0-0 libsm6 libxft2 curl
 #    - curl -u $DART_AUTH $DART_URL -o dart.tar.gz
@@ -109,7 +129,7 @@ conda-build:
     - source ~/.bashrc
     - conda activate ptdvenv
     - pip install .
-    - dartzip = $ptd/cache/dart.tar.gz
+    - dartzip = $(pwd)/cache/dart.tar.gz
     - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
     - cd pytools4dart/examples
     - python -c 'import pytools4dart as ptd;ptd.configure("~/DART")'
@@ -120,9 +140,12 @@ conda-build:
     - python use_case_4.py
   cache:
     key: linux-cache
+    paths:
+      - cache
+    policy: pull
 #  only:
 #    - schedules
-    
+
 pip-build:
   stage: build
   image: python:latest
@@ -159,6 +182,9 @@ pip-build:
     - python use_case_4.py
   cache:
     key: linux-cache
+    paths:
+      - cache
+    policy: pull
 #  only:
 #    - schedules
 
