@@ -33,7 +33,6 @@ win-dart:
   script:
     - mkdir -Force cache
     - cd cache
-    - echo $env:DART_URL_WIN
     - curl.exe -C - $env:DART_URL_WIN -o dart.zip
     - ls
   cache:
@@ -63,10 +62,17 @@ win-build:
     - $env:cachedir = "${env:projectdir}\cache"
     - ls $env:cachedir
     - gitlab-ci\conda-build.ps1
-    - gitlab-ci\activate-env.ps1
-    - gitlab-ci\dart-build.ps1
-    - gitlab-ci\ptdvenv-build.ps1
+
+    # Takes around 180s (3min)
+    - $dartzip = "${env:cachedir}\dart.zip"
+    - $env:dartdir = "${env:userprofile}\DART"
+    - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'${env:dartdir}', verbose=True)"
+    - Write-Host "DART content:"
+    - ls $env:dartdir
+
     - cd pytools4dart\examples
+    - $env:PATH = "${env:condadir}\pkgs\openjdk-11.0.1-1018\Library\bin\server;" + $env:PATH
+    - python -c "import pytools4dart as ptd; ptd.configure(r'${env:dartdir}')"
     - python -c "import generateDS; import tinyobj; import gdecomp; import laspy; import pytools4dart"
     - python use_case_0.py
     - python use_case_1.py
@@ -78,11 +84,11 @@ win-build:
     - python use_case_5.py
 
   cache:
-    key: build-win-cache
+    key: win-cache
     paths:
       - cache
-  only:
-    - schedules
+#  only:
+#    - schedules
 
 
 conda-build:
@@ -92,17 +98,19 @@ conda-build:
     - ptd=$(pwd)
     - apt-get update -qy
     - apt-get install -y gcc g++ git unzip libgtk2.0-0 libsm6 libxft2 curl
-    - curl -u $DART_AUTH $DART_URL -o dart.tar.gz
-    - tar -xzf dart.tar.gz
-    - dest=$(pwd)/$(ls -d DART_*)
-    - cd $dest
-    - ./install-text.sh $HOME/DART
-    - cd $ptd
+#    - curl -u $DART_AUTH $DART_URL -o dart.tar.gz
+#    - tar -xzf dart.tar.gz
+#    - dest=$(pwd)/$(ls -d DART_*)
+#    - cd $dest
+#    - ./install-text.sh $HOME/DART
+#    - cd $ptd
     - conda env create -f environment.yml
     - conda init bash
     - source ~/.bashrc
     - conda activate ptdvenv
     - pip install .
+    - dartzip = $ptd/cache/dart.tar.gz
+    - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
     - cd pytools4dart/examples
     - python -c 'import pytools4dart as ptd;ptd.configure("~/DART")'
     - python use_case_0.py
@@ -110,8 +118,10 @@ conda-build:
     - python use_case_2.py
     - python use_case_3.py
     - python use_case_4.py
-  only:
-    - schedules
+  cache:
+    key: linux-cache
+#  only:
+#    - schedules
     
 pip-build:
   stage: build
@@ -129,13 +139,17 @@ pip-build:
     - pip install -r requirements.txt
     - pip install .
     - ptd=$(pwd)
-    - cd ../
-    - curl -u $DART_AUTH $DART_URL -o dart.tar.gz
-    - tar -xzf dart.tar.gz
-    - dest=$(pwd)/$(ls -d DART_*)
-    - cd $dest
-    - ./install-text.sh $HOME/DART
-    - cd $ptd
+#    - cd ../
+#    - curl -u $DART_AUTH $DART_URL -o dart.tar.gz
+#    - tar -xzf dart.tar.gz
+#    - dest=$(pwd)/$(ls -d DART_*)
+#    - cd $dest
+#    - ./install-text.sh $HOME/DART
+#    - cd $ptd
+    # install DART
+    - dartzip = $ptd/cache/dart.tar.gz
+    - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
+    # check examples
     - cd pytools4dart/examples
     - python -c 'import pytools4dart as ptd;ptd.configure("~/DART")'
     - python use_case_0.py
@@ -143,8 +157,10 @@ pip-build:
     - python use_case_2.py
     - python use_case_3.py
     - python use_case_4.py
-  only:
-    - schedules
+  cache:
+    key: linux-cache
+#  only:
+#    - schedules
 
 
 pages:

@@ -36,6 +36,19 @@
 
 # Tried to cache in gitlab-ci but to long to download and unpack (5min...), while download of installer and install is ~100s
 
+# For further environment activation in powershell use the following code.
+## If the powershell profile is not loaded correctly (i.e. error at powershell start):
+# powershell -ExecutionPolicy Bypass
+# $env:PATH = "$condadir\condabin;" + $env:PATH  # add conda command to path
+### This block is not necessary if powershell profile is already loaded
+# conda init powershell  # writes the conda in the profile, not necessary if already done
+# invoke-expression -Command "$env:userprofile\Documents\WindowsPowerShell\profile.ps1"  # load the powershell profile
+###
+# conda activate ptdvenv  # activate ptdvenv
+# conda env list  # check that ptdvenv is activated
+
+
+
 $prefix = $env:userprofile
 echo "Installing Miniconda in: $prefix"
 $condaurl = "https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe"
@@ -43,30 +56,31 @@ $condaexe = "$prefix\Miniconda3-latest-Windows-x86_64.exe"
 $condadir = "$prefix\miniconda3"
 $env:condadir = $condadir
 
-# if(!(Test-Path $prefix -PathType Container)) {
-#	mkdir $prefix
-# }
+curl.exe -C - $condaurl -o $condaexe
+Start-Process $condaexe -Args "/InstallationType=JustMe /RegisterPython=0 /S /D=$condadir" -wait
+$env:PATH = "$condadir\condabin;" + $env:PATH
+conda init powershell
+invoke-expression -Command "$env:userprofile\Documents\WindowsPowerShell\profile.ps1"
+conda install -y conda-build
+conda create -y -n ptdvenv -c conda-forge python=3.7
+conda activate ptdvenv
+conda env list
+Write-Host "conda directory size: "
+(gci $condadir | measure Length -s).sum / 1Mb
 
-# install conda if not already installed
-# and activate environment
-if(!(Test-Path $condadir -PathType Container)) {
-	curl.exe -C - $condaurl -o $condaexe
-	Start-Process $condaexe -Args "/InstallationType=JustMe /RegisterPython=0 /S /D=$condadir" -wait
-	$env:PATH = "$condadir\condabin;" + $env:PATH
-	conda init powershell
-	invoke-expression -Command "$env:userprofile\Documents\WindowsPowerShell\profile.ps1"
-	conda install -y conda-build
-	conda create -y -n ptdvenv -c conda-forge python=3.7
-	conda activate ptdvenv
-	conda env list
-	Write-Host "conda directory size: "
-	(gci $condadir | measure Length -s).sum / 1Mb
-}else{
-	$env:PATH = "$condadir\condabin;" + $env:PATH
-	conda init powershell
-	invoke-expression -Command "$env:userprofile\Documents\WindowsPowerShell\profile.ps1"
-	conda activate ptdvenv
-	conda env list
-}
+# This part takes around 7-8min on gitlab.com windows runner
+# Tried to cache in gitlab-ci, re-compressing directory miniconda3 with tar.gz but it takes more than 10min
+# Using conda env create -f environment.yml leads to out of memory error...
+conda install -y -c conda-forge cython gdal geopandas git ipython libspatialindex lxml matplotlib
+conda install -y -c conda-forge lmfit plyfile pybind11 pyjnius pytest
+conda install -y -c conda-forge rasterio rtree scipy
+pip install git+https://gitlab.com/pytools4dart/generateds.git
+pip install git+https://gitlab.com/pytools4dart/tinyobj.git
+pip install git+https://gitlab.com/pytools4dart/gdecomp.git
+pip install git+https://github.com/floriandeboissieu/laspy.git@patch-1
+pip install git+https://github.com/jgomezdans/prosail.git
+
+# install pytools4dart
+pip install .
 
 
