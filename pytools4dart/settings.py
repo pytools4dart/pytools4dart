@@ -308,7 +308,7 @@ def headlessdarttools(dartdir=None):
             with open(file) as f:
                 fcont = f.read()
             # add -Djava.awt.headless=true if not already there
-            fcont = re.sub('c(?!\s+-Djava.awt.headless=true)', 'java.exe" -Djava.awt.headless=true', fcont)
+            fcont = re.sub('java.exe"(?!\s+-Djava.awt.headless=true)', 'java.exe" -Djava.awt.headless=true ', fcont)
             # remove pause command as it will wait for a key to be pressed
             fcont = re.sub('\npause\n', '\n', fcont)
             with open(file, 'w') as f:

@@ -72,6 +72,8 @@ linux-dart:
     key: linux-cache
     paths:
       - cache
+  only:
+    - schedules
 
 win-build:
   extends:
@@ -143,8 +145,8 @@ conda-build:
     paths:
       - cache
     policy: pull
-#  only:
-#    - schedules
+  only:
+    - schedules
 
 pip-build:
   stage: build
@@ -185,8 +187,8 @@ pip-build:
     paths:
       - cache
     policy: pull
-#  only:
-#    - schedules
+  only:
+    - schedules
 
 
 pages:
