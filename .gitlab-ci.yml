@@ -49,7 +49,7 @@ linux-dart:
     - ls
   cache:
     key: linux-cache
-    path:
+    paths:
       - cache
 
 win-build:
