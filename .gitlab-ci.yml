@@ -6,26 +6,16 @@
 
 # Change pip's cache directory to be inside the project directory since we can
 # only cache local items.
-variables:
-  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+#variables:
+#  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
 #  APT_CACHE_DIR: "$CI_PROJECT_DIR/.cache/apt"
-
-# Pip's cache doesn't store the python packages
-# https://pip.pypa.io/en/stable/reference/pip_install/#caching
-#
-# If you want to also cache the installed packages, you have to install
-# them in a virtualenv and cache it as well.
-#cache:
-#  paths:
-#  - .cache/pip
-#  - ptdvenv/
-
 
 stages:
   - download
   - build
   - deploy
 
+### To work with artifacts
 #dart:
 #  stage: download
 #  image: python:latest
@@ -44,7 +34,7 @@ stages:
 #      - cache
 #    when: always
 #    expire_in: 2h
-
+###
 
 win-dart:
   extends:
@@ -75,6 +65,7 @@ linux-dart:
   only:
     - schedules
 
+
 win-build:
   extends:
     - .shared_windows_runners
@@ -100,17 +91,16 @@ win-build:
     - python use_case_2.py
     - python use_case_3.py
     - python use_case_4.py
+    - python use_case_5.py
     - python use_case_6.py
     - python use_case_7.py
-    - python use_case_5.py
-
   cache:
     key: win-cache
     paths:
       - cache
     policy: pull
-#  only:
-#    - schedules
+  only:
+    - schedules
 
 
 conda-build:
@@ -120,12 +110,6 @@ conda-build:
     - ls cache
     - apt-get update -qy
     - apt-get install -y gcc g++ git unzip libgtk2.0-0 libsm6 libxft2 curl
-#    - curl -u $DART_AUTH $DART_URL -o dart.tar.gz
-#    - tar -xzf dart.tar.gz
-#    - dest=$(pwd)/$(ls -d DART_*)
-#    - cd $dest
-#    - ./install-text.sh $HOME/DART
-#    - cd $ptd
     - conda env create -f environment.yml
     - conda init bash
     - source ~/.bashrc
@@ -133,6 +117,7 @@ conda-build:
     - pip install .
     - dartzip=$(pwd)/cache/dart.tar.gz
     - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
+    # check examples
     - cd pytools4dart/examples
     - python -c 'import pytools4dart as ptd;ptd.configure("~/DART")'
     - python use_case_0.py
@@ -140,6 +125,9 @@ conda-build:
     - python use_case_2.py
     - python use_case_3.py
     - python use_case_4.py
+    - python use_case_5.py
+    - python use_case_6.py
+    - python use_case_7.py
   cache:
     key: linux-cache
     paths:
@@ -148,29 +136,23 @@ conda-build:
   only:
     - schedules
 
+
 pip-build:
   stage: build
   image: python:latest
   script:
-    - ptd=$(pwd)
+    - ls cache
     - apt-get update -qy
     - python -V  # Print out python version for debugging
     - pip install virtualenv
     - virtualenv ptdvenv
     - source ptdvenv/bin/activate
-    #- mkdir -v $APT_CACHE_DIR
+    # install linux dependencies
     - apt-get install -y libudunits2-dev libnetcdf-dev libproj-dev libgeos-dev libgdal-dev gfortran libspatialindex-dev libgtk2.0-0 default-jdk # -o dir::cache::archives="$APT_CACHE_DIR"
     - pip install pybind11 pygdal==2.4.0.5 geopandas Cython
     - pip install -r requirements.txt
     - pip install .
     - ptd=$(pwd)
-#    - cd ../
-#    - curl -u $DART_AUTH $DART_URL -o dart.tar.gz
-#    - tar -xzf dart.tar.gz
-#    - dest=$(pwd)/$(ls -d DART_*)
-#    - cd $dest
-#    - ./install-text.sh $HOME/DART
-#    - cd $ptd
     # install DART
     - dartzip=$ptd/cache/dart.tar.gz
     - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
@@ -182,6 +164,9 @@ pip-build:
     - python use_case_2.py
     - python use_case_3.py
     - python use_case_4.py
+    - python use_case_5.py
+    - python use_case_6.py
+    - python use_case_7.py
   cache:
     key: linux-cache
     paths:
@@ -200,7 +185,7 @@ pages:
     - pip install virtualenv
     - virtualenv ptdvenv
     - source ptdvenv/bin/activate
-    #- mkdir -v $APT_CACHE_DIR
+    # install linux dependencies
     - apt-get install -y libudunits2-dev libnetcdf-dev libproj-dev libgeos-dev libgdal-dev gfortran libspatialindex-dev libgtk2.0-0 # -o dir::cache::archives="$APT_CACHE_DIR"
     - pip install pybind11 pygdal==2.4.0.5 geopandas Cython
     - pip install -r requirements.txt
