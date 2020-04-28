@@ -320,7 +320,7 @@ def extract(dart_zip, extract_dir=None, verbose=False):
     if platform.system() is 'Windows':
         import zipfile
         with zipfile.ZipFile(dart_zip, "r") as j:
-            outname = j.namelist()[0]
+            outname = j.namelist()[0].replace('/', '')
     else:
         import tarfile
         with tarfile.open(dart_zip, "r") as j:

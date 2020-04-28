@@ -129,7 +129,7 @@ conda-build:
     - source ~/.bashrc
     - conda activate ptdvenv
     - pip install .
-    - dartzip = $(pwd)/cache/dart.tar.gz
+    - dartzip=$(pwd)/cache/dart.tar.gz
     - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
     - cd pytools4dart/examples
     - python -c 'import pytools4dart as ptd;ptd.configure("~/DART")'
@@ -170,7 +170,7 @@ pip-build:
 #    - ./install-text.sh $HOME/DART
 #    - cd $ptd
     # install DART
-    - dartzip = $ptd/cache/dart.tar.gz
+    - dartzip=$ptd/cache/dart.tar.gz
     - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
     # check examples
     - cd pytools4dart/examples
