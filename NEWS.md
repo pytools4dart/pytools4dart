@@ -20,6 +20,7 @@ TODO: add crowns.shp
 - Methods `getsimupath` and `getinputsimupath` will be removed in the future.
   Instead, use properties `simu_dir`, `input_dir`, `output_dir` of class Simulation.
 - update use cases documentation
+- 'PadBVTotal' becomes 'pad' in voxreader.voxel class
 
 ## Add
 
