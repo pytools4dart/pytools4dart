@@ -148,34 +148,51 @@ class Properties_(object):
 
 
 class Plot_file(object):
-    # This class is standing for easy plot file management.
-    # The following gives the conventions adopted at initialization, modification, and writing,
-    # with D as data, F as filepath.
-    # At initialization if:
-    #     - D is None and F is None:
-    #         get F from core (absolute path)
-    #         load D from F if F is not None
-    #     - D is None and F is not None
-    #         set F to core
-    #         load D from F
-    #     - D is not None and F is None
-    #         set F as default
-    #         set F to core
-    #     - D is not None and F is not None
-    #         set F to core
-    #
-    # After initialization, when changed:
-    #     - F : set F to core
-    #     - core F : nothing happens
-    #     - D : nothing happens
-    #     - F content : nothing happens
-    #
-    # At simu write:
-    #     - if D is None, nothing is done
-    #     - if F is None, F is set to default
-    #     ....
-    # Thus this option was left away for the moment
     def __init__(self, simu, data=None, filepath=None):
+        """
+        Plots file class generator.
+        Parameters
+        ----------
+        simu: pytools4dart.simulation
+            A simulation where the filepath will be stored
+        data: pandas.DataFrame
+            Plots DataFrame with the columns expected by DART, see http://pytools4dart.gitlab.io/pytools4dart/reference/pytools4dart/add/#plots
+        filepath: str
+            Path to file. Although it is possible to define relatively to the simulation input,
+            it is recommended to define the full path to avoid unexpected overwrite:
+            e.g. plots.txt will refer to DART_HOME/database/plots.txt if it is not defined in user_data/database
+            or in the simulation input directory.
+
+        Notes
+        -----
+        This class stands for easy plot file management.
+        The following gives the conventions adopted at initialization, modification, and writing,
+        with D as data, F as filepath.
+        At initialization if:
+            - D is None and F is None: e.g. when loading a simulation already defined.
+                - get F from core (absolute path)
+                - load D from F if F is not None
+            - D is None and F is not None: e.g. loading plots of a file already defined.
+                - set F to core
+                - load D from F
+            - D is not None and F is None: e.g. loading
+                - set F as default
+                - set F to core
+            - D is not None and F is not None
+                - set F to core
+
+        After initialization, when changed:
+            - F : set F to core
+            - core F : nothing happens
+            - D : nothing happens
+            - F content : nothing happens
+
+        At simu write:
+            - if D is None, nothing is done
+            - if F is None, F is set to default
+            ....
+        Thus this option was left away for the moment
+        """
         self.simu = simu
         self._data = data
 
@@ -187,7 +204,6 @@ class Plot_file(object):
             if data is not None:  # set default name
                 self.filepath = os.path.join(simu.input_dir, 'plots.txt')
             else:
-                self.filepath = self.filepath
                 self.load()
 
         # self._filepath
@@ -211,12 +227,26 @@ class Plot_file(object):
         """
         Load plot file
         """
-        self.filepath = self.filepath
         if self.filepath is not None and os.path.isfile(self.filepath):
+            print('Loading plot file: {}'.format(self.filepath))
             self.data = pd.read_csv(self.filepath, sep='\t', comment='*')
             self.update_names()
 
     def update_names(self, verbose=True):
+        """
+        Update property names in function of there indexes. User should not have to use this method.
+
+        This method is used typically at loading to make sure of the coherence between indexes (used by DART)
+        and names (usually used by user).
+
+        Parameters
+        ----------
+        verbose: bool
+
+        Returns
+        -------
+
+        """
         df = self.data
 
         index_columns = ['PLT_OPT_NUMB', 'PLT_THERM_NUMB', 'GRD_OPT_NUMB', 'GRD_THERM_NUMB']
@@ -238,6 +268,20 @@ class Plot_file(object):
             df['GRD_THERM_NAME'] = self.simu.core.get_tp_ident(df.GRD_THERM_NAME)
 
     def update_indexes(self, verbose=True):
+        """
+        Update property indexes in function of there names. User should not have to use this method.
+
+        This method is used typically at writing to make sure of the coherence between indexes (used by DART)
+        and names (usually used by user).
+
+        Parameters
+        ----------
+        verbose: bool
+
+        Returns
+        -------
+
+        """
         df = self.data
 
         name_columns = ['PLT_OPT_NAME', 'PLT_THERM_NAME', 'GRD_OPT_NAME', 'GRD_THERM_NAME']
@@ -310,9 +354,9 @@ class Plot_file(object):
         Parameters
         ----------
         filepath: str
-            if None self.filepath is taken.
+            if None self.filepath (i.e. extraPlotsFileName defined in simu.core.plots).
         overwrite: bool
-            if True and file exists, it is overwritten
+            if True and file exists, it is overwritten.
         """
         if self._data is None:  # does not load it if not already done.
             return
@@ -376,7 +420,6 @@ class Tree_file(object):
             if data is not None:  # set default name
                 self.filepath = os.path.join(simu.input_dir, 'trees.txt')
             else:
-                self.filepath = self.filepath
                 self.load()
 
         # self._filepath
@@ -397,8 +440,8 @@ class Tree_file(object):
             return self.data.shape
 
     def load(self):
-        self.filepath = self.filepath
         if self.filepath is not None and os.path.isfile(self.filepath):
+            print('Loading tree file: {}'.format(self.filepath))
             self.data = pd.read_csv(self.filepath, sep='\t', comment='*')
 
     @property
