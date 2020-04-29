@@ -49,6 +49,8 @@ win-dart:
     key: win-cache
     paths:
       - cache
+  only:
+    - schedules
 
 linux-dart:
   stage: download
