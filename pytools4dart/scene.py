@@ -150,7 +150,7 @@ class Properties_(object):
 class Plot_file(object):
     def __init__(self, simu, data=None, filepath=None):
         """
-        Plots file class generator.
+        Plots file class constructor.
         Parameters
         ----------
         simu: pytools4dart.simulation
