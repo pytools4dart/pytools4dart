@@ -1,5 +1,5 @@
 # 1.1.4
-TODO: add crowns.shp
+
 ## Fix
 
 - stack_bands in hstools: 
