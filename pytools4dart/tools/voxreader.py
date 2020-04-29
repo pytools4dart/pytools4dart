@@ -92,9 +92,9 @@ class voxel(object):
         """
         newVoxel = cls()
         newVoxel.inputfile = os.path.expanduser(filename)
-        newVoxel.read_vox_header()  # description de la scène voxelisées
-        newVoxel.read_vox_data()  # description de chaque voxel
-        newVoxel.create_grid()
+        newVoxel._read_vox_header()  # description de la scène voxelisées
+        newVoxel._read_vox_data()  # description de chaque voxel
+        newVoxel._create_grid()
         return (newVoxel)
 
     @classmethod
@@ -139,10 +139,10 @@ class voxel(object):
                            'MAX_PAD': pad_max,
                            'LAD_TYPE': lad}
         newVoxel.data = df
-        newVoxel.create_grid()
+        newVoxel._create_grid()
         return (newVoxel)
 
-    def read_vox_header(self, skiprows=1):
+    def _read_vox_header(self, skiprows=1):
         """
         read header of .vox file from AMAPVox.
         Parameters
@@ -174,7 +174,7 @@ class voxel(object):
 
         self.header = header
 
-    def read_vox_data(self, skiprows=1):
+    def _read_vox_data(self, skiprows=1):
         """
         Read data of .vox file from AMAPVox.
         Column 'PadBVTotal' of AMAPVox file is renamed
@@ -192,7 +192,7 @@ class voxel(object):
             data.rename(columns={'PadBVTotal': 'pad'}, inplace=True)
         self.data = data
 
-    def create_grid(self):
+    def _create_grid(self):
         """
          Creates a geopandas dataframe with one grid cell in each row.
         """
