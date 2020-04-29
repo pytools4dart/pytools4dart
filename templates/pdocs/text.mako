@@ -110,7 +110,7 @@ ${variable(v)}
 % endif
 
 % if static_methods:
-${h4('Static methods')}
+${h4('Class methods')}
     % for f in static_methods:
 ${function(f, True)}
 

@@ -204,6 +204,7 @@ pages:
     paths:
       - .cache/pip
       - .cache/apt
+      - ptdvenv
   artifacts:
     paths:
      - public
