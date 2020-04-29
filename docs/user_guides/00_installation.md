@@ -7,9 +7,11 @@ Please refer to [DART section](#dart) for DART installation.
 
 
 __Before install, Windows users__ will need Visual Studio C++11 compiler to install package `tinyobj`, 
-which is a dependency of `pytools4dart`. (for details see 
+which is a dependency of `pytools4dart` (for details see 
 [here](https://gitlab.com/floriandeboissieu/tinyobj) and [here](https://pybind11.readthedocs.io/en/stable/basics.html)):
+
 1. Install [Visual Studio Installer](https://visualstudio.microsoft.com/downloads/) (version 2015 or upper is necessary, community edition is sufficient).
+
 1. Open the Visual Studio __Installer__, choose `Modify`, select C++ Development Desktop (only MSVC and Kit SDK Windows are necessary, occupying 5 GB still...)
 and click on `Modify` to apply modifications.
 
