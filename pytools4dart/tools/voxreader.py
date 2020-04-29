@@ -80,7 +80,8 @@ class voxel(object):
     @classmethod
     def from_vox(cls, filename):
         """
-        Load an AMAPVox file
+        Load an AMAPVox file.
+
         Parameters
         ----------
         filename: str
@@ -125,7 +126,7 @@ class voxel(object):
 
         """
 
-        df = pd.DataFrame(dict(i=i, j=j, k=k, PadBVTotal=pad))
+        df = pd.DataFrame(dict(i=i, j=j, k=k, pad=pad))
         newVoxel = cls()
         split = (df[['i', 'j', 'k']].max() + 1).to_list()
         max_corner = np.array(min_corner) + np.array(split) * np.array(res)
@@ -175,7 +176,9 @@ class voxel(object):
 
     def read_vox_data(self, skiprows=1):
         """
-        read data of .vox file from AMAPVox
+        Read data of .vox file from AMAPVox.
+        Column 'PadBVTotal' of AMAPVox file is renamed
+        'pad' for compatibility with other formats and method voxel.from_data.
 
         Parameters
         ----------
@@ -185,6 +188,8 @@ class voxel(object):
         """
 
         data = pd.read_csv(self.inputfile, sep=" ", comment="#", skiprows=skiprows)
+        if 'PadBVTotal' in data.columns:
+            data.rename(columns={'PadBVTotal': 'pad'}, inplace=True)
         self.data = data
 
     def create_grid(self):
@@ -323,36 +328,36 @@ class voxel(object):
 
         >>> vox = ptd.voxreader.voxel().from_vox(vox_file)
         >>> print(vox.intersect(crowns_file))
-                i   j   k  PadBVTotal  ...       Can        Cab       Car    CBrown
-        0       0   0  19         0.0  ...  1.688516  32.013777  7.488363  0.342336
-        1       0   0  20         0.0  ...  1.688516  32.013777  7.488363  0.342336
-        2       0   0  21         0.0  ...  1.688516  32.013777  7.488363  0.342336
-        3       0   0  22         0.0  ...  1.688516  32.013777  7.488363  0.342336
-        4       0   0  23         0.0  ...  1.688516  32.013777  7.488363  0.342336
-        ...    ..  ..  ..         ...  ...       ...        ...       ...       ...
-        22395  19  19  10         0.0  ...       NaN        NaN       NaN       NaN
-        22396  19  19  11         0.0  ...       NaN        NaN       NaN       NaN
-        22397  19  19  12         0.0  ...       NaN        NaN       NaN       NaN
-        22398  19  19  13         0.0  ...       NaN        NaN       NaN       NaN
-        22399  19  19  14         0.0  ...       NaN        NaN       NaN       NaN
+                i   j   k  pad  angleMean  ...  Can  Cab  CBrown  Car  id_crown
+        0       0   0  19  0.0   9.154615  ...  8.0  5.0     0.0  5.0       3.0
+        1       0   0  20  0.0  16.293077  ...  8.0  5.0     0.0  5.0       3.0
+        2       0   0  21  0.0  16.293077  ...  8.0  5.0     0.0  5.0       3.0
+        3       0   0  22  0.0  16.293077  ...  8.0  5.0     0.0  5.0       3.0
+        4       0   0  23  0.0   9.154615  ...  8.0  5.0     0.0  5.0       3.0
+        ...    ..  ..  ..  ...        ...  ...  ...  ...     ...  ...       ...
+        22395  19  19  10  0.0  28.191290  ...  NaN  NaN     NaN  NaN       NaN
+        22396  19  19  11  0.0  28.191290  ...  NaN  NaN     NaN  NaN       NaN
+        22397  19  19  12  0.0  22.092730  ...  NaN  NaN     NaN  NaN       NaN
+        22398  19  19  13  0.0  23.520610  ...  NaN  NaN     NaN  NaN       NaN
+        22399  19  19  14  0.0  23.520610  ...  NaN  NaN     NaN  NaN       NaN
         <BLANKLINE>
-        [22400 rows x 23 columns]
+        [22400 rows x 24 columns]
 
         >>> raster_file = abspath(join(dirname(ptd.__file__), 'data/Can_Cab_Car_CBrown.tif'))
         >>> band_names = basename(raster_file).split('.')[0].split('_')
         >>> vox.intersect(raster_file, columns=band_names)
-                i   j   k  PadBVTotal  ...       Can        Cab       Car    CBrown
-        0       0   0  19         0.0  ...  1.752778  33.722435  7.891806  0.271965
-        1       0   0  20         0.0  ...  1.752778  33.722435  7.891806  0.271965
-        2       0   0  21         0.0  ...  1.752778  33.722435  7.891806  0.271965
-        3       0   0  22         0.0  ...  1.752778  33.722435  7.891806  0.271965
-        4       0   0  23         0.0  ...  1.752778  33.722435  7.891806  0.271965
-        ...    ..  ..  ..         ...  ...       ...        ...       ...       ...
-        22395  19  19  10         0.0  ...  1.015507  35.692669  9.584843  0.205697
-        22396  19  19  11         0.0  ...  1.015507  35.692669  9.584843  0.205697
-        22397  19  19  12         0.0  ...  1.015507  35.692669  9.584843  0.205697
-        22398  19  19  13         0.0  ...  1.015507  35.692669  9.584843  0.205697
-        22399  19  19  14         0.0  ...  1.015507  35.692669  9.584843  0.205697
+                i   j   k  pad  ...       Can        Cab       Car    CBrown
+        0       0   0  19  0.0  ...  1.752778  33.722435  7.891806  0.271965
+        1       0   0  20  0.0  ...  1.752778  33.722435  7.891806  0.271965
+        2       0   0  21  0.0  ...  1.752778  33.722435  7.891806  0.271965
+        3       0   0  22  0.0  ...  1.752778  33.722435  7.891806  0.271965
+        4       0   0  23  0.0  ...  1.752778  33.722435  7.891806  0.271965
+        ...    ..  ..  ..  ...  ...       ...        ...       ...       ...
+        22395  19  19  10  0.0  ...  1.015507  35.692669  9.584843  0.205697
+        22396  19  19  11  0.0  ...  1.015507  35.692669  9.584843  0.205697
+        22397  19  19  12  0.0  ...  1.015507  35.692669  9.584843  0.205697
+        22398  19  19  13  0.0  ...  1.015507  35.692669  9.584843  0.205697
+        22399  19  19  14  0.0  ...  1.015507  35.692669  9.584843  0.205697
         <BLANKLINE>
         [22400 rows x 20 columns]
 
@@ -542,8 +547,8 @@ class voxel(object):
         Parameters
         ----------
         density_type: str
-            If 'UL' PadBVTotal is considered as a Plant Area Density (m2/m3)
-            If 'LAI' PadBVTotal is considered as a Plant Area Index (m2/m2)
+            If 'UL', column 'pad' is considered in DART as a Plant Area Density (m2/m3)
+            If 'LAI', column 'pad' is considered in DART as a Plant Area Index (m2/m2)
 
         keep_columns: str or list of str
             Columns from data to keep in plots DataFrame. If 'all',
@@ -554,7 +559,9 @@ class voxel(object):
 
         Returns
         -------
-        pandas.DataFrame
+        pandas.DataFrame | (pandas.DataFrame, list)
+            The plots DataFrame in DART plot file format.
+            If reduce_xy=True, the affine_transform parameters.
 
         """
 
@@ -587,13 +594,13 @@ class voxel(object):
                                                                                     'PT_3_Y', 'PT_4_Y'])], axis=1,
                            sort=False)
         # merge points with data and add other parameters
-        data = self.data[(self.data.PadBVTotal != 0) & pd.notna(self.data.PadBVTotal)].loc[:,
-               ['i', 'j', 'k', 'PadBVTotal']]
+        data = self.data[(self.data.pad != 0) & pd.notna(self.data.pad)].loc[:,
+               ['i', 'j', 'k', 'pad']]
         data = data.merge(points, how='left', on=['i', 'j'])
         data['PLT_BTM_HEI'] = data.k * res + self.header["min_corner"][2]
         data['PLT_HEI_MEA'] = res
         data['VEG_DENSITY_DEF'] = densitydef
-        data.rename(columns={'PadBVTotal': density_column}, inplace=True)
+        data.rename(columns={'pad': density_column}, inplace=True)
         data['PLT_TYPE'] = 1
 
         # drop index
@@ -609,7 +616,7 @@ class voxel(object):
 
         if keep_columns is not None and len(keep_columns) > 0:
             keep_columns = [c for c in keep_columns if c in self.data.columns]
-            data = pd.concat([data, self.data[(self.data.PadBVTotal != 0) & pd.notna(self.data.PadBVTotal)][
+            data = pd.concat([data, self.data[(self.data.pad != 0) & pd.notna(self.data.pad)][
                 keep_columns].reset_index(drop=True)], axis=1)
 
         if reduce_xy:

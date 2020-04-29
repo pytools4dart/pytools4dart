@@ -126,6 +126,7 @@ plots = vox.to_plots(keep_columns='PLT_OPT_NAME')
 simu.add.plots(plots)
 
 # # add a turbid plot with associated voxel optical property
+# # should not be used with numerous voxels (>100) as it will slow down simulation writing as well as DART running.
 # for row in prop_table.itertuples():
 #     corners = [[row.i, row.j], [row.i + 1, row.j], [row.i + 1, row.j + 1], [row.i, row.j + 1]]
 #     simu.add.plot(op_ident=row.model, corners=corners)

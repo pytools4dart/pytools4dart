@@ -42,14 +42,24 @@ This module is dedicated to hyperspectral data management. It includes the follo
 
 ## voxreader
 
-This module is a reader for AMAPVox files. The class has the following capacities:
+This module is helps to manage voxelised plant area density (PAD) data and 
+prepare them to define numerous turbid plots in a DART simulation.
 
-- **read AMAVox .vox file**, gives an object with attributes `header`, `data` and georeferenced `grid`.
+The class has the following capacities:
+- **read AMAPVox .vox file**, gives an object with attributes `header`, `data` and georeferenced `grid`.
+Column 'PadBVTotal' of AMAPVox file is renamed 'pad' for ease of use.
+- **create from data**, with i,j,k voxel indexes and corresponding Plant Area Density. 
 - **apply affine 2D transformation to grid**, typically to rotate and translate voxel space. 
-- **intersect voxel grid with a shapefile or a raster**, e.g. to affect voxels optical properties.
+- **intersect voxel grid with a polygons or a raster**, e.g. to affect voxels optical properties.
 - **export to DART plots DataFrame** to be added to a DART simulation as a plots file.
 
-
+Here is an example of code (see use cases 3, 5 and 6 for other examples):
+ - read an AMAPVox file,
+ - plot the grid, 
+ - apply xy affine transformation
+ - define crowns and use them to define the voxels optical properties
+ - convert to a plot DataFrame to be added to a simulation.
+ 
 ```python
 import pytools4dart as ptd
 import numpy as np
@@ -59,6 +69,7 @@ from shapely.geometry import Point, box
 # read the voxelisation file
 vox = ptd.voxreader.voxel().from_vox("data/forest.vox")
 print(vox.header)
+print(vox.data)
 
 # plot grid
 vox.grid.plot(color='w', edgecolor='k')
