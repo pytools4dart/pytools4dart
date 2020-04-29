@@ -6,9 +6,10 @@
 
 # Change pip's cache directory to be inside the project directory since we can
 # only cache local items.
-#variables:
-#  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
-#  APT_CACHE_DIR: "$CI_PROJECT_DIR/.cache/apt"
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  APT_CACHE_DIR: "$CI_PROJECT_DIR/.cache/apt"
+
 
 stages:
   - download
@@ -182,13 +183,15 @@ pages:
   stage: deploy
   image: python:latest
   script:
+    - mkdir -p .cache/pip
+    - mkdir -p .cache/apt
     - apt-get update -qy
     - python -V  # Print out python version for debugging
     - pip install virtualenv
     - virtualenv ptdvenv
     - source ptdvenv/bin/activate
     # install linux dependencies
-    - apt-get install -y libudunits2-dev libnetcdf-dev libproj-dev libgeos-dev libgdal-dev gfortran libspatialindex-dev libgtk2.0-0 # -o dir::cache::archives="$APT_CACHE_DIR"
+    - apt-get install -y libudunits2-dev libnetcdf-dev libproj-dev libgeos-dev libgdal-dev gfortran libspatialindex-dev libgtk2.0-0 default-jdk # -o dir::cache::archives="$APT_CACHE_DIR"
     - pip install pybind11 pygdal==2.4.0.5 geopandas Cython
     - pip install -r requirements.txt
     - pip install .
@@ -196,6 +199,11 @@ pages:
     - pip install portray python-markdown-math
     - portray as_html -c pyproject.toml
     - mv site public
+  cache:
+    key: deploy-cache
+    paths:
+      - .cache/pip
+      - .cache/apt
   artifacts:
     paths:
      - public
