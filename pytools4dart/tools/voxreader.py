@@ -128,7 +128,7 @@ class voxel(object):
 
         df = pd.DataFrame(dict(i=i, j=j, k=k, pad=pad))
         newVoxel = cls()
-        split = (df[['i', 'j', 'k']].max() + 1).to_list()
+        split = list(df[['i', 'j', 'k']].max() + 1)
         max_corner = np.array(min_corner) + np.array(split) * np.array(res)
 
         newVoxel.header = {'min_corner': min_corner,
