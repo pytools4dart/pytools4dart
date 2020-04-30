@@ -302,6 +302,11 @@ def prospect_db(db_file, N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can
     # if 'prosail' not in sys.modules.keys():
     #     print('Prospect run with Fluspect_B_CX_P6')
 
+    if inmem and sys.version_info >= (3, 7):
+        # python>=3.7 necessary for sqlite3 backup API used in pytools4dart.dbtools.prospect_db.
+        # (see https://stackoverflow.com/questions/59758009/sqlite3-connection-object-has-no-attribute-backup)
+        raise Exception('Python>=3.7 is needed for option inmem=True. Update python or set inmem=False.')
+
     fexist = os.path.isfile(db_file)
     if fexist:
         if mode is 'ow':
