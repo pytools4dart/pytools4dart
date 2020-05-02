@@ -43,7 +43,7 @@ except ImportError as e:
         str(e) + "\n\nPlease install GDAL.")
 
 try:
-    import tinyobj
+    import tinyobjloader
     import numpy as np
 
 
@@ -54,7 +54,7 @@ try:
         """
 
         def __init__(self, file_src):
-            obj = tinyobj.ObjReader()
+            obj = tinyobjloader.ObjReader()
             obj.ParseFromFile(file_src)
             # names are lost
             self._file = file_src
