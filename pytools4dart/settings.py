@@ -541,7 +541,7 @@ def build_core(directory=None):
                         '--post-ctor="update_node(self,self.troot,\'{xsdname}\')"',
                         '--imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes"',
                         '-o "{pypath}"',
-                        '{xsdpath}']).format(user_methods='core_ui.user_methods',
+                        '{xsdpath}']).format(user_methods=os.path.join(directory, "core_ui", 'user_methods.py'),
                                              xsdname=xsdname,
                                              pypath=os.path.join(directory, "core_ui", xsdname + '.py'),
                                              xsdpath=os.path.join(directory, "xsdschemas", xsdname + '.xsd'))
