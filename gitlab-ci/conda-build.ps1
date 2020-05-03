@@ -47,23 +47,29 @@
 # conda activate ptdvenv  # activate ptdvenv
 # conda env list  # check that ptdvenv is activated
 
-
-
-$prefix = $env:userprofile
-echo "Installing Miniconda in: $prefix"
+# change condaexe and condadir
 $condaurl = "https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe"
-$condaexe = "$prefix\Miniconda3-latest-Windows-x86_64.exe"
-$condadir = "$prefix\miniconda3"
-$env:condadir = $condadir
+# Path where miniconda installer will be downloaded
+$condaexe = "${env:userprofile}\Miniconda3-latest-Windows-x86_64.exe"
+# Path where miniconda will be installed
+$condadir = "${$env:userprofile}\miniconda3"
 
+echo "Installing Miniconda in: $condadir"
+# download miniconda installer
 curl.exe -C - $condaurl -o $condaexe
+# install miniconda
 Start-Process $condaexe -Args "/InstallationType=JustMe /RegisterPython=0 /S /D=$condadir" -wait
+# add condabin to path to have `conda` command available
 $env:PATH = "$condadir\condabin;" + $env:PATH
+# initialize conda: it creates the powershell profile script
 conda init powershell
+# load the profile for current session: it activates (base) environment
 invoke-expression -Command "$env:userprofile\Documents\WindowsPowerShell\profile.ps1"
-conda install -y conda-build
+# create new environment
 conda create -y -n ptdvenv -c conda-forge python=3.7
+# activate the newly created environment
 conda activate ptdvenv
+# check that it is really activated
 conda env list
 Write-Host "conda directory size: "
 (gci $condadir | measure Length -s).sum / 1Mb
@@ -83,5 +89,5 @@ pip install git+https://github.com/jgomezdans/prosail.git
 # install pytools4dart
 pip install .
 
-$env:PATH = "${env:condadir}\pkgs\openjdk-11.0.1-1018\Library\bin\server;" + $env:PATH
+$env:PATH = "$condadir\pkgs\openjdk-11.0.1-1018\Library\bin\server;" + $env:PATH
 
