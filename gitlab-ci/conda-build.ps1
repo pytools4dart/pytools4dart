@@ -83,7 +83,6 @@ conda install -y -c conda-forge rasterio rtree scipy
 pip install git+https://gitlab.com/pytools4dart/generateds.git
 pip install tinyobjloader==2.0.0rc5
 pip install git+https://gitlab.com/pytools4dart/gdecomp.git
-pip install git+https://github.com/floriandeboissieu/laspy.git@patch-1
 pip install git+https://github.com/jgomezdans/prosail.git
 
 # install pytools4dart
