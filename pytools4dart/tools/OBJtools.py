@@ -49,9 +49,10 @@ try:
 
     class objreader(object):
         """
-        class to bind tinyobj, as shape elements
+        class to bind tinyobjloader, as shape elements
         not kept correctly (lost) when getting out of a method
         """
+        # TODO: check if still necessary with tinyobjloader official package
 
         def __init__(self, file_src):
             obj = tinyobjloader.ObjReader()

@@ -1,3 +1,11 @@
+# 1.1.5
+
+## Fix
+- imp depreciation warnings from generateDS at configuration
+
+## Change
+- tinyobjloader official package replace tinyobj temporary binding
+
 # 1.1.4
 
 ## Fix
@@ -8,7 +16,7 @@
     - the geotransform metadata made the DART output rasters looked like hey were flipped
 - add.plot: corners matrix was implicitly expected as [[y0, x0], [y1, x1], ...],
     it was changed for a more natural order [[x0, y0], [x1, y1], ...].
-    
+- on Windows, running sequence was ending with 'Please pcdress a key to continue...': removed pause to avoid this behaviour.
 
 ## Change
 

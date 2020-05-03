@@ -6,7 +6,7 @@ Package __pytools4dart__ is a python API to DART, thus DART must be installed to
 Please refer to [DART section](#dart) for DART installation.
 
 
-__Before install, Windows users__ will need Visual Studio C++11 compiler to install package `tinyobj`, 
+__Before install, Windows users__ will need Visual Studio C++11 compiler to install package `tinyobjloader`, 
 which is a dependency of `pytools4dart` (for details see 
 [here](https://gitlab.com/floriandeboissieu/tinyobj) and [here](https://pybind11.readthedocs.io/en/stable/basics.html)):
 
@@ -50,7 +50,7 @@ conda activate ptdvenv
 Check all packages are installed:
 
 ```bash
-python -c 'import generateDS; import tinyobj; import gdecomp; import laspy; import pytools4dart'
+python -c 'import generateDS; import tinyobjloader; import gdecomp; import laspy; import pytools4dart'
 ```
 
 In case of error, refer to section [Test environment](#test-environment).
@@ -100,7 +100,7 @@ Within ipython console, test environment:
 
 ```python
 import generateDS
-import tinyobj
+import tinyobjloader
 import gdecomp
 import laspy
 import pytools4dart
@@ -198,7 +198,7 @@ Thus, it is recommended to check if all the pip packages have been well installe
 For that, activate the newly created environment, open an ipython session and execute the following lines:
 ```python
 import generateDS
-import tinyobj
+import tinyobjloader
 import gdecomp
 import laspy
 import pytools4dart
