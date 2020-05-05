@@ -52,7 +52,7 @@ $condaurl = "https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_6
 # Path where miniconda installer will be downloaded
 $condaexe = "${env:userprofile}\Miniconda3-latest-Windows-x86_64.exe"
 # Path where miniconda will be installed
-$condadir = "${$env:userprofile}\miniconda3"
+$condadir = "${env:userprofile}\miniconda3"
 
 echo "Installing Miniconda in: $condadir"
 # download miniconda installer
