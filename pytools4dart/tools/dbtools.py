@@ -27,7 +27,7 @@
 #
 # ===============================================================================
 """
-This module contains the function to extract DART database elements.
+This module contains functions to build properties or prospect database and to extract DART database elements.
 """
 
 import sqlite3
@@ -42,7 +42,6 @@ import numpy as np
 from sqlite3 import Error
 import sys
 import hashlib
-from jnius import autoclass
 import prosail
 
 
@@ -506,10 +505,31 @@ def _get_model_name(N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can=0,
 
     Parameters
     ----------
+    N
+    Cab
+    Car
+    CBrown
+    Cw
+    Cm
+    Can
+    file_hash: str
+        SHA256 hash code of propsect model spectral specifications
+    PSI
+    PSII
+    V2Z
     kwargs: any
-        not used.
+        not used, just not to make error if other arguments given
 
+    Returns
+    -------
+    str
+        property name in prospect database
     """
+    # import inside function to avoid java path error on Windows
+    # error will appear only if used
+    # jnius is used for hash_code
+    from jnius import autoclass
+
     jString = autoclass('java.lang.String')
     prospect = [N, Cab, Car, CBrown, Cw, Cm, file_hash, PSI, PSII, V2Z, Can]
 
