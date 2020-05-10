@@ -346,12 +346,37 @@ Package [pyjnius](https://github.com/kivy/pyjnius) is needed to have a correct 3
 ### For DART v1150
 
 In DART version v1150, XML schema `phase.xsd` has missing nodes for Lux acceleration engine.
-This issue has been fixed in branch `dart_v1150` of pytools4dart.
 
-Branch `dart_v1150` of pytools4dart:
+This issue has been fixed in branch `dart_v1150` of pytools4dart, including a patched `phase.xsd`.
+This branch can be installed with:
+
 ```bash
 pip install git+https://gitlab.com/pytools4dart/pytools4dart.git@dart_v1150
 ```
 
 Next DART version should have the good `phase.xsd`.
 Thus, this branch will not be maintained further, it is a temporary fix.
+
+### jnius error on Windows conda install
+
+On conda install over windows, `from jnius import autoclass` may lead to an error of type:
+```bash
+ImportError: DLL load failed: The specified module could not be found.
+```
+
+It is looking for `jvm.dll` and cannot find it. It is a problem of `pyjnius` not looking in the right place.
+It can be solved adding the JDK server directory to your `PATH` environment variable:
+
+- on conda (replace `Miniconda3` by `Anaconda3`):
+```bash
+C:\Users\your_user_name\Miniconda3\pkgs\openjdk-11.0.1-1017\Library\bin\server
+```
+- otherwise:
+```bash
+C:\Program Files (x86)\Java\jdk[YOUR JDK VERSION]\jre\bin\server
+```
+
+See 
+https://github.com/kivy/pyjnius/issues/216,
+https://stackoverflow.com/questions/58078615/conda-does-not-set-up-properly-path-for-jdk-for-pyjnius, 
+https://stackoverflow.com/questions/20970732/jnius-1-1-import-error.
