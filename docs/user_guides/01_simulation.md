@@ -56,26 +56,28 @@ The following code shows these different elements:
 ```python
 import pytools4dart as ptd
 
+# Load simulation 'simulationTest'
 simu = ptd.simulation('simulationTest')
 
+# Print simulation summary
 simu.summary()
 
-# attributes
+# Show object attributes
 vars(simu)
 
-# properties, i.e. attributes with specific getter/setter
+# Show object properties, i.e. attributes with specific getter/setter
 [v for v in vars(type(simu))
     if isinstance(getattr(type(simu), v), property)]
 
-# methods
+# Show object methods
 [v for v in vars(type(simu))
     if callable(getattr(type(simu), v)) and
     not v.startswith('_')]
 
-# write the simulation
+# Write the simulation
 simu.write()
 
-# run the simulation
+# Run the simulation
 simu.run.full()
 
 ```
@@ -83,14 +85,15 @@ simu.run.full()
 ## Empty simulation
 
 When creating a new simulation in DART, it creates as default:
- - a Lambertian optical property. It is used as the default optical property
+ - a Lambertian optical property called `Lambertian_Phase_Function_1` with model `reflect_equal_1_trans_equal_0_0`
+ from database `Lambertian_vegetation.db` (located in $DART_HOME/database). It is used as the default optical property
  for the ground.
  
- - a spectral band
+ - a spectral band at wavelength 560 nm with bandwidth 20 nm
 
 This way the default simulation can be run without error.
 
-While the optical property can be usefull when we don't want to think about the ground,
+While the optical property can be usefull when we don't want to think about the optical property of the ground,
 the default band is usually not used and could generate unintended processing. 
 
 The parameters related to the default band can be removed with argument `empty=True`
