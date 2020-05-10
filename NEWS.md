@@ -7,7 +7,7 @@
 - tinyobjloader official package replace tinyobj temporary binding
 - gdecomp dependency from pypi instead of git
 - laspy dependency from pypi/conda as support of waveforms format now integrated in official release
-- python>=3.7 as sqlite backup only starting at that version 
+- python>=3.7 necessary in `prospect_db` for `inmem` option as sqlite backup support only starting with that version 
 
 # 1.1.4
 
