@@ -357,7 +357,7 @@ pip install git+https://gitlab.com/pytools4dart/pytools4dart.git@dart_v1150
 Next DART version should have the good `phase.xsd`.
 Thus, this branch will not be maintained further, it is a temporary fix.
 
-### jnius error on Windows conda install
+### `DLL load failed` at `jnius` import
 
 On conda install over windows, `from jnius import autoclass` may lead to an error of type:
 ```bash
