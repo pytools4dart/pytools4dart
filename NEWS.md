@@ -5,6 +5,9 @@
 
 ## Change
 - tinyobjloader official package replace tinyobj temporary binding
+- gdecomp dependency from pypi instead of git
+- laspy dependency from pypi/conda as support of waveforms format now integrated in official release
+- python>=3.7 as sqlite backup only starting at that version 
 
 # 1.1.4
 
