@@ -3,10 +3,8 @@ This notebooks describes the structure and methods of core.
 
 ## Core content
 
-
-The core contains all the input xml files of
-DART, loaded into python objects. For DART version 5-7-4, it typically contains
-the following modules:
+The core contains all the input xml files of DART, loaded into python objects.
+For DART version 5-7-4, it typically contains the following modules:
 
 - atmosphere, 
 - coeff_diff, 
@@ -19,7 +17,7 @@ the following modules:
 - trees, 
 - urban, 
 - water,
-- and sequence if there was one added. 
+- and sequence if one was added. 
 
 The list of these modules is avaible through `core.children`:
 
@@ -45,7 +43,7 @@ In order to explore the content of these modules, each node has the methods:
   - `set_nodes()`: set a value to a subnode.
 
 
-Other useful functions for core exploration are in `core_ui.utils`:
+Other useful functions for core exploration are in `pytools4dart.core_ui.utils`:
   
   - `get_nodes()`: get the subnodes corresponding to a subpath.
   - `findall()`: get all the subnodes values and paths corresonding to a regular expression.
