@@ -51,7 +51,7 @@ win-dart:
     paths:
       - cache
   only:
-    - schedules
+    - windows
 
 linux-dart:
   stage: download
