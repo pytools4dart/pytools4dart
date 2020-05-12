@@ -180,6 +180,7 @@ pages:
     # configure, updating API with current DART version
     - cd pytools4dart/examples
     - python -c 'import pytools4dart as ptd; ptd.configure("~/DART")'
+    - cd $CI_PROJECT_DIR
     - portray as_html -c pyproject.toml
     - mv site public
   cache:
