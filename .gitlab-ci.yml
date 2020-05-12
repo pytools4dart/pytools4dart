@@ -60,6 +60,8 @@ linux-dart:
     - mkdir -p cache
     - cd cache
     - curl -C - $DART_URL_LINUX -o dart.tar.gz
+    - echo "DART version:"
+    - echo "$(echo "$DART_URL_LINUX" |sed 's/.*\(v[0-9]*\)_linux64.tar.gz$/\1/')"
     - ls
   cache:
     key: linux-cache
@@ -152,13 +154,13 @@ pip-build:
     - cd pytools4dart/examples
     - python -c 'import pytools4dart as ptd; ptd.configure("~/DART")'
     - python use_case_0.py
-#    - python use_case_1.py
-#    - python use_case_2.py
-#    - python use_case_3.py
-#    - python use_case_4.py
-#    - python use_case_5.py
-#    - python use_case_6.py
-#    - python use_case_7.py
+    - python use_case_1.py
+    - python use_case_2.py
+    - python use_case_3.py
+    - python use_case_4.py
+    - python use_case_5.py
+    - python use_case_6.py
+    - python use_case_7.py
   cache:
     key: linux-cache
     paths:
@@ -182,6 +184,8 @@ pages:
     - python -c 'import pytools4dart as ptd; ptd.configure("~/DART")'
     - cd $CI_PROJECT_DIR
     - portray as_html -c pyproject.toml
+    - DART_VERSION="$(echo "$DART_URL_LINUX" |sed 's/.*\(v[0-9]*\)_linux64.tar.gz$/\1/')"
+    - anybadge -l DART -v $DART_VERSION -f dart_badge.svg -c blue
     - mv site public
   cache:
     key: linux-cache
@@ -191,6 +195,7 @@ pages:
   artifacts:
     paths:
      - public
+     - dart_badge.svg
   only:
    - schedules
 
