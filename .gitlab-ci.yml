@@ -115,7 +115,7 @@ conda-build:
     - source ~/.bashrc
     - conda activate ptdvenv
     - pip install .
-    - dartzip=$(pwd)/cache/dart.tar.gz
+    - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
     - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
     # check examples
     - cd pytools4dart/examples
@@ -146,7 +146,7 @@ pip-build:
     # install linux dependencies
     - pip install .
     # install DART
-    - dartzip=$ptd/cache/dart.tar.gz
+    - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
     - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
     # check examples
     - cd pytools4dart/examples
@@ -175,7 +175,7 @@ pages:
     - python -V  # Print out python version for debugging
     - python setup.py develop
     # install DART
-    - dartzip=$ptd/cache/dart.tar.gz
+    - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
     - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
     # configure, updating API with current DART version
     - cd pytools4dart/examples
