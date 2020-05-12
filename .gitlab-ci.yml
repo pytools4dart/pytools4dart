@@ -103,17 +103,14 @@ win-build:
       - cache
     policy: pull
   only:
-    - schedules
+    - windows
 
 
 conda-build:
   stage: build
-  image: conda/miniconda3:latest
+  image: pytools4dart/miniconda-build:latest
   script:
     - ls cache
-    - apt-get update -qy
-    - apt-get install -y gcc g++ git unzip libgtk2.0-0 libsm6 libxft2 curl
-    - conda env create -f environment.yml
     - conda init bash
     - source ~/.bashrc
     - conda activate ptdvenv
@@ -122,15 +119,16 @@ conda-build:
     - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
     # check examples
     - cd pytools4dart/examples
-    - python -c 'import pytools4dart as ptd;ptd.configure("~/DART")'
+    - python -c 'import pytools4dart as ptd; print(ptd.__version__)'
+    - python -c 'import pytools4dart as ptd; ptd.configure("~/DART")'
     - python use_case_0.py
-    - python use_case_1.py
-    - python use_case_2.py
-    - python use_case_3.py
-    - python use_case_4.py
-    - python use_case_5.py
-    - python use_case_6.py
-    - python use_case_7.py
+#    - python use_case_1.py
+#    - python use_case_2.py
+#    - python use_case_3.py
+#    - python use_case_4.py
+#    - python use_case_5.py
+#    - python use_case_6.py
+#    - python use_case_7.py
   cache:
     key: linux-cache
     paths:
@@ -142,34 +140,25 @@ conda-build:
 
 pip-build:
   stage: build
-  image: python:latest
+  image: pytools4dart/pip-build:latest
   script:
     - ls cache
-    - apt-get update -qy
-    - python -V  # Print out python version for debugging
-    - pip install virtualenv
-    - virtualenv ptdvenv
-    - source ptdvenv/bin/activate
     # install linux dependencies
-    - apt-get install -y libudunits2-dev libnetcdf-dev libproj-dev libgeos-dev libgdal-dev gfortran libspatialindex-dev libgtk2.0-0 default-jdk # -o dir::cache::archives="$APT_CACHE_DIR"
-    - pip install pybind11 pygdal==2.4.0.5 geopandas Cython
-    - pip install -r requirements.txt
     - pip install .
-    - ptd=$(pwd)
     # install DART
     - dartzip=$ptd/cache/dart.tar.gz
     - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
     # check examples
     - cd pytools4dart/examples
-    - python -c 'import pytools4dart as ptd;ptd.configure("~/DART")'
+    - python -c 'import pytools4dart as ptd; ptd.configure("~/DART")'
     - python use_case_0.py
-    - python use_case_1.py
-    - python use_case_2.py
-    - python use_case_3.py
-    - python use_case_4.py
-    - python use_case_5.py
-    - python use_case_6.py
-    - python use_case_7.py
+#    - python use_case_1.py
+#    - python use_case_2.py
+#    - python use_case_3.py
+#    - python use_case_4.py
+#    - python use_case_5.py
+#    - python use_case_6.py
+#    - python use_case_7.py
   cache:
     key: linux-cache
     paths:
@@ -181,33 +170,26 @@ pip-build:
 
 pages:
   stage: deploy
-  image: python:latest
+  image: pytools4dart/pip-build:latest
   script:
-    - mkdir -p .cache/pip
-    - mkdir -p .cache/apt
-    - apt-get update -qy
     - python -V  # Print out python version for debugging
-    - pip install virtualenv
-    - virtualenv ptdvenv
-    - source ptdvenv/bin/activate
-    # install linux dependencies
-    - apt-get install -y libudunits2-dev libnetcdf-dev libproj-dev libgeos-dev libgdal-dev gfortran libspatialindex-dev libgtk2.0-0 default-jdk # -o dir::cache::archives="$APT_CACHE_DIR"
-    - pip install pybind11 pygdal==2.4.0.5 geopandas Cython
-    - pip install -r requirements.txt
-    - pip install .
-    #- mkdir -v $APT_CACHE_DIR
-    - pip install portray python-markdown-math
+    - python setup.py develop
+    # install DART
+    - dartzip=$ptd/cache/dart.tar.gz
+    - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
+    # configure, updating API with current DART version
+    - cd pytools4dart/examples
+    - python -c 'import pytools4dart as ptd; ptd.configure("~/DART")'
     - portray as_html -c pyproject.toml
     - mv site public
   cache:
-    key: deploy-cache
+    key: linux-cache
     paths:
-      - .cache/pip
-      - .cache/apt
-      - ptdvenv
+      - cache
+    policy: pull
   artifacts:
     paths:
      - public
   only:
-   - master
+   - schedules
 
