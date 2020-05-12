@@ -68,7 +68,7 @@ linux-dart:
     paths:
       - cache
   only:
-    - schedules
+    - master
 
 
 win-build:
@@ -137,7 +137,7 @@ conda-build:
       - cache
     policy: pull
   only:
-    - schedules
+    - master
 
 
 pip-build:
@@ -167,7 +167,7 @@ pip-build:
       - cache
     policy: pull
   only:
-    - schedules
+    - master
 
 
 pages:
