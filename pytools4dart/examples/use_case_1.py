@@ -75,15 +75,10 @@ op = simu.add.optical_property(type='Vegetation',
 
 # add a turbid plot
 plot = simu.add.plot(type='Vegetation', op_ident='turbid_leaf')
-# simu.add_single_plot(op_name=op_name)
 
-# # define sequence
-# simu.add_prospect_sequence({'Cab': range(0,30,10)}, 'op_prospect',
-#                            name='prospect_sequence')
-
-sequence = simu.add.sequence()
-sequence.name = 'prospect_sequence'
-# sequence = ptd.sequencer.Sequencer(simu, 'sequence_old')
+# add a sequence named 'prospect_sequence',
+# with empty=True to avoid loading an existing sequence with the same name
+sequence = simu.add.sequence('prospect_sequence', empty=True)
 print(simu)
 
 # show simulation content

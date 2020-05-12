@@ -138,7 +138,9 @@ trees = simu.add.trees(inventory)
 
 # add sequence of chlorophyll
 Cab = range(0, 30, 10)
-sequence = simu.add.sequence('prospect_sequence')
+# add a sequence named 'prospect_sequence',
+# with empty=True to avoid loading an existing sequence with the same name
+sequence = simu.add.sequence('prospect_sequence', empty=True)
 sequence.core.set_nodes(numberParallelThreads=1)
 sequence.add_item(group='prospect', key='Cab', values=Cab, corenode=op)
 
