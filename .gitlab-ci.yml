@@ -190,7 +190,7 @@ pip-build:
 
 conda-env:
   stage: deploy
-  images: pytools4dart/anaconda-build:latest
+  image: pytools4dart/anaconda-build:latest
   script:
     - anaconda -t $ANACONDA_TOKEN upload --user pytools4dart environment.yml
   only:
