@@ -190,7 +190,7 @@ pip-build:
 
 conda-env:
   stage: build
-  image: continuumio/miniconda3:latest
+  image: continuumio/anaconda3:latest
 #  image: pytools4dart/anaconda-build:latest
   script:
     - echo "done"
