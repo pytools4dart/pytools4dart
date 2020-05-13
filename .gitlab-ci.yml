@@ -14,6 +14,7 @@ variables:
 stages:
   - prepare
   - build
+  - deploy-conda
   - deploy
 
 ### To work with artifacts
@@ -189,12 +190,12 @@ pip-build:
 
 
 conda-env:
-  stage: deploy
+  stage: deploy-conda
   image: pytools4dart/anaconda-build:latest
   script:
     - anaconda -t $ANACONDA_TOKEN upload --user pytools4dart environment.yml
-  only:
-    - schedules
+#  only:
+#    - schedules
 #    changes:
 #      - environment.yml
 
@@ -213,9 +214,9 @@ pages:
     - python -c 'import pytools4dart as ptd; ptd.configure("~/DART")'
     - cd $CI_PROJECT_DIR
     - portray as_html -c pyproject.toml
-    - pip install anybadge
-    - DART_VERSION="$(echo "$DART_URL_LINUX" |sed 's/.*\(v[0-9]*\)_linux64.tar.gz$/\1/')"
-    - anybadge -l DART -v $DART_VERSION -f dart_badge.svg -c blue
+    #    - pip install anybadge
+    #    - DART_VERSION="$(echo "$DART_URL_LINUX" |sed 's/.*\(v[0-9]*\)_linux64.tar.gz$/\1/')"
+    #    - anybadge -l DART -v $DART_VERSION -f dart_badge.svg -c blue
     - mv site public
   cache:
     key: linux-cache
