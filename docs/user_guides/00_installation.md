@@ -22,29 +22,32 @@ This way, packages will be installed in this virtual environment and avoid any c
 The virtual environment can be created with Anaconda or with virtualenv.
 Python 3 version is recommended, as Python 2 is not maintained anymore.
 
-### Anaconda install (recommended)
+### Conda install (recommended)
 
-See [Ananconda documentation](https://www.anaconda.com/distribution) 
-for installation instructions if not already installed.
- 
-Once conda is installed, download file [environment.yml](https://gitlab.com/pytools4dart/pytools4dart/blob/master/environment.yml)
-and follow install instructions in one of the following sections. 
+#### Requirements
+
+There are two distributions of `conda`:
+    - Miniconda (~50 MB): light weight distribution of conda for command line use, 
+    - Anaconda (~500 MB): with graphical interface Anaconda Navigator.
+
+See [Ananconda/Miniconda documentation](https://docs.anaconda.com/anaconda/install) 
+for installation instructions.
 
 #### Command line install (Linux, Mac & Windows)
 
-For Windows users allergic to command line see section [Anaconda Navigator install](#anaconda-navigator-install-windows-only).
+For users allergic to command line see section [Anaconda Navigator install](#anaconda-navigator-install-windows-only).
 
 From a terminal (or Anaconda prompt in Windows), create the new environment with the following command lines
-(answer yes if asked), replacing `ptdvenv` by the name of your choice:
+(answer yes if asked), replacing `myptd` by the name of your choice:
 
 ```bash
-conda env create -f environment.yml --name ptdvenv -v
+conda env create --name myptd pytools4dart/ptdvenv -v
 ```
 
 Activate the new environment:
 
 ```bash
-conda activate ptdvenv
+conda activate myptd
 ``` 
 
 Check all packages are installed:
@@ -80,17 +83,19 @@ __At any time, the created environment can be removed with the following [Uninst
 _Note: in case of error, see section [Known errors](#known-errors)._
 
 
-#### Anaconda Navigator install (Windows only)
+#### Anaconda Navigator install
 
-On windows, pytools4dart can also be installed in an Anaconda environment
+`pytools4dart` can also be installed in an Anaconda environment
 using Anaconda Navigator graphical interface:
+
+1. download [environment.yml](https://gitlab.com/pytools4dart/pytools4dart/blob/master/environment.yml).
 
 1. open Anaconda Navigator
 
 1. go to menu Environments
 
 1. click on import and select the downloaded
-[environment.yml](https://gitlab.com/pytools4dart/pytools4dart/blob/master/environment.yml) file.
+[environment.yml](https://gitlab.com/pytools4dart/pytools4dart/blob/master/environment.yml).
 
 1. choose the name of the environment (default is `ptdvenv`)
 
@@ -131,7 +136,7 @@ __At any time, the created environment can be removed leaving your system as it 
 _Note: in case an error occurs, see section [Known errors](#known-errors)._
 
 
-### With virtualenv (tested on Ubuntu only)
+### Virtualenv install (tested on Ubuntu only)
 
 There are several way to install a python virtual environment (see [here](https://docs.python.org/3/library/venv.html)
 and [here](https://stackoverflow.com/questions/1534210/use-different-python-version-with-virtualenv)). Here the `virtualenv`
