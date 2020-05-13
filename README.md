@@ -15,9 +15,21 @@ All installation details are available in the
 
 The python API covers most of DART features and more:
 
-- DART simulation reader/writer
-- full parametrisation of any type of simulation
-- several proxies and summaries to most used parameters:
+- __Configurable__ with any DART version
+- __Load and/or Create__ DART simulation files
+- __Full Parametrisation__ of any type of simulation
+- __Proxies & Summaries__ to most used parameters: scene elements (sizes, objects, properties), sensor bands, source
+- __DART Runners__: run simulations step by step (direction, phase, ...) or fully, run/resume sequence processing
+- __Sequence Generator__
+- __Pre/Post-Processing tools__:
+    - hyperspectral tools (hstools): read ENVI .hdr files, extract wavelengths and bandwidths, stack band images to ENVI file
+    - voxreader : load voxelisation file/data, intersect with polygons/raster to define properties, export to simulation plots
+    - DART2LAS: lidar processing tools
+        - extract returns with gaussian decomposition of lidar waveforms (accelerated with C++ backend) 
+        - convert lidar simulation results to LAS files (full-waveform and returns only)
+
+<!---
+    proxies:
     - scene 
         - scene and cell size, 
         - plots, objects, trees, 
@@ -26,8 +38,7 @@ The python API covers most of DART features and more:
         - bands wavelength and bandwidth
     - source:
         - sun angles
-- sequence generator
-- DART runners:
+    runners:
     - direction
     - phase
     - maket
@@ -35,15 +46,9 @@ The python API covers most of DART features and more:
     - full
     - sequence
     - colorCompositeBands
-- pre/post-processing tools:
-    - hyperspectral tools (hstools): read ENVI .hdr files, extract wavelengths and bandwidths, stack results to ENVI file
-    - voxreader :
-        - read voxelised scene in AMAPvox file
-        - intersect voxels with polygons to define properties
-    - DART2LAS: 
-        - extract returns with gaussian decomposition (accelerated with C++ backend)
-        - convert lidar simulation results to LAS files (full-waveform and returns only)
-        
+-->
+
+
 Many variables are pandas DataFrame objects, and can be directly 
 interacted with by the user.        
 
