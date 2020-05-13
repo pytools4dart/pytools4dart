@@ -194,6 +194,7 @@ conda-env:
 #  image: pytools4dart/anaconda-build:latest
   script:
     - anaconda -t $ANACONDA_TOKEN upload --user pytools4dart environment.yml
+    - echo "done"
 #  artifacts:
 #    paths:
 #      - environment.yml
