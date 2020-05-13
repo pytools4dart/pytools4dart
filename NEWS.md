@@ -1,3 +1,8 @@
+# 1.1.6
+
+## Add
+- environment.yml uploaded to [anaconda cloud](https://anaconda.org/pytools4dart/ptdvenv)
+
 # 1.1.5
 
 ## Fix
