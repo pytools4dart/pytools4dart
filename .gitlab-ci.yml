@@ -14,7 +14,6 @@ variables:
 stages:
   - prepare
   - build
-  - deploy-conda
   - deploy
 
 ### To work with artifacts
@@ -190,13 +189,13 @@ pip-build:
 
 
 conda-env:
-  stage: deploy-conda
+  stage: build
   image: pytools4dart/anaconda-build:latest
   script:
     - anaconda -t $ANACONDA_TOKEN upload --user pytools4dart environment.yml
-  artifacts:
-    paths:
-      - environment.yml
+#  artifacts:
+#    paths:
+#      - environment.yml
 #  only:
 #    - schedules
 #    changes:
