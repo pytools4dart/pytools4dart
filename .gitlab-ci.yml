@@ -198,6 +198,7 @@ conda-env:
     # Warning: fails silently when token is wrong
     - anaconda -t $ANACONDA_TOKEN upload --user pytools4dart environment.yml
   only:
+    - master
     changes:
       - environment.yml
 
