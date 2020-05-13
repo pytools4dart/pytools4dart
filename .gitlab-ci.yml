@@ -189,12 +189,11 @@ pip-build:
 
 
 conda-env:
-  stage: build
+  stage: deploy
   image: continuumio/anaconda3:latest
 #  image: pytools4dart/anaconda-build:latest
   script:
-    - echo "done"
-#    - anaconda -t $ANACONDA_TOKEN upload --user pytools4dart environment.yml
+    - anaconda -t $ANACONDA_TOKEN upload --user pytools4dart environment.yml
 #  artifacts:
 #    paths:
 #      - environment.yml
