@@ -1,5 +1,5 @@
 # include file
-include LICENSE
+include LICENSE.txt
 include README.md
 include pytools4dart/sequence.xsd
 include pytools4dart/sequence.xml
