@@ -12,7 +12,7 @@ variables:
 
 
 stages:
-  - download
+  - prepare
   - build
   - deploy
 
@@ -37,24 +37,42 @@ stages:
 #    expire_in: 2h
 ###
 
+#win-dart:
+#  extends:
+#    - .shared_windows_runners
+#  stage: download
+#  script:
+#    - mkdir -Force cache
+#    - cd cache
+#    - curl.exe -C - $env:DART_URL_WIN -o dart.zip
+#    - ls
+#  cache:
+#    key: win-cache
+#    paths:
+#      - cache
+#  only:
+#    - windows
+
 win-dart:
-  extends:
-    - .shared_windows_runners
-  stage: download
+  stage: prepare
+  image: python:latest
   script:
-    - mkdir -Force cache
+    - mkdir -p cache
     - cd cache
-    - curl.exe -C - $env:DART_URL_WIN -o dart.zip
+    - curl -C - $DART_URL_WIN -o dart.zip
+    - echo "DART version:"
+    - echo "$(echo "$DART_URL_WIN" |sed 's/.*\(v[0-9]*\)_windows64.zip$/\1/')"
     - ls
   cache:
     key: win-cache
     paths:
       - cache
   only:
-    - windows
+    - master
+
 
 linux-dart:
-  stage: download
+  stage: prepare
   image: python:latest
   script:
     - mkdir -p cache
@@ -124,13 +142,13 @@ conda-build:
     - python -c 'import pytools4dart as ptd; print(ptd.__version__)'
     - python -c 'import pytools4dart as ptd; ptd.configure("~/DART")'
     - python use_case_0.py
-#    - python use_case_1.py
-#    - python use_case_2.py
-#    - python use_case_3.py
-#    - python use_case_4.py
-#    - python use_case_5.py
-#    - python use_case_6.py
-#    - python use_case_7.py
+    - python use_case_1.py
+    - python use_case_2.py
+    - python use_case_3.py
+    - python use_case_4.py
+    - python use_case_5.py
+    - python use_case_6.py
+    - python use_case_7.py
   cache:
     key: linux-cache
     paths:
@@ -170,6 +188,17 @@ pip-build:
     - master
 
 
+conda-env:
+  stage: deploy
+  images: pytools4dart/anaconda-build:latest
+  script:
+    - anaconda -t $ANACONDA_TOKEN upload --user pytools4dart environment.yml
+  only:
+    - schedules
+#    changes:
+#      - environment.yml
+
+
 pages:
   stage: deploy
   image: pytools4dart/pip-build:latest
@@ -198,5 +227,5 @@ pages:
      - public
      - dart_badge.svg
   only:
-   - schedules
+   - master
 
