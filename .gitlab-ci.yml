@@ -85,8 +85,8 @@ linux-dart:
     key: linux-cache
     paths:
       - cache
-#  only:
-#    - master
+  only:
+    - master
 
 
 win-build:
@@ -190,9 +190,11 @@ pip-build:
 
 conda-env:
   stage: build
-  image: pytools4dart/anaconda-build:latest
+  image: continuumio/miniconda3:latest
+#  image: pytools4dart/anaconda-build:latest
   script:
-    - anaconda -t $ANACONDA_TOKEN upload --user pytools4dart environment.yml
+    - echo "done"
+#    - anaconda -t $ANACONDA_TOKEN upload --user pytools4dart environment.yml
 #  artifacts:
 #    paths:
 #      - environment.yml
