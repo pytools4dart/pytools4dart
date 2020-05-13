@@ -85,8 +85,8 @@ linux-dart:
     key: linux-cache
     paths:
       - cache
-  only:
-    - master
+#  only:
+#    - master
 
 
 win-build:
