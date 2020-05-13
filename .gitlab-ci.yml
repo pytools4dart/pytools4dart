@@ -68,7 +68,7 @@ win-dart:
     paths:
       - cache
   only:
-    - master
+    - schedules
 
 
 linux-dart:
@@ -86,7 +86,7 @@ linux-dart:
     paths:
       - cache
   only:
-    - master
+    - schedules
 
 
 win-build:
@@ -125,7 +125,6 @@ win-build:
   only:
     - windows
 
-
 conda-build:
   stage: build
   image: pytools4dart/miniconda-build:latest
@@ -155,7 +154,9 @@ conda-build:
       - cache
     policy: pull
   only:
-    - master
+    refs:
+      - master
+      - schedules
 
 
 pip-build:
@@ -185,19 +186,20 @@ pip-build:
       - cache
     policy: pull
   only:
-    - master
+    refs:
+      - master
+      - schedules
 
 
 conda-env:
   stage: deploy
   image: continuumio/anaconda3:latest
-#  image: pytools4dart/anaconda-build:latest
   script:
+    # Warning: fails silently when token is wrong
     - anaconda -t $ANACONDA_TOKEN upload --user pytools4dart environment.yml
-#  only:
-#    - schedules
-#    changes:
-#      - environment.yml
+  only:
+    changes:
+      - environment.yml
 
 
 pages:
