@@ -42,115 +42,78 @@ except ImportError as e:
     raise ImportError(
         str(e) + "\n\nPlease install GDAL.")
 
-try:
-    import tinyobjloader
-    import numpy as np
+import tinyobjloader
+import numpy as np
 
 
-    class objreader(object):
-        """
-        class to bind tinyobjloader, as shape elements
-        not kept correctly (lost) when getting out of a method
-        """
-        # TODO: check if still necessary with tinyobjloader official package
+class objreader(object):
+    """
+    class to bind tinyobjloader, as shape elements
+    not kept correctly (lost) when getting out of a method
+    """
+    # TODO: check if still necessary with tinyobjloader official package
 
-        def __init__(self, file_src):
-            obj = tinyobjloader.ObjReader()
-            obj.ParseFromFile(file_src)
-            # names are lost
-            self._file = file_src
-            self._names = [g.name for g in obj.GetShapes()]
+    def __init__(self, file_src):
+        obj = tinyobjloader.ObjReader()
+        obj.ParseFromFile(file_src)
+        # names are lost
+        self._file = file_src
+        self._names = [g.name for g in obj.GetShapes()]
 
-            # vertices not used elsewhere thus not kept
-            vertices = np.array(obj.GetAttrib().vertices).reshape((-1, 3))
-            self._ymin, self._zmin, self._xmin = np.amin(vertices, axis=0)
-            self._ymax, self._zmax, self._xmax = np.amax(vertices, axis=0)
+        # vertices not used elsewhere thus not kept
+        vertices = np.array(obj.GetAttrib().vertices).reshape((-1, 3))
+        self._ymin, self._zmin, self._xmin = np.amin(vertices, axis=0)
+        self._ymax, self._zmax, self._xmax = np.amax(vertices, axis=0)
 
-        # @property
-        # def vertices(self):
-        #     return np.array(self._obj.GetAttrib().vertices).reshape((-1,3))
+    # @property
+    # def vertices(self):
+    #     return np.array(self._obj.GetAttrib().vertices).reshape((-1,3))
 
-        @property
-        def names(self):
-            return self._names
+    @property
+    def names(self):
+        return self._names
 
-        @property
-        def extent(self):
-            return ((self._xmin, self._xmax), (self._ymin, self._ymax), (self._zmin, self._zmax))
+    @property
+    def extent(self):
+        return ((self._xmin, self._xmax), (self._ymin, self._ymax), (self._zmin, self._zmax))
 
-        @property
-        def dims(self):
-            return (self._xmax - self._xmin, self._ymax - self._ymin, self._zmax - self._zmin)
+    @property
+    def dims(self):
+        return (self._xmax - self._xmin, self._ymax - self._ymin, self._zmax - self._zmin)
 
-        @property
-        def center(self):
-            return ((self._xmax + self._xmin) / 2, (self._ymax + self._ymin) / 2, (self._zmax + self._zmin) / 2)
-
-
-    def read(file_src):
-        obj = objreader(file_src)
-        return obj
+    @property
+    def center(self):
+        return ((self._xmax + self._xmin) / 2, (self._ymax + self._ymin) / 2, (self._zmax + self._zmin) / 2)
 
 
-    def get_gnames(obj):
-
-        # gregex = re.compile(r'^g\s*(.*?)\n$')
-        # gnames = []
-        # gnames = [' '.join(gregex.findall(line)) for line in open(file_src) if line.startswith('g')]  # group names
-
-        gnames = gnames_dart_order(obj.names)
-
-        return gnames
+def read(file_src):
+    obj = objreader(file_src)
+    return obj
 
 
-    def get_dims(obj):
+def get_gnames(obj):
 
-        xdim, ydim, zdim = obj.dims
+    # gregex = re.compile(r'^g\s*(.*?)\n$')
+    # gnames = []
+    # gnames = [' '.join(gregex.findall(line)) for line in open(file_src) if line.startswith('g')]  # group names
 
-        return xdim, ydim, zdim
+    gnames = gnames_dart_order(obj.names)
 
-
-    def get_center(obj):
-
-        x, y, z = obj.center
-
-        return x, y, z
+    return gnames
 
 
-except ImportError:
-    def read(file_src):
-        sys.path.append(os.path.join(ptd.getdartdir(), "bin", "python_script", "DAO"))
-        import dao
+def get_dims(obj):
 
-        obj = dao.OBJloader(file_src)
-        obj.load()
+    xdim, ydim, zdim = obj.dims
 
-        return obj
+    return xdim, ydim, zdim
 
 
-    def get_gnames(obj):
+def get_center(obj):
 
-        # gregex = re.compile(r'^g\s*(.*?)\n$')
-        # gnames = []
-        # gnames = [' '.join(gregex.findall(line)) for line in open(file_src) if line.startswith('g')]  # group names
+    x, y, z = obj.center
 
-        gnames = []
-        for group in obj._OBJloader__objects[0].groups:
-            gnames.append(group.name)
-        gnames = gnames_dart_order(gnames)
-
-        return gnames
-
-
-    def get_dims(obj):
-
-        bbox = obj.getBounds()
-
-        xdim = bbox.width()
-        ydim = bbox.depth()
-        zdim = bbox.height()
-
-        return xdim, ydim, zdim
+    return x, y, z
 
 
 def gnames_dart_order(group_names):
