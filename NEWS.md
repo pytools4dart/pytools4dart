@@ -3,6 +3,10 @@
 ## Add
 - environment.yml uploaded to [anaconda cloud](https://anaconda.org/pytools4dart/ptdvenv)
 
+## Change
+- remove DAO OJBloader alternative in OBJtools.py: only tinyobjloader is left.
+
+ 
 # 1.1.5
 
 ## Fix
