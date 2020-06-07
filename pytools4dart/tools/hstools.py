@@ -204,7 +204,7 @@ def stack_dart_bands(band_files, outputfile, driver='ENVI', rotate=True, wavelen
     if rotate:
         rotate_raster(outputfile, outputfile)
 
-    if driver is 'ENVI':
+    if driver == 'ENVI':
         output_hdr = re.sub(r'.bil$', '', outputfile) + '.hdr'
         _complete_hdr(output_hdr, wavelengths, fwhm)
 
@@ -246,7 +246,10 @@ def rotate_raster(src_file, dst_file):
     >>> import rasterio as rio
     >>> from rasterio.plot import show
     >>> import matplotlib.pyplot as plt
-    >>> simu = ptd.simulation('use_case_6')
+    >>> simu = ptd.simulation('use_case_6') #doctest:+ELLIPSIS
+    Loading plot file: ...use_case_6/input/plots.txt
+    Updating plot file properties index...
+    Updating plot file properties name...
     >>> bandlist = ptd.hstools.get_bands_files(simu.output_dir)
     >>> raster_file = bandlist.loc[(bandlist.azimuth==0) & (bandlist.band_num==0), 'path'].iloc[0]
     >>> rotated_file = '/tmp/raster_rotate.mpr'
@@ -437,40 +440,6 @@ def normalize(array):
     return (array - array_min) / (array_max - array_min)
 
 
-# TEST ZONE
-if __name__ == '__main__':
-    """
-    hdr='''ENVI
-    description = {
-    RPC Orthorectification Result [Mon Aug 13 13:38:09 2012] [Mon Aug 13
-    13:38:09 2012]}
-    samples = 27856
-    lines   = 30016
-    bands   = 1
-    header offset = 0
-    file type = ENVI Standard
-    data type = 12
-    interleave = bsq
-    sensor type = WorldView
-    byte order = 0
-    map info = {UTM, 1.000, 1.000, 723000.000, 8129434.000, 5.0000000000e-001,
-    5.0000000000e-001, 55, South, WGS-84, units=Meters}
-    coordinate system string = {PROJCS["UTM_Zone_55S",GEOGCS["GCS_WGS_1984",
-    DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],
-    PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],
-    PROJECTION["Transverse_Mercator"],PARAMETER["False_Easting",500000.0],
-    PARAMETER["False_Northing",10000000.0],PARAMETER["Central_Meridian",147.0],
-    PARAMETER["Scale_Factor",0.9996],PARAMETER["Latitude_Of_Origin",0.0],
-    UNIT["Meter",1.0]]}
-    wavelength units = Micrometers
-    band names = {
-     Orthorectified (Band 1)}
-    wavelength = {
-     0.625000}
-    '''
-    """
-    path = "/media/mtd/stock/boulot_sur_dart/temp/hdr/crop2.hdr"
-
-    res = read_ENVI_hdr(path)
-    print(type(res))
-    print(res)
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()

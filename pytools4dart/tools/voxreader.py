@@ -85,10 +85,21 @@ class voxel(object):
         Parameters
         ----------
         filename: str
+            Path to an AMAPVox .vox file
 
         Returns
         -------
 
+        Examples
+        --------
+        # Load the example voxel file
+        >>> import pytools4dart as ptd
+        >>> from os.path import join, dirname
+        >>> data_dir = join(dirname(ptd.__file__), 'data')
+        >>> voxfile = join(data_dir, 'forest.vox')
+        >>> vox = ptd.voxreader.voxel.from_vox(voxfile)
+
+        # See use-case 3 for a simulation case
         """
         newVoxel = cls()
         newVoxel.inputfile = os.path.expanduser(filename)
@@ -121,9 +132,19 @@ class voxel(object):
         pad_max:
             Maximum PAD value used in AMAPVox. If not known, it can be left to 'NA'.
 
-        Returns
-        -------
-
+        Examples
+        --------
+        # create a 3D diagonal of 3 voxels of crescent density.
+        >>> import pytools4dart as ptd
+        >>> ijk = [1, 2, 3]
+        >>> vox = ptd.voxreader.voxel().from_data(i=ijk, j=ijk, k=ijk, pad=ijk)
+        >>> vox.data
+           i  j  k  pad
+        0  1  1  1    1
+        1  2  2  2    2
+        2  3  3  3    3
+        >>> vox.header
+        {'min_corner': [0.0, 0.0, 0.0], 'max_corner': array([4., 4., 4.]), 'split': [4, 4, 4], 'type': 'pytools4dart', 'res': [1.0], 'MAX_PAD': 'NA', 'LAD_TYPE': 'Spherical'}
         """
 
         df = pd.DataFrame(dict(i=i, j=j, k=k, pad=pad))
@@ -227,16 +248,17 @@ class voxel(object):
         self.grid = gpd.GeoDataFrame({'i': I, 'j': J, 'geometry': polygons})
 
     def affine_transform(self, matrix, inplace=False):
-        """Apply an affine transformation to the voxel grid, like with shapely.affinity.affine_transform.
+        """
+        Apply an affine transformation to the voxel grid, like with shapely.affinity.affine_transform.
 
         The coefficient matrix is provided as a list or tuple with 6 items
         for 2D transformations.
         For 2D affine transformations, the 6 parameter matrix is::
             [a, b, d, e, xoff, yoff]
         which represents the augmented matrix::
-            [x']   / a  b xoff \ [x]
+            [x']   | a  b xoff | [x]
             [y'] = | d  e yoff | [y]
-            [1 ]   \ 0  0   1  / [1]
+            [1 ]   | 0  0   1  | [1]
         or the equations for the transformed coordinates::
             x' = a * x + b * y + xoff
             y' = d * x + e * y + yoff
@@ -327,7 +349,7 @@ class voxel(object):
         >>> crowns_file = abspath(join(dirname(ptd.__file__), 'data/crowns.shp'))
 
         >>> vox = ptd.voxreader.voxel().from_vox(vox_file)
-        >>> print(vox.intersect(crowns_file))
+        >>> vox.intersect(crowns_file) # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
                 i   j   k  pad  angleMean  ...  Can  Cab  CBrown  Car  id_crown
         0       0   0  19  0.0   9.154615  ...  8.0  5.0     0.0  5.0       3.0
         1       0   0  20  0.0  16.293077  ...  8.0  5.0     0.0  5.0       3.0
@@ -345,7 +367,7 @@ class voxel(object):
 
         >>> raster_file = abspath(join(dirname(ptd.__file__), 'data/Can_Cab_Car_CBrown.tif'))
         >>> band_names = basename(raster_file).split('.')[0].split('_')
-        >>> vox.intersect(raster_file, columns=band_names)
+        >>> vox.intersect(raster_file, columns=band_names) # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
                 i   j   k  pad  ...       Can        Cab       Car    CBrown
         0       0   0  19  0.0  ...  1.752778  33.722435  7.891806  0.271965
         1       0   0  20  0.0  ...  1.752778  33.722435  7.891806  0.271965
@@ -533,6 +555,18 @@ class voxel(object):
             If inplace=False, returns the grid transformed and the transformation array.
             The transformation array that can be used then to transform back simulation output rasters.
 
+        Examples
+        --------
+        >>> import pytools4dart as ptd
+        >>> from os.path import join, dirname
+        >>> data_dir = join(dirname(ptd.__file__), 'data')
+        >>> voxfile = join(data_dir, 'forest.vox')
+        >>> vox = ptd.voxreader.voxel.from_vox(voxfile)
+        >>> vox.extent
+        (10.0, 20.0, 30.0, 40.0)
+        >>> vox.reduce_xy(inplace=True)
+        >>> vox.extent
+        (0.0, 0.0, 20.0, 20.0)
         """
         xy_transform = [1, 0, 0, 1, -self.header['min_corner'][0], -self.header['min_corner'][1]]
         if inplace:
@@ -563,12 +597,27 @@ class voxel(object):
             The plots DataFrame in DART plot file format.
             If reduce_xy=True, the affine_transform parameters.
 
+        Examples
+        --------
+
+        >>> import pytools4dart as ptd
+        >>> ijk = [1, 2, 3]
+        >>> vox = ptd.voxreader.voxel().from_data(i=ijk, j=ijk, k=ijk, pad=ijk)
+        >>> vox.to_plots() # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
+           PLT_TYPE  PT_1_X  PT_1_Y  ...  PLT_HEI_MEA  VEG_DENSITY_DEF  VEG_UL
+        0         1     2.0     1.0  ...          1.0                1       1
+        1         1     3.0     2.0  ...          1.0                1       2
+        2         1     4.0     3.0  ...          1.0                1       3
+        <BLANKLINE>
+        [3 rows x 13 columns]
+
+        # See use case 3 and 6 for simulation cases
         """
 
         res = self.header["res"][0]
 
         # set density parameters
-        if density_type is 'LAI':
+        if density_type == 'LAI':
             density_column = 'VEG_LAI'
             densitydef = 0
         else:

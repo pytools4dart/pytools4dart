@@ -79,7 +79,7 @@ def import2db(dbFpath, name, wavelength, reflectance, direct_transmittance, diff
     clean = lambda varStr: re.sub(r'\W|^(?=\d)', '_', varStr)
     nname = clean(name)
 
-    if type is 'Lambertian':
+    if type == 'Lambertian':
         prefix = '2D-LAM'
     else:
         raise Exception('Type not implemented.')
@@ -285,17 +285,40 @@ def prospect_db(db_file, N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can
 
     Examples
     --------
-    # Add 1000 random optical properties to database named 'prospect.db'
-
+    # Create a new database named 'prospect_test.db' and fill it with 100 properties.
     >>> import pytools4dart as ptd
     >>> import pandas as pd
-    >>> size = 1000
-    >>> properties = pd.DataFrame({'N':np.random.uniform(1,3,size), 'Cab':np.random.uniform(0,30,size),\
-                   'Car':np.random.uniform(0,5,size), 'Can':np.random.uniform(0,2,size)})
+    >>> import numpy as np
+    >>> import os
+    >>> size = 100
+    >>> np.random.seed(0)
+
     >>> user_data = ptd.getdartenv()['DART_LOCAL']
     >>> db_file = os.path.join(user_data, 'database', 'prospect_test.db')
-    >>> ptd.dbtools.prospect_db(db_file, **properties.to_dict('list'))
-    >>> os.remove(db_file)
+
+    >>> properties = pd.DataFrame({'N':np.random.uniform(1,3,size), 'Cab':np.random.uniform(0,30,size),\
+                   'Car':np.random.uniform(0,5,size), 'Can':np.random.uniform(0,2,size)})
+    >>> prop_table = ptd.dbtools.prospect_db(db_file, **properties.to_dict('list'), mode='ow')
+    >>> prop_table.drop(['prospect_file', 'file_hash'], axis=1) # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
+               N        Cab       Car  ...    V2Z  prospect_version          model
+    0   2.097627  20.334496  1.558979  ... -999.0                 D   hc2063992474
+    1   2.430379   8.100239  3.481717  ... -999.0                 D   hc1313623719
+    2   2.205527  22.055821  1.888759  ... -999.0                 D   hc1123283726
+    3   2.089766  28.865656  0.898018  ... -999.0                 D   hc1147596031
+    4   1.847310   7.462594  0.123394  ... -999.0                 D  hcm1082664945
+    ..       ...        ...       ...  ...    ...               ...            ...
+    95  1.366383  14.713764  1.121585  ... -999.0                 D    hc240033769
+    96  2.173026   6.822439  0.489222  ... -999.0                 D   hc1557782782
+    97  1.040215   7.630694  4.310958  ... -999.0                 D    hc848330328
+    98  2.657880   1.740875  4.864597  ... -999.0                 D     hc49086653
+    99  1.009391  13.032499  4.804173  ... -999.0                 D  hcm1612636386
+    <BLANKLINE>
+    [100 rows x 12 columns]
+
+    # Add 100 properties more to the same database.
+    >>> properties = pd.DataFrame({'N':np.random.uniform(1,3,size), 'Cab':np.random.uniform(0,30,size),\
+                   'Car':np.random.uniform(0,5,size), 'Can':np.random.uniform(0,2,size)})
+    >>> prop_table = ptd.dbtools.prospect_db(db_file, **properties.to_dict('list'), mode='a')
     """
     # nb = 10000 --> 1min49s
     # if 'prosail' not in sys.modules.keys():
@@ -308,12 +331,12 @@ def prospect_db(db_file, N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can
 
     fexist = os.path.isfile(db_file)
     if fexist:
-        if mode is 'ow':
+        if mode == 'ow':
             os.remove(db_file)
             fexist = False
-        elif mode is 'w':
+        elif mode == 'w':
             raise ValueError('Database already exist: change mode to append or overwrite.')
-        elif mode is not 'a':
+        elif mode != 'a':
             raise ValueError('Mode not available.')
 
     if inmem:
@@ -629,7 +652,7 @@ def _get_specs(file=None, prospect='dart'):
 
     Read DART prospect files in <HOME_DART>/database/Prospect_Fluspect
     """
-    if prospect is 'dart':
+    if prospect == 'dart':
         names = ['wavelength',  # wavelength in nm
                  'nr',  # defractive index
                  'Kab',  # specific absorption coefficent of Chl. a+b
@@ -644,7 +667,7 @@ def _get_specs(file=None, prospect='dart'):
                  'Kan'  # specific absorption coefficent of Anthocyanins
                  ]
         df = pd.read_csv(file, sep='\t', names=names)
-    elif prospect is 'prosail':
+    elif prospect == 'prosail':
         names = ['wavelength',  # wavelength in nm
                  'nr',  # defractive index
                  'kab',  # specific absorption coefficent of Chl. a+b
@@ -664,3 +687,7 @@ def _get_specs(file=None, prospect='dart'):
             df.loc[len(df)] = 1
 
     return df
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
