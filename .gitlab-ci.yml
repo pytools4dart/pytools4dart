@@ -68,6 +68,7 @@ win-dart:
     paths:
       - cache
   only:
+    - master
     - schedules
 
 
@@ -86,6 +87,7 @@ linux-dart:
     paths:
       - cache
   only:
+    - master
     - schedules
 
 
