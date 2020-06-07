@@ -79,7 +79,7 @@ Write-Host "conda directory size: "
 # Using conda env create -f environment.yml leads to out of memory error...
 conda install -y -c conda-forge cython gdal geopandas git ipython libspatialindex lxml matplotlib
 conda install -y -c conda-forge lmfit plyfile pybind11 pyjnius pytest
-conda install -y -c conda-forge rasterio rtree scipy
+conda install -y -c conda-forge rasterio rtree scipy laspy
 pip install git+https://gitlab.com/pytools4dart/generateds.git
 pip install tinyobjloader==2.0.0rc5
 pip install git+https://gitlab.com/pytools4dart/gdecomp.git
