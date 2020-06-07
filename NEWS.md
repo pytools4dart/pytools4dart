@@ -5,6 +5,7 @@
 
 ## Change
 - remove DAO OJBloader alternative in OBJtools.py: only tinyobjloader is left.
+- documentation website updated with the latest DART version
 
  
 # 1.1.5
