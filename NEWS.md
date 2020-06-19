@@ -1,5 +1,8 @@
 # 1.1.7
 
+## Add
+- DART installer and updater 
+
 # 1.1.6
 
 ## Add
