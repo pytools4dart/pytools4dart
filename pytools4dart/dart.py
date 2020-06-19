@@ -260,6 +260,8 @@ def update(dart_zip, dart_home=None, verbose=True):
     Update will overwrite dart_home/bin, dart_home/database and dart_home/tools with those of the new version.
 
     """
+    ## TODO: check version should be made before overwriting, because DART updater only works for updgrade (no downgrade).
+
     dartenv = getdartenv(dart_home, verbose)
 
     # DART HOME
