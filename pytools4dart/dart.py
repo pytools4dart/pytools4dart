@@ -34,11 +34,25 @@ from shutil import move, unpack_archive, rmtree
 # see https://stackoverflow.com/questions/1868714/how-do-i-copy-an-entire-directory-of-files-into-an-existing-directory-using-pyth
 from distutils.dir_util import copy_tree
 from pathlib import Path
+from .settings import getdartenv
 
 import zipfile
 
 
-def get_install_files(dhome):
+def _get_install_files(dhome):
+    """
+    Extracts and returns the content of the DART files necessary for DART installation.
+    Parameters
+    ----------
+    dhome: str
+        Path to the unzipped directory of DART archive.
+
+    Returns
+    -------
+    tuple
+        (dartrc, dartLauncher), i.e. the dartrc template and the DART launcher.
+
+    """
 
     jarfile = join(dhome, 'Install.jar')
 
@@ -63,22 +77,27 @@ def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False, extra
     dart_zip: str
         Path to the downloaded DART archive, e.g. '~/Downloads/DART_5-7-6_2020-03-06_v1150_linux64.tar.gz'.
     dart_home: str
-        Path to the directory where DART will be installed, e.g. '~/DART'.
+        Directory where DART will be installed, e.g. '~/DART'.
     user_data: str
         Path to the directory where user_data will be installed, e.g. '~/user_data'.
         If None, user_data=os.path.join(dart_home, 'user_data').
     overwrite: bool
-        If True overwrite existing
-    verbose
+        If True, overwrites existing
+    verbose: bool
 
     Notes
     -----
-    The successive operations are the following:
+    Use a dart_zip file adapted to your platform, example:
+    - for 64bits Linux: 'DART_5-7-6_2020-03-06_v1150_linux64.tar.gz',
+    - for 64bits Windows: 'DART_5-7-6_2020-03-06_v1150_windows64.zip'
+
+    The successive operations of installation are the following:
         - create dart_home if it does not exist
-        - unpack dart_zip archive into dart_home
-        - move dart_unzip/dart/* into dart_home
-        - copy dart_unzip/user_data into user_data, i.e. keeping existing files
+        - unpack `dart_zip` archive to `dart_home/dart_unzip`
+        - move `dart_home/dart_unzip/dart/*` to `dart_home/`, see below for details.
+        - copy `dart_home/dart_unzip/user_data` into `dart_home/user_data`, see below for details.
         - generate DART launcher and DART configuration files
+        - remove `dart_home/dart_unzip`
 
     If the dart_home directory already exists and overwrite=True,
     it will overwrite the directories bin, database, tools, changeLog.html,
@@ -89,7 +108,8 @@ def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False, extra
 
     Returns
     -------
-
+    str
+        Full path of DART home directory, that can be used in `ptd.configure'.
     """
     # Unwanted cases
 
@@ -131,11 +151,11 @@ def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False, extra
             print('Create directory: {}'.format(user_data))
         os.mkdir(user_data)
 
-    ### extract DART archive ###
-    if extract_dir is None:
-        extract_dir = dart_home
+    # ### extract DART archive ###
+    # if extract_dir is None:
+    extract_dir = dart_home
 
-    dart_unzip, version = extract(dart_zip, dart_home, verbose)
+    dart_unzip, version = _extract(dart_zip, extract_dir, verbose)
     if platform.system() == 'Windows':
         dart_launcher_file = join(dart_home, 'dart.bat')
         # TODO: check if underscore in file name
@@ -160,7 +180,7 @@ def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False, extra
         ruser_data = user_data
         rdart_python = dart_python
 
-    dartrc, dart_launcher = get_install_files(dart_unzip)
+    dartrc, dart_launcher = _get_install_files(dart_unzip)
     dartrc = re.sub('DART_HOME=', 'DART_HOME=' + rdart_home, dartrc)
     dartrc = re.sub('DART_LOCAL=', 'DART_LOCAL=' + ruser_data, dartrc)
     dartrc = re.sub('DART_PYTHON_PATH=', 'DART_PYTHON_PATH=' + rdart_python, dartrc)
@@ -211,6 +231,54 @@ def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False, extra
         print('Remove extracted archive: {}'.format(dart_unzip))
     rmtree(dart_unzip, verbose)
 
+    return dart_home
+
+def update(dart_zip, dart_home=None, verbose=True):
+    """
+    Update existing DART version
+
+    Parameters
+    ----------
+    dart_zip: str
+        Path to the downloaded DART archive, e.g. '~/Downloads/DART_5-7-6_2020-03-06_v1150_linux64.tar.gz'.
+        See https://dart.omp.eu/index.php#/download .
+
+    dart_home: str
+        DART directory to be updated. If None, pytools4dart.getdartenv is used.
+
+    verbose: bool
+
+    Returns
+    -------
+    str
+        Full path of DART home directory, that can be used in `ptd.configure'.
+
+    Notes
+    -----
+    This function uses `install` with option overwrite=True and getting DART_HOME path from pytools4dart configuration file if not specified.
+
+    Update will overwrite dart_home/bin, dart_home/database and dart_home/tools with those of the new version.
+
+    """
+    dartenv = getdartenv(dart_home, verbose)
+
+    # DART HOME
+    if dart_home is None:
+        if verbose:
+            print('Getting DART_HOME path from pytools4dart current configuration.')
+        if not os.path.isdir(dartenv["DART_HOME"]):
+            raise FileNotFoundError('DART_HOME directory no found: '+dartenv["DART_HOME"])
+        dart_home = dartenv["DART_HOME"]
+
+    # User data
+    if verbose:
+        print('Getting DART_LOCAL from DART configuration in {}.'.format(dart_home))
+
+    if not os.path.isdir(dartenv["DART_LOCAL"]):
+        raise FileNotFoundError('DART_LOCAL directory (e.g. user_data) no found: '+dartenv["DART_LOCAL"])
+
+    user_data = dartenv["DART_LOCAL"]
+    dart_home = install(dart_zip, dart_home, user_data=user_data, overwrite=True, extract_dir=extract_dir, verbose=verbose)
     return dart_home
 
 # def download(version='latest', output='~', system=None, nbits=64, verbose=False):
@@ -297,7 +365,7 @@ def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False, extra
 #     return output
 
 
-def extract(dart_zip, extract_dir=None, verbose=False):
+def _extract(dart_zip, extract_dir=None, verbose=False):
     """
     Extract DART archive in directory extract_dir.
     Parameters
