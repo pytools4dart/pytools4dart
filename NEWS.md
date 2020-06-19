@@ -1,7 +1,7 @@
 # 1.1.7
 
 ## Add
-- DART installer and updater 
+- DART installer and updater (pytools4dart.dart.install & pytools4dart.dart.update)
 
 # 1.1.6
 
