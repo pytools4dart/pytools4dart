@@ -2,7 +2,7 @@
 
 ## Install
 
-Package __pytools4dart__ is a python API to DART, thus DART must be installed to make it work.
+Package __pytools4dart__ is a python API to DART, thus DART must be installed.
 Please refer to [DART section](#dart) for DART installation.
 
 
@@ -44,6 +44,11 @@ From a terminal (or Anaconda prompt in Windows), create the new environment with
 conda env create --name myptd pytools4dart/ptdvenv -v
 ```
 
+For an update of `pytools4dart` to the latest version:
+```bash
+conda env update --name myptd pytools4dart/ptdvenv -v
+```
+
 Activate the new environment:
 
 ```bash
@@ -59,7 +64,7 @@ python -c 'import generateDS; import tinyobjloader; import gdecomp; import laspy
 In case of error, refer to section [Test environment](#test-environment).
 
 
-Configure package with your DART version:
+Configure package with your DART version (see [DART section](#dart) for install or update):
 
 ```bash
 python -c 'import pytools4dart as ptd; ptd.configure(r"<path to DART directory>")' # e.g. r"~/DART", r"C:\DART"
@@ -263,7 +268,20 @@ that has to be installed (before or after installing pytools4dart).
 It is available for Linux (32/64 bits) and Windows (32/64 bits). 
 To download DART software please [sign up](http://www.cesbio.ups-tlse.fr/dart/index.php#/getDart), 
 login and fill the license resquest in GET DART section of [DART website](http://www.cesbio.ups-tlse.fr/dart/index.php#/).
- 
+
+DART contains an installer. To use it, unzip the file and follow the README.txt. However, as DART latest version 
+is changing quite often, one may have to update regularly DART version. Therefore, a DART installer was included in
+pytools4dart. It can be used after installing the package pytools4dart, before configuration step.
+
+A python installer is available in `pytools4dart.dart.install`. Here is an example to install from command line:
+```commandline
+python -c 'import pytools4dart as ptd; ptd.dart.install("~/Downloads/DART_5-7-6_2020-05-02_v1153_linux64.tar.gz", "~/DART")'
+```
+
+To update with a newer version:
+```commandline
+python -c 'import pytools4dart as ptd; ptd.dart.update("~/Downloads/DART_5-7-6_2020-05-02_v1153_linux64.tar.gz")'
+```
 
 ## Uninstall
 
