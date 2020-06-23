@@ -77,6 +77,9 @@ class objreader(object):
         file: str
             Path to the file
         """
+        if not os.path.isfile(file):
+            raise IOError('File not found.')
+
         obj = tinyobjloader.ObjReader()
         obj.ParseFromFile(file)
         # names are lost
