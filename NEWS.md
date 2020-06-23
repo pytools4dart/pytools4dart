@@ -3,6 +3,9 @@
 ## Add
 - DART installer and updater (pytools4dart.dart.install & pytools4dart.dart.update)
 
+## Change
+- deprecated OBJtools get_gnames, get_dims, get_center for objreader properties  
+
 # 1.1.6
 
 ## Add
