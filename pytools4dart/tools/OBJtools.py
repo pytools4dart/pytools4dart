@@ -44,6 +44,7 @@ except ImportError as e:
 
 import tinyobjloader
 import numpy as np
+from ..warnings import deprecated
 
 
 class objreader(object):
@@ -86,12 +87,57 @@ class objreader(object):
         return ((self._xmax + self._xmin) / 2, (self._ymax + self._ymin) / 2, (self._zmax + self._zmin) / 2)
 
 
-def read(file_src):
-    obj = objreader(file_src)
+def read(file):
+    """
+    Read a .obj file
+    Parameters
+    ----------
+    file: str
+        Path to obj file
+
+    Returns
+    -------
+    objreader
+
+    Examples
+    --------
+    >>> import pytools4dart as ptd
+    >>> from os.path import join
+    >>> file = join(ptd.getdartdir(), 'database', '3D_Objects', 'cube.obj')
+    >>> obj = ptd.OBJtools.read(file)
+    >>> obj.names
+    ['Bottom_Yellow', 'West_Magenta', 'South_Cyan', 'Top_Green', 'North_Blue', 'East_Red']
+    >>> obj.extent
+    ((-1.0, 1.000001), (-1.0, 1.0), (-1.0, 1.0))
+    >>> obj.dims
+    (2.000001, 2.0, 2.0)
+    >>> obj.center
+    (4.999999999588667e-07, 0.0, 0.0)
+    """
+    obj = objreader(file)
     return obj
 
-
+@deprecated('Use obj.names property combined with gnames_dart_order instead.')
 def get_gnames(obj):
+    """
+    Return group names of an OBJ file
+    Parameters
+    ----------
+    obj: objreader
+
+    Returns
+    -------
+    list
+
+    Examples
+    --------
+    >>> import pytools4dart as ptd
+    >>> from os.path import join
+    >>> file = join(ptd.getdartdir(), 'database', '3D_Objects', 'cube.obj')
+    >>> obj = ptd.OBJtools.read(file)
+    >>> ptd.OBJtools.get_gnames(obj)
+    ['Bottom_Yellow', 'East_Red', 'North_Blue', 'South_Cyan', 'Top_Green', 'West_Magenta']
+    """
 
     # gregex = re.compile(r'^g\s*(.*?)\n$')
     # gnames = []
@@ -101,16 +147,54 @@ def get_gnames(obj):
 
     return gnames
 
-
+@deprecated('Use obj.dims property instead.')
 def get_dims(obj):
+    """
+
+    Parameters
+    ----------
+    obj
+
+    Returns
+    -------
+    tuple
+        (xdim, ydim, zdim) with y-forward and z-up orientation
+    Examples
+    --------
+    >>> import pytools4dart as ptd
+    >>> from os.path import join
+    >>> file = join(ptd.getdartdir(), 'database', '3D_Objects', 'cube.obj')
+    >>> obj = ptd.OBJtools.read(file)
+    >>> ptd.OBJtools.get_dims(obj)
+    (2.000001, 2.0, 2.0)
+    """
 
     xdim, ydim, zdim = obj.dims
 
     return xdim, ydim, zdim
 
-
+@deprecated('Use obj.center instead.')
 def get_center(obj):
+    """
+    Return the center coordinates of the OBJ
+    Parameters
+    ----------
+    obj: objreader
 
+    Returns
+    -------
+    tuple
+        (x, y, z) of the center of the OBJ
+
+    Examples
+    --------
+    >>> import pytools4dart as ptd
+    >>> from os.path import join
+    >>> file = join(ptd.getdartdir(), 'database', '3D_Objects', 'cube.obj')
+    >>> obj = ptd.OBJtools.read(file)
+    >>> ptd.OBJtools.get_center(obj)
+    (4.999999999588667e-07, 0.0, 0.0)
+    """
     x, y, z = obj.center
 
     return x, y, z
@@ -126,15 +210,18 @@ def gnames_dart_order(group_names):
 
     Examples
     -------
-        group_names = []
-        with open(oFpath, 'r') as f:
-            for ln in f:
-                if ln.startswith('g '):
-                    # hm.put(ln.rstrip().split(' ')[1], 1)
-                    group_names.append(ln.rstrip().replace('^g ', '')
-
-        gnames_dart_order(group_names)
-
+    >>> import pytools4dart as ptd
+    >>> from os.path import join
+    >>> file = join(ptd.getdartdir(), 'database', '3D_Objects', 'cube.obj')
+    >>> group_names = []
+    >>> with open(file, 'r') as f:
+    ...     for ln in f:
+    ...         if ln.startswith('g '):
+    ...             group_names.append(ln.rstrip().replace('g ', ''))
+    >>> group_names
+    ['Bottom_Yellow', 'West_Magenta', 'South_Cyan', 'Top_Green', 'North_Blue', 'East_Red']
+    >>> gnames_dart_order(group_names)
+    ['Bottom_Yellow', 'East_Red', 'North_Blue', 'South_Cyan', 'Top_Green', 'West_Magenta']
     """
     # TODO : check python 3
     if len(group_names) <= 1:

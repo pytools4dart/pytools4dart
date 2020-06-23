@@ -113,8 +113,8 @@ class Add(object):
         file_src_fullpath = self.simu.get_input_file_path(file_src)
         obj = ptd.OBJtools.read(file_src_fullpath)
 
-        gnames = ptd.OBJtools.get_gnames(obj)
-        xdim, ydim, zdim = ptd.OBJtools.get_dims(obj)
+        gnames = ptd.OBJtools.gnames_dart_order(obj.names)
+        xdim, ydim, zdim = obj.dims
         # import pandas as pd
 
         # number of groups
