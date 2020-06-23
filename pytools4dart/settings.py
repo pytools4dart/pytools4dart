@@ -111,16 +111,17 @@ def configure(dartdir=None):
         dartdir = default_dartdir()
 
     dartdir = expanduser(dartdir)
-    if checkdartdir(dartdir):
-        if sys.version_info[0] == 2:
-            with open(pytools4dartrc(), 'w') as pt4drc:
-                pt4drc.write(dartdir)
-        else:
-            with open(pytools4dartrc(), 'w', encoding='utf-8') as pt4drc:
-                pt4drc.write(dartdir)
-        print('\n pytools4dart configured with:\nDART = ' + dartdir)
-    else:
+
+    if not checkdartdir(dartdir):
         raise IOError('Please (re)configure pytools4dart with a valid DART directory.')
+
+    if sys.version_info[0] == 2:
+        with open(pytools4dartrc(), 'w') as pt4drc:
+            pt4drc.write(dartdir)
+    else:
+        with open(pytools4dartrc(), 'w', encoding='utf-8') as pt4drc:
+            pt4drc.write(dartdir)
+    print('\n pytools4dart configured with:\nDART = ' + dartdir)
 
     try:
         print('\n\tBuilding pytools4dart core...')
