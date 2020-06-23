@@ -49,16 +49,38 @@ from ..warnings import deprecated
 
 class objreader(object):
     """
-    class to bind tinyobjloader, as shape elements
-    not kept correctly (lost) when getting out of a method
+    Class that extracts the main properties of an OBJ file: group names, extent, dimensions, center
+
+    Examples
+    --------
+    >>> import pytools4dart as ptd
+    >>> from os.path import join
+    >>> file = join(ptd.getdartdir(), 'database', '3D_Objects', 'cube.obj')
+    >>> obj = ptd.OBJtools.objreader(file)
+    >>> obj.names
+    ['Bottom_Yellow', 'West_Magenta', 'South_Cyan', 'Top_Green', 'North_Blue', 'East_Red']
+    >>> obj.extent
+    ((-1.0, 1.000001), (-1.0, 1.0), (-1.0, 1.0))
+    >>> obj.dims
+    (2.000001, 2.0, 2.0)
+    >>> obj.center
+    (4.999999999588667e-07, 0.0, 0.0)
+
     """
     # TODO: check if still necessary with tinyobjloader official package
 
-    def __init__(self, file_src):
+    def __init__(self, file):
+        """
+        Read OBJ file properties
+        Parameters
+        ----------
+        file: str
+            Path to the file
+        """
         obj = tinyobjloader.ObjReader()
-        obj.ParseFromFile(file_src)
+        obj.ParseFromFile(file)
         # names are lost
-        self._file = file_src
+        self._file = file
         self._names = [g.name for g in obj.GetShapes()]
 
         # vertices not used elsewhere thus not kept
@@ -86,7 +108,7 @@ class objreader(object):
     def center(self):
         return ((self._xmax + self._xmin) / 2, (self._ymax + self._ymin) / 2, (self._zmax + self._zmin) / 2)
 
-
+@deprecated('Use objreader(file) instead')
 def read(file):
     """
     Read a .obj file
@@ -104,7 +126,7 @@ def read(file):
     >>> import pytools4dart as ptd
     >>> from os.path import join
     >>> file = join(ptd.getdartdir(), 'database', '3D_Objects', 'cube.obj')
-    >>> obj = ptd.OBJtools.read(file)
+    >>> obj = ptd.OBJtools.objreader(file)
     >>> obj.names
     ['Bottom_Yellow', 'West_Magenta', 'South_Cyan', 'Top_Green', 'North_Blue', 'East_Red']
     >>> obj.extent
@@ -117,7 +139,7 @@ def read(file):
     obj = objreader(file)
     return obj
 
-@deprecated('Use obj.names property combined with gnames_dart_order instead.')
+@deprecated('Use obj.names property combined with gnames_dart_order instead')
 def get_gnames(obj):
     """
     Return group names of an OBJ file
@@ -147,7 +169,7 @@ def get_gnames(obj):
 
     return gnames
 
-@deprecated('Use obj.dims property instead.')
+@deprecated('Use obj.dims property instead')
 def get_dims(obj):
     """
 
@@ -173,7 +195,7 @@ def get_dims(obj):
 
     return xdim, ydim, zdim
 
-@deprecated('Use obj.center instead.')
+@deprecated('Use obj.center instead')
 def get_center(obj):
     """
     Return the center coordinates of the OBJ

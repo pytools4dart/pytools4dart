@@ -111,7 +111,7 @@ class Add(object):
         # :return:
         # """
         file_src_fullpath = self.simu.get_input_file_path(file_src)
-        obj = ptd.OBJtools.read(file_src_fullpath)
+        obj = ptd.OBJtools.objreader(file_src_fullpath)
 
         gnames = ptd.OBJtools.gnames_dart_order(obj.names)
         xdim, ydim, zdim = obj.dims
