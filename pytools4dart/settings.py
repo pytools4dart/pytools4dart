@@ -120,7 +120,7 @@ def configure(dartdir=None):
                 pt4drc.write(dartdir)
         print('\n pytools4dart configured with:\nDART = ' + dartdir)
     else:
-        print('Please (re)configure.')
+        raise IOError('Please (re)configure pytools4dart with a valid DART directory.')
 
     try:
         print('\n\tBuilding pytools4dart core...')
