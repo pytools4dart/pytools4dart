@@ -75,7 +75,7 @@ class voxel(object):
             (xmin, ymin, xmax, ymax)
 
         """
-        return tuple(self.header['min_corner'][0:2] + self.header['max_corner'][0:2])
+        return self.grid.total_bounds
 
     @classmethod
     def from_vox(cls, filename):
@@ -306,9 +306,9 @@ class voxel(object):
         new_geometry = gpd.GeoSeries([affine_transform(s, matrix) for s in self.grid.geometry])
         if inplace:
             self.grid.geometry = new_geometry
-            extent = self.grid.total_bounds
-            self.header['min_corner'][0:2] = extent[0:2]
-            self.header['max_corner'][0:2] = extent[2:4]
+            # extent = self.grid.total_bounds
+            # self.header['min_corner'][0:2] = extent[0:2]
+            # self.header['max_corner'][0:2] = extent[2:4]
             if 'transforms' not in self.header.keys():
                 self.header['transforms'] = [matrix]
             else:
