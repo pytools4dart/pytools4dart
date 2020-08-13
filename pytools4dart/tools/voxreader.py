@@ -47,6 +47,8 @@ from shapely.geometry import box, Polygon
 from shapely.affinity import affine_transform
 import rasterio
 from rasterio.mask import mask
+from rasterio.transform import Affine
+
 
 
 # path="/media/DATA/DATA/SIMULATION_P1_P9/MaquettesALS_INRAP1P9_2016"
@@ -672,6 +674,70 @@ class voxel(object):
             return data, xy_transform
 
         return data
+
+    def to_raster(self, raster_file, crs=None, use_transform=True, aggregate_fun=None):
+        # TODO: change to geocube
+        # at the moment failed install conda-forge geocube on current conda env...
+        # crs='+init=epsg:2792'
+        # vox.data = vox.data[vox.data.pad>0].sort_values(by=['k'], ascending=False)
+        # def aggregate_fun(x):
+        #   return x.pad.iloc[0:3].sum()
+        # raster_file = '/home/boissieu/dav/test_rotated_cube.tif'
+
+        xdim = int(self.header['split'][0])
+        ydim = int(self.header['split'][1])
+        zdim = int(self.header['split'][2])
+        vdata = self.data[['i', 'j', 'k', 'pad']].copy().reset_index(drop=True)
+        vdata['row'] = ydim - 1 - vdata['j']
+        vdata['col'] = vdata['i']
+
+        if aggregate_fun is not None:
+            # %%time
+            # img = np.zeros(xdim * ydim).reshape(1, ydim, xdim)
+            # growcol = vdata.groupby(['row', 'col'])
+            # for g in growcol:
+            #     row, col = g[0]
+            #     img[0, row, col] = aggregate_fun(g[1])
+            # %%time
+            growcol = vdata.groupby(['row', 'col'])
+            img = growcol.apply(aggregate_fun).to_xarray()
+            img.reindex({'row': np.arange(ydim), 'col':np.arange(xdim)})
+
+        else:
+            img = vdata.set_index(['k', 'row', 'col']).pad.to_xarray()
+            img.reindex({'k': np.arange(zdim), 'row': np.arange(ydim), 'col': np.arange(xdim)})
+
+
+        res = self.header['res'][0]
+        xmin = self.header['min_corner'][0]
+        # ymin = self.header['min_corner'][1]
+        ymax = self.header['max_corner'][1]
+
+        transform = Affine.translation(xmin, ymax) * Affine.scale(res, -res)
+
+        if use_transform and ('transforms' in self.header.keys()):
+            for t in self.header['transforms']:
+                a, b, d, e, c, f = t
+                transform = Affine(a, b, c, d, e, f) * transform
+
+        if img.data.ndim==2:
+            data = img.data.reshape((1, img.data.shape[0], img.data.shape[1]))
+        else:
+            data = img.data
+
+        with rasterio.open(
+                raster_file,
+                'w+',
+                driver='GTiff',
+                height=data.shape[1],
+                width=data.shape[2],
+                count=data.shape[0],
+                dtype=data.dtype,
+                crs=crs,
+                transform=transform
+        ) as r:
+            r.write(data)
+        return raster_file
 
 
 if __name__ == "__main__":
