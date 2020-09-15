@@ -5,6 +5,8 @@
 
 ## Change
 - deprecated OBJtools read, get_gnames, get_dims, get_center for objreader properties  
+- deprecated dbtools import2db for optical_properties_db:
+    faster, python3 and extends support to Hapke and RPV.
 
 # 1.1.6
 
