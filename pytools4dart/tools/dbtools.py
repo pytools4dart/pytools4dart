@@ -43,12 +43,15 @@ from sqlite3 import Error
 import sys
 import hashlib
 import prosail
+from ..warnings import deprecated
 
 
+@deprecated('Use optical_properties_db instead')
 def import2db(dbFpath, name, wavelength, reflectance, direct_transmittance, diffuse_transmittance,
               type='Lambertian', comments=["# Software: pytools4dart", "# Date: date"], verbose=False):
     """
     Add optical properties to a DART database.
+    DEPRECATED: Use optical_properties_db instead
 
     Parameters
     ----------
@@ -56,8 +59,6 @@ def import2db(dbFpath, name, wavelength, reflectance, direct_transmittance, diff
         database absolute path
     name: str
         name of the new optical properties that it will take in the database.
-    kwargs:
-        see Notes
     wavelength: list or np.array
         list of the wavelengths in $\mu m$
     reflectance: list or np.array
@@ -75,7 +76,7 @@ def import2db(dbFpath, name, wavelength, reflectance, direct_transmittance, diff
     """
 
     dartDBmanager = os.path.join(getdartdir(), "bin", "python_script", "DatabaseManager", "main.py")
-    python27DART = os.path.join(getdartdir(), "bin", "python", "python")
+    python27DART = os.path.join(getdartdir(), "bin", "python2", "python")
     clean = lambda varStr: re.sub(r'\W|^(?=\d)', '_', varStr)
     nname = clean(name)
 
@@ -153,17 +154,14 @@ def get_models(dbname, search=True):
 
     if search:
         dbfile = search_dbfile(dbname)
+    else:
+        dbfile = os.path.expanduser(dbname)
 
     conn = sqlite3.connect(dbfile)
-    c = conn.cursor()
-
-    result = []
-    for row in c.execute('select model, Comments from _comments'):
-        result.append([s.encode('utf-8') for s in row])
-
+    models = pd.read_sql('select * from _comments', conn)
     conn.close()
 
-    return pd.DataFrame(result, columns=['name', 'description'])
+    return models
 
 
 def search_dbfile(dbname='Lambertian_vegetation.db'):
@@ -220,6 +218,162 @@ def search_dbfile(dbname='Lambertian_vegetation.db'):
 #     "# Contact: jean-baptiste.feret@irstea.fr"]
 #     return(comment)
 #
+
+def optical_properties_db(db_file, name, comments='', type='lambertian',
+                 mode='w', verbose=False, **kwargs):
+    """
+    Append optical properties to a DART database (lambertian, hapke or rpv).
+
+    Parameters
+    ----------
+    db_file: str
+        Path to the database file.
+    name: str
+        Name of the new optical properties.
+    comments: str
+        Comments relative to the table.
+    type: str
+        Either 'lambertian', 'hapke', or 'rpv'.
+    mode: str
+        Available modes:
+            - 'w': Fails if database exist, otherwise write a new database.
+            - 'a': appends to existing database otherwise creates it.
+            - 'ow': overwrites existing database (removes existing).
+    verbose: bool
+    kwargs:
+        Depends on type see Notes.
+
+    Returns
+    -------
+    str
+        name of the property as recorded in the database
+
+    Notes
+    -----
+    Expeceted arguments in kwargs depend on the optical properties type:
+        - lambertian: ['wavelength', 'reflectance', 'direct_transmittance', 'diffuse_transmittance']
+        - hapke: ['wavelength', 'w', 'c1', 'c2', 'c3', 'c4', 'h1', 'h2']
+        - rpv: ['wavelength', 'reflectance', 'k', 'g', 'h']
+
+    These arguments are expected to be lists or numpy 1D arrays with the same length (or 1 value for automatic filling)
+
+    WARINING: wavelengths are expeceted in micrometers (not nanometers)
+
+    Examples
+    --------
+    >>> import pytools4dart as ptd
+    >>> import pandas as pd
+    >>> import sqlite3
+    >>> from os.path import join
+    >>> from pytools4dart.tools.dbtools import optical_properties_db, search_dbfile, get_models
+
+    # copy a lambertian property into new database
+    >>> dart_db_file = search_dbfile('Lambertian_vegetation.db')
+    >>> conn = sqlite3.connect(dart_db_file)
+    >>> name = 'acer_alnus_fraxinus_tilia_wood'
+    >>> models = pd.read_sql('select * from _comments', conn)
+    >>> comments = models.loc[models.model == name].Comments.iloc[0]
+    >>> data = pd.read_sql('select * from {}'.format(name), conn).drop('Id', axis=1)
+    >>> new_db_file = join(ptd.getdartenv()['DART_LOCAL'],'database', 'test.db')
+    >>> optical_properties_db(new_db_file, name, **data.to_dict(), comments=comments, mode='ow')
+    'acer_alnus_fraxinus_tilia_wood'
+
+    # add a new lambertian property
+    >>> name = 'test spectrum'
+    >>> wavelength = [1, 2, 3]
+    >>> reflectance = [.1, .2, .3]
+    >>> direct_transmittance = [0, 0, 0]
+    >>> diffuse_transmittance = [.9, .8, .7]
+    >>> optical_properties_db(new_db_file, name=name,\
+                          wavelength=wavelength, reflectance=reflectance,\
+                          direct_transmittance=direct_transmittance,\
+                          diffuse_transmittance=diffuse_transmittance,\
+                          comments = ["Species: test",\
+                                      "Date: 2020",\
+                                      "Project: pytools4dart"],\
+                          mode='a')
+    'test_spectrum'
+
+    # list models of the new database
+    >>> get_models(new_db_file, search=False).model # doctest: +NORMALIZE_WHITESPACE
+        0    acer_alnus_fraxinus_tilia_wood
+        1                     test_spectrum
+        Name: model, dtype: object
+    """
+    db_file = os.path.expanduser(db_file)
+    clean = lambda varStr: re.sub(r'\W|^(?=\d)', '_', varStr)
+    name = clean(name)
+    if isinstance(comments, list):
+        comments = '\n'.join(comments)
+
+    ## TODO: columns could be read from DART database examples
+    if type == 'lambertian':
+        columns = ['wavelength', 'reflectance', 'direct_transmittance', 'diffuse_transmittance']
+    elif type == 'hapke':
+        columns = ['wavelength', 'w', 'c1', 'c2', 'c3', 'c4', 'h1', 'h2']
+    elif type == 'rpv':
+        columns = ['wavelength', 'reflectance', 'k', 'g', 'h']
+    else:
+        raise Exception('Type "{}" not implemented.'.format(type))
+
+    if set(kwargs.keys()) != set(columns):
+        raise Exception('Expected arguments for type "{}" are: {}'.format(type, str(columns)))
+
+    fexist = os.path.isfile(db_file)
+    if fexist:
+        if mode == 'ow':
+            if verbose:
+                print('Remove '+db_file)
+            os.remove(db_file)
+            fexist = False
+        elif mode == 'w':
+            raise ValueError('Database already exist: change mode to append or overwrite.')
+        elif mode != 'a':
+            raise ValueError('Mode not available.')
+
+    conn = _create_op_db(db_file)
+
+    data = pd.DataFrame(kwargs)
+    data.reindex(columns,
+                 axis=1, copy=False)
+    data.sort_values('wavelength', inplace=True)
+
+    with conn:
+        try:
+            cur = conn.cursor()
+            ### create table
+            if verbose:
+                print('Creating table '+name)
+            sql_cmd = 'CREATE TABLE {} ( Id INTEGER PRIMARY KEY AUTOINCREMENT, {});'.format(name, ' DOUBLE, '.join(columns))
+            cur.execute(sql_cmd)
+            ### fill table with data
+            data.to_sql(name=name, con=conn, index=False, if_exists='append')
+            ### insert comments in DB
+            sql_cmd = ''' INSERT INTO _comments(model ,Comments)
+                          VALUES(?,?) '''
+            cur.execute(sql_cmd, (name, comments))
+        except Error as e:
+            raise Exception(e)
+
+    conn.close()
+    return name
+
+def _create_op_db(db_file=':memory:'):
+    """ create a database connection to a DART optical properties database that resides
+        in the memory
+    """
+    conn = None
+    try:
+        conn = sqlite3.connect(db_file)
+        c = conn.cursor()
+        c.execute(
+            ''' CREATE TABLE IF NOT EXISTS _comments (model , Comments); ''')
+        c.execute(
+            ''' CREATE UNIQUE INDEX IF NOT EXISTS comments_index on _comments (model); ''')
+    except Error as e:
+        print(e)
+    return conn
+
 
 def prospect_db(db_file, N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can=0,
                 prospect_version='D', mode='w', inmem=True, verbose=False):
@@ -279,7 +433,7 @@ def prospect_db(db_file, N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can
 
     Returns
     -------
-    :DataFrame
+    pandas.DataFrame
         Table of properties with corresponding model name and prospect file,
         ready to fill DART simulation parameters.
 
