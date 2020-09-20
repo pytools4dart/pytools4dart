@@ -48,6 +48,9 @@ from shapely.affinity import affine_transform
 import rasterio
 from rasterio.mask import mask
 from rasterio.transform import Affine
+from rasterio.warp import reproject, Resampling
+import tempfile
+
 
 
 
@@ -675,7 +678,50 @@ class voxel(object):
 
         return data
 
-    def to_raster(self, raster_file, crs=None, use_transform=True, aggregate_fun=None):
+    def to_raster(self, raster_file, crs=None, use_transform=True,
+                  aggregate_fun=None, reproject=False):
+        """
+        Convert to raster stack
+
+        Parameters
+        ----------
+        raster_file: str
+            Raster file path.
+        crs: rasterio.crs
+            Coordinates reference system.
+        use_transform: bool
+            If True, the transformations stored in self.header are applied.
+        aggregate_fun: function
+            Function to aggregate the LAI/LAD values.
+        reproject: bool
+            If True and the transformation contains a rotation,
+            the raster is regridded on an x,y grid,
+            after applying the rotation that is not well supported by some softwares.
+            In that case the grid is aligned to x,y=(0,0),
+            the grid resolution is the same as the voxel grid,
+            and the resampling method is the nearest neighbour.
+
+        Returns
+        -------
+        str
+            Raster file path
+
+        Examples
+        --------
+        >>> import pytools4dart as ptd
+        >>> from os.path import join, dirname
+        >>> data_dir = join(dirname(ptd.__file__), 'data')
+        >>> voxfile = join(data_dir, 'forest.vox')
+        >>> vox = ptd.voxreader.voxel.from_vox(voxfile)
+        >>> vop = np.array([[0.453990499739275, 0.891006524188506, 0.0, -650363.659927172],\
+                [-0.891006524188506, 0.453990499739275, 0.0, -9491.23042430705],\
+                [0.0, 0.0, 1.0, 0.0],\
+                [0.0, 0.0, 0.0, 1.0]])
+        >>> ivop = np.linalg.inv(vop)
+        >>> ivop2D = (ivop[0,0],ivop[0,1],ivop[1,0],ivop[1,1],ivop[0,3],ivop[1,3])
+        >>> vox.affine_transform(ivop2D, inplace=True)
+        >>> raster_file = vox.to_raster('/tmp/test.tif', crs = '+init=epsg:2792')
+        """
         # TODO: change to geocube
         # at the moment failed install conda-forge geocube on current conda env...
         # crs='+init=epsg:2792'
@@ -727,7 +773,7 @@ class voxel(object):
 
         with rasterio.open(
                 raster_file,
-                'w+',
+                'w',
                 driver='GTiff',
                 height=data.shape[1],
                 width=data.shape[2],
@@ -737,7 +783,50 @@ class voxel(object):
                 transform=transform
         ) as r:
             r.write(data)
+
+        if reproject and ((transform.b!=0) or (transform.d!=0)):
+            tmp_file = tempfile.NamedTemporaryFile(suffix='.tif').name
+            _reproject_without_rotation(raster_file, tmp_file)
+            os.replace(tmp_file, raster_file)
+
         return raster_file
+
+def _reproject_without_rotation(src_file, dst_file):
+    with rasterio.open(src_file) as src:
+        resx = np.sqrt(src.transform.a ** 2 + src.transform.b ** 2)
+        resy = np.sqrt(src.transform.d ** 2 + src.transform.e ** 2)
+        leftb = np.floor(src.bounds[0] / resx) * resx
+        botb = np.floor(src.bounds[1] / resy) * resy
+        rightb = np.ceil(src.bounds[2] / resx) * resx
+        topb = np.ceil(src.bounds[3] / resy) * resy
+        dst_shape = (int(np.abs(rightb - leftb) / resx),
+                     int(np.abs(topb - botb) / resy))  # to be determined
+        dst_transform = Affine(resx, 0.0, leftb, 0.0, -resy, topb)
+        dst_crs = src.crs
+
+        dst_meta = src.meta.copy()
+        dst_meta.update({
+            'crs': dst_crs,
+            'transform': dst_transform,
+            'width': dst_shape[1],
+            'height': dst_shape[0]
+        })
+
+        with rasterio.open(dst_file, 'w', **dst_meta) as dst:
+            for i in range(1, src.count + 1):
+                img = src.read(i)
+                dst_img = np.nan(dst_shape, img.dtype) * np.nan
+                reproject(
+                    img,
+                    dst_img,
+                    src_transform=src.transform,
+                    src_crs=src.crs,
+                    dst_transform=dst_transform,
+                    dst_crs=dst_crs,
+                    resampling=Resampling.nearest)
+
+                dst.write(dst_img, indexes=i)
+            dst_img = np.zeros(dst_shape, img.dtype)
 
 
 if __name__ == "__main__":
