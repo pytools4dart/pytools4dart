@@ -2,22 +2,17 @@
 
 This notebooks shows the several ways of adding plots to a simulation. Indeed,
 there aer three ways of adding plots that will depend on the objective:
+  - add plot one at a time: `simu.add.plot`
+    - pros: easy for common options
+    - cons: limited to certain parameters, not adapted for more than a thousand plots (10 s)
+		
+  - plots file or data.frame: `simu.add.plots`
+    - pros: adapted for large number of plots, accelerates DART mockup generation (much faster than with `plots.xml`)
+    - cons: limited to certain parameters, although most are available
 
-  - fast and user-friendly interface: `add.plot`
-  
-   - pros: easy for common options
-   - cons: limited to certain parameters, not addapted for more than a
-thousand plots (10 s)
-	
-  - raw interface: `core.xsdobjs['plots'].Plots.add_Plot()`
-  
-   - pros: all parameters accessible
-   - cons: not addapted for more than a thousand plots (10 s.)
-	
-  - plots file:
-  
-   - pros: addapted for large number of plots, accelerates DART mockup generation (much faster than with `plots.xml`)
-   - cons: limited to certain parameters, although most are available
+  - raw interface: `core.plots.Plots.add_Plot`
+    - pros: all parameters accessible
+    - cons: not addapted for more than a thousand plots (10 s.)
 
 
 
@@ -34,7 +29,7 @@ plots: one of leaf deciduous trees, one of grass and ground.
 
 ```python
 import pytools4dart as ptd
-simu = ptd.simulation()
+simu = ptd.simulation('ptd/single_plot', empty=True)
 simu.scene.size = [10,10]
 
 simu.add.optical_property(type='Vegetation', ident='leaf_deciduous', 
@@ -52,8 +47,6 @@ simu.add.plot(type='Vegetation', corners=[[0, 0], [10,0], [10, 10], [0, 10]],
 simu.add.plot(type='Ground + Vegetation', corners=[[0, 0], [10,0], [10, 10], [0, 10]],
               height = 1, baseheight=0, op_ident = 'grass',
               grd_op_type = 'Lambertian', grd_op_ident = 'ground')
-
-simu.name = 'ptd/single_plot'
 
 simu.write()
 
@@ -78,12 +71,12 @@ purpose, lets check the structure of the plots that have been generated in
 previous step:
 
 ```python
-print(simu.core.xsdobjs['plots'].Plots.to_string())
+print(simu.core.plots.Plots.to_string())
 ```
 
-Here both plos are defined with a vegetation Leaf Area Index (LAI) of value 1.
+Here both plots are defined with a vegetation Leaf Area Index (LAI) of value 1.
 Lets modify the first plot defining a Leaf Area Density of value $0.3 m^2/m^3$
-represenetd with triangles. The operation must be made in successive steps:
+represented with triangles. The operation must be made in successive steps:
 
 1. change density definition
 
@@ -94,7 +87,7 @@ i.e. DART will generate triangles of a
 certain size randomly distributed in space but respecting the UF value.
 
 ```python
-plot = simu.core.xsdobjs['plots'].Plots.Plot[1]
+plot = simu.core.plots.Plots.Plot[1]
 plot.PlotVegetationProperties.densityDefinition=1
 print(plot.to_string())
 
@@ -136,7 +129,7 @@ ptd.tools.plots.read(plots_file)
 ```
 
 To illustrate the use of plots file, let's add 10x10 Vegetation plots of $1m^3$
-with a gradient of vegetation density.
+with a gradient of Chlorophyll concentration (`Cab` parameter in prospect).
 
 ```python
 import pytools4dart as ptd
