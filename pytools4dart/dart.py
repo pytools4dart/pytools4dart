@@ -56,7 +56,7 @@ def _get_install_files(dhome):
 
     jarfile = join(dhome, 'Install.jar')
 
-    if platform.system() is 'Windows':
+    if platform.system() == 'Windows':
         system = 'windows'
     else:
         system = 'linux'
@@ -188,7 +188,7 @@ def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False, extra
     ###### move dart files to dart_home ######
     move_files = [join(dart_unzip, 'dart', f) for f in os.listdir(join(dart_unzip, 'dart'))]  # ['bin', 'database', 'tools', 'changeLog.html]
     move_files.append(join(dart_unzip, 'README.txt'))
-    if platform.system() is 'Windows':
+    if platform.system() == 'Windows':
         move_files.append(join(dart_unzip, 'uninstall.bat'))
     else:
         move_files.append(join(dart_unzip, 'uninstall.sh'))
@@ -320,13 +320,13 @@ def update(dart_zip, dart_home=None, verbose=True):
 #     if system is None:
 #         system = platform.system()
 #
-#     if system is 'Windows':
+#     if system == 'Windows':
 #         file_url = dart_version[version] + '_' + system.lower() + str(nbits) + '.zip'
 #     else:
 #         system == 'Linux'
 #         file_url = dart_version[version] + '_' + system.lower() + str(nbits) + '.tar.gz'
 #
-#     if platform.system() is 'Windows':
+#     if platform.system() == 'Windows':
 #         curl = 'curl.exe'
 #     else:
 #         curl = 'curl'
@@ -387,7 +387,7 @@ def _extract(dart_zip, extract_dir=None, verbose=False):
     if extract_dir is None:
         extract_dir = dirname(dart_zip)
 
-    if platform.system() is 'Windows':
+    if platform.system() == 'Windows':
         import zipfile
         with zipfile.ZipFile(dart_zip, "r") as j:
             outname = j.namelist()[0].replace('/', '')
@@ -412,7 +412,7 @@ def _extract(dart_zip, extract_dir=None, verbose=False):
     if verbose:
         print('Extracting {} to {}'.format(dart_zip, dart_unzip))
 
-    # if platform.system() is 'Windows': # tar.exe only available since Windows 10 build 17063
+    # if platform.system() == 'Windows': # tar.exe only available since Windows 10 build 17063
     #     cmd = 'tar.exe -xf {dart_zip} -C {dart_unzip}'.format(dart_zip=dart_zip, dart_unzip=dart_unzip)
     # else:
     #     cmd = 'tar -xzf {dart_zip} -C {dart_unzip}'.format(dart_zip=dart_zip, dart_unzip=dart_unzip)
