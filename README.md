@@ -4,12 +4,15 @@
 [![python](https://img.shields.io/badge/Python-3-blue.svg)](https://www.python.org)
 [![build status](https://gitlab.com/pytools4dart/pytools4dart/badges/master/pipeline.svg)](https://gitlab.com/pytools4dart/pytools4dart/pipelines/latest)
 
-The API is maintained under python 3. It may also work under python 2 although it is not maintained/tested anymore.
-
-## Installation
-
-All installation details are available in the 
-[installation guide](https://pytools4dart.gitlab.io/pytools4dart/docs/user_guides/00_installation/).
+The python package `pytools4dart` was developed to address scripted simulations, especially for simulations with dimensions,
+number of parameters or complexity not manageable with DART graphical interface. Typical examples are the production of 
+a 3D mockups with thousands of voxels or objects and thousands of optical properties 
+(e.g. voxelised lidar data intersected with crown specific bio-chemical traits), 
+or the specification of hundreds of spectral bands to simulate a hyperspectral sensor. Another example is to load 
+The package `pytools4dart` extends DART to complex and massive simulation with the power of python for pre/post processing and analysis, by making possible
+the connection to any other python packages (rasterio, laspy, scikitlearn, ...). It also extends DART to computing 
+on headless server, typically HPC servers. And with python scripting, it allows for easy lightweight version control, e.g. with git,
+to keep track of your simulation history.
 
 ## Features
 
@@ -19,7 +22,7 @@ The python API covers most of DART features and more:
 - __Load and/or Create__ DART simulation files
 - __Full Parametrisation__ of any type of simulation
 - __Proxies & Summaries__ to most used parameters: scene elements (sizes, objects, properties), sensor bands, source
-- __DART Runners__: run simulations step by step (direction, phase, ...) or fully, run/resume sequence processing
+- __DART Runners__: run simulations step by step (direction, phase, ...) or fully, run/resume sequence processing, on remote server
 - __Sequence Generator__
 - __Pre/Post-Processing tools__:
     - hyperspectral tools (hstools): read ENVI .hdr files, extract wavelengths and bandwidths, stack band images to ENVI file
@@ -27,7 +30,9 @@ The python API covers most of DART features and more:
     - DART2LAS: lidar processing tools
         - extract returns with gaussian decomposition of lidar waveforms (accelerated with C++ backend) 
         - convert lidar simulation results to LAS files (full-waveform and returns only)
-
+    - Prospect: generate thousands of optical properties from bio-chemical traits
+- __Tutorials__ : several use cases documented to facilitate the development of your own simulations.
+  
 <!---
     proxies:
     - scene 
@@ -46,14 +51,27 @@ The python API covers most of DART features and more:
     - full
     - sequence
     - colorCompositeBands
--->
-
-
 Many variables are pandas DataFrame objects, and can be directly 
 interacted with by the user.        
+-->
 
 Check [website](https://pytools4dart.gitlab.io/pytools4dart) for details and user guides.
-Example scripts are available in [here](https://gitlab.com/pytools4dart/pytools4dart/tree/master/pytools4dart/examples).
+
+Examples are available in [here](https://gitlab.com/pytools4dart/pytools4dart/tree/master/pytools4dart/examples).
+
+## Install
+
+Recommended installation is under conda:
+
+```bash
+conda env create --name myptd pytools4dart/ptdvenv -v
+conda activate myptd
+python -c 'import pytools4dart as ptd; ptd.configure(r"<path to DART directory>")' # e.g. r"~/DART", r"C:\DART"
+```
+
+See [installation guide](https://pytools4dart.gitlab.io/pytools4dart/docs/user_guides/00_installation/) for other installation modes (virtualenv, graphical interface, package update) and
+details (requirements, tests, uninstall, etc.).
+
 
 ## Citation
 
