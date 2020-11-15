@@ -2,6 +2,9 @@
 
 ## Add
 - DART installer and updater (pytools4dart.dart.install & pytools4dart.dart.update)
+- voxel.to_raster method to convert voxel grid to a raster (stack or not)
+- voxel.extent: get the extent of voxel grid
+- voxel.intersect: support both raster and polygons as input. 
 
 ## Change
 - deprecated OBJtools read, get_gnames, get_dims, get_center for objreader properties  
