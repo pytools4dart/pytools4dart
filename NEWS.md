@@ -1,5 +1,8 @@
 # 1.1.8
 
+## Fix
+- voxel.to_plots for z resolution different from xy (Jim Buffat)
+
 # 1.1.7
 
 ## Add
