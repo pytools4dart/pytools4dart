@@ -619,7 +619,7 @@ class voxel(object):
         # See use case 3 and 6 for simulation cases
         """
 
-        res = self.header["res"][0]
+        res = self.header["res"][-1]
 
         # set density parameters
         if density_type == 'LAI':
