@@ -165,7 +165,7 @@ def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False, extra
         else:
             bin7z = join(dart_unzip, '7za')
         outdir7z = dart_unzip
-        command = [bin7z, 'x', '-o ' + str(outdir7z), data7z]
+        command = [bin7z, 'x', '-o' + str(outdir7z), data7z]
         if verbose:
             print('Extracting DART files...')
         subprocess.run(' '.join(command), shell=True)
