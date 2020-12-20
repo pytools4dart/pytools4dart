@@ -34,6 +34,7 @@ from shutil import move, unpack_archive, rmtree
 # see https://stackoverflow.com/questions/1868714/how-do-i-copy-an-entire-directory-of-files-into-an-existing-directory-using-pyth
 from distutils.dir_util import copy_tree
 from pathlib import Path
+import subprocess
 from .settings import getdartenv
 
 import zipfile
@@ -156,6 +157,17 @@ def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False, extra
     extract_dir = dart_home
 
     dart_unzip, version = _extract(dart_zip, extract_dir, verbose)
+    # starting from DART v1177, content is compressed in dart_unzip/data.7zv
+    data7z = join(dart_unzip, 'data.7z')
+    if os.path.isfile(data7z):
+        if platform.system() == 'Windows':
+            bin7z = join(dart_unzip, '7za.exe')
+        else:
+            bin7z = join(dart_unzip, '7za')
+        outdir7z = dart_unzip
+        command = [bin7z, 'x', '-o'+ outdir7z, data7z]
+        subprocess.run(command, shell=True)
+
     if platform.system() == 'Windows':
         dart_launcher_file = join(dart_home, 'dart.bat')
         # TODO: check if underscore in file name
