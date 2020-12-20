@@ -494,10 +494,12 @@ def prospect_db(db_file, N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can
             raise ValueError('Mode not available.')
 
     if inmem:
-        conn = _create_prospect_db(':memory:')
         diskconn = sqlite3.connect(db_file)
         if fexist:
+            conn = sqlite3.connect(':memory:')
             diskconn.backup(conn)
+        else:
+            conn = _create_prospect_db(':memory:')
     else:
         conn = _create_prospect_db(db_file)
 
