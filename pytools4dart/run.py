@@ -526,8 +526,8 @@ class Run(object):
             Azimuth viewing angle (°)
         band_sub_dir: str
             Subdirectory where to get the simulated image. Default is 'BRF/ITERX/IMAGES_DART'.
-            pattern: str
-        Pattern to select band files. It will be used with str.contains(pattern, regex=True, na=False)
+        pattern: str
+            Pattern to select band files. It will be used with str.contains(pattern, regex=True, na=False)
 
         Returns
         -------
