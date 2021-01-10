@@ -504,7 +504,7 @@ class Run(object):
         return colorCompositeBands(self.simu.name, red, green, blue, iteration, outdir)
 
     def stack_bands(self, output_dir=None, driver='ENVI', rotate=True, zenith=0, azimuth=0,
-                    band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART')):
+                    band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART'), pattern=None):
         """
         Stack bands into an ENVI .bil file
 
@@ -526,6 +526,8 @@ class Run(object):
             Azimuth viewing angle (°)
         band_sub_dir: str
             Subdirectory where to get the simulated image. Default is 'BRF/ITERX/IMAGES_DART'.
+            pattern: str
+        Pattern to select band files. It will be used with str.contains(pattern, regex=True, na=False)
 
         Returns
         -------
@@ -538,4 +540,4 @@ class Run(object):
         if (output_dir is not None) and (not os.path.isdir(os.path.dirname(output_dir))):
             output_dir = pjoin(self.simu.output_dir, output_dir)
         return stack_bands(simu_output_dir, output_dir=output_dir, driver=driver, rotate=rotate, phasefile=phasefile,
-                           zenith=zenith, azimuth=azimuth, band_sub_dir=band_sub_dir)
+                           zenith=zenith, azimuth=azimuth, band_sub_dir=band_sub_dir, pattern=pattern)
