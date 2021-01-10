@@ -290,7 +290,7 @@ def stack_bands(simu_output_dir, output_dir=None, driver='ENVI', rotate=True, ph
     band_sub_dir: str
         Subdirectory where to get the simulated image. Default is 'BRF/ITERX/IMAGES_DART'.
     pattern: str
-        Pattern to select band files. It will be used with str.contains(pattern, regex=True, na=False)
+        Pattern in file name to select band files. It will be used with str.contains(pattern, regex=True, na=False)
 
     Returns
     -------
@@ -303,7 +303,7 @@ def stack_bands(simu_output_dir, output_dir=None, driver='ENVI', rotate=True, ph
 
     bands = ptd.hstools.get_bands_files(simu_output_dir, band_sub_dir=band_sub_dir)
     if pattern is not None:
-        subset = bands.loc[:, 'path'].str.contains(pattern, regex=True, na=False)
+        subset = bands.loc[:, 'path'].apply(os.path.basename).str.contains('test', regex=True, na=False)
         bands = bands[subset]
 
     band_files = bands.path[(bands.zenith == zenith) & (bands.azimuth == azimuth)]
@@ -527,7 +527,7 @@ class Run(object):
         band_sub_dir: str
             Subdirectory where to get the simulated image. Default is 'BRF/ITERX/IMAGES_DART'.
         pattern: str
-            Pattern to select band files. It will be used with str.contains(pattern, regex=True, na=False)
+            Pattern in file name to select band files. It will be used with str.contains(pattern, regex=True, na=False)
 
         Returns
         -------

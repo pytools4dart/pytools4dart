@@ -1,6 +1,9 @@
 # 1.1.8
 
+## Change
+- add argument `pattern` to run.stack_bands, to select band files to be stacked.
 ## Fix
+- hstools.get_band_files keeping only VZ_VA band files (Jim Buffat)
 - voxel.to_plots for z resolution different from xy (Jim Buffat)
 
 # 1.1.7
