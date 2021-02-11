@@ -219,6 +219,7 @@ pages:
     - cd pytools4dart/examples
     - python -c 'import pytools4dart as ptd; ptd.configure("~/DART")'
     - cd $CI_PROJECT_DIR
+    - pip install mdx-breakless-lists
     - portray as_html -c pyproject.toml
     #    - pip install anybadge
     #    - DART_VERSION="$(echo "$DART_URL_LINUX" |sed 's/.*\(v[0-9]*\)_linux64.tar.gz$/\1/')"

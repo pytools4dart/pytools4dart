@@ -8,7 +8,7 @@
 # output_dir = "site"
 # modules = ["pytools4dart"]
     modules = ["pytools4dart.dart", "pytools4dart.add", "pytools4dart.core", "pytools4dart.core_ui", "pytools4dart.run", "pytools4dart.scene", "pytools4dart.sensor", "pytools4dart.sequencer", "pytools4dart.settings", "pytools4dart.simulation", "pytools4dart.source", "pytools4dart.scene", "pytools4dart.tools"]
-
+    extra_markdown_extensions = ['mdx_breakless_lists']
 
 [[tool.portray.extra_markdown_extensions]]
     [tool.portray.extra_markdown_extensions.mdx_math]
