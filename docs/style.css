@@ -9,6 +9,12 @@ Sinon renommer le fichier zzz.css pour que ce soit le dernier pris en compte
 h1, h2, h3, h4, h5, h6 {
     font-weight : 550 !important;
 }
+
+p {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
 /* numbering sections
 See https://stackoverflow.com/questions/48029165/is-there-a-way-to-make-the-headings-sections-and-subsections-numbering-in-markd
 However it numbers only the content and not the TOC, and it numbers also the API references which is not wanted.
