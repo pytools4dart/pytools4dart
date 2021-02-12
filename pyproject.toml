@@ -32,3 +32,6 @@ template_dir = "templates/pdocs"
 #     [tool.portray.mkdocs.theme]
 #         name = "bootstrap"
 
+[tool.portray.mkdocs.theme]
+favicon = "docs/icon/pytools4dart2_icon.png"
+logo = "docs/icon/pytools4dart2_icon.png"
