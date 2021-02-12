@@ -31,7 +31,7 @@ template_dir = "templates/pdocs"
 #    extra_javascript = ['docs/menu.js']
 #     [tool.portray.mkdocs.theme]
 #         name = "bootstrap"
-
+    copyright = 'Copyright &copy; 2018 - 2021 Florian de Boissieu'
 [tool.portray.mkdocs.theme]
 name = "material"
 palette = {primary = "green", accent = "lightgreen"}
