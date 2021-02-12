@@ -37,3 +37,6 @@ name = "material"
 palette = {primary = "green", accent = "lightgreen"}
 favicon = "docs/icon/pytools4dart3_icon.png"
 logo = "docs/icon/pytools4dart3_icon.png"
+
+[tool.portray.mkdocs.theme.icon]
+repo='fontawesome/brands/gitlab'
