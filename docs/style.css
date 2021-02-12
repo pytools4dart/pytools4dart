@@ -11,8 +11,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 p {
-  text-align: justify;
-  text-justify: inter-word;
+  text-align: justify !important;
+  text-justify: inter-word !important;
 }
 
 /* numbering sections
