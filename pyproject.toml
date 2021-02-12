@@ -35,5 +35,5 @@ template_dir = "templates/pdocs"
 [tool.portray.mkdocs.theme]
 name = "material"
 palette = {primary = "green", accent = "lightgreen"}
-favicon = "docs/icon/pytools4dart2_icon.png"
-logo = "docs/icon/pytools4dart2_icon.png"
+favicon = "docs/icon/pytools4dart3_icon.png"
+logo = "docs/icon/pytools4dart3_icon.png"
