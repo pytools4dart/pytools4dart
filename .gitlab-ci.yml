@@ -236,4 +236,5 @@ pages:
      - dart_badge.svg
   only:
    - master
+   - pages
 
