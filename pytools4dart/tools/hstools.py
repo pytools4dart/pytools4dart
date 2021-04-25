@@ -58,7 +58,7 @@ def get_bands_files(simu_output_dir, band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_
     bands['images'] = bands.path.apply(lambda x: [pjoin(x, band_sub_dir, s)
                                                   for s in os.listdir(pjoin(x, band_sub_dir))
                                                   if os.path.isfile(pjoin(x, band_sub_dir, s))
-                                                  and re.match(r'.*\.mpr$', s)])
+                                                  and re.match(r'.*_VZ=.*_VA=.*\.mpr$', s)])
 
     images = bands.drop(['path', 'images'], axis=1).join(
         pd.DataFrame(bands.images.apply(pd.Series).stack().reset_index(level=1, drop=True), columns=['path'])

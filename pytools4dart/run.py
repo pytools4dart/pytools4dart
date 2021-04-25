@@ -263,7 +263,7 @@ def colorCompositeBands(simu_name, red, green, blue, iteration, outdir):
 
 
 def stack_bands(simu_output_dir, output_dir=None, driver='ENVI', rotate=True, phasefile=None, zenith=0, azimuth=0,
-                band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART')):
+                band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART'), pattern=None):
     """
     Stack bands into an ENVI .bil file
 
@@ -289,6 +289,8 @@ def stack_bands(simu_output_dir, output_dir=None, driver='ENVI', rotate=True, ph
         Azimuth viewing angle (°)
     band_sub_dir: str
         Subdirectory where to get the simulated image. Default is 'BRF/ITERX/IMAGES_DART'.
+    pattern: str
+        Pattern in file name to select band files. It will be used with str.contains(pattern, regex=True, na=False)
 
     Returns
     -------
@@ -300,8 +302,12 @@ def stack_bands(simu_output_dir, output_dir=None, driver='ENVI', rotate=True, ph
         output_dir = simu_output_dir
 
     bands = ptd.hstools.get_bands_files(simu_output_dir, band_sub_dir=band_sub_dir)
+    if pattern is not None:
+        subset = bands.loc[:, 'path'].apply(os.path.basename).str.contains('test', regex=True, na=False)
+        bands = bands[subset]
 
     band_files = bands.path[(bands.zenith == zenith) & (bands.azimuth == azimuth)]
+
 
     if os.path.isfile(phasefile):
         wvl = ptd.hstools.get_wavelengths(phasefile)
@@ -498,7 +504,7 @@ class Run(object):
         return colorCompositeBands(self.simu.name, red, green, blue, iteration, outdir)
 
     def stack_bands(self, output_dir=None, driver='ENVI', rotate=True, zenith=0, azimuth=0,
-                    band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART')):
+                    band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART'), pattern=None):
         """
         Stack bands into an ENVI .bil file
 
@@ -520,6 +526,8 @@ class Run(object):
             Azimuth viewing angle (°)
         band_sub_dir: str
             Subdirectory where to get the simulated image. Default is 'BRF/ITERX/IMAGES_DART'.
+        pattern: str
+            Pattern in file name to select band files. It will be used with str.contains(pattern, regex=True, na=False)
 
         Returns
         -------
@@ -532,4 +540,4 @@ class Run(object):
         if (output_dir is not None) and (not os.path.isdir(os.path.dirname(output_dir))):
             output_dir = pjoin(self.simu.output_dir, output_dir)
         return stack_bands(simu_output_dir, output_dir=output_dir, driver=driver, rotate=rotate, phasefile=phasefile,
-                           zenith=zenith, azimuth=azimuth, band_sub_dir=band_sub_dir)
+                           zenith=zenith, azimuth=azimuth, band_sub_dir=band_sub_dir, pattern=pattern)

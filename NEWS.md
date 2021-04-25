@@ -1,6 +1,11 @@
 # 1.1.8
 
+## Add
+- add argument `pattern` to run.stack_bands, to select band files to be stacked.
+
 ## Fix
+- dart.install for DART>=1177 that is compressed with 7z 
+- hstools.get_band_files keeping only VZ_VA band files (Jim Buffat)
 - voxel.to_plots for z resolution different from xy (Jim Buffat)
 
 # 1.1.7
