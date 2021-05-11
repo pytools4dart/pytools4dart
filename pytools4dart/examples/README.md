@@ -199,4 +199,28 @@ We expect that the shade of the pilar would move along with the solar azimuth an
 - run the sequence
 - stack bands of each sequence iteration and plot them in function of the azimuth angle
 
-Note that during stacking the rasters are rotated to be in teh standard GIS orientation (x-right, y-up).
+Note that during stacking the rasters are rotated to be in the standard GIS orientation (x-right, y-up).
+
+# Use case 8
+
+Hyperspectral simulation
+
+## Goal
+
+Hyperspectral case simulated with a sequence: stack images & plot a pixel spectrum.
+
+# Description
+
+Build a basic hyperspectral case based on use case 0:
+   - a single turbid plot of 20x20x5 m
+   - varying wavelength: meanLambda = .4:.05:.9 um
+   - simulate a 1m resolution "hyper"spectral image
+   - plot the spectrum of a pixel
+
+## Algorithm
+
+- follow steps of use_case_0 but with a unique band in core simulation
+- add the band sequence with varying wavelength
+- run sequence
+- find and stack bands distributed in sequence directories (as well as associated wavelengths)
+- plot the spectrum of one pixel using xarray
