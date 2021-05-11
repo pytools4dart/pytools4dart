@@ -119,9 +119,10 @@ outputfile = ptd.hstools.stack_dart_bands(wvl.band_file, outputfile,
 try:
     import xarray as xr
     with xr.open_rasterio(outputfile) as r:
-        ptd.hstools.get_hdr_bands(outputfile.replace('.bil', '.hdr'))
-        r=r.assign_coords(band=wvl.wavelength.to_list()) # gdal does not read the ENVI header wavelengths...
-        p = r.isel(x=1, y=1).plot() # plot spectrum of pixel 1,1
+        # # hdr file could also be used to get band wavelength
+        # wvl = ptd.hstools.get_hdr_bands(ptd.hstools.read_ENVI_hdr(outputfile.replace('.bil', '.hdr')))
+        # r=r.assign_coords(band=wvl.wavelength)
+        p = r.isel(x=1, y=1).plot(x='wavelength') # plot spectrum of pixel 1,1
         # p[0].figure.show()
         p[0].figure.savefig(pjoin(simu.simu_dir, 'pxiel[1,1]_spectrum.png'))
 except:
