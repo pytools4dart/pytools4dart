@@ -31,11 +31,11 @@ Hyperspectral case simulated with sequence: stack images & plot a pixel spectrum
 
 ## Goal
 
-*Build a basic hyperspectral case based on use case 0:
+Build a basic hyperspectral case based on use case 0:
    - a single turbid plot of 20x20x5 m
    - varying wavelength: meanLambda = .4:.05:.9 um
-   - simulate a 1m resolution multispectral image*
-   - plot the spectrum of a pixel
+   - simulate a 1m resolution multispectral image
+   - plot the spectrum of a pixel with xarray
 
 ## Algorithm
 
@@ -125,5 +125,6 @@ try:
         p = r.isel(x=1, y=1).plot(x='wavelength') # plot spectrum of pixel 1,1
         # p[0].figure.show()
         p[0].figure.savefig(pjoin(simu.simu_dir, 'pxiel[1,1]_spectrum.png'))
-except:
-    print('Package xarray is not available, figure could not be generated.')
+except Exception as e:
+    print(e)
+    print('Something went wrong with figure, it could not be generated.')
