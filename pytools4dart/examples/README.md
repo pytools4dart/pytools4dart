@@ -212,7 +212,7 @@ Hyperspectral case simulated with a sequence: stack images & plot a pixel spectr
 # Description
 
 Build a basic hyperspectral case based on use case 0:
-   - a single turbid plot of 20x20x5 m
+   - a single turbid plot
    - varying wavelength: meanLambda = .4:.05:.9 um
    - simulate a 1m resolution "hyper"spectral image
    - plot the spectrum of a pixel
