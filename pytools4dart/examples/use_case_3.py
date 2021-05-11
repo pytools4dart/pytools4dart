@@ -85,7 +85,7 @@ propect_prop = {'CBrown': 0, 'Cab': 30, 'Car': 5,
                 'anthocyanin': 0}
 
 op_name = 'op_prospect'
-op_vegetation = {'type': 'vegetation',
+op_vegetation = {'type': 'Vegetation',
                  'ident': op_name,
                  'databaseName': 'prospect.db',
                  'ModelName': '',
