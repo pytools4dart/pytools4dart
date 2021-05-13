@@ -1,3 +1,12 @@
+# 1.1.9
+
+## Add
+- upgrade OBJtools.dtm2obj with new arguments `shift`, `xlim`, `ylim`
+- use_case_8 for hyperspectral use
+
+## Fix
+- fix OBJtools.dtm2obj: case of positive y delta in raster
+
 # 1.1.8
 
 ## Add

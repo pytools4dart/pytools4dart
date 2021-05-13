@@ -29,6 +29,13 @@ in this order, otherwise the data is wrongly interpreted, and makes wrong simula
 * (v1083) plots converted to triangles consumes enormous RAM at mockup creation (dart-maket)
  
 
+## v1177
+A problem with DART python install on linux leads to an error when running simulation from python interface.  
+
+## v1173
+
+Several problems with DART prospect module were detected.
+
 ## v1121
 ### Fix
 * memory leak in DART Lidar: overloads memory for a simulation of 10e6 pulses (with scene of 7e6 triangles).
