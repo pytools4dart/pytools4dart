@@ -2,10 +2,9 @@
 This notebook present the main functions for database management into this
 package
 
-## dbtools
+## [dbtools](https://pytools4dart.gitlab.io/pytools4dart/reference/pytools4dart/tools/dbtools/)
 
-Submodule [`dbtools`](https://pytools4dart.gitlab.io/pytools4dart/reference/pytools4dart/tools/dbtools/)
-is a toolbox of functions to manage and explore DART databases. 
+A toolbox of functions to manage and explore DART databases. 
 
 Here are the main functions:
 
@@ -59,18 +58,17 @@ This module is dedicated to hyperspectral data management. It includes the follo
 
 Check https://pytools4dart.gitlab.io/pytools4dart/reference/pytools4dart/tools/hstools for details.
 
-## OBJtools
+## [OBJtools](https://pytools4dart.gitlab.io/pytools4dart/reference/pytools4dart/tools/OBJtools)
 
-Submodule [`OBJtools`](https://pytools4dart.gitlab.io/pytools4dart/reference/pytools4dart/tools/OBJtools) has a few
-functions to manage obj files:
+A few functions to manage obj files:
 - `objreader`: a class to read an obj file and get its extent, names of groups, ...
 - `dtm2obj`: convert a raster file to an obj file
 - `ply2obj`: convert a ply file to an obj file
 
-## voxreader
+## [voxreader](https://pytools4dart.gitlab.io/pytools4dart/reference/pytools4dart/tools/voxreader)
 
-Submodule [`voxreader`](https://pytools4dart.gitlab.io/pytools4dart/reference/pytools4dart/tools/voxreader) 
-helps to manage voxelised plant area density (PAD) data and prepare them to define numerous turbid plots in a DART simulation.
+This module helps to manage voxelised plant area density (PAD) data 
+and prepare them to define numerous turbid plots in a DART simulation.
 
 The class has the following capacities:
 - **read AMAPVox .vox file**, gives an object with attributes `header`, `data` and georeferenced `grid`.
