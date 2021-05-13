@@ -1,4 +1,6 @@
-# pytools4dart: python API for [DART](http://www.cesbio.ups-tlse.fr/dart/index.php#/) simulator
+# [pytools4dart](https://pytools4dart.gitlab.io/pytools4dart): python API for [DART](http://www.cesbio.ups-tlse.fr/dart/index.php#/) simulator
+
+[Documentation](https://pytools4dart.gitlab.io/pytools4dart)
 
 [![licence](https://img.shields.io/badge/Licence-GPL--3-blue.svg)](https://www.r-project.org/Licenses/GPL-3)
 [![python](https://img.shields.io/badge/Python-3-blue.svg)](https://www.python.org)
