@@ -41,7 +41,22 @@ MINAMP = 1
 
 class DART2LAS(object):
     '''
-    classdocs
+    Class to convert DART full-waveform lidar simulation binary files to LAS.
+
+    It support all LAS 1.4 formats including waveforms, point clouds and extrabytes (width, amplitude of gaussian decomposition)
+
+    Class variables:
+        self.lasFormat: int
+            LAS formats, see LAS 1.4 documentation.
+        self.typeOut: int
+            1: Peak amplitude of the Gaussian profile, intensity = A/sigma with waveform=A/(sigma*sqrt(2*PI))*e^((t-u)/sigma^2)
+            2: Integral of the Gaussian profile, intensity = A
+            3: Standard deviation of the Gaussian profile, intensity = sigma * 10.0 #To avoid small values
+            4 (default): Intensity in the RIEGL way: intensity = I, with waveform=I*e^((t-u)/sigma^2)
+        self.ifFixedGain: bool
+            If True self.fixedGain is taken into account
+        self.fixedGain: float
+        TODO: complete documentation
     '''
 
     def __init__(self):
@@ -99,6 +114,19 @@ class DART2LAS(object):
         self.snMap[indX][indY]=snValue
     
     def readDARTBinaryFileAndConvert2LAS(self, dartFileName, lasFileName):
+        """
+        Convert a DART binary file to LAS
+
+        Parameters
+        ----------
+        dartFileName: str
+        lasFileName: str
+
+        Returns
+        -------
+        (float, float)
+        digitizer_offset and digitizer_gain
+        """
 
         if self.lasFormat is None:  # set default format if empty
             if self.ifWriteWaveform:

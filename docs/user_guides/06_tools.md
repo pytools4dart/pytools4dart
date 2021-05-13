@@ -37,10 +37,19 @@ dbtools.import2db(dbFpath, name=name, wavelength=wavelength, reflectance=reflect
 dbtools.get_models(dbFpath)
 ```
 
-## hstools
+## DART2LAS
 
-Submodule [`hstools`](https://pytools4dart.gitlab.io/pytools4dart/reference/pytools4dart/tools/hstools)
-is dedicated to hyperspectral data management. It includes the following functionalities:
+This module is here to convert lidar simmulation results to LAS files.
+It supports:
+- `DP2LAS`: convertion of DART file `DetectedPoints.txt` to a LAS file 
+- `DART2LAS`: conversion of DART waveform binary file to LAS file:
+    - Gaussian Decomposition (accelerated with a C++ binding, see [gdecomp](https://gitlab.com/pytools4dart/gdecomp))
+    - LAS formats 1-9, i.e. to encapsulate waveforms, point clouds and extrabytes (gaussian width and amplitude of returns).
+
+
+## [hstools](https://pytools4dart.gitlab.io/pytools4dart/reference/pytools4dart/tools/hstools)
+
+This module is dedicated to hyperspectral data management. It includes the following functionalities:
 
 - read ENVI .hdr file and get band list
 - stack dart bands
