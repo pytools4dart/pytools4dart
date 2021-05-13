@@ -3,6 +3,7 @@
 ## Add
 - upgrade OBJtools.dtm2obj with new arguments `shift`, `xlim`, `ylim`
 - add use_case_8 for hyperspectral use
+- update documentation of tools
 
 ## Fix
 - fix stack hdr file
