@@ -222,7 +222,7 @@ def search_dbfile(dbname='Lambertian_vegetation.db'):
 def optical_properties_db(db_file, name, comments='', type='lambertian',
                  mode='w', verbose=False, **kwargs):
     """
-    Append optical properties to a DART database (lambertian, hapke or rpv).
+    Create, append or overwrite DART database with optical properties ((lambertian, hapke or rpv).
 
     Parameters
     ----------
