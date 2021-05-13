@@ -8,12 +8,11 @@ A toolbox of functions to manage and explore DART databases.
 
 Here are the main functions:
 
-- **`import2db`** : add optical properties to database, **limited to Lambertian database** at the moment.
-- **`get_models`** : list the models available in a DART database.
-- **`optical_properties_db`**: create or append DART optical properties database, especially adapted to large database (10x faster than in DART).
+- **`optical_properties_db`**: create or append DART optical properties database (lambertian, RPV, hapke), especially adapted to large database (10x faster than in DART).
 - **`prospect_db`**: create or append an optical properties database with prospect, 
 especially adapted to large database (100x faster than in DART). 
 For examples, see https://pytools4dart.gitlab.io/pytools4dart/docs/user_guides/03_optical_properties/#prospect-database.
+- **`get_models`** : list the models available in a DART database.
 
 The following example creates a database named 'test.db', it is filled with a spectrum named 'test spectrum'
 and the model list is then extracted from the same database.

@@ -49,10 +49,10 @@ class DART2LAS(object):
         self.lasFormat: int
             LAS formats, see LAS 1.4 documentation.
         self.typeOut: int
-            1: Peak amplitude of the Gaussian profile, intensity = A/sigma with waveform=A/(sigma*sqrt(2*PI))*e^((t-u)/sigma^2)
-            2: Integral of the Gaussian profile, intensity = A
-            3: Standard deviation of the Gaussian profile, intensity = sigma * 10.0 #To avoid small values
-            4 (default): Intensity in the RIEGL way: intensity = I, with waveform=I*e^((t-u)/sigma^2)
+            - 1: Peak amplitude of the Gaussian profile, intensity = A/sigma with waveform=A/(sigma*sqrt(2*PI))*e^((t-u)/sigma^2)
+            - 2: Integral of the Gaussian profile, intensity = A
+            - 3: Standard deviation of the Gaussian profile, intensity = sigma * 10.0 #To avoid small values
+            - 4 (default): Intensity in the RIEGL way: intensity = I, with waveform=I*e^((t-u)/sigma^2)
         self.ifFixedGain: bool
             If True self.fixedGain is taken into account
         self.fixedGain: float
