@@ -102,7 +102,7 @@ In our case, as the ground is flat, it would cover the object, thus the image wo
 ```python
 simu = ptd.simulation('object_3d')
 simu.name = 'object_3d_on_DEM'
-obj3D.objectDEMMode = 0 # ignore ground
+obj3D.objectDEMMode = 0 # shifts obj such that minimum Z corresponds to ground altitude, "covering" the flat obj here.
 simu.write(overwrite=True)
 simu.run.full()
 rgbDpath = simu.run.colorCompositeBands(red=2, green=1, blue=0, iteration='X', outdir='rgb')
