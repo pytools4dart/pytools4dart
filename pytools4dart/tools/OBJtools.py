@@ -332,7 +332,7 @@ def ply2obj(ply, obj, order=['x', 'y', 'z'], color=False):
                 f.write("\n")
 
 
-def dtm2obj(dtm, obj, order=['y', 'z', 'x']):
+def dtm2obj(dtm, obj, order=['y', 'z', 'x'], shift=[0, 0, 0], xlim=[-np.inf, np.inf], ylim=[-np.inf, np.inf]):
     """
     Convert raster Digital Terrain Model (DTM) to obj file.
     The pixel value is applied to the center of the pixel.
@@ -348,10 +348,22 @@ def dtm2obj(dtm, obj, order=['y', 'z', 'x']):
     order: list
         Order of coordinates using 'x', 'y', 'z'.
         DART expect coordinates to be given in ['y', 'z', 'x'] in obj files.
+    shift: list | numpy.array
+        Array of length 3 with xyz shift values to apply to raster.
+    xlim, ylim: list | numpy.array
+        Arrays of length 2 with [min, max] to clip raster after shift.
 
     Details
     -------
+    Shift is applied first, than clipping, thus xlim and ylim should be adapted to x=x-shift and y=y-shift.
 
+    The pixel value is applied to the center of the pixel, and triangles are made by trio of pixels.
+    For example, if the xy extent of the raster is ((0,0),(2,2)) with 4 pixels,
+    xy vertex coordinates of first triangle will be ((.5, .5), (1.5, .5), (.5, 1.5)).
+    Thus be careful to fix limits so that the full DART scene is covered by the DTM, otherwise,
+    you can have empty DTM on the sides.
+
+    An alternative to shift parameter is to use object location parameters within DART simulation parameters.
 
     """
 
@@ -363,10 +375,20 @@ def dtm2obj(dtm, obj, order=['y', 'z', 'x']):
     width = raster.RasterXSize
     height = raster.RasterYSize
     # considers the pixel value applies to the center of the pixel
-    x = (np.arange(0, width) + .5) * transform[1] + transform[0]
-    y = (np.arange(0, height) + .5) * transform[5] + transform[3]
+    x = (np.arange(0, width) + .5) * transform[1] + transform[0] + shift[0]
+    y = (np.arange(0, height) + .5) * transform[5] + transform[3] + shift[1]
+    zz = raster.ReadAsArray() + shift[2]
     xx, yy = np.meshgrid(x, y)
-    zz = raster.ReadAsArray()
+
+    # # subset and meshgrid
+    ix = np.where((x >= xlim[0]) & (x <= xlim[1]))[0]
+    iy = np.where((y >= ylim[0]) & (y <= ylim[1]))[0]
+    ixy = np.ix_(iy, ix)
+    xx = xx[ixy]
+    yy = yy[ixy]
+    zz = zz[ixy]
+    height, width = zz.shape
+
     vertices = np.vstack((xx, yy, zz)).reshape([3, -1]).transpose()
 
     # make faces
@@ -376,7 +398,11 @@ def dtm2obj(dtm, obj, order=['y', 'z', 'x']):
     a = aii + ajj * width
     a = a.flatten()
 
-    faces = np.vstack((a, a + width, a + width + 1, a, a + width + 1, a + 1))
+    # normal direction looking the sky: anti-clockwise face vertices ordering
+    if transform[5] > 0:
+        faces = np.vstack((a, a + width + 1, a + width, a, a + 1, a + width + 1))
+    else:
+        faces = np.vstack((a, a + width, a + width + 1, a, a + width + 1, a + 1))
     faces = np.transpose(faces).reshape([-1, 3])
 
     vertices = pd.DataFrame(vertices, columns=['x', 'y', 'z'])
