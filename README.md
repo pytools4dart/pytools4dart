@@ -20,7 +20,7 @@ to keep track of your simulation history.
 
 The python API covers most of DART features and more:
 
-- __Configurable__ with any DART version
+- __Configurable__ with any version of DART
 - __Load and/or Create__ DART simulation files
 - __Full Parametrisation__ of any type of simulation
 - __Proxies & Summaries__ to most used parameters: scene elements (sizes, objects, properties), sensor bands, source
