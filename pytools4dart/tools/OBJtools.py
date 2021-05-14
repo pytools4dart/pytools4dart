@@ -367,6 +367,8 @@ def dtm2obj(dtm, obj, order=['y', 'z', 'x'], shift=[0, 0, 0], xlim=[-np.inf, np.
 
     source: https://gis.stackexchange.com/questions/121561/seeking-tool-to-generate-mesh-from-dtm
     """
+    # Maybe Delaunay would reduce anisotropy? to be studied...
+    # Otherwise several libraries for triangulation are available, one of them is "triangle"
 
     # read raster
     raster = gdal.Open(dtm)
