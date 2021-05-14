@@ -402,12 +402,23 @@ def dtm2obj(dtm, obj, order=['y', 'z', 'x'], shift=[0, 0, 0], xlim=[-np.inf, np.
     aj = np.arange(0, height - 1)
     aii, ajj = np.meshgrid(ai, aj)
     a = aii + ajj * width
-    a = a.flatten()
+    # a = a.flatten()
 
     # normal direction looking the sky: anti-clockwise face vertices ordering
     # alternate diagonals to avoid anisotropic effect: see https://groups.google.com/g/dart-cesbio/c/hgKOy1FdYxY
-    faces = np.hstack((np.vstack((a[::2], a[::2] + width + 1, a[::2] + width, a[::2], a[::2] + 1, a[::2] + width + 1)),
-                       np.vstack((a[1::2], a[1::2] + 1, a[1::2] + width, a[1::2] + width + 1, a[1::2] + width, a[1::2]+1))))
+    faces = np.hstack((np.vstack((a[::2,::2].flatten(), a[::2,::2].flatten() + width + 1, a[::2,::2].flatten() + width,
+                                  a[::2,::2].flatten(), a[::2,::2].flatten() + 1, a[::2,::2].flatten() + width + 1)),
+                       np.vstack((a[1::2, ::2].flatten(), a[1::2, ::2].flatten() + 1, a[1::2, ::2].flatten() + width,
+                                  a[1::2, ::2].flatten() + width + 1, a[1::2, ::2].flatten() + width, a[1::2, ::2].flatten()+1)),
+                       np.vstack((a[::2, 1::2].flatten(), a[::2, 1::2].flatten() + 1, a[::2, 1::2].flatten() + width,
+                                  a[::2, 1::2].flatten() + width + 1, a[::2, 1::2].flatten() + width,
+                                  a[::2, 1::2].flatten() + 1)),
+                       np.vstack(
+                           (a[1::2, 1::2].flatten(), a[1::2, 1::2].flatten() + width + 1, a[1::2, 1::2].flatten() + width,
+                            a[1::2, 1::2].flatten(), a[1::2, 1::2].flatten() + 1, a[1::2, 1::2].flatten() + width + 1)),
+                       ))
+    # faces2 = np.hstack(np.vstack((a[1::2], a[1::2] + 1, a[1::2] + width, a[1::2] + width + 1, a[1::2] + width, a[1::2] + 1)),
+    #                    (np.vstack((a[::2], a[::2] + width + 1, a[::2] + width, a[::2], a[::2] + 1, a[::2] + width + 1))))
 
     faces = np.transpose(faces).reshape([-1, 3])
 
