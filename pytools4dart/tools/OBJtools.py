@@ -391,6 +391,9 @@ def dtm2obj(dtm, obj, order=['y', 'z', 'x'], shift=[0, 0, 0], xlim=[-np.inf, np.
     height, width = zz.shape
 
     vertices = np.vstack((xx, yy, zz)).reshape([3, -1]).transpose()
+    ind = np.lexsort((vertices[:,0], vertices[:,1])) # sort by y then x (i.e. first point is bottom left, next is bottom left+1)
+    vertices=vertices[ind]
+
 
     # make faces
     ai = np.arange(0, width - 1)
@@ -400,11 +403,14 @@ def dtm2obj(dtm, obj, order=['y', 'z', 'x'], shift=[0, 0, 0], xlim=[-np.inf, np.
     a = a.flatten()
 
     # normal direction looking the sky: anti-clockwise face vertices ordering
-    if transform[5] > 0:
-        faces = np.vstack((a, a + width + 1, a + width, a, a + 1, a + width + 1))
-    else:
-        faces = np.vstack((a, a + width, a + width + 1, a, a + width + 1, a + 1))
+    # alternate diagonals to avoid anisotropic effect: see https://groups.google.com/g/dart-cesbio/c/hgKOy1FdYxY
+    faces = np.hstack((np.vstack((a[::2], a[::2] + width + 1, a[::2] + width, a[::2], a[::2] + 1, a[::2] + width + 1)),
+                       np.vstack((a[1::2], a[1::2] + 1, a[1::2] + width, a[1::2] + width + 1, a[1::2] + width, a[1::2]+1))))
+
     faces = np.transpose(faces).reshape([-1, 3])
+
+    # from scipy.spatial import Delaunay
+    # faces = Delaunay(vertices[:, 0:2]).simplices # 2-3x longer
 
     vertices = pd.DataFrame(vertices, columns=['x', 'y', 'z'])
     vertices['head'] = 'v'
