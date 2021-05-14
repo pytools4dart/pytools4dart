@@ -365,6 +365,7 @@ def dtm2obj(dtm, obj, order=['y', 'z', 'x'], shift=[0, 0, 0], xlim=[-np.inf, np.
 
     An alternative to shift parameter is to use object location parameters within DART simulation parameters.
 
+    source: https://gis.stackexchange.com/questions/121561/seeking-tool-to-generate-mesh-from-dtm
     """
 
     # read raster
