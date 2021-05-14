@@ -378,9 +378,20 @@ def dtm2obj(dtm, obj, order=['y', 'z', 'x'], shift=[0, 0, 0], xlim=[-np.inf, np.
     width = raster.RasterXSize
     height = raster.RasterYSize
     # considers the pixel value applies to the center of the pixel
-    x = (np.arange(0, width) + .5) * transform[1] + transform[0] + shift[0]
-    y = (np.arange(0, height) + .5) * transform[5] + transform[3] + shift[1]
+    x = (np.arange(0, width) + .5) * transform[1] + transform[0]
+    y = (np.arange(0, height) + .5) * transform[5] + transform[3]
+
+    # a condition to keep faces the same way, i.e. same diag starting direction, independently of the shift and the crop:
+    xy=np.array([[x[0], y[0]], [x[1], y[1]]])
+    dxy = abs(np.array([transform[1], transform[5]]))
+    if (np.mod(xy[0,:], 2*dxy)>np.mod(xy[1,:], 2*dxy)).all() or (np.mod(xy[0,:], 2*dxy)<np.mod(xy[1,:], 2*dxy)).all():
+       first_diag = 'NW-SE'
+    else:
+       first_diag = 'NE-SW'
+
     zz = raster.ReadAsArray() + shift[2]
+    x += shift[0]
+    y += shift[1]
     xx, yy = np.meshgrid(x, y)
 
     # # subset and meshgrid
@@ -396,7 +407,6 @@ def dtm2obj(dtm, obj, order=['y', 'z', 'x'], shift=[0, 0, 0], xlim=[-np.inf, np.
     ind = np.lexsort((vertices[:,0], vertices[:,1])) # sort by y then x (i.e. first point is bottom left, next is bottom left+1)
     vertices=vertices[ind]
 
-
     # make faces
     ai = np.arange(0, width - 1)
     aj = np.arange(0, height - 1)
@@ -406,19 +416,24 @@ def dtm2obj(dtm, obj, order=['y', 'z', 'x'], shift=[0, 0, 0], xlim=[-np.inf, np.
 
     # normal direction looking the sky: anti-clockwise face vertices ordering
     # alternate diagonals to avoid anisotropic effect: see https://groups.google.com/g/dart-cesbio/c/hgKOy1FdYxY
-    faces = np.hstack((np.vstack((a[::2,::2].flatten(), a[::2,::2].flatten() + width + 1, a[::2,::2].flatten() + width,
-                                  a[::2,::2].flatten(), a[::2,::2].flatten() + 1, a[::2,::2].flatten() + width + 1)),
-                       np.vstack((a[1::2, ::2].flatten(), a[1::2, ::2].flatten() + 1, a[1::2, ::2].flatten() + width,
-                                  a[1::2, ::2].flatten() + width + 1, a[1::2, ::2].flatten() + width, a[1::2, ::2].flatten()+1)),
-                       np.vstack((a[::2, 1::2].flatten(), a[::2, 1::2].flatten() + 1, a[::2, 1::2].flatten() + width,
-                                  a[::2, 1::2].flatten() + width + 1, a[::2, 1::2].flatten() + width,
-                                  a[::2, 1::2].flatten() + 1)),
-                       np.vstack(
-                           (a[1::2, 1::2].flatten(), a[1::2, 1::2].flatten() + width + 1, a[1::2, 1::2].flatten() + width,
-                            a[1::2, 1::2].flatten(), a[1::2, 1::2].flatten() + 1, a[1::2, 1::2].flatten() + width + 1)),
-                       ))
-    # faces2 = np.hstack(np.vstack((a[1::2], a[1::2] + 1, a[1::2] + width, a[1::2] + width + 1, a[1::2] + width, a[1::2] + 1)),
-    #                    (np.vstack((a[::2], a[::2] + width + 1, a[::2] + width, a[::2], a[::2] + 1, a[::2] + width + 1))))
+
+    if first_diag == 'NE-SW':
+        a00 = np.concatenate((a[::2, ::2].ravel(), a[1::2, 1::2].ravel()))
+        a10 = np.concatenate((a[1::2, ::2].ravel(), a[::2, 1::2].ravel()))
+    else:
+        a10 = np.concatenate((a[::2, ::2].ravel(), a[1::2, 1::2].ravel()))
+        a00 = np.concatenate((a[1::2, ::2].ravel(), a[::2, 1::2].ravel()))
+
+    faces = np.hstack((np.vstack((a00, a00 + width + 1, a00 + width,
+                                  a00, a00 + 1, a00 + width + 1)),
+                       np.vstack((a10, a10 + 1, a10 + width,
+                                  a10 + width + 1, a10 + width, a10+1)),))
+                           # np.vstack((a[::2, 1::2].flatten(), a[::2, 1::2].flatten() + 1, a[::2, 1::2].flatten() + width,
+                           #            a[::2, 1::2].flatten() + width + 1, a[::2, 1::2].flatten() + width,
+                           #            a[::2, 1::2].flatten() + 1)),
+                           # np.vstack(
+                           #     (a[1::2, 1::2].flatten(), a[1::2, 1::2].flatten() + width + 1, a[1::2, 1::2].flatten() + width,
+                           #      a[1::2, 1::2].flatten(), a[1::2, 1::2].flatten() + 1, a[1::2, 1::2].flatten() + width + 1)),
 
     faces = np.transpose(faces).reshape([-1, 3])
 
