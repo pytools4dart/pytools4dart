@@ -416,7 +416,6 @@ def dtm2obj(dtm, obj, order=['y', 'z', 'x'], shift=[0, 0, 0], xlim=[-np.inf, np.
 
     # normal direction looking the sky: anti-clockwise face vertices ordering
     # alternate diagonals to avoid anisotropic effect: see https://groups.google.com/g/dart-cesbio/c/hgKOy1FdYxY
-
     if first_diag == 'NE-SW':
         a00 = np.concatenate((a[::2, ::2].ravel(), a[1::2, 1::2].ravel()))
         a10 = np.concatenate((a[1::2, ::2].ravel(), a[::2, 1::2].ravel()))
@@ -424,16 +423,8 @@ def dtm2obj(dtm, obj, order=['y', 'z', 'x'], shift=[0, 0, 0], xlim=[-np.inf, np.
         a10 = np.concatenate((a[::2, ::2].ravel(), a[1::2, 1::2].ravel()))
         a00 = np.concatenate((a[1::2, ::2].ravel(), a[::2, 1::2].ravel()))
 
-    faces = np.hstack((np.vstack((a00, a00 + width + 1, a00 + width,
-                                  a00, a00 + 1, a00 + width + 1)),
-                       np.vstack((a10, a10 + 1, a10 + width,
-                                  a10 + width + 1, a10 + width, a10+1)),))
-                           # np.vstack((a[::2, 1::2].flatten(), a[::2, 1::2].flatten() + 1, a[::2, 1::2].flatten() + width,
-                           #            a[::2, 1::2].flatten() + width + 1, a[::2, 1::2].flatten() + width,
-                           #            a[::2, 1::2].flatten() + 1)),
-                           # np.vstack(
-                           #     (a[1::2, 1::2].flatten(), a[1::2, 1::2].flatten() + width + 1, a[1::2, 1::2].flatten() + width,
-                           #      a[1::2, 1::2].flatten(), a[1::2, 1::2].flatten() + 1, a[1::2, 1::2].flatten() + width + 1)),
+    faces = np.hstack((np.vstack((a00, a00 + width + 1, a00 + width, a00, a00 + 1, a00 + width + 1)),
+                       np.vstack((a10, a10 + 1, a10 + width, a10 + width + 1, a10 + width, a10 + 1))))
 
     faces = np.transpose(faces).reshape([-1, 3])
 
