@@ -7,7 +7,7 @@ Image acquisition over a turbid vegetation plot.
 
 ### Goal
 
-*Create the most simple simulation, i.e. a turbid plot with particular
+*Create a simple simulation: a turbid plot with particular
 optical properties and simulate an RGB acquisition.*
 
 ### Algorithm
