@@ -1,5 +1,5 @@
 
-# Use case 0
+# [Use case 0](https://gitlab.com/pytools4dart/pytools4dart/tree/master/pytools4dart/examples/use_case_0.py)
 
 Image acquisition over a turbid vegetation plot.
 
@@ -14,7 +14,7 @@ optical properties and simulate an RGB acquisition.*
 - define scene size
 - add spectral bands, e.g. 0.485, 0.555, 0.655 nm
    with 0.07 full width at half maximum
-- define vegetation optical properties (VOP)
+- define vegetation optical properties
 - add a turbid plot with associated VOP
 - run simulation
 - explore results:
@@ -22,7 +22,7 @@ optical properties and simulate an RGB acquisition.*
     - generate RGB image (ENVI or PNG formats)
     - open simulation in DART
 
-# Use case 1
+# [Use case 1](https://gitlab.com/pytools4dart/pytools4dart/tree/master/pytools4dart/examples/use_case_1.py)
 
 Spectral sensitivity analysis of Chlorophyll concentration of a turbid plot.
 
@@ -42,7 +42,7 @@ Spectral sensitivity analysis of Chlorophyll concentration of a turbid plot.
 - explore results
 
 
-# Use case 2
+# [Use case 2](https://gitlab.com/pytools4dart/pytools4dart/tree/master/pytools4dart/examples/use_case_2.py)
 
 Image acquisition on lollipop trees.
 
@@ -70,7 +70,7 @@ it should contain position, shape and species ID
 - define tree species with associated optical properties
 - generate RGB acquisition images of each chlorophyll concentration
 
-# Use case 3
+# [Use case 3](https://gitlab.com/pytools4dart/pytools4dart/tree/master/pytools4dart/examples/use_case_3.py)
 
 Image simulation of voxelised trees.
 
@@ -89,7 +89,7 @@ computed from airborne lidar voxelization.*
 - read .vox file and add it to simulation
 - stack bands and export to ENVI file
  
-# Use case 4
+# [Use case 4](https://gitlab.com/pytools4dart/pytools4dart/tree/master/pytools4dart/examples/use_case_4.py)
 
 ## Goal
 
@@ -117,7 +117,7 @@ computed from airborne lidar voxelization.*
     - number of threads
 - extract the echos from the waveforms and save them to a LAS format for analysis
 
-# Use case 5
+# [Use case 5](https://gitlab.com/pytools4dart/pytools4dart/tree/master/pytools4dart/examples/use_case_5.py)
 
 Image acquisition over a voxelised scene, attributing prospect/optical properties
 by intersection with crown polygons or raster.
@@ -143,7 +143,7 @@ Prospect properties of voxel columns are attributed by intersection with a crown
 - plot the output RGB raster and the crown polygons
 
 
-# Use case 6
+# [Use case 6](https://gitlab.com/pytools4dart/pytools4dart/tree/master/pytools4dart/examples/use_case_6.py)
 
 Specific orientation of the output rasters of DART.
 
@@ -170,7 +170,7 @@ The scene is 4x5 m with a line of plots with increasing chlorophyll at the botto
 - stack the RGB bands and plot unrotated and rotated RGB rasters
 
 
-# Use case 7
+# [Use case 7](https://gitlab.com/pytools4dart/pytools4dart/tree/master/pytools4dart/examples/use_case_7.py)
 
 Azimuth angle in DART
 
@@ -201,7 +201,7 @@ We expect that the shade of the pilar would move along with the solar azimuth an
 
 Note that during stacking the rasters are rotated to be in the standard GIS orientation (x-right, y-up).
 
-# Use case 8
+# [Use case 8](https://gitlab.com/pytools4dart/pytools4dart/tree/master/pytools4dart/examples/use_case_8.py)
 
 Hyperspectral simulation
 

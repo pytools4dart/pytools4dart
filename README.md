@@ -10,8 +10,9 @@ The python package `pytools4dart` was developed to address scripted simulations,
 number of parameters or complexity not manageable with DART graphical interface. Typical examples are the production of 
 a 3D mockups with thousands of voxels or objects and thousands of optical properties 
 (e.g. voxelised lidar data intersected with crown specific bio-chemical traits), 
-or the specification of hundreds of spectral bands to simulate a hyperspectral sensor. Another example is to load 
-The package `pytools4dart` extends DART to complex and massive simulation with the power of python for pre/post processing and analysis, by making possible
+or the specification of hundreds of spectral bands to simulate a hyperspectral sensor.
+
+Package `pytools4dart` extends DART to complex and massive simulation with the power of python for pre/post processing and analysis, by making possible
 the connection to any other python packages (rasterio, laspy, scikitlearn, ...). It also extends DART to computing 
 on headless server, typically HPC servers. And with python scripting, it allows for easy lightweight version control, e.g. with git,
 to keep track of your simulation history.
@@ -21,9 +22,9 @@ to keep track of your simulation history.
 The python API covers most of DART features and more:
 
 - __Configurable__ with any version of DART
-- __Load and/or Create__ DART simulation files
+- __Create, load, compare__ DART simulations
 - __Full Parametrisation__ of any type of simulation
-- __Proxies & Summaries__ to most used parameters: scene elements (sizes, objects, properties), sensor bands, source
+- __Proxies & Summaries__ of most used parameters: scene elements (sizes, objects, properties), sensor bands, light source
 - __DART Runners__: run simulations step by step (direction, phase, ...) or fully, run/resume sequence processing, on remote server
 - __Sequence Generator__
 - __Pre/Post-Processing tools__:
@@ -33,7 +34,8 @@ The python API covers most of DART features and more:
         - extract returns with gaussian decomposition of lidar waveforms (accelerated with C++ backend) 
         - convert lidar simulation results to LAS files (full-waveform and returns only)
     - Prospect: generate thousands of optical properties from bio-chemical traits
-- __Tutorials__ : several use cases documented to facilitate the development of your own simulations.
+- __[Examples](https://gitlab.com/pytools4dart/pytools4dart/tree/master/pytools4dart/examples)__ : 
+several documented use cases to facilitate the development of your own simulations.
   
 <!---
     proxies:
@@ -59,7 +61,7 @@ interacted with by the user.
 
 Check [website](https://pytools4dart.gitlab.io/pytools4dart) for details and user guides.
 
-Examples are available in [here](https://gitlab.com/pytools4dart/pytools4dart/tree/master/pytools4dart/examples).
+
 
 ## Install
 

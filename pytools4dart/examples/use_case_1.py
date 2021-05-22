@@ -53,12 +53,15 @@ from os.path import join as pjoin
 import pytools4dart as ptd
 from multiprocessing import cpu_count
 
-# create a new simulation
-simu = ptd.simulation(name='use_case_1', empty=True)
-simu.core.phase.Phase.ExpertModeZone.nbThreads = cpu_count()
+# create a new simulation:
+# ncpu is the number of threads used for simulations,
+# see simu.core.phase.Phase.ExpertModeZone.nbThreads for setting it a posteriori
+simu = ptd.simulation(name='use_case_1', empty=True, ncpu=4)
+
 
 # set scene size
 simu.scene.size = [10, 10]
+
 # add spectral RGB bands, e.g. B=0.485, G=0.555, R=0.655 nm
 # with 0.07 full width at half maximum
 for wvl in [0.485, 0.555, 0.655]:

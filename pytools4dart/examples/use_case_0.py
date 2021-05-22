@@ -54,14 +54,17 @@ from rasterio.plot import show
 from matplotlib import pyplot as plt
 
 # create an empty simulation
-simu = ptd.simulation(empty=True)
-simu.name = 'use_case_0'
+simu = ptd.simulation('use_case_0', empty=True)
+# display simulation summary
+print(simu)
+# display summary of default optical property
 print(simu.scene.properties)
 
 # set scene size
 simu.scene.size = [10, 10]
+
 # add spectral RGB bands, e.g. B=0.485, G=0.555, R=0.655 nm
-# with 0.07 full width at half maximum
+# with 0.07 bandwidth, i.e. full width at half maximum
 for wvl in [0.655, 0.555, 0.485]:
     simu.add.band(wvl=wvl, bw=0.07)
 
@@ -76,10 +79,11 @@ simu.add.plot(op_ident=op.ident)
 
 print(simu)
 
-# run simulation
+# write & run simulation
 simu.write(overwrite=True)
 simu.run.full()
 
+# stack band images in an ENVI file
 rgb_file = simu.run.stack_bands()
 
 # plot RGB simulated raster

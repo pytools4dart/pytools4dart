@@ -11,9 +11,9 @@ These conventions are illustrated within use_case_6.py (scene orientation) and u
 
 The orientation standard usually used in GIS for rasters is the following:
 ```
-y+
-:
 o -- x+
+:
+y-
 ```
 In that case a raster file read with GDAL would have the following properties:
 
@@ -31,9 +31,9 @@ In that case a raster file read with GDAL would have the following properties:
     - index row,col = 0,1 --> pixel at xmin + xres, ymax
 
 Although GDAL allows to parametrize differently, several codes/software and help that is given on the forum admit
-the convention above as the rule.  
+the above convention as the rule.  
 
-The scene orientation in DART has the convention of image, i.e.:
+The scene orientation in DART has the convention of image:
 ```
 o -- y+
 :
@@ -54,7 +54,8 @@ Thus the raster images produced by a simulation are following this same conventi
     - index row,col = 0,1 --> pixel at xmin, ymin + yres
 
 
-As one can notice, there is only a 90° rotation between the two configurations.
+As one can notice, there is only a 90° rotation between the two configurations, 
+and an opposit ordination of y-axis.
 The rotation from DART convention to GIS convention can be achieved with function `pytools4dart.hstools.rotate_raster`.
 It is a 2 steps operation:
 - reorder the transposition parameters: (yres, 0, ymin, 0, xres, xmin) --> (xres, 0, xmin, 0, -yres, ymax)
