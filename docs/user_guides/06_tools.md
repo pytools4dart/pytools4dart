@@ -2,15 +2,17 @@
 This notebook present the main functions for database management into this
 package
 
+## [dbtools](https://pytools4dart.gitlab.io/pytools4dart/reference/pytools4dart/tools/dbtools/)
 
+A toolbox of functions to manage and explore DART databases. 
 
-## dbtools
+Here are the main functions:
 
-Submodule `dbtools` is a toolbox of functions to manage and explore DART databases. 
-At the moment there is only a small number of functions:
-
-- **`import2db`** : add optical properties to database, **limited to Lambertian database** at the moment.
-- **`get_models`** : list the models available in a DART database. 
+- **`optical_properties_db`**: create or append DART optical properties database (lambertian, RPV, hapke), especially adapted to large database (10x faster than in DART).
+- **`prospect_db`**: create or append an optical properties database with prospect, 
+especially adapted to large database (100x faster than in DART). 
+For examples, see https://pytools4dart.gitlab.io/pytools4dart/docs/user_guides/03_optical_properties/#prospect-database.
+- **`get_models`** : list the models available in a DART database.
 
 The following example creates a database named 'test.db', it is filled with a spectrum named 'test spectrum'
 and the model list is then extracted from the same database.
@@ -33,17 +35,39 @@ dbtools.import2db(dbFpath, name=name, wavelength=wavelength, reflectance=reflect
 dbtools.get_models(dbFpath)
 ```
 
-## hstools
+## [DART2LAS](https://pytools4dart.gitlab.io/pytools4dart/reference/pytools4dart/tools/DART2LAS/DART2LAS)
+
+This module is here to convert lidar simmulation results to LAS files.
+It supports:
+- `DP2LAS`: convertion of DART file `DetectedPoints.txt` to a LAS file 
+- `DART2LAS`: conversion of DART waveform binary file to LAS file:
+    - Gaussian Decomposition (accelerated with a C++ binding, see [gdecomp](https://gitlab.com/pytools4dart/gdecomp))
+    - LAS formats 1-9, i.e. to encapsulate waveforms, point clouds and extrabytes (gaussian width and amplitude of returns).
+
+
+## [hstools](https://pytools4dart.gitlab.io/pytools4dart/reference/pytools4dart/tools/hstools)
 
 This module is dedicated to hyperspectral data management. It includes the following functionalities:
 
 - read ENVI .hdr file and get band list
- 
+- stack dart bands
+- rotate raster to standard GIS orientation
+- get wavelength and FWHM values from hdr
+- normalize data to min-max range
 
-## voxreader
+Check https://pytools4dart.gitlab.io/pytools4dart/reference/pytools4dart/tools/hstools for details.
 
-This module is helps to manage voxelised plant area density (PAD) data and 
-prepare them to define numerous turbid plots in a DART simulation.
+## [OBJtools](https://pytools4dart.gitlab.io/pytools4dart/reference/pytools4dart/tools/OBJtools)
+
+A few functions to manage obj files:
+- `objreader`: a class to read an obj file and get its extent, names of groups, ...
+- `dtm2obj`: convert a raster file to an obj file
+- `ply2obj`: convert a ply file to an obj file
+
+## [voxreader](https://pytools4dart.gitlab.io/pytools4dart/reference/pytools4dart/tools/voxreader)
+
+This module helps to manage voxelised plant area density (PAD) data 
+and prepare them to define numerous turbid plots in a DART simulation.
 
 The class has the following capacities:
 - **read AMAPVox .vox file**, gives an object with attributes `header`, `data` and georeferenced `grid`.

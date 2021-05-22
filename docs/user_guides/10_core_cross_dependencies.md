@@ -53,9 +53,9 @@ must be unique among thermal properties.
 ## Band number
 
 Band number has an issue similar to optical properties.
-In DART GUI, band number is automatically updated at each band new declaration or removal.
+In DART GUI, band number is automatically updated at each new declaration or removal of a band.
 
-In the package the update is done with method `update_bn`.
+In `pytools4dart` the update is done with method `update_bn`.
 
 The band number update is not done at each modification of the band list as 
 it would slow down the addition of several thousands bands, e.g. in hyperspectral simualtion.
@@ -67,4 +67,4 @@ Multiplicative factors are used to modify spectral signature in `coeff_diff` mod
 DART requires as many `MultiplicativeFactorForLUT` as the number of spectral bands defined in `phase` module,
 whether the option `useSameFactorForAllBands` is `0` or `1`.
 
-In the package it is made with method `update_mf`.
+In `pytools4dart` it is made with method `update_mf`.

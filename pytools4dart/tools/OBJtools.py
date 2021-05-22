@@ -332,7 +332,7 @@ def ply2obj(ply, obj, order=['x', 'y', 'z'], color=False):
                 f.write("\n")
 
 
-def dtm2obj(dtm, obj, order=['y', 'z', 'x']):
+def dtm2obj(dtm, obj, order=['y', 'z', 'x'], shift=[0, 0, 0], xlim=[-np.inf, np.inf], ylim=[-np.inf, np.inf]):
     """
     Convert raster Digital Terrain Model (DTM) to obj file.
     The pixel value is applied to the center of the pixel.
@@ -348,12 +348,27 @@ def dtm2obj(dtm, obj, order=['y', 'z', 'x']):
     order: list
         Order of coordinates using 'x', 'y', 'z'.
         DART expect coordinates to be given in ['y', 'z', 'x'] in obj files.
+    shift: list | numpy.array
+        Array of length 3 with xyz shift values to apply to raster.
+    xlim, ylim: list | numpy.array
+        Arrays of length 2 with [min, max] to clip raster after shift.
 
     Details
     -------
+    Shift is applied first, than clipping, thus xlim and ylim should be adapted to x=x-shift and y=y-shift.
 
+    The pixel value is applied to the center of the pixel, and triangles are made by trio of pixels.
+    For example, if the xy extent of the raster is ((0,0),(2,2)) with 4 pixels,
+    xy vertex coordinates of first triangle will be ((.5, .5), (1.5, .5), (.5, 1.5)).
+    Thus be careful to fix limits so that the full DART scene is covered by the DTM, otherwise,
+    you can have empty DTM on the sides.
 
+    An alternative to shift parameter is to use object location parameters within DART simulation parameters.
+
+    source: https://gis.stackexchange.com/questions/121561/seeking-tool-to-generate-mesh-from-dtm
     """
+    # Maybe Delaunay would reduce anisotropy? to be studied...
+    # Otherwise several libraries for triangulation are available, one of them is "triangle"
 
     # read raster
     raster = gdal.Open(dtm)
@@ -365,19 +380,56 @@ def dtm2obj(dtm, obj, order=['y', 'z', 'x']):
     # considers the pixel value applies to the center of the pixel
     x = (np.arange(0, width) + .5) * transform[1] + transform[0]
     y = (np.arange(0, height) + .5) * transform[5] + transform[3]
+
+    # a condition to keep faces the same way, i.e. same diag starting direction, independently of the shift and the crop:
+    xy=np.array([[x[0], y[0]], [x[1], y[1]]])
+    dxy = abs(np.array([transform[1], transform[5]]))
+    if (np.mod(xy[0,:], 2*dxy)>np.mod(xy[1,:], 2*dxy)).all() or (np.mod(xy[0,:], 2*dxy)<np.mod(xy[1,:], 2*dxy)).all():
+       first_diag = 'NW-SE'
+    else:
+       first_diag = 'NE-SW'
+
+    zz = raster.ReadAsArray() + shift[2]
+    x += shift[0]
+    y += shift[1]
     xx, yy = np.meshgrid(x, y)
-    zz = raster.ReadAsArray()
+
+    # # subset and meshgrid
+    ix = np.where((x >= xlim[0]) & (x <= xlim[1]))[0]
+    iy = np.where((y >= ylim[0]) & (y <= ylim[1]))[0]
+    ixy = np.ix_(iy, ix)
+    xx = xx[ixy]
+    yy = yy[ixy]
+    zz = zz[ixy]
+    height, width = zz.shape
+
     vertices = np.vstack((xx, yy, zz)).reshape([3, -1]).transpose()
+    ind = np.lexsort((vertices[:,0], vertices[:,1])) # sort by y then x (i.e. first point is bottom left, next is bottom left+1)
+    vertices=vertices[ind]
 
     # make faces
     ai = np.arange(0, width - 1)
     aj = np.arange(0, height - 1)
     aii, ajj = np.meshgrid(ai, aj)
     a = aii + ajj * width
-    a = a.flatten()
+    # a = a.flatten()
 
-    faces = np.vstack((a, a + width, a + width + 1, a, a + width + 1, a + 1))
+    # normal direction looking the sky: anti-clockwise face vertices ordering
+    # alternate diagonals to avoid anisotropic effect: see https://groups.google.com/g/dart-cesbio/c/hgKOy1FdYxY
+    if first_diag == 'NE-SW':
+        a00 = np.concatenate((a[::2, ::2].ravel(), a[1::2, 1::2].ravel()))
+        a10 = np.concatenate((a[1::2, ::2].ravel(), a[::2, 1::2].ravel()))
+    else:
+        a10 = np.concatenate((a[::2, ::2].ravel(), a[1::2, 1::2].ravel()))
+        a00 = np.concatenate((a[1::2, ::2].ravel(), a[::2, 1::2].ravel()))
+
+    faces = np.hstack((np.vstack((a00, a00 + width + 1, a00 + width, a00, a00 + 1, a00 + width + 1)),
+                       np.vstack((a10, a10 + 1, a10 + width, a10 + width + 1, a10 + width, a10 + 1))))
+
     faces = np.transpose(faces).reshape([-1, 3])
+
+    # from scipy.spatial import Delaunay
+    # faces = Delaunay(vertices[:, 0:2]).simplices # 2-3x longer
 
     vertices = pd.DataFrame(vertices, columns=['x', 'y', 'z'])
     vertices['head'] = 'v'

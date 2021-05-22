@@ -219,6 +219,7 @@ pages:
     - cd pytools4dart/examples
     - python -c 'import pytools4dart as ptd; ptd.configure("~/DART")'
     - cd $CI_PROJECT_DIR
+    - cp pytools4dart/examples/README.md docs/user_guides/08_Examples.md
     - pip install git+https://github.com/floriandeboissieu/portray mdx-breakless-lists
     - portray as_html -c pyproject.toml
     #    - pip install anybadge
