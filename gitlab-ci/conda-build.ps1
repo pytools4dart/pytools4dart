@@ -86,6 +86,10 @@ Write-Host "gdal works"
 conda install -y -c conda-forge cython gdal geopandas git ipython libspatialindex lxml matplotlib
 conda install -y -c conda-forge lmfit plyfile pybind11 pyjnius pytest
 conda install -y -c conda-forge rasterio rtree scipy laspy
+Write-Host "Try gdal again:"
+# python3 -c 'import gdal; print(gdal.VersionInfo())'
+python -c 'from osgeo import gdal; print(gdal.VersionInfo())'
+Write-Host "gdal works"
 pip install git+https://gitlab.com/pytools4dart/generateds.git
 pip install tinyobjloader==2.0.0rc5
 pip install git+https://gitlab.com/pytools4dart/gdecomp.git
