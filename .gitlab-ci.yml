@@ -128,7 +128,6 @@ win-build:
     key: win-cache
     paths:
       - cache
-    policy: pull
   only:
     - windows
 
