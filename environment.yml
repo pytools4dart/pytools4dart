@@ -6,6 +6,7 @@ dependencies:
   # (see https://stackoverflow.com/questions/59758009/sqlite3-connection-object-has-no-attribute-backup)
   - python>=3.7
   - cython
+  - colorama
   - gdal
   - geopandas
   - git
