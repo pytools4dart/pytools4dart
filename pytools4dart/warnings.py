@@ -58,9 +58,9 @@ def deprecated(reason):
         def decorator(func1):
 
             if inspect.isclass(func1):
-                fmt1 = "Class {name} is deprecated. {reason}."
+                fmt1 = "Class {name} is deprecated. {reason}"
             else:
-                fmt1 = "Function {name} is deprecated. {reason}."
+                fmt1 = "Function {name} is deprecated. {reason}"
 
             @functools.wraps(func1)
             def new_func1(*args, **kwargs):
