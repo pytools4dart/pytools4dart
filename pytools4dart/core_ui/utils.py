@@ -37,6 +37,7 @@ import lxml.etree as etree
 import pandas as pd
 import os
 import re
+from pytools4dart.warnings import deprecated
 
 
 #### Fonctions pour l'interprétation du template
@@ -599,8 +600,11 @@ def findpaths(corenode, pat, case=False, regex=True):
     paths = pd.Series(subpaths(corenode))
     return paths[paths.str.contains(pat, case, regex=regex)]
 
-
+@deprecated('Use pytools4dart.diff instead')
 def diff(corenode1, corenode2):
+    pass
+
+def core_diff(corenode1, corenode2):
     """
     Print the differences between the core nodes of two simulations
     Parameters
@@ -613,9 +617,12 @@ def diff(corenode1, corenode2):
 
     Returns
     -------
-
+    (list, list)
+        string lists listings the node differences
     """
     # TODO: test with differences in attrinbutes and cores
+    core_diff1 = []
+    core_diff2 = []
 
     # compare attributes
     if hasattr(corenode1, 'attrib'):
@@ -624,8 +631,8 @@ def diff(corenode1, corenode2):
                 a1 = getattr(corenode1, a)
                 a2 = getattr(corenode2, a)
                 if a1 != a2:
-                    print('{}.{}={}'.format(corenode1.path(), a, a1))
-                    print('{}.{}={}'.format(corenode2.path(), a, a2))
+                    core_diff1 += ['{}.{}={}'.format(corenode1.path(), a, a1)]
+                    core_diff2 += ['{}.{}={}'.format(corenode2.path(), a, a2)]
 
     # compare children
     if hasattr(corenode1, 'children'):
@@ -635,16 +642,22 @@ def diff(corenode1, corenode2):
 
             if isinstance(c1, list) and isinstance(c2, list):
                 if len(c1) != len(c2):
-                    print('{}.{}={}'.format(corenode1.path(), c, c1))
-                    print('{}.{}={}'.format(corenode2.path(), c, c2))
+                    core_diff1 += ['{}.{}={}'.format(corenode1.path(), c, c1)]
+                    core_diff2 += ['{}.{}={}'.format(corenode2.path(), c, c2)]
                 else:
                     for c1i, c2i in zip(c1, c2):
-                        diff(c1i, c2i)
+                        cd1, cd2 = core_diff(c1i, c2i)
+                        core_diff1 += cd1
+                        core_diff2 += cd2
             elif (c1 is None and c2 is not None) or (c2 is None and c1 is not None):
-                print('{}.{}={}'.format(corenode1.path(), c, c1))
-                print('{}.{}={}'.format(corenode2.path(), c, c2))
+                core_diff1 += ['{}.{}={}'.format(corenode1.path(), c, c1)]
+                core_diff2 += ['{}.{}={}'.format(corenode2.path(), c, c2)]
             elif c1 is not None and c2 is not None:
-                diff(c1, c2)
+                cd1, cd2 = core_diff(c1, c2)
+                core_diff1 += cd1
+                core_diff2 += cd2
+
+    return core_diff1, core_diff2
 
 # ptd.core_ui.utils.findall(simu.core.plots.Plots, '.*ident$')
 #

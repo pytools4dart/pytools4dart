@@ -254,3 +254,12 @@ class simulation(object):
 
         """
         return get_simu_input_path(self.name)
+
+
+def get_simu_name(object, default='simu'):
+    if hasattr(object, 'name'):
+        return object.name
+    if hasattr(object, 'simu') and hasattr(object.simu, 'name'):
+        return object.simu.name
+    return default
+

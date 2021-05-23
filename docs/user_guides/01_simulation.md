@@ -1,11 +1,45 @@
 # Simulation
 
 Simulation object is corresponding to a DART simulation parameter editor.
-It allows for storing
-and editing parameters, and running simulation.
+It allows for creating or loading a simulation, editing its parameters and running the simulation.
 
-It contains the following
-attributes:
+## Create a simulation
+
+```python
+import pytools4dart as ptd
+simu = ptd.simulation('my_new_simu', empty=True)
+print(simu) # display summary of simulation
+``` 
+Argument `empty=True` removes the default band automatically created by DART.
+
+## Load a simulation
+In order to load an existing simulation:
+```python
+simu_test = ptd.simulation('simulationTest')
+print(simu_test) # display summary of simulation
+```
+
+If the simulation does not exist, a default simulation is created, see [details](#empty-simulation).
+
+## Compare simulations
+
+Compare simulations summaries:
+```python
+simu1 = ptd.simulation('my_new_simu1', empty=True)
+simu2 = ptd.simulation('my_new_simu2')
+ptd.diff(simu1, simu2)
+```
+
+Compare core nodes:
+```python
+ptd.diff(simu1.core, simu2.core)
+ptd.diff(simu1.core.phase, simu2.core.phase)
+```
+
+## Details
+
+### Simulation object
+`simulation` object contains the following attributes:
 
   - core: objects representing DART XML input files (coeff_diff,
     directions, phase, ...) with a raw interface to access and change parameters.
@@ -16,7 +50,7 @@ attributes:
     All available parameters can be listed with `pytools4dart.utils.get_labels()` 
     or in the file labels/labels.tab of the directory pytools4dart of
     package. This list depends on the version of DART pyttols4dart was configured with.
-    See [core user guide](#core) for more details.
+    See [core user guide](./02_core.md) for more details.
 
   - scene: summary and fast access to the main elements of the mockup scene:
     size, resolution, properties (optical, thermal), plots, object_3d, trees.
@@ -60,7 +94,7 @@ import pytools4dart as ptd
 simu = ptd.simulation('simulationTest')
 
 # Print simulation summary
-simu.summary()
+print(simu)
 
 # Show object attributes
 vars(simu)
@@ -82,22 +116,20 @@ simu.run.full()
 
 ```
 
-## Empty simulation
+### Empty simulation
 
-When creating a new simulation in DART, it creates as default:
+In order to run a default simulation without error, when creating a new simulation with DART GUI, it creates as default:
  - a Lambertian optical property called `Lambertian_Phase_Function_1` with model `reflect_equal_1_trans_equal_0_0`
  from database `Lambertian_vegetation.db` (located in $DART_HOME/database). It is used as the default optical property
  for the ground.
  
  - a spectral band at wavelength 560 nm with bandwidth 20 nm
 
-This way the default simulation can be run without error.
+Within `pytools4dart`, while a default optical property can be useful, 
+e.g. not to worry about the optical property of the ground,
+the default band could generate unintended processing. 
 
-While the optical property can be usefull when we don't want to think about the optical property of the ground,
-the default band is usually not used and could generate unintended processing. 
-
-The parameters related to the default band can be removed with argument `empty=True`
-when creating the new simulation:
+When creating the new simulation, setting argument `empty=True` removes the default band:
 
 ```python
 simu = ptd.simulation('simulationTest', empty=True)

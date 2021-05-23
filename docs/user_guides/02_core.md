@@ -19,7 +19,7 @@ For DART version 5-7-4, it typically contains the following modules:
 - water,
 - and sequence if one was added. 
 
-The list of these modules is avaible through `core.children`:
+The list of these modules is available through `core.children`:
 
 ```python
 import pytools4dart as ptd
@@ -47,10 +47,12 @@ Other useful functions for core exploration are in `pytools4dart.core_ui.utils`:
   
   - `get_nodes()`: get the subnodes corresponding to a subpath.
   - `findall()`: get all the subnodes values and paths corresonding to a regular expression.
-  - `diff()`: print the difference between core nodes or subnodes
+  - `diff()` _(deprecated)_: print the difference between core nodes or subnodes
 
 ```python
-from pytools4dart.core_ui.utils import get_nodes, findall, set_nodes, diff
+import pytools4dart as ptd
+from pytools4dart.core_ui.utils import get_nodes, findall, set_nodes
+
 
 print(simu.core.coeff_diff.to_string())    
 
@@ -92,7 +94,7 @@ findall(simu.core.coeff_diff.Coeff_diff, '\[0\]\..+ModelName$', path=True, use_l
 
 # difference between simu and simuTest
 simuTest = ptd.simulation('simulationTest')
-diff(simu.core, simuTest.core)
+ptd.diff(simu.core, simuTest.core)
 ```
 
 Core also contains several getters and updaters. Getters allow to extract
