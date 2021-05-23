@@ -66,7 +66,7 @@ conda init powershell
 # load the profile for current session: it activates (base) environment
 invoke-expression -Command "$env:userprofile\Documents\WindowsPowerShell\profile.ps1"
 # create new environment
-conda create -y -n ptdvenv -c conda-forge python=3.7
+conda create -y -n ptdvenv -c conda-forge python=3.7 gdal
 # activate the newly created environment
 conda activate ptdvenv
 # check that it is really activated
@@ -74,15 +74,16 @@ conda env list
 Write-Host "Which python:"
 Get-Command python | fl *
 Write-Host "conda directory size: "
+Write-Host "Try gdal:"
+# python3 -c 'import gdal; print(gdal.VersionInfo())'
+python -c 'from osgeo import gdal; print(gdal.VersionInfo())'
+Write-Host "gdal works"
 (gci $condadir | measure Length -s).sum / 1Mb
 
 # This part takes around 7-8min on gitlab.com windows runner
 # Tried to cache in gitlab-ci, re-compressing directory miniconda3 with tar.gz but it takes more than 10min
 # Using conda env create -f environment.yml leads to out of memory error...
 conda install -y -c conda-forge cython gdal geopandas git ipython libspatialindex lxml matplotlib
-Write-Host "Try gdal:"
-python3 -c 'import gdal; print(gdal.VersionInfo())'
-Write-Host "gdal works"
 conda install -y -c conda-forge lmfit plyfile pybind11 pyjnius pytest
 conda install -y -c conda-forge rasterio rtree scipy laspy
 pip install git+https://gitlab.com/pytools4dart/generateds.git
