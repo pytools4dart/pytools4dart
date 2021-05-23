@@ -37,33 +37,16 @@ stages:
 #    expire_in: 2h
 ###
 
-win-dart:
-  extends:
-    - .shared_windows_runners
-  stage: prepare
-  script:
-    - mkdir -Force cache
-    - cd cache
-    - curl.exe -C - $env:DART_URL_WIN -o dart.zip
-#    - echo "DART version:"
-#    - echo "$(echo "$DART_URL_WIN" |sed 's/.*\(v[0-9]*\)_windows64.zip$/\1/')"
-    - ls
-  cache:
-    key: win-cache
-    paths:
-      - cache
-  only:
-    - windows
-
 #win-dart:
+#  extends:
+#    - .shared_windows_runners
 #  stage: prepare
-#  image: python:latest
 #  script:
-#    - mkdir -p cache
+#    - mkdir -Force cache
 #    - cd cache
-#    - curl -C - $DART_URL_WIN -o dart.zip
-#    - echo "DART version:"
-#    - echo "$(echo "$DART_URL_WIN" |sed 's/.*\(v[0-9]*\)_windows64.zip$/\1/')"
+#    - curl.exe -C - $env:DART_URL_WIN -o dart.zip
+##    - echo "DART version:"
+##    - echo "$(echo "$DART_URL_WIN" |sed 's/.*\(v[0-9]*\)_windows64.zip$/\1/')"
 #    - ls
 #  cache:
 #    key: win-cache

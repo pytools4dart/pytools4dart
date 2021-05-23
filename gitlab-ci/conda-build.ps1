@@ -71,6 +71,8 @@ conda create -y -n ptdvenv -c conda-forge python=3.7
 conda activate ptdvenv
 # check that it is really activated
 conda env list
+Write-Host "Which python:"
+Get-Command python | fl *
 Write-Host "conda directory size: "
 (gci $condadir | measure Length -s).sum / 1Mb
 
@@ -79,7 +81,7 @@ Write-Host "conda directory size: "
 # Using conda env create -f environment.yml leads to out of memory error...
 conda install -y -c conda-forge cython gdal geopandas git ipython libspatialindex lxml matplotlib
 Write-Host "Try gdal:"
-python -c 'import gdal; print(gdal.VersionInfo())'
+python3 -c 'import gdal; print(gdal.VersionInfo())'
 Write-Host "gdal works"
 conda install -y -c conda-forge lmfit plyfile pybind11 pyjnius pytest
 conda install -y -c conda-forge rasterio rtree scipy laspy
