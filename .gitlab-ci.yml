@@ -40,7 +40,7 @@ stages:
 #win-dart:
 #  extends:
 #    - .shared_windows_runners
-#  stage: download
+#  stage: prepare
 #  script:
 #    - mkdir -Force cache
 #    - cd cache
@@ -53,22 +53,22 @@ stages:
 #  only:
 #    - windows
 
-#win-dart:
-#  stage: prepare
-#  image: python:latest
-#  script:
-#    - mkdir -p cache
-#    - cd cache
-#    - curl -C - $DART_URL_WIN -o dart.zip
-#    - echo "DART version:"
-#    - echo "$(echo "$DART_URL_WIN" |sed 's/.*\(v[0-9]*\)_windows64.zip$/\1/')"
-#    - ls
-#  cache:
-#    key: win-cache
-#    paths:
-#      - cache
-#  only:
-#    - windows
+win-dart:
+  stage: prepare
+  image: python:latest
+  script:
+    - mkdir -p cache
+    - cd cache
+    - curl -C - $DART_URL_WIN -o dart.zip
+    - echo "DART version:"
+    - echo "$(echo "$DART_URL_WIN" |sed 's/.*\(v[0-9]*\)_windows64.zip$/\1/')"
+    - ls
+  cache:
+    key: win-cache
+    paths:
+      - cache
+  only:
+    - windows
 
 
 linux-dart:
@@ -95,17 +95,11 @@ win-build:
     - .shared_windows_runners
   stage: build
   script:
-    - mkdir -Force cache
-    - cd cache
-    - curl.exe -C - $env:DART_URL_WIN -o dart.zip
-    - echo "DART version:"
-    - echo "$(echo "$DART_URL_WIN" |sed 's/.*\(v[0-9]*\)_windows64.zip$/\1/')"
-    - cd ..
     - $env:projectdir = pwd
     - $env:cachedir = "${env:projectdir}\cache"
     - ls $env:cachedir
     - gitlab-ci\conda-build.ps1
-
+    - conda env list
     # Takes around 180s (3min)
     - $dartzip = "${env:cachedir}\dart.zip"
     - $env:dartdir = "${env:userprofile}\DART"
@@ -128,6 +122,7 @@ win-build:
     key: win-cache
     paths:
       - cache
+    policy: pull
   only:
     - windows
 
