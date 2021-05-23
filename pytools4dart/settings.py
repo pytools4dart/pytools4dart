@@ -450,10 +450,10 @@ def check_xmlfile_version(xmlfile, dartdir=None):
     build_int = int(dversion['build'].replace('v', ''))
     fbuild_int = int(fversion['build'].replace('v', ''))
 
-    if dversion['version'] > fversion['version']:  # or build_int > fbuild_int
-        raise Exception('Input file created with DART: {fversion} {fbuild}.\n'
-                        'Current DART is: {version} {build}.\n'
-                        'Upgrade simulation with pytools4dart.run.upgrade before use.'.format(
+    if dversion['version'] != fversion['version']:  # or build_int > fbuild_int
+        raise Exception('Input file created with DART: {fversion} ({fbuild}).\n'
+                        'Current DART is: {version} ({build}).\n\n'
+                        'Upgrade simulation to current DART version with "pytools4dart.run.upgrade".'.format(
             fversion=fversion['version'], fbuild=fversion['build'],
             version=dversion['version'], build=dversion['build']
         ))
