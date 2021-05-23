@@ -78,6 +78,7 @@ Write-Host "conda directory size: "
 # Tried to cache in gitlab-ci, re-compressing directory miniconda3 with tar.gz but it takes more than 10min
 # Using conda env create -f environment.yml leads to out of memory error...
 conda install -y -c conda-forge cython gdal geopandas git ipython libspatialindex lxml matplotlib
+python -c 'import gdal'
 conda install -y -c conda-forge lmfit plyfile pybind11 pyjnius pytest
 conda install -y -c conda-forge rasterio rtree scipy laspy
 pip install git+https://gitlab.com/pytools4dart/generateds.git
