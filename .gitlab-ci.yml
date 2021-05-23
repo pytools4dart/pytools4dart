@@ -53,23 +53,22 @@ stages:
 #  only:
 #    - windows
 
-win-dart:
-  stage: prepare
-  image: python:latest
-  script:
-    - mkdir -p cache
-    - cd cache
-    - curl -C - $DART_URL_WIN -o dart.zip
-    - echo "DART version:"
-    - echo "$(echo "$DART_URL_WIN" |sed 's/.*\(v[0-9]*\)_windows64.zip$/\1/')"
-    - ls
-  cache:
-    key: win-cache
-    paths:
-      - cache
-  only:
-    - master
-    - schedules
+#win-dart:
+#  stage: prepare
+#  image: python:latest
+#  script:
+#    - mkdir -p cache
+#    - cd cache
+#    - curl -C - $DART_URL_WIN -o dart.zip
+#    - echo "DART version:"
+#    - echo "$(echo "$DART_URL_WIN" |sed 's/.*\(v[0-9]*\)_windows64.zip$/\1/')"
+#    - ls
+#  cache:
+#    key: win-cache
+#    paths:
+#      - cache
+#  only:
+#    - windows
 
 
 linux-dart:
@@ -96,6 +95,12 @@ win-build:
     - .shared_windows_runners
   stage: build
   script:
+    - mkdir -Force cache
+    - cd cache
+    - curl.exe -C - $env:DART_URL_WIN -o dart.zip
+    - echo "DART version:"
+    - echo "$(echo "$DART_URL_WIN" |sed 's/.*\(v[0-9]*\)_windows64.zip$/\1/')"
+    - cd ..
     - $env:projectdir = pwd
     - $env:cachedir = "${env:projectdir}\cache"
     - ls $env:cachedir
