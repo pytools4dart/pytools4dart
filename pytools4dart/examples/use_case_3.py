@@ -46,7 +46,7 @@ computed from airborne lidar voxelization.*
 
 """
 import pytools4dart as ptd
-from os.path import join, dirname, isfile
+from os.path import join, dirname
 import glob
 import rasterio as rio
 from rasterio.plot import show
@@ -56,13 +56,6 @@ from multiprocessing import cpu_count
 # Path of voxelization file
 data_dir = join(dirname(ptd.__file__), 'data')
 voxfile = join(data_dir, 'forest.vox')
-
-print(voxfile)
-if isfile(voxfile):
-    print('Vox file exists')
-else:
-    print('File not found:')
-    print(glob.glob(data_dir))
 
 # create an empty simulation
 simu = ptd.simulation(name='use_case_3', empty=True)
@@ -104,7 +97,6 @@ simu.add.optical_property(**op_vegetation)
 
 # read vox file
 vox = ptd.voxreader.voxel().from_vox(voxfile)
-print(vox.data.keys())
 # Convert vox to DART plots shifting minimum x,y corner to 0,0
 plots, xy_transform = vox.to_plots(reduce_xy=True)
 # add an optical property to each plot

@@ -648,7 +648,7 @@ class voxel(object):
                                                                                     'PT_3_Y', 'PT_4_Y'])], axis=1,
                            sort=False)
         # merge points with data and add other parameters
-        data = self.data.loc[(self.data.pad != 0) & pd.notna(self.data.pad)].loc[:,['i', 'j', 'k', 'pad']]
+        data = self.data.loc[(self.data['pad'] != 0) & pd.notna(self.data['pad'])].loc[:,['i', 'j', 'k', 'pad']]
         data = data.merge(points, how='left', on=['i', 'j'])
         data['PLT_BTM_HEI'] = data.k * res + self.header["min_corner"][2]
         data['PLT_HEI_MEA'] = res
@@ -669,7 +669,7 @@ class voxel(object):
 
         if keep_columns is not None and len(keep_columns) > 0:
             keep_columns = [c for c in keep_columns if c in self.data.columns]
-            data = pd.concat([data, self.data[(self.data.pad != 0) & pd.notna(self.data.pad)][
+            data = pd.concat([data, self.data[(self.data['pad'] != 0) & pd.notna(self.data['pad'])][
                 keep_columns].reset_index(drop=True)], axis=1)
 
         if reduce_xy:
@@ -724,9 +724,9 @@ class voxel(object):
         # TODO: change to geocube
         # at the moment failed install conda-forge geocube on current conda env...
         # crs='+init=epsg:2792'
-        # vox.data = vox.data[vox.data.pad>0].sort_values(by=['k'], ascending=False)
+        # vox.data = vox.data[vox.data['pad']>0].sort_values(by=['k'], ascending=False)
         # def aggregate_fun(x):
-        #   return x.pad.iloc[0:3].sum()
+        #   return x['pad'].iloc[0:3].sum()
         # raster_file = '/home/boissieu/dav/test_rotated_cube.tif'
 
         xdim = int(self.header['split'][0])
@@ -749,7 +749,7 @@ class voxel(object):
             img.reindex({'row': np.arange(ydim), 'col':np.arange(xdim)})
 
         else:
-            img = vdata.set_index(['k', 'row', 'col']).pad.to_xarray()
+            img = vdata.set_index(['k', 'row', 'col'])['pad'].to_xarray()
             img.reindex({'k': np.arange(zdim), 'row': np.arange(ydim), 'col': np.arange(xdim)})
 
 
