@@ -85,6 +85,7 @@ win-build:
     - ls $env:cachedir
     - gitlab-ci\conda-build.ps1
     - conda env list
+    - cmd "/C" 'conda activate ptdvenv && python -c "import jnius"'
     # Takes around 180s (3min)
     - $dartzip = "${env:cachedir}\dart.zip"
     - $env:dartdir = "${env:userprofile}\DART"
@@ -102,7 +103,6 @@ win-build:
 #    - python use_case_4.py
 #    - python use_case_5.py # making problems with import jnius (JAVA_HOME not found)
 #    - conda run --live-stream -n ptdvenv use_case_5.py # could make it but, it does not show output, and it does not get out of of script (cause of fig.show I suppose)
-    - cmd "/C" 'conda activate ptdvenv && python -c "import jnius"'
     - cmd "/C" 'conda activate ptdvenv && use_case_5.py'
 #    - python use_case_6.py # same pb with JAVA_HOME (jnius necessary for prospect_db)
     - cmd "/C" 'conda activate ptdvenv && use_case_6.py'
