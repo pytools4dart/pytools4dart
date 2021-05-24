@@ -106,8 +106,10 @@ win-build:
 #    - cmd "/C" 'conda activate ptdvenv && use_case_5.py' # this works but takes too long on runner (maybe stuck)
 #    - python use_case_6.py # same pb with JAVA_HOME (jnius necessary for prospect_db)
 #    - cmd "/C" 'conda activate ptdvenv && use_case_0.py'
+    - conda deactivate
     - conda run --live-stream --no-capture-output -n ptdvenv python use_case_5.py
     - conda run --live-stream --no-capture-output -n ptdvenv python use_case_6.py
+    - conda activate ptdvenv
 #    - cmd "/C" 'conda activate ptdvenv && use_case_6.py'
     - python use_case_7.py
   cache:
