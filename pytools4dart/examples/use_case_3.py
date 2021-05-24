@@ -96,6 +96,7 @@ simu.add.optical_property(**op_vegetation)
 
 # read vox file
 vox = ptd.voxreader.voxel().from_vox(voxfile)
+print(vox.data.keys())
 # Convert vox to DART plots shifting minimum x,y corner to 0,0
 plots, xy_transform = vox.to_plots(reduce_xy=True)
 # add an optical property to each plot

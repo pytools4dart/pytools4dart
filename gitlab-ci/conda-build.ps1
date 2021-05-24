@@ -83,18 +83,18 @@ Write-Host "gdal works"
 
 # This part takes around 7-8min on gitlab.com windows runner
 # Tried to cache in gitlab-ci, re-compressing directory miniconda3 with tar.gz but it takes more than 10min
-# Using conda env create -f environment.yml leads to out of memory error...
-conda install -y -c conda-forge cython gdal geopandas git ipython libspatialindex lxml matplotlib
-conda install -y -c conda-forge lmfit plyfile pybind11 pyjnius pytest
-conda install -y -c conda-forge rasterio rtree scipy laspy
-Write-Host "Try gdal again:"
-# python3 -c 'import gdal; print(gdal.VersionInfo())'
-python -c 'from osgeo import gdal; print(gdal.VersionInfo())'
-Write-Host "gdal works"
-pip install git+https://gitlab.com/pytools4dart/generateds.git
-pip install tinyobjloader==2.0.0rc5
-pip install git+https://gitlab.com/pytools4dart/gdecomp.git
-pip install git+https://github.com/jgomezdans/prosail.git
+# Using conda env create -f environment.yml leads to out of memory error... seems solved, using back environment.yml
+# conda install -y -c conda-forge cython gdal geopandas git ipython libspatialindex lxml matplotlib
+# conda install -y -c conda-forge lmfit plyfile pybind11 pyjnius pytest
+# conda install -y -c conda-forge rasterio rtree scipy laspy
+# Write-Host "Try gdal again:"
+# # python3 -c 'import gdal; print(gdal.VersionInfo())'
+# python -c 'from osgeo import gdal; print(gdal.VersionInfo())'
+# Write-Host "gdal works"
+# pip install git+https://gitlab.com/pytools4dart/generateds.git
+# pip install tinyobjloader==2.0.0rc5
+# pip install git+https://gitlab.com/pytools4dart/gdecomp.git
+# pip install git+https://github.com/jgomezdans/prosail.git
 
 # install pytools4dart
 pip install .
