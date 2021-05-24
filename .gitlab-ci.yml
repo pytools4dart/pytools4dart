@@ -95,9 +95,9 @@ win-build:
     - cd pytools4dart\examples
     - python -c "import pytools4dart as ptd; ptd.configure(r'${env:dartdir}')"
     - python -c "import generateDS; import tinyobjloader; import gdecomp; import laspy; import pytools4dart"
-    - python use_case_0.py
-    - python use_case_1.py
-    - python use_case_2.py
+#    - python use_case_0.py
+#    - python use_case_1.py
+#    - python use_case_2.py
     - python use_case_3.py
     - python use_case_4.py
     - python use_case_5.py

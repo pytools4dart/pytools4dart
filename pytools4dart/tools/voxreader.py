@@ -648,8 +648,7 @@ class voxel(object):
                                                                                     'PT_3_Y', 'PT_4_Y'])], axis=1,
                            sort=False)
         # merge points with data and add other parameters
-        data = self.data[(self.data.pad != 0) & pd.notna(self.data.pad)].loc[:,
-               ['i', 'j', 'k', 'pad']]
+        data = self.data.loc[(self.data.pad != 0) & pd.notna(self.data.pad)].loc[:,['i', 'j', 'k', 'pad']]
         data = data.merge(points, how='left', on=['i', 'j'])
         data['PLT_BTM_HEI'] = data.k * res + self.header["min_corner"][2]
         data['PLT_HEI_MEA'] = res
