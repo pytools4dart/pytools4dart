@@ -37,23 +37,23 @@ stages:
 #    expire_in: 2h
 ###
 
-#win-dart:
-#  extends:
-#    - .shared_windows_runners
-#  stage: prepare
-#  script:
-#    - mkdir -Force cache
-#    - cd cache
-#    - curl.exe -C - $env:DART_URL_WIN -o dart.zip
-##    - echo "DART version:"
-##    - echo "$(echo "$DART_URL_WIN" |sed 's/.*\(v[0-9]*\)_windows64.zip$/\1/')"
-#    - ls
-#  cache:
-#    key: win-cache
-#    paths:
-#      - cache
-#  only:
-#    - windows
+win-dart:
+  extends:
+    - .shared_windows_runners
+  stage: prepare
+  script:
+    - mkdir -Force cache
+    - cd cache
+    - curl.exe -C - $env:DART_URL_WIN -o dart.zip
+#    - echo "DART version:"
+#    - echo "$(echo "$DART_URL_WIN" |sed 's/.*\(v[0-9]*\)_windows64.zip$/\1/')"
+    - ls
+  cache:
+    key: win-cache
+    paths:
+      - cache
+  only:
+    - windows
 
 
 linux-dart:
@@ -98,10 +98,14 @@ win-build:
 #    - python use_case_0.py
 #    - python use_case_1.py
 #    - python use_case_2.py
-    - python use_case_3.py
-    - python use_case_4.py
-    - python use_case_5.py
-    - python use_case_6.py
+#    - python use_case_3.py
+#    - python use_case_4.py
+#    - python use_case_5.py # making problems with import jnius (JAVA_HOME not found)
+#    - conda run --live-stream -n ptdvenv use_case_5.py # could make it but, it does not show output, and it does not get out of of script (cause of fig.show I suppose)
+    - cmd "/C" 'conda activate ptdvenv && python -c "import jnius"'
+    - cmd "/C" 'conda activate ptdvenv && use_case_5.py'
+#    - python use_case_6.py # same pb with JAVA_HOME (jnius necessary for prospect_db)
+    - cmd "/C" 'conda activate ptdvenv && use_case_6.py'
     - python use_case_7.py
   cache:
     key: win-cache

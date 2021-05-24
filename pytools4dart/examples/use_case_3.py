@@ -47,7 +47,6 @@ computed from airborne lidar voxelization.*
 """
 import pytools4dart as ptd
 from os.path import join, dirname
-import glob
 import rasterio as rio
 from rasterio.plot import show
 from matplotlib import pyplot as plt
