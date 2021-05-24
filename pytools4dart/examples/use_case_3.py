@@ -57,12 +57,13 @@ from multiprocessing import cpu_count
 data_dir = join(dirname(ptd.__file__), 'data')
 voxfile = join(data_dir, 'forest.vox')
 
+print(voxfile)
 if isfile(voxfile):
     print('Vox file exists')
 else:
     print('File not found:')
     print(glob.glob(data_dir))
-print(isfile(voxfile))
+
 # create an empty simulation
 simu = ptd.simulation(name='use_case_3', empty=True)
 simu.core.phase.Phase.ExpertModeZone.nbThreads = cpu_count()
