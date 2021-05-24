@@ -66,7 +66,8 @@ conda init powershell
 # load the profile for current session: it activates (base) environment
 invoke-expression -Command "$env:userprofile\Documents\WindowsPowerShell\profile.ps1"
 # create new environment
-conda create -y -n ptdvenv -c conda-forge python=3.7 gdal rasterio
+# conda create -y -n ptdvenv -c conda-forge python=3.7 gdal rasterio
+conda env create -f environment.yml
 # activate the newly created environment
 conda activate ptdvenv
 # check that it is really activated
