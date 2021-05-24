@@ -85,7 +85,7 @@ win-build:
     - ls $env:cachedir
     - gitlab-ci\conda-build.ps1
     - conda env list
-    - cmd "/C" 'conda activate ptdvenv && python -c "import xarray"'
+#    - cmd "/C" 'conda activate ptdvenv && python -c "import xarray"'
 #    # Takes around 180s (3min)
 #    - $dartzip = "${env:cachedir}\dart.zip"
 #    - $env:dartdir = "${env:userprofile}\DART"
@@ -103,7 +103,8 @@ win-build:
 #    - python use_case_4.py
 ##    - python use_case_5.py # making problems with import jnius (jvm.dll not found), same problem with use_case_6
 ## the problem comes from conda I think that does not set the environment correctly under powershell (activate .bat scripts are written for cmd.exe)
-##    - cmd "/C" 'conda activate ptdvenv && python use_case_5.py' # this works
+    - cmd "/C" 'conda activate ptdvenv && python use_case_5.py' # this works
+    - cmd "/C" 'conda activate ptdvenv && python use_case_6.py' # this works
 #    - conda deactivate
 #    - conda run --live-stream --no-capture-output -n ptdvenv python use_case_5.py
 #    - conda run --live-stream --no-capture-output -n ptdvenv python use_case_6.py
