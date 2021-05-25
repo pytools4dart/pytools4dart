@@ -37,23 +37,23 @@ stages:
 #    expire_in: 2h
 ###
 
-#win-dart:
-#  extends:
-#    - .shared_windows_runners
-#  stage: prepare
-#  script:
-#    - mkdir -Force cache
-#    - cd cache
-#    - curl.exe -C - $env:DART_URL_WIN -o dart.zip
-##    - echo "DART version:"
-##    - echo "$(echo "$DART_URL_WIN" |sed 's/.*\(v[0-9]*\)_windows64.zip$/\1/')"
-#    - ls
-#  cache:
-#    key: win-cache
-#    paths:
-#      - cache
-#  only:
-#    - windows
+win-dart:
+  extends:
+    - .shared_windows_runners
+  stage: prepare
+  script:
+    - mkdir -Force cache
+    - cd cache
+    - curl.exe -C - $env:DART_URL_WIN -o dart.zip
+#    - echo "DART version:"
+#    - echo "$(echo "$DART_URL_WIN" |sed 's/.*\(v[0-9]*\)_windows64.zip$/\1/')"
+    - ls
+  cache:
+    key: win-cache
+    paths:
+      - cache
+  only:
+    - windows
 
 
 linux-dart:
@@ -85,7 +85,6 @@ win-build:
     - ls $env:cachedir
     - gitlab-ci\conda-build.ps1
     - conda env list
-#    - cmd "/C" 'conda activate ptdvenv && python -c "import xarray"'
 #    # Takes around 180s (3min)
     - $dartzip = "${env:cachedir}\dart.zip"
     - $env:dartdir = "${env:userprofile}\DART"
@@ -96,20 +95,16 @@ win-build:
     - cd pytools4dart\examples
     - python -c "import pytools4dart as ptd; ptd.configure(r'${env:dartdir}')"
     - python -c "import generateDS; import tinyobjloader; import gdecomp; import laspy; import pytools4dart"
-#    - python use_case_0.py
-#    - python use_case_1.py
-#    - python use_case_2.py
-#    - python use_case_3.py
-#    - python use_case_4.py
+    - python use_case_0.py
+    - python use_case_1.py
+    - python use_case_2.py
+    - python use_case_3.py
+    - python use_case_4.py
 ##    - python use_case_5.py # making problems with import jnius (jvm.dll not found), same problem with use_case_6
 ## the problem comes from conda I think that does not set the environment correctly under powershell (activate .bat scripts are written for cmd.exe)
     - cmd "/C" 'conda activate ptdvenv && python use_case_5.py' # this works
     - cmd "/C" 'conda activate ptdvenv && python use_case_6.py' # this works
-#    - conda deactivate
-#    - conda run --live-stream --no-capture-output -n ptdvenv python use_case_5.py
-#    - conda run --live-stream --no-capture-output -n ptdvenv python use_case_6.py
-#    - conda activate ptdvenv
-#    - python use_case_7.py
+    - python use_case_7.py
   cache:
     key: win-cache
     paths:
