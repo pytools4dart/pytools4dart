@@ -87,13 +87,13 @@ win-build:
     - conda env list
 #    - cmd "/C" 'conda activate ptdvenv && python -c "import xarray"'
 #    # Takes around 180s (3min)
-#    - $dartzip = "${env:cachedir}\dart.zip"
-#    - $env:dartdir = "${env:userprofile}\DART"
-#    - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'${env:dartdir}', verbose=True)"
-#    - Write-Host "DART content:"
-#    - ls $env:dartdir
-#
-#    - cd pytools4dart\examples
+    - $dartzip = "${env:cachedir}\dart.zip"
+    - $env:dartdir = "${env:userprofile}\DART"
+    - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'${env:dartdir}', verbose=True)"
+    - Write-Host "DART content:"
+    - ls $env:dartdir
+
+    - cd pytools4dart\examples
 #    - python -c "import pytools4dart as ptd; ptd.configure(r'${env:dartdir}')"
 #    - python -c "import generateDS; import tinyobjloader; import gdecomp; import laspy; import pytools4dart"
 #    - python use_case_0.py
