@@ -95,10 +95,10 @@ win-build:
     - cd pytools4dart\examples
     - python -c "import pytools4dart as ptd; ptd.configure(r'${env:dartdir}')"
     - python -c "import generateDS; import tinyobjloader; import gdecomp; import laspy; import pytools4dart"
-    - python use_case_0.py
-    - python use_case_1.py
-    - python use_case_2.py
-    - python use_case_3.py
+#    - python use_case_0.py
+#    - python use_case_1.py
+#    - python use_case_2.py
+#    - python use_case_3.py
     - python use_case_4.py
 ##    - python use_case_5.py # making problems with import jnius (jvm.dll not found), same problem with use_case_6
 ## the problem comes from conda I think that does not set the environment correctly under powershell (activate .bat scripts are written for cmd.exe)
