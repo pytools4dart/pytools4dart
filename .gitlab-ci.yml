@@ -100,11 +100,11 @@ win-build:
 #    - python use_case_2.py
 #    - python use_case_3.py
     - python use_case_4.py
-##    - python use_case_5.py # making problems with import jnius (jvm.dll not found), same problem with use_case_6
-## the problem comes from conda I think that does not set the environment correctly under powershell (activate .bat scripts are written for cmd.exe)
-    - cmd "/C" 'conda activate ptdvenv && python use_case_5.py' # this works
-    - cmd "/C" 'conda activate ptdvenv && python use_case_6.py' # this works
-    - python use_case_7.py
+###    - python use_case_5.py # making problems with import jnius (jvm.dll not found), same problem with use_case_6
+### the problem comes from conda I think that does not set the environment correctly under powershell (activate .bat scripts are written for cmd.exe)
+#    - cmd "/C" 'conda activate ptdvenv && python use_case_5.py' # this works
+#    - cmd "/C" 'conda activate ptdvenv && python use_case_6.py' # this works
+#    - python use_case_7.py
   cache:
     key: win-cache
     paths:
