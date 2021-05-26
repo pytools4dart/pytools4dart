@@ -1,5 +1,9 @@
 # 1.1.10
 
+## Change
+- update documentation (e.g. add Examples section with use cases)
+- dtm2obj support for anisotropic faceting  
+
 # 1.1.9
 
 ## Add
