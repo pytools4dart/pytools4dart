@@ -1,4 +1,6 @@
 # 1.1.10
+## Add
+- diff module to compute difference between simulations
 
 ## Change
 - update documentation (e.g. add Examples section with use cases)
