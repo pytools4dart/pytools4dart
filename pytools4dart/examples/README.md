@@ -219,7 +219,10 @@ Hyperspectral simulation
 Hyperspectral case simulated with a sequence: stack images & plot a pixel spectrum.
 
 ### Notes
-
+This example requires package `rioxarray`, 
+It can be installed with `conda install -c conda-forge rioxarray` or `pip install rioxarray`.
+Becareful to be in the environment before executing these lines.
+ 
 Build a basic hyperspectral case based on use case 0:
    - a single turbid plot
    - varying wavelength: meanLambda = .4:.05:.9 um
