@@ -260,7 +260,7 @@ They should execute without error.
 File [`forest.vox`](https://gitlab.com/pytools4dart/pytools4dart/raw/master/pytools4dart/data/forest.vox?inline=false)
 is needed to run `use_case_3.py`. Download file and define its path in variable `voxfile` within `use_case_3.py`.
 
-## DART
+## Install DART
 
 **pytools4dart** is based on [DART](http://www.cesbio.ups-tlse.fr/dart/index.php#/) radiative transfer software
 that has to be installed (before or after installing pytools4dart).

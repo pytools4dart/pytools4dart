@@ -69,16 +69,16 @@ def _get_install_files(dhome):
     return dartrc, dartLauncher
 
 
-def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False, extract_dir=None,
+def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False,
             verbose=True):
     """
     Install DART from zip/tar.gz archive.
     Parameters
     ----------
     dart_zip: str
-        Path to the downloaded DART archive, e.g. '~/Downloads/DART_5-7-6_2020-03-06_v1150_linux64.tar.gz'.
+        Path to the downloaded DART archive, e.g. r'~/Downloads/DART_5-7-6_2020-03-06_v1150_linux64.tar.gz'.
     dart_home: str
-        Directory where DART will be installed, e.g. '~/DART'.
+        Directory where DART will be installed, e.g. r'~/DART'.
     user_data: str
         Path to the directory where user_data will be installed, e.g. '~/user_data'.
         If None, user_data=os.path.join(dart_home, 'user_data').
@@ -112,6 +112,11 @@ def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False, extra
     str
         Full path of DART home directory, that can be used in `ptd.configure'.
     """
+    # TODO:
+    #   - add tempdir for extraction
+    #   - see TODO below
+    #   - add examples in doc
+
     # Unwanted cases
 
     #### Paths of files ####
