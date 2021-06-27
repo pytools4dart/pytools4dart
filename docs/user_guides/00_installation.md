@@ -3,7 +3,7 @@
 ## Install
 
 Package __pytools4dart__ is a python API to DART, thus DART must be installed.
-Please refer to [DART section](#dart) for DART installation.
+Please refer to section [Install DART](#install-dart) for details.
 
 
 __Before install, Windows users__ will need Visual Studio C++11 compiler to install package `tinyobjloader`, 
