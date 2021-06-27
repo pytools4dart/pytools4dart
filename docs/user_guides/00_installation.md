@@ -27,8 +27,9 @@ Python 3 version is recommended, as Python 2 is not maintained anymore.
 #### Requirements
 
 There are two distributions of `conda`:
-    - Miniconda (~50 MB): light weight distribution of conda for command line use, 
-    - Anaconda (~500 MB): with graphical interface Anaconda Navigator.
+
+- Miniconda (~50 MB): light weight distribution of conda for command line use, 
+- Anaconda (~500 MB): with graphical interface Anaconda Navigator.
 
 See [Ananconda/Miniconda documentation](https://docs.anaconda.com/anaconda/install) 
 for installation instructions.
