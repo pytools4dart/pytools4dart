@@ -421,12 +421,12 @@ def _extract(dart_zip, extract_dir=None, verbose=False):
         raise Exception('Directory already exist: {}'
                         'Remove it before trying again.'.format(dart_unzip))
 
-    pat = r'^DART_\d-\d-\d_\d+-\d+-\d+_(v\d+)_(?:linux|windows)(?:32|64)$'
+    pat = r'^DART_\d+-\d+-\d+_\d+-\d+-\d+_(v\d+)_(?:linux|windows)(?:32|64)$'
     m = re.match(pat, outname)
     if m:
         version = m.groups()[0]
     else:
-        raise Exception('Root directory of DART archive does not have the expected format:\n {}'.format(pat))
+        raise Exception('Root directory of DART archive does not have the expected format:\n {}\n {}'.format(pat, outname))
 
     if verbose:
         print('Extracting {} to {}'.format(dart_zip, dart_unzip))
