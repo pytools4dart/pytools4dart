@@ -3,7 +3,7 @@
 ## Install
 
 Package __pytools4dart__ is a python API to DART, thus DART must be installed.
-Please refer to [DART section](#dart) for DART installation.
+Please refer to section [Install DART](#install-dart) for details.
 
 
 __Before install, Windows users__ will need Visual Studio C++11 compiler to install package `tinyobjloader`, 
@@ -27,8 +27,9 @@ Python 3 version is recommended, as Python 2 is not maintained anymore.
 #### Requirements
 
 There are two distributions of `conda`:
-    - Miniconda (~50 MB): light weight distribution of conda for command line use, 
-    - Anaconda (~500 MB): with graphical interface Anaconda Navigator.
+
+- Miniconda (~50 MB): light weight distribution of conda for command line use, 
+- Anaconda (~500 MB): with graphical interface Anaconda Navigator.
 
 See [Ananconda/Miniconda documentation](https://docs.anaconda.com/anaconda/install) 
 for installation instructions.
