@@ -121,6 +121,7 @@ conda-build:
     - conda init bash
     - source ~/.bashrc
     - conda activate ptdvenv
+    - conda install -c conda-forge path.py
     - pip install .
     - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
     - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"

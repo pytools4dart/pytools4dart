@@ -16,7 +16,7 @@ dependencies:
   - lmfit
   - lxml
   - matplotlib
-  - path
+  - path.py
   - pip
   - plyfile
   - pybind11
