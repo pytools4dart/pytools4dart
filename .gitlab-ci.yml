@@ -1,3 +1,4 @@
+# TODO: test install with configure=True, it may need changing directory.
 .shared_windows_runners:
   tags:
   - shared-windows
@@ -121,14 +122,15 @@ conda-build:
     - conda init bash
     - source ~/.bashrc
     - conda activate ptdvenv
-    - conda install -c conda-forge path.py
-    - pip install .
+    # TODO: upgrade ptd docker with path
+    - conda install -c conda-forge path
+    - pip install -e .
     - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
-    - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
+    - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', configure=True, verbose=True)"
     # check examples
     - cd pytools4dart/examples
     - python -c 'import pytools4dart as ptd; print(ptd.__version__)'
-    # - python -c 'import pytools4dart as ptd; ptd.configure("~/DART")'
+    - python -c 'import pytools4dart as ptd; ptd.configure("~/DART")'
     - python use_case_0.py
     - python use_case_1.py
     - python use_case_2.py
@@ -154,10 +156,12 @@ pip-build:
   script:
     - ls cache
     # install linux dependencies
+    # TODO: upgrade ptd docker with path
+    - pip install path
     - pip install .
     # install DART
     - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
-    - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
+    - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', configure=False, verbose=True)"
     # check examples
     - cd pytools4dart/examples
     - python -c 'import pytools4dart as ptd; ptd.configure("~/DART")'
@@ -198,10 +202,12 @@ pages:
   image: pytools4dart/pip-build:latest
   script:
     - python -V  # Print out python version for debugging
+    # TODO: upgrade ptd docker with path
+    - pip install path
     - python setup.py develop
     # install DART
     - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
-    - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
+    - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', configure=False, verbose=True)"
     # configure, updating API with current DART version
     - cd pytools4dart/examples
     - python -c 'import pytools4dart as ptd; ptd.configure("~/DART")'
