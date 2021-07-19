@@ -30,12 +30,13 @@ import os
 from os.path import join, dirname, basename
 import re
 import platform
-from shutil import move, unpack_archive, rmtree
+from shutil import unpack_archive
 # see https://stackoverflow.com/questions/1868714/how-do-i-copy-an-entire-directory-of-files-into-an-existing-directory-using-pyth
 from distutils.dir_util import copy_tree
-from pathlib import Path
+from path import Path
 import subprocess
 from .settings import getdartenv
+from .settings import configure as ptdconfig
 
 import zipfile
 
@@ -70,7 +71,7 @@ def _get_install_files(dhome):
 
 
 def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False,
-            verbose=True):
+            configure=True, verbose=True):
     """
     Install DART from zip/tar.gz archive.
     Parameters
@@ -120,13 +121,15 @@ def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False,
     # Unwanted cases
 
     #### Paths of files ####
-    if user_data is None:
-        user_data = join(dart_home, 'user_data')
+    dart_zip = Path(dart_zip).expanduser()
+    dart_home = Path(dart_home).expanduser()
 
-    dart_zip = str(Path(os.path.expanduser(dart_zip)))
-    dart_home = str(Path(os.path.expanduser(dart_home)))
-    user_data = str(Path(os.path.expanduser(user_data)))
-    dart_python = str(Path(join(dart_home, 'bin', 'python')))
+    if user_data is None:
+        user_data = dart_home / 'user_data'
+
+
+    user_data = Path(user_data).expanduser()
+    dart_python = dart_home / 'bin/python'
 
     if verbose:
         print('Installing DART:')
@@ -135,27 +138,27 @@ def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False,
         print('\tuser_data directory: ' + user_data)
 
     # create DART directory if does not exist
-    if os.path.exists(dart_home):
+    if dart_home.exists():
         if not overwrite:
             raise ValueError('Directory {} already exist.\n'
                              'Set overwrite=True to overwrite.'.format(dart_home))
-        if os.path.isfile(dart_home):
+        if dart_home.isfile():
             raise ValueError('{} is a file.\n'
                              'Remove it before trying again.'.format(dart_home))
     else:
         if verbose:
             print('Create directory: {}'.format(dart_home))
-        os.mkdir(dart_home)
+        dart_home.mkdir()
 
     # create user_data directory if does not exist
-    if os.path.isdir(user_data):
+    if user_data.isdir():
         if not overwrite:
             raise ValueError('Directory {} already exist.\n'
                              'Set overwrite=True to merge new in old.'.format(user_data))
     else:
         if verbose:
             print('Create directory: {}'.format(user_data))
-        os.mkdir(user_data)
+        user_data.mkdir()
 
     # ### extract DART archive ###
     # if extract_dir is None:
@@ -163,29 +166,29 @@ def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False,
 
     dart_unzip, version = _extract(dart_zip, extract_dir, verbose)
     # starting from DART v1177, content is compressed in dart_unzip/data.7zv
-    data7z = join(dart_unzip, 'data.7z')
-    if os.path.isfile(data7z):
+    data7z = dart_unzip / 'data.7z'
+    if data7z.isfile():
         if platform.system() == 'Windows':
-            bin7z = join(dart_unzip, '7za.exe')
+            bin7z = dart_unzip / '7za.exe'
         else:
-            bin7z = join(dart_unzip, '7za')
+            bin7z = dart_unzip / '7za'
         outdir7z = dart_unzip
-        command = [bin7z, 'x', '-o' + str(outdir7z), data7z]
+        command = [bin7z, 'x', '-o' + outdir7z, data7z]
         if verbose:
             print('Extracting DART files...')
         subprocess.run(' '.join(command), shell=True)
 
     if platform.system() == 'Windows':
-        dart_launcher_file = join(dart_home, 'dart.bat')
+        dart_launcher_file = dart_home / 'dart.bat'
         # TODO: check if underscore in file name
         dartrc_file = 'dartrc_' + version + '.bat'
     else:
-        dart_launcher_file = join(dart_home, 'dart')
+        dart_launcher_file = dart_home / 'dart'
         dartrc_file = '.dartrc' + version
 
-    dartrc_file = join(os.path.expanduser('~'), dartrc_file)
-    config_file = join(dart_home, 'config.ini')
-    if os.path.isfile(dartrc_file) and not overwrite:
+    dartrc_file = Path('~').expanduser() / dartrc_file
+    config_file = dart_home / 'config.ini'
+    if dartrc_file.exists() and not overwrite:
         raise Exception('This DART version is already installed. Set overwrite=True to override.')
 
     # make raw path for windows so it can be used in re.sub
@@ -205,29 +208,28 @@ def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False,
     dartrc = re.sub('DART_PYTHON_PATH=', 'DART_PYTHON_PATH=' + rdart_python, dartrc)
 
     ###### move dart files to dart_home ######
-    move_files = [join(dart_unzip, 'dart', f) for f in os.listdir(join(dart_unzip, 'dart'))]  # ['bin', 'database', 'tools', 'changeLog.html]
-    move_files.append(join(dart_unzip, 'README.txt'))
+    move_files = [dart_unzip / 'dart' / f for f in (dart_unzip / 'dart').listdir()]  # ['bin', 'database', 'tools', 'changeLog.html]
+    move_files.append(dart_unzip / 'README.txt')
     if platform.system() == 'Windows':
-        move_files.append(join(dart_unzip, 'uninstall.bat'))
+        move_files.append(dart_unzip / 'uninstall.bat')
     else:
-        move_files.append(join(dart_unzip, 'uninstall.sh'))
-        move_files.append(join(dart_unzip, 'uninstall-text.sh'))
+        move_files.append(dart_unzip / 'uninstall.sh')
+        move_files.append(dart_unzip / 'uninstall-text.sh')
 
     for src in move_files:
-        dst = join(dart_home, basename(src))
+        dst = dart_home / src.name
         if verbose:
             print(src + '  >  ' + dst)
-        if os.path.isdir(dst) and overwrite:
-            rmtree(dst)
-        move(src, dst)
+        if dst.isdir() and overwrite:
+            dst.rmtree()
+        src.move(dst)
 
     ##### merge user_data with existing ######
-    if verbose:
+    if verbose and user_data.isdir():
         print('merge ' + join(dart_unzip, 'user_data') + '  in  ' + user_data)
 
-
     # TODO: try when existing user_data is symlink
-    copy_tree(join(dart_unzip, 'user_data'), user_data)
+    (dart_unzip / 'user_data').copytree(user_data, dirs_exist_ok=True)
 
 
     #### Generate configuration files ####
@@ -238,7 +240,7 @@ def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False,
     with open(dart_launcher_file, 'w', encoding='utf-8') as f:
         f.write(dart_launcher)
     if platform.system() == 'Windows':
-        os.chmod(dart_launcher_file, 0o744)  # set as executable for user
+        dart_launcher_file.chmod(0o744)  # set as executable for user
 
     with open(dartrc_file, 'w', encoding='utf-8') as f:
         f.write(dartrc)
@@ -248,7 +250,10 @@ def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False,
 
     if verbose:
         print('Remove extracted archive: {}'.format(dart_unzip))
-    rmtree(dart_unzip, verbose)
+    dart_unzip.rmtree()
+
+    if configure:
+        ptdconfig(dart_home)
 
     return dart_home
 
@@ -299,7 +304,7 @@ def update(dart_zip, dart_home=None, verbose=True):
         raise FileNotFoundError('DART_LOCAL directory (e.g. user_data) no found: '+dartenv["DART_LOCAL"])
 
     user_data = dartenv["DART_LOCAL"]
-    dart_home = install(dart_zip, dart_home, user_data=user_data, overwrite=True, extract_dir=extract_dir, verbose=verbose)
+    dart_home = install(dart_zip, dart_home, user_data=user_data, overwrite=True, verbose=verbose)
     return dart_home
 
 # def download(version='latest', output='~', system=None, nbits=64, verbose=False):
@@ -404,7 +409,7 @@ def _extract(dart_zip, extract_dir=None, verbose=False):
 
     """
     if extract_dir is None:
-        extract_dir = dirname(dart_zip)
+        extract_dir = dart_zip.parent
 
     if platform.system() == 'Windows':
         import zipfile
@@ -415,9 +420,9 @@ def _extract(dart_zip, extract_dir=None, verbose=False):
         with tarfile.open(dart_zip, "r") as j:
             outname = j.next().path
 
-    dart_unzip = Path(join(extract_dir, outname))
+    dart_unzip = extract_dir / outname
 
-    if os.path.isdir(dart_unzip):
+    if dart_unzip.exists():
         raise Exception('Directory already exist: {}'
                         'Remove it before trying again.'.format(dart_unzip))
 
