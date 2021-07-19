@@ -121,13 +121,13 @@ def configure(dartdir=None):
     else:
         with open(pytools4dartrc(), 'w', encoding='utf-8') as pt4drc:
             pt4drc.write(dartdir)
-    print('\n pytools4dart configured with:\nDART = ' + dartdir)
+    print('\n Configures pytools4dart with:\nDART = ' + dartdir)
 
     try:
         print('\n\tBuilding pytools4dart core...')
         build_core()
         headlessdarttools()
-        print('\npytools4dart configured: please restart python.')
+        print('\npytools4dart configured with:\nDART = ' + dartdir + '\nPlease restart python...')
     except:
         print(traceback.format_exc())
         raise ValueError('\nCould not manage to configure pytools4dart. Please contact support.')
