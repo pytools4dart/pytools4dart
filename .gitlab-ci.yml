@@ -123,7 +123,7 @@ conda-build:
     - source ~/.bashrc
     - conda activate ptdvenv
     # TODO: upgrade ptd docker with path
-    - conda install -c conda-forge path
+    - pip install path
     - pip install -e .
     - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
     - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', configure=True, verbose=True)"
