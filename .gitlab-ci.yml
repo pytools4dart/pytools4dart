@@ -1,4 +1,3 @@
-# TODO: test install with configure=True, it may need changing directory.
 .shared_windows_runners:
   tags:
   - shared-windows
@@ -57,23 +56,23 @@ win-dart:
     - windows
 
 
-#linux-dart:
-#  stage: prepare
-#  image: python:latest
-#  script:
-#    - mkdir -p cache
-#    - cd cache
-#    - curl -C - $DART_URL_LINUX -o dart.tar.gz
-#    - echo "DART version:"
-#    - echo "$(echo "$DART_URL_LINUX" |sed 's/.*\(v[0-9]*\)_linux64.tar.gz$/\1/')"
-#    - ls
-#  cache:
-#    key: linux-cache
-#    paths:
-#      - cache
-#  only:
-#    - master
-#    - schedules
+linux-dart:
+  stage: prepare
+  image: python:latest
+  script:
+    - mkdir -p cache
+    - cd cache
+    - curl -C - $DART_URL_LINUX -o dart.tar.gz
+    - echo "DART version:"
+    - echo "$(echo "$DART_URL_LINUX" |sed 's/.*\(v[0-9]*\)_linux64.tar.gz$/\1/')"
+    - ls
+  cache:
+    key: linux-cache
+    paths:
+      - cache
+  only:
+    - master
+    - schedules
 
 
 win-build:
@@ -114,40 +113,37 @@ win-build:
   only:
     - windows
 
-#conda-build:
-#  stage: build
-#  image: pytools4dart/miniconda-build:latest
-#  script:
-#    - ls cache
-#    - conda init bash
-#    - source ~/.bashrc
-#    - conda activate ptdvenv
-#    # TODO: upgrade ptd docker with path
-##    - pip install path
-#    - pip install -e .
-#    - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
-#    - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
-#    # check examples
-#    - cd pytools4dart/examples
-#    - python -c 'import pytools4dart as ptd; print(ptd.__version__)'
-##    - python -c 'import pytools4dart as ptd; ptd.configure("~/DART")'
-#    - python use_case_0.py
-#    - python use_case_1.py
-#    - python use_case_2.py
-#    - python use_case_3.py
-#    - python use_case_4.py
-#    - python use_case_5.py
-#    - python use_case_6.py
-#    - python use_case_7.py
-#  cache:
-#    key: linux-cache
-#    paths:
-#      - cache
-#    policy: pull
-#  only:
-#    refs:
-#      - master
-#      - schedules
+conda-build:
+  stage: build
+  image: pytools4dart/miniconda-build:latest
+  script:
+    - ls cache
+    - conda init bash
+    - source ~/.bashrc
+    - conda activate ptdvenv
+    - pip install -e .
+    - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
+    - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
+    # check examples
+    - cd pytools4dart/examples
+    - python -c 'import pytools4dart as ptd; print(ptd.__version__)'
+    - python use_case_0.py
+    - python use_case_1.py
+    - python use_case_2.py
+    - python use_case_3.py
+    - python use_case_4.py
+    - python use_case_5.py
+    - python use_case_6.py
+    - python use_case_7.py
+  cache:
+    key: linux-cache
+    paths:
+      - cache
+    policy: pull
+  only:
+    refs:
+      - master
+      - schedules
 
 
 pip-build:
@@ -156,23 +152,20 @@ pip-build:
   script:
     - ls cache
     # install linux dependencies
-    # TODO: upgrade ptd docker with path
-#    - pip install path
     - pip install -e .
     # install DART
     - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
     - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
     # check examples
     - cd pytools4dart/examples
-#    - python -c 'import pytools4dart as ptd; ptd.configure("~/DART")'
     - python use_case_0.py
     - python use_case_1.py
-#    - python use_case_2.py
-#    - python use_case_3.py
-#    - python use_case_4.py
-#    - python use_case_5.py
-#    - python use_case_6.py
-#    - python use_case_7.py
+    - python use_case_2.py
+    - python use_case_3.py
+    - python use_case_4.py
+    - python use_case_5.py
+    - python use_case_6.py
+    - python use_case_7.py
   cache:
     key: linux-cache
     paths:
@@ -202,15 +195,12 @@ pages:
   image: pytools4dart/pip-build:latest
   script:
     - python -V  # Print out python version for debugging
-    # TODO: upgrade ptd docker with path
-#    - pip install path
     - pip install -e .
     # install DART
     - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
     - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
     # configure, updating API with current DART version
     - cd pytools4dart/examples
-    - python -c 'import pytools4dart as ptd; ptd.configure("~/DART")'
     - cd $CI_PROJECT_DIR
     - cp pytools4dart/examples/README.md docs/Examples.md
     - pip install --upgrade portray mdx-breakless-lists

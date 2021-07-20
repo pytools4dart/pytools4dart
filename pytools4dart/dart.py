@@ -27,7 +27,6 @@
 # ===============================================================================
 
 import os
-from os.path import join, dirname, basename
 import re
 import platform
 from shutil import unpack_archive
@@ -56,7 +55,7 @@ def _get_install_files(dhome):
 
     """
 
-    jarfile = join(dhome, 'Install.jar')
+    jarfile = dhome / 'Install.jar'
 
     if platform.system() == 'Windows':
         system = 'windows'
@@ -82,7 +81,7 @@ def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False,
         Directory where DART will be installed, e.g. r'~/DART'.
     user_data: str
         Path to the directory where user_data will be installed, e.g. '~/user_data'.
-        If None, user_data=os.path.join(dart_home, 'user_data').
+        If None, user_data = dart_home / 'user_data'.
     overwrite: bool
         If True, overwrites existing
     verbose: bool
@@ -226,7 +225,7 @@ def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False,
 
     ##### merge user_data with existing ######
     if verbose and user_data.isdir():
-        print('merge ' + join(dart_unzip, 'user_data') + '  in  ' + user_data)
+        print('merge ' + (dart_unzip / 'user_data') + '  in  ' + user_data)
 
     # TODO: try when existing user_data is symlink
     (dart_unzip / 'user_data').copytree(user_data, dirs_exist_ok=True)
