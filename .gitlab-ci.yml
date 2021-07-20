@@ -158,7 +158,7 @@ pip-build:
     # install linux dependencies
     # TODO: upgrade ptd docker with path
 #    - pip install path
-    - pip install .
+    - pip install -e .
     # install DART
     - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
     - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
@@ -203,11 +203,11 @@ pages:
   script:
     - python -V  # Print out python version for debugging
     # TODO: upgrade ptd docker with path
-    - pip install path
-    - python setup.py develop
+#    - pip install path
+    - pip install -e .
     # install DART
     - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
-    - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', configure=False, verbose=True)"
+    - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
     # configure, updating API with current DART version
     - cd pytools4dart/examples
     - python -c 'import pytools4dart as ptd; ptd.configure("~/DART")'
