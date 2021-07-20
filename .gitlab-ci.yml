@@ -114,40 +114,40 @@ win-build:
   only:
     - windows
 
-conda-build:
-  stage: build
-  image: pytools4dart/miniconda-build:latest
-  script:
-    - ls cache
-    - conda init bash
-    - source ~/.bashrc
-    - conda activate ptdvenv
-    # TODO: upgrade ptd docker with path
-#    - pip install path
-    - pip install -e .
-    - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
-    - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
-    # check examples
-    - cd pytools4dart/examples
-    - python -c 'import pytools4dart as ptd; print(ptd.__version__)'
-#    - python -c 'import pytools4dart as ptd; ptd.configure("~/DART")'
-    - python use_case_0.py
-    - python use_case_1.py
+#conda-build:
+#  stage: build
+#  image: pytools4dart/miniconda-build:latest
+#  script:
+#    - ls cache
+#    - conda init bash
+#    - source ~/.bashrc
+#    - conda activate ptdvenv
+#    # TODO: upgrade ptd docker with path
+##    - pip install path
+#    - pip install -e .
+#    - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
+#    - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
+#    # check examples
+#    - cd pytools4dart/examples
+#    - python -c 'import pytools4dart as ptd; print(ptd.__version__)'
+##    - python -c 'import pytools4dart as ptd; ptd.configure("~/DART")'
+#    - python use_case_0.py
+#    - python use_case_1.py
 #    - python use_case_2.py
 #    - python use_case_3.py
 #    - python use_case_4.py
 #    - python use_case_5.py
 #    - python use_case_6.py
 #    - python use_case_7.py
-  cache:
-    key: linux-cache
-    paths:
-      - cache
-    policy: pull
-  only:
-    refs:
-      - master
-      - schedules
+#  cache:
+#    key: linux-cache
+#    paths:
+#      - cache
+#    policy: pull
+#  only:
+#    refs:
+#      - master
+#      - schedules
 
 
 pip-build:
