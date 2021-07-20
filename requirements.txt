@@ -9,6 +9,7 @@ matplotlib
 scipy
 cython
 lmfit
+path
 pyjnius
 rasterio
 tinyobjloader==2.0.0rc5
