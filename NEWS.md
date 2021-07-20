@@ -1,4 +1,8 @@
 # 1.1.11
+## Add
+- version badge
+- update DART installer with package path and ptd configure option
+- package path to environment files
 
 # 1.1.10
 ## Add

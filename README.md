@@ -5,6 +5,7 @@
 [![licence](https://img.shields.io/badge/Licence-GPL--3-blue.svg)](https://www.r-project.org/Licenses/GPL-3)
 [![python](https://img.shields.io/badge/Python-3-blue.svg)](https://www.python.org)
 [![build status](https://gitlab.com/pytools4dart/pytools4dart/badges/master/pipeline.svg)](https://gitlab.com/pytools4dart/pytools4dart/pipelines/latest)
+[![version](https://img.shields.io/badge/dynamic/json.svg?label=version&url=https://gitlab.com/pytools4dart/pytools4dart/-/jobs/artifacts/master/raw/badges.json?job=make-badge&query=version&colorB=blue)](https://gitlab.com/pytools4dart/pytools4dart)
 
 The python package `pytools4dart` was developed to address scripted simulations, especially for simulations with dimensions,
 number of parameters or complexity not manageable with DART graphical interface. Typical examples are the production of 
