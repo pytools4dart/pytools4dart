@@ -1,7 +1,7 @@
-setuptools==40.2.0
-numpy==1.16.1
-pandas==0.23.4
-lxml==4.2.5
+setuptools
+numpy
+pandas
+lxml
 matplotlib
 rtree
 plyfile
