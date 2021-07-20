@@ -199,8 +199,8 @@ make-badge:
   artifacts:
     paths:
       - badges.json
-    only:
-      - master
+  only:
+    - master
 
 pages:
   stage: deploy
