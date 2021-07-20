@@ -37,25 +37,25 @@ stages:
 #    expire_in: 2h
 ###
 
-win-dart:
-  extends:
-    - .shared_windows_runners
-  stage: prepare
-  script:
-    - mkdir -Force cache
-    - cd cache
-    - curl.exe -C - $env:DART_URL_WIN -o dart.zip
-#    - echo "DART version:"
-#    - echo "$(echo "$DART_URL_WIN" |sed 's/.*\(v[0-9]*\)_windows64.zip$/\1/')"
-    - ls
-  cache:
-    key: win-cache
-    paths:
-      - cache
-  only:
-    - windows
-
-
+#win-dart:
+#  extends:
+#    - .shared_windows_runners
+#  stage: prepare
+#  script:
+#    - mkdir -Force cache
+#    - cd cache
+#    - curl.exe -C - $env:DART_URL_WIN -o dart.zip
+##    - echo "DART version:"
+##    - echo "$(echo "$DART_URL_WIN" |sed 's/.*\(v[0-9]*\)_windows64.zip$/\1/')"
+#    - ls
+#  cache:
+#    key: win-cache
+#    paths:
+#      - cache
+#  only:
+#    - windows
+#
+#
 #linux-dart:
 #  stage: prepare
 #  image: python:latest
@@ -73,46 +73,46 @@ win-dart:
 #  only:
 #    - master
 #    - schedules
-
-
-win-build:
-  extends:
-    - .shared_windows_runners
-  stage: build
-  script:
-    - $env:projectdir = pwd
-    - $env:cachedir = "${env:projectdir}\cache"
-    - ls $env:cachedir
-    - gitlab-ci\conda-build.ps1
-    - conda env list
-#    # Takes around 180s (3min)
-    - $dartzip = "${env:cachedir}\dart.zip"
-    - $env:dartdir = "${env:userprofile}\DART"
-    - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'${env:dartdir}', verbose=True)"
-    - Write-Host "DART content:"
-    - ls $env:dartdir
-
-    - cd pytools4dart\examples
-    - python -c "import pytools4dart as ptd; ptd.configure(r'${env:dartdir}')"
-    - python -c "import generateDS; import tinyobjloader; import gdecomp; import laspy; import pytools4dart"
-    - python use_case_0.py
-    - python use_case_1.py
-    - python use_case_2.py
-    - python use_case_3.py
-    - python use_case_4.py
-##    - python use_case_5.py # making problems with import jnius (jvm.dll not found), same problem with use_case_6
-## the problem comes from conda I think that does not set the environment correctly under powershell (activate .bat scripts are written for cmd.exe)
-    - cmd "/C" 'conda activate ptdvenv && python use_case_5.py' # this works
-    - cmd "/C" 'conda activate ptdvenv && python use_case_6.py' # this works
-    - python use_case_7.py
-  cache:
-    key: win-cache
-    paths:
-      - cache
-    policy: pull
-  only:
-    - windows
-
+#
+#
+#win-build:
+#  extends:
+#    - .shared_windows_runners
+#  stage: build
+#  script:
+#    - $env:projectdir = pwd
+#    - $env:cachedir = "${env:projectdir}\cache"
+#    - ls $env:cachedir
+#    - gitlab-ci\conda-build.ps1
+#    - conda env list
+##    # Takes around 180s (3min)
+#    - $dartzip = "${env:cachedir}\dart.zip"
+#    - $env:dartdir = "${env:userprofile}\DART"
+#    - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'${env:dartdir}', verbose=True)"
+#    - Write-Host "DART content:"
+#    - ls $env:dartdir
+#
+#    - cd pytools4dart\examples
+#    - python -c "import pytools4dart as ptd; ptd.configure(r'${env:dartdir}')"
+#    - python -c "import generateDS; import tinyobjloader; import gdecomp; import laspy; import pytools4dart"
+#    - python use_case_0.py
+#    - python use_case_1.py
+#    - python use_case_2.py
+#    - python use_case_3.py
+#    - python use_case_4.py
+###    - python use_case_5.py # making problems with import jnius (jvm.dll not found), same problem with use_case_6
+### the problem comes from conda I think that does not set the environment correctly under powershell (activate .bat scripts are written for cmd.exe)
+#    - cmd "/C" 'conda activate ptdvenv && python use_case_5.py' # this works
+#    - cmd "/C" 'conda activate ptdvenv && python use_case_6.py' # this works
+#    - python use_case_7.py
+#  cache:
+#    key: win-cache
+#    paths:
+#      - cache
+#    policy: pull
+#  only:
+#    - windows
+#
 #conda-build:
 #  stage: build
 #  image: pytools4dart/miniconda-build:latest
@@ -144,37 +144,37 @@ win-build:
 #    refs:
 #      - master
 #      - schedules
-
-
-pip-build:
-  stage: build
-  image: pytools4dart/pip-build:latest
-  script:
-    - ls cache
-    # install linux dependencies
-    - pip install -e .
-    # install DART
-    - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
-    - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
-    # check examples
-    - cd pytools4dart/examples
-    - python use_case_0.py
-    - python use_case_1.py
+#
+#
+#pip-build:
+#  stage: build
+#  image: pytools4dart/pip-build:latest
+#  script:
+#    - ls cache
+#    # install linux dependencies
+#    - pip install -e .
+#    # install DART
+#    - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
+#    - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
+#    # check examples
+#    - cd pytools4dart/examples
+#    - python use_case_0.py
+#    - python use_case_1.py
 #    - python use_case_2.py
 #    - python use_case_3.py
 #    - python use_case_4.py
 #    - python use_case_5.py
 #    - python use_case_6.py
 #    - python use_case_7.py
-  cache:
-    key: linux-cache
-    paths:
-      - cache
-    policy: pull
-  only:
-    refs:
-      - master
-      - schedules
+#  cache:
+#    key: linux-cache
+#    paths:
+#      - cache
+#    policy: pull
+#  only:
+#    refs:
+#      - master
+#      - schedules
 
 
 conda-env:
@@ -189,6 +189,20 @@ conda-env:
     changes:
       - environment.yml
 
+make-badge:
+  stage: deploy
+  image: python:latest
+  script:
+#    - apt-get update -y
+#    - apt-get install -y jq curl
+#    - version=`grep __version__ pytools4dart/_version.py| sed -E 's/.*([0-9]+\.[0-9]+\.[0-9]+).*/\1/'`
+#    - version_badge_id=$(curl --header "PRIVATE-TOKEN:${API_TOKEN}" https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/badges | jq -c 'map(select(.name | contains("version")))[0].id')
+#    - curl --request PUT --header "PRIVATE-TOKEN:${API_TOKEN}" --data "image_url=https://img.shields.io/badge/version-${version}-blue" https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/badges/${version_badge_id}
+    - pip install anybadge
+    - anybadge -l version -v $version -f version_badge.svg -c blue
+  artifacts:
+    paths:
+      - version_badge.svg
 
 pages:
   stage: deploy
@@ -205,7 +219,7 @@ pages:
     - cp pytools4dart/examples/README.md docs/Examples.md
     - pip install --upgrade portray mdx-breakless-lists
     - portray as_html -c pyproject.toml
-    #    - pip install anybadge
+    - pip install anybadge
     #    - DART_VERSION="$(echo "$DART_URL_LINUX" |sed 's/.*\(v[0-9]*\)_linux64.tar.gz$/\1/')"
     #    - anybadge -l DART -v $DART_VERSION -f dart_badge.svg -c blue
     - mv site public
@@ -217,7 +231,7 @@ pages:
   artifacts:
     paths:
      - public
-     - dart_badge.svg
+     - version_badge.svg
   only:
    - master
    - pages
