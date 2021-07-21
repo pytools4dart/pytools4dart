@@ -13,7 +13,7 @@ path
 pyjnius
 rasterio
 tinyobjloader==2.0.0rc5
-laspy==1.7.1
+laspy==1.7.0
 colorama
 git+https://gitlab.com/pytools4dart/generateds.git
 git+https://gitlab.com/pytools4dart/gdecomp.git
