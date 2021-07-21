@@ -11,7 +11,7 @@ dependencies:
   - geopandas
   - git
   - ipython
-  - laspy=1.7.1
+  - laspy=1.7.0
   - libspatialindex
   - lmfit
   - lxml
