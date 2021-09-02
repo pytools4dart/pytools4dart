@@ -186,8 +186,8 @@ conda-env:
   only:
     refs:
       - master
-    changes:
-      - environment.yml
+#    changes:
+#      - environment.yml
 
 make-badge:
   stage: deploy
