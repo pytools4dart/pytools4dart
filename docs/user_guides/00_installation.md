@@ -313,6 +313,23 @@ rm -r ptdvenv
 
 ## Known errors
 
+### `AttributeError` at simulation creation
+
+Typically: 
+```python
+AttributeError: 'Core' object has no attribute 'phase'
+```
+ 
+The error shows that the sub-modules of core interface are not present (phase being a sub-module of Core). 
+
+These sub-modules are supposed to be generated at configuration, thus the error must be due to a wrong configuration.
+It typically happens when `pytools4dart` was configured from a clone of `pytools4dart`, 
+although `pytools4dart` was installed in a virtual environment.
+
+See [issue #19](https://gitlab.com/pytools4dart/pytools4dart/-/issues/19) for details and solutions.
+  
+
+
 ### Error on rc.exe
 
 If there is a failure that `rc.exe` cannot be found, add the appropriate WindowKits binary path to PATH.

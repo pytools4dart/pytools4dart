@@ -207,6 +207,9 @@ pages:
   image: pytools4dart/pip-build:latest
   script:
     - python -V  # Print out python version for debugging
+    - pip --version
+    - python -m pip install --upgrade pip
+    - pip --version
     - pip install -e .
     # install DART
     - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
@@ -216,7 +219,7 @@ pages:
     - cd $CI_PROJECT_DIR
     - cp pytools4dart/examples/README.md docs/Examples.md
     - pip install --upgrade portray mdx-breakless-lists
-    - portray as_html -c pyproject.toml
+    - portray as_html -c pyproject_doc.toml
     #    - pip install anybadge
     #    - DART_VERSION="$(echo "$DART_URL_LINUX" |sed 's/.*\(v[0-9]*\)_linux64.tar.gz$/\1/')"
     #    - anybadge -l DART -v $DART_VERSION -f dart_badge.svg -c blue
