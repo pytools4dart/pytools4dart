@@ -425,7 +425,10 @@ def _extract(dart_zip, extract_dir=None, verbose=False):
         raise Exception('Directory already exist: {}'
                         'Remove it before trying again.'.format(dart_unzip))
 
-    pat = r'^DART_\d+-\d+-\d+_\d+-\d+-\d+_(v\d+)_(?:linux|windows)(?:32|64)$'
+    # pat = r'^DART_\d+-\d+-\d+_\d+-\d+-\d+_(v\d+)_(?:linux|windows)(?:32|64)$'
+    # TODO: .* was added to pat for DART v1211 because of change in root dir in archive: DART_5-8-0_2021-09-10_v1211_v1211_linux64
+    # Check if this change is maintained in future versions
+    pat = r'^DART_\d+-\d+-\d+_\d+-\d+-\d+_(v\d+).*_(?:linux|windows)(?:32|64)$'
     m = re.match(pat, outname)
     if m:
         version = m.groups()[0]
