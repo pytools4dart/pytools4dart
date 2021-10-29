@@ -3,7 +3,7 @@
 ## Install
 
 Package __pytools4dart__ is a python API to DART, thus DART must be installed.
-Please refer to [DART section](#dart) for DART installation.
+Please refer to section [Install DART](#install-dart) for details.
 
 
 __Before install, Windows users__ will need Visual Studio C++11 compiler to install package `tinyobjloader`, 
@@ -27,8 +27,9 @@ Python 3 version is recommended, as Python 2 is not maintained anymore.
 #### Requirements
 
 There are two distributions of `conda`:
-    - Miniconda (~50 MB): light weight distribution of conda for command line use, 
-    - Anaconda (~500 MB): with graphical interface Anaconda Navigator.
+
+- Miniconda (~50 MB): light weight distribution of conda for command line use, 
+- Anaconda (~500 MB): with graphical interface Anaconda Navigator.
 
 See [Ananconda/Miniconda documentation](https://docs.anaconda.com/anaconda/install) 
 for installation instructions.
@@ -260,7 +261,7 @@ They should execute without error.
 File [`forest.vox`](https://gitlab.com/pytools4dart/pytools4dart/raw/master/pytools4dart/data/forest.vox?inline=false)
 is needed to run `use_case_3.py`. Download file and define its path in variable `voxfile` within `use_case_3.py`.
 
-## DART
+## Install DART
 
 **pytools4dart** is based on [DART](http://www.cesbio.ups-tlse.fr/dart/index.php#/) radiative transfer software
 that has to be installed (before or after installing pytools4dart).
@@ -311,6 +312,23 @@ rm -r ptdvenv
 
 
 ## Known errors
+
+### `AttributeError` at simulation creation
+
+Typically: 
+```python
+AttributeError: 'Core' object has no attribute 'phase'
+```
+ 
+The error shows that the sub-modules of core interface are not present (phase being a sub-module of Core). 
+
+These sub-modules are supposed to be generated at configuration, thus the error must be due to a wrong configuration.
+It typically happens when `pytools4dart` was configured from a clone of `pytools4dart`, 
+although `pytools4dart` was installed in a virtual environment.
+
+See [issue #19](https://gitlab.com/pytools4dart/pytools4dart/-/issues/19) for details and solutions.
+  
+
 
 ### Error on rc.exe
 
@@ -403,3 +421,29 @@ See
 https://github.com/kivy/pyjnius/issues/216,
 https://stackoverflow.com/questions/58078615/conda-does-not-set-up-properly-path-for-jdk-for-pyjnius, 
 https://stackoverflow.com/questions/20970732/jnius-1-1-import-error.
+
+### `Corrupted ZIP library` at `jnius` import
+
+On conda install over windows, `import jnius` may lead to an error of type (e.g. with use_case_5.py which uses jnius):
+```bash
+Error occurred during initialization of VM
+Corrupted ZIP library: C:\Users\maxime.soma\Anaconda3\envs\ptdvenv\Library\bin\zip.dll
+```
+
+It seems to be due to an incompatibility between libzip `zip.dll` file and the same file installed by openjdk (dependency of pyjnius).
+
+A raw solution is to force the removal of libzip and force reinstall of openjdk, __warning__ it may break some packages dependent on libzip (did not find any in pytools4dart).
+Here are the lines to execute from a command prompt within the `ptdvenv` environment:
+```
+conda remove --force libzip
+conda install --force-reinstall -c conda-forge openjdk
+```
+
+To test:
+
+```
+python -c "import jnius"
+```
+
+
+   

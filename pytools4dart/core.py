@@ -667,7 +667,7 @@ class Core(object):
                 row.optical_property_link.indexFctPhase = row.index
         if len(wrong_opl):
             raise Exception(
-                "Optical Properties not found in 'coeff_diff': {}".format(', '.join(xtable_opl.ident[wrong_opl])))
+                "Optical Properties not found in 'coeff_diff': {}".format(', '.join(xtable_opl.ident[wrong_opl].unique())))
             return table_opl.loc[wrong_opl]
 
     def update_tpl(self, verbose=True):
@@ -688,7 +688,7 @@ class Core(object):
                 row.thermal_property_link.indexTemperature = row.index
         if len(wrong_tpl):
             raise Exception(
-                "Optical Properties not found in 'coeff_diff': {}".format(', '.join(xtable_tpl.ident[wrong_tpl])))
+                "Thermal Properties not found in 'coeff_diff': {}".format(', '.join(xtable_tpl.idTemperature[wrong_tpl].unique())))
             return (table_tpl.loc[wrong_tpl])
 
     def update_mf(self, verbose=True):

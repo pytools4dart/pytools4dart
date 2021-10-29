@@ -121,13 +121,14 @@ conda-build:
     - conda init bash
     - source ~/.bashrc
     - conda activate ptdvenv
-    - pip install .
+    - pip install -e .
     - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
     - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
+    # for v1217
+    - sed -i -e 's/Temperature_290_310/ThermalFunction290_310/g' pytools4dart/templates/coeff_diff.xml
     # check examples
     - cd pytools4dart/examples
     - python -c 'import pytools4dart as ptd; print(ptd.__version__)'
-    - python -c 'import pytools4dart as ptd; ptd.configure("~/DART")'
     - python use_case_0.py
     - python use_case_1.py
     - python use_case_2.py
@@ -153,13 +154,14 @@ pip-build:
   script:
     - ls cache
     # install linux dependencies
-    - pip install .
+    - pip install -e .
     # install DART
     - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
     - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
+    # for v1217
+    - sed -i -e 's/Temperature_290_310/ThermalFunction290_310/g' pytools4dart/templates/coeff_diff.xml
     # check examples
     - cd pytools4dart/examples
-    - python -c 'import pytools4dart as ptd; ptd.configure("~/DART")'
     - python use_case_0.py
     - python use_case_1.py
     - python use_case_2.py
@@ -191,23 +193,37 @@ conda-env:
     changes:
       - environment.yml
 
+make-badge:
+  stage: deploy
+  image: python:latest
+  script:
+    # see https://medium.com/@iffi33/adding-custom-badges-to-gitlab-a9af8e3f3569
+    - version=`grep __version__ pytools4dart/_version.py| sed -E 's/.*([0-9]+\.[0-9]+\.[0-9]+).*/\1/'`
+    - echo "{\"version\":\"$version\"}" > badges.json
+  artifacts:
+    paths:
+      - badges.json
+  only:
+    - master
 
 pages:
   stage: deploy
   image: pytools4dart/pip-build:latest
   script:
     - python -V  # Print out python version for debugging
-    - python setup.py develop
+    - pip --version
+    - python -m pip install --upgrade pip
+    - pip --version
+    - pip install -e .
     # install DART
     - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
     - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
     # configure, updating API with current DART version
     - cd pytools4dart/examples
-    - python -c 'import pytools4dart as ptd; ptd.configure("~/DART")'
     - cd $CI_PROJECT_DIR
     - cp pytools4dart/examples/README.md docs/Examples.md
     - pip install --upgrade portray mdx-breakless-lists
-    - portray as_html -c pyproject.toml
+    - portray as_html -c pyproject_doc.toml
     #    - pip install anybadge
     #    - DART_VERSION="$(echo "$DART_URL_LINUX" |sed 's/.*\(v[0-9]*\)_linux64.tar.gz$/\1/')"
     #    - anybadge -l DART -v $DART_VERSION -f dart_badge.svg -c blue
@@ -220,7 +236,6 @@ pages:
   artifacts:
     paths:
      - public
-     - dart_badge.svg
   only:
    - master
    - pages

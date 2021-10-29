@@ -11,11 +11,12 @@ dependencies:
   - geopandas
   - git
   - ipython
-  - laspy
+  - laspy=1.7.0
   - libspatialindex
   - lmfit
   - lxml
   - matplotlib
+  - path.py
   - pip
   - plyfile
   - pybind11
