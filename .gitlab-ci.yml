@@ -91,6 +91,8 @@ win-build:
     - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'${env:dartdir}', verbose=True)"
     - Write-Host "DART content:"
     - ls $env:dartdir
+    # for DART v1218
+    - (get-content pytools4dart\templates\coeff_diff.xml) | %{$_ -replace "Temperature_290_310","ThermalFunction290_310"} | Set-Content pytools4dart\templates\coeff_diff.xml
 
     - cd pytools4dart\examples
     - python -c "import pytools4dart as ptd; ptd.configure(r'${env:dartdir}')"
