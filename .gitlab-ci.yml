@@ -85,6 +85,7 @@ win-build:
     - ls $env:cachedir
     - gitlab-ci\conda-build.ps1
     - conda env list
+    - pip install -e .
 #    # Takes around 180s (3min)
     - $dartzip = "${env:cachedir}\dart.zip"
     - $env:dartdir = "${env:userprofile}\DART"
@@ -92,12 +93,14 @@ win-build:
     - Write-Host "DART content:"
     - ls $env:dartdir
 
-    - cd pytools4dart\examples
-    - python -c "import pytools4dart as ptd; ptd.configure(r'${env:dartdir}')"
+#    - cd pytools4dart\examples
+#    - python -c "import pytools4dart as ptd; ptd.configure(r'${env:dartdir}')"
     # for DART v1218
     - (get-content pytools4dart\templates\coeff_diff.xml) | %{$_ -replace "Temperature_290_310","ThermalFunction290_310"} | Set-Content pytools4dart\templates\coeff_diff.xml
+    - get-content pytools4dart\templates\coeff_diff.xml
 
     - python -c "import generateDS; import tinyobjloader; import gdecomp; import laspy; import pytools4dart"
+    - cd pytools4dart\examples
     - python use_case_0.py
     - python use_case_1.py
     - python use_case_2.py
