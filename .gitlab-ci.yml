@@ -47,7 +47,7 @@ win-dart:
     - curl.exe -C - $env:DART_URL_WIN -o dart.zip
 #    - echo "DART version:"
 #    - echo "$(echo "$DART_URL_WIN" |sed 's/.*\(v[0-9]*\)_windows64.zip$/\1/')"
-    - sed.exe -i -e "s/Temperature_290_310/ThermalFunction290_310/g" pytools4dart/templates/*.xml
+    - sed -i -e "s/Temperature_290_310/ThermalFunction290_310/g" pytools4dart/templates/*.xml
     - ls
   cache:
     key: win-cache
