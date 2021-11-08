@@ -818,26 +818,37 @@ class Add(object):
 
     def tree_species(self, lai=4.0,
                      veg_op_ident='Turbid_Leaf_Deciduous_Phase_Function',
-                     veg_tp_ident='ThermalFunction290_310',
+                     veg_tp_ident=None,
                      trunk_op_type='Lambertian',
                      trunk_op_ident='Lambertian_Phase_Function_1',
-                     trunk_tp_ident='ThermalFunction290_310'
+                     trunk_tp_ident=None
                      ):
         """
         Add a tree species with one crown level.
         Parameters
         ----------
-        type
         lai
-        vegopt
-        vegtherm
-        trunkopt
-        trunktherm
+        veg_op_ident: str
+            Optical property name for leaves.
+        veg_tp_ident: str
+            Temperature property name for leaves. If None takes the default thermal property defined in scene.
+        trunk_op_type: str
+            Optical property type for trunk.
+        trunk_op_ident: str
+            Optical property name for trunk.
+        trunk_tp_ident:
+            Temperature property name for trunk. If None takes the default thermal property defined in scene.
 
         Returns
         -------
-
+            Created Species object
         """
+
+        if veg_tp_ident is None:
+            veg_tp_ident = self.simu.scene.properties.thermal.idTemperature.iloc[0]
+        if trunk_tp_ident is None:
+            trunk_tp_ident = self.simu.scene.properties.thermal.idTemperature.iloc[0]
+
 
         Trees = self.simu.core.trees.Trees
 

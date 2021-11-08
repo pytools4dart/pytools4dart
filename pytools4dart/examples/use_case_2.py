@@ -120,18 +120,20 @@ inventory = pd.read_csv(inventory_file, comment='*', sep='\t')
 
 print(inventory)
 
+# default temperature property name
+tp_ident = simu.scene.properties.thermal.idTemperature.iloc[0]
 # species_id=0
 simu.add.tree_species(lai=-1,
                       trunk_op_ident='trunk',
-                      trunk_tp_ident='ThermalFunction290_310',
+                      trunk_tp_ident=tp_ident,
                       veg_op_ident='leaf',
-                      veg_tp_ident='ThermalFunction290_310')
+                      veg_tp_ident=tp_ident)
 # species_id=1
 simu.add.tree_species(lai=-0.5,
                       trunk_op_ident='trunk',
-                      trunk_tp_ident='ThermalFunction290_310',
+                      trunk_tp_ident=tp_ident,
                       veg_op_ident='leaf',
-                      veg_tp_ident='ThermalFunction290_310')
+                      veg_tp_ident=tp_ident)
 
 # trees to scene
 trees = simu.add.trees(inventory)
