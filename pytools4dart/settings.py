@@ -299,23 +299,25 @@ def headlessdarttools(dartdir=None):
 
     dartenv = getdartenv(dartdir)
     toolsdir = pjoin(dartenv['DART_HOME'], 'tools', currentplatform)
-    if currentplatform == 'windows' and os.path.isdir(toolsdir):
-        toolspath = pjoin(toolsdir, '*.bat')
-        toolslist = glob.glob(toolspath)
-        # add -Djava.awt.headless=true, if not already there, to DART/tools/windows/*.bat for headless servers
-        print('Add flag -Djava.awt.headless=true to {} for headless servers compatibility'.format(
-            toolspath))
-        for file in toolslist:
-            with open(file) as f:
-                fcont = f.read()
-            # add -Djava.awt.headless=true if not already there
-            fcont = re.sub('java.exe"(?!\s+-Djava.awt.headless=true)', 'java.exe" -Djava.awt.headless=true ', fcont)
-            # remove pause command as it will wait for a key to be pressed
-            fcont = re.sub('\npause\n', '\n', fcont)
-            with open(file, 'w') as f:
-                f.write(fcont)
 
-    elif currentplatform == 'linux' and os.path.isdir(toolsdir):
+    ## Headless seems to bring an error in TriangleProcessor at dart-maket.bat execution, leaving scene without OBJ...
+    # if currentplatform == 'windows' and os.path.isdir(toolsdir):
+    #     toolspath = pjoin(toolsdir, '*.bat')
+    #     toolslist = glob.glob(toolspath)
+    #     # add -Djava.awt.headless=true, if not already there, to DART/tools/windows/*.bat for headless servers
+    #     print('Add flag -Djava.awt.headless=true to {} for headless servers compatibility'.format(
+    #         toolspath))
+    #     for file in toolslist:
+    #         with open(file) as f:
+    #             fcont = f.read()
+    #         # add -Djava.awt.headless=true if not already there
+    #         fcont = re.sub('java.exe"(?!\s+-Djava.awt.headless=true)', 'java.exe" -Djava.awt.headless=true ', fcont)
+    #         # remove pause command as it will wait for a key to be pressed
+    #         fcont = re.sub('\npause\n', '\n', fcont)
+    #         with open(file, 'w') as f:
+    #             f.write(fcont)
+
+    if currentplatform == 'linux' and os.path.isdir(toolsdir):
         toolspath = pjoin(toolsdir, '*.sh')
         # add -Djava.awt.headless=true, if not already there, to DART/tools/linux/*.sh for headless servers
         print('Add flag -Djava.awt.headless=true to {} for headless servers compatibility'.format(
