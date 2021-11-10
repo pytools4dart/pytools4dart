@@ -344,7 +344,7 @@ def optical_properties_db(db_file, name, comments='', type='lambertian',
             ### create table
             if verbose:
                 print('Creating table '+name)
-            sql_cmd = 'CREATE TABLE {} ( Id INTEGER PRIMARY KEY AUTOINCREMENT, {});'.format(name, ' DOUBLE, '.join(columns))
+            sql_cmd = 'CREATE TABLE {} ( Id INTEGER PRIMARY KEY AUTOINCREMENT, {});'.format(name, ', '.join([v+' DOUBLE' for v in columns]))
             cur.execute(sql_cmd)
             ### fill table with data
             data.to_sql(name=name, con=conn, index=False, if_exists='append')
