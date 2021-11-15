@@ -1,5 +1,13 @@
 # 1.1.12
+# Fix
+- conflict between pip and portray pyproject.toml --> pyproject_doc.toml
+- conflict with zip.dll between openjdk and libzip --> gdal<=3.2.1 without libzip dependency
+- headless error on windows with java3d: removed temporarly this capacity, a solution by E. Chavanon may be avalaible in next DART version.
+- wrong column type in database produced by optical_properties_db
 
+# Change
+- default temperature property name: ThermalFunction290_310 --> Temperature_290_310
+ 
 # 1.1.11
 ## Add
 - version badge
