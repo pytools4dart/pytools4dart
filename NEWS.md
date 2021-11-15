@@ -1,4 +1,6 @@
 # 1.1.12
+
+# 1.1.12
 # Fix
 - conflict between pip and portray pyproject.toml --> pyproject_doc.toml
 - conflict with zip.dll between openjdk and libzip --> gdal<=3.2.1 without libzip dependency
