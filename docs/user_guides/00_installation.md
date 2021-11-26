@@ -445,5 +445,10 @@ To test:
 python -c "import jnius"
 ```
 
+### `xml.sax._exceptions.SAXReaderNotAvailable: No parsers found`
+
+When configuring `pytools4dart`, the error `xml.sax._exceptions.SAXReaderNotAvailable: No parsers found` was raised for some user, see https://groups.google.com/g/dart-cesbio/c/_2n-WiVYAbI .
+
+It was solved updating conda with `conda update --all` .
 
    
