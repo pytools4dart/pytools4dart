@@ -121,6 +121,9 @@ def update_node(rnode, tnode, module):
                     else:  # remove child if exist
                         setattr(rnode, tchild.getchildren()[0].tag, None)
                 except:
+                    # Following warning not set as it happens very often: we should the reason why first
+                    # print('WARNING: node may not have the parents necessary for the following test:')
+                    # print('\t' + test)
                     pass
             elif 'type' in tchild.attrib:
                 if tchild.attrib['type'] == 'list':
@@ -544,7 +547,7 @@ def findall(corenode, pat, case=False, regex=True, column='dartnode', path=False
 
 def set_nodes(corenode, **kwargs):
     """
-    Set the value of a subnode or a subnode attribute
+    Set the value of an attribute, a subnode or a subnode attribute
     Parameters
     ----------
     corenode: object
@@ -569,7 +572,7 @@ def set_nodes(corenode, **kwargs):
     """
     for key, value in kwargs.items():
         # _, dartnodes = findall(corenode, pat=key+'$', path=True, use_labels=False)
-        dartnodes = findpaths(corenode, pat=r'\.' + key + '$', case=True)
+        dartnodes = findpaths(corenode, pat=r'(\.|^)' + key + '$', case=True)
         if len(dartnodes) == 1:
             exec('corenode.' + dartnodes.iloc[0] + '=value')
         else:
