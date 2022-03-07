@@ -1,4 +1,6 @@
-# 1.1.12
+# 1.1.13
+# Change
+- fix back wrong direction of waveform vector looking upward (and not downward) in LAS standard (see https://github.com/ASPRSorg/LAS/wiki/Waveform-Data-Packet-Descriptors-Explained). Originally, well done by Tiangang in DART DART2LAS function.
 
 # 1.1.12
 # Fix
