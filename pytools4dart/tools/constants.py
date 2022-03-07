@@ -154,11 +154,13 @@ TREES_HEADER = '''* DART Trees files (default values are used for eventual missi
 * First line is the header. It defines the order of input of the parameters (any order is possible)
 '''
 
-OP_TYPES = pd.DataFrame([['Lambertian', 'Lambertian'],
-                         ['Hapke', 'Hapke'],
-                         ['RPV', 'RPV'],
-                         ['Vegetation', 'Understory'],
-                         ['Fluid', 'AirFunction']], columns=['name', 'prefix'])
+# see ptd.core_ui.utils.get_labels(r'Coeff_diff\..*(?<!Link)(\.ident)$')['dartnode']
+OP_TYPES = pd.DataFrame([['Lambertian', 'Lambertian', 'LambertianMulti'],
+                         ['Hapke', 'Hapke', 'HapkeSpecularMulti'],
+                         ['RPV', 'RPV', 'RPVMulti'],
+                         ['Vegetation', 'Understory', 'UnderstoryMulti'],
+                         ['Fluid', 'AirFunction', 'AirFunction'],
+                         ['Phase Extern', 'PhaseExtern', 'PhaseExtern']], columns=['name', 'prefix', 'core_class'])
 
 # Optical property link type numbers
 OPL_TYPES = pd.DataFrame([[0, 'Lambertian'],
