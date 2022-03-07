@@ -521,7 +521,6 @@ class Add(object):
                         'Cm': '0.01', 'Cw': '0.012', 'N': '1.8',
                         'anthocyanin': '0'}
         """
-        # TODO: change code using set_nodes
         # children variables are not available because they can generate conflict (not tested however):
         # Lambertian
         #     SpecularData = None,
@@ -557,7 +556,6 @@ class Add(object):
         #                               ['Fluid', 'AirFunction']], columns=['opl_type', 'op_type'])
 
         kwargs['useMultiplicativeFactorForLUT'] = useMultiplicativeFactorForLUT
-        op_type = OP_TYPES.prefix[OP_TYPES.name.str.contains(type, case=False)].iloc[0]
         op_core_class = OP_TYPES.core_class[OP_TYPES.name.str.contains(type, case=False)].iloc[0]
         prop = eval(f'ptd.coeff_diff.create_{op_core_class}()')
         propargs = {k: v for k, v in kwargs.items() if k != 'prospect'}
