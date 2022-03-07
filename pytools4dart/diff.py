@@ -78,4 +78,6 @@ def diff(object1, object2):
 
     diff_gen = unified_diff(os1, os2, name1, name2)
     diff_gen = color_diff(diff_gen)
-    print(''.join([l for l in diff_gen if not l.startswith('@@')]))
+    to_print = ''.join([l for l in diff_gen if not l.startswith('@@')])
+    print(to_print)
+    return to_print
