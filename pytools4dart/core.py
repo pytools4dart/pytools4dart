@@ -424,20 +424,23 @@ class Core(object):
         for dn in dartnodes:
             # print(dn)
             # dn = dartnodes.iloc[0]
-            op_core_class = dn.split('.')[-2]
-            op_core_class_parent_path = '.'.join(dn.split('.')[:-1])
-            function = dn.split('.')[-3]
+            dns = dn.split('.')
+            prop_class = dns[-2]
+            prop_list_path = '.'.join(dns[:-1])
+            prop_parent_path = '.'.join(dns[:-2])
+            function = dns[-3]
+            head = '.'.join(dns[:-3])
             # ptype = re.sub('Multi', '', multi)
             # OpticalPropertyLink type names are different from Coeff_diff type names, e.g. Vegetation <-> Understory
-            ptype = ptd.core_ui.utils.get_labels(f'\.{function}$')['label'].iloc[0]
-            if function in self.coeff_diff.Coeff_diff.children:
-                prop_list = eval(f'self.coeff_diff.{op_core_class_parent_path}')
+            ptype = ptd.core_ui.utils.get_labels(f'^{prop_parent_path}$')['label'].iloc[0]
+            if function in eval(f'self.coeff_diff.{head}.children'): # for WaterInterfaceFunctions that is not among children in DART <v1234
+                prop_list = eval(f'self.coeff_diff.{prop_list_path}')
                 if len(prop_list) > 0:
                     source = prop_list
                     prop_type = ptype
                     prop_index = range(len(prop_list))
                     prop_ident = [prop.ident for prop in prop_list]
-                    prop_path = [op_core_class + f'[{i}]' for i in prop_index]
+                    prop_path = [prop_class + f'[{i}]' for i in prop_index]
                     opt_prop = pd.DataFrame(dict(type=prop_type, index=prop_index, ident=prop_ident,
                                                  source=source, path=prop_path))
                     # databaseName
