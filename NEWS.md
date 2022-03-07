@@ -1,7 +1,15 @@
 # 1.1.13
+# Add
+- add output to diff
+
 # Change
 - fix back wrong direction of waveform vector looking upward (and not downward) in LAS standard (see https://github.com/ASPRSorg/LAS/wiki/Waveform-Data-Packet-Descriptors-Explained). Originally, well done by Tiangang in DART DART2LAS function.
+- add current node attributes to set_nodes even if parent node is None: 
+  it may lead to wrong update or error if parent node is to be updated as a consequence of an attribute update, but let's see what happens...
 
+# Fix
+- fix add.optical_property and simulation.core.get_optical_properties for DART >= v1234
+ 
 # 1.1.12
 # Fix
 - conflict between pip and portray pyproject.toml --> pyproject_doc.toml
