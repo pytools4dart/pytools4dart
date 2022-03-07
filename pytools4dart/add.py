@@ -251,7 +251,7 @@ class Add(object):
 
         return obj
 
-    def optical_property(self, type='Lambertian', replace=False, useMultiplicativeFactorForLUT=0, **kwargs):
+    def optical_property_old(self, type='Lambertian', replace=False, useMultiplicativeFactorForLUT=0, **kwargs):
         """
         Add a new optical property to core.coeff_diff
 
@@ -435,6 +435,164 @@ class Add(object):
 
         # self.simu.core.update_properties_dict()
         return prop
+
+    def optical_property(self, type='Lambertian', replace=False, useMultiplicativeFactorForLUT=0, **kwargs):
+        """
+        Add a new optical property to core.coeff_diff
+
+        Parameters
+        ----------
+        type: str
+            optical property type.
+        replace: bool
+            replace the optical property if already exist under same 'ident'.
+        kwargs:
+            see Notes below.
+
+        Returns
+        -------
+            optical property object reference
+
+        Notes
+        -----
+        Possible types are: Lambertian, Hapke, RPV, Understory, AirFunction
+        The main keys are:
+            ModelName: model name in database
+            databaseName: path to database
+            ident: model name called in simulation, e.g. in plots.
+            useMultiplicativeFactorForLUT: use multiplicative factor. By default this option is 1 in DART.
+                However, when 1 it creates as many multiplicative factor nodes as the number of bands.
+                **Thus user should care to set this option to 0, especially for hyperspectral study.**
+
+        Available arguments and default values are
+            - Lambertian:
+                ModelName = 'reflect_equal_1_trans_equal_0_0',
+                databaseName = 'Lambertian_vegetation.db',
+                useMultiplicativeFactorForLUT = 0,
+                ident = 'Lambertian_Phase_Function_1',
+                useSpecular = 0,
+                roStDev = 0.000
+
+            - Hapke:
+                ModelName = 'all_equal_to_one',
+                useExternalModule = 0,
+                transmittanceDatabaseName = 'Lambertian_vegetation.db',
+                useSpecular = 0,
+                ident = 'Hapke_Phase_Function_1',
+                transmittanceModelName = 'reflect_equal_1_trans_equal_1_1',
+                databaseName = 'Hapke.db',
+                useMultiplicativeFactorForLUT = 0
+
+            - RPV:
+                ModelName = 'basic',
+                transmittanceModelName = 'reflect_equal_1_trans_equal_0_0',
+                databaseName = 'RPV.db',
+                useMultiplicativeFactorForLUT = 0,
+                transmittanceDatabaseName = 'Lambertian_vegetation.db',
+                ident = 'RPV_Phase_Function_1',
+                useSpecular = 0
+
+            - Vegetation:
+                ident = 'Turbid_Leaf_Deciduous_Phase_Function',
+                hasDifferentModelForBottom = 0,
+                dimFoliar = 0.01,
+                thermalHotSpotFactor = 0.1,
+                lad = 1,
+                useOpticalFactorMatrix = 0
+
+                # with UnderstoryMultiModel options:
+
+                ModelName = 'leaf_deciduous'
+                useSpecular = 0
+                databaseName = 'Lambertian_vegetation.db'
+                useMultiplicativeFactorForLUT = 0
+
+            - Fluid:
+                ident = 'Molecule',
+                ModelName = 'rayleigh_gas',
+                databaseName = 'Fluid.db',
+                useMultiplicativeFactorForLUT = 0,
+
+
+            Prospect module can be called for Lambertian and Vegetation modules. It can be set argument `prospect`
+            like in thefollowing example:
+
+            prospect = {'CBrown': '0.0', 'Cab': '30', 'Car': '12',
+                        'Cm': '0.01', 'Cw': '0.012', 'N': '1.8',
+                        'anthocyanin': '0'}
+        """
+        # TODO: change code using set_nodes
+        # children variables are not available because they can generate conflict (not tested however):
+        # Lambertian
+        #     SpecularData = None,
+        #     ProspectExternalModule = None,
+        #     lambertianNodeMultiplicativeFactorForLUT = None
+        # Hapke
+        #     SpecularData = None,
+        #     HapkeExternalModules = None,
+        #     hapkeNodeMultiplicativeFactorForLUT = None
+        # RPV
+        #     SpecularData = None,
+        #     RPVNodeMultiplicativeFactorForLUT = None
+        # Understory
+        #     UnderstoryMultiModel = None,
+        #     UnderstoryMultiTopModel = None,
+        #     UnderstoryMultiBottomModel = None,
+        #     Ellipsoidal = None,
+        #     Elliptical = None,
+        #     UserDefined = None,
+        #     Manual = None,
+        #     BoundedUniform = None,
+        #     DirectionalClumpingIndexProperties = None
+        # UnderstoryMultiModel
+        #     SpecularData = None
+        #     ProspectExternalModule = None
+        #     understoryNodeMultiplicativeFactorForLUT = None
+        # AirFunction
+        #     AirFunctionNodeMultiplicativeFactorForLut = None
+        # OP_TYPES = pd.DataFrame([['Lambertian', 'Lambertian'],
+        #                               ['Hapke', 'Hapke'],
+        #                               ['RPV', 'RPV'],
+        #                               ['Vegetation', 'Understory'],
+        #                               ['Fluid', 'AirFunction']], columns=['opl_type', 'op_type'])
+
+        kwargs['useMultiplicativeFactorForLUT'] = useMultiplicativeFactorForLUT
+        op_type = OP_TYPES.prefix[OP_TYPES.name.str.contains(type, case=False)].iloc[0]
+        op_core_class = OP_TYPES.core_class[OP_TYPES.name.str.contains(type, case=False)].iloc[0]
+        prop = eval(f'ptd.coeff_diff.create_{op_core_class}()')
+        propargs = {k: v for k, v in kwargs.items() if k != 'prospect'}
+        prop.set_nodes(**propargs)
+
+        if 'prospect' in kwargs:
+            prop.set_nodes(useProspectExternalModule=1)
+            prop.set_nodes(**kwargs['prospect'])
+
+        # check if already exists
+        idents = findall(self.simu.core.coeff_diff, r'\.ident$')
+        op_core_class_parent = '.'.join(self.simu.core.coeff_diff.findpaths(op_core_class + '$').iloc[0].split('.')[:-1])
+        if prop.ident not in idents:  # new
+            eval(f'self.simu.core.coeff_diff.{op_core_class_parent}.add_{op_core_class}(prop)')
+        else:
+            if replace:
+                op_df = self.simu.scene.properties.optical
+                index = op_df.loc[op_df.ident == prop.ident, "index"].iloc[0]
+                eval(f'self.simu.core.coeff_diff.{op_core_class_parent}.replace_{op_core_class}_at({index}, prop)')
+            else:
+                raise ValueError("'{}' already used by other optical property."
+                                 "Please change 'ident' or set 'replace'.".format(prop.ident))
+
+        # # update multiplicative factors
+        # useMultiplicativeFactorForLUT = eval("{multi}.useMultiplicativeFactorForLUT".format(
+        #     multi='.'.join(filter(None, ['prop', model]))))
+        #
+        # if useMultiplicativeFactorForLUT:
+        #     for i in range(nb_sp_bands-1): # one is set by default
+        #         eval('prop.{node}.add_{factor}(ptd.coeff_diff.create_{factor}())'.format(
+        #             node='.'.join(filter(None, [model, node])), factor=factor))
+
+        # self.simu.core.update_properties_dict()
+        return prop
+
 
     def thermal_property(self, replace=False, **kwargs):
         """
