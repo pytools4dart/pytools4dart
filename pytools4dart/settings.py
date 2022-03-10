@@ -35,6 +35,7 @@ import re
 from os.path import join as pjoin
 from os.path import expanduser
 import os
+from path import Path
 import platform
 import subprocess
 import glob
@@ -343,7 +344,7 @@ def getsimupath(simu_name, dartdir=None):
     """
     if not simu_name:
         return None
-    return pjoin(getdartenv(dartdir)['DART_LOCAL'], 'simulations', simu_name)
+    return Path(getdartenv(dartdir)['DART_LOCAL']) / 'simulations' / simu_name
 
 
 def get_simu_input_path(simu_name, dartdir=None):
@@ -364,7 +365,7 @@ def get_simu_input_path(simu_name, dartdir=None):
     if not simu_name:
         return None
 
-    return pjoin(getdartenv(dartdir)['DART_LOCAL'], 'simulations', simu_name, 'input')
+    return getsimupath(simu_name, dartdir) / 'input'
 
 
 def get_simu_output_path(simu_name, dartdir=None):
@@ -385,7 +386,7 @@ def get_simu_output_path(simu_name, dartdir=None):
     if not simu_name:
         return None
 
-    return pjoin(getdartenv(dartdir)['DART_LOCAL'], 'simulations', simu_name, 'output')
+    return getsimupath(simu_name, dartdir) / 'output'
 
 
 def getdartversion(dartdir=None):
@@ -437,11 +438,13 @@ def get_xmlfile_version(xmlfile):
 
 def check_xmlfile_version(xmlfile, dartdir=None):
     """
-    Check if version is the same as the
+    Check if the simulation input xml file was created with the same DART version than the one in use.
     Parameters
     ----------
-    xmlfile
-    dartdir
+    xmlfile: str
+        Simulation input xml file path.
+    dartdir: str
+        Path to DART root directory. If None, the DART directory configured in pytools4dart is used.
 
     Returns
     -------
