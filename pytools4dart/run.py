@@ -346,7 +346,7 @@ def dart2las(simudir, las_file = None, type='bin', lasFormat=1, extra_bytes=True
     ----------
     simudir
     las_file: str
-        Path of a .las or .laz file. If None, it is <simulation>/output/LIDAR_IMAGE_FILE.las
+        Path of a .las or .laz file. If None, it is <simulation>/output/LIDAR_IMAGE_FILE_{lasFormat}.las
     type: str
         Either 'bin' to convert 'LIDAR_IMAGE_FILE.binary' or 'dp' to convert 'DetectedPoints.txt'.
     lasFormat: int
@@ -355,7 +355,7 @@ def dart2las(simudir, las_file = None, type='bin', lasFormat=1, extra_bytes=True
 
     Returns
     -------
-
+    str las
     """
     outputDpath = os.path.join(simudir, 'output')
     if not os.path.isdir(outputDpath):
