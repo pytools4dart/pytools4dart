@@ -100,6 +100,7 @@ tree.Groups.Group[1].GroupOpticalProperties.BackFaceOpticalProperty.OpticalPrope
 # simu.add.plots(plots, mkdir=True, overwrite=True)
 
 ### multiple pulse scanning
+simu.core.phase.Phase.accelerationEngine=0 # 0: forward simulation mode, 2: forward and backward simulation mode
 Lidar = simu.core.phase.Phase.DartInputParameters.Lidar
 # set multiple pulses
 Lidar.simulateImage = 1
@@ -133,4 +134,8 @@ print(simu)
 simu.write(overwrite=True)
 
 simu.run.full()
-ptd.run.dart2las(simu.simu_dir, type='bin', lasFormat=1)
+# Convert simulated lidar data to LAS file
+# point cloud only
+las_1 = ptd.run.dart2las(simu.simu_dir, type='bin', lasFormat=1)
+# point cloud and waveforms
+las_9 = ptd.run.dart2las(simu.simu_dir, type='bin', lasFormat=9)
