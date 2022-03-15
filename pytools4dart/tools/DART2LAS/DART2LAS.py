@@ -447,9 +447,13 @@ class DART2LAS(object):
 
 
                             # All formats variables
-                            x_v.append(int(round( x_abs / self.scale)))
-                            y_v.append(int(round( y_abs / self.scale)))
-                            z_v.append(int(round( z_abs / self.scale)))
+                            # xyz are scaled inside las object
+                            # x_v.append(int(round( x_abs / self.scale)))
+                            # y_v.append(int(round( y_abs / self.scale)))
+                            # z_v.append(int(round( z_abs / self.scale)))
+                            x_v.append(x_abs)
+                            y_v.append(y_abs)
+                            z_v.append(z_abs)
                             intensity_v.append(intensity)
                             if self.lasFormat in range(6, 11):
                                 scan_angle_v.append(scan_angle)
@@ -497,68 +501,93 @@ class DART2LAS(object):
 
         stop = time.time()
         print(stop-start)
-        newh=laspy.header.Header(self.lasVersion, self.lasFormat)
-        outFile = laspy.file.File(lasFileName, mode="w", header = newh)
 
-        outFile.header.set_scale([self.scale]*3)
-        outFile.header.set_systemid('DART5                           ')   # length of 32!!!
-        outFile.header.set_softwareid('DART2LAS.py                     ')   # length of 32!!!
+
+        las = laspy.create(file_version=str(self.lasVersion), point_format=self.lasFormat)
+        las.header.scales=[self.scale]*3
+        las.header.system_identifier='DART5                           '   # length of 32!!!
+        las.header.generating_software = 'DART2LAS.py                     '  # length of 32!!!
 
         digitizer_gain = 1 / receiveWaveGain
         digitizer_offset = 0
 
+
         if self.extra_bytes:
-            outFile.define_new_dimension(name="pulse_width",
-                                         description="Full width at half maximum [ns]",
-                                         data_type=10)
-            outFile.define_new_dimension(name="amplitude",
-                                         description="Echo signal amplitude [dB]",
-                                         data_type=10)
-            description = "RIEGL Extra Bytes."
-            outFile.header.vlrs[0].description = description + "\x00"*(32-len(description))
+            las.add_extra_dims([
+                laspy.ExtraBytesParams(name="pulse_width",
+                                       description="Full width at half maximum [ns]",
+                                       type='f8'),
+                laspy.ExtraBytesParams(name="amplitude",
+                                       description="Echo signal amplitude [dB]",
+                                       type='f8')
+            ])
+            # description = "RIEGL Extra Bytes."
+            # outFile.header.vlrs[0].description = description + "\x00"*(32-len(description))
 
 
         if self.ifWriteWaveform:
-            outFile.header.set_waveform_data_packets_external(1)
-            outFile.header.set_waveform_data_packets_internal(
-                0)  # Equivalent as "outFile.header.set_global_encoding(4)"
+            # outFile.header.set_waveform_data_packets_external(1)
+            # outFile.header.set_waveform_data_packets_internal(
+            #     0)  # Equivalent as "outFile.header.set_global_encoding(4)"
 
-            gencod = bin(outFile.header.get_global_encoding())[2:].zfill(8)
-            print("Global Encoding ", gencod)
-            print("   - Waveform Data Packets Internal ", gencod[-2])
-            print("   - Waveform Data Packets External ", gencod[-3])
+            las.header.global_encoding.waveform_data_packets_external = True
 
-            # add vlr
-            waveform_compression_type = 0
-            temporal_time_spacing = int(timeStep_in_pico_second)  # integer of picosecond
-            wave_packet_desc_index_v = [1]*len(x_v)  # 1 is record_id-99, here record_id is 100
+            # gencod = bin(outFile.header.get_global_encoding())[2:].zfill(8)
+            # print("Global Encoding ", gencod)
+            # print("   - Waveform Data Packets Internal ", gencod[-2])
+            # print("   - Waveform Data Packets External ", gencod[-3])
 
             self.digitizer_gain = digitizer_gain
             self.digitizer_offset = digitizer_offset
 
-            body_fmt = laspy.util.Format(None)
-            body_fmt.add("bits_per_sample", "ctypes.c_ubyte", 1)
-            body_fmt.add("waveform_compression_type", "ctypes.c_ubyte", 1)
-            body_fmt.add("number_of_samples", "ctypes.c_ulong", 1)
-            body_fmt.add("temporal_time_spacing", "ctypes.c_ulong", 1)
-            body_fmt.add("digitizer_gain", "ctypes.c_double", 1)
-            body_fmt.add("digitizer_offset", "ctypes.c_double", 1)
+            # add vlr
 
-            print('body_fmt.pt_fmt_long', body_fmt.pt_fmt_long)
-
-            vlr_body_1 = struct.pack(body_fmt.pt_fmt_long, 16, waveform_compression_type, nbBinsConvolved,
-                                     temporal_time_spacing, digitizer_gain, digitizer_offset)
-            # vlr_body_2 = struct.pack(body_fmt.pt_fmt_long, 8, waveform_compression_type, nbBinsConvolved, temporal_time_spacing, digitizer_gain, digitizer_offset)
-
-            old_vlrs = outFile.header.vlrs
-            wave_vlr = laspy.header.VLR(user_id='LASF_Spec', record_id=100, VLR_body=vlr_body_1)
-            # wave_vlr2 = laspy.header.VLR(user_id = 'LASF_Spec', record_id = 101, VLR_body = vlr_body_2)
-            old_vlrs.append(wave_vlr)
-            # old_vlrs.append(wave_vlr2)
-            outFile.header.vlrs = old_vlrs
+            # wvf_str_format = '<BBLLdd'
+            # record_data = struct.pack(wvf_str_format, 16, 0, nbBinsConvolved, 1000, digitizer_gain, digitizer_offset)
+            # wvf_str = laspy.vlrs.known.WaveformPacketStruct.from_buffer_copy(record_data)
+            bits_per_sample = 16
+            waveform_compression_type = 0
+            number_of_samples = nbBinsConvolved
+            temporal_time_spacing = int(timeStep_in_pico_second)  # integer of picosecond
+            wvf_str = laspy.vlrs.known.WaveformPacketStruct(bits_per_sample, waveform_compression_type, number_of_samples,
+                                                            temporal_time_spacing, digitizer_gain, digitizer_offset)
 
 
-##################POINTS#################
+            # wvf_str.temporal_time_spacing = int(1000)
+            # wvf_str.digitizer_gain = 1.0
+            # wvf_str.digitizer_offset = 0.0
+
+            wvf_vlr = laspy.vlrs.known.WaveformPacketVlr(100, 'DART waveforms')
+            wvf_vlr.parsed_record = wvf_str
+
+            las.vlrs.append(wvf_vlr)
+            wave_packet_desc_index_v = [1] * len(x_v)  # select the wavepacket record_id: 1 is record_id-99, here record_id is 100
+
+            #
+            #
+            # body_fmt = laspy.util.Format(None)
+            # body_fmt.add("bits_per_sample", "ctypes.c_ubyte", 1)
+            # body_fmt.add("waveform_compression_type", "ctypes.c_ubyte", 1)
+            # body_fmt.add("number_of_samples", "ctypes.c_ulong", 1)
+            # body_fmt.add("temporal_time_spacing", "ctypes.c_ulong", 1)
+            # body_fmt.add("digitizer_gain", "ctypes.c_double", 1)
+            # body_fmt.add("digitizer_offset", "ctypes.c_double", 1)
+            #
+            # print('body_fmt.pt_fmt_long', body_fmt.pt_fmt_long)
+            #
+            # vlr_body_1 = struct.pack(body_fmt.pt_fmt_long, 16, waveform_compression_type, nbBinsConvolved,
+            #                          temporal_time_spacing, digitizer_gain, digitizer_offset)
+            # # vlr_body_2 = struct.pack(body_fmt.pt_fmt_long, 8, waveform_compression_type, nbBinsConvolved, temporal_time_spacing, digitizer_gain, digitizer_offset)
+            #
+            # old_vlrs = outFile.header.vlrs
+            # wave_vlr = laspy.vlrs.VLR(user_id='LASF_Spec', record_id=100, record_data=vlr_body_1)
+            # # wave_vlr2 = laspy.header.VLR(user_id = 'LASF_Spec', record_id = 101, VLR_body = vlr_body_2)
+            # old_vlrs.append(wave_vlr)
+            # # old_vlrs.append(wave_vlr2)
+            # outFile.header.vlrs = old_vlrs
+
+
+    ##################POINTS#################
         # remove returns more than maximum (2^3 for formats 1-5)
         if self.lasFormat in range(6, 11):
             Nmax = 2**4-1
@@ -575,42 +604,44 @@ class DART2LAS(object):
 
         # All formats variables
         if self.lasFormat not in [0, 2]:
-            outFile.set_gps_time(np.array(gpstime_v)[valid_returns])
-        outFile.set_x(np.array(x_v)[valid_returns])
-        outFile.set_y(np.array(y_v)[valid_returns])
-        outFile.set_z(np.array(z_v)[valid_returns])
-        outFile.set_intensity(np.array(intensity_v)[valid_returns])
-        outFile.set_return_num(np.array(return_num_v)[valid_returns])
-        outFile.set_num_returns(np.array(num_returns_v)[valid_returns])
+            las.gps_time = np.array(gpstime_v)[valid_returns]
+        las.x = np.array(x_v)[valid_returns]
+        las.y = np.array(y_v)[valid_returns]
+        las.z = np.array(z_v)[valid_returns]
+        las.intensity = np.array(intensity_v)[valid_returns]
+        las.return_number = np.array(return_num_v)[valid_returns]
+        las.number_of_returns = np.array(num_returns_v)[valid_returns]
 
         # Scan angle
         if self.lasFormat in range(6, 11):
-            outFile.set_scan_angle(np.array(scan_angle_v)[valid_returns])
+            las.scan_angle = np.array(scan_angle_v)[valid_returns]
         else:
-            outFile.set_scan_angle_rank(np.array(scan_angle_rank_v)[valid_returns])
+            las.scan_angle_rank = np.array(scan_angle_rank_v)[valid_returns]
 
         # Waveforms
         if self.ifWriteWaveform:
-            outFile.set_wave_packet_desc_index(np.array(wave_packet_desc_index_v)[valid_returns])
-            outFile.set_byte_offset_to_waveform_data(np.array(byte_offset_to_waveform_data_v)[valid_returns])
-            outFile.set_waveform_packet_size(np.array(waveform_packet_size_v)[valid_returns])
-            outFile.set_return_point_waveform_loc(np.array(return_point_waveform_loc_v)[valid_returns])
-            outFile.set_x_t(np.array(x_t_v)[valid_returns])
-            outFile.set_y_t(np.array(y_t_v)[valid_returns])
-            outFile.set_z_t(np.array(z_t_v)[valid_returns])
+            # [k for k in las.point_format.dimension_names]
+            las.wavepacket_index = np.array(wave_packet_desc_index_v)[valid_returns]
+            las.wavepacket_offset = np.array(byte_offset_to_waveform_data_v)[valid_returns]
+            las.wavepacket_size = np.array(waveform_packet_size_v)[valid_returns]
+            las.return_point_wave_location = np.array(return_point_waveform_loc_v)[valid_returns]
+            las.x_t = np.array(x_t_v)[valid_returns]
+            las.y_t = np.array(y_t_v)[valid_returns]
+            las.z_t = np.array(z_t_v)[valid_returns]
 
         # Extra Bytes
         if self.extra_bytes:
-            outFile.pulse_width=np.array(pulse_width_v)[valid_returns]
-            outFile.amplitude=np.array(amplitude_v)[valid_returns]
+            las.pulse_width=np.array(pulse_width_v)[valid_returns]
+            las.amplitude=np.array(amplitude_v)[valid_returns]
 
 
-        outFile.close()
+        las.write(lasFileName)
 
         dartfile.close()
 
         if self.ifWriteWaveform:
             waveformfile.close()
+
 
         return digitizer_offset, digitizer_gain
                 
@@ -690,24 +721,21 @@ def DP2LAS(inputFile, outputFile, lasFormat = 6):
     extra_col = data.columns[6:]
 
     ### Write header
-    newh = laspy.header.Header(lasVersion, lasFormat)
-    outFile = laspy.file.File(outputFile, mode="w", header=newh)
+    las = laspy.create(file_version=str(lasVersion), point_format=lasFormat)
 
-    outFile.header.set_scale([scale] * 3)
-    outFile.header.set_systemid('DART5                           ')  # length of 32!!!
-    outFile.header.set_softwareid('DART2LAS.py                     ')  # length of 32!!!
+    las.header.scales = [scale] * 3
+    las.header.system_identifier = 'DART5                           '  # length of 32!!!
+    las.header.generating_software = 'DART2LAS.py                     '  # length of 32!!!
 
     # digitizer_gain = 1 / receiveWaveGain
     # digitizer_offset = 0
 
+    extra_byte_params = []
     for c in extra_col:
-
-        outFile.define_new_dimension(name=c.lower(),
-                                     description=c.lower(),
-                                     data_type=10)
-
-    description = "DART Extra Bytes."
-    outFile.header.vlrs[0].description = description + "\x00" * (32 - len(description))
+        extra_byte_params.append(
+        laspy.ExtraBytesParams(name=c.lower(),
+                               description=c.lower(),
+                               data_type=10))
 
     ### Write data
     if lasFormat in range(6, 11):
@@ -723,17 +751,17 @@ def DP2LAS(inputFile, outputFile, lasFormat = 6):
 
     # All formats variables
     # outFile.set_gps_time(np.array(gpstime_v)[valid_returns])
-    outFile.set_x(data['X(m)']/scale)
-    outFile.set_y(data['Y(m)']/scale)
-    outFile.set_z(data['Z(m)']/scale)
+    las.x = data['X(m)']
+    las.y = data['Y(m)']
+    las.z = data['Z(m)']
     # outFile.set_intensity(np.array(intensity_v)[valid_returns])
-    outFile.set_return_num(data['ReturnIndx'])
-    outFile.set_num_returns(data['NumberReturns'])
+    las.return_number = data['ReturnIndx']
+    las.number_of_returns = data['NumberReturns']
 
     for c in extra_col:
-        setattr(outFile, c.lower(), data[c])
+        setattr(las, c.lower(), data[c])
 
-    outFile.close()
+    las.write(outputFile)
 
 if __name__ == '__main__':
 
