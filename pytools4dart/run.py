@@ -339,12 +339,14 @@ def upgrade(simu_name):
     rundart(simu_name, 'XMLUpgrader')
 
 
-def dart2las(simudir, type='bin', lasFormat=1, extra_bytes=True):
+def dart2las(simudir, las_file = None, type='bin', lasFormat=1, extra_bytes=True):
     """
     convert lidar dart output to LAS
     Parameters
     ----------
     simudir
+    las_file: str
+        Path of a .las or .laz file. If None, it is <simulation>/output/LIDAR_IMAGE_FILE.las
     type: str
         Either 'bin' to convert 'LIDAR_IMAGE_FILE.binary' or 'dp' to convert 'DetectedPoints.txt'.
     lasFormat: int
@@ -359,9 +361,11 @@ def dart2las(simudir, type='bin', lasFormat=1, extra_bytes=True):
     if not os.path.isdir(outputDpath):
         raise ValueError('Simulation output directory not found: {}'.format(outputDpath))
 
+
     if type == 'bin':
         InputFile = os.path.join(outputDpath, 'LIDAR_IMAGE_FILE.binary')
-        OutputFile = os.path.join(outputDpath, 'LIDAR_IMAGE_FILE.las')
+    if las_file is None:
+        las_file = os.path.join(outputDpath, f'LIDAR_IMAGE_FILE_{lasFormat}.las')
 
         if not os.path.isfile(InputFile):
             raise ValueError('LIDAR_IMAGE_FILE.binary not found in {}'.format(outputDpath))
@@ -377,8 +381,8 @@ def dart2las(simudir, type='bin', lasFormat=1, extra_bytes=True):
         dgain = []
         doffset = []
 
-        print('Converting binary to LAS:\n {} --> {}'.format(InputFile, OutputFile))
-        digitizer_offset, digitizer_gain = d2l.readDARTBinaryFileAndConvert2LAS(InputFile, OutputFile)
+        print('Converting binary to LAS:\n {} --> {}'.format(InputFile, las_file))
+        digitizer_offset, digitizer_gain = d2l.readDARTBinaryFileAndConvert2LAS(InputFile, las_file)
         sys.stdout.flush()
         dgain.append(digitizer_gain)
         doffset.append(digitizer_offset)
@@ -388,12 +392,12 @@ def dart2las(simudir, type='bin', lasFormat=1, extra_bytes=True):
 
     elif type == 'dp':
         InputFile = os.path.join(outputDpath, 'DetectedPoints.txt')
-        OutputFile = os.path.join(outputDpath, 'DetectedPoints.las')
-        print('{} --> {}'.format(InputFile, OutputFile))
-        DART2LAS.DP2LAS(InputFile, OutputFile, lasFormat=lasFormat)
+        las_file = os.path.join(outputDpath, 'DetectedPoints.las')
+        print('{} --> {}'.format(InputFile, las_file))
+        DART2LAS.DP2LAS(InputFile, las_file, lasFormat=lasFormat)
         print('Done.')
 
-    return (OutputFile)
+    return (las_file)
 
 
 class Run(object):
