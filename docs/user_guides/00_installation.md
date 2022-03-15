@@ -26,13 +26,14 @@ Python 3 version is recommended, as Python 2 is not maintained anymore.
 
 #### Requirements
 
-There are two distributions of `conda`:
-
-- Miniconda (~50 MB): light weight distribution of conda for command line use, 
+There are several distributions of `conda`:
+- [Mambaforge](https://github.com/conda-forge/miniforge#mambaforge) (~50 MB): recommended, as it is much faster than conda 
 - Anaconda (~500 MB): with graphical interface Anaconda Navigator.
 
-See [Ananconda/Miniconda documentation](https://docs.anaconda.com/anaconda/install) 
-for installation instructions.
+If `conda` is already installed, install mamba package to use mamba solver:
+```commandline
+conda install -n base mamba
+```
 
 #### Command line install (Linux, Mac & Windows)
 
@@ -42,12 +43,12 @@ From a terminal (or Anaconda prompt in Windows), create the new environment with
 (answer yes if asked), replacing `myptd` by the name of your choice:
 
 ```bash
-conda env create --name myptd pytools4dart/ptdvenv -v
+mamba env create --name myptd pytools4dart/ptdvenv
 ```
 
 For an update of `pytools4dart` to the latest version:
 ```bash
-conda env update --name myptd pytools4dart/ptdvenv -v
+mamba env update --name myptd pytools4dart/ptdvenv
 ```
 
 Activate the new environment:
