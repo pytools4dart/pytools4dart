@@ -26,6 +26,7 @@ dependencies:
   - rtree
   - scipy
   - pip:
+      - laszip
       - gdecomp
       - tinyobjloader==2.0.0rc5
       - git+https://gitlab.com/pytools4dart/generateds.git
