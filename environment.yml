@@ -16,6 +16,7 @@ dependencies:
   - lmfit
   - lxml
   - matplotlib
+  - numba # for prosail (otherwise numpy is reinstalled for pip version)
   - path.py
   - pip
   - plyfile
