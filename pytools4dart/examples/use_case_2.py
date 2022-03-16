@@ -167,6 +167,7 @@ for i, stack_file in enumerate(rgb_files):
     ax.set_title('CHL={}'.format(Cab[i]))
 fig.suptitle('Influence of sun azimuth angle (zenith=30°)')
 fig.show()
+fig.savefig(pjoin(simu.output_dir , 'figure_use_case_2.png'))
 
 # # produce RGB png of each element of prospect case
 # for i in range(len(Cab)):
