@@ -72,7 +72,7 @@ linux-dart:
       - cache
   only:
     - master
-    - schedules
+#    - schedules
 
 
 win-build:
@@ -127,6 +127,8 @@ conda-build:
   image: pytools4dart/miniconda-build:latest
   script:
     - ls cache
+    - conda env list
+    - conda activate ptdvenv
     - conda init bash
     - source ~/.bashrc
     - conda activate ptdvenv
@@ -187,7 +189,7 @@ pip-build:
   only:
     refs:
       - master
-      - schedules
+#      - schedules
 
 
 conda-env:
