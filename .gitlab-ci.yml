@@ -72,7 +72,7 @@ linux-dart:
       - cache
   only:
     - master
-#    - schedules
+    - schedules
 
 
 win-build:
