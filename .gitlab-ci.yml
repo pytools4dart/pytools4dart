@@ -127,7 +127,7 @@ conda-build:
   image: pytools4dart/miniconda-build:latest
   script:
     - ls cache
-    - . /opt/conda/etc/profile.d/conda.sh && conda activate ptdvenv
+#    - . /opt/conda/etc/profile.d/conda.sh && conda activate ptdvenv
     - conda env list
     - pip install -e .
     - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
