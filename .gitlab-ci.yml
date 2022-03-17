@@ -157,37 +157,37 @@ conda-build:
       - schedules
 
 
-#pip-build:
-#  stage: build
-#  image: pytools4dart/pip-build:latest
-#  script:
-#    - ls cache
-#    # install linux dependencies
-#    - pip install -e .
-#    # install DART
-#    - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
-#    - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
-##    # for v1217
-##    - sed -i -e 's/Temperature_290_310/ThermalFunction290_310/g' pytools4dart/templates/coeff_diff.xml
-#    # check examples
-#    - cd pytools4dart/examples
-#    - python use_case_0.py
-#    - python use_case_1.py
-#    - python use_case_2.py
-#    - python use_case_3.py
-#    - python use_case_4.py
-#    - python use_case_5.py
-#    - python use_case_6.py
-#    - python use_case_7.py
-#  cache:
-#    key: linux-cache
-#    paths:
-#      - cache
-#    policy: pull
-#  only:
-#    refs:
-#      - master
-#      - schedules
+pip-build:
+  stage: build
+  image: pytools4dart/pip-build:latest
+  script:
+    - ls cache
+    # install linux dependencies
+    - pip install -e .
+    # install DART
+    - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
+    - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
+#    # for v1217
+#    - sed -i -e 's/Temperature_290_310/ThermalFunction290_310/g' pytools4dart/templates/coeff_diff.xml
+    # check examples
+    - cd pytools4dart/examples
+    - python use_case_0.py
+    - python use_case_1.py
+    - python use_case_2.py
+    - python use_case_3.py
+    - python use_case_4.py
+    - python use_case_5.py
+    - python use_case_6.py
+    - python use_case_7.py
+  cache:
+    key: linux-cache
+    paths:
+      - cache
+    policy: pull
+  only:
+    refs:
+      - master
+      - schedules
 
 
 conda-env:
