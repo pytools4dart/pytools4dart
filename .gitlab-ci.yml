@@ -186,7 +186,7 @@ pip-build:
   only:
     refs:
       - master
-#      - schedules
+      - schedules
 
 
 conda-env:
