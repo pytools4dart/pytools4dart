@@ -1,26 +1,33 @@
+# 1.1.14
+## Add
+
+## Change
+
+## Fix
+
 # 1.1.13
-# Add
+## Add
 - add output to diff
 - dart2las now accepts an output file argument
 
-# Change
+## Change
 - fix back wrong direction of waveform vector looking upward (and not downward) in LAS standard (see https://github.com/ASPRSorg/LAS/wiki/Waveform-Data-Packet-Descriptors-Explained). Originally, well done by Tiangang in DART DART2LAS function.
 - add current node attributes to set_nodes even if parent node is None: 
   it may lead to wrong update or error if parent node is to be updated as a consequence of an attribute update, but let's see what happens...
 - LAS exports with laspy >= 2.0, which supports laz compression
 - update documentation with mamba for faster install (a couple of minutes instead of dozens of minutes)
 
-# Fix
+## Fix
 - fix add.optical_property and simulation.core.get_optical_properties for DART >= v1234
  
 # 1.1.12
-# Fix
+## Fix
 - conflict between pip and portray pyproject.toml --> pyproject_doc.toml
 - conflict with zip.dll between openjdk and libzip --> gdal<=3.2.1 without libzip dependency
 - headless error on windows with java3d: removed temporarly this capacity, a solution by E. Chavanon may be avalaible in next DART version.
 - wrong column type in database produced by optical_properties_db
 
-# Change
+## Change
 - default temperature property name: ThermalFunction290_310 --> Temperature_290_310
  
 # 1.1.11
