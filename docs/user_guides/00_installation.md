@@ -32,7 +32,7 @@ There are several distributions of `conda`:
 
 If `conda` is already installed, install mamba package to use mamba solver:
 ```commandline
-conda install -n base mamba
+conda install mamba -n base -c conda-forge
 ```
 
 #### Command line install (Linux, Mac & Windows)
