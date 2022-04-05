@@ -21,6 +21,7 @@ dependencies:
   - path.py
   - pip
   - plyfile
+  - psutil # for voxelisation
   - pybind11
   - pyjnius
   - pytest
