@@ -364,8 +364,8 @@ def dart2las(simudir, las_file = None, type='bin', lasFormat=1, extra_bytes=True
 
     if type == 'bin':
         InputFile = os.path.join(outputDpath, 'LIDAR_IMAGE_FILE.binary')
-    if las_file is None:
-        las_file = os.path.join(outputDpath, f'LIDAR_IMAGE_FILE_{lasFormat}.las')
+        if las_file is None:
+            las_file = os.path.join(outputDpath, f'LIDAR_IMAGE_FILE_{lasFormat}.las')
 
         if not os.path.isfile(InputFile):
             raise ValueError('LIDAR_IMAGE_FILE.binary not found in {}'.format(outputDpath))
@@ -392,7 +392,8 @@ def dart2las(simudir, las_file = None, type='bin', lasFormat=1, extra_bytes=True
 
     elif type == 'dp':
         InputFile = os.path.join(outputDpath, 'DetectedPoints.txt')
-        las_file = os.path.join(outputDpath, 'DetectedPoints.las')
+        if las_file is None:
+            las_file = os.path.join(outputDpath, 'DetectedPoints.las')
         print('{} --> {}'.format(InputFile, las_file))
         DART2LAS.DP2LAS(InputFile, las_file, lasFormat=lasFormat)
         print('Done.')
