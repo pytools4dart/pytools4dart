@@ -66,18 +66,19 @@ Check [website](https://pytools4dart.gitlab.io/pytools4dart) for details and use
 
 ## Install
 
-Recommended installation is under conda (with [mamba](https://github.com/conda-forge/miniforge#mambaforge), must faster than conda to solve environment):
+Recommended installation is under conda (with [mamba](https://github.com/conda-forge/miniforge#mambaforge), 
+much faster than conda to solve environment):
 
-```bash
+```shell
 conda install mamba -n base -c conda-forge # only if conda was installed without mamba
 mamba env create --name myptd pytools4dart/ptdvenv -v
 conda activate myptd
 python -c 'import pytools4dart as ptd; ptd.configure(r"<path to DART directory>")' # e.g. r"~/DART", r"C:\DART"
 ```
 
-See [installation guide](https://pytools4dart.gitlab.io/pytools4dart/docs/user_guides/00_installation/) for other installation modes (virtualenv, graphical interface, package update) and
+See [installation guide](https://pytools4dart.gitlab.io/pytools4dart/docs/user_guides/00_installation/) 
+for other installation modes (virtualenv, graphical interface, package update) and
 details (requirements, tests, uninstall, etc.).
-
 
 ## Citation
 
@@ -85,7 +86,6 @@ If you use __pytools4dart__, please cite the following references:
 
 Florian de Boissieu, Eric Chraibi, Claudia Lavalley, and Jean-Baptiste Féret, 2019, 
 pytools4dart: Python API to DART Radiative Transfer Simulator. https://gitlab.com/pytools4dart/pytools4dart.
-
 
 ## Acknowledgments
 
