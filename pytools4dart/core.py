@@ -418,7 +418,7 @@ class Core(object):
 
         """
         # PB with Understory top/bottom?
-        dartnodes = ptd.core_ui.utils.get_labels(r'Coeff_diff\..*(?<!Link)(\.ident)$')['dartnode']
+        dartnodes = ptd.core_ui.utils.get_labels(r'Coeff_diff\..*(?<!Link)\.ident$')['dartnode']
 
         opt_prop_list = []
         for dn in dartnodes:

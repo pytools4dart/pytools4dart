@@ -1,9 +1,10 @@
 # 1.1.14
 ## Add
-
+- `dart2las` included in simulation runners: `simu.run.dart2las(...)`.
 ## Change
 
 ## Fix
+- regex warnings in core.get_optical_properties
 
 # 1.1.13
 ## Add
