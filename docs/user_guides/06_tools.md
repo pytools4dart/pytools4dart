@@ -14,8 +14,8 @@ especially adapted to large database (100x faster than in DART).
 For examples, see https://pytools4dart.gitlab.io/pytools4dart/docs/user_guides/03_optical_properties/#prospect-database.
 - **`get_models`** : list the models available in a DART database.
 
-The following example creates a database named 'test.db', it is filled with a spectrum named 'test spectrum'
-and the model list is then extracted from the same database.
+The following example creates a database named 'test.db', fills it with a spectrum named 'test spectrum'
+and prints the model list.
 
 ```python
 from pytools4dart.tools import dbtools

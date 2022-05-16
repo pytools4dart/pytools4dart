@@ -4,7 +4,7 @@ This notebooks describes the structure and methods of core.
 ## Core content
 
 The core contains all the input xml files of DART, loaded into python objects.
-For DART version 5-7-4, it typically contains the following modules:
+It contains the following modules:
 
 - atmosphere, 
 - coeff_diff, 
@@ -28,7 +28,7 @@ simu.core.children
 ```
 
 Each `module` of core is a tree of objects corresponding to DART xml configuration file.
-Most of the available nodes can be found within the label table, that can be extracted with:
+Most of the available nodes and attributes are available in [DART parameters](../DART_parameters.md) or as a dataframe within python:
 
 ```python
 ptd.utils.get_labels()
@@ -47,12 +47,11 @@ Other useful functions for core exploration are in `pytools4dart.core_ui.utils`:
   
   - `get_nodes()`: get the subnodes corresponding to a subpath.
   - `findall()`: get all the subnodes values and paths corresonding to a regular expression.
-  - `diff()` _(deprecated)_: print the difference between core nodes or subnodes
+  - `diff()` _(deprecated)_: print the difference between core nodes or subnodes, for a whole simulation comparison see [simulation user guide](./01_simulation.md)
 
 ```python
 import pytools4dart as ptd
 from pytools4dart.core_ui.utils import get_nodes, findall, set_nodes
-
 
 print(simu.core.coeff_diff.to_string())    
 
