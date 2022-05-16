@@ -1,6 +1,8 @@
 # 1.1.14
 ## Add
-- `dart2las` included in simulation runners: `simu.run.dart2las(...)`.
+- `dart2las` included in simulation runners: `simu.run.dart2las(...)`
+- DART parameter table in documentation
+
 ## Change
 
 ## Fix
