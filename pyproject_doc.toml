@@ -7,7 +7,8 @@
 #    docs_dir = "docs"
 # output_dir = "site"
 # modules = ["pytools4dart"]
-    modules = ["pytools4dart.dart", "pytools4dart.add", "pytools4dart.core", "pytools4dart.core_ui", "pytools4dart.run", "pytools4dart.scene", "pytools4dart.sensor", "pytools4dart.sequencer", "pytools4dart.settings", "pytools4dart.simulation", "pytools4dart.source", "pytools4dart.scene", "pytools4dart.tools"]
+#, "pytools4dart.add", "pytools4dart.core", "pytools4dart.core_ui", "pytools4dart.run", "pytools4dart.scene", "pytools4dart.sensor", "pytools4dart.sequencer", "pytools4dart.settings", "pytools4dart.simulation", "pytools4dart.source", "pytools4dart.scene", "pytools4dart.tools"]
+    modules = ["pytools4dart.dart"]
     extra_markdown_extensions = ['mdx_breakless_lists']
 
 [[tool.portray.extra_markdown_extensions]]
@@ -26,8 +27,10 @@ template_dir = "templates/pdocs"
 
 [tool.portray.mkdocs]
     site_name = "pytools4dart"
-    extra_css = ['docs/style.css']
-    extra_javascript = ['https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML']
+    extra_css = ['docs/style.css', "https://cdn.datatables.net/1.12.0/css/jquery.dataTables.min.css"]
+    extra_javascript = ['https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML', 'https://code.jquery.com/jquery-3.5.1.min.js', 'https://cdn.datatables.net/1.12.0/js/jquery.dataTables.min.js', 'docs/datatable.js']
+#    extra_css = ['docs/style.css']
+#    extra_javascript = ['https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML']
 #    extra_javascript = ['docs/menu.js']
 #     [tool.portray.mkdocs.theme]
 #         name = "bootstrap"
@@ -40,3 +43,6 @@ logo = "docs/icon/pytools4dart3_icon.png"
 
 [tool.portray.mkdocs.theme.icon]
 repo='fontawesome/brands/gitlab'
+
+#    extra_css = ['docs/style.css', "https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"]
+#    extra_javascript = ['https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML', 'https://code.jquery.com/jquery-3.5.1.min.js', 'https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js', 'docs/datatable.js']

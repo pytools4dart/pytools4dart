@@ -231,6 +231,7 @@ pages:
     - cd pytools4dart/examples
     - cd $CI_PROJECT_DIR
     - cp pytools4dart/examples/README.md docs/Examples.md
+    - python gitlab-ci/dart_parameters_table.py
     - pip install --upgrade portray mdx-breakless-lists
     - portray as_html -c pyproject_doc.toml
     #    - pip install anybadge

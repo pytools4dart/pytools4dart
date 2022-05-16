@@ -67,17 +67,20 @@ Check [website](https://pytools4dart.gitlab.io/pytools4dart) for details and use
 ## Install
 
 Recommended installation is under conda (with [mamba](https://github.com/conda-forge/miniforge#mambaforge), 
-much faster than conda to solve environment):
+much faster than conda to solve environment).
+
+Download file [environment.yml](https://gitlab.com/pytools4dart/pytools4dart/-/raw/master/environment.yml?inline=false)
+and execute the following in a terminal (or Miniforge prompt in Windows):
 
 ```shell
 conda install mamba -n base -c conda-forge # only if conda was installed without mamba
-mamba env create --name myptd pytools4dart/ptdvenv -v
+mamba env create --name myptd -f environment.yml
 conda activate myptd
 python -c 'import pytools4dart as ptd; ptd.configure(r"<path to DART directory>")' # e.g. r"~/DART", r"C:\DART"
 ```
 
 See [installation guide](https://pytools4dart.gitlab.io/pytools4dart/docs/user_guides/00_installation/) 
-for other installation modes (virtualenv, graphical interface, package update) and
+for Windows requirements and for other installation modes (virtualenv, graphical interface, package update) and
 details (requirements, tests, uninstall, etc.).
 
 ## Citation
