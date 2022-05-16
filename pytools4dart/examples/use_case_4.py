@@ -136,6 +136,8 @@ simu.write(overwrite=True)
 simu.run.full()
 # Convert simulated lidar data to LAS file
 # point cloud only
-las_1 = ptd.run.dart2las(simu.simu_dir, type='bin', lasFormat=1)
+las_6 = simu.run.dart2las(lasFormat=6)
 # point cloud and waveforms
-las_9 = ptd.run.dart2las(simu.simu_dir, type='bin', lasFormat=9)
+las_9 = simu.run.dart2las(lasFormat=9)
+
+simu.output_dir.files()

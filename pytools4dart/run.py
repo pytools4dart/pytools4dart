@@ -339,9 +339,48 @@ def upgrade(simu_name):
     rundart(simu_name, 'XMLUpgrader')
 
 
-def dart2las(simudir, las_file = None, type='bin', lasFormat=1, extra_bytes=True):
+def dart2las(simudir, las_file = None, type='bin', lasFormat=None, extra_bytes=True):
     """
-    convert lidar dart output to LAS
+    Convert DART lidar output to LAS file (including waveforms if available in DART output)
+
+    Parameters
+    ----------
+    simudir: str
+        Simulation directory
+    las_file: str
+        Path of a .las or .laz file. If None, it is <simulation>/output/LIDAR_IMAGE_FILE_{lasFormat}.las
+    type: str
+        Either 'bin' to convert 'LIDAR_IMAGE_FILE.binary' or 'dp' to convert 'DetectedPoints.txt'.
+    lasFormat: int
+        Point Data Record Format as specified in LAS 1.4 R15 (https://www.asprs.org/wp-content/uploads/2019/07/LAS_1_4_r15.pdf).
+        If None, format 6 is taken for Detected Points simulation output, format 9 is taken for Waveform simulation output.
+    extra_bytes: bool
+        If True, variables other than intensity are included in LAS as extra-bytes (e.g. pulse width, amplitude, ...)
+
+    Returns
+    -------
+    str LAS file
+
+    Notes
+    -----
+    Point Data Record formats range from 0 to 10 (see https://www.asprs.org/wp-content/uploads/2019/07/LAS_1_4_r15.pdf).
+    These formats differ either on the encoding of some variable, or on the variables included.
+    Here is a list of the main characteristics of these formats:
+        - formats including GPS timestamps (used as pulse ID): 1-10
+        - formats including waveforms: 4-5, 9-10 (without waveform otherwise)
+        - formats encoding Scan Angle and Classification with 2 Bytes each and Return Number with 4 bits: 6-10 (1 Byte otherwise)
+        - formats including RGB: 2-3, 5, 7-8, 10
+
+    As RGB is not included in dart2las conversion, we recommend:
+        - format 6 for point clouds without keeping track of waveforms
+        - format 9 in order to keep track of waveforms
+
+    However, all point data record format are made available for compatibility with third party software
+    and possible comparison with other LAS files (e.g. measurements).
+    """
+
+    """
+    Convert lidar dart output to LAS
     Parameters
     ----------
     simudir
@@ -350,12 +389,12 @@ def dart2las(simudir, las_file = None, type='bin', lasFormat=1, extra_bytes=True
     type: str
         Either 'bin' to convert 'LIDAR_IMAGE_FILE.binary' or 'dp' to convert 'DetectedPoints.txt'.
     lasFormat: int
-        See specifications of LAS 1.4
+        See specifications of LAS 1.4.
     extra_bytes
 
     Returns
     -------
-    str las
+    str LAS file
     """
     outputDpath = os.path.join(simudir, 'output')
     if not os.path.isdir(outputDpath):
@@ -364,6 +403,8 @@ def dart2las(simudir, las_file = None, type='bin', lasFormat=1, extra_bytes=True
 
     if type == 'bin':
         InputFile = os.path.join(outputDpath, 'LIDAR_IMAGE_FILE.binary')
+        if lasFormat is None:
+            lasFormat = 9
         if las_file is None:
             las_file = os.path.join(outputDpath, f'LIDAR_IMAGE_FILE_{lasFormat}.las')
 
@@ -392,6 +433,8 @@ def dart2las(simudir, las_file = None, type='bin', lasFormat=1, extra_bytes=True
 
     elif type == 'dp':
         InputFile = os.path.join(outputDpath, 'DetectedPoints.txt')
+        if lasFormat is None:
+            lasFormat = 6
         if las_file is None:
             las_file = os.path.join(outputDpath, 'DetectedPoints.las')
         print('{} --> {}'.format(InputFile, las_file))
@@ -546,3 +589,45 @@ class Run(object):
             output_dir = pjoin(self.simu.output_dir, output_dir)
         return stack_bands(simu_output_dir, output_dir=output_dir, driver=driver, rotate=rotate, phasefile=phasefile,
                            zenith=zenith, azimuth=azimuth, band_sub_dir=band_sub_dir, pattern=pattern)
+
+    def dart2las(self, las_file=None, lasFormat=None, extra_bytes=True):
+        """
+        Convert DART lidar output to LAS file (including waveforms if available in DART output)
+
+        Parameters
+        ----------
+        las_file: str
+            Path of a .las or .laz file. If None, it is <simulation>/output/LIDAR_IMAGE_FILE_{lasFormat}.las
+        lasFormat: int
+            Point Data Record Format as specified in LAS 1.4 R15 (https://www.asprs.org/wp-content/uploads/2019/07/LAS_1_4_r15.pdf).
+            If None, format 6 is taken for Detected Points simulation output, format 9 is taken for Waveform simulation output.
+        extra_bytes: bool
+            If True, variables other than intensity are included in LAS as extra-bytes (e.g. pulse width, amplitude, ...)
+
+        Returns
+        -------
+        str LAS file
+
+        Notes
+        -----
+        Point Data Record formats range from 0 to 10 (see https://www.asprs.org/wp-content/uploads/2019/07/LAS_1_4_r15.pdf).
+        These formats differ either on the encoding of some variable, or on the variables included.
+        Here is a list of the main characteristics of these formats:
+            - formats including GPS timestamps (used as pulse ID): 1-10
+            - formats including waveforms: 4-5, 9-10 (without waveform otherwise)
+            - formats encoding Scan Angle and Classification with 2 Bytes each and Return Number with 4 bits: 6-10 (1 Byte otherwise)
+            - formats including RGB: 2-3, 5, 7-8, 10
+
+        As RGB is not included in dart2las conversion, we recommend:
+            - format 6 for point clouds without keeping track of waveforms
+            - format 9 in order to keep track of waveforms
+
+        However, all point data record format are made available for compatibility with third party software
+        and possible comparison with other LAS files (e.g. measurements).
+        """
+        if self.simu.core.phase.Phase.DartInputParameters.Lidar.PhotonCounting.pcDef==0:
+            type='bin'
+        elif self.simu.core.phase.Phase.DartInputParameters.Lidar.PhotonCounting.pcDef==1:
+            type='dp'
+
+        return dart2las(self.simu.simu_dir, las_file, type, lasFormat, extra_bytes)
