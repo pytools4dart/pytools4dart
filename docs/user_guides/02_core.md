@@ -109,12 +109,12 @@ print(simu.core.get_optical_properties())
 ## Modules
 
 
-Inside the modules, each node contains anywhere in the hierarchy has three essential attributes:
+Within core modules, each node has three essential attributes:
   
   - children: names of the children, i.e. subnodes.
   - attrib: names of the attributes, i.e. parameters.
   - parent: address of the parent object in the structure
- 
+
 ```python
 simu.core.phase.Phase.children
 simu.core.phase.Phase.attrib
