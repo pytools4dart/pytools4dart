@@ -29,7 +29,7 @@
 #
 # ===============================================================================
 """
-This module contains functions to make comparisons between simulation bjects.
+This module contains functions to make comparisons between simulation objects.
 """
 
 from difflib import unified_diff
