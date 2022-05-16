@@ -241,7 +241,7 @@ def optical_properties_db(db_file, name, comments='', type='lambertian',
             - 'ow': overwrites existing database (removes existing).
     verbose: bool
     kwargs:
-        Depends on type see Notes.
+        Depends on type, see Notes.
 
     Returns
     -------

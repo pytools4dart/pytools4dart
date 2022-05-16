@@ -19,18 +19,17 @@ and prints the model list.
 
 ```python
 from pytools4dart.tools import dbtools
-import os
-dbFpath = os.path.abspath('./test.db')
+from path import Path
+dbFpath = Path('./test.db').abspath()
 wavelength = [1, 2, 3]
 reflectance = [.1, .2, .3]
 direct_transmittance = [0, 0, 0]
 diffuse_transmittance = [.9, .8, .7]
 name = 'test spectrum'
-dbtools.import2db(dbFpath, name=name, wavelength=wavelength, reflectance=reflectance,
-          direct_transmittance=direct_transmittance, 
-          diffuse_transmittance=diffuse_transmittance,
-                  comments = ["# Date: 2019",
-                              "# Species: test"])
+dbtools.optical_properties_db(
+  dbFpath, name=name, wavelength=wavelength, reflectance=reflectance,
+  direct_transmittance=direct_transmittance, diffuse_transmittance=diffuse_transmittance,
+  comments = ["# Date: 2019", "# Species: test"])
 
 dbtools.get_models(dbFpath)
 ```
@@ -44,6 +43,7 @@ It supports:
     - Gaussian Decomposition (accelerated with a C++ binding, see [gdecomp](https://gitlab.com/pytools4dart/gdecomp))
     - LAS formats 1-9, i.e. to encapsulate waveforms, point clouds and extrabytes (gaussian width and amplitude of returns).
 
+DART2LAS module is integrated in runners and can be run directly after simulation with, see [dart2las](https://pytools4dart.gitlab.io/pytools4dart/reference/pytools4dart/run)
 
 ## [hstools](https://pytools4dart.gitlab.io/pytools4dart/reference/pytools4dart/tools/hstools)
 
