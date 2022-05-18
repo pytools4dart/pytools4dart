@@ -1,25 +1,23 @@
 # Installation & Configuration
 
+## Requirements:
+__Before install, Windows users__ will need [Visual Studio C++ compiler](https://visualstudio.microsoft.com/vs/features/cplusplus) to install package `tinyobjloader`, 
+which is a dependency of `pytools4dart` (for details see 
+[here](https://gitlab.com/floriandeboissieu/tinyobj) and [here](https://pybind11.readthedocs.io/en/stable/basics.html)):
+
+1. Install [Visual Studio Installer](https://visualstudio.microsoft.com/downloads/).
+
+1. Open the Visual Studio __Installer__, install community edition, select C++ Development Desktop (~9GB) and install it.
+
+
 ## Install
 
 Package __pytools4dart__ is a python API to DART, thus DART must be installed.
 Please refer to section [Install DART](#install-dart) for details.
 
+We recommend use of a conda environment to create an environment specific to your project.
+This way, packages will be installed in this conda environment and avoid any conflict with locally installed packages of other projects.
 
-__Before install, Windows users__ will need Visual Studio C++11 compiler to install package `tinyobjloader`, 
-which is a dependency of `pytools4dart` (for details see 
-[here](https://gitlab.com/floriandeboissieu/tinyobj) and [here](https://pybind11.readthedocs.io/en/stable/basics.html)):
-
-1. Install [Visual Studio Installer](https://visualstudio.microsoft.com/downloads/) (version 2015 or upper is necessary, community edition is sufficient).
-
-1. Open the Visual Studio __Installer__, choose `Modify`, select C++ Development Desktop (only MSVC and Kit SDK Windows are necessary, occupying 5 GB still...)
-and click on `Modify` to apply modifications.
-
-
-We recommend use of a virtual environment to create an environment specific to your project.
-This way, packages will be installed in this virtual environment and avoid any conflict with locally installed packages of other projects.
-
-The virtual environment can be created with Anaconda or with virtualenv.
 Python 3 version is recommended, as Python 2 is not maintained anymore.
 
 ### Conda install (recommended)
@@ -39,16 +37,18 @@ conda install mamba -n base -c conda-forge
 
 For users allergic to command line see section [Anaconda Navigator install](#anaconda-navigator-install-windows-only).
 
-From a terminal (or Anaconda prompt in Windows), create the new environment with the following command lines
+From a terminal (or Anaconda prompt in Windows), download file 
+[environment.yml](https://gitlab.com/pytools4dart/pytools4dart/-/raw/master/environment.yml?inline=false) 
+and create the new environment with the following command lines
 (answer yes if asked), replacing `myptd` by the name of your choice:
 
 ```bash
-mamba env create --name myptd pytools4dart/ptdvenv
+mamba env create --name myptd -f environment.yml
 ```
 
 For an update of `pytools4dart` to the latest version:
 ```bash
-mamba env update --name myptd pytools4dart/ptdvenv
+mamba env update --name myptd -f environment.yml 
 ```
 
 Activate the new environment:
@@ -57,14 +57,13 @@ Activate the new environment:
 conda activate myptd
 ``` 
 
-Check all packages are installed:
+Check that all packages are installed:
 
 ```bash
 python -c 'import generateDS; import tinyobjloader; import gdecomp; import laspy; import pytools4dart'
 ```
 
 In case of error, refer to section [Test environment](#test-environment).
-
 
 Configure package with your DART version (see [DART section](#dart) for install or update):
 
