@@ -5,7 +5,9 @@ For a Windows installation, see [Win10 video tutorial](https://nextcloud.inrae.f
 If you need a video tutorial for linux based install, please ask.
 
 ## Requirements:
-__Before install, Windows users__ will need [Visual Studio C++ compiler](https://visualstudio.microsoft.com/vs/features/cplusplus) for some dependencies of `pytools4dart`.
+__Before install, Windows users__ will need 
+[Visual Studio C++ compiler](https://visualstudio.microsoft.com/vs/features/cplusplus) 
+for some dependencies of `pytools4dart`:
 
 1. Install [Visual Studio Installer](https://visualstudio.microsoft.com/downloads/).
 
