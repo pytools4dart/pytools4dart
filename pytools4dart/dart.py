@@ -26,6 +26,7 @@
 #
 # ===============================================================================
 
+import tempfile
 import os
 import re
 import platform
@@ -72,11 +73,11 @@ def _get_install_files(dhome):
 def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False,
             configure=True, verbose=True):
     """
-    Install DART from zip/tar.gz archive.
+    Install DART from url or zip/tar.gz archive.
     Parameters
     ----------
-    dart_zip: str
-        Path to the downloaded DART archive, e.g. r'~/Downloads/DART_5-7-6_2020-03-06_v1150_linux64.tar.gz'.
+    x: str
+        URL or path to the downloaded DART archive, e.g. r'~/Downloads/DART_5-7-6_2020-03-06_v1150_linux64.tar.gz'.
     dart_home: str
         Directory where DART will be installed, e.g. r'~/DART'.
     user_data: str
@@ -119,6 +120,14 @@ def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False,
 
     # Unwanted cases
 
+
+    if dart_zip.startswith('https://'):
+        with tempfile.TemporaryDirectory(prefix='dart_') as tmpdir:
+            dart_zip = _download(dart_zip, tmpdir)
+            output = install(dart_zip, dart_home, user_data, overwrite, configure, verbose)
+            return output
+
+
     #### Paths of files ####
     dart_zip = Path(dart_zip).expanduser()
     dart_home = Path(dart_home).expanduser()
@@ -139,7 +148,7 @@ def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False,
     # create DART directory if does not exist
     if dart_home.exists():
         if not overwrite:
-            raise ValueError('Directory {} already exist.\n'
+            raise ValueError('Directory {} already exists.\n'
                              'Set overwrite=True to overwrite.'.format(dart_home))
         if dart_home.isfile():
             raise ValueError('{} is a file.\n'
@@ -262,8 +271,8 @@ def update(dart_zip, dart_home=None, verbose=True):
 
     Parameters
     ----------
-    dart_zip: str
-        Path to the downloaded DART archive, e.g. '~/Downloads/DART_5-7-6_2020-03-06_v1150_linux64.tar.gz'.
+    x: str
+        URL or path to the downloaded DART archive, e.g. '~/Downloads/DART_5-7-6_2020-03-06_v1150_linux64.tar.gz'.
         See https://dart.omp.eu/index.php#/download .
 
     dart_home: str
@@ -283,7 +292,7 @@ def update(dart_zip, dart_home=None, verbose=True):
     Update will overwrite dart_home/bin, dart_home/database and dart_home/tools with those of the new version.
 
     """
-    ## TODO: check version should be made before overwriting, because DART updater only works for updgrade (no downgrade).
+    ## TODO: check version should be made before overwriting, because DART updater only works for upgrade (no downgrade).
 
     dartenv = getdartenv(dart_home, verbose)
 
@@ -306,88 +315,71 @@ def update(dart_zip, dart_home=None, verbose=True):
     dart_home = install(dart_zip, dart_home, user_data=user_data, overwrite=True, verbose=verbose)
     return dart_home
 
-# def download(version='latest', output='~', system=None, nbits=64, verbose=False):
-#     """
-#     Download DART zip/tar.gz file, see Notes for license.
-#     Parameters
-#     ----------
-#     version: str
-#         Either 'latest' or 'stable'.
-#     output: str
-#         Path to directory or file.
-#     system: str
-#         System platform, i.e. 'Windows' or 'Linux'.
-#         If None, it is deduced from platform.system().
-#     nbits: int
-#         64 or 32 bits in function of OS.
-#     verbose: bool
-#
-#     Notes
-#     -----
-#
-#     **DART is distributed by Paul Sabatier University.
-#     It is freely available for research with public funding.
-#     In order to get a license, you need to register and complete the form at
-#     https://dart.omp.eu/index.php#/getDart.**
-#
-#
-#     Returns
-#     -------
-#     str
-#         Path of the downloaded file
-#     """
-#
-#     dart_version = {'latest': 'DART_5-7-6_2020-03-06_v1150',
-#                     'stable': 'DART_5-7-5_2019-08-23_v1140'}
-#
-#     if system is None:
-#         system = platform.system()
-#
-#     if system == 'Windows':
-#         file_url = dart_version[version] + '_' + system.lower() + str(nbits) + '.zip'
-#     else:
-#         system == 'Linux'
-#         file_url = dart_version[version] + '_' + system.lower() + str(nbits) + '.tar.gz'
-#
-#     if platform.system() == 'Windows':
-#         curl = 'curl.exe'
-#     else:
-#         curl = 'curl'
-#
-#     dart_url = 'https://dart.omp.eu/membre/downloadDart/contenu/DART'
-#     os_url = join(system, str(nbits) + 'bits')
-#     full_url = join(dart_url, os_url, file_url)
-#
-#     output = str(Path(os.path.expanduser(output)))
-#     if os.path.isdir(output):
-#         output = join(output, file_url)
-#
-#     command = '{curl} -o {output} {url}'.format(curl=curl, output=output, url=full_url)
-#     if verbose:
-#         print(command)
-#
-#     # If the file is completely downloaded '-C -' will avoiding re-downloading.
-#     # Otherwise (i.e. partially downloaded) DART server does not support byte range,
-#     # thus '-C -' leads to an error. Therefore, download will start from beginning (overwriting partial download).
-#     try:
-#         if os.path.isfile(output) and verbose:
-#             print('Try to resume downloading on existing file.')
-#         ok = subprocess.call(command + '-C -')
-#     except:
-#         print('Resuming download went wrong. Restarts download from the beginning.')
-#         ok = subprocess.call(command)
-#
-#     if ok != 0:
-#         raise Exception('Error downloading DART with command:\n'
-#                         '{}'.format(command))
-#
-#     if os.path.isfile(output):
-#         output = output
-#     else:
-#         raise Exception('Downloaded file not found: {}'
-#                         'an error may have occured.'.format(output))
-#
-#     return output
+def _download(url, outdir=None, verbose=False):
+    """
+    Download DART zip/tar.gz file, see Notes for license.
+    Parameters
+    ----------
+    url: str
+        Path to a DART archive (see https://dart.omp.eu/index.php#/getDart)
+    outdir: str
+        Path to directory.
+    system: str
+        System platform, i.e. 'Windows' or 'Linux'.
+        If None, it is deduced from platform.system().
+    nbits: int
+        64 or 32 bits in function of OS.
+    verbose: bool
+
+    Notes
+    -----
+
+    **DART is distributed by Paul Sabatier University.
+    It is freely available for research with public funding.
+    In order to get a license, you need to register and complete the form at
+    https://dart.omp.eu/index.php#/getDart.**
+
+
+    Returns
+    -------
+    str
+        Path of the downloaded file
+    """
+    url = Path(url)
+
+    if platform.system() == 'Windows':
+        curl = 'curl.exe'
+    else:
+        curl = 'curl'
+
+    # url_start = 'https://dart.omp.eu/membre/downloadDart/contenu/DART'
+
+    outdir = Path(outdir).expanduser()
+    if outdir.isdir():
+        output = outdir / url.name
+
+    command = '{curl} -o {output} {url}'.format(curl=curl, output=output, url=url)
+    if verbose:
+        print(command)
+
+    # If the file is completely downloaded '-C -' will avoiding re-downloading.
+    # Otherwise (i.e. partially downloaded) DART server does not support byte range,
+    # thus '-C -' leads to an error. Therefore, download will start from beginning (overwriting partial download).
+    try:
+        if output.isfile() and verbose:
+            print('Try to resume downloading on existing file.')
+        subprocess.check_call(command + '-C -', shell=True)
+    except:
+        print('Resuming download went wrong. Restarts download from the beginning.')
+        subprocess.check_call(command, shell=True)
+
+    if output.isfile():
+        output = output
+    else:
+        raise Exception('Downloaded file not found: {}'
+                        'an error may have occured.'.format(output))
+
+    return output
 
 
 def _extract(dart_zip, extract_dir=None, verbose=False):
