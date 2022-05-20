@@ -79,9 +79,12 @@ conda activate myptd
 python -c 'import pytools4dart as ptd; ptd.configure(r"<path to DART directory>")' # e.g. r"~/DART", r"C:\DART"
 ```
 
-See [installation guide](https://pytools4dart.gitlab.io/pytools4dart/docs/user_guides/00_installation/) 
-for Windows requirements and for other installation modes (virtualenv, graphical interface, package update) and
-details (requirements, tests, uninstall, etc.).
+Requirements under Windows: [Visual Studio C++ compiler](https://visualstudio.microsoft.com/vs/features/cplusplus),
+see [Win10 video tutorial](https://nextcloud.inrae.fr/s/4caRLGkb6JDEnSn)
+
+For other installation modes (virtualenv, graphical interface, package update) and
+details (requirements, tests, uninstall, etc.), 
+see [installation guide](https://pytools4dart.gitlab.io/pytools4dart/docs/user_guides/00_installation/).
 
 ## Citation
 
