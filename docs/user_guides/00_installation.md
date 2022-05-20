@@ -402,7 +402,7 @@ pip install git+https://gitlab.com/pytools4dart/pytools4dart.git@dart_v1150
 Next DART version should have the good `phase.xsd`.
 Thus, this branch will not be maintained further, it is a temporary fix.
 
-### `DLL load failed` at `jnius` import
+### DLL load failed at jnius import
 
 On conda install over windows, `from jnius import autoclass` may lead to an error of type:
 ```bash
@@ -426,7 +426,7 @@ https://github.com/kivy/pyjnius/issues/216,
 https://stackoverflow.com/questions/58078615/conda-does-not-set-up-properly-path-for-jdk-for-pyjnius, 
 https://stackoverflow.com/questions/20970732/jnius-1-1-import-error.
 
-### `Corrupted ZIP library` at `jnius` import
+### Corrupted ZIP library at jnius import
 
 On conda install over windows, `import jnius` may lead to an error of type (e.g. with use_case_5.py which uses jnius):
 ```bash
@@ -440,7 +440,7 @@ A raw solution is to force the removal of libzip and force reinstall of openjdk,
 Here are the lines to execute from a command prompt within the `ptdvenv` environment:
 ```
 conda remove --force libzip
-conda install --force-reinstall -c conda-forge openjdk
+mamba install --force-reinstall -c conda-forge openjdk
 ```
 
 To test:
@@ -454,5 +454,5 @@ python -c "import jnius"
 When configuring `pytools4dart`, the error `xml.sax._exceptions.SAXReaderNotAvailable: No parsers found` was raised for some user,
 see https://groups.google.com/g/dart-cesbio/c/_2n-WiVYAbI .
 
-It was solved updating conda with `conda update --all` .
+It was solved updating conda with `mamba update --all` .
 
