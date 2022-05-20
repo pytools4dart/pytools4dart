@@ -2,8 +2,7 @@
 ## Add
 - `dart2las` included in simulation runners: `simu.run.dart2las(...)`
 - DART parameter table in documentation
-
-## Change
+- Windows 10 tutorial for installation.
 
 ## Fix
 - regex warnings in core.get_optical_properties
