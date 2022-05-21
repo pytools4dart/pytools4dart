@@ -580,14 +580,15 @@ class voxel(object):
             grid = self.affine_transform(xy_transform, inplace=inplace)
             return grid, xy_transform
 
-    def to_plots(self, density_type='UL', keep_columns=None, reduce_xy=False):
+    def to_plots(self, pa_type='UL', keep_columns=None, reduce_xy=False, pa_column='pad', **kwargs):
         """
-        Convert to DART plots DataFrame
+        Convert to DART plots DataFrame to be included in simulation.
+
         Parameters
         ----------
-        density_type: str
-            If 'UL', column 'pad' is considered in DART as a Plant Area Density (m2/m3)
-            If 'LAI', column 'pad' is considered in DART as a Plant Area Index (m2/m2)
+        pa_type: str
+            If 'UL', pa_column is considered as a Plant Area Density (m2/m3)
+            If 'LAI', pa_column is considered as a Plant Area Index (m2/m2)
 
         keep_columns: str or list of str
             Columns from data to keep in plots DataFrame. If 'all',
@@ -595,6 +596,11 @@ class voxel(object):
         reduce_xy: bool
             If True, shift the grid minimum corner x,y=(0,0).
             In that case, the transformation array is also returned.
+
+        pa_column: str
+            The plant or leaf area column name
+
+        kwargs: for retro-compatibility
 
         Returns
         -------
@@ -618,15 +624,19 @@ class voxel(object):
 
         # See use case 3 and 6 for simulation cases
         """
+        # TODO: reorder arguments in version 2
+        if 'density_type' in kwargs.keys():
+            print('Argument "density_type" has been renamed "pa_type"')
+            pa_type = density_type
 
         res = self.header["res"][-1]
 
         # set density parameters
-        if density_type == 'LAI':
-            density_column = 'VEG_LAI'
+        if pa_type == 'LAI':
+            dart_density_column = 'VEG_LAI'
             densitydef = 0
         else:
-            density_column = 'VEG_UL'
+            dart_density_column = 'VEG_UL'
             densitydef = 1
 
         if reduce_xy:
@@ -648,19 +658,19 @@ class voxel(object):
                                                                                     'PT_3_Y', 'PT_4_Y'])], axis=1,
                            sort=False)
         # merge points with data and add other parameters
-        data = self.data.loc[(self.data['pad'] != 0) & pd.notna(self.data['pad'])].loc[:,['i', 'j', 'k', 'pad']]
+        data = self.data.loc[(self.data[pa_column] != 0) & pd.notna(self.data[pa_column])].loc[:,['i', 'j', 'k', pa_column]]
         data = data.merge(points, how='left', on=['i', 'j'])
         data['PLT_BTM_HEI'] = data.k * res + self.header["min_corner"][2]
         data['PLT_HEI_MEA'] = res
         data['VEG_DENSITY_DEF'] = densitydef
-        data.rename(columns={'pad': density_column}, inplace=True)
+        data.rename(columns={pa_column: dart_density_column}, inplace=True)
         data['PLT_TYPE'] = 1
 
         # drop index
         data.drop(['i', 'j', 'k'], axis=1, inplace=True)
         data = data.reindex(['PLT_TYPE', 'PT_1_X', 'PT_1_Y', 'PT_2_X', 'PT_2_Y', 'PT_3_X', 'PT_3_Y',
                              'PT_4_X', 'PT_4_Y', 'PLT_BTM_HEI', 'PLT_HEI_MEA',
-                             'VEG_DENSITY_DEF', density_column], axis=1, copy=False)
+                             'VEG_DENSITY_DEF', dart_density_column], axis=1, copy=False)
 
         if keep_columns == 'all':
             keep_columns = self.data.columns
@@ -669,7 +679,7 @@ class voxel(object):
 
         if keep_columns is not None and len(keep_columns) > 0:
             keep_columns = [c for c in keep_columns if c in self.data.columns]
-            data = pd.concat([data, self.data[(self.data['pad'] != 0) & pd.notna(self.data['pad'])][
+            data = pd.concat([data, self.data[(self.data[pa_column] != 0) & pd.notna(self.data[pa_column])][
                 keep_columns].reset_index(drop=True)], axis=1)
 
         if reduce_xy:

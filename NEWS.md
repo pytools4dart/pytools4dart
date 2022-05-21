@@ -1,3 +1,7 @@
+# 1.1.15
+## Change
+- in voxreader.to_plots(), argument "density_type" becomes "pa_type", and "pa_column" was added 
+
 # 1.1.14
 ## Add
 - `dart2las` included in simulation runners: `simu.run.dart2las(...)`
