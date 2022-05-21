@@ -192,17 +192,17 @@ pip-build:
       - schedules
 
 
-conda-env:
-  stage: deploy
-  image: continuumio/anaconda3:latest
-  script:
-    # Warning: fails silently when token is wrong
-    - anaconda -t $ANACONDA_TOKEN upload --user pytools4dart environment.yml
-  only:
-    refs:
-      - master
-    changes:
-      - environment.yml
+# conda-env:
+#   stage: deploy
+#   image: continuumio/anaconda3:latest
+#   script:
+#     # Warning: fails silently when token is wrong
+#     - anaconda -t $ANACONDA_TOKEN upload --user pytools4dart environment.yml
+#   only:
+#     refs:
+#       - master
+#     changes:
+#       - environment.yml
 
 make-badge:
   stage: deploy
