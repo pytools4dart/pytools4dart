@@ -1,3 +1,5 @@
+# 1.1.16
+
 # 1.1.15
 ## Change
 - in voxreader.to_plots(), argument "density_type" becomes "pa_type", and "pa_column" was added to allow user to choose 
