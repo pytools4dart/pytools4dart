@@ -2,6 +2,9 @@
 ## Change
 - in voxreader.to_plots(), argument "density_type" becomes "pa_type", and "pa_column" was added to allow user to choose 
   the column representing the plant area density or index
+- use of prospect/fluspect properties generation included in DART has changed since DART v1264. Use cases have been adapted
+  in consequence, keeping retro-compatibility with previous DART versions. Notes have also been added in the Prospect section
+  of optical properties guide.
 
 # 1.1.14
 ## Add

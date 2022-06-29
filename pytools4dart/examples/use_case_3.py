@@ -87,8 +87,7 @@ propect_prop = {'CBrown': 0, 'Cab': 30, 'Car': 5,
 op_name = 'op_prospect'
 op_vegetation = {'type': 'Vegetation',
                  'ident': op_name,
-                 'databaseName': 'prospect.db',
-                 'ModelName': '',
+                 'databaseName': 'prospect.db', # parameter used only for DART < v1264
                  'lad': 1,
                  'prospect': propect_prop}
 
