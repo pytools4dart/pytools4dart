@@ -1,6 +1,7 @@
 # 1.1.15
 ## Change
-- in voxreader.to_plots(), argument "density_type" becomes "pa_type", and "pa_column" was added 
+- in voxreader.to_plots(), argument "density_type" becomes "pa_type", and "pa_column" was added to allow user to choose 
+  the column representing the plant area density or index
 
 # 1.1.14
 ## Add
