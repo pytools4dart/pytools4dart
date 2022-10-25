@@ -176,7 +176,7 @@ def get_dart_env_linux(dartrcpath, verbose=False):
     """
     Linux version of getdartenv, see corresponding doc.
     """
-    command = ['bash', '-c', 'source ' + dartrcpath + ' && env']
+    command = ['/bin/bash', '-c', 'source ' + dartrcpath + ' && env']
 
     proc = subprocess.Popen(command, stdout=subprocess.PIPE)
 
