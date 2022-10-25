@@ -50,6 +50,7 @@ from rasterio.mask import mask
 from rasterio.transform import Affine
 from rasterio.warp import reproject, Resampling
 import tempfile
+from ..warnings import deprecated
 
 
 
@@ -189,16 +190,20 @@ class voxel(object):
                     else:
                         break
 
-        for headerline in tmp:
-            tmp2.extend(headerline.split("#")[1:])
+        header_dict = dict()
+        for l in tmp:
+            key, value = l.lstrip('#').split(':')
+            if value.startswith('('):
+                value = np.loadtxt(value.lstrip('(').rstrip(')').split(','))
+            elif value[0].isdigit():
+                if '.' not in value:
+                    value = int(value)
+                elif len(value.split('.')) == 2:
+                    value = float(value)
 
-        header = dict(map(lambda s: map(lambda s: s.strip(), s.split(':')), tmp2))
+            header_dict[key] = value
+        self.header = header_dict
 
-        for col in header:
-            if (col in ["max_corner", "min_corner", "split", "res"]):
-                header[col] = list(map(float, header[col].split(" ")))
-
-        self.header = header
 
     def _read_vox_data(self, skiprows=1):
         """
