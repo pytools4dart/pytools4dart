@@ -190,18 +190,32 @@ class voxel(object):
                     else:
                         break
 
+        # for old versions of AMAPVox (e.g. 1.6.x)
+        for headerline in tmp:
+            tmp2.extend(headerline.split("#")[1:])
+        tmp = tmp2
+
         header_dict = dict()
         for l in tmp:
             key, value = l.lstrip('#').split(':')
+            value = value.strip()
             if value.startswith('('):
                 value = np.loadtxt(value.lstrip('(').rstrip(')').split(','))
             elif value[0].isdigit():
-                if '.' not in value:
-                    value = int(value)
-                elif len(value.split('.')) == 2:
-                    value = float(value)
+                if len(value.split(' ')) > 1:  # vector
+                    value = np.loadtxt(value.split(' '))
+                else:  # numeric value
+                    if '.' not in value:
+                        value = int(value)
+                    elif len(value.split('.')) == 2:
+                        value = float(value)
 
             header_dict[key] = value
+
+        # for old versions of AMAPVox (e.g. 1.6.x)
+        if 'res' in header_dict.keys() and isinstance(header_dict['res'], float):
+            header_dict['res'] = np.array([header_dict['res']]*3)
+
         self.header = header_dict
 
 
