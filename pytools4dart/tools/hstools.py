@@ -48,11 +48,11 @@ import rasterio as rio
 
 def get_bands_files(simu_output_dir, band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART')):
     # get the number of bands
-    bands = pd.DataFrame([pjoin(simu_output_dir, s)
+    bands = pd.DataFrame(dict(path=[pjoin(simu_output_dir, s)
                           for s in os.listdir(simu_output_dir)
                           if re.match(r'BAND[0-9]+$', s)
-                          and os.path.isdir(os.path.join(simu_output_dir, s))],
-                         columns={'path'})
+                          and os.path.isdir(os.path.join(simu_output_dir, s))]))
+
     bands['band_num'] = bands.path.apply(lambda x: np.int(os.path.basename(x).split('BAND')[1]))
 
     bands['images'] = bands.path.apply(lambda x: [pjoin(x, band_sub_dir, s)
