@@ -7,7 +7,7 @@ dependencies:
   - python>=3.7
   - cython
   - colorama
-  - gdal<=3.2.1 # for windows
+  - gdal
   - geopandas
   - git
   - ipython
