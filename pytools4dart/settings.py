@@ -32,14 +32,9 @@ This module contains settings functions and others related to dart path such as 
 absolute paths.
 """
 import re
-from os.path import join as pjoin
-from os.path import expanduser
-import os
 from path import Path
 import platform
 import subprocess
-import glob
-import shutil
 import zipfile
 import pandas as pd
 import pytools4dart as ptd
@@ -55,7 +50,7 @@ def default_dartdir():
     -------
         str : Default DART directory
     '''
-    return pjoin(expanduser('~'), 'DART')
+    return Path('~').expanduser() / 'DART'
 
 
 def pytools4dartrc():
@@ -65,8 +60,7 @@ def pytools4dartrc():
     -------
         str: path of .pytools4dartrc
     '''
-    home = expanduser('~')
-    return pjoin(home, '.pytools4dartrc')
+    return Path('~').expanduser() / '.pytools4dartrc'
 
 
 def getdartdir(dartdir=None):
@@ -82,13 +76,13 @@ def getdartdir(dartdir=None):
         str: full path to DART directory
     '''
     if not dartdir:
-        if os.path.isfile(pytools4dartrc()):
+        if pytools4dartrc().isfile():
             with open(pytools4dartrc()) as f:
-                dartdir = f.read()
+                dartdir = Path(f.read())
         else:
             dartdir = default_dartdir()
     else:
-        dartdir = os.path.expanduser(dartdir)
+        dartdir = Path(dartdir).expanduser()
 
     return dartdir
 
@@ -110,8 +104,7 @@ def configure(dartdir=None):
 
     if not dartdir:
         dartdir = default_dartdir()
-
-    dartdir = expanduser(dartdir)
+    dartdir = Path(dartdir).expanduser()
 
     if not checkdartdir(dartdir):
         raise IOError('Please (re)configure pytools4dart with a valid DART directory.')
@@ -158,7 +151,7 @@ def getdartenv(dartdir=None, verbose=False):
                          'Use pytools4dart.configure(dartdir)')
 
     # Look for config.ini
-    with open(pjoin(dartdir, 'config.ini')) as f:
+    with open(dartdir / 'config.ini') as f:
         dartrcpath = f.read().rstrip()
 
     # set environmental variables
@@ -190,6 +183,9 @@ def get_dart_env_linux(dartrcpath, verbose=False):
         if verbose:
             print("{}={}".format(key, value))
 
+        if key in ('DART_HOME', 'DART_LOCAL'):
+            value = Path(value)
+
         dartenv[key] = value
 
     return {k: dartenv[k] for k in ('DART_HOME', 'DART_LOCAL', 'DART_JAVA_MAX_MEMORY',
@@ -207,11 +203,15 @@ def get_dart_env_win(dartrcpath, verbose=False):
 
     dartenv = {}
     for SetEnvMatch in SetEnvMatchList:
-        VarName = SetEnvMatch[0]
-        VarValue = SetEnvMatch[1]
+        key = SetEnvMatch[0]
+        value = SetEnvMatch[1]
         if verbose:
-            print("{}={}".format(VarName, VarValue))
-        dartenv[VarName] = VarValue
+            print("{}={}".format(key, value))
+        
+        if key in ('DART_HOME', 'DART_LOCAL'):
+            value = Path(value)
+
+        dartenv[key] = value
 
     return dartenv
 
@@ -234,13 +234,13 @@ def checkdartdir(dartdir=None):
 
     dartdir = getdartdir(dartdir)
 
-    if not os.path.isdir(dartdir):
+    if not dartdir.isdir():
         print('DART directory not found: ' + dartdir)
         return False
 
-    dartconfig = pjoin(dartdir, 'config.ini')
-    if not os.path.isfile(dartconfig):
-        print('DART configuration file not found: ' + pjoin(dartconfig))
+    dartconfig = dartdir / 'config.ini'
+    if not dartconfig.isfile():
+        print('DART configuration file not found: ' + dartconfig)
         return False
 
     dartversion = getdartversion(dartdir)
@@ -273,11 +273,10 @@ def darttools(dartdir=None):
         darttools = 'linux'
         bashext = 'sh'
 
-    toolsdir = pjoin(dartenv['DART_HOME'], 'tools', darttools)
+    toolsdir = dartenv['DART_HOME'] / 'tools' / darttools
 
-    darttoolspaths = glob.glob(pjoin(toolsdir, '*.' + bashext))
-    dtools = {os.path.splitext(os.path.basename(p))[0].replace('dart-', ''): p for p in darttoolspaths}
-
+    darttoolspaths = toolsdir.glob('*.' + bashext)
+    dtools = {p.stem.replace('dart-', ''): p for p in darttoolspaths}
     return dtools
 
 
@@ -299,7 +298,7 @@ def headlessdarttools(dartdir=None):
         currentplatform = 'linux'
 
     dartenv = getdartenv(dartdir)
-    toolsdir = pjoin(dartenv['DART_HOME'], 'tools', currentplatform)
+    toolsdir = dartenv['DART_HOME'] / 'tools' / currentplatform
 
     ## Headless seems to bring an error in TriangleProcessor at dart-maket.bat execution, leaving scene without OBJ...
     # if currentplatform == 'windows' and os.path.isdir(toolsdir):
@@ -318,8 +317,8 @@ def headlessdarttools(dartdir=None):
     #         with open(file, 'w') as f:
     #             f.write(fcont)
 
-    if currentplatform == 'linux' and os.path.isdir(toolsdir):
-        toolspath = pjoin(toolsdir, '*.sh')
+    if currentplatform == 'linux' and toolsdir.isdir():
+        toolspath = toolsdir / '*.sh'
         # add -Djava.awt.headless=true, if not already there, to DART/tools/linux/*.sh for headless servers
         print('Add flag -Djava.awt.headless=true to {} for headless servers compatibility'.format(
             toolspath))
@@ -344,7 +343,7 @@ def getsimupath(simu_name, dartdir=None):
     """
     if not simu_name:
         return None
-    return Path(getdartenv(dartdir)['DART_LOCAL']) / 'simulations' / simu_name
+    return getdartenv(dartdir)['DART_LOCAL'] / 'simulations' / simu_name
 
 
 def get_simu_input_path(simu_name, dartdir=None):
@@ -404,7 +403,7 @@ def getdartversion(dartdir=None):
     """
     dartdir = getdartdir(dartdir)
 
-    versionfile = pjoin(dartdir, 'bin', 'version')
+    versionfile = dartdir / 'bin' / 'version'
 
     with open(versionfile) as f:
         versionstr = f.readlines()[0]
@@ -473,33 +472,28 @@ def check_xmlfile_version(xmlfile, dartdir=None):
 
 def build_core(directory=None):
     if not directory:
-        directory = os.path.abspath(ptd.__path__[0])
+        directory = ptd.__path__[0]
+    directory = Path(directory)
 
-    templatesDpath = os.path.join(directory, 'templates')
-    xsdDpath = os.path.join(directory, 'xsdschemas')
-    labelsDpath = os.path.join(directory, 'labels')
+    templatesDpath = directory / 'templates'
+    xsdDpath = directory / 'xsdschemas'
+    labelsDpath = directory / 'labels'
 
     # remove templates and xsdschemas directory
-    if os.path.exists(templatesDpath):
+    if templatesDpath.exists():
         print("deleting '{}'".format(templatesDpath))
-        for s in os.listdir(templatesDpath):
-            os.remove(os.path.join(templatesDpath, s))
-        os.rmdir(templatesDpath)
+        templatesDpath.rmtree()
 
-    if os.path.exists(xsdDpath):
+    if xsdDpath.exists():
         print("deleting '{}'".format(xsdDpath))
-        for s in os.listdir(xsdDpath):
-            os.remove(os.path.join(xsdDpath, s))
-        os.rmdir(xsdDpath)
+        xsdDpath.rmtree()
 
-    if os.path.exists(labelsDpath):
+    if labelsDpath.exists():
         print("deleting '{}'".format(labelsDpath))
-        for s in os.listdir(labelsDpath):
-            os.remove(os.path.join(labelsDpath, s))
-        os.rmdir(labelsDpath)
+        labelsDpath.rmtree()
 
     try:
-        os.mkdir(templatesDpath)
+        templatesDpath.mkdir()
         print('extracting templates to ', templatesDpath)
     except:
         print("Directory ", templatesDpath, " already exists")
@@ -507,7 +501,7 @@ def build_core(directory=None):
     write_templates(templatesDpath)
 
     try:
-        os.mkdir(xsdDpath)
+        xsdDpath.mkdir()
         print('extracting schemas to ', xsdDpath)
     except:
         print("Directory ", xsdDpath, " already exists")
@@ -515,20 +509,20 @@ def build_core(directory=None):
     write_schemas(xsdDpath)
 
     try:
-        os.mkdir(labelsDpath)
+        labelsDpath.mkdir()
         print('extracting labels to ', labelsDpath)
     except:
         print("Directory ", labelsDpath, " already exists")
 
     write_labels(labelsDpath)
 
-    shutil.copyfile(os.path.join(directory, 'sequence.xsd'), os.path.join(xsdDpath, 'sequence.xsd'))
-    shutil.copyfile(os.path.join(directory, 'sequence.xml'), os.path.join(templatesDpath, 'sequence.xml'))
-    xsdnames = [s.split('.xsd')[0] for s in os.listdir(xsdDpath) if s.endswith('.xsd')]
+    (directory / 'sequence.xsd').copy(xsdDpath)
+    (directory / 'sequence.xml').copy(templatesDpath)
+    xsdnames = [s.stem for s in xsdDpath.glob('*.xsd')]
 
     # change to pytools4dart site-package directory: necessary for user_methods
-    cwd = os.getcwd()
-    os.chdir(directory)
+    cwd = Path.getcwd()
+    directory.chdir()
     ### Commented because not working with windows+conda
     # if platform.system().lower() == 'windows':
     #     generateDS='generateDS.exe' # shebang line not working on certain windows platform...
@@ -547,17 +541,17 @@ def build_core(directory=None):
                         '--post-ctor="update_node(self,self.troot,\'{xsdname}\')"',
                         '--imports="from pytools4dart.core_ui.utils import get_gs_troot, update_node, get_path, findpaths, subpaths, set_nodes"',
                         '-o "{pypath}"',
-                        '{xsdpath}']).format(user_methods=os.path.join(directory, "core_ui", 'user_methods.py'),
+                        '{xsdpath}']).format(user_methods=directory / "core_ui" / 'user_methods.py',
                                              xsdname=xsdname,
-                                             pypath=os.path.join(directory, "core_ui", xsdname + '.py'),
-                                             xsdpath=os.path.join(directory, "xsdschemas", xsdname + '.xsd'))
+                                             pypath=directory / "core_ui" / xsdname + '.py',
+                                             xsdpath=directory / "xsdschemas" / xsdname + '.xsd')
         # print('\n'+cmd+'\n')
         if sys.version_info[0] == 2:
             subprocess.call(cmd, shell=True)
         else:
             subprocess.run(cmd, shell=True)
 
-    os.chdir(cwd)  # get back to original directory
+    Path.chdir(cwd)  # get back to original directory
 
 
 def get_input_file_path(simu_name, filename, dartdir=None):
@@ -583,11 +577,18 @@ def get_input_file_path(simu_name, filename, dartdir=None):
          - $DART_HOME/database
     If none of these file is found, first path of the list is returned, i.e. absolute path if it is the case,
     $DART_HOME/user_data/simulations/input/filename otherwise
+
+    Examples
+    --------
+    >>> import pytools4dart as ptd
+    >>> simu = ptd.simulation('test_simu', empty=True)
+    >>> simu.get_input_file_path('test.txt')
+    >>> simu.get_input_file_path('plots.txt')
     """
     if filename is None:
         return
-
-    if os.path.abspath(filename) == filename:
+    filename = Path(filename)
+    if filename.abspath() == filename:
         return filename
 
     ### DO NOT SEE ORIGINAL OJECTIVE OF THIS BLOCK ###
@@ -600,20 +601,20 @@ def get_input_file_path(simu_name, filename, dartdir=None):
     # input directories
     # check in input directory recursively until reaches DART simulations directory
     if simu_name is not None:
-        base_dir = pjoin(getdartenv(dartdir)['DART_LOCAL'], 'simulations')
-        spath = simu_name.split(os.path.sep)
+        base_dir = getdartenv(dartdir)['DART_LOCAL'] / 'simulations'
+        spath = Path(simu_name).splitall()
         mainpath = [base_dir] + spath + ['input', filename]
-        filelist.append(os.path.sep.join(mainpath))
+        filelist.append(Path.joinpath(*mainpath))
         for i in range(1, len(spath)):
             ppieces = [base_dir] + spath[:-i] + ['input', filename]
-            filelist.append(os.path.sep.join(ppieces))
+            filelist.append(Path.joinpath(*ppieces))
 
     # database
-    filelist.append(pjoin(getdartdir(dartdir), 'user_data', 'database', filename))
-    filelist.append(pjoin(getdartdir(dartdir), 'database', filename))
+    filelist.append(getdartdir(dartdir) / 'user_data' / 'database' / filename)
+    filelist.append(getdartdir(dartdir) / 'database' / filename)
 
     for f in filelist:
-        if os.path.isfile(f):
+        if f.isfile():
             return f
 
     # if none exists default is first
@@ -630,7 +631,7 @@ def get_templates():
 
     """
     dartenv = getdartenv()
-    jarfile = pjoin(dartenv['DART_HOME'], 'bin', 'DARTDocument.jar')
+    jarfile = dartenv['DART_HOME'] / 'bin' / 'DARTDocument.jar'
 
     with zipfile.ZipFile(jarfile, "r") as j:
         if sys.version_info[0] == 2:
@@ -653,15 +654,16 @@ def get_schemas():
 
     """
     dartenv = getdartenv()
-    jarfile = pjoin(dartenv['DART_HOME'], 'bin', 'DARTEnv.jar')
+    jarfile = dartenv['DART_HOME'] / 'bin' / 'DARTEnv.jar'
 
     with zipfile.ZipFile(jarfile, "r") as j:
         if sys.version_info[0] == 2:
-            schemas = {os.path.basename(s).replace('.xsd', ''): j.read(s) for s in j.namelist()
+            schemas = {Path(s).stem: j.read(s) for s in j.namelist()
                        if re.match(r'schemaXml/.*\.xsd', s)}
         else:
-            schemas = {os.path.basename(s).replace('.xsd', ''): j.read(s).decode('unicode_escape') for s in j.namelist()
+            schemas = {Path(s).stem: j.read(s).decode('unicode_escape') for s in j.namelist()
                        if re.match(r'schemaXml/.*\.xsd', s)}
+
 
     return schemas
 
@@ -705,7 +707,7 @@ def get_labels(pat=None, case=False, regex=True, column='dartnode'):
     """
 
     dartenv = getdartenv()
-    jarfile = pjoin(dartenv['DART_HOME'], 'bin', 'DARTIHMSimulationEditor.jar')
+    jarfile = dartenv['DART_HOME'] / 'bin' / 'DARTIHMSimulationEditor.jar'
     labelsfile = 'cesbio/dart/ihm/DartSimulationEditor/ressources/DartIhmSimulationLabel_en.properties'
     with zipfile.ZipFile(jarfile, "r") as j:
         labels = j.read(labelsfile).decode('unicode_escape')
@@ -727,9 +729,10 @@ def get_labels(pat=None, case=False, regex=True, column='dartnode'):
 
 
 def write_templates(directory):
+    directory = Path(directory)
     xml_templates = get_templates()
     for k, v in xml_templates.items():
-        filename = pjoin(os.path.abspath(directory), k + '.xml')
+        filename = directory.abspath() / k + '.xml'
         if sys.version_info[0] == 2:
             with open(filename, 'w') as f:
                 f.write(v)
@@ -747,10 +750,11 @@ def write_schemas(directory):
     directory: str
         Path to write pytools4dart core directory (typically 'pytools4dart/xsdschemas')
     """
+    directory = Path(directory)
     xmlschemas = get_schemas()
     for k, v in xmlschemas.items():
         if k not in ['LUT']:  # patch for DART <= v1141
-            filename = pjoin(os.path.abspath(directory), k + '.xsd')
+            filename = directory.abspath() / k + '.xsd'
             if sys.version_info[0] == 2:
                 with open(filename, 'w') as f:
                     f.write(v)
@@ -768,5 +772,6 @@ def write_labels(directory):
     directory: str
         Path to write pytools4dart core directory (typically 'pytools4dart/xsdschemas')
     """
+    directory = Path(directory)
     labels = get_labels()
-    labels.to_csv(os.path.join(directory, 'labels.tab'), sep='\t', index=False, encoding='utf-8')
+    labels.to_csv(directory / 'labels.tab', sep='\t', index=False, encoding='utf-8')
