@@ -1,3 +1,5 @@
+# 1.1.17
+
 # 1.1.16
 ## Change
 - made paths strings as path.Path objects (https://github.com/jaraco/path)
