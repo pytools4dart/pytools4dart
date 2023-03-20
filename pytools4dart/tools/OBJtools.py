@@ -29,10 +29,8 @@
 """
 This module contains tools to read obj files, get obj dimensions (size), and get group names.
 """
-import sys
-import os
+from path import Path
 import pytools4dart as ptd
-import re
 from plyfile import PlyData
 import pandas as pd
 
@@ -54,8 +52,7 @@ class objreader(object):
     Examples
     --------
     >>> import pytools4dart as ptd
-    >>> from os.path import join
-    >>> file = join(ptd.getdartdir(), 'database', '3D_Objects', 'cube.obj')
+    >>> file = ptd.getdartdir() / 'database' / '3D_Objects' / 'cube.obj'
     >>> obj = ptd.OBJtools.objreader(file)
     >>> obj.names
     ['Bottom_Yellow', 'West_Magenta', 'South_Cyan', 'Top_Green', 'North_Blue', 'East_Red']
@@ -77,7 +74,8 @@ class objreader(object):
         file: str
             Path to the file
         """
-        if not os.path.isfile(file):
+        file = Path(file)
+        if not file.isfile():
             raise IOError('File not found.')
 
         obj = tinyobjloader.ObjReader()
@@ -127,8 +125,7 @@ def read(file):
     Examples
     --------
     >>> import pytools4dart as ptd
-    >>> from os.path import join
-    >>> file = join(ptd.getdartdir(), 'database', '3D_Objects', 'cube.obj')
+    >>> file = ptd.getdartdir() / 'database' / '3D_Objects' / 'cube.obj'
     >>> obj = ptd.OBJtools.objreader(file)
     >>> obj.names
     ['Bottom_Yellow', 'West_Magenta', 'South_Cyan', 'Top_Green', 'North_Blue', 'East_Red']
@@ -157,8 +154,7 @@ def get_gnames(obj):
     Examples
     --------
     >>> import pytools4dart as ptd
-    >>> from os.path import join
-    >>> file = join(ptd.getdartdir(), 'database', '3D_Objects', 'cube.obj')
+    >>> file = ptd.getdartdir() / 'database' / '3D_Objects' / 'cube.obj'
     >>> obj = ptd.OBJtools.read(file)
     >>> ptd.OBJtools.get_gnames(obj)
     ['Bottom_Yellow', 'East_Red', 'North_Blue', 'South_Cyan', 'Top_Green', 'West_Magenta']
@@ -187,8 +183,7 @@ def get_dims(obj):
     Examples
     --------
     >>> import pytools4dart as ptd
-    >>> from os.path import join
-    >>> file = join(ptd.getdartdir(), 'database', '3D_Objects', 'cube.obj')
+    >>> file = ptd.getdartdir() / 'database' / '3D_Objects' / 'cube.obj'
     >>> obj = ptd.OBJtools.read(file)
     >>> ptd.OBJtools.get_dims(obj)
     (2.000001, 2.0, 2.0)
@@ -214,8 +209,7 @@ def get_center(obj):
     Examples
     --------
     >>> import pytools4dart as ptd
-    >>> from os.path import join
-    >>> file = join(ptd.getdartdir(), 'database', '3D_Objects', 'cube.obj')
+    >>> file = ptd.getdartdir() / 'database' / '3D_Objects' / 'cube.obj'
     >>> obj = ptd.OBJtools.read(file)
     >>> ptd.OBJtools.get_center(obj)
     (4.999999999588667e-07, 0.0, 0.0)
@@ -236,8 +230,7 @@ def gnames_dart_order(group_names):
     Examples
     -------
     >>> import pytools4dart as ptd
-    >>> from os.path import join
-    >>> file = join(ptd.getdartdir(), 'database', '3D_Objects', 'cube.obj')
+    >>> file = ptd.getdartdir() / 'database' / '3D_Objects' / 'cube.obj'
     >>> group_names = []
     >>> with open(file, 'r') as f:
     ...     for ln in f:

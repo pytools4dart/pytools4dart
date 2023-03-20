@@ -4,8 +4,7 @@ This notebook aims at showing the ways of including objects into the mockup.
 
 ```python
 # imports necessary for the notebook
-import os
-import glob
+from path import Path
 import matplotlib.pyplot as plt
 import pytools4dart as ptd
 ```
@@ -34,8 +33,8 @@ f 2 1 4
 f 3 2 4
 '''
 
-objFpath = os.path.abspath('data/rectangle.obj')
-with open(objFpath, mode='w') as f:
+obj_file = Path('data').abspath()/'rectangle.obj'
+with open(obj_file, mode='w') as f:
     f.write(obj_str)
 ```
 
@@ -75,8 +74,7 @@ op_vegetation = {'type':'Lambertian',
 op = simu.add.optical_property(**op_vegetation)
 
 # object
-obj = os.path.abspath(objFpath) # add path
-obj3D = simu.add.object_3d(obj, xpos=0, ypos=0, zpos=0) # give position in scene
+obj3D = simu.add.object_3d(obj_file, xpos=0, ypos=0, zpos=0) # give position in scene
 obj3D.objectDEMMode = 2 # ignore ground for vertical anchor
 obj3D.ObjectOpticalProperties.OpticalPropertyLink.ident = 'target' # set optical property
 
@@ -86,7 +84,7 @@ simu.run.full()
 
 # show image
 rgbDpath = simu.run.colorCompositeBands(red=2, green=1, blue=0, iteration='X', outdir='rgb')
-imageFpath = glob.glob(os.path.join(rgbDpath, 'ima01*.png'))[0]
+imageFpath = rgbDpath.glob('ima01*.png')[0]
 image = plt.imread(imageFpath)
 plt.imshow(image)
 plt.show()
@@ -107,7 +105,7 @@ simu.write(overwrite=True)
 simu.run.full()
 rgbDpath = simu.run.colorCompositeBands(red=2, green=1, blue=0, iteration='X', outdir='rgb')
 
-imageFpath = glob.glob(os.path.join(rgbDpath, 'ima01*.png'))[0]
+imageFpath = rgbDpath.glob('ima01*.png')[0]
 image = plt.imread(imageFpath)
 plt.imshow(image)
 plt.show()
@@ -141,19 +139,19 @@ f 4 1 2
 f 3 2 4
 '''
 
-objFpath = os.path.abspath('data/rectangle_wrong.obj')
-with open(objFpath, mode='w') as f:
+obj_file = Path('data').abspath()/'rectangle_wrong.obj'
+with open(obj_file, mode='w') as f:
     f.write(obj_str)
 
 simu = ptd.simulation('object_3d')
 simu.name = 'object_3d_wrong_orientation' # new simulation based on previous
 obj3D = simu.scene.object3D.source[0]
-obj3D.file_src = objFpath
+obj3D.file_src = obj_file
 simu.write(overwrite=True)
 simu.run.full()
 rgbDpath = simu.run.colorCompositeBands(red=2, green=1, blue=0, iteration='X', outdir='rgb')
 
-imageFpath = glob.glob(os.path.join(rgbDpath, 'ima01*.png'))[0]
+imageFpath = rgbDpath.glob('ima01*.png')[0]
 image = plt.imread(imageFpath)
 plt.clf()
 plt.imshow(image)
@@ -172,7 +170,7 @@ simu.write(overwrite=True)
 simu.run.full()
 rgbDpath = simu.run.colorCompositeBands(red=2, green=1, blue=0, iteration='X', outdir='rgb')
 
-imageFpath = glob.glob(os.path.join(rgbDpath, 'ima01*.png'))[0]
+imageFpath = rgbDpath.glob('ima01*.png')[0]
 image = plt.imread(imageFpath)
 plt.clf()
 plt.imshow(image)
@@ -194,8 +192,8 @@ simu.name = 'ptd_Cherry_Tree' # new simulation based on previous
 # remove previous object
 obj3D = simu.core.object_3d.object_3d.ObjectList.Object = []
 # add a tree object with 2 groups
-objFpath = ptd.getdartdir()+'/database/3D_Objects/Tree/Accurate_Trees/Cherry_tree/Merisier_Adulte.obj'
-obj3D = simu.add.object_3d(objFpath, xpos=5, ypos=5, xscale=2, yscale=2, zscale=2)
+obj_file = ptd.getdartdir()/'database'/'3D_Objects'/'Tree'/'Accurate_Trees'/'Cherry_tree'/'Merisier_Adulte.obj'
+obj3D = simu.add.object_3d(obj_file, xpos=5, ypos=5, xscale=2, yscale=2, zscale=2)
 
 for g in obj3D.Groups.Group:
     print('{} : {}'.format(g.num, g.name))
@@ -213,7 +211,7 @@ simu.write(overwrite=True)
 simu.run.full()
 rgbDpath = simu.run.colorCompositeBands(red=2, green=1, blue=0, iteration='X', outdir='rgb')
 
-imageFpath = glob.glob(os.path.join(rgbDpath, 'ima01*.png'))[0]
+imageFpath = rgbDpath.glob('ima01*.png')[0]
 image = plt.imread(imageFpath)
 plt.clf()
 plt.imshow(image)

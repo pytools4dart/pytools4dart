@@ -123,7 +123,7 @@ corresponding `PLT_OPT_NUMB` and `PLT_THERM_NUMB` expected by DART.
 
 ```python
 # Example plots.txt
-plots_file = os.join.path(ptd.getdartdir(), 'database', 'plots.txt')
+plots_file = ptd.getdartdir() / 'database' / 'plots.txt'
 ptd.tools.plots.read(plots_file)
 
 ```
@@ -134,7 +134,6 @@ with a gradient of Chlorophyll concentration (`Cab` parameter in prospect).
 ```python
 import pytools4dart as ptd
 import pandas as pd
-import os
 simu = ptd.simulation('Cab_gradient', empty=True)
 
 # set scene size

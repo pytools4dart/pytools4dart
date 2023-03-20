@@ -46,15 +46,15 @@ computed from airborne lidar voxelization.*
 
 """
 import pytools4dart as ptd
-from os.path import join, dirname
+from path import Path
 import rasterio as rio
 from rasterio.plot import show
 from matplotlib import pyplot as plt
 from multiprocessing import cpu_count
 
 # Path of voxelization file
-data_dir = join(dirname(ptd.__file__), 'data')
-voxfile = join(data_dir, 'forest.vox')
+data_dir = Path(ptd.__file__).parent / 'data'
+voxfile = data_dir / 'forest.vox'
 
 # create an empty simulation
 simu = ptd.simulation(name='use_case_3', empty=True)

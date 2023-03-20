@@ -36,30 +36,25 @@ try:
 except ImportError as e:
     raise ImportError(
         str(e) + "\n\nPlease install GDAL.")
-
-import os
-from os.path import join as pjoin
 import re
 import pandas as pd
 import lxml.etree as etree
 import numpy as np
 import rasterio as rio
+from path import Path
 
-
-def get_bands_files(simu_output_dir, band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART')):
+def get_bands_files(simu_output_dir, band_sub_dir=Path.joinpath('BRF', 'ITERX', 'IMAGES_DART')):
     # get the number of bands
-    bands = pd.DataFrame(dict(path=[pjoin(simu_output_dir, s)
-                          for s in os.listdir(simu_output_dir)
-                          if re.match(r'BAND[0-9]+$', s)
-                          and os.path.isdir(os.path.join(simu_output_dir, s))]))
+    simu_output_dir = Path(simu_output_dir)
+    bands = pd.DataFrame(dict(path=[s
+                          for s in simu_output_dir.dirs('BAND*')
+                          if re.match(r'BAND[0-9]+$', s.name)]))
 
-    bands['band_num'] = bands.path.apply(lambda x: np.int(os.path.basename(x).split('BAND')[1]))
+    bands['band_num'] = bands.path.apply(lambda x: np.int(x.name.split('BAND')[1]))
 
-    bands['images'] = bands.path.apply(lambda x: [pjoin(x, band_sub_dir, s)
-                                                  for s in os.listdir(pjoin(x, band_sub_dir))
-                                                  if os.path.isfile(pjoin(x, band_sub_dir, s))
-                                                  and re.match(r'.*_VZ=.*_VA=.*\.mpr$', s)])
+    bands['images'] = bands.path.apply(lambda x: (x / band_sub_dir).files('*_VZ=*_VA=*.mpr'))
 
+    # unlist images --> path
     images = bands.drop(['path', 'images'], axis=1).join(
         pd.DataFrame(bands.images.apply(pd.Series).stack().reset_index(level=1, drop=True), columns=['path'])
     ).reset_index(drop=True)
@@ -140,7 +135,7 @@ def gdal_file(file, driver):
         raise ValueError('Driver "{}" not writable with GDAL. '
                          'See pytools4dart.hstools.gdal_drivers for available drivers.'.format(driver))
 
-    filename, ext = os.path.splitext(file)
+    filename, ext = Path(file).splitext()
     d = drivers.loc[driver]
     if ext in d.exts:
         outfile = file

@@ -54,7 +54,6 @@ it should contain position, shape and species ID
 - generate RGB acquisition images of each chlorophyll concentration
 """
 import pandas as pd
-from os.path import join as pjoin
 import pytools4dart as ptd
 import rasterio as rio
 from rasterio.plot import show
@@ -113,8 +112,8 @@ op_vegetation = {'type': 'Vegetation',
 op = simu.add.optical_property(**op_vegetation)
 
 # load inventory
-db_dir = pjoin(ptd.settings.getdartdir(), 'database')
-inventory_file = pjoin(db_dir, 'trees.txt')
+db_dir = ptd.getdartdir() / 'database'
+inventory_file = db_dir / 'trees.txt'
 inventory = pd.read_csv(inventory_file, comment='*', sep='\t')
 
 print(inventory)
@@ -150,7 +149,7 @@ print(simu)
 
 # write simulation and sequence
 simu.write(overwrite=True)
-
+simu.run.full()
 # run sequence
 simu.run.sequence('prospect_sequence')
 
@@ -166,8 +165,9 @@ for i, stack_file in enumerate(rgb_files):
     ax.set_title('CHL={}'.format(Cab[i]))
 fig.suptitle('Influence of sun azimuth angle (zenith=30°)')
 fig.show()
-fig.savefig(pjoin(simu.output_dir , 'figure_use_case_2.png'))
+fig.savefig(simu.output_dir / 'figure_use_case_2.png')
 
 # # produce RGB png of each element of prospect case
+# from path import Path
 # for i in range(len(Cab)):
-#     ptd.run.colorCompositeBands(pjoin('use_case_2', 'sequence', 'prospect_sequence_' + str(i)), 0, 1, 2, 'X', 'rgb')
+#     ptd.run.colorCompositeBands(Path.joinpath('use_case_2', 'sequence', 'prospect_sequence_' + str(i)), 0, 1, 2, 'X', 'rgb')

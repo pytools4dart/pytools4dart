@@ -29,6 +29,7 @@
 """
 This module contains the class "Sensor".
 """
+import pandas as pd
 
 
 class Sensor(object):
@@ -49,6 +50,22 @@ class Sensor(object):
     @property
     def bands(self):
         return self.simu.core.get_bands_df()
+
+    @bands.setter
+    def bands(self, x):
+
+        if x is None:
+            x=[]
+        elif isinstance(x, list) and x==[]:
+            pass
+        elif isinstance(x, pd.DataFrame):
+            if any(x.keys() != self.bands.keys()):
+                raise IOError('Input is not a bands dataframe')
+            x = x.source.to_list()
+        else:
+            raise IOError('Format not supported')
+
+        self.simu.core.phase.Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties = x
 
     @property
     def virtualDirections(self):

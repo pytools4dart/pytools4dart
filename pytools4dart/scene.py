@@ -30,8 +30,7 @@
 """
 This module contains the classes Scene, Properties, Plot_file and Tree_file
 """
-
-import os
+from path import Path
 import sys
 from .tools.constants import *
 from .core_ui.utils import findall
@@ -197,12 +196,12 @@ class Plot_file(object):
         self._data = data
 
         if filepath is not None:
-            self.filepath = filepath  # set absolute path if not None by the way
+            self.filepath = Path(filepath)  # set absolute path if not None by the way
             if data is None:
                 self.load()
         else:
             if data is not None:  # set default name
-                self.filepath = os.path.join(simu.input_dir, 'plots.txt')
+                self.filepath = simu.input_dir / 'plots.txt'
             else:
                 self.load()
 
@@ -227,7 +226,7 @@ class Plot_file(object):
         """
         Load plot file
         """
-        if self.filepath is not None and os.path.isfile(self.filepath):
+        if self.filepath is not None and self.filepath.isfile():
             print('Loading plot file: {}'.format(self.filepath))
             self.data = pd.read_csv(self.filepath, sep='\t', comment='*')
             self.update_names()
@@ -314,7 +313,7 @@ class Plot_file(object):
 
     @property
     def data(self):
-        if not self.in_memory and self.filepath is not None and os.path.isfile(self.filepath):
+        if not self.in_memory and self.filepath is not None and self.filepath.isfile():
             # check if exists
             self.load()
 
@@ -365,12 +364,13 @@ class Plot_file(object):
 
         if filepath is None:
             filepath = self.filepath
+        filepath = Path(filepath)
 
         # create directory if not found
-        if not os.path.isdir(os.path.dirname(filepath)):
+        if not filepath.parent.isdir():
             raise Exception("Directory not found: '{}'. ".format(filepath))
 
-        if os.path.isfile(filepath) and not overwrite:
+        if filepath.isfile() and not overwrite:
             raise Exception('File already exist. Set overwrite to overpass.')
 
         with open(filepath, mode='w') as f:
@@ -413,12 +413,12 @@ class Tree_file(object):
         self._data = data
 
         if filepath is not None:
-            self.filepath = filepath  # set absolute path if not None by the way
+            self.filepath = Path(filepath)  # set absolute path if not None by the way
             if data is None:
                 self.load()
         else:
             if data is not None:  # set default name
-                self.filepath = os.path.join(simu.input_dir, 'trees.txt')
+                self.filepath = simu.input_dir / 'trees.txt'
             else:
                 self.load()
 
@@ -440,7 +440,7 @@ class Tree_file(object):
             return self.data.shape
 
     def load(self):
-        if self.filepath is not None and os.path.isfile(self.filepath):
+        if self.filepath is not None and self.filepath.isfile():
             print('Loading tree file: {}'.format(self.filepath))
             self.data = pd.read_csv(self.filepath, sep='\t', comment='*')
 
@@ -461,7 +461,7 @@ class Tree_file(object):
 
     @property
     def data(self):
-        if not self.in_memory and self.filepath is not None and os.path.isfile(self.filepath):
+        if not self.in_memory and self.filepath is not None and self.filepath.isfile():
             # check if exists
             self.load()
 
@@ -510,12 +510,13 @@ class Tree_file(object):
 
         if filepath is None:
             filepath = self.filepath
+        filepath = Path(filepath)
 
         # create directory if not found
-        if not os.path.isdir(os.path.dirname(filepath)):
-            raise Exception("Directory not found: '{}'. ")
+        if not filepath.parent.isdir():
+            raise Exception(f"Directory not found: {filepath.parent}.")
 
-        if os.path.isfile(filepath) and not overwrite:
+        if filepath.isfile() and not overwrite:
             raise Exception('File already exist. Set overwrite to overpass.')
 
         if sys.version_info[0] == 2:

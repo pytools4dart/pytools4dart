@@ -38,9 +38,7 @@ DART simulation plots file.
 # Set work directory
 
 import pandas as pd
-import os
-# import pprint
-# import re
+from path import Path
 import numpy as np
 import geopandas as gpd
 from shapely.geometry import box, Polygon
@@ -100,15 +98,14 @@ class voxel(object):
         --------
         # Load the example voxel file
         >>> import pytools4dart as ptd
-        >>> from os.path import join, dirname
-        >>> data_dir = join(dirname(ptd.__file__), 'data')
-        >>> voxfile = join(data_dir, 'forest.vox')
+        >>> from path import Path
+        >>> voxfile = Path(ptd.__file__) / 'data' /'forest.vox'
         >>> vox = ptd.voxreader.voxel.from_vox(voxfile)
 
         # See use-case 3 for a simulation case
         """
         newVoxel = cls()
-        newVoxel.inputfile = os.path.expanduser(filename)
+        newVoxel.inputfile = Path(filename).expanduser()
         newVoxel._read_vox_header()  # description de la scène voxelisées
         newVoxel._read_vox_data()  # description de chaque voxel
         newVoxel._create_grid()
@@ -306,8 +303,8 @@ class voxel(object):
 
         >>> import pytools4dart as ptd
         >>> import numpy as np
-        >>> from os.path import join, dirname, basename, abspath
-        >>> voxfile = abspath(join(dirname(ptd.__file__), 'data/forest.vox'))
+        >>> from path import Path
+        >>> voxfile = Path(ptd.__file__).parent / 'data' / 'forest.vox'
         >>> vox = ptd.voxreader.voxel().from_vox(voxfile)
 
         Get the xy coordinates of the first cell of voxel grid
@@ -367,11 +364,11 @@ class voxel(object):
         containing specific leaf chemical properties, see data/README.md for details on the content.
 
         >>> import pytools4dart as ptd
-        >>> from os.path import join, dirname, basename, abspath
         >>> import geopandas as gpd
-        >>> vox_file = abspath(join(dirname(ptd.__file__), 'data/forest.vox'))
-        >>> crowns_file = abspath(join(dirname(ptd.__file__), 'data/crowns.shp'))
-
+        >>> data_dir = Path(ptd.__file__).parent / 'data'
+        >>> vox_file = data_dir / 'forest.vox'
+        >>> crowns_file = data_dir / 'crowns.shp'
+       
         >>> vox = ptd.voxreader.voxel().from_vox(vox_file)
         >>> vox.intersect(crowns_file) # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
                 i   j   k  pad  angleMean  ...  Can  Cab  CBrown  Car  id_crown
@@ -389,8 +386,8 @@ class voxel(object):
         <BLANKLINE>
         [22400 rows x 24 columns]
 
-        >>> raster_file = abspath(join(dirname(ptd.__file__), 'data/Can_Cab_Car_CBrown.tif'))
-        >>> band_names = basename(raster_file).split('.')[0].split('_')
+        >>> raster_file = Path(ptd.__file__).parent / 'data' / 'Can_Cab_Car_CBrown.tif'
+        >>> band_names = raster_file.stem.split('_')
         >>> vox.intersect(raster_file, columns=band_names) # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
                 i   j   k  pad  ...       Can        Cab       Car    CBrown
         0       0   0  19  0.0  ...  1.752778  33.722435  7.891806  0.271965
@@ -582,9 +579,9 @@ class voxel(object):
         Examples
         --------
         >>> import pytools4dart as ptd
-        >>> from os.path import join, dirname
-        >>> data_dir = join(dirname(ptd.__file__), 'data')
-        >>> voxfile = join(data_dir, 'forest.vox')
+        >>> from path import Path
+        >>> data_dir = Path(ptd.__file__) / 'data'
+        >>> voxfile = data_dir / 'forest.vox'
         >>> vox = ptd.voxreader.voxel.from_vox(voxfile)
         >>> vox.extent
         (10.0, 20.0, 30.0, 40.0)
@@ -646,7 +643,7 @@ class voxel(object):
         # TODO: reorder arguments in version 2
         if 'density_type' in kwargs.keys():
             print('Argument "density_type" has been renamed "pa_type"')
-            pa_type = density_type
+            pa_type = kwargs['density_type']
 
         res = self.header["res"][-1]
 
@@ -737,9 +734,9 @@ class voxel(object):
         Examples
         --------
         >>> import pytools4dart as ptd
-        >>> from os.path import join, dirname
-        >>> data_dir = join(dirname(ptd.__file__), 'data')
-        >>> voxfile = join(data_dir, 'forest.vox')
+        >>> from path import Path
+        >>> import numpy as np
+        >>> voxfile = Path(ptd.__file__).parent / 'data' / 'forest.vox'
         >>> vox = ptd.voxreader.voxel.from_vox(voxfile)
         >>> vop = np.array([[0.453990499739275, 0.891006524188506, 0.0, -650363.659927172],\
                 [-0.891006524188506, 0.453990499739275, 0.0, -9491.23042430705],\
@@ -813,9 +810,10 @@ class voxel(object):
             r.write(data)
 
         if reproject and ((transform.b!=0) or (transform.d!=0)):
-            tmp_file = tempfile.NamedTemporaryFile(suffix='.tif').name
-            _reproject_without_rotation(raster_file, tmp_file)
-            os.replace(tmp_file, raster_file)
+            with tempfile.TemporaryDirectory() as tempdir:
+                tmp_file = Path(tempdir) / Path(raster_file).name
+                _reproject_without_rotation(raster_file, tmp_file)
+                tmp_file.move(raster_file)
 
         return raster_file
 

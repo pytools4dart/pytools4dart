@@ -30,14 +30,12 @@
 Define and run dart sequences
 Contains Class Sequence and Class Sequence_runners
 """
-import os
+from path import Path
 import re
 import pytools4dart as ptd
 from lxml import etree
 import pandas as pd
 from functools import reduce
-import glob
-from os.path import join as pjoin
 from multiprocessing import cpu_count
 
 from .core_ui.utils import findall
@@ -51,8 +49,8 @@ class Sequencer(object):
     def __init__(self, simu, name=None, empty=False, ncpu=None):
         self.simu = simu
         self.core = None
-        if not empty and name is not None and os.path.isfile(os.path.join(self.simu.simu_dir, name + '.xml')):
-            self.core = ptd.sequence.parse(os.path.join(self.simu.simu_dir, name + '.xml'), silence=True)
+        if not empty and name is not None and (self.simu.simu_dir / name + '.xml').isfile():
+            self.core = ptd.sequence.parse(self.simu.simu_dir / name + '.xml', silence=True)
         else:
             if name is None:
                 name = 'sequence'
@@ -240,7 +238,7 @@ class Sequencer(object):
                     length = len(e.args.split(';'))
                 else:
                     length = int(e.args.split(';')[2])
-                glist.append([group, key.split('.')[-1], values, length, type, os.path.splitext(key)[0], e])
+                glist.append([group, key.split('.')[-1], values, length, type, Path(key).stem, e])
         columns = ['group', 'parameter', 'values', 'length', 'type', 'path', 'source']
         df = pd.DataFrame(glist, columns=columns)[columns]
         return df
@@ -265,8 +263,6 @@ class Sequencer(object):
 
         return grid
 
-        # pjoin(self.simu.getsimupath, 'sequence',
-
     def write(self, file=None, overwrite=False, verbose=True):
         """
 
@@ -288,9 +284,9 @@ class Sequencer(object):
 
         """
         if file is None:
-            file = os.path.join(self.simu.simu_dir, self.name + '.xml')
+            file = self.simu.simu_dir / self.name + '.xml'
 
-        if not overwrite and os.path.isfile(file):
+        if not overwrite and file.isfile():
             raise Exception('File already exists:\n\t{}'.format(file))
 
         # with open(file, 'w') as f:
@@ -318,7 +314,7 @@ class Sequencer(object):
 
         """
 
-        return os.path.join(self.simu.simu_dir, os.path.basename(self.simu.name) + '_' + self.name + '.db')
+        return self.simu.simu_dir / Path(self.simu.name).name + '_' + self.name + '.db'
 
 
 class Sequence_runners(object):
@@ -350,7 +346,7 @@ class Sequence_runners(object):
         ptd.run.sequence(simu_name, sequence_name, option, timeout)
 
     def stack_bands(self, driver='ENVI', rotate=True, zenith=0, azimuth=0,
-                    band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART')):
+                    band_sub_dir=Path.joinpath('BRF', 'ITERX', 'IMAGES_DART')):
         """
         Stack bands into an ENVI .bil file.
 
@@ -375,14 +371,14 @@ class Sequence_runners(object):
             output files path
         """
 
-        sequence_dir = pjoin(self.sequence.simu.simu_dir, 'sequence', self.sequence.name + '*')
-        dirlist = glob.glob(sequence_dir)
+        sequence_dir = self.sequence.simu.simu_dir / 'sequence'
+        dirlist = sequence_dir.glob(self.sequence.name + '*')
         outfiles = []
         for d in dirlist:
-            phasefile = pjoin(d, 'input', 'phase.xml')
-            if not os.path.isfile(phasefile):
+            phasefile = d / 'input' / 'phase.xml'
+            if not phasefile.isfile():
                 phasefile = self.sequence.simu.get_input_file_path('phase.xml')
-            simu_output_dir = pjoin(d, 'output')
+            simu_output_dir = d / 'output'
             outfile = ptd.run.stack_bands(simu_output_dir, driver=driver, rotate=rotate,
                                           phasefile=phasefile, zenith=zenith, azimuth=azimuth,
                                           band_sub_dir=band_sub_dir)

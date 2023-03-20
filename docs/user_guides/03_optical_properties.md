@@ -81,7 +81,6 @@ It reduces the generation of prospect properties and its storage in an optical p
 Here is an example for the generation of the database for 
 1000 prospect properties (~10s computation time):
 ```python
-from os.path import join as pjoin
 import pandas as pd
 import numpy as np
 import pytools4dart as ptd
@@ -91,7 +90,7 @@ size = 1000
 prospect_properties = pd.DataFrame({'N': np.random.uniform(1,3,size),
                                     'Cab': np.random.uniform(0,30,size),
                                     'Car': np.random.uniform(0,5,size)})
-db_file = pjoin(ptd.getdartenv()['DART_LOCAL'], 'database', 'prospect_example.db')
+db_file = ptd.getdartenv()['DART_LOCAL'] / 'database' / 'prospect_example.db')
 prospect_properties = ptd.dbtools.prospect_db(db_file, **prospect_properties)
 toc = time.time()
 print(toc - tic)

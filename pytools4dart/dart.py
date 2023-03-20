@@ -27,13 +27,12 @@
 # ===============================================================================
 
 import tempfile
-import os
+from path import Path
 import re
 import platform
 from shutil import unpack_archive
 # see https://stackoverflow.com/questions/1868714/how-do-i-copy-an-entire-directory-of-files-into-an-existing-directory-using-pyth
 from distutils.dir_util import copy_tree
-from path import Path
 import subprocess
 from .settings import getdartenv
 from .settings import configure as ptdconfig
@@ -300,7 +299,7 @@ def update(dart_zip, dart_home=None, verbose=True):
     if dart_home is None:
         if verbose:
             print('Getting DART_HOME path from pytools4dart current configuration.')
-        if not os.path.isdir(dartenv["DART_HOME"]):
+        if not dartenv["DART_HOME"].isdir():
             raise FileNotFoundError('DART_HOME directory no found: '+dartenv["DART_HOME"])
         dart_home = dartenv["DART_HOME"]
 
@@ -308,7 +307,7 @@ def update(dart_zip, dart_home=None, verbose=True):
     if verbose:
         print('Getting DART_LOCAL from DART configuration in {}.'.format(dart_home))
 
-    if not os.path.isdir(dartenv["DART_LOCAL"]):
+    if not dartenv["DART_LOCAL"].isdir():
         raise FileNotFoundError('DART_LOCAL directory (e.g. user_data) no found: '+dartenv["DART_LOCAL"])
 
     user_data = dartenv["DART_LOCAL"]

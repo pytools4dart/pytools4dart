@@ -48,7 +48,6 @@ Build a basic hyperspectral case based on use case 0:
 
 import pandas as pd
 import numpy as np
-from os.path import join as pjoin
 import pytools4dart as ptd
 from multiprocessing import cpu_count
 import glob
@@ -94,17 +93,17 @@ sequence.write(overwrite=True)
 sequence.run.dart()
 
 # stack bands from sequence files
-sequence_dir = pjoin(sequence.simu.simu_dir, 'sequence', sequence.name + '*')
-dirlist = glob.glob(sequence_dir)
+sequence_dir = sequence.simu.simu_dir / 'sequence'
+dirlist = sequence_dir.glob(sequence.name + '*')
 band_files = []
 wvl = []
 for d in dirlist:
-    simu_output_dir = pjoin(d, 'output', '')
+    simu_output_dir = d / 'output'
     bf = ptd.hstools.get_bands_files(simu_output_dir)
     band_files.append(bf.loc[(bf.zenith==0) & (bf.azimuth==0)].path.iloc[0])
-    phasefile = pjoin(d, 'input', 'phase.xml')
+    phasefile = d / 'input' / 'phase.xml'
     wvl.append(ptd.hstools.get_wavelengths(phasefile)) # get wavelength information
-outputfile = pjoin(simu.simu_dir, 'stack.bil')
+outputfile = simu.simu_dir / 'stack.bil'
 wvl = pd.concat(wvl, ignore_index=True)
 wvl['band_file']=band_files
 wvl = wvl.sort_values('wavelength')
@@ -124,7 +123,7 @@ try:
         # r=r.assign_coords(band=wvl.wavelength)
         p = r.isel(x=1, y=1).plot(x='wavelength') # plot spectrum of pixel 1,1
         # p[0].figure.show()
-        p[0].figure.savefig(pjoin(simu.simu_dir, 'pxiel[1,1]_spectrum.png'))
+        p[0].figure.savefig(simu.simu_dir / 'pxiel[1,1]_spectrum.png')
 except Exception as e:
     print(e)
     print('Something went wrong with figure, it could not be generated.')

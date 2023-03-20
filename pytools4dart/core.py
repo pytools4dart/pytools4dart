@@ -30,9 +30,7 @@
 """
 This module contains the class "Core".
 """
-
-import os, glob, re
-from os.path import join as pjoin
+from path import Path
 import re
 import platform
 from multiprocessing import cpu_count
@@ -56,7 +54,7 @@ class Core(object):
         self.dartversion = getdartversion()
         self.children = self.get_modules_names()
 
-        if simu.name is not None and not empty and os.path.isdir(self.simu.simu_dir):
+        if simu.name is not None and not empty and self.simu.simu_dir.isdir():
             self.load()
         else:
             modules = self.get_modules_names()  # ["plots", "phase", "atmosphere", "coeff_diff", "directions", "object_3d","maket","inversion","trees","water","urban"]
@@ -89,10 +87,9 @@ class Core(object):
         :param dir_path: directory paty
         :return: list of file names
         """
-        templatesDpath = pjoin(ptd.__path__[0], "templates")
-        templates = glob.glob(pjoin(templatesDpath, "*.xml"))
-        modules = [os.path.splitext(os.path.basename(f))[0] for f in templates]
-        modules = [m for m in modules if m != 'sequence']
+        templatesDpath = Path(ptd.__path__[0]) / "templates"
+        templates = templatesDpath.glob("*.xml")
+        modules = [f.stem for f in templates if f.stem != 'sequence']
         modules.sort()
         return modules
 
@@ -110,7 +107,7 @@ class Core(object):
         """
         modules = self.get_modules_names()
         for module in modules:
-            filepath = pjoin(self.simu.input_dir, module + '.xml')
+            filepath = self.simu.input_dir / module + '.xml'
             # check version
             if check_version:
                 check_xmlfile_version(filepath)
@@ -324,6 +321,9 @@ class Core(object):
         rows_to_add = [[b.meanLambda, b.deltaLambda, b] for b in bands]
 
         return pd.DataFrame(rows_to_add, columns=['wavelength', 'bandwidth', 'source'])
+
+    def empty_bands(self):
+        self.phase.Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties = []
 
     def get_virtual_directions(self):
         virtualDirs = []

@@ -54,7 +54,6 @@ The scene is 4x5 m with a line of plots with increasing chlorophyll at the botto
 """
 
 import pytools4dart as ptd
-from os.path import join, dirname, basename
 import numpy as np
 import rasterio as rio
 from rasterio.plot import show
@@ -104,7 +103,7 @@ simu.scene.size = [4, 5]
 for wvl in [0.655, 0.555, 0.485]:
     simu.add.band(wvl=wvl, bw=0.07)
 
-db_file = join(ptd.getdartenv()['DART_LOCAL'], 'database', 'prospect_uc6.db')
+db_file = ptd.getdartenv()['DART_LOCAL'] / 'database' / 'prospect_uc6.db'
 prop_table = ptd.dbtools.prospect_db(db_file, Cab=np.arange(4.), mode='ow')
 
 # simu.add.bands({'wvl':[0.485, 0.555, 0.655], 'fwhm':0.07})

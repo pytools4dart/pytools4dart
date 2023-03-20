@@ -49,7 +49,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import sqlite3
 import numpy as np
-from os.path import join as pjoin
 import pytools4dart as ptd
 from multiprocessing import cpu_count
 
@@ -126,5 +125,5 @@ plt.xlabel('Wavelength [nm]')
 plt.ylabel('Reflectance')
 plt.legend(title='Chl [mg/m3]')
 # plt.show()
-plt.savefig(pjoin(simu.output_dir, 'R_Chl.png'))
+plt.savefig(simu.output_dir / 'R_Chl.png')
 plt.close()

@@ -7,18 +7,11 @@ Created on Aug 25, 2017
 @author: Grégoire Couderc : contribution to format specification.
 '''
 
-import re
 import sys
-import os
-import os.path
 import struct
 import math
-import warnings
-from datetime import date
 import argparse
 import laspy
-from pprint import pprint
-import datetime
 import numpy as np
 from .GaussianDecomposition import *
 from gdecomp import GaussianDecomposition

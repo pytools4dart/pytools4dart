@@ -34,9 +34,6 @@ This module contains the class "Adds".
 
 import pytools4dart as ptd
 from pytools4dart.sequencer import Sequencer
-import re
-import os
-
 from pytools4dart.tools.constants import *
 from pytools4dart.core_ui.utils import get_labels, get_nodes, findall, set_nodes
 
@@ -837,7 +834,7 @@ class Add(object):
         """
 
         if file is None:
-            file = os.path.join(self.simu.input_dir, 'plots.txt')
+            file = self.simu.input_dir / 'plots.txt'
 
         # check if the dataframe has the good format
         if data is not None:
@@ -919,7 +916,7 @@ class Add(object):
         """
 
         if file is None:
-            file = os.path.join(self.simu.input_dir, 'trees.txt')
+            file = self.simu.input_dir / 'trees.txt'
 
         # check if the dataframe has the good format
         if data is not None:

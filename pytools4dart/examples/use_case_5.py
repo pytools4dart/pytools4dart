@@ -52,7 +52,7 @@ Prospect properties of voxel columns are attributed by intersection with a crown
 """
 
 import pytools4dart as ptd
-from os.path import join, dirname, basename
+from path import Path
 import geopandas as gpd
 import pandas as pd
 import rasterio as rio
@@ -93,9 +93,9 @@ def add_prospect_properties(op0, df):
 
 
 # Path of voxelization file
-data_dir = join(dirname(ptd.__file__), 'data')
-vox_file = join(data_dir, 'forest.vox')
-crowns_file = join(data_dir, 'crowns.shp')
+data_dir = Path(ptd.__file__).parent / 'data'
+vox_file = data_dir / 'forest.vox'
+crowns_file = data_dir / 'crowns.shp'
 
 # create an empty simulation
 simu = ptd.simulation(name='use_case_5', empty=True)
@@ -127,7 +127,7 @@ crowns = gpd.read_file(crowns_file)
 vox.intersect(crowns, inplace=True)
 
 # generate prospect optical properties database
-db_file = join(ptd.getdartenv()['DART_LOCAL'], 'database', 'prospect_example.db')
+db_file = ptd.getdartenv()['DART_LOCAL'] / 'database' / 'prospect_example.db'
 prop_table = ptd.dbtools.prospect_db(db_file, **vox.data[['Can', 'Cab', 'Car', 'CBrown']], mode='ow')
 
 # add optical properties to simulation
@@ -194,14 +194,14 @@ if False:  # pass to True to simulate this case
     op0 = op_df.loc[(op_df.type == 'Vegetation') & (op_df.ident == 'default_leaf')].source.iloc[0]
     op0.parent.UnderstoryMulti = [op0]
 
-    properties_file = join(data_dir, 'Can_Cab_Car_CBrown.tif')
+    properties_file = data_dir / 'Can_Cab_Car_CBrown.tif'
 
     vox = ptd.voxreader.voxel().from_vox(vox_file)
-    band_names = basename(properties_file).split('.')[0].split('_')
+    band_names = properties_file.stem.split('_')
     vox.intersect(properties_file, columns=band_names, inplace=True)
 
     # generate prospect optical properties database
-    db_file = join(ptd.getdartenv()['DART_LOCAL'], 'database', 'prospect_example.db')
+    db_file = ptd.getdartenv()['DART_LOCAL'] / 'database' / 'prospect_example.db'
     prop_table = ptd.dbtools.prospect_db(db_file, **vox.data[['Can', 'Cab', 'Car', 'CBrown']], mode='ow')
 
     add_prospect_properties(op0, prop_table)

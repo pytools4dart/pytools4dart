@@ -33,8 +33,7 @@ See DART_HOME/bin/tools/linux/*.sh or DART_HOME\\bin\\windows\\*.bat for details
 """
 from .settings import darttools, getdartdir, getdartenv
 import subprocess
-import os
-from os.path import join as pjoin
+from path import Path
 import sys
 import pytools4dart as ptd
 from .tools.DART2LAS import DART2LAS
@@ -69,14 +68,14 @@ def rundart(path, tool, options=[], timeout=None):
         raise ValueError('DART tool not found.')
 
     # simulationName = re.findall(re.compile("^" + ))
-    tooldir, toolname = os.path.split(dtools[tool])
-    cdir = os.getcwd()
-    os.chdir(tooldir)
+    tooldir = dtools[tool].parent
+    cdir = Path.getcwd()
+    tooldir.chdir()
     if len(options):
         options = [str(s) for s in options]
     command = [dtools[tool], path] + options
     ok = subprocess.call(command, timeout=timeout)
-    os.chdir(cdir)
+    Path.chdir(cdir)
     if ok != 0:
         raise Exception('Error in ' + tool + ' : ' + str(ok))
 
@@ -200,7 +199,7 @@ def sequence(simu_name, sequence_name, option='-start', timeout=None):
     bool
         True if good
     """
-    return rundart(pjoin(simu_name, sequence_name + '.xml'), 'sequence', [option], timeout=timeout)
+    return rundart(Path(simu_name) / sequence_name + '.xml', 'sequence', [option], timeout=timeout)
 
 
 def colorComposite(simu_name, red, green, blue, pngfile):
@@ -254,7 +253,7 @@ def colorCompositeBands(simu_name, red, green, blue, iteration, outdir):
         True if good
     """
     ans = rundart(simu_name, 'colorCompositeBands', [red, green, blue, iteration, outdir])
-    outpath = pjoin(ptd.getsimupath(simu_name), 'output', outdir)
+    outpath = ptd.getsimupath(simu_name) / 'output' / outdir
     if ans:
         print("\nImages saved in '{}'\n".format(outpath))
         return outpath
@@ -263,7 +262,7 @@ def colorCompositeBands(simu_name, red, green, blue, iteration, outdir):
 
 
 def stack_bands(simu_output_dir, output_dir=None, driver='ENVI', rotate=True, phasefile=None, zenith=0, azimuth=0,
-                band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART'), pattern=None):
+                band_sub_dir=Path('BRF') / 'ITERX' / 'IMAGES_DART', pattern=None):
     """
     Stack bands into an ENVI .bil file
 
@@ -300,22 +299,22 @@ def stack_bands(simu_output_dir, output_dir=None, driver='ENVI', rotate=True, ph
 
     if output_dir is None:
         output_dir = simu_output_dir
+    output_dir = Path(output_dir)
+
 
     bands = ptd.hstools.get_bands_files(simu_output_dir, band_sub_dir=band_sub_dir)
     if pattern is not None:
-        subset = bands.loc[:, 'path'].apply(os.path.basename).str.contains('test', regex=True, na=False)
+        subset = bands.loc[:, 'path'].apply(Path.basename).str.contains(pattern, regex=True, na=False)
         bands = bands[subset]
 
     band_files = bands.path[(bands.zenith == zenith) & (bands.azimuth == azimuth)]
 
-
-    if os.path.isfile(phasefile):
+    if phasefile is not None and Path(phasefile).isfile():
         wvl = ptd.hstools.get_wavelengths(phasefile)
 
-    outputfile = pjoin(output_dir, os.path.basename(band_files.iloc[0]))
+    outputfile = output_dir / Path(band_files.iloc[0]).name
 
-    if not os.path.isdir(output_dir):
-        os.mkdir(output_dir)
+    output_dir.mkdir_p()
 
     outputfile = ptd.hstools.stack_dart_bands(band_files, outputfile, driver=driver, rotate=rotate,
                                               wavelengths=wvl.wavelength.values,
@@ -396,19 +395,20 @@ def dart2las(simudir, las_file = None, type='bin', lasFormat=None, extra_bytes=T
     -------
     str LAS file
     """
-    outputDpath = os.path.join(simudir, 'output')
-    if not os.path.isdir(outputDpath):
+    simudir = Path(simudir)
+    outputDpath = simudir / 'output'
+    if not outputDpath.isdir():
         raise ValueError('Simulation output directory not found: {}'.format(outputDpath))
 
 
     if type == 'bin':
-        InputFile = os.path.join(outputDpath, 'LIDAR_IMAGE_FILE.binary')
+        InputFile = outputDpath / 'LIDAR_IMAGE_FILE.binary'
         if lasFormat is None:
             lasFormat = 9
         if las_file is None:
-            las_file = os.path.join(outputDpath, f'LIDAR_IMAGE_FILE_{lasFormat}.las')
+            las_file = outputDpath / f'LIDAR_IMAGE_FILE_{lasFormat}.las'
 
-        if not os.path.isfile(InputFile):
+        if not InputFile.isfile():
             raise ValueError('LIDAR_IMAGE_FILE.binary not found in {}'.format(outputDpath))
 
         d2l = DART2LAS.DART2LAS()
@@ -429,14 +429,14 @@ def dart2las(simudir, las_file = None, type='bin', lasFormat=None, extra_bytes=T
         doffset.append(digitizer_offset)
         # export gain values
         df = pd.DataFrame(dict(gain=dgain, offset=doffset))
-        df.to_csv(os.path.join(simudir, 'output', 'waveform2las_gains.txt'), sep='\t', index=False)
+        df.to_csv(simudir / 'output' / 'waveform2las_gains.txt', sep='\t', index=False)
 
     elif type == 'dp':
-        InputFile = os.path.join(outputDpath, 'DetectedPoints.txt')
+        InputFile = outputDpath / 'DetectedPoints.txt'
         if lasFormat is None:
             lasFormat = 6
         if las_file is None:
-            las_file = os.path.join(outputDpath, 'DetectedPoints.las')
+            las_file = outputDpath / 'DetectedPoints.las'
         print('{} --> {}'.format(InputFile, las_file))
         DART2LAS.DP2LAS(InputFile, las_file, lasFormat=lasFormat)
         print('Done.')
@@ -552,7 +552,7 @@ class Run(object):
         return colorCompositeBands(self.simu.name, red, green, blue, iteration, outdir)
 
     def stack_bands(self, output_dir=None, driver='ENVI', rotate=True, zenith=0, azimuth=0,
-                    band_sub_dir=pjoin('BRF', 'ITERX', 'IMAGES_DART'), pattern=None):
+                    band_sub_dir=Path('BRF') / 'ITERX' / 'IMAGES_DART', pattern=None):
         """
         Stack bands into an ENVI .bil file
 
@@ -585,8 +585,10 @@ class Run(object):
 
         phasefile = self.simu.get_input_file_path('phase.xml')
         simu_output_dir = self.simu.output_dir
-        if (output_dir is not None) and (not os.path.isdir(os.path.dirname(output_dir))):
-            output_dir = pjoin(self.simu.output_dir, output_dir)
+        if (output_dir is not None):
+            output_dir = Path(output_dir)
+            if not output_dir.parent.isdir():
+                output_dir = simu_output_dir / output_dir
         return stack_bands(simu_output_dir, output_dir=output_dir, driver=driver, rotate=rotate, phasefile=phasefile,
                            zenith=zenith, azimuth=azimuth, band_sub_dir=band_sub_dir, pattern=pattern)
 

@@ -32,8 +32,7 @@ This module contains functions to build properties or prospect database and to e
 
 import sqlite3
 import pandas as pd
-import os
-from os.path import join as pjoin
+from path import Path
 from pytools4dart.settings import getdartdir, getdartenv
 import tempfile
 import subprocess
@@ -75,8 +74,8 @@ def import2db(dbFpath, name, wavelength, reflectance, direct_transmittance, diff
         name of the property as recorded in the database
     """
 
-    dartDBmanager = os.path.join(getdartdir(), "bin", "python_script", "DatabaseManager", "main.py")
-    python27DART = os.path.join(getdartdir(), "bin", "python2", "python")
+    dartDBmanager = getdartdir() / "bin" / "python_script" / "DatabaseManager" / "main.py"
+    python27DART = getdartdir() / "bin" / "python2" / "python"
     clean = lambda varStr: re.sub(r'\W|^(?=\d)', '_', varStr)
     nname = clean(name)
 
@@ -86,37 +85,35 @@ def import2db(dbFpath, name, wavelength, reflectance, direct_transmittance, diff
         raise Exception('Type not implemented.')
 
     try:
-        tmpdir = tempfile.mkdtemp()
-        tmpfile = os.path.join(tmpdir, prefix + '_' + nname + '.txt')
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmpfile = Path(tmpdir) / prefix + '_' + nname + '.txt'
 
-        # write file
-        df = pd.DataFrame(dict(wavelength=wavelength, reflectance=reflectance,
-                               direct_transmittance=direct_transmittance, diffuse_transmittance=diffuse_transmittance))
+            # write file
+            df = pd.DataFrame(dict(wavelength=wavelength, reflectance=reflectance,
+                                direct_transmittance=direct_transmittance, diffuse_transmittance=diffuse_transmittance))
 
-        # reorder columns to avoid wrong db internal reordering at along reflectance instead of wavelength
-        df = df.reindex(['wavelength', 'reflectance', 'direct_transmittance', 'diffuse_transmittance'], axis=1,
-                        copy=False)
-        with open(tmpfile, 'w') as f:
-            f.write('\n'.join(comments) + '\n')
-            df.to_csv(f, sep=';', encoding='utf8', header=True, index=False)
+            # reorder columns to avoid wrong db internal reordering at along reflectance instead of wavelength
+            df = df.reindex(['wavelength', 'reflectance', 'direct_transmittance', 'diffuse_transmittance'], axis=1,
+                            copy=False)
+            with open(tmpfile, 'w') as f:
+                f.write('\n'.join(comments) + '\n')
+                df.to_csv(f, sep=';', encoding='utf8', header=True, index=False)
 
-        command = [python27DART, dartDBmanager, "import", dbFpath, tmpdir, os.path.basename(tmpfile)]
+            command = [python27DART, dartDBmanager, "import", dbFpath, tmpdir, tmpfile.name]
 
-        if verbose:
-            print('executed command:\n' + ' '.join(command))
+            if verbose:
+                print('executed command:\n' + ' '.join(command))
 
-        p = subprocess.Popen(command, stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE)  # lancement de la commande pour créer la database
+            p = subprocess.Popen(command, stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE)  # lancement de la commande pour créer la database
 
-        output, error = p.communicate()
-        p.wait()
+            output, error = p.communicate()
+            p.wait()
 
-        print(output.decode("utf-8"))
-        print(error.decode("utf-8"))
+            print(output.decode("utf-8"))
+            print(error.decode("utf-8"))
 
     except:
-        os.remove(tmpfile)
-        os.rmdir(tmpdir)
         raise Exception('Problem')
 
     return nname
@@ -155,7 +152,7 @@ def get_models(dbname, search=True):
     if search:
         dbfile = search_dbfile(dbname)
     else:
-        dbfile = os.path.expanduser(dbname)
+        dbfile = Path(dbname).expanduser()
 
     conn = sqlite3.connect(dbfile)
     models = pd.read_sql('select * from _comments', conn)
@@ -180,16 +177,18 @@ def search_dbfile(dbname='Lambertian_vegetation.db'):
 
     """
 
-    dartdbfile = os.path.join(getdartdir(), 'database', dbname)
-    userdbfile = os.path.join(getdartenv()['DART_LOCAL'], 'database', dbname)
+    dbname = Path(dbname)
+    dartdbfile = getdartdir() / 'database' / dbname
+    userdbfile = getdartenv()['DART_LOCAL'] / 'database' / dbname
 
-    if os.path.isfile(dbname):
-        return os.path.abspath(dbname)
 
-    if os.path.isfile(userdbfile):
+    if dbname.expanduser().isfile():
+        return dbname.expanduser()
+
+    if userdbfile.isfile():
         return userdbfile
 
-    if os.path.isfile(dartdbfile):
+    if dartdbfile.isfile():
         return dartdbfile
 
     raise ValueError('Database not found: ' + dbname)
@@ -264,7 +263,6 @@ def optical_properties_db(db_file, name, comments='', type='lambertian',
     >>> import pytools4dart as ptd
     >>> import pandas as pd
     >>> import sqlite3
-    >>> from os.path import join
     >>> from pytools4dart.tools.dbtools import optical_properties_db, search_dbfile, get_models
 
     # copy a lambertian property into new database
@@ -274,7 +272,7 @@ def optical_properties_db(db_file, name, comments='', type='lambertian',
     >>> models = pd.read_sql('select * from _comments', conn)
     >>> comments = models.loc[models.model == name].Comments.iloc[0]
     >>> data = pd.read_sql('select * from {}'.format(name), conn).drop('Id', axis=1)
-    >>> new_db_file = join(ptd.getdartenv()['DART_LOCAL'],'database', 'test.db')
+    >>> new_db_file = ptd.getdartenv()['DART_LOCAL'] / 'database' / 'test.db'
     >>> optical_properties_db(new_db_file, name, **data.to_dict(), comments=comments, mode='ow')
     'acer_alnus_fraxinus_tilia_wood'
 
@@ -300,7 +298,7 @@ def optical_properties_db(db_file, name, comments='', type='lambertian',
         1                     test_spectrum
         Name: model, dtype: object
     """
-    db_file = os.path.expanduser(db_file)
+    db_file = Path(db_file).expanduser()
     clean = lambda varStr: re.sub(r'\W|^(?=\d)', '_', varStr)
     name = clean(name)
     if isinstance(comments, list):
@@ -319,12 +317,12 @@ def optical_properties_db(db_file, name, comments='', type='lambertian',
     if set(kwargs.keys()) != set(columns):
         raise Exception('Expected arguments for type "{}" are: {}'.format(type, str(columns)))
 
-    fexist = os.path.isfile(db_file)
+    fexist = db_file.isfile()
     if fexist:
         if mode == 'ow':
             if verbose:
                 print('Remove '+db_file)
-            os.remove(db_file)
+            db_file.remove()
             fexist = False
         elif mode == 'w':
             raise ValueError('Database already exist: change mode to append or overwrite.')
@@ -443,12 +441,11 @@ def prospect_db(db_file, N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can
     >>> import pytools4dart as ptd
     >>> import pandas as pd
     >>> import numpy as np
-    >>> import os
     >>> size = 100
     >>> np.random.seed(0)
 
     >>> user_data = ptd.getdartenv()['DART_LOCAL']
-    >>> db_file = os.path.join(user_data, 'database', 'prospect_test.db')
+    >>> db_file = user_data / 'database' / 'prospect_test.db'
 
     >>> properties = pd.DataFrame({'N':np.random.uniform(1,3,size), 'Cab':np.random.uniform(0,30,size),\
                    'Car':np.random.uniform(0,5,size), 'Can':np.random.uniform(0,2,size)})
@@ -483,10 +480,11 @@ def prospect_db(db_file, N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can
         # (see https://stackoverflow.com/questions/59758009/sqlite3-connection-object-has-no-attribute-backup)
         raise Exception('Python>=3.7 is needed for option inmem=True. Update python or set inmem=False.')
 
-    fexist = os.path.isfile(db_file)
+    db_file = Path(db_file).expanduser()
+    fexist = db_file.isfile()
     if fexist:
         if mode == 'ow':
-            os.remove(db_file)
+            db_file.remove()
             fexist = False
         elif mode == 'w':
             raise ValueError('Database already exist: change mode to append or overwrite.')
@@ -549,9 +547,9 @@ def _prospect_table(N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can=0,
     #                   '5': pjoin(fdir, 'Prospect_5_2008.txt')}
 
     # Prosail prospect files
-    fdir = os.path.dirname(prosail.__file__)
-    prospect_files = {'D': pjoin(fdir, 'prospect_d_spectra.txt'),
-                      '5': pjoin(fdir, 'prospect5_spectra.txt')}
+    fdir = Path(prosail.__file__).parent
+    prospect_files = {'D': fdir / 'prospect_d_spectra.txt',
+                      '5': fdir / 'prospect5_spectra.txt'}
     file_hashs = {k: _get_file_hash(v) for k, v in prospect_files.items()}
     df = pd.DataFrame({'N': N, 'Cab': Cab, 'Car': Car, 'CBrown': CBrown, 'Cw': Cw, 'Cm': Cm, 'Can': Can,
                        'PSI': .0, 'PSII': .0, 'V2Z': -999., 'prospect_version': prospect_version})
@@ -738,9 +736,9 @@ def _get_prospect_file(prospect_version='D'):
     str
 
     """
-    fdir = os.path.dirname(prosail.__file__)
-    prospect_files = {'D': pjoin(fdir, 'prospect_d_spectra.txt'),
-                      '5': pjoin(fdir, 'prospect5_spectra.txt')}
+    fdir = Path(prosail.__file__).parent
+    prospect_files = {'D': fdir / 'prospect_d_spectra.txt',
+                      '5': fdir / 'prospect5_spectra.txt'}
     return prospect_files[prospect_version]
 
 
@@ -752,11 +750,11 @@ def _run_fluspect(N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can=0,
     Run fluspect of DART
     """
     # 100ms
-    sys.path.append(pjoin(getdartdir(), 'bin', 'python_script', 'Fluspect', 'src'))
+    sys.path.append(Path.joinpath(getdartdir(), 'bin', 'python_script', 'Fluspect', 'src'))
     from Fluspect_B_CX_P6 import fluspect_B_CX_P6
 
     if prospect_file is None:
-        prospect_file = pjoin(getdartdir(), 'database', 'Prospect_Fluspect', 'Optipar2017_ProspectD.txt')
+        prospect_file = Path.joinpath(getdartdir(), 'database', 'Prospect_Fluspect', 'Optipar2017_ProspectD.txt')
 
     fileData = np.loadtxt(prospect_file)  # 20ms
 

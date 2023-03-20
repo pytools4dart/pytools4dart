@@ -39,9 +39,6 @@ some summary dataframes (such as plots, lambda, optprops, etc) are associated to
 They are extracted on the fly from the core.
 """
 
-import os
-import glob
-from os.path import join as pjoin
 from multiprocessing import cpu_count
 
 # local imports
@@ -182,7 +179,7 @@ class simulation(object):
         return get_input_file_path(self.name, filename)
 
     def get_database_dir(self):
-        return pjoin(getdartdir(), "database")
+        return getdartdir() / "database"
 
     def write(self, overwrite=False, verbose=True):
         """
@@ -201,25 +198,25 @@ class simulation(object):
         # create directories
         simuDpath = self.simu_dir
         # keep all that is in simuDpath
-        if not os.path.isdir(simuDpath):
-            os.mkdir(simuDpath)
-
+        if not simuDpath.isdir():
+            simuDpath.mkdir()
+        
         inputDpath = self.input_dir
-        if os.path.isdir(inputDpath):
+        if inputDpath.isdir():
             if overwrite:  # remove file
                 # tempfile was considered however the plots.xml can be large if lots of plots,
                 # thus this option wasn't further investigated
-                for f in glob.glob(os.path.join(inputDpath, '*.xml')):
-                    os.remove(f)
+                for f in inputDpath.glob('*.xml'):
+                    f.remove()
             else:
                 raise Exception('Simulation already exists.')
         else:
-            os.mkdir(inputDpath)
+            inputDpath.mkdir()
 
         # write inputs
         modules = self.core.get_modules_names()
         for module in modules:
-            file = pjoin(inputDpath, module + '.xml')
+            file = inputDpath / module + '.xml'
             obj = getattr(self.core, module)
             with open(file, 'w') as f:
                 obj.export(f, level=0)

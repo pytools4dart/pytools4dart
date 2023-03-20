@@ -35,27 +35,26 @@ def test_use_cases():
     Test use cases in example directory
     """
     import sys
-    import os
-    import glob
+    from path import Path
     import subprocess
 
     # change to current file directory
-    cwd = os.curdir
+    cwd = Path.getcwd()
     # print(cwd)
     # os.chdir(os.path.dirname(os.path.abspath(__file__)))
     # print(__file__)
-    example_dir = os.path.realpath(os.path.dirname(__file__) + '/../examples')
+    example_dir = Path(__file__).parent.parent / 'examples'
     # print(example_dir)
-    use_case_list = sorted(glob.glob(os.path.join(example_dir, 'use_case_*.py')))
+    use_case_list = sorted(example_dir.glob('use_case_[0-9].py'))
     print('Use case list :\n', use_case_list)
 
     for uc in use_case_list:
-        fname = os.path.basename(uc)
+        fname = uc.name
         print('\n\n{head}\n# {uc} #\n{head}\n'.format(head='#'*(len(fname)+4), uc=fname))
-        os.chdir(os.path.dirname(uc))
+        uc.parent.chdir()
         cmd = ' '.join([sys.executable, uc])
         res = subprocess.run(cmd, shell=True)
         assert res.returncode == 0
 
     # go back to original directory
-    os.chdir(cwd)
+    cwd.chdir()
