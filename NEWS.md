@@ -1,4 +1,12 @@
 # 1.1.16
+## Change
+- made paths strings as path.Path objects (https://github.com/jaraco/path)
+- remove gdal version constraint in environment.yml
+
+## Fix
+- fix new format of AMAPVox outputs
+- fix issue #30: hstools.get_bands_file ValueError("columns cannot be a set"), maybe other locations to fix...
+- fix error message when calling get_dart_env_linux from docker
 
 # 1.1.15
 ## Change
