@@ -77,10 +77,6 @@ op = simu.add.optical_property(type='Vegetation',
 # add a turbid plot
 plot = simu.add.plot(type='Vegetation', op_ident='turbid_leaf')
 
-# add a sequence named 'prospect_sequence',
-# with empty=True to avoid loading an existing sequence with the same name
-sequence = simu.add.sequence('prospect_sequence', empty=True)
-print(simu)
 
 # show simulation content
 # write simulation
@@ -88,6 +84,11 @@ simu.write(overwrite=True)
 
 # run simulation
 simu.run.full()
+
+# add a sequence named 'prospect_sequence',
+# with empty=True to avoid loading an existing sequence with the same name
+sequence = simu.add.sequence('prospect_sequence', empty=True)
+print(simu)
 
 sequence.add_item(group='prospect', key='Cab', values=range(0, 30, 10), corenode=op)
 # sequence.add_item(group='prospect', key='Car', values=range(0,15,5), corenode=op)

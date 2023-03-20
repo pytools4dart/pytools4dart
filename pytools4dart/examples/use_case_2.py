@@ -149,7 +149,7 @@ print(simu)
 
 # write simulation and sequence
 simu.write(overwrite=True)
-simu.run.full()
+
 # run sequence
 simu.run.sequence('prospect_sequence')
 
