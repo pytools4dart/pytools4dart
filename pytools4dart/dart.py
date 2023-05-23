@@ -246,7 +246,6 @@ def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False,
 
     with open(dart_launcher_file, 'w', encoding='utf-8') as f:
         f.write(dart_launcher)
-    if platform.system() == 'Windows':
         dart_launcher_file.chmod(0o744)  # set as executable for user
 
     with open(dartrc_file, 'w', encoding='utf-8') as f:
