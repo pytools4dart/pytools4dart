@@ -728,7 +728,7 @@ def DP2LAS(inputFile, outputFile, lasFormat = 6):
         extra_byte_params.append(
         laspy.ExtraBytesParams(name=c.lower(),
                                description=c.lower(),
-                               data_type=10))
+                               type='double'))
 
     ### Write data
     if lasFormat in range(6, 11):
