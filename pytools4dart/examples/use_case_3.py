@@ -87,7 +87,7 @@ propect_prop = {'CBrown': 0, 'Cab': 30, 'Car': 5,
 op_name = 'op_prospect'
 op_vegetation = {'type': 'Vegetation',
                  'ident': op_name,
-                 'databaseName': 'prospect.db', # parameter used only for DART < v1264
+                #  'databaseName': 'prospect.db', # uncomment for DART < v1264
                  'lad': 1,
                  'prospect': propect_prop}
 
@@ -98,7 +98,7 @@ vox = ptd.voxreader.voxel().from_vox(voxfile)
 # Convert vox to DART plots shifting minimum x,y corner to 0,0
 plots, xy_transform = vox.to_plots(reduce_xy=True)
 # add an optical property to each plot
-plots['PLT_OPT_NAME'] = 'op_prospect'
+plots['PLT_OPT_NAME'] = op_name
 # add plots to simulation
 simu.add.plots(plots)
 
