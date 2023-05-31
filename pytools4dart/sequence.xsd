@@ -30,6 +30,7 @@
     <xs:attribute name="deleteAll" type="xs:boolean" default="false" />
     <xs:attribute name="deleteAtmosphere" type="xs:boolean" default="false" />
     <xs:attribute name="deleteAtmosphereMaket" type="xs:boolean" default="true" />
+    <xs:attribute name="deleteBandFolder" type="xs:boolean" default="false" />
     <xs:attribute name="deleteDartLut" type="xs:boolean" default="true" />
     <xs:attribute name="deleteDartSequenceur" type="xs:boolean" default="true" />
     <xs:attribute name="deleteDartTxt" type="xs:boolean" default="true" />
@@ -38,6 +39,7 @@
     <xs:attribute name="deleteLibPhase" type="xs:boolean" default="true" />
     <xs:attribute name="deleteMaket" type="xs:boolean" default="true" />
     <xs:attribute name="deleteMaketTreeResults" type="xs:boolean" default="true" />
+    <xs:attribute name="deleteScnFiles" type="xs:boolean" default="true" />
     <xs:attribute name="deleteTreePosition" type="xs:boolean" default="true" />
     <xs:attribute name="deleteTriangles" type="xs:boolean" default="true" />
     <xs:attribute name="demGeneratorLaunched" type="xs:boolean" default="true" />
