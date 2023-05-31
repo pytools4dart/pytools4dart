@@ -1,3 +1,5 @@
+# 1.1.18
+
 # 1.1.17
 ## Fix
 - new options to remove image outputs (bands) in sequence
