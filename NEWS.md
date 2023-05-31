@@ -1,4 +1,9 @@
 # 1.1.17
+## Fix
+- new options to remove image outputs (bands) in sequence
+- remove databaseName for prospect properties in use_case_3 (only necessary for DART < v1264)
+- fix DP2LAS extrabyte data_type
+- change permissions of dart to executable when installing with ptd.dart.install
 
 # 1.1.16
 ## Change
