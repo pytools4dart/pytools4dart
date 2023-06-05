@@ -300,9 +300,9 @@ def _complete_hdr(hdrfile, wavelengths, fwhms):
 
     with open(hdrfile, 'w') as f:
         if wavelengths is not None:
-            hdr = hdr + '\nwavelength   = {' + ", ".join([np.str(wvl) for wvl in wavelengths]) + '}'
+            hdr = hdr + '\nwavelength   = {' + ", ".join([str(wvl) for wvl in wavelengths]) + '}'
         if fwhms is not None:
-            hdr = hdr + '\nfwhm   = {' + ", ".join([np.str(fwhm) for fwhm in fwhms]) + '}'
+            hdr = hdr + '\nfwhm   = {' + ", ".join([str(fwhm) for fwhm in fwhms]) + '}'
         f.write(hdr)
 
 
