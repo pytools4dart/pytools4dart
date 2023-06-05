@@ -50,7 +50,7 @@ def get_bands_files(simu_output_dir, band_sub_dir=Path.joinpath('BRF', 'ITERX', 
                           for s in simu_output_dir.dirs('BAND*')
                           if re.match(r'BAND[0-9]+$', s.name)]))
 
-    bands['band_num'] = bands.path.apply(lambda x: np.int(x.name.split('BAND')[1]))
+    bands['band_num'] = bands.path.apply(lambda x: int(x.name.split('BAND')[1]))
 
     bands['images'] = bands.path.apply(lambda x: (x / band_sub_dir).files('*_VZ=*_VA=*.mpr'))
 
@@ -326,7 +326,7 @@ def get_wavelengths(phasefile):
     root = phase.getroot()
     tmp = []
     for node in root.xpath('//SpectralIntervalsProperties'):
-        band_num = np.int(node.attrib['bandNumber'])
+        band_num = int(node.attrib['bandNumber'])
         fwhm = np.float(node.attrib['deltaLambda'])
         wavelength = np.float(node.attrib['meanLambda'])
         tmp.append([band_num, fwhm, wavelength])
