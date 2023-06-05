@@ -28,6 +28,7 @@ dependencies:
   - rasterio
   - rtree
   - scipy
+  - rioxarray
   - pip:
       - laszip
       - gdecomp
