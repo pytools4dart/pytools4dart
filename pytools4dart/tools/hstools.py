@@ -62,8 +62,8 @@ def get_bands_files(simu_output_dir, band_sub_dir=Path.joinpath('BRF', 'ITERX', 
     imangles = list()
     for row in images.itertuples():
         angles = row.path.split('_VZ=')[1].split('_VA=')
-        zenith = np.float(angles[0].replace('_', '.'))
-        azimuth = np.float(angles[1].replace('_', '.').replace('.mpr', ''))
+        zenith = float(angles[0].replace('_', '.'))
+        azimuth = float(angles[1].replace('_', '.').replace('.mpr', ''))
         imangles.append([zenith, azimuth])
 
     images = images.join(pd.DataFrame(imangles, columns=['zenith', 'azimuth']))
@@ -327,8 +327,8 @@ def get_wavelengths(phasefile):
     tmp = []
     for node in root.xpath('//SpectralIntervalsProperties'):
         band_num = int(node.attrib['bandNumber'])
-        fwhm = np.float(node.attrib['deltaLambda'])
-        wavelength = np.float(node.attrib['meanLambda'])
+        fwhm = float(node.attrib['deltaLambda'])
+        wavelength = float(node.attrib['meanLambda'])
         tmp.append([band_num, fwhm, wavelength])
 
     df = pd.DataFrame(tmp, columns=['band_num', 'fwhm', 'wavelength'])
