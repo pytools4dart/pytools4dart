@@ -88,10 +88,9 @@ op_trunk = {'type': 'Lambertian',
 simu.add.optical_property(**op_trunk)
 tree_file = ptd.getdartdir() + '/database/3D_Objects/Tree/Accurate_Trees/Cherry_tree/Merisier_Adulte.obj'
 tree = simu.add.object_3d(tree_file, xpos=2.5, ypos=2.5, xscale=3, yscale=3, zscale=3)
-tree.Groups.Group[0].GroupOpticalProperties.OpticalPropertyLink.ident = 'leaf'
-tree.Groups.Group[0].GroupOpticalProperties.BackFaceOpticalProperty.OpticalPropertyLink.ident = 'leaf'
-tree.Groups.Group[1].GroupOpticalProperties.OpticalPropertyLink.ident = 'trunk'
-tree.Groups.Group[1].GroupOpticalProperties.BackFaceOpticalProperty.OpticalPropertyLink.ident = 'trunk'
+tree.Groups.Group[0].GroupOpticalProperties.doubleFace = 1 # since v1328 default has changed for doubleFace=0, thus it is forced for retro-compatibility
+tree.Groups.Group[0].set_nodes(ident = 'leaf') # set both forward and backward properties ident
+tree.Groups.Group[1].set_nodes(ident = 'trunk')
 
 # # add plots from voxelized data
 # vox = ptd.voxreader.voxel().from_vox("../data/forest.vox")
