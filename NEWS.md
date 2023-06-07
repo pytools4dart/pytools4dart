@@ -1,3 +1,5 @@
+# 1.1.19
+
 # 1.1.18
 ## Fix
 - replaced deprecated functions (np.int, np.float, np.str) in hstools
