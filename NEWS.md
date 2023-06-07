@@ -1,4 +1,8 @@
 # 1.1.18
+## Fix
+- replaced deprecated functions (np.int, np.float, np.str) in hstools
+- use_case_4 for the recent change in DART_v1328 default obj group optical properties: it is now simple face
+- environment.yml includes rioxarray, used in some use_cases
 
 # 1.1.17
 ## Fix
