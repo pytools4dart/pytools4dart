@@ -29,10 +29,11 @@ dependencies:
   - rtree
   - scipy
   - rioxarray
+  - gdecomp
+  - laszip
+  - trimesh
   - pip:
-      - laszip
-      - gdecomp
-      - tinyobjloader==2.0.0rc5
+      # - tinyobjloader==2.0.0rc5
       - git+https://gitlab.com/pytools4dart/generateds.git
-      - git+https://github.com/jgomezdans/prosail.git
+      - prosail
       - git+https://gitlab.com/pytools4dart/pytools4dart.git

@@ -39,8 +39,13 @@ try:
 except ImportError as e:
     raise ImportError(
         str(e) + "\n\nPlease install GDAL.")
+try:
+    import tinyobjloader
+except ImportError as e:
+    print('Module tinyobjloader is not available. Using trimesh instead (~5x slower).')
+    print('Otherwise, "tinyobjloader" can be installed with "pip install tinyobjloader==2.0.0rc5".')
+    import trimesh
 
-import tinyobjloader
 import numpy as np
 from ..warnings import deprecated
 
@@ -78,16 +83,23 @@ class objreader(object):
         if not file.isfile():
             raise IOError('File not found.')
 
-        obj = tinyobjloader.ObjReader()
-        obj.ParseFromFile(file)
-        # names are lost
         self._file = file
-        self._names = [g.name for g in obj.GetShapes()]
 
-        # vertices not used elsewhere thus not kept
-        vertices = np.array(obj.GetAttrib().vertices).reshape((-1, 3))
-        self._ymin, self._zmin, self._xmin = np.amin(vertices, axis=0)
-        self._ymax, self._zmax, self._xmax = np.amax(vertices, axis=0)
+
+        try:
+            obj = tinyobjloader.ObjReader()
+            obj.ParseFromFile(file)
+            # names are lost
+            self._names = [g.name for g in obj.GetShapes()]
+
+            # vertices not used elsewhere thus not kept
+            vertices = np.array(obj.GetAttrib().vertices).reshape((-1, 3))
+            self._ymin, self._zmin, self._xmin = np.amin(vertices, axis=0)
+            self._ymax, self._zmax, self._xmax = np.amax(vertices, axis=0)
+        except Exception as e:
+            mesh = trimesh.load(file)
+            self._names = [g for g in mesh.geometry]
+            self._ymin, self._zmin, self._xmin, self._ymax, self._zmax, self._xmax = mesh.bounds.flatten()
 
     # @property
     # def vertices(self):
