@@ -91,7 +91,6 @@ sequence = simu.add.sequence('prospect_sequence', empty=True)
 print(simu)
 
 sequence.add_item(group='prospect', key='Cab', values=range(0, 30, 10), corenode=op)
-# sequence.add_item(group='prospect', key='Car', values=range(0,15,5), corenode=op)
 print(sequence)
 sequence.core.set_nodes(numberParallelThreads=1)
 sequence.write(overwrite=True)
@@ -100,7 +99,6 @@ sequence.write(overwrite=True)
 simu.run.sequence('prospect_sequence')
 
 # Figure of scene reflectance function of chlorophyll
-# sequence.get_db_path()
 conn = sqlite3.connect(sequence.get_db_path())
 c = conn.cursor()
 

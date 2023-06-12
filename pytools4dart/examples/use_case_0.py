@@ -26,6 +26,7 @@
 #
 #
 # ===============================================================================
+
 """
 Image acquisition over a turbid vegetation plot.
 
@@ -48,6 +49,7 @@ optical properties and simulate an RGB acquisition.*
     - generate RGB image (ENVI or PNG formats)
     - open simulation in DART
 """
+
 import pytools4dart as ptd
 import rasterio as rio
 from rasterio.plot import show
@@ -55,8 +57,10 @@ from matplotlib import pyplot as plt
 
 # create an empty simulation
 simu = ptd.simulation('use_case_0', empty=True)
-# display simulation summary
+
+# print simulation summary
 print(simu)
+
 # display summary of default optical property
 print(simu.scene.properties)
 
@@ -77,6 +81,7 @@ op = simu.add.optical_property(type='Vegetation',
 # add a turbid plot with associated VOP
 simu.add.plot(op_ident=op.ident)
 
+# print simulation summary
 print(simu)
 
 # write & run simulation
@@ -87,9 +92,9 @@ simu.run.full()
 rgb_file = simu.run.stack_bands()
 
 # plot RGB simulated raster
-fig, ax = plt.subplots()
 with rio.open(rgb_file) as r:
     rgb = ptd.hstools.normalize(r.read())
 
+fig, ax = plt.subplots()
 im = show(rgb, transform=r.transform, ax=ax)
 fig.show()
