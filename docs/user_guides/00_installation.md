@@ -33,19 +33,18 @@ conda install mamba -n base -c conda-forge
 
 For users allergic to command line see section [Anaconda Navigator install](#anaconda-navigator-install-windows-only).
 
-From a terminal (or Anaconda prompt in Windows), download file 
-[environment.yml](https://gitlab.com/pytools4dart/pytools4dart/-/raw/master/environment.yml?inline=false) 
-and create the new environment with the following command lines
-(answer yes if asked), replacing `myptd` by the name of your choice:
+From a terminal (or Anaconda prompt in Windows), create the new environment with the following command lines (answer yes if asked), replacing `myptd` by the name of your choice:
 
 ```bash
-mamba env create --name myptd -f environment.yml
+mamba env create --name myptd -f https://gitlab.com/pytools4dart/pytools4dart/-/raw/master/environment.yml
 ```
 
 For an update of `pytools4dart` to the latest version:
 ```bash
-mamba env update --name myptd -f environment.yml 
+mamba env update --name myptd -f https://gitlab.com/pytools4dart/pytools4dart/-/raw/master/environment.yml 
 ```
+
+If the link is not working, the file can be downloaded here: [environment.yml](https://gitlab.com/pytools4dart/pytools4dart/-/raw/master/environment.yml?inline=false)
 
 Activate the new environment:
 
