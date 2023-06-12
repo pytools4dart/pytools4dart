@@ -2,8 +2,8 @@
 
 For a Windows installation, see [Win10 video tutorial](https://nextcloud.inrae.fr/s/4caRLGkb6JDEnSn).
 Visual Studio C++ compiler is only needed for `tinyobjloader`,
-to speed up the configuration of simulations with numerous obj files.
-For other kinds of simulation this step can be skipped.
+to speed up the configuration of simulations with numerous obj files,see [Speed up objreader](#speed-up-objreader).
+For other kinds of simulation the installation of Visual Studio Installer and C++ packages can be skipped.
 
 
 ## Install
