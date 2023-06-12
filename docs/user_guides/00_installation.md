@@ -1,17 +1,9 @@
 # Installation & Configuration
 
 For a Windows installation, see [Win10 video tutorial](https://nextcloud.inrae.fr/s/4caRLGkb6JDEnSn).
-
-If you need a video tutorial for linux based install, please ask.
-
-## Requirements:
-__Before install, Windows users__ will need 
-[Visual Studio C++ compiler](https://visualstudio.microsoft.com/vs/features/cplusplus) 
-for some dependencies of `pytools4dart`:
-
-1. Install [Visual Studio Installer](https://visualstudio.microsoft.com/downloads/).
-
-1. Open the Visual Studio __Installer__, install community edition, select C++ Development Desktop (~9GB) and install it.
+Visual Studio C++ compiler is only needed for `tinyobjloader`,
+to speed up the configuration of simulations with numerous obj files.
+For other kinds of simulation this step can be skipped.
 
 
 ## Install
@@ -313,6 +305,26 @@ conda env remove -n ptdvenv
 deactivate
 rm -r ptdvenv
 ```
+
+## Speed up objreader
+For scenes with numerous Wavefront OBJ files, `pytools4dart` can use `tinyobjloader` (C++ backend) 
+instead of `trimesh` (pure python) used otherwise, in order to speed up objreader (~5x).
+
+For Windows, the installation of `tinyobjloader` requires Visual Studio C++ compiler (see below).
+
+The package `tinyobjloader` with its python API can be installed with the following command line:
+```shell
+pip install tinyobjloader==2.0.0rc5
+```
+
+### Windows requirements:
+__Before install, Windows users__ will need 
+[Visual Studio C++ compiler](https://visualstudio.microsoft.com/vs/features/cplusplus) 
+for some dependencies of `pytools4dart`:
+
+1. Install [Visual Studio Installer](https://visualstudio.microsoft.com/downloads/).
+
+1. Open the Visual Studio __Installer__, install community edition, select C++ Development Desktop (~9GB) and install it.
 
 
 ## Known errors
