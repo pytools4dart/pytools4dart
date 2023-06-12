@@ -214,7 +214,7 @@ If any of these package lead to an error, it should be uninstalled and installed
 (see [environment.yml](https://gitlab.com/pytools4dart/pytools4dart/blob/master/environment.yml) for the other packages):
 ```commandline
 pip uninstall generateDS
-pip install git+https://gitlab.irstea.fr/florian.deboissieu/generateds.git
+pip install git+https://gitlab.com/florian.deboissieu/generateds.git
 ```
 In case of an error see section [Known errors](#known-errors). 
 
