@@ -312,7 +312,7 @@ instead of `trimesh` (pure python) used otherwise, in order to speed up objreade
 
 For Windows, the installation of `tinyobjloader` requires Visual Studio C++ compiler (see below).
 
-The package `tinyobjloader` with its python API can be installed with the following command line:
+The package `tinyobjloader` with its python API can be installed with:
 ```shell
 pip install tinyobjloader==2.0.0rc5
 ```
