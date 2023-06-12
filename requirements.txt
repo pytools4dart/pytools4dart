@@ -15,9 +15,10 @@ rasterio
 rtree
 scipy
 setuptools
-tinyobjloader==2.0.0rc5
+trimesh
+prosail
 git+https://gitlab.com/pytools4dart/generateds.git
 git+https://gitlab.com/pytools4dart/gdecomp.git
-git+https://github.com/jgomezdans/prosail.git
+
 
 
