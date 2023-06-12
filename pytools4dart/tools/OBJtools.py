@@ -42,8 +42,9 @@ except ImportError as e:
 try:
     import tinyobjloader
 except ImportError as e:
-    print('Module tinyobjloader is not available. Using trimesh instead (~5x slower).')
-    print('Otherwise, "tinyobjloader" can be installed with "pip install tinyobjloader==2.0.0rc5".')
+    print('Module tinyobjloader is not available. Using trimesh instead (~5x slower to read obj file).')
+    print('Otherwise, "tinyobjloader" can be installed with "pip install tinyobjloader==2.0.0rc5",')
+    print('see https://pytools4dart.gitlab.io/pytools4dart/docs/user_guides/00_installation/#speed-up-objreader.')
     import trimesh
 
 import numpy as np
