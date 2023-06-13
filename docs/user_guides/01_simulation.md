@@ -41,7 +41,7 @@ ptd.diff(simu1.core.phase, simu2.core.phase)
 ### Simulation object
 `simulation` object contains the following attributes:
 
-  - core: objects representing DART XML input files (coeff_diff,
+  - `core`: objects representing DART XML input files (coeff_diff,
     directions, phase, ...) with a raw interface to access and change parameters.
 
     Each module correspond to a part of DART GUI. As in DART GUI, changes propagates
@@ -52,23 +52,23 @@ ptd.diff(simu1.core.phase, simu2.core.phase)
     package. This list depends on the version of DART pyttols4dart was configured with.
     See [core user guide](./02_core.md) for more details.
 
-  - scene: summary and fast access to the main elements of the mockup scene:
+  - `scene`: summary and fast access to the main elements of the mockup scene:
     size, resolution, properties (optical, thermal), plots, object_3d, trees.
 
-  - sensor: summary and fast access to the main element of acquisition:
+  - `sensor`: summary and fast access to the main element of acquisition:
     bands, sensors, etc.
 
-  - source: summary and fast access to the main elements of the source definition.
+  - `source`: summary and fast access to the main elements of the source definition.
 
-  - sequences: the list of sequences that have been added. 
+  - `sequences`: the list of sequences that have been added. 
     Each contains its own core, adders to add
     groups and items, and runners to run the sequence simulation and post-process
     the results (stack bands, make RGB composites).
 
-  - add: list of user friendly adders to add elements to
+  - `add`: list of user friendly adders to add elements to
     scene, acquisition, source and sequence.
 
-  - run: list of available runners to:
+  - `run`: list of available runners to:
     - run DART full, 
     - run DART step by step (direction, phase, maket, dart)
     - run sequences
@@ -76,14 +76,14 @@ ptd.diff(simu1.core.phase, simu2.core.phase)
     - stack raster bands into an ENVI file 
       
 It also contains property attributes (read-only):
-    - method : the simulation method, i.e. Flux Tracking (0), Monte Carlo (1), Lidar (2).
-    - simu_dir, input_dir, output_dir: directory of simulation and input, output subdirectories
+    - `method` : the simulation method, i.e. Flux Tracking (0), Monte Carlo (1), Lidar (2).
+    - `simu_dir`, `input_dir`, `output_dir`: directory of simulation and input, output subdirectories
      
 
 And the methods:    
-    - summary(): a method to print summary, similarly to Scene, Sensor, Source, Sequence.
-    - write(): method to write the simulation before running it
-    - get_input_file_path(): to get the path of simulation input files
+    - `summary()`: a method to print summary, similarly to Scene, Sensor, Source, Sequence.
+    - `write()`: method to write the simulation before running it
+    - `get_input_file_path()`: to get the path of simulation input files
     
 The following code shows these different elements:
 
