@@ -1,7 +1,8 @@
 # 1.1.19
 ## Change
 
-- add full python objreader `trimesh` as default, tinyobjloader becomes optional.
+- add full python objreader `trimesh` as default, `tinyobjloader` becomes optional. 
+It simplifies conda install of `pytools4dart` on Windows: C++ compiler not needed anymore.
 
 
 # 1.1.18
