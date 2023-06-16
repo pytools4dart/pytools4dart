@@ -313,6 +313,36 @@ def update(dart_zip, dart_home=None, verbose=True):
     dart_home = install(dart_zip, dart_home, user_data=user_data, overwrite=True, verbose=verbose)
     return dart_home
 
+def install_notebook_packages(dart_home=None, verbose=True):
+    """
+    Add packages to python environment of DART in order to make
+    scripts executable under jupyter notebook or jupyter-lab
+
+    Parameters
+    ----------
+    dart_home : str, optional
+        path to DART directory. If None, pytools4dart.getdartenv is used.
+    verbose : bool, optional
+    """
+
+    dartenv = getdartenv(dart_home, verbose)
+
+    # DART HOME
+    if dart_home is None:
+        if verbose:
+            print('Getting DART_HOME path from pytools4dart current configuration.')
+        if not dartenv["DART_HOME"].isdir():
+            raise FileNotFoundError('DART_HOME directory no found: '+dartenv["DART_HOME"])
+        dart_home = dartenv["DART_HOME"]
+    
+    dart_home = Path(dart_home)
+    
+    command = [dart_home / 'bin' / 'python' / 'python',
+           '-m', 'pip', 'install', 'matplotlib-inline', 'ipython']
+
+    subprocess.run(' '.join(command), shell=True)
+
+
 def _download(url, outdir=None, verbose=False):
     """
     Download DART zip/tar.gz file, see Notes for license.
