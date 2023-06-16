@@ -1,4 +1,8 @@
 # 1.1.19
+## Change
+
+- add full python objreader `trimesh` as default, tinyobjloader becomes optional.
+
 
 # 1.1.18
 ## Fix
