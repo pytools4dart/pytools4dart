@@ -69,7 +69,7 @@ for wvl in [0.485, 0.555, 0.655]:
 # define optical properties with prospect parameters
 op = simu.add.optical_property(type='Vegetation',
                                ident='turbid_leaf',
-                               databaseName='ProspectVegetation.db', # arg used only for DART < v1264
+                               # databaseName='ProspectVegetation.db', # uncomment for DART < v1264
                                prospect={'CBrown': 0, 'Cab': 30, 'Car': 5,
                                          'Cm': 0.01, 'Cw': 0.01, 'N': 1.8,
                                          'anthocyanin': 0})
