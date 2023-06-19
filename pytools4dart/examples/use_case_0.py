@@ -96,5 +96,6 @@ with rio.open(rgb_file) as r:
     rgb = ptd.hstools.normalize(r.read())
 
 fig, ax = plt.subplots()
-im = show(rgb, transform=r.transform, ax=ax)
-fig.show()
+show(rgb, transform=r.transform, ax=ax)
+ax.set_title('A turbid plot of vegetation')
+fig.savefig(simu.output_dir / 'use_case_0.png')
