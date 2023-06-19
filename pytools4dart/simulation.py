@@ -98,7 +98,7 @@ class simulation(object):
         method: int
             simulation methods are:
 
-                - 0: Flux Tracking
+                - 0: Passive RS & RB
                 - 1: Monte-Carlo
                 - 2: LIDAR
 

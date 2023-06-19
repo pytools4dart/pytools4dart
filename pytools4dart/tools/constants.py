@@ -177,6 +177,6 @@ PLOT_TYPES = pd.DataFrame([[0, 'Ground', None],
                            [3, 'Fluid', 'Fluid'],
                            [4, 'Water', 'Fluid']], columns=['type_int', 'type_str', 'op_type'])
 
-SIMU_TYPE = pd.DataFrame([[0, 'Flux Tracking'],
+SIMU_TYPE = pd.DataFrame([[0, 'Passive RS & RB'],
                           [1, 'Monte-Carlo'],
                           [2, 'LIDAR']], columns=['type_int', 'type_str'])
