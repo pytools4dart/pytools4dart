@@ -47,14 +47,14 @@ for wvl in [0.485, 0.555, 0.655]:
     simu.add.band(wvl=wvl, bw=0.07)
 op = simu.add.optical_property(type = 'Vegetation',
                                ident='turbid_leaf',
-                               databaseName='ProspectVegetation.db', # arg used only for DART < v1264
+                               # databaseName='ProspectVegetation.db', # uncomment for DART < v1264
                                prospect={'CBrown': 0, 'Cab': 30, 'Car': 5,
                                          'Cm': 0.01, 'Cw': 0.01, 'N': 1.8,
                                          'anthocyanin': 0})
 
 op = simu.add.optical_property(type = 'Lambertian',
                                ident='grass',
-                               databaseName='ProspectLambertian.db', # arg used only for DART < v1264
+                               # databaseName='ProspectLambertian.db', # uncomment for DART < v1264
                                prospect={'CBrown': 0, 'Cab': 50, 'Car': 20,
                                          'Cm': 0.01, 'Cw': 0.01, 'N': 1.8,
                                          'anthocyanin': 0})
