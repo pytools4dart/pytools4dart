@@ -103,4 +103,11 @@ az_dart = np.mod(90. - az_std, 360.)
 az_std = np.mod(90. - az_dart, 360.)
 ``` 
 
+## Sun location by date and scene coordinates
+
+In DART, instead of defining the Sun angles, it is possible to have the Sun location computed giving the geographical coordinates of the scene
+and the date of acquisition. However, the South is considered to be at azimuth = 0° when the scene is located in the North hemisphere,
+i.e. (x+) direction in the DART angle system, and the opposit when considering 
+
+In order to have the South correctly located, (y-) direction for scene, the azimuth of the Sun location can be shifted by -90°. See the end `use_case_7.py` for an example.
 
