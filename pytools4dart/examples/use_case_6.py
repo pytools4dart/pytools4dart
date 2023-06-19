@@ -35,7 +35,7 @@ This script brings to light the specific orientation convention adopted by DART 
 and shows a way to convert the output rasters to a more standard orientation in GIS.
 
 By the way, it also shows how create a voxelised scene from data,
-making it easier to build up then with method `add.plot`
+making it easier to build up them with method `add.plot`
 
 ## Description
 
