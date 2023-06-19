@@ -31,28 +31,34 @@ Azimuth angle in DART
 
 ## Goals
 
-This simulation aims to show also the specific definition of azimuth angle in DART.
+This simulation aims to show also the specific definition of azimuth angle in DART,
+as well as the Sun location when defined by date and scene location.
 
 ## Description
 
-The scene is composed of pilar plot of 1x1x10m at the center.
+The scene is the same as use_case_2 (which must be executed first).
 
-The sun position is defined with zenith angle = 60° (near the horizon)
-and with azimuth angle varying from 0° to 270° by steps of 90°.
+The simulation is first computed with the default Sun azimuth (225°),
+then with azimuth angle varying from 0° to 270° by steps of 90°.
 
 We expect that the shade of the pilar would move along with the solar azimuth angle.
 
+The simulation is repeated with a Sun location defined by the acquisition date
+and the scene geographical coordinates (here Montpellier, France).
+
 ## Algorithm
 
-- create and resize scene
-- define scene as isolated to avoid
-- create RGB bands
-- create turbid vegetation optical property
-- add a pilar plot linked to the vegetation optical property
-- set the solar zenith angle to 30° (actually it is the default)
+- load use_case_2 simulation and rename it use_case_7
+- define scene as isolated to avoid shodows coming from outside the scene
 - add a sequence of solar azimuth angle: 0, 90, 180, 270
 - run the sequence
 - stack bands of each sequence iteration and plot them in function of the azimuth angle
+- rename the simulation use_case_7_bis
+- define scene geographical coordinates
+- change Sun location parameters to a specific date and time
+- run the simulation and plot results
+- add an offset of -90° to Sun azimuth so it is correctly located
+- run again the simulation and check on figure
 
 Note that during stacking the rasters are rotated to be in teh standard GIS orientation (x-right, y-up).
 
@@ -65,38 +71,24 @@ from rasterio.plot import show
 from matplotlib import pyplot as plt
 from multiprocessing import cpu_count
 
-# create an empty simulation
-simu = ptd.simulation('use_case_7', empty=True)
-simu.core.phase.Phase.ExpertModeZone.nbThreads = cpu_count()
+# create an simulation based on use_case_2
+simu = ptd.simulation('use_case_2')
+simu.name = "use_case_7"
 
-# set scene size
-simu.scene.size = [5, 5]
+# make the scene isolated (i.e. not periodic)
 simu.core.maket.set_nodes(exactlyPeriodicScene=0)
-# add spectral RGB bands, e.g. B=0.485, G=0.555, R=0.655 nm
-# with 0.07 full width at half maximum
-for wvl in [0.655, 0.555, 0.485]:
-    simu.add.band(wvl=wvl, bw=0.07)
 
-# simu.add.bands({'wvl':[0.485, 0.555, 0.655], 'fwhm':0.07})
-op0 = simu.add.optical_property(type='Vegetation',
-                                ident='turbid_leaf',
-                                databaseName='Lambertian_vegetation.db',
-                                ModelName='leaf_deciduous')
-
-plot = simu.add.plot(op_ident=op0.ident, corners=[[2, 2], [3, 2], [3, 3], [2, 3]], height=10)
-plot.set_nodes(densityDefinition=1)
-plot.set_nodes(UF=1)
-
-simu.core.directions.Directions.set_nodes(sunViewingZenithAngle=30)
+# Sun is at azimuth 225° and zenith 30° by default
+print(simu.source)
 
 # run simulation
 simu.write(overwrite=True)
 simu.run.full()
 
+# Look at the shadows in the produced image
+
 stack_file = simu.run.stack_bands()
-
 fig, axstack = plt.subplots()
-
 with rio.open(stack_file) as stack:
     show(stack.read(), transform=stack.transform, ax=axstack)
 axstack.set_xlabel('x')
@@ -105,15 +97,16 @@ axstack.set_title('Sun azimuth angle=225°')
 
 fig.show()
 
-sequence = simu.add.sequence('sun_zimuth', empty=True)
+# Now let's vary the Sun azimuth angle from 0° to 270° by steps of 90°
+sequence = simu.add.sequence('sun_azimuth', empty=True)
 sequence.core.set_nodes(numberParallelThreads=1)
-
 sequence.add_item(group='sun_azimuth', key='sunViewingAzimuthAngle', values=np.arange(0., 360., 90.),
                   corenode=simu.core.directions.Directions)
 
 sequence.write(overwrite=True)
 sequence.run.dart()
 
+# Plot the produced RGB images
 stack_files = sorted(sequence.run.stack_bands())
 
 fig, axes = plt.subplots(2, 2, figsize=(10, 10))
@@ -126,3 +119,48 @@ for i, stack_file in enumerate(stack_files):
     ax.set_title('azimuth={}'.format(i * 90.))
 fig.suptitle('Influence of sun azimuth angle (zenith=30°)')
 fig.show()
+
+
+# Let's now use Sun date and scene location
+# Scene is located at Montpellier, France.
+# The Sun location is computed for 2023-01-01 at 12:00,
+# i.e. south and low on the horizon
+simu.name = "use_case_7_bis"
+simu.core.maket.set_nodes(latitude=43.6113, longitude=3.8706)
+simu.core.directions.set_nodes(exactDate=1)
+simu.core.directions.set_nodes(year=2023, month=1, day=1, 
+                               hour=12, localTime=1)
+
+simu.write(overwrite=True)
+simu.run.full()
+
+stack_file = simu.run.stack_bands()
+fig, axstack = plt.subplots()
+with rio.open(stack_file) as stack:
+    show(
+        ptd.hstools.normalize(stack.read()),
+        transform=stack.transform, ax=axstack
+    )
+axstack.set_xlabel('x')
+axstack.set_ylabel('y')
+axstack.set_title(
+    """Noon winter Sun in Montpellier: 
+shadows should point to the North""")
+
+# The sun is not at the south but at the west of the scene...
+# Let's correct that by shifting the azimuth, 
+# see user guide DART conventions.
+simu.core.directions.set_nodes(sunAzimuthalOffset=-90)
+simu.write(overwrite=True)
+simu.run.full()
+stack_file = simu.run.stack_bands()
+fig, axstack = plt.subplots()
+with rio.open(stack_file) as stack:
+    show(
+        ptd.hstools.normalize(stack.read()),
+        transform=stack.transform, ax=axstack
+    )
+axstack.set_xlabel('x')
+axstack.set_ylabel('y')
+axstack.set_title("""Noon winter Sun in Montpellier:
+shadows are now pointing to the North""")

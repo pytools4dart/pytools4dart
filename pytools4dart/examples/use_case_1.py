@@ -123,6 +123,6 @@ df.groupby('chl')['reflectance'].plot(legend=True)
 plt.xlabel('Wavelength [nm]')
 plt.ylabel('Reflectance')
 plt.legend(title='Chl [mg/m3]')
-# plt.show()
 plt.savefig(simu.output_dir / 'R_Chl.png')
-plt.close()
+
+

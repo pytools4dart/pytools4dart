@@ -78,7 +78,6 @@ simu.scene.size = [40, 40]
 # The list of available models in database can be list with `dbtools` module:
 # ptd.helpers.dbtools.get_models('Lambertian_mineral.db')
 
-
 # define optical property for ground
 op_ground = {
     'type': 'Lambertian',
@@ -137,7 +136,7 @@ simu.add.tree_species(lai=-0.5,
 trees = simu.add.trees(inventory)
 
 # add sequence of chlorophyll
-Cab = range(0, 30, 10)
+Cab = range(0, 20, 5)
 # add a sequence named 'prospect_sequence',
 # with empty=True to avoid loading an existing sequence with the same name
 sequence = simu.add.sequence('prospect_sequence', empty=True)
@@ -153,8 +152,10 @@ simu.write(overwrite=True)
 # run sequence
 simu.run.sequence('prospect_sequence')
 
+# Stack RGB bands of each sequence case
 rgb_files = sorted(sequence.run.stack_bands())
 
+# Plot sequence images
 fig, axes = plt.subplots(2, 2, figsize=(10, 10))
 for i, stack_file in enumerate(rgb_files):
     ax = axes.flatten()[i]
@@ -164,7 +165,6 @@ for i, stack_file in enumerate(rgb_files):
     ax.set_ylabel('y')
     ax.set_title('CHL={}'.format(Cab[i]))
 fig.suptitle('Influence of sun azimuth angle (zenith=30°)')
-fig.show()
 fig.savefig(simu.output_dir / 'figure_use_case_2.png')
 
 # # produce RGB png of each element of prospect case
