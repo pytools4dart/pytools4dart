@@ -286,10 +286,10 @@ class DART2LAS(object):
                 tmp2 = dartfile.tell()    
                 tmp2 += posOffsetPerPulse
             if not waveMax > 0:
-                print('Error: Cannot find the wave maximum, please define a gain')
-                exit()
+                raise ValueError('Cannot find the wave maximum, please define a gain')
+            
             receiveWaveGain=float(self.maxOutput)/waveMax
-            print('Calculated gain according to maximum normalization: ', receiveWaveGain)
+            print('Calculated gain according to the waveform maximum: ', receiveWaveGain)
 
         print("nbPulses: {}".format(nbPulses))
         import time
@@ -314,7 +314,7 @@ class DART2LAS(object):
             if any(wave_data>0):
                 y_decomp = (wave_data * receiveWaveGain).astype(int)
                 if any(y_decomp > 0):
-                    y_decomp[y_decomp > self.maxOutput] = self.maxOutput
+                    y_decomp[y_decomp > self.maxOutput] = self.maxOutput # should never happen
                     # for i in range(nbBinsConvolved):
                     #     c=int(wave_data[i]*receiveWaveGain)  #approximated count < 128
                     #     if c>self.maxOutput:
