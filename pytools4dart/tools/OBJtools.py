@@ -39,12 +39,16 @@ try:
 except ImportError as e:
     raise ImportError(
         str(e) + "\n\nPlease install GDAL.")
+
+from warnings import warn
 try:
     import tinyobjloader
 except ImportError as e:
-    print('Module tinyobjloader is not available. Using trimesh instead (~5x slower to read obj file).')
-    print('Otherwise, "tinyobjloader" can be installed with "pip install tinyobjloader==2.0.0rc5",')
-    print('see https://pytools4dart.gitlab.io/pytools4dart/docs/user_guides/00_installation/#speed-up-objreader.')
+    warn("""
+Module 'tinyobjloader' not found, falling back to 'trimesh' instead (~5x slower to read obj file).
+Package 'tinyobjloader' can be installed with "pip install tinyobjloader==2.0.0rc5",
+see https://pytools4dart.gitlab.io/pytools4dart/docs/user_guides/00_installation/#speed-up-objreader.
+    """, category=ImportWarning, stacklevel=2)
     import trimesh
 
 import numpy as np
