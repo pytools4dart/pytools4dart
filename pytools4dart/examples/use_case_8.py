@@ -50,7 +50,11 @@ import pandas as pd
 import numpy as np
 import pytools4dart as ptd
 from multiprocessing import cpu_count
-import glob
+
+# Remove useless NotGeoreferencedWarning for simulations not georeferenced, usually the case.
+from rasterio.errors import NotGeoreferencedWarning
+import warnings
+warnings.filterwarnings('ignore', category=NotGeoreferencedWarning)
 
 # create a new simulation
 simu = ptd.simulation(name='use_case_8', empty=True)

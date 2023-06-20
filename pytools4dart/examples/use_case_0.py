@@ -55,6 +55,11 @@ import rasterio as rio
 from rasterio.plot import show
 from matplotlib import pyplot as plt
 
+# Remove useless NotGeoreferencedWarning for simulations not georeferenced, usually the case.
+from rasterio.errors import NotGeoreferencedWarning
+import warnings
+warnings.filterwarnings('ignore', category=NotGeoreferencedWarning)
+
 # create an empty simulation
 simu = ptd.simulation('use_case_0', empty=True)
 

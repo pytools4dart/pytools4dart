@@ -71,6 +71,11 @@ from rasterio.plot import show
 from matplotlib import pyplot as plt
 from multiprocessing import cpu_count
 
+# Remove useless NotGeoreferencedWarning for simulations not georeferenced, usually the case.
+from rasterio.errors import NotGeoreferencedWarning
+import warnings
+warnings.filterwarnings('ignore', category=NotGeoreferencedWarning)
+
 # create an simulation based on use_case_2
 simu = ptd.simulation('use_case_2')
 simu.name = "use_case_7"

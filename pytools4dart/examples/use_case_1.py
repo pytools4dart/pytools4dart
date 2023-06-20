@@ -52,6 +52,11 @@ import numpy as np
 import pytools4dart as ptd
 from multiprocessing import cpu_count
 
+# Remove useless NotGeoreferencedWarning for simulations not georeferenced, usually the case.
+from rasterio.errors import NotGeoreferencedWarning
+import warnings
+warnings.filterwarnings('ignore', category=NotGeoreferencedWarning)
+
 # create a new simulation:
 # ncpu is the number of threads used for simulations,
 # see simu.core.phase.Phase.ExpertModeZone.nbThreads for setting it a posteriori

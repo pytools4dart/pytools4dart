@@ -60,6 +60,11 @@ from rasterio.plot import show
 from matplotlib import pyplot as plt
 from multiprocessing import cpu_count
 
+# Remove useless NotGeoreferencedWarning for simulations not georeferenced, usually the case.
+from rasterio.errors import NotGeoreferencedWarning
+import warnings
+warnings.filterwarnings('ignore', category=NotGeoreferencedWarning)
+
 # create an empty simulation
 simu = ptd.simulation(name='use_case_2', empty=True)
 simu.core.phase.Phase.ExpertModeZone.nbThreads = cpu_count()

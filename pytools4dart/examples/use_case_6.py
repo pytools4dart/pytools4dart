@@ -60,6 +60,10 @@ from rasterio.plot import show
 from matplotlib import pyplot as plt
 from multiprocessing import cpu_count
 
+# Remove useless NotGeoreferencedWarning for simulations not georeferenced, usually the case.
+from rasterio.errors import NotGeoreferencedWarning
+import warnings
+warnings.filterwarnings('ignore', category=NotGeoreferencedWarning)
 
 def add_prospect_properties(op0, df):
     """
