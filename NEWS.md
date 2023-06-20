@@ -1,6 +1,21 @@
 # 1.1.20
 ## Add
-- dart.install_notebook_packages to install matplotlib-inline and ipython in DART's python environment.
+- dart.install_notebook_packages to install matplotlib-inline and ipython in DART's python environment for DART <= v1329.
+- new properties
+  - `simuation.propagation` for different propagation modes (`forward` or bi-directional), cf user guide 'Simulation'.
+  - `simulation.sensor.pixel_size` available for bi-directional propagation mode, cf user guide 'Simulation'.
+- section Lux/non-Lux in Simulation guide.
+- sun location by date and scene coordinates: see user guide DART convention for explanations and use_case_7 for an example.
+- warning in user guide "Plots" about plot size and scene cell size ratio making DART ignore some plots
+
+## Change
+- simulation methods and new propagation can be set with strings (e.g. simu.method='lidar')
+- simulation.method labels 'DART FT' becomes 'passive'
+- update use cases. Inparticular, use_case_7 is now based on use_case_2
+
+## Fix
+- propsect warnings in use cases due to prospectVegetation.db
+- environment.yml: laszip must be installed with pip as laszip conda package does not include the python API.
 
 # 1.1.19
 ## Change
