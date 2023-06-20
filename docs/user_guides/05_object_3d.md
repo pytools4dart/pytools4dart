@@ -47,7 +47,10 @@ ground.
 simu = ptd.simulation('object_3d', empty=True)
 
 simu.scene.size = [10, 10]
-simu.scene.cell = [.1, .1]
+simu.scene.pixel_size = .1
+# With "forward" propagation, resolution = cell size
+# simu.scene.cell = [.1, .1] # [res_xy, res_z]
+
 
 # RGB bands
 for wvl in [0.485, 0.555, 0.655]:
