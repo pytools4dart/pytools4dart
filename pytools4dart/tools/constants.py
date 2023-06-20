@@ -177,6 +177,10 @@ PLOT_TYPES = pd.DataFrame([[0, 'Ground', None],
                            [3, 'Fluid', 'Fluid'],
                            [4, 'Water', 'Fluid']], columns=['type_int', 'type_str', 'op_type'])
 
-SIMU_TYPE = pd.DataFrame([[0, 'Passive RS & RB'],
-                          [1, 'Monte-Carlo'],
-                          [2, 'LIDAR']], columns=['type_int', 'type_str'])
+SIMU_TYPE = pd.DataFrame([[0, 'passive'],
+                          [1, 'monte-carlo'],
+                          [2, 'lidar']], columns=['type_int', 'type_str'])
+
+SIMU_ENGINE = pd.DataFrame([[0, 'forward'], 
+                           [2, 'bi-directional']],
+                           columns=['num', 'name']).set_index('num')
