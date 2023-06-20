@@ -135,6 +135,11 @@ simu.add.tree_species(lai=-0.5,
 # trees to scene
 trees = simu.add.trees(inventory)
 
+# Change turbid to triangles to accelerate simulation,
+# see DART Manual WP6F for details.
+simu.core.trees.set_nodes(triangleTreeRepresentation=1)
+simu.core.trees.set_nodes(meshLeafDimension=.3)
+
 # add sequence of chlorophyll
 Cab = range(0, 20, 5)
 # add a sequence named 'prospect_sequence',
@@ -143,7 +148,7 @@ sequence = simu.add.sequence('prospect_sequence', empty=True)
 sequence.core.set_nodes(numberParallelThreads=1)
 sequence.add_item(group='prospect', key='Cab', values=Cab, corenode=op)
 
-# show simulation
+# show simulation summary
 print(simu)
 
 # write simulation and sequence
