@@ -53,10 +53,10 @@ ptd.diff(simu1.core.phase, simu2.core.phase)
     See [core user guide](./02_core.md) for more details.
 
   - `scene`: summary and fast access to the main elements of the mockup scene:
-    size, resolution, properties (optical, thermal), plots, object_3d, trees.
+    scene size, cell size, properties (optical, thermal), plots, object_3d, trees.
 
   - `sensor`: summary and fast access to the main element of acquisition:
-    bands, sensors, etc.
+    bands, pixel size (Lux only), sensors, etc.
 
   - `source`: summary and fast access to the main elements of the source definition.
 
@@ -76,7 +76,8 @@ ptd.diff(simu1.core.phase, simu2.core.phase)
     - stack raster bands into an ENVI file 
       
 It also contains property attributes (read-only):
-    - `method` : the simulation method, i.e. Flux Tracking (0), Monte Carlo (1), Lidar (2).
+    - `method` : the simulation method, i.e. Passive Remote Sensing & Radiative Budget (0), Monte-Carlo (1), Lidar (2).
+    - `propagation` : the light propagation mode (also defining the ray tracing engine), i.e. Forward (Embree engine) or Bi-directional (Lux engine)
     - `simu_dir`, `input_dir`, `output_dir`: directory of simulation and input, output subdirectories
      
 
@@ -115,6 +116,50 @@ simu.write()
 simu.run.full()
 
 ```
+### Lux/non-Lux specificity
+
+Recently, a new computation engine based on LuxCore was added to DART and became the default engine. As mentioned in DART Manual, it changes the simulation core propagation mode from _Forward_ tracking light through a voxelized scene based on Discrete Ordinate Method, to _Bi-directional_ based on Monte-Carlo without the need of voxelizing the scene.
+
+In the _Forward_ mode, previously called _DART-FT_ for _Flux Tracking_, a cell size of scene voxelisation was also defining the image resolution. In _Bi-directional_ mode, the image resolution is part of the sensor configuration.
+
+The following example shows how to deal with these parameters.
+
+#### Forward propagation
+```python
+import pytools4dart as ptd
+import rasterio as rio
+
+# Create a simulation with Forward mode
+simu = ptd.simulation('forward-simu')
+simu.propagation = 'forward' # default is bi-directional
+
+# Show simulation summary
+# Notice the propagtion mode and the scene cell size
+print(simu)
+
+# Change simulation cell size
+simu.scene.cell = [5, 5]
+
+# Notice the change in scene cell size
+print(simu)
+
+```
+
+```python
+import pytools4dart as ptd
+
+# Create a simulation with Bi-directional mode
+simu = ptd.simulation('bi-directional') # it is the default
+
+# Change the image resolution
+simu.sensor.pixel_size=5
+
+# Show other engine parameters
+print(simu.core.phase.Phase.EngineParameter.
+      LuxCoreRenderEngineParameters.to_string())
+```
+
+Several
 
 ### Empty simulation
 
