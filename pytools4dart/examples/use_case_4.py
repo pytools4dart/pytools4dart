@@ -58,7 +58,7 @@ Lidar simulation
 import pytools4dart as ptd
 from multiprocessing import cpu_count
 
-simu = ptd.simulation('use_case_4', method=2, empty=True)
+simu = ptd.simulation('use_case_4', method='lidar', empty=True)
 simu.scene.size = [20, 20]
 
 # simulate a laser
