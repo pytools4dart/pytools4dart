@@ -43,6 +43,11 @@ import numpy as np
 import rasterio as rio
 from path import Path
 
+# Most of the simulations are not georeferenced
+from rasterio.errors import NotGeoreferencedWarning
+import warnings
+warnings.filterwarnings('ignore', category=NotGeoreferencedWarning)
+
 def get_bands_files(simu_output_dir, band_sub_dir=Path.joinpath('BRF', 'ITERX', 'IMAGES_DART')):
     # get the number of bands
     simu_output_dir = Path(simu_output_dir)
