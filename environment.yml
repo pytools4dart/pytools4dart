@@ -30,10 +30,12 @@ dependencies:
   - scipy
   - rioxarray
   - gdecomp
-  - laszip
   - trimesh
   - pip:
       # - tinyobjloader==2.0.0rc5
       - git+https://gitlab.com/pytools4dart/generateds.git
       - prosail
+      # laszip exist in conda but not with python bindings
+      # see https://laspy.readthedocs.io/en/latest/installation.html#conda
+      - laszip
       - git+https://gitlab.com/pytools4dart/pytools4dart.git
