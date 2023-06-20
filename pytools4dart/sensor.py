@@ -30,7 +30,7 @@
 This module contains the class "Sensor".
 """
 import pandas as pd
-
+from .core_ui.utils import param_exists
 
 class Sensor(object):
     """
@@ -44,7 +44,11 @@ class Sensor(object):
         description = '\n'.join([
             'number of bands: {}'.format(self.bands.shape[0])
         ])
-
+        if self.simu.method == 'passive' and self.simu.propagation == 'bi-directional':
+            description = '\n'.join([
+                description,
+                f'pixel size: {self.pixel_size}'])
+        
         return description
 
     @property
@@ -74,6 +78,20 @@ class Sensor(object):
     @property
     def sensors(self):
         return self.simu.core.get_sensors()
+    
+    @property
+    def pixel_size(self):
+        param_exists("pixelSize")
+        if self.simu.propagation != "bi-directional":
+            raise AttributeError("Pixel size only available when propagation is 'bi-directional'.")
+        return self.simu.core.phase.Phase.EngineParameter.LuxCoreRenderEngineParameters.pixelSize
+
+    @pixel_size.setter
+    def pixel_size(self, x):
+        param_exists("pixelSize")
+        if self.simu.propagation != "bi-directional":
+            raise AttributeError("Pixel size only available when propagation is 'bi-directional'.")
+        self.simu.core.phase.set_nodes(pixelSize=x)
 
     def summary(self):
         """
