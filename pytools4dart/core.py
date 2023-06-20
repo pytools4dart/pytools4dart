@@ -62,6 +62,9 @@ class Core(object):
                 setattr(self, module,
                         eval('ptd.core_ui.{}.createDartFile(build_="{}")'.format(module, self.dartversion['build'])))
 
+            if isinstance(method, str):
+                method = SIMU_TYPE.loc[SIMU_TYPE["type_str"]==method]['type_int'].iloc[0]
+
             self.phase.Phase.calculatorMethod = method
             self.phase.Phase.ExpertModeZone.nbThreads = ncpu
             if empty:
