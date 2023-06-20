@@ -592,7 +592,10 @@ class DART2LAS(object):
         # remove the echoes with return number superior to Nmax
         # this strategy does not ake into account there value, maybe only the greatest intensity echoes
         # should be kept, renumbering them.
-        valid_returns = np.array(return_num_v) <= Nmax
+        unvalid = np.array(return_num_v) > Nmax
+        if unvalid.any():
+            warnings.warn(f'{unvalid.sum()} points with a Return Number > {Nmax} were removed.')
+        valid_returns = ~unvalid
 
 
         # All formats variables
