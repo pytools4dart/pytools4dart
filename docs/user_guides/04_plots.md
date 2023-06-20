@@ -14,7 +14,7 @@ there aer three ways of adding plots that will depend on the objective:
     - pros: all parameters accessible
     - cons: not addapted for more than a thousand plots (10 s.)
 
-__Warning:__ a plot that has a surface inferior to 10% of the simulation cell surface is ignored by DART, e.g. a plot of 0.3x0.3 = 0.09 is ignored if the cell is 1x1. The cell size in xy could be adapted to 0.5 in order to take it into account.
+__Warning:__ a plot that has a surface inferior to 10% of the simulation cell surface is ignored by DART, even in bi-directional mode. Example: a plot of 0.3x0.3 = 0.09 is ignored if the cell is 1x1. The cell size could be adapted to 0.5 in order to take it into account.
 
 ## User-friendly interface
 
