@@ -574,7 +574,8 @@ def set_nodes(corenode, **kwargs):
     """
     for key, value in kwargs.items():
         # _, dartnodes = findall(corenode, pat=key+'$', path=True, use_labels=False)
-        dartnodes = findpaths(corenode, pat=r'(\.|^)' + key + '$', case=True)
+        # https://stackoverflow.com/questions/71374269/userwarning-this-pattern-is-interpreted-as-a-regular-expression-and-has-match
+        dartnodes = findpaths(corenode, pat=r'(?:\.|^)' + key + '$', case=True)
         if len(dartnodes) == 1:
             exec('corenode.' + dartnodes.iloc[0] + '=value')
         else:
