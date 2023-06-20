@@ -38,6 +38,8 @@ import pandas as pd
 import os
 import re
 from pytools4dart.warnings import deprecated
+from ..settings import getdartversion
+from warnings import warn
 
 
 #### Fonctions pour l'interprétation du template
@@ -600,6 +602,24 @@ def subpaths(corenode):
 
 
 def findpaths(corenode, pat, case=False, regex=True):
+    """Find the paths of subnodes corresponding to a pattern
+
+    Parameters
+    ----------
+    corenode : Object
+        Core node of simulation
+    pat : str
+        Pattern to look for, see pandas.Series.str.contains.
+    case : bool, optional
+        See pandas.Series.str.contains.
+    regex : bool, optional
+        See pandas.Series.str.contains, by default True.
+
+    Returns
+    -------
+    str
+        The path
+    """
     paths = pd.Series(subpaths(corenode))
     return paths[paths.str.contains(pat, case, regex=regex)]
 
@@ -665,3 +685,37 @@ def core_diff(corenode1, corenode2):
 # ptd.core_ui.utils.findall(simu.core.plots.Plots, '.*ident$')
 #
 # pat = '.*LAI$'
+
+def param_exists(x, corenode=None, error=False):
+    """Check if parameter exists in subnodes or in general
+
+    Parameters
+    ----------
+    x : str
+        Name of the node to find, e.g. ident.
+    
+    corenode : Object, optional
+        Core node from which should start the search, by default None.
+        If None, the search is made in all paths available in get_labels.
+    
+    error: bool
+        When parameter not found, makes an error if True, a warning otherwise.
+        
+    Returns
+    -------
+    bool
+        True if parameter exists, in subnodes if corenode is not None, in general otherwise.
+    """
+    if (corenode is not None and len(corenode.findpaths(x+'$'))>0) or len(get_labels(x+"$"))>0:
+        return True
+    
+    if corenode is not None:
+        message = f"Parameter '{x}' not found in subnodes."
+    else:
+        v = getdartversion()
+        message = f"Parameter '{x}' not available in DART {v['version']} ({v['build']})."
+
+    if error:
+        raise ValueError(message)
+    warn(message)
+    return False
