@@ -601,7 +601,12 @@ class DART2LAS(object):
         las.x = np.array(x_v)[valid_returns]
         las.y = np.array(y_v)[valid_returns]
         las.z = np.array(z_v)[valid_returns]
-        las.intensity = np.array(intensity_v)[valid_returns]
+        arr = np.array(intensity_v)[valid_returns].astype(int)
+        ceil_v = (arr>65535) # UINT16 maximum intensity value, encoding of LAS.
+        if ceil_v.any():
+            warnings.warn(f'{ceil_v.sum()} points exceeding LAS maximum intensity were ceiled to 65535.')
+            arr[ceil_v] = 65535
+        las.intensity = arr
         las.return_number = np.array(return_num_v)[valid_returns]
         las.number_of_returns = np.array(num_returns_v)[valid_returns]
 
