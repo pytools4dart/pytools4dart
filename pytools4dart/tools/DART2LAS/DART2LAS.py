@@ -62,7 +62,7 @@ class DART2LAS(object):
         self.fixedGain = 1.0
         self.receiveWaveOffset = 0
         self.waveNoiseThreshold = 2
-        self.maxOutput = 2**16-1 # UINT16
+        self.maxOutput = 2**16-1 # UINT16 used by RIEGL sensors
         self.ifSolarNoise = False
         self.snFile = 'solar_noise.txt'
         self.snMap = [[0.0]]
