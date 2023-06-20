@@ -169,4 +169,4 @@ axrot.set_xlabel('x')
 axrot.set_ylabel('y')
 axrot.set_title('GIS usual orientation')
 
-fig.savefig(simu.outdir / 'use_case_6.png')
+fig.savefig(simu.output_dir / 'use_case_6.png')
