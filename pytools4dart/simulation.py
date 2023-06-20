@@ -95,12 +95,12 @@ class simulation(object):
             If empty is False and if simulation already exists in DART simulation directory,
             the sismulation is automatically loaded.
 
-        method: int
+        method: int or str
             simulation methods are:
 
-                - 0: Passive RS & RB
-                - 1: Monte-Carlo
-                - 2: LIDAR
+                - 0: passive
+                - 1: monte-carlo
+                - 2: lidar
 
         empty: bool
             New simulation in DART usually comes with a default spectral band.
@@ -129,6 +129,7 @@ class simulation(object):
     def __str__(self):
         description = '\n'.join(
             ["\nSimulation '{}': {}".format(self.name, self.method),
+             f"\nLight propagation: {self.propagation}",
              '__________________________________',
              'Sensor\n========',
              '{}\n'.format(self.sensor),
@@ -148,6 +149,44 @@ class simulation(object):
     @property
     def method(self):
         return SIMU_TYPE.type_str[SIMU_TYPE.type_int == self.core.phase.Phase.calculatorMethod].iloc[0]
+    
+    @method.setter
+    def method(self, x):
+        """
+        Setter of method
+        Parameters
+        ----------
+        x : int or str
+            Simulation methods are:
+
+                - 0: passive
+                - 1: monte-carlo
+                - 2: lidar
+        """
+        if isinstance(x, str):
+            x = SIMU_TYPE.loc[SIMU_TYPE["type_str"]==x]['type_int'].iloc[0]
+        self.core.phase.Phase.calculatorMethod=x
+
+    @property
+    def propagation(self):
+        engine = self.core.phase.Phase.accelerationEngine
+        return SIMU_ENGINE.loc[engine].iloc[0]
+    
+    @propagation.setter
+    def propagation(self, x):
+        """Setter of propagation method
+
+        Parameters
+        ----------
+        x : int or str
+            Propagation methods are:
+
+                - 0: forward
+                - 2: bi-directional
+        """
+        if isinstance(x, str):
+            x = SIMU_ENGINE.loc[SIMU_ENGINE.name==x].index[0]
+        self.core.phase.Phase.accelerationEngine = x
 
     @property
     def input_dir(self):
