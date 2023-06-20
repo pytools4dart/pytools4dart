@@ -686,7 +686,7 @@ def core_diff(corenode1, corenode2):
 #
 # pat = '.*LAI$'
 
-def param_exists(x, corenode=None, warn=False):
+def param_exists(x, corenode=None, warn_only=False):
     """Check if parameter exists in subnodes or in general
 
     Parameters
@@ -698,8 +698,8 @@ def param_exists(x, corenode=None, warn=False):
         Core node from which should start the search, by default None.
         If None, the search is made in all paths available in get_labels.
     
-    error: bool
-        When parameter not found, makes an error if True, a warning otherwise.
+    warn_only: bool
+        When parameter not found, makes a warning if True, an error otherwise.
         
     Returns
     -------
@@ -715,7 +715,7 @@ def param_exists(x, corenode=None, warn=False):
         v = getdartversion()
         message = f"Parameter '{x}' not available in DART {v['version']} ({v['build']})."
 
-    if not warn:
+    if not warn_only:
         raise ValueError(message)
     warn(message)
     return False
