@@ -57,6 +57,7 @@ from .add import Add
 from .sensor import Sensor
 from .source import Source
 from .warnings import deprecated
+from .core_ui.utils import param_exists
 
 
 class simulation(object):
@@ -169,6 +170,7 @@ class simulation(object):
 
     @property
     def propagation(self):
+        param_exists("accelerationEngine")
         engine = self.core.phase.Phase.accelerationEngine
         return SIMU_ENGINE.loc[engine].iloc[0]
     
@@ -184,6 +186,8 @@ class simulation(object):
                 - 0: forward
                 - 2: bi-directional
         """
+        param_exists("accelerationEngine")
+
         if isinstance(x, str):
             x = SIMU_ENGINE.loc[SIMU_ENGINE.name==x].index[0]
         self.core.phase.Phase.accelerationEngine = x
