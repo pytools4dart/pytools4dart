@@ -21,7 +21,6 @@ speedOfLightPerNS=0.299792458
 
 hearder_length=90            # 50+12+28
 waveform_parameter_length=104 #
-min_amp=1
 
 hearder_format="=50s2I4?2d3I"
 waveform_parameter_format="=11d4I"
@@ -30,53 +29,79 @@ to8bit_format="=b"
 evlr_wave_header_length = 60
 evlr_wave_format = "<1H16s1HQ32s"
 
-MINAMP = 1
-
-
 class DART2LAS(object):
     '''
     Class to convert DART full-waveform lidar simulation binary files to LAS.
-
-    It support all LAS 1.4 formats including waveforms, point clouds and extrabytes (width, amplitude of gaussian decomposition)
-
-    Class variables:
-        self.lasFormat: int
-            LAS formats, see LAS 1.4 documentation.
-        self.typeOut: int
-            - 1: Peak amplitude of the Gaussian profile, intensity = A/sigma with waveform=A/(sigma*sqrt(2*PI))*e^((t-u)/sigma^2)
-            - 2: Integral of the Gaussian profile, intensity = A
-            - 3: Standard deviation of the Gaussian profile, intensity = sigma * 10.0 #To avoid small values
-            - 4 (default): Intensity in the RIEGL way: intensity = I, with waveform=I*e^((t-u)/sigma^2)
-        self.ifFixedGain: bool
-            If True self.fixedGain is taken into account
-        self.fixedGain: float
-        TODO: complete documentation
     '''
 
-    def __init__(self):
-        '''
-        Constructor
-        '''
-        self.ifFixedGain = False
-        self.typeOut = 4 # Default to output integration of decomposed Gaussian profile
-        self.fixedGain = 1.0
-        self.receiveWaveOffset = 0
-        self.waveNoiseThreshold = 2
-        self.maxOutput = 2**16-1 # UINT16 used by RIEGL sensors
-        self.ifSolarNoise = False
-        self.snFile = 'solar_noise.txt'
-        self.snMap = [[0.0]]
-        self.ifOutputImagePerBin = False
-        self.imagePerBinPath = '~/'
-        self.ifOutputNbPhotonPerPulse = False
-        self.txtNbPhotonPerPulse = 'nbPhotonPerPulse.txt'
-        self.txtNbPhotonMap = [[0.0]]
-        self.containerImagePerBin = [[[0.0]]]
-        self.ifWriteWaveform = False
-        self.lasFormat = None
-        self.lasVersion = None
-        self.minimumIntensity = 1 # sensor lower detection threshold. There should also be a maximumDetectionThreshold
-        self.extra_bytes = True # if True writes the Pulse width and Amplitude as RIEGL Extra Bytes
+    def __init__(self, type_out=4, fixed_gain=None,
+                 wave_noise_threshold=2, wave_digitiser = 2,
+                 write_waveform = False, las_format = None, las_version = 1.4,
+                 scale = 0.001, 
+                 minimum_intensity = 1, extra_bytes = True,
+                 ):
+        """Class to convert DART full-waveform lidar simulation binary files to LAS.
+        It support all LAS 1.4 formats including waveforms, point clouds and
+        extrabytes (width, amplitude of gaussian decomposition)
+
+        Parameters
+        ----------
+        type_out : int, optional
+            Type of intensity, by default 4, see notes for details
+        fixed_gain : float, optional
+            Gain applicable to waveform before digitisation, by default None.
+            If None, it is computed with gain=max_output/max(waveform intensity)
+        wave_noise_threshold : int, optional
+            Threshold underwhich peak is not considered as an echo, by default 2.
+        wave_digitiser : int, optional
+            Number of bytes for waveform digitizing, by default 2 (UINT16).
+        write_waveform : bool, optional
+            Should the waveform be written in LAS file, by default False.
+            Raise error if not compatible with LAS format.
+        las_format : int, optional
+            LAS format number as specified in LAS 1.4 R15, by default None.
+            If None, default is 4 if write_waveform is True, and to 1 otherwise.
+        las_version : float, optional
+            Define the LAS version (1.3 or 1.4), by default 1.4.
+        scale: float, optional
+            Scale factor applied to return coordinates as specified in LAS 1.4 R15.
+        minimum_intensity : int, optional
+            Used to compute amplitude in dB, by default 1.
+        extra_bytes : bool, optional
+            Should extra_bytes variable be included (e.g. Amplitude and Pulse Width), by default True.
+        
+        Notes
+        -----
+        The typeOut values are:
+            - 1: Peak amplitude of the Gaussian profile, 
+                 intensity = A/sigma with waveform=A/(sigma*sqrt(2*PI))*e^((t-u)/sigma^2)
+            - 2: Integral of the Gaussian profile, intensity = A
+            - 3: Standard deviation of the Gaussian profile,
+                 intensity = sigma * 10.0 to avoid small values
+            - 4 (default): Intensity in the RIEGL way,
+                intensity = I, with waveform=I*e^((t-u)/sigma^2)
+        """
+        self.ifFixedGain = (fixed_gain is not None)
+        self.typeOut = type_out
+        self.fixedGain = fixed_gain
+        self.waveNoiseThreshold = wave_noise_threshold
+        #### options not available anymore, dev needed ####
+        # self.receiveWaveOffset = 0
+        # self.ifSolarNoise = False
+        # self.snFile = 'solar_noise.txt'
+        # self.snMap = [[0.0]]
+        # self.ifOutputImagePerBin = False
+        # self.imagePerBinPath = '~/'
+        # self.ifOutputNbPhotonPerPulse = False
+        # self.txtNbPhotonPerPulse = 'nbPhotonPerPulse.txt'
+        # self.txtNbPhotonMap = [[0.0]]
+        # self.containerImagePerBin = [[[0.0]]]
+        ###################################################
+        self.ifWriteWaveform = write_waveform
+        self.lasFormat = las_format
+        self.lasVersion = las_version
+        self.minimumIntensity = minimum_intensity # sensor lower detection threshold. There should also be a maximumDetectionThreshold
+        self.extra_bytes = extra_bytes # if True writes the Pulse width and Amplitude as RIEGL Extra Bytes
 
         ### available formats
         ### difference between 1 and 6 (or 4 and 9) is the number of bits in Return Number (see LAS v1.4 specs)
@@ -85,10 +110,10 @@ class DART2LAS(object):
 
 
         
-        self.scale = 0.001
-        self.prf = 500000.0 # pulse rate
-        self.byteOption = 1 # False for 8 bits to represent waveform amplitude, True for 16 bits to represent waveform amplitude
-        self.nbBytePerWaveAmplitude = 2
+        self.scale = scale
+        self.nbBytePerWaveAmplitude = wave_digitiser
+        self.byteOption = self.nbBytePerWaveAmplitude > 1 # False for 8 bits to represent waveform amplitude, True for 16 bits to represent waveform amplitude
+
         self.waveformAmplitudeFomat = 'H'
         
     def readSolarNoiseFile(self):
@@ -134,20 +159,19 @@ class DART2LAS(object):
                                  "ifWriteWaveform must be True for formats 4, 5, 9 or 10"
                                  "Other formats are not supported at the moment.")
 
-        if self.lasVersion is None:
-            self.lasVersion = 1.3
-        else:
-            if self.lasVersion < 1.3:
-                print("Error: LAS version not available")
-                exit()
-            if self.lasFormat > 5 and self.lasVersion == 1.3:
-                print("Error: LAS format not available for LAS version 1.3")
-                exit()
+        if self.lasVersion < 1.3:
+            raise ValueError("LAS version not available.")
+            
+        if self.lasFormat > 5 and self.lasVersion == 1.3:
+            raise ValueError("LAS format > 5 not available for LAS version < 1.4")
+        
+        self.maxOutput = 2**(self.nbBytePerWaveAmplitude*8)-1 # UINT16 used by RIEGL sensors
+
 
         print("LAS format: " + str(self.lasFormat))
 
-        if self.ifSolarNoise:
-            self.readSolarNoiseFile()
+        # if self.ifSolarNoise:
+        #     self.readSolarNoiseFile()
             
 ################## READING DART FILE#################
 
@@ -207,7 +231,7 @@ class DART2LAS(object):
             
         if self.ifWriteWaveform:
             #Waveform Output file Header
-            if self.byteOption == 0: # For 8 bit representative
+            if not self.byteOption: # For 8 bit representative
                 self.nbBytePerWaveAmplitude = 1 
                 self.waveformAmplitudeFomat = 'B'
             
@@ -322,11 +346,11 @@ class DART2LAS(object):
                     #         c=self.maxOutput
                     #     y_decomp.append(c)
 
-                    if (self.ifOutputNbPhotonPerPulse):
-                        sum_wave_data = 0
-                        for j in range(len(wave_data)):
-                            sum_wave_data += wave_data[j]
-                        self.addToNbPhotonPerPulseMap(pulse_info[12], pulse_info[13], sum_wave_data);
+                    # if (self.ifOutputNbPhotonPerPulse):
+                    #     sum_wave_data = 0
+                    #     for j in range(len(wave_data)):
+                    #         sum_wave_data += wave_data[j]
+                    #     self.addToNbPhotonPerPulseMap(pulse_info[12], pulse_info[13], sum_wave_data);
 
         #             #ajust the gain and output regarding automatic gain control per pulse.
         #             maxCount=1e-8
@@ -652,7 +676,7 @@ class DART2LAS(object):
 
         parser.add_argument('inputFile', type=str, help='input DART LIDAR binary file')
         parser.add_argument('outputFile', type=str, help='output UPD file')
-        parser.add_argument('-snf','--solarNoiseFile',type=str, help='set the solar noise input file')
+        # parser.add_argument('-snf','--solarNoiseFile',type=str, help='set the solar noise input file')
         parser.add_argument('-g','--gain',type=float, help='set a fixed digital gain for the amplitude->volts conversion')
         parser.add_argument('-t','--typeOut',type=int, help='set the output intensity format type (1: Peak amplitude of Gaussian profile; 2: Integration of the decomposed Gaussian profile (Default); 3: Sigma of Gaussian profile (integer value of "sigma(unit: nb of acquisition bins)*10"))')
         parser.add_argument('-w','--waveform',action='store_true', help='set if waveform data is output')
@@ -670,10 +694,10 @@ class DART2LAS(object):
         if args.outputFile:
             print('Output file: '+args.outputFile)
             
-        if args.solarNoiseFile:
-            print('Solar noise file: '+args.solarNoiseFile)
-            self.snFile = args.solarNoiseFile
-            self.ifSolarNoise = True
+        # if args.solarNoiseFile:
+        #     print('Solar noise file: '+args.solarNoiseFile)
+        #     self.snFile = args.solarNoiseFile
+        #     self.ifSolarNoise = True
         
         if args.gain:
             self.ifFixedGain = True
