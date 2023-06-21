@@ -411,6 +411,7 @@ def dart2las(simudir, las_file = None, type='bin', lasFormat=None, extra_bytes=T
         if not InputFile.isfile():
             raise ValueError('LIDAR_IMAGE_FILE.binary not found in {}'.format(outputDpath))
 
+        ### TODO: review after DART2LAS cleaning
         d2l = DART2LAS.DART2LAS()
         # obj.run()
         d2l.lasVersion = 1.4  # a modifier selon la version
