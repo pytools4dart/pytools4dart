@@ -1021,7 +1021,7 @@ class Add(object):
 
         # Trunk properties (same for crown and under)
         trunk_opl = ptd.trees.create_OpticalPropertyLink(ident=trunk_op_ident,
-                                                         type_=OPL_TYPES.type_int[OPL_TYPES.type_str == trunk_op_type])
+                                                         type_=OPL_TYPES.type_int[OPL_TYPES.type_str == trunk_op_type].iloc[0])
         trunk_tpl = ptd.trees.create_ThermalPropertyLink(idTemperature=trunk_tp_ident)
         # Crown properties
         veg_opl = ptd.trees.create_VegetationOpticalPropertyLink(ident=veg_op_ident)
