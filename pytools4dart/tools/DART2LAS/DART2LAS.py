@@ -158,6 +158,9 @@ class DART2LAS(object):
         digitizer_offset and digitizer_gain
         """
 
+        if 'maxOutput' in self.__dict__:
+            warnings.warn('Since pytools4dart 1.1.19, maxOutput is computed from nbBytePerWaveAmplitude')
+
         if self.lasFormat is None:  # set default format if empty
             if self.ifWriteWaveform:
                 self.lasFormat = 4
@@ -176,7 +179,7 @@ class DART2LAS(object):
         if self.lasFormat > 5 and self.lasVersion == 1.3:
             raise ValueError("LAS format > 5 not available for LAS version < 1.4")
         
-        self.maxOutput = 2**(self.nbBytePerWaveAmplitude*8)-1 # UINT16 used by RIEGL sensors
+        self.maxOutput = int(2**(self.nbBytePerWaveAmplitude*8))-1 # UINT16 used by RIEGL sensors
 
 
         print("LAS format: " + str(self.lasFormat))
