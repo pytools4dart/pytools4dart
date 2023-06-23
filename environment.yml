@@ -39,3 +39,7 @@ dependencies:
       # see https://laspy.readthedocs.io/en/latest/installation.html#conda
       - laszip
       - git+https://gitlab.com/pytools4dart/pytools4dart.git
+      # in laspy 2.4.1 there was a format error for return_point_wave_location 
+      # that was solved but not passed to conda package...
+      # https://github.com/laspy/laspy/commit/9bff50597b2835f1a72af027fda1aa917b20a6d7
+      - git+https://github.com/laspy/laspy.git
