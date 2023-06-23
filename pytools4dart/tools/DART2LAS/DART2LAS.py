@@ -44,8 +44,8 @@ class DART2LAS(object):
     '''
 
     def __init__(self, type_out=4, fixed_gain=None,
-                 wave_noise_threshold=2, wave_digitiser = 2,
-                 write_waveform = False, las_format = None, las_version = 1.4,
+                 wave_noise_threshold=2, wave_encoding_bytes = 2,
+                 keep_waveform = False, las_format = None, las_version = 1.4,
                  scale = 0.001, 
                  minimum_intensity = 1, extra_bytes = True,
                  ):
@@ -59,17 +59,19 @@ class DART2LAS(object):
             Type of intensity, by default 4, see notes for details
         fixed_gain : float, optional
             Gain applicable to waveform before digitisation, by default None.
-            If None, it is computed with gain=max_output/max(waveform intensity)
+            If None, it is computed with gain=max_output/max(waveform intensity).
+            Warning: fixed_gain = 1/digitizer_gain 
+            with digitizer_gain as defined in LAS 1.4 specifications.
         wave_noise_threshold : int, optional
             Threshold underwhich peak is not considered as an echo, by default 2.
-        wave_digitiser : int, optional
-            Number of bytes for waveform digitizing, by default 2 (UINT16).
-        write_waveform : bool, optional
-            Should the waveform be written in LAS file, by default False.
-            Raise error if not compatible with LAS format.
+        wave_encoding_bytes : int, optional
+            Number of bytes used by the waveform digitizer, by default 2, i.e. 16 bits for UINT16.
+        keep_waveform : bool, optional
+            Should the waveforms be written in the LAS file in addition to the returns, by default False.
+            If las_format is not None, keep_waveform is ignored.
         las_format : int, optional
             LAS format number as specified in LAS 1.4 R15, by default None.
-            If None, default is 4 if write_waveform is True, and to 1 otherwise.
+            If None, default is 4 if keep_waveform is True, and 1 otherwise.
         las_version : float, optional
             Define the LAS version (1.3 or 1.4), by default 1.4.
         scale: float, optional
