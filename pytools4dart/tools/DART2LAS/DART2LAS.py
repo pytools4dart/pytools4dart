@@ -254,8 +254,8 @@ class DART2LAS(object):
             description_evlr_wave = b'Waveform Data Packets           '
             header_packed = struct.pack(evlr_wave_format, reserve_evlr_wave, user_id_evlr_wave, record_id_evlr_wave, record_len_aft_header_evlr_wave, description_evlr_wave)
             if not len(header_packed) == evlr_wave_header_length:
-                print('Error: waveform file header length not satisifed!!!')
-                exit()
+                raise ValueError('waveform file header length not satisifed!!!')
+
             waveformfile.write(header_packed)
             off_waveformfile = waveformfile.tell()
             print('off_waveformfile', off_waveformfile)
