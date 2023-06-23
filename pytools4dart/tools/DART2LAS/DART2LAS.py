@@ -108,7 +108,7 @@ class DART2LAS(object):
         # self.txtNbPhotonMap = [[0.0]]
         # self.containerImagePerBin = [[[0.0]]]
         ###################################################
-        self.ifWriteWaveform = write_waveform
+        self.ifWriteWaveform = keep_waveform
         self.lasFormat = las_format
         self.lasVersion = las_version
         self.minimumIntensity = minimum_intensity # sensor lower detection threshold. There should also be a maximumDetectionThreshold
