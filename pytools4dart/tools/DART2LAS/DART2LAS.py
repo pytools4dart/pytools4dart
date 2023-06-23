@@ -122,7 +122,7 @@ class DART2LAS(object):
 
         
         self.scale = scale
-        self.nbBytePerWaveAmplitude = wave_digitiser
+        self.nbBytePerWaveAmplitude = wave_encoding_bytes
         self.byteOption = self.nbBytePerWaveAmplitude > 1 # False for 8 bits to represent waveform amplitude, True for 16 bits to represent waveform amplitude
 
         self.waveformAmplitudeFomat = 'H'
