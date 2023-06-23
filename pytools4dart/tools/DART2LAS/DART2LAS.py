@@ -24,6 +24,15 @@ waveform_parameter_length=104 #
 
 hearder_format="=50s2I4?2d3I"
 waveform_parameter_format="=11d4I"
+# pulse_info[0] (double): Look angle (in rad) (from -pi/2 (left) to pi/2 (right))
+# pulse_info[[1,2]] (double): Incident angles: theta, phi (in rad)
+# pulse_info[[3, 4, 5]] (double): Incident unit distance: x, y, z (in meter)
+# pulse_info[[6,7,8]] (double): Platform position: x, y, z (in meter)
+# pulse_info[9] (double): Beginning time of the convolved waveform
+# pulse_info[10] (double): Beginning time of the non-convolved waveform
+# pulse_info[11] (uint): Number of bins from sensor to center of FOV
+# pulse_info[[12, 13, 14]] (uint): not documented in DART User Manual...
+# pulse_info[14] (unint): seems to be the pulse ID, cf code below.
 to8bit_format="=b"
 
 evlr_wave_header_length = 60
