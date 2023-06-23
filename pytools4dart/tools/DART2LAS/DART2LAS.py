@@ -379,10 +379,10 @@ class DART2LAS(object):
         #                 maxCntGlobe=maxCount
 
 
-                    nbBinsToCenterFOV = pulse_info[11]
+                    nbBinsToCenterFOV = pulse_info[11] # Number of bins from sensor to center of FOV
                     distToCenterFOV = nbBinsToCenterFOV*distStep
 
-                    distToBeginWave=distToCenterFOV+speedOfLightPerNS*pulse_info[9] #pulse_info[10] is negative
+                    distToBeginWave=distToCenterFOV+speedOfLightPerNS*pulse_info[9] #pulse_info[9] is negative
 
                     #!!!!!!!!!!!!!!!!!!Making the vector looking upward (z_t>0) for ALS device to keep consistent with LAS format
                     # see https://github.com/ASPRSorg/LAS/wiki/Waveform-Data-Packet-Descriptors-Explained
