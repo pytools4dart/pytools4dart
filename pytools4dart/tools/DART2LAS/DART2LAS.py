@@ -91,6 +91,15 @@ class DART2LAS(object):
                  intensity = sigma * 10.0 to avoid small values
             - 4 (default): Intensity in the RIEGL way,
                 intensity = I, with waveform=I*e^((t-u)/sigma^2)
+        
+        When automatically determined, the receiver gain is computed as:
+        - receiver_gain = maxOutput/(waveMax * 2)
+        with:
+        - maxOutput: 2^wave_encoding_bytes, the maximum possible output of the digitizer
+        - waveMax: the maximum intensity value among the waveforms
+        We used 2*waveMax in order to keep a margin for the decomposed gaussian peak intensity that is usually
+        larger than the maximum intensity value of the waveform.
+        It avoids the saturation of the extracted return intensity in LAS format.
         """
         self.ifFixedGain = (fixed_gain is not None)
         self.typeOut = type_out
@@ -323,7 +332,7 @@ class DART2LAS(object):
             if not waveMax > 0:
                 raise ValueError('Cannot find the wave maximum, please define a gain')
             
-            receiveWaveGain=float(self.maxOutput)/waveMax
+            receiveWaveGain=float(self.maxOutput)/(2*waveMax)
             print('Calculated gain according to the waveform maximum: ', receiveWaveGain)
 
         print("nbPulses: {}".format(nbPulses))
