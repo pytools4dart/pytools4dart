@@ -304,8 +304,6 @@ class DART2LAS(object):
         y_t_v=[]
         z_t_v=[]
         
-        receiveWaveGain = 1
-
         if (self.ifFixedGain):
             receiveWaveGain=float(self.fixedGain)
             print('Defined gain: ', receiveWaveGain)
