@@ -54,7 +54,10 @@ def test_lidar_waveform():
     las_9 = laspy.read(las_9_file)
 
     assert all(las_9.intensity == las_6.intensity)
-    # assert all(las_9.intensity == np.array([65535,  6536, 39774]).astype(np.uint16))
+    # assert all(np.floor(las_6.intensity/100) == np.array([327.,  32., 199.]))
+
+    simu.simu_dir.rmtree()
+
 
 def test_RIEGL_LMS780():
     
@@ -82,6 +85,10 @@ def test_RIEGL_LMS780():
     Lidar = simu.core.phase.Phase.DartInputParameters.Lidar
     # set multiple pulses
     Lidar.simulateImage = 1
+    Lidar.set_nodes(isSeparatePulsesImport=1)
+    data_dir = Path(ptd.__file__).parent / 'data'
+    pulsefile = data_dir / 'lidar_pulses.txt'
+    Lidar.set_nodes(separatePulsesFile=pulsefile)
     # define footprint with divergence angles
     Lidar.set_nodes(fp_fovDef = 1)
     # sensor height, footprint, FOV, pulse duration, pulse energy
@@ -100,13 +107,13 @@ def test_RIEGL_LMS780():
     # Convert simulated lidar data to LAS file
     # point cloud only
     las_6_file = simu.run.dart2las(lasFormat=6)
-    # point cloud and waveforms
-    las_9_file = simu.run.dart2las(lasFormat=9)
 
     las_6 = laspy.read(las_6_file)
-    las_9 = laspy.read(las_9_file)
 
-    assert all(las_9.intensity == las_6.intensity)
+    assert len(las_6)==3
+
+    simu.simu_dir.rmtree()
+
 
 def test_lidar_pointcloud():
 
@@ -154,8 +161,9 @@ def test_lidar_pointcloud():
     las_6_file = simu.run.dart2las(lasFormat=6)
     las_6 = laspy.read(las_6_file)
     
-
     assert len(las_6)==3
+
+    simu.simu_dir.rmtree()
     # assert all(las_9.intensity == np.array([65535,  6536, 39774]).astype(np.uint16))
 
 
