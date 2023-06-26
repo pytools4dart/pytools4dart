@@ -306,7 +306,7 @@ class DART2LAS(object):
         
         if (self.ifFixedGain):
             receiveWaveGain=float(self.fixedGain)
-            print('Defined gain: ', receiveWaveGain)
+            print('Receiver gain: ', receiveWaveGain)
         else:
             #Generally compute the proper gain
             #Make a copy of the current position, go through the waveform values for a statistical distribution of the waveform amplitude
@@ -330,7 +330,7 @@ class DART2LAS(object):
                 raise ValueError('Cannot find the wave maximum, please define a gain')
             
             receiveWaveGain=float(self.maxOutput)/(2*waveMax)
-            print('Calculated gain according to the waveform maximum: ', receiveWaveGain)
+            print('Receiver gain computed according to the waveform maximum: ', receiveWaveGain)
 
         print("nbPulses: {}".format(nbPulses))
         import time
