@@ -36,10 +36,10 @@ dbtools.get_models(dbFpath)
 
 ## [DART2LAS](https://pytools4dart.gitlab.io/pytools4dart/reference/pytools4dart/tools/DART2LAS/DART2LAS)
 
-This module is here to convert lidar simmulation results to LAS files.
+This module helps to convert lidar simmulation results to LAS files.
 It supports:
-- `DP2LAS`: convertion of DART file `DetectedPoints.txt` to a LAS file 
-- `DART2LAS`: conversion of DART waveform binary file to LAS file:
+- `DP2LAS`: convert DART output file `DetectedPoints.txt` to a LAS file 
+- `DART2LAS`: convert DART output file `LIDAR_IMAGE_FILE.binary` (including waveforms) to LAS file:
     - Gaussian Decomposition (accelerated with a C++ binding, see [gdecomp](https://gitlab.com/pytools4dart/gdecomp))
     - LAS formats 1-9, i.e. to encapsulate waveforms, point clouds and extrabytes (gaussian width and amplitude of returns).
 
