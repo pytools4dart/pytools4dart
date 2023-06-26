@@ -9,13 +9,18 @@
 - warning in user guide "Plots" about plot size and scene cell size ratio making DART ignore some plots
 
 ## Change
-- simulation methods and new propagation can be set with strings (e.g. simu.method='lidar')
+- simulation methods and new propagation can be set with strings (e.g. simu.method='lidar' or simu.method=2, both can be used)
 - simulation.method labels 'DART FT' becomes 'passive'
 - update use cases. Inparticular, use_case_7 is now based on use_case_2
+- DART2LAS: several changs occured in DART2LAS, in particular arguments were added to the constructor of class DART2LAS with documentation, and standardized the input names by the way.
 
 ## Fix
+- environment.yml: temporary changed laspy source for git as the fix of waveform format was not transfered to release.
+- environment.yml: changed back laszip source to pypi as the conda-forge package does not include the python API
 - propsect warnings in use cases due to prospectVegetation.db
-- environment.yml: laszip must be installed with pip as laszip conda package does not include the python API.
+- DART2LAS: default receiver_gain was changed to maxOutput/(2*waveMax) instead of maxOutput/waveMax in order to avoid saturation
+- fixed pandas warnings of group patterns and ignored georeference warnings from rasterio.
+
 
 # 1.1.19
 ## Change
