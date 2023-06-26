@@ -43,7 +43,7 @@ class DART2LAS(object):
     Class to convert DART full-waveform lidar simulation binary files to LAS.
     '''
 
-    def __init__(self, type_out=4, fixed_gain=None,
+    def __init__(self, type_out=4, receiver_gain=None,
                  wave_noise_threshold=2, wave_encoding_bytes = 2,
                  keep_waveform = False, las_format = None, las_version = 1.4,
                  scale = 0.001, 
@@ -57,10 +57,9 @@ class DART2LAS(object):
         ----------
         type_out : int, optional
             Type of intensity, by default 4, see notes for details
-        fixed_gain : float, optional
-            Gain applicable to waveform before digitisation, by default None.
-            If None, it is computed with gain=max_output/max(waveform intensity).
-            Warning: fixed_gain = 1/digitizer_gain 
+        receiver_gain : float, optional
+            Gain applicable to waveform before digitisation, by default None, see Notes.
+            **Warning**: receiver_gain = 1/digitizer_gain 
             with digitizer_gain as defined in LAS 1.4 specifications.
         wave_noise_threshold : int, optional
             Threshold underwhich peak is not considered as an echo, by default 2.
@@ -101,9 +100,9 @@ class DART2LAS(object):
         larger than the maximum intensity value of the waveform.
         It avoids the saturation of the extracted return intensity in LAS format.
         """
-        self.ifFixedGain = (fixed_gain is not None)
+        self.ifFixedGain = (receiver_gain is not None)
         self.typeOut = type_out
-        self.fixedGain = fixed_gain
+        self.fixedGain = receiver_gain
         self.waveNoiseThreshold = wave_noise_threshold
         #### options not available anymore, dev needed ####
         # self.receiveWaveOffset = 0
