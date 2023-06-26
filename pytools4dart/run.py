@@ -338,7 +338,7 @@ def upgrade(simu_name):
     rundart(simu_name, 'XMLUpgrader')
 
 
-def dart2las(simudir, las_file = None, type='bin', lasFormat=None, extra_bytes=True):
+def dart2las(simudir, las_file = None, type='bin', lasFormat=None, extra_bytes=True, **kwargs):
     """
     Convert DART lidar output to LAS file (including waveforms if available in DART output)
 
@@ -355,6 +355,8 @@ def dart2las(simudir, las_file = None, type='bin', lasFormat=None, extra_bytes=T
         If None, format 6 is taken for Detected Points simulation output, format 9 is taken for Waveform simulation output.
     extra_bytes: bool
         If True, variables other than intensity are included in LAS as extra-bytes (e.g. pulse width, amplitude, ...)
+    kwargs: dict
+        Arguments passed to tools.DART2LAS.DART2LAS() if the waveforms were simulated (type='bin').
 
     Returns
     -------
@@ -378,23 +380,6 @@ def dart2las(simudir, las_file = None, type='bin', lasFormat=None, extra_bytes=T
     and possible comparison with other LAS files (e.g. measurements).
     """
 
-    """
-    Convert lidar dart output to LAS
-    Parameters
-    ----------
-    simudir
-    las_file: str
-        Path of a .las or .laz file. If None, it is <simulation>/output/LIDAR_IMAGE_FILE_{lasFormat}.las
-    type: str
-        Either 'bin' to convert 'LIDAR_IMAGE_FILE.binary' or 'dp' to convert 'DetectedPoints.txt'.
-    lasFormat: int
-        See specifications of LAS 1.4.
-    extra_bytes
-
-    Returns
-    -------
-    str LAS file
-    """
     simudir = Path(simudir)
     outputDpath = simudir / 'output'
     if not outputDpath.isdir():
@@ -412,14 +397,14 @@ def dart2las(simudir, las_file = None, type='bin', lasFormat=None, extra_bytes=T
             raise ValueError('LIDAR_IMAGE_FILE.binary not found in {}'.format(outputDpath))
 
         ### TODO: review after DART2LAS cleaning
-        d2l = DART2LAS.DART2LAS()
+        d2l = DART2LAS.DART2LAS(las_format=lasFormat, extra_bytes=extra_bytes, **kwargs)
         # obj.run()
-        d2l.lasVersion = 1.4  # a modifier selon la version
-        d2l.lasFormat = lasFormat  # a modifier selon le format
-        d2l.ifWriteWaveform = (lasFormat in [4, 9])  # True = Waveforme, FALSE = Que les pts
-        d2l.typeOut = 4  # have Gaussian max peak as intensity
-        d2l.extra_bytes = extra_bytes  # record Amplitude and Pulse width as given in RIEGL Whitepaper.
-        d2l.maxOutput = int(2 ** 16) - 1
+        # d2l.lasVersion = 1.4  # a modifier selon la version
+        # d2l.lasFormat = lasFormat  # a modifier selon le format
+        # d2l.ifWriteWaveform = (lasFormat in [4, 9])  # True = Waveforme, FALSE = Que les pts
+        # d2l.typeOut = 4  # have Gaussian max peak as intensity
+        # d2l.extra_bytes = extra_bytes  # record Amplitude and Pulse width as given in RIEGL Whitepaper.
+        # d2l.maxOutput = int(2 ** 16) - 1
         dgain = []
         doffset = []
 
@@ -593,7 +578,7 @@ class Run(object):
         return stack_bands(simu_output_dir, output_dir=output_dir, driver=driver, rotate=rotate, phasefile=phasefile,
                            zenith=zenith, azimuth=azimuth, band_sub_dir=band_sub_dir, pattern=pattern)
 
-    def dart2las(self, las_file=None, lasFormat=None, extra_bytes=True):
+    def dart2las(self, las_file=None, lasFormat=None, extra_bytes=True, **kwargs):
         """
         Convert DART lidar output to LAS file (including waveforms if available in DART output)
 
@@ -606,7 +591,9 @@ class Run(object):
             If None, format 6 is taken for Detected Points simulation output, format 9 is taken for Waveform simulation output.
         extra_bytes: bool
             If True, variables other than intensity are included in LAS as extra-bytes (e.g. pulse width, amplitude, ...)
-
+        kwargs: dict
+            Arguments passed to tools.DART2LAS.DART2LAS() if the waveforms were simulated.
+        
         Returns
         -------
         str LAS file
@@ -633,4 +620,4 @@ class Run(object):
         elif self.simu.core.phase.Phase.DartInputParameters.Lidar.PhotonCounting.pcDef==1:
             type='dp'
 
-        return dart2las(self.simu.simu_dir, las_file, type, lasFormat, extra_bytes)
+        return dart2las(self.simu.simu_dir, las_file, type, lasFormat, extra_bytes, **kwargs)
