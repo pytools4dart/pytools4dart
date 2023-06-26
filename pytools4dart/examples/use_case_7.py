@@ -95,12 +95,11 @@ simu.run.full()
 stack_file = simu.run.stack_bands()
 fig, axstack = plt.subplots()
 with rio.open(stack_file) as stack:
-    show(stack.read(), transform=stack.transform, ax=axstack)
+    show(ptd.hstools.normalize(stack.read()), transform=stack.transform, ax=axstack)
 axstack.set_xlabel('x')
 axstack.set_ylabel('y')
 axstack.set_title('Sun azimuth angle=225°')
 
-fig.show()
 
 # Now let's vary the Sun azimuth angle from 0° to 270° by steps of 90°
 sequence = simu.add.sequence('sun_azimuth', empty=True)
@@ -123,7 +122,6 @@ for i, stack_file in enumerate(stack_files):
     ax.set_ylabel('y')
     ax.set_title('azimuth={}'.format(i * 90.))
 fig.suptitle('Influence of sun azimuth angle (zenith=30°)')
-fig.show()
 
 
 # Let's now use Sun date and scene location

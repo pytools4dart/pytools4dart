@@ -117,6 +117,5 @@ stack_file = simu.run.stack_bands()
 fig, ax = plt.subplots()
 with rio.open(stack_file) as r:
     show(ptd.hstools.normalize(r.read()), transform=r.transform, ax=ax)
-fig.show()
-
+fig.savefig(simu.output_dir / 'use_case_3.png')
 # simu.run.colorCompositeBands(red=0, green=1, blue=2, iteration='X', outdir='rgb')
