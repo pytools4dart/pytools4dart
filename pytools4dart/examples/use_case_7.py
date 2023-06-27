@@ -49,10 +49,10 @@ and the scene geographical coordinates (here Montpellier, France).
 ## Algorithm
 
 - load use_case_2 simulation and rename it use_case_7
-- define scene as isolated to avoid shodows coming from outside the scene
 - add a sequence of solar azimuth angle: 0, 90, 180, 270
 - run the sequence
 - stack bands of each sequence iteration and plot them in function of the azimuth angle
+
 - rename the simulation use_case_7_bis
 - define scene geographical coordinates
 - change Sun location parameters to a specific date and time
@@ -60,7 +60,7 @@ and the scene geographical coordinates (here Montpellier, France).
 - add an offset of -90° to Sun azimuth so it is correctly located
 - run again the simulation and check on figure
 
-Note that during stacking the rasters are rotated to be in teh standard GIS orientation (x-right, y-up).
+Note that during stacking the rasters are rotated to be in the standard GIS orientation (x-right, y-up).
 
 """
 

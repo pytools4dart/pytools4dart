@@ -182,30 +182,36 @@ The scene is 4x5 m with a line of plots with increasing chlorophyll at the botto
 
 Azimuth angle in DART
 
-### Goal
+## Goals
 
-This simulation aims to show also the specific definition of azimuth angle in DART.
+This simulation aims to show also the specific definition of azimuth angle in DART,
+as well as the Sun location when defined by date and scene location.
 
-### Notes
+## Description
 
-The scene is composed of pilar plot of 1x1x10m at the center.
+The scene is the same as use_case_2 (which must be executed first).
 
-The sun position is defined with zenith angle = 60° (near the horizon)
-and with azimuth angle varying from 0° to 270° by steps of 90°.
+The simulation is first computed with the default Sun azimuth (225°),
+then with azimuth angle varying from 0° to 270° by steps of 90°.
 
 We expect that the shade of the pilar would move along with the solar azimuth angle.
 
-### Algorithm
+The simulation is repeated with a Sun location defined by the acquisition date
+and the scene geographical coordinates (here Montpellier, France).
 
-- create and resize scene
-- define scene as isolated to avoid
-- create RGB bands
-- create turbid vegetation optical property
-- add a pilar plot linked to the vegetation optical property
-- set the solar zenith angle to 30° (actually it is the default)
+## Algorithm
+
+- load use_case_2 simulation and rename it use_case_7
 - add a sequence of solar azimuth angle: 0, 90, 180, 270
 - run the sequence
 - stack bands of each sequence iteration and plot them in function of the azimuth angle
+
+- rename the simulation use_case_7_bis
+- define scene geographical coordinates
+- change Sun location parameters to a specific date and time
+- run the simulation and plot results
+- add an offset of -90° to Sun azimuth so it is correctly located
+- run again the simulation and check on figure
 
 Note that during stacking the rasters are rotated to be in the standard GIS orientation (x-right, y-up).
 
