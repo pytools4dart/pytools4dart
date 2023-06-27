@@ -182,12 +182,12 @@ The scene is 4x5 m with a line of plots with increasing chlorophyll at the botto
 
 Azimuth angle in DART
 
-## Goals
+### Goals
 
 This simulation aims to show also the specific definition of azimuth angle in DART,
 as well as the Sun location when defined by date and scene location.
 
-## Description
+### Description
 
 The scene is the same as use_case_2 (which must be executed first).
 
@@ -199,7 +199,7 @@ We expect that the shade of the pilar would move along with the solar azimuth an
 The simulation is repeated with a Sun location defined by the acquisition date
 and the scene geographical coordinates (here Montpellier, France).
 
-## Algorithm
+### Algorithm
 
 - load use_case_2 simulation and rename it use_case_7
 - add a sequence of solar azimuth angle: 0, 90, 180, 270
