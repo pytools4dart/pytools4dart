@@ -60,9 +60,9 @@ In order to explore the content of the core modules of a simulation, each core n
 
 Other useful functions for core exploration are in `pytools4dart.core_ui.utils`:
   
-  - `get_nodes()`: get the subnodes corresponding to a subpath.
-  - `findall()`: get all the subnodes values and paths corresonding to a regular expression.
-  - `diff()` _(deprecated)_: print the difference between core nodes or subnodes, for a whole simulation comparison see [simulation user guide](./01_simulation.md)
+  - `ptd.utils.get_nodes()`: get the subnodes corresponding to a subpath.
+  - `ptd.utils.findall()`: get all the subnodes values and paths corresonding to a regular expression.
+  - `ptd.diff()`: print the difference between two simulations or two core nodes or subnodes, for a whole simulation comparison see [simulation user guide](./01_simulation.md)
 
 ```python
 import pytools4dart as ptd
