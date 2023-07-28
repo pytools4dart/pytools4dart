@@ -27,16 +27,31 @@ simu = ptd.simulation()
 simu.core.children
 ```
 
-Each `module` of core is a tree of objects corresponding to DART xml configuration file.
-Most of the available nodes and attributes are available in [DART parameters](../DART_parameters.md) or as a dataframe within python:
+Each module of core is a tree of objects corresponding to DART xml configuration file.
+
+### Find a parameter
+
+All the module parameters can be listed with:
 
 ```python
 ptd.utils.get_labels()
 ```
 
-In order to explore the content of these modules, each node has the methods:
+The label column is what can be found in the GUI, the dartnode column is the corresponding node path in the simulation core. For a specific simulation, only a subset of these parameters is used. As an example, for a passive remote sensing simulation only the parameters specific to this mode will be available.
+
+The full parameter table is extracted from DART files, thus it will depend on the DART version. All the available nodes and attributes for the last DART version are also available in [DART parameters](../DART_parameters.md).
+
+
+For a specific search of a parameter encoutered in the GUI, e.g. the "Exactly periodic scene" in the editor menu "Earth Scene", a pattern can be used to filter the search results:
+```python
+ptd.utils.get_labels("Exactly periodic scene", column="label")
+```
+
+### Explore simulation parameters
+
+In order to explore the content of the core modules of a simulation, each core node has the methods:
   
-  - `to_string()` that converts the structure to an xml string
+  - `to_string()`: convert the structure to an xml string
   - `path()`: get the absolute path of the node within the module
   - `subpaths()`: list of all subnode paths
   - `findpaths()`: list of the subnode paths corresponding to a regular expression.

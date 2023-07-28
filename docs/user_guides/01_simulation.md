@@ -47,10 +47,7 @@ ptd.diff(simu1.core.phase, simu2.core.phase)
     Each module correspond to a part of DART GUI. As in DART GUI, changes propagates
     automatically to subnodes. 
     
-    All available parameters can be listed with `pytools4dart.utils.get_labels()` 
-    or in the file labels/labels.tab of the directory pytools4dart of
-    package. This list depends on the version of DART pyttols4dart was configured with.
-    See [core user guide](./02_core.md) for more details.
+    All available DART parameters and their corresponding node are listed with `pytools4dart.utils.get_labels()`. See [core user guide](./02_core.md) for more details.
 
   - `scene`: summary and fast access to the main elements of the mockup scene:
     scene size, cell size, properties (optical, thermal), plots, object_3d, trees.
