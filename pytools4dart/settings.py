@@ -41,7 +41,7 @@ import pytools4dart as ptd
 import traceback
 import lxml.etree as etree
 import sys
-
+from packaging.version import Version
 
 def default_dartdir():
     '''
@@ -244,7 +244,7 @@ def checkdartdir(dartdir=None):
         return False
 
     dartversion = getdartversion(dartdir)
-    if dartversion['version'] < '5.7.1':
+    if Version(dartversion['version']) < Version('5.7.1'):
         print('DART version is too old: ' + dartversion['version'])
         return False
 
