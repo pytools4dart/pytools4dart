@@ -1,5 +1,6 @@
 # 1.1.21
 
+- fix bug in version comparison between DART versions
 
 # 1.1.20
 ## Add
