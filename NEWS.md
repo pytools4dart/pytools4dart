@@ -1,6 +1,8 @@
 # 1.1.21
 
-- fix bug in version comparison between DART versions
+## Fix
+- DART version comparison (required for configure with DART 5.10+)
+- utils.get_labels in case of NA labels
 
 # 1.1.20
 ## Add
