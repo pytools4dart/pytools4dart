@@ -85,6 +85,12 @@ For other installation modes (virtualenv, graphical interface, package update) a
 details (requirements, tests, uninstall, etc.), 
 see [installation guide](https://pytools4dart.gitlab.io/pytools4dart/docs/user_guides/00_installation/).
 
+## License
+
+The pytools4dart product documentation in the docs and pytools4dart/data folders are licensed under a [CC-BY-SA license](LICENSE-DOC).
+
+All other code in this repository is licensed under the [GPL-v3 license](LICENSE).
+
 ## Citation
 
 If you use __pytools4dart__, please cite the following references:
