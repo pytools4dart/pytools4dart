@@ -39,7 +39,7 @@ import pytools4dart as ptd
 
 from pytools4dart.tools.constants import *
 from pytools4dart.core_ui.utils import get_labels, get_nodes, findall
-from pytools4dart.settings import check_xmlfile_version, getdartversion, get_input_file_path
+from pytools4dart.settings import check_xmlfile_version, getdartversion
 from pytools4dart.tools.OBJtools import gnames_dart_order
 from .warnings import deprecated
 
@@ -54,24 +54,27 @@ class Core(object):
         self.dartversion = getdartversion()
         self.children = self.get_modules_names()
 
-        if simu.name is not None and not empty and self.simu.simu_dir.isdir():
-            self.load()
-        else:
-            modules = self.get_modules_names()  # ["plots", "phase", "atmosphere", "coeff_diff", "directions", "object_3d","maket","inversion","trees","water","urban"]
-            for module in modules:
-                setattr(self, module,
-                        eval('ptd.core_ui.{}.createDartFile(build_="{}")'.format(module, self.dartversion['build'])))
+        try:
+            if simu.name is not None and not empty and self.simu.simu_dir.isdir():
+                self.load()
+            else:
+                modules = self.get_modules_names()  # ["plots", "phase", "atmosphere", "coeff_diff", "directions", "object_3d","maket","inversion","trees","water","urban"]
+                for module in modules:
+                    setattr(self, module,
+                            eval('ptd.core_ui.{}.createDartFile(build_="{}")'.format(module, self.dartversion['build'])))
 
-            if isinstance(method, str):
-                method = SIMU_TYPE.loc[SIMU_TYPE["type_str"]==method]['type_int'].iloc[0]
+                if isinstance(method, str):
+                    method = SIMU_TYPE.loc[SIMU_TYPE["type_str"]==method]['type_int'].iloc[0]
 
-            self.phase.Phase.calculatorMethod = method
-            self.phase.Phase.ExpertModeZone.nbThreads = ncpu
-            if empty:
-                # self.coeff_diff.Coeff_diff.LambertianMultiFunctions.LambertianMulti = []
-                self.phase.Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties = []
-                if method != 2:
-                    self.phase.Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance.SpectralIrradianceValue = []
+                self.phase.Phase.calculatorMethod = method
+                self.phase.Phase.ExpertModeZone.nbThreads = ncpu
+                if empty:
+                    # self.coeff_diff.Coeff_diff.LambertianMultiFunctions.LambertianMulti = []
+                    self.phase.Phase.DartInputParameters.SpectralIntervals.SpectralIntervalsProperties = []
+                    if method != 2:
+                        self.phase.Phase.DartInputParameters.nodeIlluminationMode.SpectralIrradiance.SpectralIrradianceValue = []
+        except AttributeError as e:
+            raise ImportError("Pytools4dart seems wrongly configured. Re-configure with pytools4dart.configure.")
 
         # if the simulation exists, populate xsd_core with simulation XML files contents
 
@@ -92,6 +95,8 @@ class Core(object):
         """
         templatesDpath = Path(ptd.__path__[0]) / "templates"
         templates = templatesDpath.glob("*.xml")
+        if len(templates) == 0:
+            raise FileNotFoundError("DART templates not found: pytools4dart needs to be configured with pytools4dart.configure before continuing.")
         modules = [f.stem for f in templates if f.stem != 'sequence']
         modules.sort()
         return modules

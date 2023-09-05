@@ -1,5 +1,5 @@
 # forest.vox
-'forest.vox' is a 20x20 m subsample taken an AMAPVox voxelization of airborne lidar data 
+'forest.vox' is a 20x20 m subsample taken from an AMAPVox voxelization of airborne lidar data 
 from campaign in sept. 2016 supported by CNES.
 
 It contains Leaf Area Density (m2/m3), i.e. UF in DART.
