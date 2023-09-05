@@ -1,8 +1,8 @@
 {
-    "title": "pytools4dart: A Python API for DART simulator",
+    "title": "Pytools4dart: A Python API for DART simulator",
     "access_right": "open",
     "upload_type": "software",
-    "description": "pytools4dart is a library for <a href=http://www.cesbio.ups-tlse.fr/dart/index.php#/>DART radiative transfer simulator</a>",
+    "description": "Pytools4dart is a Python API for <a href=http://www.cesbio.ups-tlse.fr/dart/index.php#/>DART radiative transfer simulator</a>.",
     "creators": [{"name": "de Boissieu, Florian",
                   "affiliation": "UMR TETIS, INRAE, CIRAD, CNRS, AgroPariTech, Univ. Montpellier, France",
                   "orcid": "0000-0002-2185-9952"},
