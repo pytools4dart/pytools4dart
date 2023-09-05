@@ -1,0 +1,20 @@
+{
+    "title": "pytools4dart: A Python API for DART simulator",
+    "access_right": "open",
+    "upload_type": "software",
+    "description": "pytools4dart is a library for <a href=http://www.cesbio.ups-tlse.fr/dart/index.php#/>DART radiative transfer simulator</a>",
+    "creators": [{"name": "de Boissieu, Florian",
+                  "affiliation": "UMR TETIS, INRAE, CIRAD, CNRS, AgroPariTech, Univ. Montpellier, France",
+                  "orcid": "0000-0002-2185-9952"},
+                  {"name": "Chraibi, Eric",
+                  "affiliation": "UMR TETIS, INRAE, CIRAD, CNRS, AgroPariTech, Univ. Montpellier, France",
+                  "orcid": "0000-0002-4545-2815"},
+                  {"name": "Lavalley, Claudia",
+                  "affiliation": "UMR TETIS, INRAE, CIRAD, CNRS, AgroPariTech, Univ. Montpellier, France",
+                  "orcid": "0000-0003-4928-6065"},
+                  {"name": "Féret, Jean-Baptiste",
+                  "affiliation": "UMR TETIS, INRAE, CIRAD, CNRS, AgroPariTech, Univ. Montpellier, France",
+                  "orcid": "0000-0002-0151-1334"}],
+    "keywords": ["Simulation", "Radiative Transfer", "Remote Sensing", "3D Model", "Lidar", "Image"],
+    "license": "other-open"
+}
