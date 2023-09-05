@@ -1,5 +1,5 @@
 {
-    "title": "Pytools4dart: A Python API for DART simulator",
+    "title": "Pytools4dart: A Python API for DART Radiative Transfer Simulator",
     "access_right": "open",
     "upload_type": "software",
     "description": "Pytools4dart is a Python API for <a href=http://www.cesbio.ups-tlse.fr/dart/index.php#/>DART radiative transfer simulator</a>.",
