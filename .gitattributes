@@ -4,5 +4,6 @@
 /figures export-ignore
 /.gitignore export-ignore
 /templates export-ignore
-/pytools4dart/xsdschemas eport-ignore
-__pycache__
+/pytools4dart/templates export-ignore
+/pytools4dart/xsdschemas export-ignore
+__pycache__ export-ignore
