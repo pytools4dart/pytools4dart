@@ -1,5 +1,8 @@
 # 1.1.22
 
+## Fix
+- double quotes for installation command lines
+
 # 1.1.21
 ## Fix
 - DART version comparison (required for configure with DART 5.10+)

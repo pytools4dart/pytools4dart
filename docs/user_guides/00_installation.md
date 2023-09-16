@@ -55,7 +55,7 @@ conda activate myptd
 Check that all packages are installed:
 
 ```bash
-python -c 'import generateDS; import tinyobjloader; import gdecomp; import laspy; import pytools4dart'
+python -c "import generateDS; import tinyobjloader; import gdecomp; import laspy; import pytools4dart"
 ```
 
 In case of error, refer to section [Test environment](#test-environment).
@@ -63,7 +63,7 @@ In case of error, refer to section [Test environment](#test-environment).
 Configure package with your DART version (see [DART section](#dart) for install or update):
 
 ```bash
-python -c 'import pytools4dart as ptd; ptd.configure(r"<path to DART directory or URL>")' # e.g. r"~/DART", r"C:\DART"
+python -c "import pytools4dart as ptd; ptd.configure(r'<path to DART directory or URL>')" # e.g. r"~/DART", r"C:\DART"
 ```
 
 In case of error, refer to section [Configure](#configure)
