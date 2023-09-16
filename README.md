@@ -78,7 +78,7 @@ Execute the following in a terminal (or Miniforge prompt in Windows):
 conda install mamba -n base -c conda-forge # only if conda was installed without mamba
 mamba env create -n myptd -f https://gitlab.com/pytools4dart/pytools4dart/-/raw/master/environment.yml
 conda activate myptd
-python -c "import pytools4dart as ptd; ptd.configure(r'<path to DART directory>')" # e.g. r"~/DART", r"C:\DART"
+python -c "import pytools4dart as ptd; ptd.configure(r'<path to DART directory>')" # e.g. r'~/DART', r'C:\DART'
 ```
 
 Requirements under Windows: [Visual Studio C++ compiler](https://visualstudio.microsoft.com/vs/features/cplusplus),
