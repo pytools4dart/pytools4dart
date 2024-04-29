@@ -73,6 +73,7 @@ linux-dart:
   only:
     - master
     - pages
+    - dev
     - schedules
 
 
