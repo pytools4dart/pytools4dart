@@ -117,9 +117,11 @@ simu.run.full()
 
 Recently, a new computation engine based on LuxCore was added to DART and became the default engine. As mentioned in DART Manual, it changes the simulation core propagation mode from _Forward_ tracking light through a voxelized scene based on Discrete Ordinate Method, to _Bi-directional_ based on Monte-Carlo without the need of voxelizing the scene.
 
-In the _Forward_ mode, previously called _DART-FT_ for _Flux Tracking_, a cell size of scene voxelisation was also defining the image resolution. In _Bi-directional_ mode, the image resolution is part of the sensor configuration.
+In the _Forward_ mode, previously called _DART-FT_ for _Flux Tracking_, a cell size is defining the simulation grid. In that case, the flux of entering and exiting each cell is binned along the angular directions. Therefore, the cell size also serves defining the image resolution.
 
-The following example shows how to deal with these parameters.
+In _Bi-directional_ mode, there is no more such a gridding of the scene (see table 1 of DART User Manual). Thus, the image resolution/grid is part of the sensor configuration.
+
+The following example shows how to deal with these parameters in pytools4dart.
 
 #### Forward propagation
 ```python
@@ -142,6 +144,7 @@ print(simu)
 
 ```
 
+#### Bi-directional propagation
 ```python
 import pytools4dart as ptd
 
@@ -156,7 +159,6 @@ print(simu.core.phase.Phase.EngineParameter.
       LuxCoreRenderEngineParameters.to_string())
 ```
 
-Several
 
 ### Empty simulation
 
