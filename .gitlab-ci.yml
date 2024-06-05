@@ -178,10 +178,12 @@ pip-build-latest:
   image: pytools4dart/pip-build:latest
   script:
     # install linux dependencies
+    - curl -C - $DART_URL_LINUX_LATEST -o /tmp/dart.tar.gz
+    - echo "DART version:"
+    - echo "$(echo "$DART_URL_LINUX_LATEST" |sed 's/.*\(v[0-9]*\)_linux64.tar.gz$/\1/')"
     - pip install -e .
     # install DART
-    - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
-    - python -c "from pytools4dart.dart import install; install(r'$DART_LINUX_LATEST', r'~/DART', verbose=True)"
+    - python -c "from pytools4dart.dart import install; install(r'/tmp/dart.tar.gz', r'~/DART', verbose=True)"
     # test examples
     - pytest --pyargs pytools4dart -s
   only:
