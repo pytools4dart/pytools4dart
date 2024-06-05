@@ -13,7 +13,6 @@ variables:
 
 stages:
   - prepare
-  - test-latest
   - build
   - deploy
 
@@ -175,10 +174,9 @@ pip-build:
       - schedules
 
 pip-build-latest:
-  stage: test-latest
+  stage: prepare
   image: pytools4dart/pip-build:latest
   script:
-    - ls cache
     # install linux dependencies
     - pip install -e .
     # install DART
