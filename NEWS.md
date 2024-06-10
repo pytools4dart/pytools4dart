@@ -1,3 +1,8 @@
+# 1.1.23
+
+## Fix
+- fix DART installer ([issue 38](https://gitlab.com/pytools4dart/pytools4dart/-/issues/38))
+
 # 1.1.22
 
 ## Fix
