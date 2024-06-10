@@ -399,9 +399,9 @@ def _download(url, outdir=None, verbose=False):
     outdir = Path(outdir).expanduser()
     if not outdir.isdir():
         raise FileNotFoundError(f"outdir not found: {outdir}")
-    if platform.system() == 'Windows' and url.suffix != ".zip":
+    if platform.system() == 'Windows' and url.ext != ".zip":
         outname = 'dart.zip'
-    elif platform.system() == 'Linux' and url.suffix != ".gz":
+    elif platform.system() == 'Linux' and url.ext != ".gz":
         outname = 'dart.tar.gz'
     else:
         outname = url.name
@@ -453,13 +453,13 @@ def _extract(dart_zip, extract_dir=None, verbose=False):
         extract_dir = dart_zip.parent
 
     if platform.system() == 'Windows':
-        if dart_zip.stripext().suffix != '.zip':
+        if dart_zip.ext != '.zip':
             dart_zip = dart_zip.rename(dart_zip.parent / "dart.zip")
         import zipfile
         with zipfile.ZipFile(dart_zip, "r") as j:
             outname = j.namelist()[0].replace('/', '')
     else:
-        if dart_zip.stripext().suffix != '.tar':
+        if dart_zip.ext != '.gz':
             dart_zip = dart_zip.rename(dart_zip.parent / "dart.tar.gz")
         import tarfile
         with tarfile.open(dart_zip, "r") as j:
