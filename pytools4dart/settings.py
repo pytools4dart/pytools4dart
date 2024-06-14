@@ -520,6 +520,26 @@ def build_core(directory=None):
     (directory / 'sequence.xml').copy(templatesDpath)
     xsdnames = [s.stem for s in xsdDpath.glob('*.xsd')]
 
+
+    #### Temporary fix for issue #39: load urban simulation ####
+    urban_file = xsdDpath / "urban.xsd"
+    x = etree.parse(urban_file)
+    # fromstring(urban_schema.encode('utf-8'))
+    elements = x.xpath(
+        '//xsd:element[@name="OpticalPropertyLink" and @minOccurs="4" and @maxOccurs="4"]',
+        namespaces={"xsd":"http://www.w3.org/2001/XMLSchema"}
+               ) + x.xpath(
+        '//xsd:element[@name="ThermalPropertyLink" and @minOccurs="4" and @maxOccurs="4"]',
+        namespaces={"xsd":"http://www.w3.org/2001/XMLSchema"}
+               )
+    
+    for e in elements:
+        e.attrib['minOccurs'] = '1'
+        e.attrib['maxOccurs'] = '5'
+
+    x.write(urban_file, encoding='utf-8', xml_declaration=True, pretty_print=True)
+    ###########################################################
+
     # change to pytools4dart site-package directory: necessary for user_methods
     cwd = Path.getcwd()
     directory.chdir()
