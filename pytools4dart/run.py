@@ -69,7 +69,7 @@ def rundart(path, tool, options=[], timeout=None):
 
     # simulationName = re.findall(re.compile("^" + ))
     tooldir = dtools[tool].parent
-    cdir = Path.getcwd()
+    cdir = Path.cwd()
     tooldir.chdir()
     if len(options):
         options = [str(s) for s in options]
@@ -309,7 +309,7 @@ def stack_bands(simu_output_dir, output_dir=None, driver='ENVI', rotate=True, ph
 
     band_files = bands.path[(bands.zenith == zenith) & (bands.azimuth == azimuth)]
 
-    if phasefile is not None and Path(phasefile).isfile():
+    if phasefile is not None and Path(phasefile).is_file():
         wvl = ptd.hstools.get_wavelengths(phasefile)
 
     outputfile = output_dir / Path(band_files.iloc[0]).name
@@ -382,7 +382,7 @@ def dart2las(simudir, las_file = None, type='bin', lasFormat=None, extra_bytes=T
 
     simudir = Path(simudir)
     outputDpath = simudir / 'output'
-    if not outputDpath.isdir():
+    if not outputDpath.is_dir():
         raise ValueError('Simulation output directory not found: {}'.format(outputDpath))
 
 
@@ -393,7 +393,7 @@ def dart2las(simudir, las_file = None, type='bin', lasFormat=None, extra_bytes=T
         if las_file is None:
             las_file = outputDpath / f'LIDAR_IMAGE_FILE_{lasFormat}.las'
 
-        if not InputFile.isfile():
+        if not InputFile.is_file():
             raise ValueError('LIDAR_IMAGE_FILE.binary not found in {}'.format(outputDpath))
 
         ### TODO: review after DART2LAS cleaning
@@ -573,7 +573,7 @@ class Run(object):
         simu_output_dir = self.simu.output_dir
         if (output_dir is not None):
             output_dir = Path(output_dir)
-            if not output_dir.parent.isdir():
+            if not output_dir.parent.is_dir():
                 output_dir = simu_output_dir / output_dir
         return stack_bands(simu_output_dir, output_dir=output_dir, driver=driver, rotate=rotate, phasefile=phasefile,
                            zenith=zenith, azimuth=azimuth, band_sub_dir=band_sub_dir, pattern=pattern)

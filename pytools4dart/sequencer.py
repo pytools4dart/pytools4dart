@@ -49,7 +49,7 @@ class Sequencer(object):
     def __init__(self, simu, name=None, empty=False, ncpu=None):
         self.simu = simu
         self.core = None
-        if not empty and name is not None and (self.simu.simu_dir / name + '.xml').isfile():
+        if not empty and name is not None and (self.simu.simu_dir / name + '.xml').is_file():
             self.core = ptd.sequence.parse(self.simu.simu_dir / name + '.xml', silence=True)
         else:
             if name is None:
@@ -286,7 +286,7 @@ class Sequencer(object):
         if file is None:
             file = self.simu.simu_dir / self.name + '.xml'
 
-        if not overwrite and file.isfile():
+        if not overwrite and file.is_file():
             raise Exception('File already exists:\n\t{}'.format(file))
 
         # with open(file, 'w') as f:
@@ -376,7 +376,7 @@ class Sequence_runners(object):
         outfiles = []
         for d in dirlist:
             phasefile = d / 'input' / 'phase.xml'
-            if not phasefile.isfile():
+            if not phasefile.is_file():
                 phasefile = self.sequence.simu.get_input_file_path('phase.xml')
             simu_output_dir = d / 'output'
             outfile = ptd.run.stack_bands(simu_output_dir, driver=driver, rotate=rotate,

@@ -76,7 +76,7 @@ def getdartdir(dartdir=None):
         str: full path to DART directory
     '''
     if not dartdir:
-        if pytools4dartrc().isfile():
+        if pytools4dartrc().is_file():
             with open(pytools4dartrc()) as f:
                 dartdir = Path(f.read())
         else:
@@ -234,12 +234,12 @@ def checkdartdir(dartdir=None):
 
     dartdir = getdartdir(dartdir)
 
-    if not dartdir.isdir():
+    if not dartdir.is_dir():
         print('DART directory not found: ' + dartdir)
         return False
 
     dartconfig = dartdir / 'config.ini'
-    if not dartconfig.isfile():
+    if not dartconfig.is_file():
         print('DART configuration file not found: ' + dartconfig)
         return False
 
@@ -317,7 +317,7 @@ def headlessdarttools(dartdir=None):
     #         with open(file, 'w') as f:
     #             f.write(fcont)
 
-    if currentplatform == 'linux' and toolsdir.isdir():
+    if currentplatform == 'linux' and toolsdir.is_dir():
         toolspath = toolsdir / '*.sh'
         # add -Djava.awt.headless=true, if not already there, to DART/tools/linux/*.sh for headless servers
         print('Add flag -Djava.awt.headless=true to {} for headless servers compatibility'.format(
@@ -541,7 +541,7 @@ def build_core(directory=None):
     ###########################################################
 
     # change to pytools4dart site-package directory: necessary for user_methods
-    cwd = Path.getcwd()
+    cwd = Path.cwd()
     directory.chdir()
     ### Commented because not working with windows+conda
     # if platform.system().lower() == 'windows':
@@ -608,7 +608,7 @@ def get_input_file_path(simu_name, filename, dartdir=None):
     if filename is None:
         return
     filename = Path(filename)
-    if filename.abspath() == filename:
+    if filename.absolute() == filename:
         return filename
 
     ### DO NOT SEE ORIGINAL OJECTIVE OF THIS BLOCK ###
@@ -634,7 +634,7 @@ def get_input_file_path(simu_name, filename, dartdir=None):
     filelist.append(getdartdir(dartdir) / 'database' / filename)
 
     for f in filelist:
-        if f.isfile():
+        if f.is_file():
             return f
 
     # if none exists default is first
@@ -752,7 +752,7 @@ def write_templates(directory):
     directory = Path(directory)
     xml_templates = get_templates()
     for k, v in xml_templates.items():
-        filename = directory.abspath() / k + '.xml'
+        filename = directory.absolute() / k + '.xml'
         if sys.version_info[0] == 2:
             with open(filename, 'w') as f:
                 f.write(v)
@@ -774,7 +774,7 @@ def write_schemas(directory):
     xmlschemas = get_schemas()
     for k, v in xmlschemas.items():
         if k not in ['LUT']:  # patch for DART <= v1141
-            filename = directory.abspath() / k + '.xsd'
+            filename = directory.absolute() / k + '.xsd'
             if sys.version_info[0] == 2:
                 with open(filename, 'w') as f:
                     f.write(v)

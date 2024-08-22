@@ -85,7 +85,7 @@ class objreader(object):
             Path to the file
         """
         file = Path(file)
-        if not file.isfile():
+        if not file.is_file():
             raise IOError('File not found.')
 
         self._file = file

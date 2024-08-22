@@ -33,7 +33,7 @@ f 2 1 4
 f 3 2 4
 '''
 
-obj_file = Path('data').abspath()/'rectangle.obj'
+obj_file = Path('data').absolute()/'rectangle.obj'
 with open(obj_file, mode='w') as f:
     f.write(obj_str)
 ```
@@ -142,7 +142,7 @@ f 4 1 2
 f 3 2 4
 '''
 
-obj_file = Path('data').abspath()/'rectangle_wrong.obj'
+obj_file = Path('data').absolute()/'rectangle_wrong.obj'
 with open(obj_file, mode='w') as f:
     f.write(obj_str)
 

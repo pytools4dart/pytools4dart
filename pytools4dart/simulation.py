@@ -241,11 +241,11 @@ class simulation(object):
         # create directories
         simuDpath = self.simu_dir
         # keep all that is in simuDpath
-        if not simuDpath.isdir():
+        if not simuDpath.is_dir():
             simuDpath.mkdir()
         
         inputDpath = self.input_dir
-        if inputDpath.isdir():
+        if inputDpath.is_dir():
             if overwrite:  # remove file
                 # tempfile was considered however the plots.xml can be large if lots of plots,
                 # thus this option wasn't further investigated

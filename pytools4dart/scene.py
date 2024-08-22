@@ -226,7 +226,7 @@ class Plot_file(object):
         """
         Load plot file
         """
-        if self.filepath is not None and self.filepath.isfile():
+        if self.filepath is not None and self.filepath.is_file():
             print('Loading plot file: {}'.format(self.filepath))
             self.data = pd.read_csv(self.filepath, sep='\t', comment='*')
             self.update_names()
@@ -313,7 +313,7 @@ class Plot_file(object):
 
     @property
     def data(self):
-        if not self.in_memory and self.filepath is not None and self.filepath.isfile():
+        if not self.in_memory and self.filepath is not None and self.filepath.is_file():
             # check if exists
             self.load()
 
@@ -367,10 +367,10 @@ class Plot_file(object):
         filepath = Path(filepath)
 
         # create directory if not found
-        if not filepath.parent.isdir():
+        if not filepath.parent.is_dir():
             raise Exception("Directory not found: '{}'. ".format(filepath))
 
-        if filepath.isfile() and not overwrite:
+        if filepath.is_file() and not overwrite:
             raise Exception('File already exist. Set overwrite to overpass.')
 
         with open(filepath, mode='w') as f:
@@ -440,7 +440,7 @@ class Tree_file(object):
             return self.data.shape
 
     def load(self):
-        if self.filepath is not None and self.filepath.isfile():
+        if self.filepath is not None and self.filepath.is_file():
             print('Loading tree file: {}'.format(self.filepath))
             self.data = pd.read_csv(self.filepath, sep='\t', comment='*')
 
@@ -461,7 +461,7 @@ class Tree_file(object):
 
     @property
     def data(self):
-        if not self.in_memory and self.filepath is not None and self.filepath.isfile():
+        if not self.in_memory and self.filepath is not None and self.filepath.is_file():
             # check if exists
             self.load()
 
@@ -513,10 +513,10 @@ class Tree_file(object):
         filepath = Path(filepath)
 
         # create directory if not found
-        if not filepath.parent.isdir():
+        if not filepath.parent.is_dir():
             raise Exception(f"Directory not found: {filepath.parent}.")
 
-        if filepath.isfile() and not overwrite:
+        if filepath.is_file() and not overwrite:
             raise Exception('File already exist. Set overwrite to overpass.')
 
         if sys.version_info[0] == 2:

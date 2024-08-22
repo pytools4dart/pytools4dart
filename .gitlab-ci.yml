@@ -134,6 +134,11 @@ conda-build:
     - conda env list
     - . /opt/conda/etc/profile.d/conda.sh && conda activate ptdvenv
     - conda env list
+    # upgrading all packages leads to an issue with setuptools at the moment:
+    # https://github.com/pypa/setuptools/issues/4483
+    # https://github.com/pypa/setuptools/issues/4501
+    # Rebuild of docker image would be best (e.g. with kaniko)
+    - mamba install "path>=17"
     - pip install -e .
     - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
     - python -c "from pytools4dart.dart import install; install(r'$dartzip', r'~/DART', verbose=True)"
@@ -157,6 +162,10 @@ pip-build:
   script:
     - ls cache
     # install linux dependencies
+    # upgrading all packages leads to an issue with setuptools:
+    # https://github.com/pypa/setuptools/issues/4483
+    # https://github.com/pypa/setuptools/issues/4501
+    - pip install "path>=17"
     - pip install -e .
     # install DART
     - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
@@ -182,6 +191,7 @@ pip-build-latest:
     - curl -C - $DART_URL_LINUX_LATEST -o /tmp/dart.tar.gz
     - echo "DART version:"
     - echo "$(echo "$DART_URL_LINUX_LATEST" |sed 's/.*\(v[0-9]*\)_linux64.tar.gz$/\1/')"
+    - pip install "path>=17"
     - pip install -e .
     # install DART
     - python -c "from pytools4dart.dart import install; install(r'/tmp/dart.tar.gz', r'~/DART', verbose=True)"

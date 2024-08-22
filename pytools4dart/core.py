@@ -55,7 +55,7 @@ class Core(object):
         self.children = self.get_modules_names()
 
         try:
-            if simu.name is not None and not empty and self.simu.simu_dir.isdir():
+            if simu.name is not None and not empty and self.simu.simu_dir.is_dir():
                 self.load()
             else:
                 modules = self.get_modules_names()  # ["plots", "phase", "atmosphere", "coeff_diff", "directions", "object_3d","maket","inversion","trees","water","urban"]

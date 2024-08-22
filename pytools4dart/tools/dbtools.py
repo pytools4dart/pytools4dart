@@ -182,13 +182,13 @@ def search_dbfile(dbname='Lambertian_vegetation.db'):
     userdbfile = getdartenv()['DART_LOCAL'] / 'database' / dbname
 
 
-    if dbname.expanduser().isfile():
+    if dbname.expanduser().is_file():
         return dbname.expanduser()
 
-    if userdbfile.isfile():
+    if userdbfile.is_file():
         return userdbfile
 
-    if dartdbfile.isfile():
+    if dartdbfile.is_file():
         return dartdbfile
 
     raise ValueError('Database not found: ' + dbname)
@@ -317,7 +317,7 @@ def optical_properties_db(db_file, name, comments='', type='lambertian',
     if set(kwargs.keys()) != set(columns):
         raise Exception('Expected arguments for type "{}" are: {}'.format(type, str(columns)))
 
-    fexist = db_file.isfile()
+    fexist = db_file.is_file()
     if fexist:
         if mode == 'ow':
             if verbose:
@@ -481,7 +481,7 @@ def prospect_db(db_file, N=1.8, Cab=30, Car=10, CBrown=0, Cw=0.012, Cm=0.01, Can
         raise Exception('Python>=3.7 is needed for option inmem=True. Update python or set inmem=False.')
 
     db_file = Path(db_file).expanduser()
-    fexist = db_file.isfile()
+    fexist = db_file.is_file()
     if fexist:
         if mode == 'ow':
             db_file.remove()

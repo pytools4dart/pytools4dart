@@ -20,7 +20,7 @@ and prints the model list.
 ```python
 from pytools4dart.tools import dbtools
 from path import Path
-dbFpath = Path('./test.db').abspath()
+dbFpath = Path('./test.db').absolute()
 wavelength = [1, 2, 3]
 reflectance = [.1, .2, .3]
 direct_transmittance = [0, 0, 0]

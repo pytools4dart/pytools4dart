@@ -202,7 +202,7 @@ def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False,
         ### Extract 7z files if needed ###
         # starting from DART v1177, content is compressed in dart_unzip/data.7zv
         data7z = dart_unzip / 'data.7z'
-        if data7z.isfile():
+        if data7z.is_file():
             if platform.system() == 'Windows':
                 bin7z = dart_unzip / '7za.exe'
             else:
@@ -221,7 +221,7 @@ def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False,
 
 
         ###### move dart files to dart_home ######
-        move_files = [dart_unzip / 'dart' / f for f in (dart_unzip / 'dart').listdir()]  # ['bin', 'database', 'tools', 'changeLog.html]
+        move_files = [dart_unzip / 'dart' / f for f in (dart_unzip / 'dart').iterdir()]  # ['bin', 'database', 'tools', 'changeLog.html]
         move_files.append(dart_unzip / 'README.txt')
         if platform.system() == 'Windows':
             move_files.append(dart_unzip / 'uninstall.bat')
@@ -233,12 +233,12 @@ def install(dart_zip, dart_home='~/DART', user_data=None, overwrite=False,
             dst = dart_home / src.name
             if verbose:
                 print(src + '  >  ' + dst)
-            if dst.isdir() and overwrite:
+            if dst.is_dir() and overwrite:
                 dst.rmtree()
             src.move(dst)
 
         ##### merge user_data with existing ######
-        if verbose and user_data.isdir():
+        if verbose and user_data.is_dir():
             print('Merging ' + (dart_unzip / 'user_data') + '  in  ' + user_data)
 
         # TODO: try when existing user_data is symlink
@@ -312,7 +312,7 @@ def update(dart_zip, dart_home=None, verbose=True):
     if dart_home is None:
         if verbose:
             print('Getting DART_HOME path from pytools4dart current configuration.')
-        if not dartenv["DART_HOME"].isdir():
+        if not dartenv["DART_HOME"].is_dir():
             raise FileNotFoundError('DART_HOME directory no found: '+dartenv["DART_HOME"])
         dart_home = dartenv["DART_HOME"]
 
@@ -320,7 +320,7 @@ def update(dart_zip, dart_home=None, verbose=True):
     if verbose:
         print('Getting DART_LOCAL from DART configuration in {}.'.format(dart_home))
 
-    if not dartenv["DART_LOCAL"].isdir():
+    if not dartenv["DART_LOCAL"].is_dir():
         raise FileNotFoundError('DART_LOCAL directory (e.g. user_data) no found: '+dartenv["DART_LOCAL"])
 
     user_data = dartenv["DART_LOCAL"]
@@ -345,7 +345,7 @@ def install_notebook_packages(dart_home=None, verbose=True):
     if dart_home is None:
         if verbose:
             print('Getting DART_HOME path from pytools4dart current configuration.')
-        if not dartenv["DART_HOME"].isdir():
+        if not dartenv["DART_HOME"].is_dir():
             raise FileNotFoundError('DART_HOME directory no found: '+dartenv["DART_HOME"])
         dart_home = dartenv["DART_HOME"]
     
@@ -397,11 +397,11 @@ def _download(url, outdir=None, verbose=False):
     # url_start = 'https://dart.omp.eu/membre/downloadDart/contenu/DART'
 
     outdir = Path(outdir).expanduser()
-    if not outdir.isdir():
+    if not outdir.is_dir():
         raise FileNotFoundError(f"outdir not found: {outdir}")
-    if platform.system() == 'Windows' and url.ext != ".zip":
+    if platform.system() == 'Windows' and url.suffix != ".zip":
         outname = 'dart.zip'
-    elif platform.system() == 'Linux' and url.ext != ".gz":
+    elif platform.system() == 'Linux' and url.suffix != ".gz":
         outname = 'dart.tar.gz'
     else:
         outname = url.name
@@ -416,14 +416,14 @@ def _download(url, outdir=None, verbose=False):
     # Otherwise (i.e. partially downloaded) DART server does not support byte range,
     # thus '-C -' leads to an error. Therefore, download will start from beginning (overwriting partial download).
     try:
-        if output.isfile() and verbose:
+        if output.is_file() and verbose:
             print('Try to resume downloading on existing file.')
         subprocess.check_call(command + '-C -', shell=True)
     except:
         print('Resuming download went wrong. Restarts download from the beginning.')
         subprocess.check_call(command, shell=True)
 
-    if output.isfile():
+    if output.is_file():
         output = output
     else:
         raise Exception('Downloaded file not found: {}'
@@ -453,13 +453,13 @@ def _extract(dart_zip, extract_dir=None, verbose=False):
         extract_dir = dart_zip.parent
 
     if platform.system() == 'Windows':
-        if dart_zip.ext != '.zip':
+        if dart_zip.suffix != '.zip':
             dart_zip = dart_zip.rename(dart_zip.parent / "dart.zip")
         import zipfile
         with zipfile.ZipFile(dart_zip, "r") as j:
             outname = j.namelist()[0].replace('/', '')
     else:
-        if dart_zip.ext != '.gz':
+        if dart_zip.suffix != '.gz':
             dart_zip = dart_zip.rename(dart_zip.parent / "dart.tar.gz")
         import tarfile
         with tarfile.open(dart_zip, "r") as j:

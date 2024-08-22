@@ -18,7 +18,7 @@ dependencies:
   - matplotlib
   - numba # for prosail (otherwise numpy is reinstalled for pip version)
   - numpy
-  - path.py
+  - path>=17
   - pip
   - plyfile
   - psutil # for voxelisation
