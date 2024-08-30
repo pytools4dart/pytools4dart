@@ -1,8 +1,10 @@
 # 1.1.23
 
 ## Fix
+- fix dependency path>=17 (issue #42)
+- temporary fix for urban simulation (issue #39)
 - fix DART installer ([issue 38](https://gitlab.com/pytools4dart/pytools4dart/-/issues/38))
-
+  
 # 1.1.22
 
 ## Fix
