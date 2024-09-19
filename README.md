@@ -5,7 +5,7 @@
 [![licence](https://img.shields.io/badge/Licence-GPL--3-blue.svg)](https://www.r-project.org/Licenses/GPL-3)
 [![python](https://img.shields.io/badge/Python-3-blue.svg)](https://www.python.org)
 [![build status](https://gitlab.com/pytools4dart/pytools4dart/badges/master/pipeline.svg)](https://gitlab.com/pytools4dart/pytools4dart/pipelines/latest)
-[![version](https://img.shields.io/badge/dynamic/json.svg?label=version&url=https://gitlab.com/pytools4dart/pytools4dart/-/jobs/artifacts/master/raw/badges.json?job=make-badge&query=version&colorB=blue)](https://gitlab.com/pytools4dart/pytools4dart)
+[![version](https://img.shields.io/gitlab/v/tag/15246670?label=version&color=blue)](https://gitlab.com/pytools4dart/pytools4dart)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8319766.svg)](https://doi.org/10.5281/zenodo.8319766)
 
 
