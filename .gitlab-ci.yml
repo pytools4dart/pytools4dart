@@ -238,6 +238,7 @@ pages:
     - pip --version
     - python -m pip install --upgrade pip
     - pip --version
+    - pip install "path>=17"
     - pip install -e .
     # install DART
     - dartzip=$CI_PROJECT_DIR/cache/dart.tar.gz
