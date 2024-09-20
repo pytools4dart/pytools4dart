@@ -71,11 +71,12 @@ linux-dart:
     key: linux-cache
     paths:
       - cache
-  only:
-    - master
-    - pages
-    - dev
-    - schedules
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+    - if: $CI_COMMIT_BRANCH == "dev"
+    - if: $CI_COMMIT_BRANCH == "pages"
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - if: $CI_COMMIT_TAG =~ /^v?[0-9]+\.[0-9]+/
 
 
 
