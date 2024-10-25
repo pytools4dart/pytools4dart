@@ -103,7 +103,7 @@ Florian de Boissieu, Eric Chraibi, Claudia Lavalley, and Jean-Baptiste Féret, "
 ## Acknowledgments
 
 The development was partially supported by CNES TOSCA program for projects HYPERTROPIK and LEAF-EXPEVAL,
-and french ANR JC program for BioCop project. 
+and french ANR project BIOCOP (ANR-17-CE32-0001-01).
 
 We thank our colleagues from DART development team at CESBIO
 who provided insight and expertise
