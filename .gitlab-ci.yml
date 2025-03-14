@@ -72,11 +72,18 @@ linux-dart:
     paths:
       - cache
   rules:
-    - if: $CI_COMMIT_BRANCH == "master"
-    - if: $CI_COMMIT_BRANCH == "dev"
-    - if: $CI_COMMIT_BRANCH == "pages"
+    # Explicitly enable merge request pipelines to be created (not done by default)
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    # Prevent duplicate pipelines from push events to branches that are the source
+    # branch of one or more open merge requests. If $CI_OPEN_MERGE_REQUESTS is
+    # non-empty on a branch pipeline, it means that the the above rule has already
+    # caused (or will cause) a merge request pipeline to run. These rules are
+    # separately evaluated for the merge request event resulting from the same push.
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    # Run a normal branch pipeline on a branch that isn't the source of an open MR
+    - if: $CI_COMMIT_BRANCH
     - if: $CI_PIPELINE_SOURCE == "schedule"
-    - if: $CI_COMMIT_TAG =~ /^v?[0-9]+\.[0-9]+/
 
 
 
@@ -178,11 +185,19 @@ pip-build:
     paths:
       - cache
     policy: pull
-  only:
-    refs:
-      - master
-      - dev
-      - schedules
+  rules:
+    # Explicitly enable merge request pipelines to be created (not done by default)
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    # Prevent duplicate pipelines from push events to branches that are the source
+    # branch of one or more open merge requests. If $CI_OPEN_MERGE_REQUESTS is
+    # non-empty on a branch pipeline, it means that the the above rule has already
+    # caused (or will cause) a merge request pipeline to run. These rules are
+    # separately evaluated for the merge request event resulting from the same push.
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    # Run a normal branch pipeline on a branch that isn't the source of an open MR
+    - if: $CI_COMMIT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "schedule"
 
 pip-build-latest:
   stage: test-latest
@@ -198,12 +213,20 @@ pip-build-latest:
     - python -c "from pytools4dart.dart import install; install(r'/tmp/dart.tar.gz', r'~/DART', verbose=True)"
     # test examples
     - pytest --pyargs pytools4dart -s
-  only:
-    refs:
-      - master
-      - dev
-      - schedules
   allow_failure: true
+  rules:
+    # Explicitly enable merge request pipelines to be created (not done by default)
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    # Prevent duplicate pipelines from push events to branches that are the source
+    # branch of one or more open merge requests. If $CI_OPEN_MERGE_REQUESTS is
+    # non-empty on a branch pipeline, it means that the the above rule has already
+    # caused (or will cause) a merge request pipeline to run. These rules are
+    # separately evaluated for the merge request event resulting from the same push.
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    # Run a normal branch pipeline on a branch that isn't the source of an open MR
+    - if: $CI_COMMIT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "schedule"
 
 # conda-env:
 #   stage: deploy

@@ -1,0 +1,68 @@
+[build-system]
+requires = ["setuptools>=61.0", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+
+[project]
+name = "pytools4dart"
+dynamic = ["version"]
+authors = [
+  {name="Florian de Boissieu", email="florian.deboissieu@inrae.fr"},
+  {name="Eric Chraibi"},
+  {name="Claudia Lavalley"},
+  {name="Dav Ebengo"},
+  {name="Jean-Baptiste Féret"},
+]
+description = "Python API for [DART radiative transfer simulator](http://www.cesbio.ups-tlse.fr/dart/index.php#/)"
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "GPLv3"}
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+  'Intended Audience :: Science/Research',
+  'Topic :: Scientific/Engineering :: GIS',
+  'Topic :: Scientific/Engineering :: Information Analysis',
+]
+dependencies = [
+  "colorama",
+  "cython",
+  "laspy>=2",
+  "laszip",
+  "lmfit",
+  "lxml",
+  "matplotlib",
+  "numba", # for prosail (otherwise numpy is reinstalled for pip version)
+  "numpy",
+  "pandas",
+  "path>=17",
+  "plyfile",
+  "pyjnius",
+  "rasterio",
+  "rtree",
+  "scipy",
+  "setuptools",
+  "trimesh",
+  "prosail",
+  "generateds @ git+https://gitlab.com/pytools4dart/generateds.git",
+  "gdecomp @ git+https://gitlab.com/pytools4dart/gdecomp.git",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "pytest-cov",
+]
+
+[project.urls]
+Homepage = "https://pytools4dart.gitlab.io/pytools4dart"
+Repository = "https://gitlab.com/pytools4dart/pytools4dart"
+Issues = "https://gitlab.com/pytools4dart/pytools4dart/-/issues"
+
+[tool.setuptools.packages.find]
+include = ["pytools4dart"]
+exclude = ['docs', 'tests', 'scripts', 'examples']
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

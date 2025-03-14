@@ -26,9 +26,15 @@
 #
 #
 # ===============================================================================
+from importlib.metadata import version, PackageNotFoundError
+
+try:
+    __version__ = version("simplestac")
+except PackageNotFoundError:
+    # package is not installed
+    pass
 
 from warnings import warn
-from ._version import __version__
 from .settings import configure,getdartenv,darttools,getdartversion,getsimupath,checkdartdir,getdartdir
 from .simulation import simulation
 from .diff import diff
