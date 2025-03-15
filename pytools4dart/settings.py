@@ -678,15 +678,28 @@ def get_schemas():
 
     with zipfile.ZipFile(jarfile, "r") as j:
         if sys.version_info[0] == 2:
-            schemas = {Path(s).stem: j.read(s) for s in j.namelist()
+            schemas = {Path(s).stem: clean_documentation(j.read(s)) for s in j.namelist()
                        if re.match(r'schemaXml/.*\.xsd', s)}
         else:
-            schemas = {Path(s).stem: j.read(s).decode('unicode_escape') for s in j.namelist()
+            schemas = {Path(s).stem: clean_documentation(j.read(s).decode('unicode_escape')) for s in j.namelist()
                        if re.match(r'schemaXml/.*\.xsd', s)}
 
 
     return schemas
 
+def clean_documentation(content):
+    # Use a regular expression to find the content between the <xsd:documentation> and </xsd:documentation> tags.
+    pattern = re.compile(r'(<xsd:documentation.*?>)(.*?)(</xsd:documentation>)', re.DOTALL)
+
+    # Function to replace \ in the content between tags
+    def replace_backslashes(match):
+        start_tag = match.group(1)
+        content = match.group(2).replace('\\', '')
+        end_tag = match.group(3)
+        return f"{start_tag}{content}{end_tag}"
+
+    # Apply the replace function to all occurrences
+    return pattern.sub(replace_backslashes, content)
 
 def get_labels(pat=None, case=False, regex=True, column='dartnode'):
     """
@@ -743,6 +756,7 @@ def get_labels(pat=None, case=False, regex=True, column='dartnode'):
     if pat is not None:
         labelsdf = labelsdf[labelsdf[column].str.contains(pat, case, regex=regex)]
 
+    labelsdf['label'] = labelsdf['label'].str.replace(r'\\', '', regex=True)
     labelsdf = labelsdf[['label', 'dartnode']]
 
     return labelsdf
