@@ -471,6 +471,14 @@ def _extract(dart_zip, extract_dir=None, verbose=False):
         raise Exception('Directory already exist: {}'
                         'Remove it before trying again.'.format(dart_unzip))
 
+    # case of latest
+    pat = r'^DART_\d+-\d+-\d+_\d+-\d+-\d+_(v\d+)_(?:linux|windows)(?:32|64)(?:\.tar\.gz|\.zip)$'
+    if re.match(pat, outname):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            unpack_archive(dart_zip, tmpdir)
+            dart_unzip, version = _extract(Path(tmpdir) / outname, extract_dir, verbose)
+        return dart_unzip, version
+
     pat = r'^DART_\d+-\d+-\d+_\d+-\d+-\d+_(v\d+)_(?:linux|windows)(?:32|64)$'
     m = re.match(pat, outname)
     if m:
