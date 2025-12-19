@@ -1,3 +1,9 @@
+# dev
+
+## Fix
+- installation of DART v1444+ (Jordan Guilleux [PR !14](https://gitlab.com/pytools4dart/pytools4dart/-/merge_requests/14))
+- version number
+
 # 1.1.24
 
 ## Fix

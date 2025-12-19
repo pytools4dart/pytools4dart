@@ -29,7 +29,7 @@
 from importlib.metadata import version, PackageNotFoundError
 
 try:
-    __version__ = version("simplestac")
+    __version__ = version("pytools4dart")
 except PackageNotFoundError:
     # package is not installed
     pass
