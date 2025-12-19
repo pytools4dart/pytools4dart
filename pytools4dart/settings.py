@@ -742,8 +742,15 @@ def get_labels(pat=None, case=False, regex=True, column='dartnode'):
     dartenv = getdartenv()
     jarfile = dartenv['DART_HOME'] / 'bin' / 'DARTIHMSimulationEditor.jar'
     labelsfile = 'cesbio/dart/ihm/DartSimulationEditor/ressources/DartIhmSimulationLabel_en.properties'
-    with zipfile.ZipFile(jarfile, "r") as j:
-        labels = j.read(labelsfile).decode('unicode_escape')
+    
+    try:
+        with zipfile.ZipFile(jarfile, "r") as j:
+            labels = j.read(labelsfile).decode('unicode_escape')
+    except (FileNotFoundError, KeyError, zipfile.BadZipFile):
+        # .jar file doesn't exists, recover translation files from bin/langage folder
+        labelsfile = dartenv['DART_HOME'] / 'bin' / 'language' / 'DartIhmSimulationLabel_en.properties'
+        with open(labelsfile, "r", encoding='utf-8') as f:
+            labels = f.read()
 
     labels = labels.split('\n')
 

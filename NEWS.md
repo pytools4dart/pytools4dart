@@ -1,3 +1,9 @@
+# 1.1.24
+
+## Fix
+- DART modules not found with v1418+ ([issue #44](https://gitlab.com/pytools4dart/pytools4dart/-/issues/44))
+- installation of latest ([issue #43](https://gitlab.com/pytools4dart/pytools4dart/-/issues/43))
+
 # 1.1.23
 
 ## Fix
